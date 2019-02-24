@@ -28,15 +28,15 @@ Show relevant information in page view:\
 \
 ![Relevant information in page view](Documentation/Images/screenshot_pageoverview.png "Page Overview")
 
-Workflow - Define your own trigger(s) and combine them via AND or OR:\
+Workflow - Define your own trigger(s) and combine them via AND or OR (Enterprise version only):\
 \
 ![Workflow trigger](Documentation/Images/screenshot_workflow_trigger.png "Workflow Trigger")
 
-Workflow - Do one or more Actions if a trigger is activated:\
+Workflow - Do one or more Actions if a trigger is activated (Enterprise version only):\
 \
 ![Workflow action](Documentation/Images/screenshot_workflow_action.png "Workflow action")
 
-Ask for the visitors email-address when he/she wants to download an asset:\
+Ask for the visitors email-address when he/she wants to download an asset (Enterprise version only):\
 \
 ![Email 4 Link](Documentation/Images/screenshot_email4link.png "E-Mail for Link")
 
@@ -81,7 +81,7 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 - Category Scoring
 - Contextual content (based on category scoring)
 
-### Workflow & User Experience
+### Workflow & User Experience (Enterprise version only)
 
 - Workflow backend module with a GUI and easy extension possibility
 - Triggers:
@@ -106,7 +106,7 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 ### Privacy Features
 
 - There is a plugin which allows the visitor to opt from tracking
-- The doNotTrack header of the browser will be respected
+- The doNotTrack header of the browser will be respected (no change to overrule this!)
 - Toogle IP anonymize function
 - Toggle IP information enrichment over ipapi.com
 - Toggle Tracking of Pagevisits
@@ -118,7 +118,7 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 ### Possible Enterprise Features
 
 - Todo: Blacklisting
-- Todo: Newsletter tool (replace or extend direct_mail? New tool - usable without Lux?)
+- Todo: Newsletter tool (replace or extend direct_mail? New tool "luxletter" - usable without Lux?)
 - Todo: Contacts (Import?)
 - Todo: API (Im- and Export)
 - Todo: A/B Tests
@@ -133,7 +133,8 @@ for the identification feature (powermail, form, formhandler, felogin, etc...).
 
 | Version    | Date       | State      | Description                                                                        |
 | ---------- | ---------- | ---------- | ---------------------------------------------------------------------------------- |
-| 1.24.0     | 2018-11-07 | Task       | Update disallowed telecommunication provider list                         |
+| 2.0.0      | 2019-02-24 | Task       | Publish lux as community version (without Workflows) to a public repository        |
+| 1.24.0     | 2018-11-07 | Task       | Update disallowed telecommunication provider list                                  |
 | 1.23.0     | 2018-08-17 | Task       | Update disallowed mail provider and telecommunication list                         |
 | 1.22.0     | 2018-07-23 | Task       | Update disallowed mail provider list                                               |
 | 1.21.1     | 2018-06-28 | Task       | Code cleanup, update telecommunication provider list, performance improvement      |
