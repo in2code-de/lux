@@ -36,6 +36,9 @@ You can simply add a Plugin Pi1 *trackingOptOut* to a page and add some content 
 
 ##### Plugin 2: Contextual content
 
+**NOTE:** This plugin is only part of the enterprise version. Look at 
+https://www.in2code.de/produkte/lux-typo3-marketing-automation/ for more information.
+
 Another possibility beside workflow actions to nurture leads is to use a contextual content plugin. If you add
 this to a page, you can define a default content element and you can define one or more content elements per
 lux-category.

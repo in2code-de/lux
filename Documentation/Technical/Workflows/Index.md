@@ -2,6 +2,9 @@
 
 ### Backend Module Workflows
 
+**NOTE:** This module is only part of the enterprise version. Look at 
+https://www.in2code.de/produkte/lux-typo3-marketing-automation/ for more information.
+
 This part of the manual describes how to manage workflows in lux backend module.
 
 A workflow is a technique to nurture your leads. Let's say a lead that reaches a category scoring of 25 in a category

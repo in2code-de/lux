@@ -6,9 +6,9 @@ This part of the documentation describes how to install lux to your TYPO3 instan
 
 #### 1. Requirements
 
-* TYPO3 8.7 or newer
+* TYPO3 8.7 or 9.5
 * TYPO3 must run in **composer mode**
-* PHP 7.0 - 7.2
+* PHP 7.x
 
 #### 2. Installation via composer
 

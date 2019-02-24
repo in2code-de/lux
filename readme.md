@@ -128,6 +128,7 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 
 lux needs minimum *TYPO3 8.7* as a modern basic together with *composer mode*. Every kind of form extension is supported
 for the identification feature (powermail, form, formhandler, felogin, etc...).
+At the moment it's not possible to use lux without **composer mode**!
 
 ## Changelog
 
