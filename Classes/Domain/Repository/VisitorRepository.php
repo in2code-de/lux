@@ -254,6 +254,27 @@ class VisitorRepository extends AbstractRepository
     }
 
     /**
+     * @return void
+     * @throws DBALException
+     */
+    public function truncateAll()
+    {
+        $tables = [
+            Attribute::TABLE_NAME,
+            Pagevisit::TABLE_NAME,
+            Ipinformation::TABLE_NAME,
+            Download::TABLE_NAME,
+            Categoryscoring::TABLE_NAME,
+            Log::TABLE_NAME,
+            Visitor::TABLE_NAME
+        ];
+        foreach ($tables as $table) {
+            $connection = DatabaseUtility::getConnectionForTable($table);
+            $connection->executeQuery('truncate ' . $table);
+        }
+    }
+
+    /**
      * @param FilterDto $filter
      * @param QueryInterface $query
      * @param array $logicalAnd

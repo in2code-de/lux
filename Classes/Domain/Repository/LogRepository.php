@@ -2,10 +2,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
-use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
-use In2code\Lux\Domain\Model\Visitor;
-use In2code\Lux\Domain\Model\Workflow;
 use In2code\Lux\Domain\Service\ConfigurationService;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
@@ -30,26 +27,6 @@ class LogRepository extends AbstractRepository
         $query->matching($query->logicalAnd($logicalAnd));
         $query->setLimit(10);
         return $query->execute();
-    }
-
-    /**
-     * @param Visitor $visitor
-     * @param Workflow $workflow
-     * @return Log|null
-     * @throws InvalidQueryException
-     */
-    public function findOneByVisitorAndWorkflow(Visitor $visitor, Workflow $workflow)
-    {
-        $query = $this->createQuery();
-        $logicalAnd = [
-            $query->equals('visitor', $visitor),
-            $query->like('properties', '%"workflowUid":' . $workflow->getUid() . '%')
-        ];
-        $query->matching($query->logicalAnd($logicalAnd));
-        $query->setLimit(1);
-        /** @var Log $log */
-        $log = $query->execute()->getFirst();
-        return $log;
     }
 
     /**
