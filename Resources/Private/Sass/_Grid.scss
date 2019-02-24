@@ -1,0 +1,58 @@
+/* Grid Layout for LUX TYPO3 Backend */
+
+.g-layout {
+
+  @media all and (min-width: $tablet) {
+    display: grid;
+    grid-gap: 0 18px;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media all and (min-width: $desktop-wide) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  &__item {
+
+    @media all and (min-width: $tablet) {
+      &--a {
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+      }
+      &--b {
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+      }
+      &--c {
+        grid-column: 1 / 2;
+        grid-row: 2 / 3;
+      }
+      &--d {
+        grid-column: 2 / 2;
+        grid-row: 2 / 3;
+      }
+      &--e {
+        grid-column: 1 / 3;
+        grid-row: 3 / 4;
+      }
+    }
+
+    @media all and (min-width: $desktop-wide) {
+      &--e {
+        grid-column: 3/4;
+        grid-row: 1 / 3;
+      }
+    }
+  }
+
+  canvas {
+    max-width: 100%;
+    height: auto !important;
+  }
+}
+
+svg {
+  max-width: 100%;
+  height: auto;
+}
+

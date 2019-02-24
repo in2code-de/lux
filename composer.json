@@ -1,0 +1,63 @@
+{
+  "name": "in2code/lux",
+  "description": "Living User eXperience - LUX - the Marketing Automation tool for TYPO3.",
+  "keywords": [
+    "typo3",
+    "marketing",
+    "automation",
+    "marketing"
+  ],
+  "homepage": "https://github.com/in2code-de/lux",
+  "authors": [
+    {
+      "name": "Alex Kellner",
+      "email": "alexander.kellner@in2code.de"
+    }
+  ],
+  "type": "typo3-cms-extension",
+  "license": "GPL-2.0-or-later",
+  "require": {
+    "typo3/cms-core": ">=8.7.0 <10.0.0",
+    "jlawrence/eos": "3.*"
+  },
+  "replace": {
+    "lux": "self.version",
+    "typo3-ter/lux": "self.version"
+  },
+  "require-dev": {
+    "typo3/cms-core": ">=8.7.0 <=8.7.99",
+    "nimut/testing-framework": "^4.0",
+    "mikey179/vfsStream": "^1.6",
+    "phpunit/phpunit": "^6.0",
+    "squizlabs/php_codesniffer": "^3.3",
+    "phpmd/phpmd": "@stable"
+  },
+  "autoload": {
+    "psr-4": {
+      "In2code\\Lux\\": "Classes/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "In2code\\Lux\\Tests\\": "Tests",
+      "TYPO3\\CMS\\Core\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/core/Tests/",
+      "TYPO3\\CMS\\Fluid\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/fluid/Tests/"
+    }
+  },
+  "config": {
+    "vendor-dir": ".Build/vendor",
+    "bin-dir": ".Build/bin"
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "mkdir -p .Build/Web/typo3conf/ext/",
+      "[ -L .Build/Web/typo3conf/ext/lux ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/lux"
+    ]
+  },
+  "extra": {
+    "typo3/cms": {
+      "cms-package-dir": "{$vendor-dir}/typo3/cms",
+      "web-dir": ".Build/Web"
+    }
+  }
+}

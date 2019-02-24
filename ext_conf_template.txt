@@ -1,0 +1,33 @@
+# cat=basic//010; type=text; label= Scoring calculation: Define your own main scoring calculation. This will be used automaticly on a pagevisit or frequently with a scheduler task (commandcontroller). Available variables are - numberOfSiteVisits, numberOfPageVisits, downloads, lastVisitDaysAgo. Note - you should run a commandController (e.g. every night) and calculate the scoring again, if you are using the variable "lastVisitDaysAgo".
+scoringCalculation = (10 * numberOfSiteVisits) + (1 * numberOfPageVisits) + (20 * downloads) - (1 * lastVisitDaysAgo)
+
+# cat=basic//020; type=number; label= Add on page visit: Add a value to the category scoring if lead visits a page of a lux category
+categoryScoringAddPageVisit = 10
+
+# cat=basic//030; type=number; label= Add on download: Add a value to the category scoring if lead an asset of a lux category
+categoryScoringAddDownload = 20
+
+
+
+# cat=module/enable/100; type=boolean; label= Disable analysis module: Turn off the analysis backend-module if you don't need it.
+disableAnalysisModule = 0
+
+# cat=module/enable/110; type=boolean; label= Disable lead module: Turn off the lead backend-module if you don't need it.
+disableLeadModule = 0
+
+# cat=module/enable/120; type=boolean; label= Disable workflow module: Turn off the workflow backend-module if you don't need it.
+disableWorkflowModule = 0
+
+
+
+# cat=advanced/enable/210; type=boolean; label= Disable box with latest leads: If you don't want to show the latest leads box in a page view, choose this settings.
+disableLastLeadsBoxInPage = 0
+
+# cat=advanced/enable/220; type=boolean; label= Disable IP logging: Disable the logging of the visitors IP-address.
+disableIpLogging = 0
+
+# cat=advanced/enable/230; type=boolean; label= Anonymize IP: As an alternative to disableIpLogging, you can anonymize the visitors IP-address when saving. The last part of the IP will be anonymized with "***".
+anonymizeIp = 1
+
+# cat=advanced/enable/240; type=boolean; label= Disable ip-api.com information: You can use or disable ip-api.com to get more information about your visitors by their IP-address. Note - if you set disableIpLogging - this service will not work.
+disableIpInformation = 0

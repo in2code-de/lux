@@ -1,0 +1,25 @@
+lib.lux.settings {
+    general {
+        # Path to a simple csv with general telecom providers (to not show them as company in lead list)
+        telecommunicationProviderList = EXT:lux/Resources/Private/Static/TelecommunicationProviders.txt
+    }
+
+    commandControllers {
+
+        # Configuration for summary mail
+        summaryMail {
+
+            # Template file for mail
+            mailTemplate = EXT:lux/Resources/Private/Templates/Mail/SummaryMail.html
+
+            # Mail subject
+            subject = Your personal lead summary from lux - TYPO3 Marketing Automation
+
+            # From name for mail to visitor
+            fromName = Website
+
+            # From email for mail to visitor
+            fromEmail = marketing@website.org
+        }
+    }
+}

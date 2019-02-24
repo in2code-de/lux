@@ -1,0 +1,56 @@
+<T3DataStructure>
+	<meta>
+		<langDisable>1</langDisable>
+	</meta>
+	<sheets>
+		<main>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>Lux</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<settings.label>
+						<TCEforms>
+							<exclude>1</exclude>
+							<label>LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pi1.label</label>
+							<config>
+								<type>input</type>
+								<default>Mein Website-Besuch darf in der Webanalyse erfasst werden</default>
+								<eval>trim,required</eval>
+							</config>
+						</TCEforms>
+					</settings.label>
+					<settings.text>
+						<TCEforms>
+							<exclude>1</exclude>
+							<label>LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pi1.text</label>
+							<config>
+								<type>text</type>
+								<default><![CDATA[<p>Sie können sich hier entscheiden, ob in Ihrem Browser ein eindeutiger Webanalyse-Cookie abgelegt werden darf, um dem Betreiber der Website die Erfassung und Analyse verschiedener statistischer Daten zu ermöglichen. Zeitgleich wird die Bedienung der Website für Sie optimiert und vereinfacht.</p>
+									<p>Wenn Sie sich dagegen entscheiden möchten, klicken Sie den folgenden Link, um den Deaktivierungs-Cookie in Ihrem Browser abzulegen.</p>]]></default>
+								<enableRichtext>1</enableRichtext>
+								<richtextConfiguration>default</richtextConfiguration>
+							</config>
+							<defaultExtras>richtext[]:rte_transform[mode=ts_css]</defaultExtras>
+						</TCEforms>
+					</settings.text>
+					<settings.textDoNotTrack>
+						<TCEforms>
+							<exclude>1</exclude>
+							<label>LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pi1.textDoNotTrack</label>
+							<config>
+								<type>text</type>
+								<default><![CDATA[<p>Die benutzerspezifische Erfassung ist bei Ihnen derzeit nicht aktiv, denn Ihr Browser hat uns über eine Einstellung mitgeteilt, dass Sie kein Tracking wünschen.</p>
+									<p>Um Erfassung wieder zu aktivieren, müssen Sie die sogenannte "Do Not Track"-Einstellung in Ihren Browsereinstellungen deaktivieren.</p>]]></default>
+								<enableRichtext>1</enableRichtext>
+								<richtextConfiguration>default</richtextConfiguration>
+							</config>
+							<defaultExtras>richtext[]:rte_transform[mode=ts_css]</defaultExtras>
+						</TCEforms>
+					</settings.textDoNotTrack>
+				</el>
+			</ROOT>
+		</main>
+	</sheets>
+</T3DataStructure>

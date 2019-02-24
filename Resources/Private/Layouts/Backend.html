@@ -1,0 +1,35 @@
+<f:Be.Container
+		includeRequireJsModules="{0:'TYPO3/CMS/Lux/Lux/Module.min'}"
+		includeCssFiles="{0:'{f:uri.resource(path:\'Css/Modules.min.css\')}'}"
+		pageTitle="lux">
+
+	<div class="module">
+		<div class="module-docheader">
+			<div class="typo3-docheader-functions">
+				<div class="module-docheader-bar module-docheader-bar-navigation">
+					<div class="module-docheader-bar-column-left">
+						<div class="btn-group" role="group">
+							<img src="{f:uri.resource(path:'Icons/lux.svg?hash=123',extensionName:'lux')}" height="30" style="float:left;" />
+							<f:render partial="{lux:be.getControllerName()}/ActionSwitcher" arguments="{_all}" optional="true" />
+						</div>
+						Community Edition
+					</div>
+					<div class="module-docheader-bar-column-right">
+						<f:be.pagePath />
+					</div>
+				</div>
+			</div>
+			<div class="module-docheader-bar module-docheader-bar-buttons">
+				<div class="module-docheader-bar-column-left">
+					&nbsp;
+				</div>
+				<div class="module-docheader-bar-column-right">
+					<f:be.buttons.shortcut />
+				</div>
+			</div>
+		</div>
+		<div class="module-body lux-backend">
+			<f:render section="content" />
+		</div>
+	</div>
+</f:Be.Container>

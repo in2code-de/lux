@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2018-02-10T12:00:00Z" product-name="lux">
+		<header/>
+		<body>
+			<trans-unit id="mlang_tabs_tab">
+				<source>Workflow</source>
+			</trans-unit>
+			<trans-unit id="mlang_labels_tabdescr">
+				<source>Workflow and User Experience</source>
+			</trans-unit>
+			<trans-unit id="mlang_labels_tablabel">
+				<source>Workflow</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

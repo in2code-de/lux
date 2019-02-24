@@ -1,0 +1,5 @@
+<f:spaceless>
+    <lux:format.quotes>Lead Ident</lux:format.quotes>;<lux:format.quotes>Lead Scoring</lux:format.quotes>;<lux:format.quotes>Email</lux:format.quotes>;<lux:format.quotes>Company</lux:format.quotes>;<lux:format.quotes>Last Visit</lux:format.quotes>;<lux:format.quotes>Number of Visits</lux:format.quotes>
+    <f:for each="{allVisitors}" as="visitor"><lux:format.quotes>{visitor.fullName}</lux:format.quotes>;<lux:format.quotes>{visitor.scoring}</lux:format.quotes>;<lux:format.quotes>{visitor.email}</lux:format.quotes>;<lux:format.quotes>{visitor.company}</lux:format.quotes>;<lux:format.quotes>{f:format.date(date:visitor.tstamp,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}</lux:format.quotes>;<lux:format.quotes>{visitor.visits}</lux:format.quotes>
+    </f:for>
+</f:spaceless>

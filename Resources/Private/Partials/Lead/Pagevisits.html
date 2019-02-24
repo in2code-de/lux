@@ -1,0 +1,30 @@
+<div class="panel panel-default  g-layout__item g-layout__item--b">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.pagevisits">Pagevisits</f:translate>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <f:if condition="{latestPagevisits}">
+            <f:then>
+                <ol class="list-group">
+                    <f:for each="{latestPagevisits}" as="pagevisit">
+                        <f:if condition="{pagevisit.page}">
+                            <li class="list-group-item">
+                                <span class="badge" title="{f:format.date(date:pagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
+                                    <lux:format.readableDate>{pagevisit.crdate}</lux:format.readableDate>
+                                </span>
+                                Page <strong title="UID{pagevisit.page.uid}">{pagevisit.page.title}</strong> visited from<br />
+                                <span title="UID{pagevisit.visitor.uid}"><f:link.action action="detail" controller="Lead" arguments="{visitor:pagevisit.visitor}">{pagevisit.visitor.fullName}</f:link.action></span>
+                                <f:if condition="{pagevisit.visitor.company}">({pagevisit.visitor.company})</f:if>
+                            </li>
+                        </f:if>
+                    </f:for>
+                </ol>
+            </f:then>
+            <f:else>
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.novalues">No values to show</f:translate>
+            </f:else>
+        </f:if>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+lib.lux.settings {
+    backendview {
+        analysis {
+            activity {
+                # Greater then 0 means to also have "lux identified a new lead", greater 1 means to not have this kind of messages
+                statusGreaterThen = 1
+            }
+        }
+    }
+}

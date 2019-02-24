@@ -1,0 +1,2 @@
+# Add variables to linkVars to allow a submit in a lightbox (that was opened by lux workflow)
+config.linkVars := addToList(type,luxContent)
