@@ -1,0 +1,27 @@
+@import "Settings";
+@import "BasicLightbox";
+
+.lux_waiting {
+  cursor: progress;
+}
+
+.lux_container_email4link {
+  display: none;
+}
+
+.lux_lightbox_container {
+  background: white;
+  padding: 60px;
+  max-width: 800px;
+}
+
+.lux_smalltext {
+  font-size: 0.8em;
+  padding-top: 10px;
+}
+
+.basicLightbox {
+  iframe {
+    background-color: $white;
+  }
+}

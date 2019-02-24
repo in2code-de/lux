@@ -1,0 +1,185 @@
+@import "Settings";
+@import "Timeline";
+@import "Wizard";
+@import "WizardForm";
+@import "Grid";
+
+/**
+ * General backend classes
+ */
+a {
+  color: $colorAlternative;
+  cursor: pointer;
+}
+
+hr {
+  border-style: dashed;
+  border-color: $colorGrey;
+  border-bottom: 0;
+  border-left: 0;
+  border-right: 0;
+  margin: 40px 0;
+}
+
+label {
+  font-weight: normal;
+}
+
+/**
+ * Bootstrap
+ */
+.bg-primary {
+  background-color: $colorSoft;
+}
+.badge-primary {
+  background-color: $colorMain;
+}
+.alert-lux {
+  background-color: $colorMain;
+}
+.input-lg {
+  line-height: 1.3 !important;
+}
+
+/**
+ * Button classes
+ */
+.btn-lg-extra {
+  padding: 30px 60px;
+  font-size: 25px;
+  line-height: 2;
+  border-radius: 5px;
+}
+
+.btn-primary {
+  background-color: $colorMain;
+  border-color: $colorMain;
+  color: $white;
+  &:hover {
+    background-color: $colorAlternative;
+    border-color: $colorAlternative;
+  }
+}
+
+.btn-primary-extra {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  left: 50%;
+  top: 50%;
+  margin-top: -100px;
+  margin-left: -200px;
+  position: fixed;
+  line-height: 1.6;
+
+  > span {
+    display: block;
+    font-size: 16px;
+  }
+}
+
+.btn-add-lg {
+  display: block;
+  width: 100%;
+  padding: 5px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+/**
+ * Form classes
+ */
+.lb-lg {
+  font-size: 20px;
+}
+
+.help-block {
+  margin-top: 15px;
+  margin-left: 15px;
+}
+
+/**
+ * Table classes
+ */
+.table-hover > tbody > tr:hover,
+.table-hover > tbody > tr.lux-action-detail {
+  background-color: $colorMain;
+
+  > td {
+    color: $white;
+  }
+}
+
+.table-pointer > tbody > tr {
+  cursor: pointer;
+}
+
+.lux-textarea {
+  width: 100%;
+  padding: 10px;
+
+  &__default {
+    color: $colorGrey;
+  }
+}
+
+/**
+ * Lux special
+ */
+.lux-workflow-new {
+  background-color: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.lux_triggerarea,
+.lux_actionarea {
+
+  position: relative;
+
+  .lux-trigger,
+  .lux-action {
+    margin: 80px 0 20px 0;
+    padding: 20px;
+    border-style: dashed;
+    border-color: $colorGrey;
+
+    &:before {
+      content: 'AND';
+      display: block;
+      width: 10px;
+      height: 50px;
+      border-left: 3px solid $colorGrey;
+      position: absolute;
+      left: 50%;
+      margin-top: -87px;
+      padding: 13px 0 0 18px;
+      font-size: 18px;
+      color: $colorGrey;
+    }
+
+    &:first-child {
+      margin-top: 20px;
+
+      &:before {
+        display: none;
+      }
+    }
+  }
+
+  .lux-trigger-conjunctionOR:before {
+    content: 'OR';
+  }
+}
+
+.lux-messages {
+  padding: 15px 0;
+  list-style-type: none;
+  > li {
+    margin: 5px 30px;
+    font-size: 16px;
+  }
+}

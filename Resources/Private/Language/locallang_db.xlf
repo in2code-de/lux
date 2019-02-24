@@ -1,0 +1,788 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2018-02-16T12:00:00Z" product-name="lux">
+		<header/>
+		<body>
+			<trans-unit id="tx_lux_domain_model_visitor">
+				<source>Lead</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.scoring">
+				<source>Scoring</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.categoryscorings">
+				<source>Categoryscoring</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.identification">
+				<source>Lead identification</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.score">
+				<source>Lead scoring</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.tab.pagevisits">
+				<source>Page visits</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.tab.downloads">
+				<source>Downloads</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.tab.enrichments">
+				<source>Enrichments</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.tab.logs">
+				<source>Log</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.tab.description">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.identified">
+				<source>Is lead identified?</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.blacklisted">
+				<source>Is lead blacklisted?</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.visits">
+				<source>Number of visits</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.email">
+				<source>Email</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.crdate">
+				<source>First visit</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.tstamp">
+				<source>Last visit</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.id_cookie">
+				<source>Cookie ID</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.pagevisits">
+				<source>Page visits</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.attributes">
+				<source>Lead attributes</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.description">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.referrer">
+				<source>Source</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.user_agent">
+				<source>User agent</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.ip_address">
+				<source>IP address</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.ipinformations">
+				<source>Information from IP address</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.downloads">
+				<source>Download</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.logs">
+				<source>Log</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.company">
+				<source>Company</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.country">
+				<source>Country</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.city">
+				<source>City</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.location">
+				<source>Location</source>
+			</trans-unit>
+
+			<trans-unit id="tx_lux_domain_model_pagevisit">
+				<source>Pagevisit</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_pagevisit.crdate">
+				<source>Time</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_pagevisit.page">
+				<source>Page</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_pagevisit.visitor">
+				<source>Lead</source>
+			</trans-unit>
+
+			<trans-unit id="tx_lux_domain_model_attribute">
+				<source>Attribute</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_attribute.crdate">
+				<source>Time</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_attribute.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_attribute.label.email">
+				<source>Email</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_attribute.label.firstname">
+				<source>Firstname</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_attribute.label.lastname">
+				<source>Lastname</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_attribute.label.company">
+				<source>Company</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_attribute.label.phone">
+				<source>Phone</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_attribute.value">
+				<source>Value</source>
+			</trans-unit>
+
+			<trans-unit id="tx_lux_domain_model_ipinformation">
+				<source>IP-Informations</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_ipinformation.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_ipinformation.value">
+				<source>Value</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_ipinformation.visitor">
+				<source>Lead</source>
+			</trans-unit>
+
+			<trans-unit id="tx_lux_domain_model_download">
+				<source>Download</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_download.crdate">
+				<source>Date</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_download.href">
+				<source>File path</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_download.href">
+				<source>File path</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_download.visitor">
+				<source>Lead</source>
+			</trans-unit>
+
+			<trans-unit id="tx_lux_domain_model_categoryscoring">
+				<source>Categoryscoring</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_categoryscoring.scoring">
+				<source>Scoring</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_categoryscoring.category">
+				<source>Category</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_categoryscoring.visitor">
+				<source>Lead</source>
+			</trans-unit>
+
+			<trans-unit id="tx_lux_domain_model_log">
+				<source>Lead log</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_log.crdate">
+				<source>Date</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_log.status">
+				<source>Status</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_log.properties">
+				<source>Properties</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_log.visitor">
+				<source>Lead</source>
+			</trans-unit>
+
+			<trans-unit id="tx_lux_domain_model_workflow">
+				<source>Workflow</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_workflow.cruser_id">
+				<source>Author</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_workflow.crdate">
+				<source>Creation date</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_workflow.tstamp">
+				<source>Change date</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_workflow.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_workflow.description">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_workflow.triggers">
+				<source>Triggers</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_workflow.actions">
+				<source>Actions</source>
+			</trans-unit>
+
+			<trans-unit id="tx_lux_domain_model_trigger">
+				<source>Trigger</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_trigger.crdate">
+				<source>Creation date</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_trigger.tstamp">
+				<source>Change date</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_trigger.class_name">
+				<source>Class</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_trigger.configuration">
+				<source>Configuration</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_trigger.conjunction">
+				<source>Logical conjunction</source>
+			</trans-unit>
+
+			<trans-unit id="tx_lux_domain_model_action">
+				<source>Action</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_action.crdate">
+				<source>Creation date</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_action.tstamp">
+				<source>Change date</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_action.class_name">
+				<source>Class</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_action.configuration">
+				<source>Configuration</source>
+			</trans-unit>
+
+			<trans-unit id="sys_category.lux_category">
+				<source>Is lux category?</source>
+			</trans-unit>
+
+			<trans-unit id="anonym">
+				<source>Anonym</source>
+			</trans-unit>
+			<trans-unit id="readabledate.minutes">
+				<source>%s minutes ago</source>
+			</trans-unit>
+			<trans-unit id="readabledate.hours">
+				<source>%s hours ago</source>
+			</trans-unit>
+			<trans-unit id="readabledate.days">
+				<source>%s days ago</source>
+			</trans-unit>
+			<trans-unit id="readabledate.date">
+				<source>Y-m-d</source>
+			</trans-unit>
+			<trans-unit id="date">
+				<source>%Y-%m-%d, %H:%M</source>
+			</trans-unit>
+			<trans-unit id="pageoverview">
+				<source>Last leads</source>
+			</trans-unit>
+			<trans-unit id="pageoverview.recurringvisits">
+				<source>Recurring visits</source>
+			</trans-unit>
+			<trans-unit id="pageoverview.visit">
+				<source>Visit</source>
+			</trans-unit>
+
+			<trans-unit id="module.analysis.dashboard">
+				<source>Dashboard</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.list">
+				<source>Leads</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.content">
+				<source>Content</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.content.page">
+				<source>Page</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.content.visits">
+				<source>Visits</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.content.asset">
+				<source>Asset</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.content.downloads">
+				<source>Number of downloads</source>
+			</trans-unit>
+
+			<trans-unit id="module.analysis.novalues">
+				<source>No data found</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.filter.submit">
+				<source>Filter now</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.filter.timePeriod.0">
+				<source>This year</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.filter.timePeriod.1">
+				<source>This month</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.filter.timePeriod.2">
+				<source>Previous month</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.pagevisits">
+				<source>Latest page visits</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.bestvisitors">
+				<source>Hottest leads</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.log">
+				<source>Activity log</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.recurring.0">
+				<source>Recurring leads</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.recurring.1">
+				<source>Unique leads</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.identified.0">
+				<source>Identified leads</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.identified.1">
+				<source>Unknown leads</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.1">
+				<source>lux has tracked a new lead</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.2">
+				<source>lux has identified a new lead</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.21">
+				<source>lux has identified a new lead by "email4link"</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.22">
+				<source>"email4link" send asset via email</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.23">
+				<source>"email4link" send asset failed</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.50">
+				<source>lux tracked a download</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.60">
+				<source>"lux started a workflow</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.70">
+				<source>"lux showed a contextual content</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.map">
+				<source>Lead source</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage">
+				<source>Page visits</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.title">
+				<source>Page title</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.lead">
+				<source>Lead</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.company">
+				<source>Company</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.time">
+				<source>Time</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detaildownloads">
+				<source>Downloads</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detaildownloads.title">
+				<source>File</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detaildownloads.lead">
+				<source>Lead</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detaildownloads.company">
+				<source>Company</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detaildownloads.time">
+				<source>Time</source>
+			</trans-unit>
+			<trans-unit id="module.list.pagevisits">
+				<source>Pagevisits</source>
+			</trans-unit>
+			<trans-unit id="module.list.filter">
+				<source>Filter Leads</source>
+			</trans-unit>
+			<trans-unit id="module.list.filter.header.search">
+				<source>Search</source>
+			</trans-unit>
+			<trans-unit id="module.list.filter.header.scoring">
+				<source>Scoring</source>
+			</trans-unit>
+			<trans-unit id="module.list.filter.header.time">
+				<source>Time</source>
+			</trans-unit>
+			<trans-unit id="module.list.filter.timeFrom">
+				<source>From</source>
+			</trans-unit>
+			<trans-unit id="module.list.filter.timeTo">
+				<source>To</source>
+			</trans-unit>
+			<trans-unit id="module.list.filter.searchterm">
+				<source>Searchterm</source>
+			</trans-unit>
+			<trans-unit id="module.list.filter.pid">
+				<source>Page ID to search for</source>
+			</trans-unit>
+			<trans-unit id="module.list.filter.reset">
+				<source>Reset filter</source>
+			</trans-unit>
+			<trans-unit id="module.list.filter.submit">
+				<source>Filter now</source>
+			</trans-unit>
+			<trans-unit id="module.list.pagevisits.label">
+				<source>Pagevisits</source>
+			</trans-unit>
+			<trans-unit id="module.list.link.remove">
+				<source>Remove completely</source>
+			</trans-unit>
+			<trans-unit id="module.list.link.deactivate">
+				<source>Blacklist</source>
+			</trans-unit>
+
+			<trans-unit id="module.detail">
+				<source>Lead preview</source>
+			</trans-unit>
+			<trans-unit id="module.detail.linkdetail">
+				<source>Show lead details</source>
+			</trans-unit>
+			<trans-unit id="module.detail.scoring">
+				<source>Lead scoring</source>
+			</trans-unit>
+			<trans-unit id="module.detail.description">
+				<source>Add an individual description...</source>
+			</trans-unit>
+			<trans-unit id="module.detail.pagefunnel">
+				<source>Conversion Funnel / Page Visits</source>
+			</trans-unit>
+			<trans-unit id="module.detail.location">
+				<source>Location</source>
+			</trans-unit>
+
+			<trans-unit id="module.diagrambox.downloads.title">
+				<source>Downloads</source>
+			</trans-unit>
+
+			<trans-unit id="module.workflow">
+				<source>Workflows</source>
+			</trans-unit>
+			<trans-unit id="module.workflow.list.add">
+				<source>Add another Workflow</source>
+			</trans-unit>
+			<trans-unit id="module.workflow.list.add2">
+				<source>No Workflows saved</source>
+			</trans-unit>
+			<trans-unit id="module.workflow.list.add3">
+				<source>Add new Workflow</source>
+			</trans-unit>
+			<trans-unit id="module.workflow.list.edit">
+				<source>Edit</source>
+			</trans-unit>
+			<trans-unit id="module.workflow.list.delete">
+				<source>Delete</source>
+			</trans-unit>
+			<trans-unit id="module.workflow.table.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="module.workflow.table.description">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="module.workflow.table.created">
+				<source>Created</source>
+			</trans-unit>
+			<trans-unit id="module.workflow.table.author">
+				<source>Author</source>
+			</trans-unit>
+			<trans-unit id="module.workflow.table.children">
+				<source>Triggers / Actions</source>
+			</trans-unit>
+			<trans-unit id="module.workflow.new">
+				<source>Workflow successfully added</source>
+			</trans-unit>
+			<trans-unit id="module.workflow.new.title">
+				<source>Create new Workflow</source>
+			</trans-unit>
+			<trans-unit id="module.workflow.update">
+				<source>Workflow successfully updated</source>
+			</trans-unit>
+			<trans-unit id="module.workflow.update.title">
+				<source>Edit Workflow</source>
+			</trans-unit>
+			<trans-unit id="module.workflow.field.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="module.workflow.field.title.placeholder">
+				<source>Title for your Workflow...</source>
+			</trans-unit>
+			<trans-unit id="module.workflow.field.title.description">
+				<source>In short words: Increase Categoryscoring A on page "Product B", Show a popup with some valuable information on the second page visit, etc...</source>
+			</trans-unit>
+			<trans-unit id="module.workflow.field.description">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="module.workflow.field.description.placeholder">
+				<source>Descripe your Workflow...</source>
+			</trans-unit>
+			<trans-unit id="module.workflow.field.description.description">
+				<source>Increase Categoryscoring A on page "Product B", Show a popup with some valuable information on the second page visit, etc...</source>
+			</trans-unit>
+			<trans-unit id="module.workflow.field.addtrigger">
+				<source>Add Trigger</source>
+			</trans-unit>
+			<trans-unit id="module.workflow.field.addaction">
+				<source>Add Action</source>
+			</trans-unit>
+
+			<trans-unit id="trigger.pagevisit">
+				<source>On entering a page</source>
+			</trans-unit>
+			<trans-unit id="trigger.pagevisit.label1">
+				<source>Lead visits a page for the time</source>
+			</trans-unit>
+			<trans-unit id="trigger.pagevisit.label1.1">
+				<source>1. time</source>
+			</trans-unit>
+			<trans-unit id="trigger.pagevisit.label1.2">
+				<source>2. time</source>
+			</trans-unit>
+			<trans-unit id="trigger.pagevisit.label1.3">
+				<source>3. time</source>
+			</trans-unit>
+			<trans-unit id="trigger.pagevisit.label1.4">
+				<source>4. time</source>
+			</trans-unit>
+			<trans-unit id="trigger.pagevisit.label1.5">
+				<source>5. time</source>
+			</trans-unit>
+			<trans-unit id="trigger.pagevisit.label2">
+				<source>the page (PID)</source>
+			</trans-unit>
+			<trans-unit id="trigger.scoring">
+				<source>When lead reaches a scoring</source>
+			</trans-unit>
+			<trans-unit id="trigger.scoring.label1">
+				<source>The minimum scoring of the lead is</source>
+			</trans-unit>
+			<trans-unit id="trigger.categoryscoring">
+				<source>When lead reaches a categoryscoring</source>
+			</trans-unit>
+			<trans-unit id="trigger.categoryscoring.scoring">
+				<source>The minimum scoring of the lead is</source>
+			</trans-unit>
+			<trans-unit id="trigger.categoryscoring.category">
+				<source>In category</source>
+			</trans-unit>
+			<trans-unit id="trigger.timeframe">
+				<source>On a defined time</source>
+			</trans-unit>
+			<trans-unit id="trigger.timeframe.label1">
+				<source>Start on this time</source>
+			</trans-unit>
+			<trans-unit id="trigger.timeframe.label2">
+				<source>Stop on this time</source>
+			</trans-unit>
+			<trans-unit id="trigger.category">
+				<source>When lead enters a page of a given category</source>
+			</trans-unit>
+			<trans-unit id="trigger.category.mode">
+				<source>Page/Download</source>
+			</trans-unit>
+			<trans-unit id="trigger.category.mode.0">
+				<source>Every page or download</source>
+			</trans-unit>
+			<trans-unit id="trigger.category.mode.1">
+				<source>Only pages</source>
+			</trans-unit>
+			<trans-unit id="trigger.category.mode.2">
+				<source>Only downloads</source>
+			</trans-unit>
+			<trans-unit id="trigger.category.category">
+				<source>Please choose a category</source>
+			</trans-unit>
+			<trans-unit id="trigger.identified">
+				<source>If a lead gets identified</source>
+			</trans-unit>
+			<trans-unit id="trigger.identified.message">
+				<source>Nothing to do here. This action listen if a lead gets identified.</source>
+			</trans-unit>
+			<trans-unit id="trigger.company">
+				<source>If lead company given</source>
+			</trans-unit>
+			<trans-unit id="trigger.company.message">
+				<source>Nothing to do here. This triggers listens if a company to a lead is known (e.g. from IP-address).</source>
+			</trans-unit>
+
+			<trans-unit id="action.label.recurring">
+				<source>Single / Recurring</source>
+			</trans-unit>
+			<trans-unit id="action.label.recurring.single">
+				<source>Single</source>
+			</trans-unit>
+			<trans-unit id="action.label.recurring.recurring">
+				<source>Recurring</source>
+			</trans-unit>
+			<trans-unit id="action.email.label1">
+				<source>Receiver Email</source>
+			</trans-unit>
+			<trans-unit id="action.email.label3">
+				<source>Sender name</source>
+			</trans-unit>
+			<trans-unit id="action.email.label4">
+				<source>Sender Email</source>
+			</trans-unit>
+			<trans-unit id="action.email.label5">
+				<source>Email subject</source>
+			</trans-unit>
+			<trans-unit id="action.email.label6">
+				<source>Email text</source>
+			</trans-unit>
+			<trans-unit id="action.email.label7">
+				<source>Add email text directly (without HTML). It is possible to use variables from the lead (e.g. {visitor.fullName})</source>
+			</trans-unit>
+			<trans-unit id="action.popupcontentelement">
+				<source>Open a popup (lightbox) with a content element</source>
+			</trans-unit>
+			<trans-unit id="action.popupcontentelement.label1">
+				<source>Content element (UID) to show in a popup (lightbox)</source>
+			</trans-unit>
+			<trans-unit id="action.popupcontentelement.label2">
+				<source>Delay (msec)</source>
+			</trans-unit>
+			<trans-unit id="action.email">
+				<source>Sends an email</source>
+			</trans-unit>
+			<trans-unit id="action.redirect">
+				<source>Redirect visitor to another page</source>
+			</trans-unit>
+			<trans-unit id="action.slack">
+				<source>Publish a message to a slack channel</source>
+			</trans-unit>
+			<trans-unit id="action.slack.text">
+				<source>Text to publish</source>
+			</trans-unit>
+			<trans-unit id="action.slack.text.help">
+				<source>You can also use variables like {visitor.fullName}</source>
+			</trans-unit>
+
+			<trans-unit id="frontend.email4link.lightbox.email">
+				<source>Email</source>
+			</trans-unit>
+			<trans-unit id="frontend.email4link.lightbox.privacy">
+				<source>I accept the terms and conditions of the privacy policy - see</source>
+			</trans-unit>
+			<trans-unit id="frontend.email4link.lightbox.submit">
+				<source>Submit</source>
+			</trans-unit>
+			<trans-unit id="frontend.email4link.lightbox.success">
+				<source>Email successfully sent. Please check your mailbox.</source>
+			</trans-unit>
+			<trans-unit id="frontend.email4link.lightbox.emailerror">
+				<source>Error in given email address.</source>
+			</trans-unit>
+
+			<trans-unit id="pi1.title">
+				<source>Lux Tracking Opt Out</source>
+			</trans-unit>
+			<trans-unit id="pi1.description">
+				<source>Offer your visitors an opt-out function from future tracking. Normally such a form is placed on the privacy or imprint page.</source>
+			</trans-unit>
+			<trans-unit id="pi1.label">
+				<source>Label for checkbox</source>
+			</trans-unit>
+			<trans-unit id="pi1.text">
+				<source>Add an explanation text</source>
+			</trans-unit>
+			<trans-unit id="pi1.textDoNotTrack">
+				<source>Add an explanation text for "do not track" browser setting</source>
+			</trans-unit>
+			<trans-unit id="pi2.title">
+				<source>Lux Contextual Content</source>
+			</trans-unit>
+			<trans-unit id="pi2.description">
+				<source>Show fitting content based on the visitors category scoring.</source>
+			</trans-unit>
+			<trans-unit id="pi2.flexform.default">
+				<source>Choose a default content element (Please select one and save aferwards. Then choose additional elements below).</source>
+			</trans-unit>
+			<trans-unit id="pi2.flexform.category">
+				<source>Choose a lux category.</source>
+			</trans-unit>
+			<trans-unit id="pi2.flexform.contentelements">
+				<source>Select one or more content elements that should be shown for this category.</source>
+			</trans-unit>
+
+			<trans-unit id="commandcontrollers.summarymail.title">
+				<source>This is your lead summary mail</source>
+			</trans-unit>
+
+			<trans-unit id="datetime.weekday.now">
+				<source>Now</source>
+			</trans-unit>
+			<trans-unit id="datetime.weekday.mon">
+				<source>Mo</source>
+			</trans-unit>
+			<trans-unit id="datetime.weekday.tue">
+				<source>Tu</source>
+			</trans-unit>
+			<trans-unit id="datetime.weekday.wed">
+				<source>We</source>
+			</trans-unit>
+			<trans-unit id="datetime.weekday.thu">
+				<source>Th</source>
+			</trans-unit>
+			<trans-unit id="datetime.weekday.fri">
+				<source>Fr</source>
+			</trans-unit>
+			<trans-unit id="datetime.weekday.sat">
+				<source>Sa</source>
+			</trans-unit>
+			<trans-unit id="datetime.weekday.sun">
+				<source>Su</source>
+			</trans-unit>
+			<trans-unit id="datetime.week.0">
+				<source>Now</source>
+				<target state="translated">Heute</target>
+			</trans-unit>
+			<trans-unit id="datetime.week.1">
+				<source>1 week ago</source>
+			</trans-unit>
+			<trans-unit id="datetime.week.2">
+				<source>2 weeks ago</source>
+			</trans-unit>
+			<trans-unit id="datetime.week.3">
+				<source>3 weeks ago</source>
+			</trans-unit>
+			<trans-unit id="datetime.week.4">
+				<source>4 weeks ago</source>
+			</trans-unit>
+			<trans-unit id="datetime.week.5">
+				<source>5 weeks ago</source>
+			</trans-unit>
+			<trans-unit id="datetime.week.6">
+				<source>6 weeks ago</source>
+			</trans-unit>
+			<trans-unit id="datetime.week.7">
+				<source>7 weeks ago</source>
+			</trans-unit>
+
+			<trans-unit id="pleaseChoose">
+				<source>Please choose ...</source>
+			</trans-unit>
+			<trans-unit id="areYouSure">
+				<source>Are you sure?</source>
+			</trans-unit>
+			<trans-unit id="back">
+				<source>Back</source>
+			</trans-unit>
+			<trans-unit id="next">
+				<source>Next</source>
+			</trans-unit>
+			<trans-unit id="save">
+				<source>Save</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

@@ -1,0 +1,79 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.pagevisits">
+                visits
+            </f:translate>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <f:if condition="{numberOfVisitorsByDay}">
+            <f:then>
+                <div>
+                    <canvas id="extension-lux-list-pagevisits"
+                            width="750"
+                            height="250"
+                            data-chart-data="{lux:format.implode(array:numberOfVisitorsByDay)}"
+                            data-chart-label="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.pagevisits.label')}"
+                            data-chart-labels="{lux:charts.getLastDayNames()}"></canvas>
+                    <script>
+						require(['TYPO3/CMS/Lux/Vendor/Chart.min'], function(Chart) {
+							var container = document.getElementById('extension-lux-list-pagevisits');
+							var ctx = container.getContext('2d');
+
+							/**
+							 * @returns {Array}
+							 */
+							var getDataChartData = function () {
+								var string = container.getAttribute('data-chart-data');
+								return string.split(',');
+							};
+
+							/**
+							 * @returns {Array}
+							 */
+							var getDataChartLabels = function () {
+								var string = container.getAttribute('data-chart-labels');
+								return string.split(',');
+							};
+
+							var data = {
+								datasets: [{
+									label: container.getAttribute('data-chart-label'),
+									data: getDataChartData(),
+									borderColor: 'rgb(77, 231, 255)',
+									"lineTension": 0.5
+								}],
+								labels: getDataChartLabels()
+							};
+							var options = {
+								legend: {
+									display: false,
+									position: 'right',
+									labels: {
+										fontSize: 18
+									}
+								},
+								scales: {
+									yAxes: [{
+										ticks: {
+											beginAtZero: true
+										}
+									}]
+								}
+							};
+							new Chart(ctx, {
+								type: 'line',
+								data: data,
+								options: options
+							});
+						});
+                    </script>
+                </div>
+            </f:then>
+            <f:else>
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.novalues">No values to show</f:translate>
+            </f:else>
+        </f:if>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+# Hide tables in listview
+mod.web_list.table {
+    tx_lux_domain_model_attribute.hideTable = 1
+    tx_lux_domain_model_pagevisit.hideTable = 1
+    tx_lux_domain_model_ipinformation.hideTable = 1
+    tx_lux_domain_model_categoryscoring.hideTable = 1
+    tx_lux_domain_model_log.hideTable = 1
+    tx_lux_domain_model_download.hideTable = 1
+}
+
+# CK editor
+RTE.default.preset = lux
+
+# Add wizard icon in backend
+mod.wizards.newContentElement.wizardItems.plugins {
+    elements {
+        lux_pi1 {
+            iconIdentifier = extension-lux
+            title = LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pi1.title
+            description = LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pi1.description
+            tt_content_defValues {
+                CType = list
+                list_type = lux_pi1
+            }
+        }
+    }
+}

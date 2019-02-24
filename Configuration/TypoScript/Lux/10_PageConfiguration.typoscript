@@ -1,0 +1,257 @@
+page {
+    # Add Main CSS for the frontend
+    includeCSS.lux = EXT:lux/Resources/Public/Css/Frontend.min.css
+
+    # Add JavaScript for field mapping configuration
+    1517985223 = TEXT
+    1517985223 {
+        typolink {
+            parameter.data = TSFE:id
+            additionalParams = &type=1517985223
+            returnLast = url
+        }
+        wrap = <script type="text/javascript" src="|"></script>
+    }
+    # Add main JavaScript for lux
+    includeJSFooter.luxBasicLightbox = EXT:lux/Resources/Public/JavaScript/Vendor/BasicLightbox.min.js
+    includeJSFooter.lux = EXT:lux/Resources/Public/JavaScript/Lux/Lux.min.js
+
+    # Container for informations that will be send via AJAX
+    1518815717 = COA
+    1518815717 {
+        wrap = <script id="lux_container"|></script>
+
+        # Enable lux in Frontend
+        10 = TEXT
+        10 {
+            noTrimWrap = | data-lux-enable="|"|
+            value = 1
+        }
+
+        # Uri to send tracking requests to
+        20 = TEXT
+        20 {
+            noTrimWrap = | data-lux-requesturi="|"|
+            typolink {
+                parameter.data = TSFE:id
+                additionalParams = &type=1518815717
+                returnLast = url
+                forceAbsoluteUrl = 1
+            }
+        }
+
+        # Uri to render a lightbox with a single content element
+        30 = TEXT
+        30 {
+            noTrimWrap = | data-lux-contenturi="|"|
+            typolink {
+                parameter.data = TSFE:id
+                additionalParams = &type=1520192598
+                returnLast = url
+                forceAbsoluteUrl = 1
+            }
+        }
+
+        # Uri for contextual content
+        40 = TEXT
+        40 {
+            noTrimWrap = | data-lux-contextualcontenturi="|"|
+            typolink {
+                parameter.data = TSFE:id
+                additionalParams = &type=1520796480
+                returnLast = url
+                forceAbsoluteUrl = 1
+            }
+        }
+
+        # Uri for disallowed mail providers
+        50 = TEXT
+        50 {
+            noTrimWrap = | data-lux-disallowedmailprovidersuri="|"|
+            typolink {
+                parameter = typo3conf/ext/lux/Resources/Public/Static/DisallowedMailProviders.txt
+                returnLast = url
+                forceAbsoluteUrl = 1
+            }
+        }
+
+        # Current page uid
+        110 = TEXT
+        110 {
+            noTrimWrap = | data-lux-pageuid="|"|
+            data = TSFE:id
+        }
+
+        # Activate page tracking
+        120 = TEXT
+        120 {
+            value = data-lux-pagetracking="{$plugin.tx_lux.settings.tracking.page}"
+            noTrimWrap = | ||
+        }
+
+        # Activate download tracking
+        130 = TEXT
+        130 {
+            value = data-lux-downloadtracking="{$plugin.tx_lux.settings.tracking.assetDownloads}"
+            noTrimWrap = | ||
+        }
+
+        # Allowed extensions for download tracking
+        140 = TEXT
+        140 {
+            value = data-lux-downloadtracking-extensions="{$plugin.tx_lux.settings.tracking.assetDownloads.allowedExtensions}"
+            noTrimWrap = | ||
+        }
+    }
+
+    # HTML-markup for email4link lightbox form
+    1518545003 = FLUIDTEMPLATE
+    1518545003 {
+        file = EXT:lux/Resources/Private/Templates/Frontend/Email4Link.html
+        settings {
+            # Add or remove a checkbox with a privacy notice
+            addPrivacyLink = 1
+
+            # Pid of the privacy page (to create a link to it)
+            pidPrivacyPage = {$plugin.tx_lux.settings.pidPrivacyPage}
+        }
+    }
+}
+
+
+# Disable analytics in Frontend if Backenduser is logged in (should prevent thousands of page visits while the editor reloads the FE again and again)
+[globalVar = LIT:0 < {$plugin.tx_lux.settings.disableTrackingForBackendUsers}] && [globalVar = TSFE:beUserLogin > 0]
+    page.1518815717.10.value = 0
+[end]
+
+
+
+
+
+###############
+# AJAX TypeNums
+###############
+
+# Page request tracking
+luxPageRequestAjax = PAGE
+luxPageRequestAjax {
+    typeNum = 1518815717
+    config {
+        additionalHeaders.10.header = Content-Type: application/json
+        no_cache = 1
+        disableAllHeaderCode = 1
+        disablePrefixComment = 1
+        xhtml_cleaning = 0
+        admPanel = 0
+        debug = 0
+    }
+
+    10 = USER
+    10 {
+        userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+        extensionName = Lux
+        pluginName = Fe
+        vendorName = In2code
+        controller = Frontend
+        action = dispatchRequest
+        switchableControllerActions.Frontend.1 = dispatchRequest
+    }
+}
+
+
+
+
+
+# Typenum to get field mapping configuration in a dynamic JS file
+[globalVar = LIT:0 < {$plugin.tx_lux.settings.fieldidentification}]
+    luxConfiguration = PAGE
+    luxConfiguration {
+        typeNum = 1517985223
+        config {
+            additionalHeaders.10.header = Content-Type: application/javascript
+            disableAllHeaderCode = 1
+            disablePrefixComment = 1
+            xhtml_cleaning = 0
+            admPanel = 0
+            debug = 0
+        }
+
+        10 = FLUIDTEMPLATE
+        10 {
+            file = EXT:lux/Resources/Private/Templates/Configuration/JavaScriptConfiguration.js
+            settings < plugin.tx_lux_fe.settings
+            dataProcessing {
+                10 = In2code\Lux\DataProcessing\FieldMappingProcessor
+            }
+        }
+    }
+[else]
+    page.1517985223 >
+[end]
+
+
+
+
+
+# Typenum to render a single content element for showing in a lightbox for workflows
+luxLightboxContentWorkflowAction = PAGE
+luxLightboxContentWorkflowAction {
+    typeNum = 1520192598
+
+    config {
+        no_cache = 1
+        disableAllHeaderCode = 0
+        disablePrefixComment = 1
+        xhtml_cleaning = 0
+        admPanel = 0
+        debug = 0
+        linkVars = L,type
+    }
+
+    # Render single content element if &luxContent=anything
+    10 = RECORDS
+    10 {
+        tables = tt_content
+        dontCheckPid = 1
+        source.data = GP:luxContent
+        source.intval = 1
+        if.isTrue.data = GP:luxContent
+    }
+
+    # Render a page if no &luxContent given
+    20 = COA
+    20 {
+        10 < styles.content.get
+        10.select.where = colPos = 0
+        if.isFalse.data = GP:luxContent
+    }
+}
+
+
+
+# Typenum to render a single content element for contextual content
+luxContextualContentAjaxAction = PAGE
+luxContextualContentAjaxAction {
+    typeNum = 1520796480
+
+    config {
+        additionalHeaders.10.header = Content-Type: application/json
+        no_cache = 1
+        disableAllHeaderCode = 1
+        disablePrefixComment = 1
+        xhtml_cleaning = 0
+        admPanel = 0
+        debug = 0
+    }
+
+    10 = USER
+    10 {
+        userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+        extensionName = Lux
+        pluginName = Pi2
+        vendorName = In2code
+        controller = Frontend
+        action = contextualContentAjax
+        switchableControllerActions.Frontend.1 = contextualContentAjax
+    }
+}

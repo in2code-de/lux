@@ -1,0 +1,127 @@
+<f:layout name="Backend" />
+
+<f:section name="content">
+    <div class="row">
+        <div class="col-md-8">
+            <f:render partial="List/Filter" arguments="{_all}"/>
+
+            <f:if condition="{allVisitors}">
+                <f:then>
+                    <f:be.widget.paginate
+                            objects="{allVisitors}"
+                            as="visitorsPage"
+                            configuration="{itemsPerPage:100,insertAbove:0,insertBelow:1,maximumNumberOfLinks:10}">
+                        <table class="table table-striped table-hover table-condensed table-pointer">
+                            <thead>
+                            <tr>
+                                <th>
+                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.identification">
+                                        Identification
+                                    </f:translate>
+                                </th>
+                                <th>
+                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.score">
+                                        Scoring
+                                    </f:translate>
+                                </th>
+                                <f:if condition="{filter.categoryScoring}">
+                                    <th>
+                                        Scoring ({filter.categoryScoring.title})
+                                    </th>
+                                </f:if>
+                                <th>
+                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.email">
+                                        Email
+                                    </f:translate>
+                                </th>
+                                <th>
+                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.company">
+                                        Company
+                                    </f:translate>
+                                </th>
+                                <th>
+                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.tstamp">
+                                        Last visit
+                                    </f:translate>
+                                    <f:if condition="{filter.pid}">(PID{filter.pid})</f:if>
+                                </th>
+                                <th>
+                                    <f:if condition="{filter.pid}">
+                                        <f:else>
+                                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.visits">Sitevisits</f:translate>
+                                        </f:else>
+                                        <f:then>
+                                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.pagevisits">Pagevisits</f:translate>
+                                            (PID{filter.pid})
+                                        </f:then>
+                                    </f:if>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <f:for each="{visitorsPage}" as="visitor">
+                                <tr data-lux-action-detail="{visitor.uid}">
+                                    <td><span title="UID{visitor.uid}">{visitor.fullName}</span></td>
+                                    <td>{visitor.scoring}</td>
+                                    <f:if condition="{filter.categoryScoring}">
+                                        <td><lux:visitor.getCategoryScoringFromCategoryAndVisitor visitor="{visitor}" category="{filter.categoryScoring}" /></td>
+                                    </f:if>
+                                    <td>{visitor.email}</td>
+                                    <td>{visitor.company}</td>
+                                    <td>
+                                        <f:if condition="{filter.pid}">
+                                            <f:else>
+                                                <span title="{f:format.date(date:visitor.tstamp,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
+                                                    <lux:format.readableDate>{visitor.tstamp}</lux:format.readableDate>
+                                                </span>
+                                            </f:else>
+                                            <f:then>
+                                                <f:alias map="{pagevisit:'{lux:page.getLastVisitedPageByPageIdentifier(visitor:visitor,pageIdentifier:filter.pid)}'}">
+                                                    <span title="{f:format.date(date:pagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
+                                                        <lux:format.readableDate>{pagevisit.crdate}</lux:format.readableDate>
+                                                    </span>
+                                                </f:alias>
+                                            </f:then>
+                                        </f:if>
+                                    </td>
+                                    <td>
+                                        <f:if condition="{filter.pid}">
+                                            <f:else>{visitor.visits}</f:else>
+                                            <f:then>
+                                                <f:alias map="{pagevisits:'{lux:page.getVisitedPageByPageIdentifier(visitor:visitor,pageIdentifier:filter.pid)}'}">
+                                                    {pagevisits -> f:count()}
+                                                </f:alias>
+                                            </f:then>
+                                        </f:if>
+
+
+                                        <f:comment>
+                                            Invisible link for JS-clicks in preview only
+                                        </f:comment>
+                                        <f:link.action action="detail" controller="Lead" class="btn btn-primary pull-right" arguments="{visitor:visitor}" data="{lux-linkmock-link:'detail{visitor.uid}'}" style="display:none;"><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.linkdetail">show</f:translate></f:link.action>
+                                    </td>
+                                </tr>
+                            </f:for>
+                            </tbody>
+                        </table>
+                    </f:be.widget.paginate>
+                </f:then>
+                <f:else>
+                    <div class="alert alert-warning">
+                        <div class="header-container">
+                            <p class="message-body">
+                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.novalues">No values to show</f:translate>
+                            </p>
+                        </div>
+                    </div>
+                </f:else>
+            </f:if>
+        </div>
+        <div class="col-md-4">
+            <div data-lux-container="detail">
+                <f:render partial="DiagramBoxes/Pagevisits" arguments="{_all}"/>
+                <f:render partial="List/HottestVisitors" arguments="{_all}"/>
+            </div>
+        </div>
+    </div>
+</f:section>

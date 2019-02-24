@@ -1,0 +1,18 @@
+lib.lux.settings {
+
+    # All tracking settings
+    tracking {
+        pagevisits {
+            # Toggle pagevisit tracking (on/off).
+            # Switching this feature on will flood table tx_lux_domain_model_pagevisit but allow you to see a full pagefunnel of all of your visitors. Your decision :)
+            _enable = {$plugin.tx_lux.settings.tracking.page}
+        }
+        assetDownloads {
+            # Toogle asset download tracking (on/off)
+            _enable = {$plugin.tx_lux.settings.tracking.assetDownloads}
+
+            # Allow only files with this extensions
+            allowedFileExtensions = {$plugin.tx_lux.settings.tracking.assetDownloads.allowedExtensions}
+        }
+    }
+}

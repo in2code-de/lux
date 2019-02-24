@@ -1,0 +1,11 @@
+<svg data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 425.2 425.27">
+	<defs>
+		<style>
+			.cls-1{fill:#dddddd;}.cls-2,.cls-3{fill:#fff;stroke:#dddddd;stroke-miterlimit:10;}.cls-2{stroke-width:0.75px;}.cls-3{stroke-width:20px;}
+		</style>
+	</defs>
+	<title>placeholder</title>
+	<rect class="cls-1" width="425.2" height="425.2"/>
+	<path class="cls-2" d="M63,425.2c-2-9.9-2.46-16.89-2.46-27.39A152.07,152.07,0,1,1,362.21,425.2"/>
+	<circle class="cls-3" cx="212.6" cy="181" r="113.99"/>
+</svg>

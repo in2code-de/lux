@@ -1,0 +1,49 @@
+<div class="lux_container_email4link" data-lux-container="email4link">
+    <div class="lux_lightbox_container">
+        <h3>###TITLE###</h3>
+        <p>###TEXT###</p>
+
+        <form data-lux-email4link="form">
+            <div class="form-group">
+                <input
+                        type="email"
+                        class="form-control"
+                        data-lux-email4link="email"
+                        required="required"
+                        placeholder="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:frontend.email4link.lightbox.email')}"
+                        name="email4link[m]">
+            </div>
+
+            <f:if condition="{settings.addPrivacyLink}">
+                <div class="form-check">
+                    <label>
+                        <input
+                                type="checkbox"
+                                class="form-check-input"
+                                required="required"
+                                name="email4link[t]"
+                                value="1" />
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:frontend.email4link.lightbox.privacy" />
+                        <f:link.typolink parameter="{settings.pidPrivacyPage}" target="_blank" />
+                    </label>
+                </div>
+            </f:if>
+
+            <input
+                    type="submit"
+                    class="btn btn-primary"
+                    value="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:frontend.email4link.lightbox.submit')}" />
+
+        </form>
+
+        <p class="lux_smalltext">###HREF###</p>
+
+        <div data-lux-email4link="successMessageSendEmail" style="display:none;" class="alert alert-success">
+            {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:frontend.email4link.lightbox.success')}
+        </div>
+
+        <div data-lux-email4link="errorEmailAddress" style="display:none;" class="alert alert-danger">
+            {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:frontend.email4link.lightbox.emailerror')}
+        </div>
+    </div>
+</div>

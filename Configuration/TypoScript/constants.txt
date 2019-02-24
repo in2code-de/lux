@@ -1,0 +1,19 @@
+plugin.tx_lux.settings {
+    # cat=lux//0010; type=boolean; label= Activate page tracking: (De)Activate tracking of the users pagefunnel.
+    tracking.page = 1
+
+    # cat=lux//0020; type=boolean; label= Activate download tracking: (De)Activate tracking if the user downloads an asset.
+    tracking.assetDownloads = 1
+
+    # cat=lux//0020; type=text; label= Activate download tracking: (De)Activate tracking if the user downloads an asset.
+    tracking.assetDownloads.allowedExtensions = pdf,txt,doc,docx,xls,xlsx,ppt,pptx,jpg,png,zip
+
+    # cat=lux//0100; type=boolean; label= Activate field identification: (De)Activate identification by filling out web forms.
+    fieldidentification = 1
+
+    # cat=lux//0200; type=boolean; label= Disable for backend users: Disable lux tracking in frontend if you are also logged in into backend.
+    disableTrackingForBackendUsers = 1
+
+    # cat=lux//0300; type=int+; label= PID privacy page: Set the pid of the privacy page for links in lux forms.
+    pidPrivacyPage = 11
+}

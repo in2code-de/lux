@@ -1,0 +1,14 @@
+<div class="checkbox form-group">
+    <div data-lux-container-optout="text">
+        <f:format.html parseFuncTSPath="lib.parseFunc">{settings.text}</f:format.html>
+        <label>
+            <input type="checkbox" data-lux-trackingoptout="checkbox">
+            <strong>{settings.label}</strong>
+        </label>
+    </div>
+
+    <f:comment>DoNotTrack browser settings</f:comment>
+    <div data-lux-container-optout="textDoNotTrack" style="display:none;">
+        <f:format.html parseFuncTSPath="lib.parseFunc">{settings.textDoNotTrack}</f:format.html>
+    </div>
+</div>

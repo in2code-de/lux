@@ -1,0 +1,26 @@
+<f:if condition="{settings.default} != ''">
+    <f:then>
+        <f:render section="default" arguments="{_all}" />
+    </f:then>
+    <f:else>
+        <f:render section="error" arguments="{_all}" />
+    </f:else>
+</f:if>
+
+
+
+
+<f:section name="default">
+    <div data-lux-container-contextualContent="{data.uid}">
+        <lux:rendering.contentElement uid="{settings.default}" />
+    </div>
+</f:section>
+
+
+
+
+<f:section name="error">
+    <p>
+        <strong>Error:</strong> No default content element selected
+    </p>
+</f:section>

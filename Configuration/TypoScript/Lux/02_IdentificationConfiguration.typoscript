@@ -1,0 +1,78 @@
+lib.lux.settings {
+
+    # All identification settings
+    identification {
+        # En- or Disable field identification
+        _enable = {$plugin.tx_lux.settings.fieldidentification}
+
+        # Auto identify with EVERY input field of your website.
+        # Using a * as wildcard will search for a string in a string while using a key without * will search for the exact match.
+        fieldMapping {
+            # "email" is the key-field for visitor identification and merging.
+            email {
+                0 = *[email]
+                1 = *[e-mail]
+                2 = *[e_mail]
+            }
+            firstname {
+                0 = *[firstname]
+                1 = *[first-name]
+                2 = *[first_name]
+                3 = *[firstName]
+                4 = *[vorname]
+            }
+            lastname {
+                0 = *[lastname]
+                1 = *[last-name]
+                2 = *[last_name]
+                3 = *[lastName]
+                4 = *[surname]
+                5 = *[sur-name]
+                6 = *[sur_name]
+                7 = *[name]
+                8 = *[nachname]
+            }
+            company {
+                0 = *[company]
+                1 = *[firma]
+            }
+            phone {
+                0 = *[phone]
+                1 = *[telefon]
+                2 = *[tel]
+            }
+            username {
+                0 = username
+                1 = user
+                2 = benutzername
+                3 = benutze
+            }
+        }
+
+        # Email4Link configuration if visitor wants to receive a mail
+        email4link {
+            mail {
+                # Enable/Disable
+                _enable = 1
+
+                # Template file for mail with asset attachment
+                mailTemplate = EXT:lux/Resources/Private/Templates/Mail/Email4LinkMail.html
+
+                # Mail subject
+                subject = Your requested asset
+
+                # From name for mail to visitor
+                fromName = Website
+
+                # From email for mail to visitor
+                fromEmail = marketing@website.org
+
+                # Allow only files with this extensions
+                allowedFileExtensions = pdf,txt,doc,docx,xls,xlsx,ppt,pptx,jpg,png,zip
+
+                # Allow only sending of files within this storages (commaseparated uid list)
+                allowedStorages = 1
+            }
+        }
+    }
+}

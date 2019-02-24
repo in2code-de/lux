@@ -1,0 +1,89 @@
+<table cellspacing="0" cellpadding="0" border="0">
+    <tr>
+        <td>
+            <img src="{luxLogo}" alt="lux - TYPO3 Marketing Automation">
+        </td>
+        <td style="vertical-align: center; padding: 14px 0 0 14px;">
+            <h2>
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:commandcontrollers.summarymail.title">This is your lux summary mail</f:translate>
+            </h2>
+        </td>
+    </tr>
+</table>
+
+<p>&nbsp;</p>
+
+<table cellspacing="0" cellpadding="0" border="0">
+    <tr style="background-color: #4DE7FF; color: white; font-weight: bold;">
+        <td style="border: 1px solid #292929; padding: 5px;">
+            #
+        </td>
+        <td style="border: 1px solid #292929; padding: 5px;">
+            UID
+        </td>
+        <td style="border: 1px solid #292929; padding: 5px;">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.identification">Identification</f:translate>
+        </td>
+        <td style="border: 1px solid #292929; padding: 5px;">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.company">Company</f:translate>
+        </td>
+        <td style="border: 1px solid #292929; padding: 5px;">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.email">Email</f:translate>
+        </td>
+        <td style="border: 1px solid #292929; padding: 5px;">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.scoring">Scoring</f:translate>
+        </td>
+        <td style="border: 1px solid #292929; padding: 5px;">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.categoryscorings">Category scoring</f:translate>
+        </td>
+        <td style="border: 1px solid #292929; padding: 5px;">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.tstamp">Last activity</f:translate>
+        </td>
+        <td style="border: 1px solid #292929; padding: 5px;">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.crdate">First activity</f:translate>
+        </td>
+        <td style="border: 1px solid #292929; padding: 5px;">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.referrer">Lead source</f:translate>
+        </td>
+    </tr>
+    <f:for each="{visitors}" as="visitor" iteration="iteration">
+        <tr>
+            <td style="border: 1px solid #292929; padding: 5px;">
+                {iteration.cycle}.
+            </td>
+            <td style="border: 1px solid #292929; padding: 5px;">
+                {visitor.uid}
+            </td>
+            <td style="border: 1px solid #292929; padding: 5px;">
+                {visitor.fullName}
+            </td>
+            <td style="border: 1px solid #292929; padding: 5px;">
+                {visitor.company}
+            </td>
+            <td style="border: 1px solid #292929; padding: 5px;">
+                {visitor.email}
+            </td>
+            <td style="border: 1px solid #292929; padding: 5px;">
+                {visitor.scoring}
+            </td>
+            <td style="border: 1px solid #292929; padding: 5px;">
+                <f:if condition="{visitor.hottestCategoryscoring}">{visitor.hottestCategoryscoring.category.title}: {visitor.hottestCategoryscoring.scoring}</f:if>
+            </td>
+            <td style="border: 1px solid #292929; padding: 5px;">
+                {visitor.pagevisitLast.page.title} (PID{visitor.pagevisitLast.page.uid})<br>
+                ({f:format.date(date:visitor.tstamp,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')})
+            </td>
+            <td style="border: 1px solid #292929; padding: 5px;">
+                {visitor.pagevisitFirst.page.title} (PID{visitor.pagevisitFirst.page.uid})<br>
+                {f:format.date(date:visitor.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}
+            </td>
+            <td style="border: 1px solid #292929; padding: 5px;">
+                {visitor.readableReferrer}
+            </td>
+        </tr>
+    </f:for>
+</table>
+
+<p>&nbsp;</p>
+
+<p>Powered by <a href="https://www.in2code.de/produkte/lux-typo3-marketing-automation/">lux - Marketing Automation for TYPO3</a></p>

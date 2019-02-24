@@ -1,0 +1,1055 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2018-02-06T12:00:00Z" product-name="lux">
+		<header/>
+		<body>
+			<trans-unit id="tx_lux_domain_model_visitor">
+				<source>Lead</source>
+				<target state="translated">Lead</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.scoring">
+				<source>Scoring</source>
+				<target state="translated">Scoring</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.categoryscorings">
+				<source>Categoryscoring</source>
+				<target state="translated">Kategorie-Scoring</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.identification">
+				<source>Lead identification</source>
+				<target state="translated">Lead Ident</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.score">
+				<source>Lead scoring</source>
+				<target state="translated">Lead Scoring</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.tab.pagevisits">
+				<source>Page visits</source>
+				<target state="translated">Seitenbesuche</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.tab.downloads">
+				<source>Downloads</source>
+				<target state="translated">Datei-Downloads</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.tab.enrichments">
+				<source>Enrichments</source>
+				<target state="translated">Angereicherte Informationen</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.tab.logs">
+				<source>Log</source>
+				<target state="translated">Log</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.tab.description">
+				<source>Description</source>
+				<target state="translated">Beschreibung</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.identified">
+				<source>Is lead identified?</source>
+				<target state="translated">Lead bereits identifiziert?</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.blacklisted">
+				<source>Is lead blacklisted?</source>
+				<target state="translated">Lead blacklisted?</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.visits">
+				<source>Number of visits</source>
+				<target state="translated">Anzahl Besuche</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.email">
+				<source>Email</source>
+				<target state="translated">E-Mail</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.crdate">
+				<source>First visit</source>
+				<target state="translated">Erster Besuch</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.tstamp">
+				<source>Last visit</source>
+				<target state="translated">Letzter Besuch</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.id_cookie">
+				<source>Cookie ID</source>
+				<target state="translated">Cookie ID</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.pagevisits">
+				<source>Page visits</source>
+				<target state="translated">Seitenbesuche</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.attributes">
+				<source>Lead attributes</source>
+				<target state="translated">Eigenschaften des Leads</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.description">
+				<source>Description</source>
+				<target state="translated">Beschreibung</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.referrer">
+				<source>Source</source>
+				<target state="translated">Quelle</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.user_agent">
+				<source>User agent</source>
+				<target state="translated">User agent</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.ip_address">
+				<source>IP address</source>
+				<target state="translated">IP-Adresse</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.ipinformations">
+				<source>Information from IP address</source>
+				<target state="translated">Informationen über IP-Adresse</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.downloads">
+				<source>Download</source>
+				<target state="translated">Download</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.logs">
+				<source>Log</source>
+				<target state="translated">Log</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.company">
+				<source>Company</source>
+				<target state="translated">Firma</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.country">
+				<source>Country</source>
+				<target state="translated">Land</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.city">
+				<source>City</source>
+				<target state="translated">Ort</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.location">
+				<source>Location</source>
+				<target state="translated">Location</target>
+			</trans-unit>
+
+			<trans-unit id="tx_lux_domain_model_pagevisit">
+				<source>Pagevisit</source>
+				<target state="translated">Seitenbesuch</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_pagevisit.crdate">
+				<source>Time</source>
+				<target state="translated">Zeitpunkt</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_pagevisit.page">
+				<source>Page</source>
+				<target state="translated">Seite</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_pagevisit.visitor">
+				<source>Lead</source>
+				<target state="translated">Lead</target>
+			</trans-unit>
+
+			<trans-unit id="tx_lux_domain_model_attribute">
+				<source>Attribute</source>
+				<target state="translated">Eigenschaft</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_attribute.crdate">
+				<source>Time</source>
+				<target state="translated">Zeitpunkt</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_attribute.name">
+				<source>Name</source>
+				<target state="translated">Name</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_attribute.label.email">
+				<source>Email</source>
+				<target state="translated">E-Mail</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_attribute.label.firstname">
+				<source>Firstname</source>
+				<target state="translated">Vorname</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_attribute.label.lastname">
+				<source>Lastname</source>
+				<target state="translated">Nachname</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_attribute.label.company">
+				<source>Company</source>
+				<target state="translated">Firma</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_attribute.label.username">
+				<source>Username</source>
+				<target state="translated">Benutzername</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_attribute.label.phone">
+				<source>Phone</source>
+				<target state="translated">Telefon</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_attribute.value">
+				<source>Value</source>
+				<target state="translated">Wert</target>
+			</trans-unit>
+
+			<trans-unit id="tx_lux_domain_model_ipinformation">
+				<source>IP-Informations</source>
+				<target state="translated">IP-Informationen</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_ipinformation.name">
+				<source>Name</source>
+				<target state="translated">Name</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_ipinformation.value">
+				<source>Value</source>
+				<target state="translated">Value</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_ipinformation.visitor">
+				<source>Lead</source>
+				<target state="translated">Lead</target>
+			</trans-unit>
+
+			<trans-unit id="tx_lux_domain_model_download">
+				<source>Download</source>
+				<target state="translated">Download</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_download.crdate">
+				<source>Date</source>
+				<target state="translated">Zeitpunkt</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_download.href">
+				<source>File path</source>
+				<target state="translated">Dateipfad</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_download.file">
+				<source>File</source>
+				<target state="translated">Datei</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_download.visitor">
+				<source>Lead</source>
+				<target state="translated">Lead</target>
+			</trans-unit>
+
+			<trans-unit id="tx_lux_domain_model_categoryscoring">
+				<source>Categoryscoring</source>
+				<target state="translated">Kategorie-Scoring</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_categoryscoring.scoring">
+				<source>Scoring</source>
+				<target state="translated">Scoring</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_categoryscoring.category">
+				<source>Category</source>
+				<target state="translated">Kategorie</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_categoryscoring.visitor">
+				<source>Lead</source>
+				<target state="translated">Lead</target>
+			</trans-unit>
+
+			<trans-unit id="tx_lux_domain_model_log">
+				<source>Lead log</source>
+				<target state="translated">Lead Log</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_log.crdate">
+				<source>Date</source>
+				<target state="translated">Zeitpunkt</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_log.status">
+				<source>Status</source>
+				<target state="translated">Status</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_log.properties">
+				<source>Properties</source>
+				<target state="translated">Eigenschaften</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_log.visitor">
+				<source>Lead</source>
+				<target state="translated">Lead</target>
+			</trans-unit>
+
+			<trans-unit id="tx_lux_domain_model_workflow">
+				<source>Workflow</source>
+				<target state="translated">Workflow</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_workflow.cruser_id">
+				<source>Author</source>
+				<target state="translated">Autor</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_workflow.crdate">
+				<source>Creation date</source>
+				<target state="translated">Erstellungsdatum</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_workflow.tstamp">
+				<source>Change date</source>
+				<target state="translated">Änderungsdatum</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_workflow.title">
+				<source>Title</source>
+				<target state="translated">Bezeichnung</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_workflow.description">
+				<source>Description</source>
+				<target state="translated">Beschreibung</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_workflow.triggers">
+				<source>Triggers</source>
+				<target state="translated">Trigger</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_workflow.actions">
+				<source>Actions</source>
+				<target state="translated">Aktionen</target>
+			</trans-unit>
+
+			<trans-unit id="tx_lux_domain_model_trigger">
+				<source>Trigger</source>
+				<target state="translated">Trigger</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_trigger.crdate">
+				<source>Creation date</source>
+				<target state="translated">Erstellungsdatum</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_trigger.tstamp">
+				<source>Change date</source>
+				<target state="translated">Änderungsdatum</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_trigger.class_name">
+				<source>Class</source>
+				<target state="translated">Klasse</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_trigger.configuration">
+				<source>Configuration</source>
+				<target state="translated">Konfiguration</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_trigger.conjunction">
+				<source>Logical conjunction</source>
+				<target state="translated">Logische Verknüpfung</target>
+			</trans-unit>
+
+			<trans-unit id="tx_lux_domain_model_action">
+				<source>Action</source>
+				<target state="translated">Aktion</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_action.crdate">
+				<source>Creation date</source>
+				<target state="translated">Erstellungsdatum</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_action.tstamp">
+				<source>Change date</source>
+				<target state="translated">Änderungsdatum</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_action.class_name">
+				<source>Class</source>
+				<target state="translated">Klasse</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_action.configuration">
+				<source>Configuration</source>
+				<target state="translated">Konfiguration</target>
+			</trans-unit>
+
+			<trans-unit id="sys_category.lux_category">
+				<source>Is lux category?</source>
+				<target state="translated">Ist eine lux-Kategorie?</target>
+			</trans-unit>
+
+			<trans-unit id="anonym">
+				<source>Anonym</source>
+				<target state="translated">Anonym</target>
+			</trans-unit>
+			<trans-unit id="readabledate.minutes">
+				<source>%s minutes ago</source>
+				<target state="translated">vor %s Minuten</target>
+			</trans-unit>
+			<trans-unit id="readabledate.hours">
+				<source>%s hours ago</source>
+				<target state="translated">vor %s Stunden</target>
+			</trans-unit>
+			<trans-unit id="readabledate.days">
+				<source>%s days ago</source>
+				<target state="translated">vor %s Tagen</target>
+			</trans-unit>
+			<trans-unit id="readabledate.date">
+				<source>Y-m-d</source>
+				<target state="translated">d.m.Y</target>
+			</trans-unit>
+			<trans-unit id="date">
+				<source>%Y-%m-%d, %H:%M</source>
+				<target state="translated">%e. %B %Y, %H:%M Uhr</target>
+			</trans-unit>
+			<trans-unit id="pageoverview">
+				<source>Last leads</source>
+				<target state="translated">Letzte Leads</target>
+			</trans-unit>
+			<trans-unit id="pageoverview.recurringvisits">
+				<source>Recurring visits</source>
+				<target state="translated">Wiederkehrende Besuche</target>
+			</trans-unit>
+			<trans-unit id="pageoverview.visit">
+				<source>Visit</source>
+				<target state="translated">Besuch</target>
+			</trans-unit>
+
+			<trans-unit id="module.analysis.dashboard">
+				<source>Dashboard</source>
+				<target state="translated">Dashboard</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.list">
+				<source>Leads</source>
+				<target state="translated">Leads</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.content">
+				<source>Content</source>
+				<target state="translated">Content</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.content.page">
+				<source>Page</source>
+				<target state="translated">Seite</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.content.visits">
+				<source>Visits</source>
+				<target state="translated">Seitenaufrufe</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.content.asset">
+				<source>Asset</source>
+				<target state="translated">Asset</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.content.downloads">
+				<source>Number of downloads</source>
+				<target state="translated">Anzahl an Downloads</target>
+			</trans-unit>
+
+			<trans-unit id="module.analysis.novalues">
+				<source>No data found</source>
+				<target state="translated">Keine Daten für eine Anzeige vorhanden</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.filter.submit">
+				<source>Filter now</source>
+				<target state="translated">Jetzt filtern</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.filter.timePeriod.0">
+				<source>This year</source>
+				<target state="translated">Dieses Jahr</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.filter.timePeriod.1">
+				<source>This month</source>
+				<target state="translated">Diesen Monat</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.filter.timePeriod.2">
+				<source>Previous month</source>
+				<target state="translated">Letzter Monat</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.pagevisits">
+				<source>Latest page visits</source>
+				<target state="translated">Letzte Seitenbesuche</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.bestvisitors">
+				<source>Hottest leads</source>
+				<target state="translated">Hottest Leads</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.log">
+				<source>Activity log</source>
+				<target state="translated">Protokoll der Aktivitäten</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.recurring.0">
+				<source>Recurring leads</source>
+				<target state="translated">Wiederkehrende Leads</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.recurring.1">
+				<source>Unique leads</source>
+				<target state="translated">Leads mit einem Besuch</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.identified.0">
+				<source>Identified leads</source>
+				<target state="translated">Identifizierte Leads</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.identified.1">
+				<source>Unknown leads</source>
+				<target state="translated">Unbekannte Leads</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.1">
+				<source>lux has tracked a new lead</source>
+				<target state="translated">lux hat einen neuen Lead erfasst</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.2">
+				<source>lux has identified a new lead</source>
+				<target state="translated">lux hat einen neuen Lead identifiziert</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.21">
+				<source>"email4link" identified lead</source>
+				<target state="translated">"email4link" hat einen Lead identifiziert</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.22">
+				<source>"email4link" send asset via email</source>
+				<target state="translated">"email4link" hat eine Datei verschickt</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.23">
+				<source>"email4link" send asset failed</source>
+				<target state="translated">"email4link" Datei versenden fehlgeschlagen</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.50">
+				<source>lux tracked a download</source>
+				<target state="translated">lux hat einen Download aufgezeichnet</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.60">
+				<source>"lux started a workflow</source>
+				<target state="translated">lux hat einen Workflow ausgeführt</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.70">
+				<source>"lux showed a contextual content</source>
+				<target state="translated">lux hat einen passenden Seiteninhalt gezeigt</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.map">
+				<source>Lead source</source>
+				<target state="translated">Lead Ursprung</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage">
+				<source>Page visits</source>
+				<target state="translated">Seitenbesuche</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.title">
+				<source>Page title</source>
+				<target state="translated">Seitentitel</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.lead">
+				<source>Lead</source>
+				<target state="translated">Lead</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.company">
+				<source>Company</source>
+				<target state="translated">Firma</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.time">
+				<source>Time</source>
+				<target state="translated">Zeitpunkt</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.detaildownloads">
+				<source>Downloads</source>
+				<target state="translated">Downloads</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.detaildownloads.title">
+				<source>File</source>
+				<target state="translated">Datei</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.detaildownloads.lead">
+				<source>Lead</source>
+				<target state="translated">Lead</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.detaildownloads.company">
+				<source>Company</source>
+				<target state="translated">Firma</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.detaildownloads.time">
+				<source>Time</source>
+				<target state="translated">Zeitpunkt</target>
+			</trans-unit>
+			<trans-unit id="module.list.pagevisits">
+				<source>Pagevisits</source>
+				<target state="translated">Seitenaufrufe</target>
+			</trans-unit>
+			<trans-unit id="module.list.filter">
+				<source>Filter Leads</source>
+				<target state="translated">Lead Filter</target>
+			</trans-unit>
+			<trans-unit id="module.list.filter.header.search">
+				<source>Search</source>
+				<target state="translated">Suche</target>
+			</trans-unit>
+			<trans-unit id="module.list.filter.header.scoring">
+				<source>Scoring</source>
+				<target state="translated">Scoring</target>
+			</trans-unit>
+			<trans-unit id="module.list.filter.header.time">
+				<source>Time</source>
+				<target state="translated">Zeitpunkt</target>
+			</trans-unit>
+			<trans-unit id="module.list.filter.timeFrom">
+				<source>From</source>
+				<target state="translated">Von</target>
+			</trans-unit>
+			<trans-unit id="module.list.filter.timeTo">
+				<source>To</source>
+				<target state="translated">Bis</target>
+			</trans-unit>
+			<trans-unit id="module.list.filter.searchterm">
+				<source>Searchterm</source>
+				<target state="translated">Suchbegriff</target>
+			</trans-unit>
+			<trans-unit id="module.list.filter.pid">
+				<source>Page ID to search for</source>
+				<target state="translated">Seiten ID</target>
+			</trans-unit>
+			<trans-unit id="module.list.filter.reset">
+				<source>Reset filter</source>
+				<target state="translated">Filter aufheben</target>
+			</trans-unit>
+			<trans-unit id="module.list.filter.submit">
+				<source>Filter now</source>
+				<target state="translated">Jetzt filtern</target>
+			</trans-unit>
+			<trans-unit id="module.list.pagevisits.label">
+				<source>Pagevisits</source>
+				<target state="translated">Seitenaufrufe</target>
+			</trans-unit>
+			<trans-unit id="module.list.link.remove">
+				<source>Remove completely</source>
+				<target state="translated">Komplett entfernen</target>
+			</trans-unit>
+			<trans-unit id="module.list.link.deactivate">
+				<source>Blacklist</source>
+				<target state="translated">Blacklist</target>
+			</trans-unit>
+
+			<trans-unit id="module.detail">
+				<source>Lead preview</source>
+				<target state="translated">Lead Vorschau</target>
+			</trans-unit>
+			<trans-unit id="module.detail.linkdetail">
+				<source>Show lead details</source>
+				<target state="translated">Show Lead Details</target>
+			</trans-unit>
+			<trans-unit id="module.detail.scoring">
+				<source>Lead scoring</source>
+				<target state="translated">Lead Scoring</target>
+			</trans-unit>
+			<trans-unit id="module.detail.description">
+				<source>Add an individual description...</source>
+				<target state="translated">Individuelle Beschreibung hinzufügen...</target>
+			</trans-unit>
+			<trans-unit id="module.detail.pagefunnel">
+				<source>Conversion Funnel / Page Visits</source>
+				<target state="translated">Conversion Funnel / Seitenbesuche</target>
+			</trans-unit>
+			<trans-unit id="module.detail.location">
+				<source>Location</source>
+				<target state="translated">Ort</target>
+			</trans-unit>
+
+			<trans-unit id="module.diagrambox.downloads.title">
+				<source>Downloads</source>
+				<target state="translated">Downloads</target>
+			</trans-unit>
+
+			<trans-unit id="module.workflow">
+				<source>Workflows</source>
+				<target state="translated">Workflows</target>
+			</trans-unit>
+			<trans-unit id="module.workflow.list.add">
+				<source>Add another Workflow</source>
+				<target state="translated">Weiteren Workflow erstellen</target>
+			</trans-unit>
+			<trans-unit id="module.workflow.list.add2">
+				<source>No Workflows saved</source>
+				<target state="translated">Keine Workflows gespeichert</target>
+			</trans-unit>
+			<trans-unit id="module.workflow.list.add3">
+				<source>Add new Workflow</source>
+				<target state="translated">Neuen Workflow erstellen</target>
+			</trans-unit>
+			<trans-unit id="module.workflow.list.edit">
+				<source>Edit</source>
+				<target state="translated">Ändern</target>
+			</trans-unit>
+			<trans-unit id="module.workflow.list.delete">
+				<source>Delete</source>
+				<target state="translated">Löschen</target>
+			</trans-unit>
+			<trans-unit id="module.workflow.table.title">
+				<source>Title</source>
+				<target state="translated">Titel</target>
+			</trans-unit>
+			<trans-unit id="module.workflow.table.description">
+				<source>Description</source>
+				<target state="translated">Beschreibung</target>
+			</trans-unit>
+			<trans-unit id="module.workflow.table.created">
+				<source>Created</source>
+				<target state="translated">Erstellt</target>
+			</trans-unit>
+			<trans-unit id="module.workflow.table.author">
+				<source>Author</source>
+				<target state="translated">Autor</target>
+			</trans-unit>
+			<trans-unit id="module.workflow.table.children">
+				<source>Triggers / Actions</source>
+				<target state="translated">Trigger / Aktionen</target>
+			</trans-unit>
+			<trans-unit id="module.workflow.new">
+				<source>Workflow successfully added</source>
+				<target state="translated">Workflow erfolgreich hinzugefügt</target>
+			</trans-unit>
+			<trans-unit id="module.workflow.new.title">
+				<source>Create new Workflow</source>
+				<target state="translated">Neuen Workflow erstellen</target>
+			</trans-unit>
+			<trans-unit id="module.workflow.update">
+				<source>Workflow successfully updated</source>
+				<target state="translated">Workflow erfolgreich geändert</target>
+			</trans-unit>
+			<trans-unit id="module.workflow.update.title">
+				<source>Edit Workflow</source>
+				<target state="translated">Workflow verändern</target>
+			</trans-unit>
+			<trans-unit id="module.workflow.field.title">
+				<source>Title</source>
+				<target state="translated">Bezeichnung</target>
+			</trans-unit>
+			<trans-unit id="module.workflow.field.title.placeholder">
+				<source>Title for your Workflow...</source>
+				<target state="translated">Titel für deinen Workflow...</target>
+			</trans-unit>
+			<trans-unit id="module.workflow.field.title.description">
+				<source>In short words: Increase Categoryscoring A on page "Product B", Show a popup with some valuable information on the second page visit, etc...</source>
+				<target state="translated">Kurz: Erhöhe das Kategorie-Scoring A bei Besuch der Seite "Produkt B", Zeige ein Popup with hilfreichen Informationen beim zweiten Seitenbesuch, etc..</target>
+			</trans-unit>
+			<trans-unit id="module.workflow.field.description">
+				<source>Description</source>
+				<target state="translated">Beschreibung</target>
+			</trans-unit>
+			<trans-unit id="module.workflow.field.description.placeholder">
+				<source>Descripe your Workflow...</source>
+				<target state="translated">Beschreibe deinen Workflow...</target>
+			</trans-unit>
+			<trans-unit id="module.workflow.field.description.description">
+				<source>Increase Categoryscoring A on page "Product B", Show a popup with some valuable information on the second page visit, etc...</source>
+				<target state="translated">Erhöhe das Kategorie-Scoring A bei Besuch der Seite "Produkt B", Zeige ein Popup with hilfreichen Informationen beim zweiten Seitenbesuch, etc..</target>
+			</trans-unit>
+			<trans-unit id="module.workflow.field.addtrigger">
+				<source>Add Trigger</source>
+				<target state="translated">Trigger hinzufügen</target>
+			</trans-unit>
+			<trans-unit id="module.workflow.field.addaction">
+				<source>Add Action</source>
+				<target state="translated">Aktion hinzufügen</target>
+			</trans-unit>
+			<trans-unit id="module.workflow.wizard.1">
+				<source>Description</source>
+				<target state="translated">Beschreibung</target>
+			</trans-unit>
+			<trans-unit id="module.workflow.wizard.2">
+				<source>Trigger</source>
+				<target state="translated">Trigger</target>
+			</trans-unit>
+			<trans-unit id="module.workflow.wizard.3">
+				<source>Action</source>
+				<target state="translated">Aktion</target>
+			</trans-unit>
+
+			<trans-unit id="trigger.pagevisit">
+				<source>On entering a page</source>
+				<target state="translated">Bei Seitenbesuch</target>
+			</trans-unit>
+			<trans-unit id="trigger.pagevisit.label1">
+				<source>Lead visits a page for the time</source>
+				<target state="translated">Der Lead besucht zum</target>
+			</trans-unit>
+			<trans-unit id="trigger.pagevisit.label1.1">
+				<source>1. time</source>
+				<target state="translated">1. mal</target>
+			</trans-unit>
+			<trans-unit id="trigger.pagevisit.label1.2">
+				<source>2. time</source>
+				<target state="translated">2. mal</target>
+			</trans-unit>
+			<trans-unit id="trigger.pagevisit.label1.3">
+				<source>3. time</source>
+				<target state="translated">3. mal</target>
+			</trans-unit>
+			<trans-unit id="trigger.pagevisit.label1.4">
+				<source>4. time</source>
+				<target state="translated">4. mal</target>
+			</trans-unit>
+			<trans-unit id="trigger.pagevisit.label1.5">
+				<source>5. time</source>
+				<target state="translated">5. mal</target>
+			</trans-unit>
+			<trans-unit id="trigger.pagevisit.label2">
+				<source>the page (PID)</source>
+				<target state="translated">die Seite (PID)</target>
+			</trans-unit>
+			<trans-unit id="trigger.scoring">
+				<source>When lead reaches a scoring</source>
+				<target state="translated">Bei Scoring</target>
+			</trans-unit>
+			<trans-unit id="trigger.scoring.label1">
+				<source>The minimum scoring of the lead is</source>
+				<target state="translated">Der Lead hat ein ein Scoring von mindestens</target>
+			</trans-unit>
+			<trans-unit id="trigger.categoryscoring">
+				<source>When lead reaches a categoryscoring</source>
+				<target state="translated">Bei Erreichen eines Kategorie-Scoring</target>
+			</trans-unit>
+			<trans-unit id="trigger.categoryscoring.scoring">
+				<source>The minimum scoring of the lead is</source>
+				<target state="translated">Der Lead hat ein ein Scoring von mindestens</target>
+			</trans-unit>
+			<trans-unit id="trigger.categoryscoring.category">
+				<source>In category</source>
+				<target state="translated">In der Kategorie</target>
+			</trans-unit>
+			<trans-unit id="trigger.timeframe">
+				<source>On a defined time</source>
+				<target state="translated">Bei einer bestimmten Zeit</target>
+			</trans-unit>
+			<trans-unit id="trigger.timeframe.label1">
+				<source>Start on this time</source>
+				<target state="translated">Starte zu dieser Zeit</target>
+			</trans-unit>
+			<trans-unit id="trigger.timeframe.label2">
+				<source>Stop on this time</source>
+				<target state="translated">Stoppe zu dieser Zeit</target>
+			</trans-unit>
+			<trans-unit id="trigger.category">
+				<source>When lead enters a page of a given category</source>
+				<target state="translated">Bei Seitenzugriff auf eine Seite einer bestimmten Kategorie</target>
+			</trans-unit>
+			<trans-unit id="trigger.category.mode">
+				<source>Page/Download</source>
+				<target state="translated">Seite/Download</target>
+			</trans-unit>
+			<trans-unit id="trigger.category.mode.0">
+				<source>Every page or download</source>
+				<target state="translated">Jede Seite oder Download</target>
+			</trans-unit>
+			<trans-unit id="trigger.category.mode.1">
+				<source>Only pages</source>
+				<target state="translated">Nur Seiten</target>
+			</trans-unit>
+			<trans-unit id="trigger.category.mode.2">
+				<source>Only downloads</source>
+				<target state="translated">Nur Downloads</target>
+			</trans-unit>
+			<trans-unit id="trigger.category.category">
+				<source>Please choose a category</source>
+				<target state="translated">Bitte eine Kategorie auswählen</target>
+			</trans-unit>
+			<trans-unit id="trigger.identified">
+				<source>If a lead gets identified</source>
+				<target state="translated">Sobald ein Lead identifiziert wurde</target>
+			</trans-unit>
+			<trans-unit id="trigger.identified.message">
+				<source>Nothing to do here. This action listen if a lead gets identified.</source>
+				<target state="translated">Keine Einstellung notwendig. Diese Aktion reagiert sobald ein Lead identifiziert wurde.</target>
+			</trans-unit>
+			<trans-unit id="trigger.company">
+				<source>If lead company given</source>
+				<target state="translated">Sobald eine Firma eines Leads bekannt ist</target>
+			</trans-unit>
+			<trans-unit id="trigger.company.message">
+				<source>Nothing to do here. This triggers listens if a company to a lead is known (e.g. from IP-address).</source>
+				<target state="translated">Keine Einstellung notwendig. Dieser Trigger achtet darauf, ob eine Firma zu dem Lead bekannt ist (z.B. über die IP-Adresse).</target>
+			</trans-unit>
+
+			<trans-unit id="action.label.recurring">
+				<source>Single / Recurring</source>
+				<target state="translated">Einmalig / Wiederkehrend</target>
+			</trans-unit>
+			<trans-unit id="action.label.recurring.single">
+				<source>Single</source>
+				<target state="translated">Einmalig</target>
+			</trans-unit>
+			<trans-unit id="action.label.recurring.recurring">
+				<source>Recurring</source>
+				<target state="translated">Wiederkehrend</target>
+			</trans-unit>
+			<trans-unit id="action.email.label1">
+				<source>Receiver Email</source>
+				<target state="translated">Empfänger E-Mail</target>
+			</trans-unit>
+			<trans-unit id="action.email.label3">
+				<source>Sender name</source>
+				<target state="translated">Sender Name</target>
+			</trans-unit>
+			<trans-unit id="action.email.label4">
+				<source>Sender Email</source>
+				<target state="translated">Sender E-Mail</target>
+			</trans-unit>
+			<trans-unit id="action.email.label5">
+				<source>Email subject</source>
+				<target state="translated">E-Mail Betreff</target>
+			</trans-unit>
+			<trans-unit id="action.email.label6">
+				<source>Email text</source>
+				<target state="translated">E-Mail Text</target>
+			</trans-unit>
+			<trans-unit id="action.email.label7">
+				<source>Add email text directly (without HTML). It is possible to use variables from the lead (e.g. {visitor.fullName})</source>
+				<target state="translated">E-Mail Text kann direkt eingetragen werden (kein HTML). Es können auch Variablen des Leads verwendet werden (z.B. {visitor.fullName}).</target>
+			</trans-unit>
+			<trans-unit id="action.popupcontentelement">
+				<source>Open a popup (lightbox) with a content element</source>
+				<target state="translated">Öffne ein Popup (Lightbox) mit einem Seiteninhalt</target>
+			</trans-unit>
+			<trans-unit id="action.popupcontentelement.label1">
+				<source>Content element (UID) to show in a popup (lightbox)</source>
+				<target state="translated">Seiteninhalt (UID) der in einem Popup (Lightbox) gezeigt werden soll</target>
+			</trans-unit>
+			<trans-unit id="action.popupcontentelement.label2">
+				<source>Delay (msec)</source>
+				<target state="translated">Verzögerung (ms)</target>
+			</trans-unit>
+			<trans-unit id="action.email">
+				<source>Sends an email</source>
+				<target state="translated">Sendet eine E-Mail</target>
+			</trans-unit>
+			<trans-unit id="action.redirect">
+				<source>Redirect visitor to another page</source>
+				<target state="translated">Leitet Besucher auf eine andere Seite</target>
+			</trans-unit>
+			<trans-unit id="action.slack">
+				<source>Publish a message to a slack channel</source>
+				<target state="translated">Publiziert eine Nachricht in einen Slack Channel</target>
+			</trans-unit>
+			<trans-unit id="action.slack.text">
+				<source>Text to publish</source>
+				<target state="translated">Text für Publizierung</target>
+			</trans-unit>
+			<trans-unit id="action.slack.text.help">
+				<source>You can also use variables like {visitor.fullName}</source>
+				<target state="translated">Es können auch Variablen wie {visitor.fullName} verwendet werden</target>
+			</trans-unit>
+
+			<trans-unit id="frontend.email4link.lightbox.email">
+				<source>Email</source>
+				<target state="translated">E-Mail</target>
+			</trans-unit>
+			<trans-unit id="frontend.email4link.lightbox.privacy">
+				<source>I accept the terms and conditions of the privacy policy - see</source>
+				<target state="translated">Ich habe die Datenschutzerklärung gelesen und akzeptiert - siehe</target>
+			</trans-unit>
+			<trans-unit id="frontend.email4link.lightbox.submit">
+				<source>Submit</source>
+				<target state="translated">Weiter</target>
+			</trans-unit>
+			<trans-unit id="frontend.email4link.lightbox.success">
+				<source>Email successfully sent. Please check your mailbox.</source>
+				<target state="translated">E-Mail gesendet. Bitte überprüfen Sie Ihren Posteingang.</target>
+			</trans-unit>
+			<trans-unit id="frontend.email4link.lightbox.emailerror">
+				<source>Error in given email address.</source>
+				<target state="translated">Ungültige E-Mail-Adresse eingetragen.</target>
+			</trans-unit>
+
+			<trans-unit id="pi1.title">
+				<source>Lux Tracking Opt Out</source>
+				<target state="translated">Lux Tracking Opt Out</target>
+			</trans-unit>
+			<trans-unit id="pi1.description">
+				<source>Offer your visitors an opt-out function from future tracking. Normally such a form is placed on the privacy or imprint page.</source>
+				<target state="translated">Bieten Sie Ihren Besuchen ein Opt-Out an, bei dem das Tracking künftig unterbunden wird. Üblicherweise wird ein solches Formular in der Datenschutzerklärung oder im Impressum angeboten.</target>
+			</trans-unit>
+			<trans-unit id="pi1.label">
+				<source>Label for checkbox</source>
+				<target state="translated">Checkbox Bezeichnung</target>
+			</trans-unit>
+			<trans-unit id="pi1.text">
+				<source>Add an explanation text</source>
+				<target state="translated">Erklärungstext hinzufügen</target>
+			</trans-unit>
+			<trans-unit id="pi1.textDoNotTrack">
+				<source>Add an explanation text for "do not track" browser setting</source>
+				<target state="translated">Erklärungstext für die Browsereinstellung "do not track"</target>
+			</trans-unit>
+			<trans-unit id="pi2.title">
+				<source>Lux Contextual Content</source>
+				<target state="translated">Lux Kontextabhängiger Content</target>
+			</trans-unit>
+			<trans-unit id="pi2.description">
+				<source>Show fitting content based on the visitors category scoring.</source>
+				<target state="translated">Zeige Seiteninhalte basierend auf dem Kategoriescoring des Besuchers.</target>
+			</trans-unit>
+			<trans-unit id="pi2.flexform.default">
+				<source>Choose a default content element (Please select one and save aferwards. Then choose additional elements below).</source>
+				<target state="translated">Standard Seiteninhalt wählen (Bitte eines auswählen und danach speichern. Im Anschluss können unten weitere Elemente ausgewählt werden).</target>
+			</trans-unit>
+			<trans-unit id="pi2.flexform.category">
+				<source>Choose a lux category.</source>
+				<target state="translated">Bitte eine lux Kategorie auswählen.</target>
+			</trans-unit>
+			<trans-unit id="pi2.flexform.contentelements">
+				<source>Select one or more content elements that should be shown for this category.</source>
+				<target state="translated">Ein oder mehrere Seiteninhalte für die Kategorie wählen.</target>
+			</trans-unit>
+
+			<trans-unit id="commandcontrollers.summarymail.title">
+				<source>This is your personal lead summary mail</source>
+				<target state="translated">Ihre persönliche Lead Zusammenfassung</target>
+			</trans-unit>
+
+			<trans-unit id="datetime.weekday.now">
+				<source>Now</source>
+				<target state="translated">Heute</target>
+			</trans-unit>
+			<trans-unit id="datetime.weekday.mon">
+				<source>Mo</source>
+				<target state="translated">Mo</target>
+			</trans-unit>
+			<trans-unit id="datetime.weekday.tue">
+				<source>Tu</source>
+				<target state="translated">Di</target>
+			</trans-unit>
+			<trans-unit id="datetime.weekday.wed">
+				<source>We</source>
+				<target state="translated">Mi</target>
+			</trans-unit>
+			<trans-unit id="datetime.weekday.thu">
+				<source>Th</source>
+				<target state="translated">Do</target>
+			</trans-unit>
+			<trans-unit id="datetime.weekday.fri">
+				<source>Fr</source>
+				<target state="translated">Fr</target>
+			</trans-unit>
+			<trans-unit id="datetime.weekday.sat">
+				<source>Sa</source>
+				<target state="translated">Sa</target>
+			</trans-unit>
+			<trans-unit id="datetime.weekday.sun">
+				<source>Su</source>
+				<target state="translated">So</target>
+			</trans-unit>
+			<trans-unit id="datetime.week.0">
+				<source>Now</source>
+				<target state="translated">Heute</target>
+			</trans-unit>
+			<trans-unit id="datetime.week.1">
+				<source>1 week ago</source>
+				<target state="translated">Vor 1 Woche</target>
+			</trans-unit>
+			<trans-unit id="datetime.week.2">
+				<source>2 weeks ago</source>
+				<target state="translated">Vor 2 Wochen</target>
+			</trans-unit>
+			<trans-unit id="datetime.week.3">
+				<source>3 weeks ago</source>
+				<target state="translated">Vor 3 Wochen</target>
+			</trans-unit>
+			<trans-unit id="datetime.week.4">
+				<source>4 weeks ago</source>
+				<target state="translated">Vor 4 Wochen</target>
+			</trans-unit>
+			<trans-unit id="datetime.week.5">
+				<source>5 weeks ago</source>
+				<target state="translated">Vor 5 Wochen</target>
+			</trans-unit>
+			<trans-unit id="datetime.week.6">
+				<source>6 weeks ago</source>
+				<target state="translated">Vor 6 Wochen</target>
+			</trans-unit>
+			<trans-unit id="datetime.week.7">
+				<source>7 weeks ago</source>
+				<target state="translated">Vor 7 Wochen</target>
+			</trans-unit>
+
+			<trans-unit id="pleaseChoose">
+				<source>Please choose ...</source>
+				<target state="translated">Bitte wählen...</target>
+			</trans-unit>
+			<trans-unit id="areYouSure">
+				<source>Are you sure?</source>
+				<target state="translated">Sind Sie sicher?</target>
+			</trans-unit>
+			<trans-unit id="back">
+				<source>Back</source>
+				<target state="translated">Zurück</target>
+			</trans-unit>
+			<trans-unit id="next">
+				<source>Next</source>
+				<target state="translated">Weiter</target>
+			</trans-unit>
+			<trans-unit id="save">
+				<source>Save</source>
+				<target state="translated">Speichern</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

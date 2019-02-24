@@ -1,0 +1,16 @@
+plugin {
+    tx_lux_fe {
+        view {
+            templateRootPaths {
+                0 = EXT:lux/Resources/Private/Templates/
+            }
+        }
+        features.requireCHashArgumentForActionArguments = 0
+        persistence.storagePid = 0
+        settings < lib.lux.settings
+    }
+    tx_lux_pi2.features.requireCHashArgumentForActionArguments = 0
+}
+
+# Copy plugin configuration to module configuration to just use one configuration for both places.
+module.tx_lux < plugin.tx_lux_fe
