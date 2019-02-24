@@ -16,6 +16,7 @@ $EM_CONF[$_EXTKEY] = [
     'author' => 'Alex Kellner',
     'author_email' => 'alexander.kellner@in2code.de',
     'author_company' => 'in2code.de',
+    'state' => 'stable',
     'constraints' => [
         'depends' => [
             'typo3' => '8.7.0-9.5.99',
