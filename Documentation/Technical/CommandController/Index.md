@@ -30,6 +30,9 @@ Remove means in this case not deleted=1 but really remove from database.
 (identified or anonymous) by a given uid.
 Remove means in this case not deleted=1 but really remove from database.
 
+* `\In2code\Lux\Command\LuxCleanupCommandController::removeAllVisitorsCommand()` Removes all visitors.
+Truncate all lux tables. Can be used for some kind of content updates to a development server
+
 
 #### LuxLeadCommandController
 

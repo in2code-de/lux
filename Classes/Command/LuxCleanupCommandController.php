@@ -6,6 +6,7 @@ use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
+use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
 /**
  * Class LuxCleanupCommandController
@@ -27,11 +28,11 @@ class LuxCleanupCommandController extends CommandController
      * @param int $timestamp
      * @return void
      * @throws DBALException
+     * @throws InvalidQueryException
      */
     public function removeUnknownVisitorsByAgeCommand(int $timestamp)
     {
-        $visitorRepository = $this->objectManager->get(VisitorRepository::class);
-        $visitors = $visitorRepository->findByLastChangeUnknown($timestamp);
+        $visitors = $this->visitorRepository->findByLastChangeUnknown($timestamp);
         /** @var Visitor $visitor */
         foreach ($visitors as $visitor) {
             $this->visitorRepository->removeRelatedTableRowsByVisitorUid($visitor->getUid());
@@ -48,16 +49,31 @@ class LuxCleanupCommandController extends CommandController
      * @param int $timestamp
      * @return void
      * @throws DBALException
+     * @throws InvalidQueryException
      */
     public function removeVisitorsByAgeCommand(int $timestamp)
     {
-        $visitorRepository = $this->objectManager->get(VisitorRepository::class);
-        $visitors = $visitorRepository->findByLastChange($timestamp);
+        $visitors = $this->visitorRepository->findByLastChange($timestamp);
         /** @var Visitor $visitor */
         foreach ($visitors as $visitor) {
             $this->visitorRepository->removeRelatedTableRowsByVisitorUid($visitor->getUid());
             $this->visitorRepository->removeVisitorByVisitorUid($visitor->getUid());
         }
+    }
+
+    /**
+     * Remove all visitors!
+     *
+     *      Remove all visitors
+     *      !!! Really removes visitors and all rows from related tables from the database
+     *
+     * @return void
+     * @cli
+     * @throws DBALException
+     */
+    public function removeAllVisitorsCommand()
+    {
+        $this->visitorRepository->truncateAll();
     }
 
     /**
