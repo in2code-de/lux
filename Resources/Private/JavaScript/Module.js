@@ -24,10 +24,6 @@ define(['jquery', 'TYPO3/CMS/Lux/Vendor/Chart.min'], function($) {
 			addDescriptionListener();
 			addLinkMockListener();
 			addDatePickers();
-			addWizardForm();
-			addTriggers();
-			addActions();
-			addDeleteListener();
 		};
 
 		/**
@@ -144,137 +140,6 @@ define(['jquery', 'TYPO3/CMS/Lux/Vendor/Chart.min'], function($) {
 		};
 
 		/**
-		 * @returns {void}
-		 */
-		var addWizardForm = function() {
-			var fieldsets = document.querySelectorAll('.wizardform > fieldset');
-			var buttons = document.querySelectorAll('[data-wizardform-gotostep]');
-			var wizardLinks = document.querySelectorAll('.wizard > a');
-
-			for (var i = 1; i < fieldsets.length; i++) {
-				fieldsets[i].style.display = 'none';
-			}
-			for (var j = 0; j < buttons.length; j++) {
-				buttons[j].addEventListener('click', function(event) {
-					event.preventDefault();
-					var step = this.getAttribute('data-wizardform-gotostep');
-
-					removeClassFromElements(wizardLinks, 'current');
-					wizardLinks[step-1].classList.add('current');
-
-					for (var k = 0; k < fieldsets.length; k++) {
-						fieldsets[k].style.display = 'none';
-					}
-					fieldsets[step-1].style.display = 'block';
-				});
-			}
-		};
-
-		/**
-		 * @returns {void}
-		 */
-		var addTriggers = function() {
-			var button = document.querySelector('[data-lux-action-trigger="add"]');
-			if (button !== null) {
-				button.addEventListener('click', function(event) {
-					event.preventDefault();
-					var trigger = document.querySelector('[data-lux-action-trigger="trigger"]').value;
-					var index = document.querySelector('[data-lux-triggers]').getAttribute('data-lux-triggers');
-					var conjunction = document.querySelector('[data-lux-action-trigger="conjunction"]').value;
-
-					if (trigger !== '') {
-						ajaxConnection(TYPO3.settings.ajaxUrls['/lux/addtrigger'], {
-							trigger: trigger,
-							index: index,
-							conjunction: conjunction
-						}, 'showHtmlInTriggerAreaCallback');
-					} else {
-						alert('Please choose a trigger first!');
-					}
-				});
-			}
-		};
-
-		/**
-		 * @param response
-		 * @returns {void}
-		 */
-		this.showHtmlInTriggerAreaCallback = function(response) {
-			var triggerArea = document.querySelector('[data-lux-container="triggerarea"]');
-			if (triggerArea !== null) {
-				triggerArea.innerHTML += response.html;
-				increaseTriggerIndex();
-				addDatePickers();
-			}
-		};
-
-		/**
-		 * @returns {void}
-		 */
-		var addActions = function() {
-			var button = document.querySelector('[data-lux-action-action="add"]');
-			if (button !== null) {
-				button.addEventListener('click', function(event) {
-					event.preventDefault();
-					var action = document.querySelector('[data-lux-action-action="action"]').value;
-					var index = document.querySelector('[data-lux-actions]').getAttribute('data-lux-actions');
-
-					if (action !== '') {
-						ajaxConnection(TYPO3.settings.ajaxUrls['/lux/addaction'], {
-							action: action,
-							index: index
-						}, 'showHtmlInActionAreaCallback');
-					} else {
-						alert('Please choose an action first!');
-					}
-				});
-			}
-		};
-
-		/**
-		 * @param response
-		 * @returns {void}
-		 */
-		this.showHtmlInActionAreaCallback = function(response) {
-			var actionArea = document.querySelector('[data-lux-container="actionarea"]');
-			if (actionArea !== null) {
-				actionArea.innerHTML += response.html;
-				increaseActionIndex();
-				addDatePickers();
-			}
-		};
-
-		/**
-		 * @returns {void}
-		 */
-		var addDeleteListener = function() {
-			var deleteButton = document.querySelectorAll('[data-lux-action="deleteWorkflow"]');
-			for (var i = 0; i < deleteButton.length; i++) {
-				deleteButton[i].addEventListener('click', function(event) {
-					event.preventDefault();
-					ajaxConnection(this.getAttribute('href'), {}, null);
-					fadeOut(this.closest('tr'));
-				});
-			}
-		};
-
-		/**
-		 * @returns {void}
-		 */
-		var increaseTriggerIndex = function() {
-			var index = document.querySelector('[data-lux-triggers]').getAttribute('data-lux-triggers');
-			document.querySelector('[data-lux-triggers]').setAttribute('data-lux-triggers', parseInt(index)+1)
-		};
-
-		/**
-		 * @returns {void}
-		 */
-		var increaseActionIndex = function() {
-			var index = document.querySelector('[data-lux-actions]').getAttribute('data-lux-actions');
-			document.querySelector('[data-lux-actions]').setAttribute('data-lux-actions', parseInt(index)+1)
-		};
-
-		/**
 		 * @param {string} elements
 		 * @param {string} className
 		 * @returns {void}
@@ -335,38 +200,6 @@ define(['jquery', 'TYPO3/CMS/Lux/Vendor/Chart.min'], function($) {
 				}
 			}
 			return uri;
-		};
-
-		/**
-		 * @param element
-		 * @returns {void}
-		 */
-		var fadeOut = function(element) {
-			element.style.opacity = 1;
-			(function fade() {
-				if ((element.style.opacity -= .1) < 0) {
-					element.style.display = 'none';
-				} else {
-					requestAnimationFrame(fade);
-				}
-			})();
-		};
-
-		/**
-		 * @param element
-		 * @param display Normally "block" or "inline"
-		 */
-		var fadeIn = function(element, display) {
-			element.style.opacity = 0;
-			element.style.display = display || 'block';
-
-			(function fade() {
-				var val = parseFloat(element.style.opacity);
-				if (!((val += .1) > 1)) {
-					element.style.opacity = val;
-					requestAnimationFrame(fade);
-				}
-			})();
 		};
 	}
 
