@@ -1,0 +1,1 @@
+<INCLUDE_TYPOSCRIPT: source="FILE:EXT:lux/Configuration/TypoScript/Lux/21_TableMapping.typoscript">
