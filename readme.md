@@ -134,6 +134,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                        |
 | ---------- | ---------- | ---------- | ---------------------------------------------------------------------------------- |
+| 2.0.1      | 2019-02-25 | Bugfix     | Small fixes with default values if configuration is missing                        |
 | 2.0.0      | 2019-02-24 | Task       | Publish lux as community version (without Workflows), removeAll CommandController  |
 | 1.24.0     | 2018-11-07 | Task       | Update disallowed telecommunication provider list                                  |
 | 1.23.0     | 2018-08-17 | Task       | Update disallowed mail provider and telecommunication list                         |
