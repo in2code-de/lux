@@ -2,6 +2,8 @@
 declare(strict_types=1);
 namespace In2code\Lux\Utility;
 
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
@@ -14,15 +16,24 @@ class ConfigurationUtility
 
     /**
      * @return string
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public static function getScoringCalculation(): string
     {
         $extensionConfig = self::getExtensionConfiguration();
-        return $extensionConfig['scoringCalculation'];
+        $scoringCalculation = (string)$extensionConfig['scoringCalculation'];
+        if ($scoringCalculation === '') {
+            $scoringCalculation
+                = '(10 * numberOfSiteVisits) + (1 * numberOfPageVisits) + (20 * downloads) - (1 * lastVisitDaysAgo)';
+        }
+        return $scoringCalculation;
     }
 
     /**
      * @return int
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public static function getCategoryScoringAddPageVisit(): int
     {
@@ -32,6 +43,8 @@ class ConfigurationUtility
 
     /**
      * @return int
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public static function getCategoryScoringAddDownload(): int
     {
@@ -41,6 +54,8 @@ class ConfigurationUtility
 
     /**
      * @return bool
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public static function isLastLeadsBoxInPageDisabled(): bool
     {
@@ -50,6 +65,8 @@ class ConfigurationUtility
 
     /**
      * @return bool
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public static function isIpLoggingDisabled(): bool
     {
@@ -59,6 +76,8 @@ class ConfigurationUtility
 
     /**
      * @return bool
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public static function isAnonymizeIpEnabled(): bool
     {
@@ -68,6 +87,8 @@ class ConfigurationUtility
 
     /**
      * @return bool
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public static function isIpInformationDisabled(): bool
     {
@@ -77,6 +98,8 @@ class ConfigurationUtility
 
     /**
      * @return bool
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public static function isLeadModuleDisabled(): bool
     {
@@ -86,6 +109,8 @@ class ConfigurationUtility
 
     /**
      * @return bool
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public static function isAnalysisModuleDisabled(): bool
     {
@@ -95,6 +120,8 @@ class ConfigurationUtility
 
     /**
      * @return bool
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public static function isWorkflowModuleDisabled(): bool
     {
@@ -123,6 +150,8 @@ class ConfigurationUtility
      * Get extension configuration from LocalConfiguration.php
      *
      * @return array
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     protected static function getExtensionConfiguration(): array
     {
