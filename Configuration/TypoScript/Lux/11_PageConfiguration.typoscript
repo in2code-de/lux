@@ -52,16 +52,9 @@ page {
             }
         }
 
-        # Uri for contextual content
+        # Uri for contextual content (will be added from EXT:luxenterprise)
         40 = TEXT
         40 {
-            noTrimWrap = | data-lux-contextualcontenturi="|"|
-            typolink {
-                parameter.data = TSFE:id
-                additionalParams = &type=1520796480
-                returnLast = url
-                forceAbsoluteUrl = 1
-            }
         }
 
         # Uri for disallowed mail providers
@@ -188,70 +181,3 @@ luxPageRequestAjax {
 [else]
     page.1517985223 >
 [end]
-
-
-
-
-
-# Typenum to render a single content element for showing in a lightbox for workflows
-luxLightboxContentWorkflowAction = PAGE
-luxLightboxContentWorkflowAction {
-    typeNum = 1520192598
-
-    config {
-        no_cache = 1
-        disableAllHeaderCode = 0
-        disablePrefixComment = 1
-        xhtml_cleaning = 0
-        admPanel = 0
-        debug = 0
-        linkVars = L,type
-    }
-
-    # Render single content element if &luxContent=anything
-    10 = RECORDS
-    10 {
-        tables = tt_content
-        dontCheckPid = 1
-        source.data = GP:luxContent
-        source.intval = 1
-        if.isTrue.data = GP:luxContent
-    }
-
-    # Render a page if no &luxContent given
-    20 = COA
-    20 {
-        10 < styles.content.get
-        10.select.where = colPos = 0
-        if.isFalse.data = GP:luxContent
-    }
-}
-
-
-
-# Typenum to render a single content element for contextual content
-luxContextualContentAjaxAction = PAGE
-luxContextualContentAjaxAction {
-    typeNum = 1520796480
-
-    config {
-        additionalHeaders.10.header = Content-Type: application/json
-        no_cache = 1
-        disableAllHeaderCode = 1
-        disablePrefixComment = 1
-        xhtml_cleaning = 0
-        admPanel = 0
-        debug = 0
-    }
-
-    10 = USER
-    10 {
-        userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
-        extensionName = Lux
-        pluginName = Pi2
-        vendorName = In2code
-        controller = Frontend
-        action = contextualContentAjax
-        switchableControllerActions.Frontend.1 = contextualContentAjax
-    }
-}
