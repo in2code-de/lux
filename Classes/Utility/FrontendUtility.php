@@ -39,6 +39,24 @@ class FrontendUtility
     public static function getModuleName(): string
     {
         $module = '';
+        $route = GeneralUtility::_GP('route');
+        if (!empty($route)) {
+            $module = rtrim(ltrim($route, '/lux/Lux'), '/');
+        }
+        if (ConfigurationUtility::isTypo3OlderThen9() === true) {
+            $module = self::getModuleNameLegacy();
+        }
+        return $module;
+    }
+
+    /**
+     * Get module name in TYPO3 8.7
+     *
+     * @return string
+     */
+    protected static function getModuleNameLegacy(): string
+    {
+        $module = '';
         $moduleName = GeneralUtility::_GP('M');
         if (!empty($moduleName)) {
             $module = ltrim($moduleName, 'lux_Lux');
