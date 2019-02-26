@@ -41,7 +41,6 @@ function LuxMain() {
 			pageRequest();
 			addFieldListeners();
 			addDownloadListener();
-			addContextualContentListener();
 		}
 		addEmail4LinkListeners();
 		doNotTrackListener();
@@ -97,7 +96,7 @@ function LuxMain() {
 	};
 
 	/**
-	 * Callback and dispatcher function for all workflow actions
+	 * Callback and dispatcher function for all workflow actions (part of the Enterprise Edition)
 	 *
 	 * @params {Json} response
 	 * @returns {void}
@@ -115,7 +114,7 @@ function LuxMain() {
 	};
 
 	/**
-	 * Callback for workflow action "LightboxContent"
+	 * Callback for workflow action "LightboxContent" (part of the Enterprise Edition)
 	 *
 	 * @param response
 	 */
@@ -133,7 +132,7 @@ function LuxMain() {
 	};
 
 	/**
-	 * Callback for workflow action "Redirect"
+	 * Callback for workflow action "Redirect" (part of the Enterprise Edition)
 	 *
 	 * @param response
 	 */
@@ -192,32 +191,6 @@ function LuxMain() {
 				}
 			}
 		}
-	};
-
-	/**
-	 * @returns {void}
-	 */
-	var addContextualContentListener = function() {
-		var elements = document.querySelectorAll('[data-lux-container-contextualContent]');
-		for (var i = 0; i < elements.length; i++) {
-			var element = elements[i];
-			var container = getContainer();
-			ajaxConnection({
-				'tx_lux_pi2[contentUid]': element.getAttribute('data-lux-container-contextualContent'),
-				'tx_lux_pi2[idCookie]': getIdCookie()
-			}, container.getAttribute('data-lux-contextualcontenturi'), 'addContextualContentListenerCallback');
-		}
-	};
-
-	/**
-	 * Callback and dispatcher function for all workflow actions
-	 *
-	 * @params {Json} response
-	 * @returns {void}
-	 */
-	this.addContextualContentListenerCallback = function(response) {
-		var container = document.querySelector('[data-lux-container-contextualContent="' + response.uid + '"]');
-		container.innerHTML = response.html;
 	};
 
 	/**
