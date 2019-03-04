@@ -36,7 +36,7 @@ Workflow - Do one or more Actions if a trigger is activated (Enterprise version 
 \
 ![Workflow action](Documentation/Images/screenshot_workflow_action.png "Workflow action")
 
-Ask for the visitors email-address when he/she wants to download an asset (Enterprise version only):\
+Ask for the visitors email-address when he/she wants to download an asset:\
 \
 ![Email 4 Link](Documentation/Images/screenshot_email4link.png "E-Mail for Link")
 
