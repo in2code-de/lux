@@ -8,6 +8,7 @@ ARCOR-IP
 Artfiles New Media GmbH
 ARTOS a.s.
 Atria Convergence Technologies Pvt. Ltd.
+AT&T Mobility LLC
 AT&T U-verse
 Automattic
 Beijing Baidu Netcom Science and Technology Co.
@@ -35,14 +36,17 @@ Comcast Cable
 Company T-Systems Multimedia Solutions GmbH
 Company Tata Teleservices ISP
 Cox Communications
+customers with static IP
 Cyber Smart Solutions S.R.L
 Cyberlink AG
 CyrusOne LLC
+D2VODAFONE
 Daten- und Telekommunikations GmbH Dessau
 Deutsche Glasfaser Business GmbH
 Deutsche Glasfaser Wholesale
 Deutsche Telekom AG
 Deutsche Telekom Business
+DFN
 Digital Energy Technologies Chile SpA
 DOKOM Gesellschaft fuer Telekommunikation mbH
 DSI GmbH Daten Service Informationssysteme
@@ -51,6 +55,7 @@ ecotel communication ag
 Envia Tel GmbH
 europroNET Bosnia d.o.o.
 EWE-Tel GmbH
+EWE TEL GmbH
 Facebook
 Fiber Grid Inc
 Free SAS
@@ -64,6 +69,7 @@ HeLi NET Telekommunikation GmbH & Co. KG
 Herzo Media GmbH & Co. KG
 HETZNER
 Hetzner Online GmbH
+HIGHWAY194
 Host Europe GmbH
 Host1Plus
 Hutchison Drei Austria GmbH
@@ -81,7 +87,9 @@ Kabel BW
 Kabeldeutschland
 Kabelfernsehen Muenchen ServiCenter GmbH & Co.KG
 kabelplus GmbH
+Kabelplus GmbH
 KDVZ Citkomm
+KielNET-Main
 Kom4tel GmbH
 Komro
 komro GmbH
@@ -92,6 +100,7 @@ Leaseweb Deutschland GmbH
 LeaseWeb Netherlands B.V.
 Leaseweb USA
 LEW TelNet GmbH
+Liberty Global Operations B.V.
 Limestone Networks
 "Linode, LLC"
 LIWEST Kabelmedien GmbH
@@ -123,6 +132,7 @@ Nexinto GmbH
 Next Layer Telekommunikationsdienstleistungs- und
 NTS workspace AG
 O2 Deutschland
+o2-Germany
 OMG.de GmbH
 ONLINE SAS
 OOO NI
@@ -133,6 +143,7 @@ Orange Swiatlowod
 Orion Telekom ISP IP network
 OVH SAS
 Pakistan Telecommuication company limited
+Planet Digital Lichtwellenleiternetz Errichtungs- und Betrieb GmbH & Co KG
 Play
 Plus.line AG
 PT. Core Mediatech
@@ -140,12 +151,14 @@ QITS Quality Information Technology Services GmbH
 QSC AG
 Quickline
 R-KOM Regensburger Telekommunikationsgesellschaft
+R-KOM Regensburger Telekommunikationsgesellschaft mbH & Co. KG
 RelAix Networks GmbH
 REWE Systems GmbH
 RDSNET
 Rogers Cable
 Rostelecom
 RSM Connect
+SANET
 S-IT Informationstechnologie Betreiber GmbH & Co.
 Salt Mobile SA
 sasag Kabelkommunikation AG
@@ -155,6 +168,7 @@ ScanPlus GmbH
 SK Broadband
 Skynet Belgium
 Starnet Servicii SRL
+Strato AG
 Sunrise Communications AG
 Swisscom
 SWU TeleNet GmbH
@@ -171,8 +185,11 @@ Telecom Italia
 Telecom Italia Business
 Telecomunikatsiina Companiya Ltd
 Telefonica de Espana
+Telefonica Germany GmbH & Co. OHG
 Telefonica International Wholesale Services II
+Telefonica O2 Germany
 Telekom Austria
+Telekom Deutschland GmbH
 Telekommunikation Mittleres Ruhrgebiet GmbH
 TelemaxX Telekommunikation GmbH
 Telenor Norge AS
@@ -180,11 +197,13 @@ TeleRadioCompany Studio TV-9 Beregsasom Ltd.
 Telfort B.V.
 Telia Company
 Telmex
+TMT GmbH & Co. KG
 TOPNET
 Turksat Uydu-Net Internet
 TWL-Kom GmbH
 Unitymedia
 UPC Austria
+UPC NL
 UPC Schweiz
 UPC Schweiz GmbH
 Verizon Deutschland GmbH
@@ -206,3 +225,4 @@ Wojciech Jerzy Winkel trading as Tempus Telecom
 Xs4all Internet BV
 YANDEX LLC
 Zscaler
+ZSCALER
