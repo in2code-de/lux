@@ -19,7 +19,7 @@ class FileUtility
     }
 
     /**
-     * Try to check if a string is in a file. Use linux grep command for best performance.
+     * Search for a string in a file case-insensitive. Use linux grep command for best performance.
      *
      * @param string $value string to search for in file
      * @param string $filename absolute path and filename
@@ -27,6 +27,6 @@ class FileUtility
      */
     public static function isStringInFile(string $value, string $filename): bool
     {
-        return exec('grep ' . escapeshellarg($value) . ' ' . $filename) !== '';
+        return exec('grep -i ' . escapeshellarg($value) . ' ' . $filename) !== '';
     }
 }
