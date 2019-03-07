@@ -134,6 +134,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                        |
 | ---------- | ---------- | ---------- | ---------------------------------------------------------------------------------- |
+| 2.1.0      | 2019-03-07 | Task       | Small cleanup, Update and use case-insensitive search in telecom provider list     |
 | 2.0.3      | 2019-02-26 | Bugfix     | Show module action switcher in T3 9.5, remove unneeded stuff from former releases  |
 | 2.0.2      | 2019-02-25 | Bugfix     | Small bugfix for TER uploads                                                       |
 | 2.0.1      | 2019-02-25 | Bugfix     | Small fixes with default values if configuration is missing                        |
