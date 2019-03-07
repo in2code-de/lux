@@ -122,7 +122,7 @@ class Log extends AbstractEntity
      */
     public function getHref(): string
     {
-        return $this->getPropertyByKey('href');
+        return ltrim($this->getPropertyByKey('href'), '/');
     }
 
     /**
