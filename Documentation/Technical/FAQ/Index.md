@@ -27,8 +27,8 @@ module.tx_lux.settings < lib.lux.settings
 #### Lux does not work - any hints?
 
 * Did you clean all caches after installation (in Install Tool)?
-* Please use a second browser (where you are not logged in into backend) for your tests
-* Please check if your browser does not use the *doNotTrack* settings
+* Please use a second browser (where you are not logged in into backend) for your tests (or enable tracking for BE-users via TypoScript)
+* Please check if your browser does not use the *doNotTrack* settings (FireFox anonymous tab automaticly turns this function on)
 * Please check if there is no cookie value *true* for cookie *luxTrackingOptOut* in your browser
 
 
