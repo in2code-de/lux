@@ -18,7 +18,12 @@ class LocalizationUtility
     public static function translateByKey(string $key, array $arguments = null)
     {
         $locallangPrefix = 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:';
-        return self::translate($locallangPrefix . $key, 'Lux', $arguments);
+        try {
+            return self::translate($locallangPrefix . $key, 'Lux', $arguments);
+        } catch (\Exception $exception) {
+            // Use this part for unit testing
+            return $key;
+        }
     }
 
     /**
