@@ -61,8 +61,7 @@ class Attribute extends AbstractEntity
      */
     public function getLabel(): string
     {
-        $lllPrefix = 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:';
-        $label = LocalizationUtility::translate($lllPrefix . 'tx_lux_domain_model_attribute.label.' . $this->getName());
+        $label = LocalizationUtility::translateByKey('tx_lux_domain_model_attribute.label.' . $this->getName());
         if (empty($label)) {
             $label = $this->getName();
         }

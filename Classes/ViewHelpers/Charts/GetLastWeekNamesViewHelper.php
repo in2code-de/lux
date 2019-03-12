@@ -18,10 +18,9 @@ class GetLastWeekNamesViewHelper extends AbstractViewHelper
      */
     public function render(): string
     {
-        $locallangPrefix = 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:datetime.week.';
         $weekNames = [];
         foreach (range(0, 6) as $week) {
-            $weekNames[] = LocalizationUtility::translate($locallangPrefix . $week);
+            $weekNames[] = LocalizationUtility::translateByKey('datetime.week.' . $week);
         }
         $weekNames = array_reverse($weekNames);
         return implode(',', $weekNames);

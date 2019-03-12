@@ -17,14 +17,13 @@ class GetOptionsArrayTimePeriodFilterViewHelper extends AbstractViewHelper
      */
     public function render(): array
     {
-        $locallangPath = 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:';
         return [
             FilterDto::PERIOD_THISYEAR
-                => LocalizationUtility::translate($locallangPath . 'module.analysis.filter.timePeriod.0'),
+                => LocalizationUtility::translateByKey('module.analysis.filter.timePeriod.0'),
             FilterDto::PERIOD_THISMONTH
-                => LocalizationUtility::translate($locallangPath . 'module.analysis.filter.timePeriod.1'),
+                => LocalizationUtility::translateByKey('module.analysis.filter.timePeriod.1'),
             FilterDto::PERIOD_LASTMONTH
-                => LocalizationUtility::translate($locallangPath . 'module.analysis.filter.timePeriod.2')
+                => LocalizationUtility::translateByKey('module.analysis.filter.timePeriod.2')
         ];
     }
 }

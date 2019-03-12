@@ -22,6 +22,7 @@ class ReadableDateViewHelper extends AbstractViewHelper
 
     /**
      * @return string
+     * @throws \Exception
      */
     public function render(): string
     {
@@ -47,11 +48,7 @@ class ReadableDateViewHelper extends AbstractViewHelper
     protected function renderMinutes(\DateInterval $date): string
     {
         $minutes = $date->i;
-        return (string)LocalizationUtility::translate(
-            'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:readabledate.minutes',
-            'Lux',
-            [$minutes]
-        );
+        return (string)LocalizationUtility::translateByKey('readabledate.minutes', [$minutes]);
     }
 
     /**
@@ -61,11 +58,7 @@ class ReadableDateViewHelper extends AbstractViewHelper
     protected function renderHours(\DateInterval $date): string
     {
         $hours = $date->h;
-        return (string)LocalizationUtility::translate(
-            'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:readabledate.hours',
-            'Lux',
-            [$hours]
-        );
+        return (string)LocalizationUtility::translateByKey('readabledate.hours', [$hours]);
     }
 
     /**
@@ -75,11 +68,7 @@ class ReadableDateViewHelper extends AbstractViewHelper
     protected function renderDays(\DateInterval $date): string
     {
         $days = $date->d;
-        return (string)LocalizationUtility::translate(
-            'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:readabledate.days',
-            'Lux',
-            [$days]
-        );
+        return (string)LocalizationUtility::translateByKey('readabledate.days', [$days]);
     }
 
     /**
@@ -88,9 +77,7 @@ class ReadableDateViewHelper extends AbstractViewHelper
      */
     protected function renderDate(\DateTime $date): string
     {
-        $format = (string)LocalizationUtility::translate(
-            'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:readabledate.date'
-        );
+        $format = (string)LocalizationUtility::translateByKey('readabledate.date');
         return $date->format($format);
     }
 
