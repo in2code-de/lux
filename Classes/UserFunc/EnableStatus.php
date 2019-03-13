@@ -65,12 +65,12 @@ class EnableStatus
     protected function getVisitors(string $where = 'identified=1')
     {
         $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Visitor::TABLE_NAME);
-        $identified = (array)$queryBuilder
+        $rows = (array)$queryBuilder
             ->select('uid')
             ->from(Visitor::TABLE_NAME)
             ->where($where)
             ->execute()
-            ->fetchColumn(0);
-        return $identified;
+            ->fetchAll();
+        return $rows;
     }
 }
