@@ -914,23 +914,37 @@ class Visitor extends AbstractEntity
     public function getFullName(): string
     {
         if ($this->isIdentified()) {
-            $name = '';
-            $firstname = $this->getPropertyFromAttributes('firstname');
-            $lastname = $this->getPropertyFromAttributes('lastname');
-            if (!empty($lastname)) {
-                $name .= $lastname;
-                if (!empty($firstname)) {
-                    $name .= ', ';
-                }
-            }
-            if (!empty($firstname)) {
-                $name .= $firstname;
-            }
+            $name = $this->getNameCombination();
             if (empty($name)) {
-                $name .= $this->getEmail();
+                $name = $this->getEmail();
             }
         } else {
-            $name = LocalizationUtility::translate('LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:anonym');
+            $name = $this->getNameCombination();
+            if (!empty($name)) {
+                $name .= ' [' . LocalizationUtility::translateByKey('notIdentified') . ']';
+            } else {
+                $name = LocalizationUtility::translateByKey('anonym');
+            }
+        }
+        return $name;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getNameCombination(): string
+    {
+        $firstname = $this->getPropertyFromAttributes('firstname');
+        $lastname = $this->getPropertyFromAttributes('lastname');
+        $name = '';
+        if (!empty($lastname)) {
+            $name .= $lastname;
+            if (!empty($firstname)) {
+                $name .= ', ';
+            }
+        }
+        if (!empty($firstname)) {
+            $name .= $firstname;
         }
         return $name;
     }

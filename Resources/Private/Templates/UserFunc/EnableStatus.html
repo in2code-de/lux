@@ -1,0 +1,34 @@
+<div class="alert {f:if(condition:status,then:'alert-success',else:'alert-danger')}" role="alert">
+
+    <f:if condition="{status}">
+        <f:then>
+            <p><strong>Extension lux is enabled</strong></p>
+        </f:then>
+        <f:else>
+            <f:if condition="{composerMode}">
+                <f:then>
+                    <p><strong>Extension lux is disabled</strong></p>
+                </f:then>
+                <f:else>
+                    <p><strong>TYPO3 instance does not run in Composer Mode but EXT:lux requires the Composer Mode for a third party packge to calculate a visitors scoring.</strong></p>
+                </f:else>
+            </f:if>
+        </f:else>
+    </f:if>
+
+    <ul>
+        <li>
+            Number of all visitors: <strong>{stats.visitors}</strong> (Identified: {stats.visitorsIdentified} / Unknown: {stats.visitorsUnidentified})
+        </li>
+
+        <f:if condition="{enabled.luxenterprise}">
+            <f:then>
+                <li>Extension <strong><a href="https://www.in2code.de/produkte/lux-typo3-marketing-automation/" target="_blank">luxenterprise</a></strong> is also enabled</li>
+            </f:then>
+            <f:else>
+                <li>Extension <strong><a href="https://www.in2code.de/produkte/lux-typo3-marketing-automation/" target="_blank">luxenterprise</a></strong> for individual workflows and contextual content is <strong>disabled or not installed</strong></li>
+            </f:else>
+        </f:if>
+    </ul>
+
+</div>

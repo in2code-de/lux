@@ -17,27 +17,17 @@ Example composer.json file:
 ```
 {
   "require": {
-    "php": ">=7.0.0 <7.3.0",
+    "php": ">=7.0.0 <7.4.0",
     "typo3/cms": "^8.7",
     "in2code/lux": "^1.0",
-  },
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://composer.typo3.org"
-    },
-    {
-      "type": "git",
-      "url": "git@github.com:in2code-de/lux.git"
-    }
-  ]
+  }
 }
 ```
 
-After you have added the repository and the package name, you can do a `composer update in2code/lux` for example to
+Because lux is registered at packagist.org, you can simple do a `composer update in2code/lux` for example to
 install the package. Don't forget to activate (e.g. in the extension manager) the extension once it is installed.
 
-**Note:** You need a github user that has access to the private lux repository for an installation.
+**Note:** You need a github user that has access to the private lux repository for an installation of EXT:luxenterprise.
 
 **Note:** Lux itself will also load the php package [jlawrence/eos](https://packagist.org/packages/jlawrence/eos) for
 some scoring calculation magic.
@@ -81,3 +71,7 @@ an asynchronical request to every page request.
 <img src="../../../Documentation/Images/documentation_installation_browserrequest.png" width="800" />
 
 **Note:** Take care to be not logged in into your TYPO3-backend at the same time with the same browser
+or turn on tracking for BE-Users via TypoScript.
+
+**Note2:** Take care that your browser does not have activated the DoNotTrack (DNT)
+setting (Default for FireFox Anonymous Tab)

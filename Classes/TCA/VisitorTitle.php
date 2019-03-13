@@ -27,7 +27,7 @@ class VisitorTitle
      */
     protected function getEmail(array $properties): string
     {
-        $email = LocalizationUtility::translate('LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:anonym');
+        $email = LocalizationUtility::translateByKey('anonym');
         if (!empty($properties['email'])) {
             $email = $properties['email'];
         }

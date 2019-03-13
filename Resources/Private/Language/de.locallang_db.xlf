@@ -346,6 +346,10 @@
 				<source>Anonym</source>
 				<target state="translated">Anonym</target>
 			</trans-unit>
+			<trans-unit id="notIdentified">
+				<source>not identified</source>
+				<target state="translated">nicht identifiziert</target>
+			</trans-unit>
 			<trans-unit id="readabledate.minutes">
 				<source>%s minutes ago</source>
 				<target state="translated">vor %s Minuten</target>
