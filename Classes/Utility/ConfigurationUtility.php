@@ -138,6 +138,14 @@ class ConfigurationUtility
     }
 
     /**
+     * @return bool
+     */
+    public static function isComposerMode(): bool
+    {
+        return defined('TYPO3_COMPOSER_MODE');
+    }
+
+    /**
      * @return array
      * @SuppressWarnings(PHPMD.Superglobals)
      */

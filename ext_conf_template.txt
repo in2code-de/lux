@@ -1,3 +1,8 @@
+# cat=overview//010; type=user[In2code\Lux\UserFunc\EnableStatus->showEnableStatus]; label= Show status of this extension
+checkFunction = User
+
+
+
 # cat=basic//010; type=text; label= Scoring calculation: Define your own main scoring calculation. This will be used automaticly on a pagevisit or frequently with a scheduler task (commandcontroller). Available variables are - numberOfSiteVisits, numberOfPageVisits, downloads, lastVisitDaysAgo. Note - you should run a commandController (e.g. every night) and calculate the scoring again, if you are using the variable "lastVisitDaysAgo".
 scoringCalculation = (10 * numberOfSiteVisits) + (1 * numberOfPageVisits) + (20 * downloads) - (1 * lastVisitDaysAgo)
 
