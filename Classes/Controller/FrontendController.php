@@ -12,6 +12,9 @@ use In2code\Lux\Signal\SignalTrait;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
+use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
+use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
+use TYPO3\CMS\Extbase\Persistence\Generic\Exception\UnsupportedMethodException;
 
 /**
  * Class FrontendController
@@ -56,6 +59,9 @@ class FrontendController extends ActionController
      * @param string $idCookie
      * @param array $arguments
      * @return string
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     * @throws UnsupportedMethodException
      */
     public function pageRequestAction(string $idCookie, array $arguments): string
     {
@@ -73,15 +79,19 @@ class FrontendController extends ActionController
      */
     public function fieldListeningRequestAction(string $idCookie, array $arguments): string
     {
-        $visitorFactory = $this->objectManager->get(VisitorFactory::class, $idCookie);
-        $visitor = $visitorFactory->getVisitor();
-        $attributeTracker = $this->objectManager->get(
-            AttributeTracker::class,
-            $visitor,
-            AttributeTracker::CONTEXT_FIELDLISTENING
-        );
-        $attributeTracker->addAttribute($arguments['key'], $arguments['value']);
-        return json_encode($this->afterTracking($visitor));
+        try {
+            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $idCookie);
+            $visitor = $visitorFactory->getVisitor();
+            $attributeTracker = $this->objectManager->get(
+                AttributeTracker::class,
+                $visitor,
+                AttributeTracker::CONTEXT_FIELDLISTENING
+            );
+            $attributeTracker->addAttribute($arguments['key'], $arguments['value']);
+            return json_encode($this->afterTracking($visitor));
+        } catch (\Exception $exception) {
+            return json_encode(['error' => true]);
+        }
     }
 
     /**
@@ -91,26 +101,33 @@ class FrontendController extends ActionController
      */
     public function email4LinkRequestAction(string $idCookie, array $arguments): string
     {
-        $visitorFactory = $this->objectManager->get(VisitorFactory::class, $idCookie);
-        $visitor = $visitorFactory->getVisitor();
-        $attributeTracker = $this->objectManager->get(
-            AttributeTracker::class,
-            $visitor,
-            AttributeTracker::CONTEXT_EMAIL4LINK
-        );
-        $attributeTracker->addAttribute('email', $arguments['email']);
-        $downloadFactory = $this->objectManager->get(DownloadTracker::class, $visitor);
-        $downloadFactory->addDownload($arguments['href']);
-        if ($arguments['sendEmail'] === 'true') {
-            $this->objectManager->get(SendAssetEmail4LinkService::class, $visitor)->sendMail($arguments['href']);
+        try {
+            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $idCookie);
+            $visitor = $visitorFactory->getVisitor();
+            $attributeTracker = $this->objectManager->get(
+                AttributeTracker::class,
+                $visitor,
+                AttributeTracker::CONTEXT_EMAIL4LINK
+            );
+            $attributeTracker->addAttribute('email', $arguments['email']);
+            $downloadFactory = $this->objectManager->get(DownloadTracker::class, $visitor);
+            $downloadFactory->addDownload($arguments['href']);
+            if ($arguments['sendEmail'] === 'true') {
+                $this->objectManager->get(SendAssetEmail4LinkService::class, $visitor)->sendMail($arguments['href']);
+            }
+            return json_encode($this->afterTracking($visitor));
+        } catch (\Exception $exception) {
+            return json_encode(['error' => true]);
         }
-        return json_encode($this->afterTracking($visitor));
     }
 
     /**
      * @param string $idCookie
      * @param array $arguments
      * @return string
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     * @throws UnsupportedMethodException
      */
     public function downloadRequestAction(string $idCookie, array $arguments): string
     {

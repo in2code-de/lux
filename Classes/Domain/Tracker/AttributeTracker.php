@@ -2,10 +2,12 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Tracker;
 
+use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Attribute;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\AttributeRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Domain\Service\AllowedMailProvidersService;
 use In2code\Lux\Domain\Service\VisitorMergeService;
 use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\ObjectUtility;
@@ -66,9 +68,11 @@ class AttributeTracker
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws DBALException
      */
     public function addAttribute(string $key, string $value)
     {
+        $this->checkDisallowedMailProviders($key, $value);
         if ($this->isAttributeAddingEnabled($value)) {
             $attribute = $this->getAndUpdateAttributeFromDatabase($key, $value);
             if ($attribute === null) {
@@ -87,6 +91,21 @@ class AttributeTracker
             $this->visitorRepository->persistAll();
 
             $this->mergeVisitorsOnGivenEmail($key, $value);
+        }
+    }
+
+    /**
+     * @param string $key
+     * @param string $value
+     * @return void
+     */
+    protected function checkDisallowedMailProviders(string $key, string $value)
+    {
+        if ($key === 'email') {
+            $mailProviderService = ObjectUtility::getObjectManager()->get(AllowedMailProvidersService::class);
+            if ($mailProviderService->isEmailAllowed($value) === false) {
+                throw new \LogicException('Email is not allowed', 1555427969);
+            }
         }
     }
 
@@ -131,6 +150,9 @@ class AttributeTracker
      * @param string $key
      * @param string $value
      * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     * @throws DBALException
      */
     protected function mergeVisitorsOnGivenEmail(string $key, string $value)
     {
