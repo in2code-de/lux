@@ -52,20 +52,9 @@ page {
             }
         }
 
-        # Uri for contextual content (will be added from EXT:luxenterprise)
+        # Blocked key: Uri for contextual content (will be added from EXT:luxenterprise)
         40 = TEXT
         40 {
-        }
-
-        # Uri for disallowed mail providers
-        50 = TEXT
-        50 {
-            noTrimWrap = | data-lux-disallowedmailprovidersuri="|"|
-            typolink {
-                parameter = typo3conf/ext/lux/Resources/Public/Static/DisallowedMailProviders.txt
-                returnLast = url
-                forceAbsoluteUrl = 1
-            }
         }
 
         # Current page uid

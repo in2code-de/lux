@@ -91,7 +91,7 @@ function LuxMain() {
 				'tx_lux_fe[idCookie]': getIdCookie(),
 				'tx_lux_fe[arguments][pageUid]': getPageUid(),
 				'tx_lux_fe[arguments][referrer]': getReferrer()
-			}, getRequestUri(), 'generalWorkflowActionCallback');
+			}, getRequestUri(), 'generalWorkflowActionCallback', null);
 		}
 	};
 
@@ -186,7 +186,7 @@ function LuxMain() {
 							'tx_lux_fe[dispatchAction]': 'downloadRequest',
 							'tx_lux_fe[idCookie]': getIdCookie(),
 							'tx_lux_fe[arguments][href]': this.getAttribute('href')
-						}, getRequestUri(), null);
+						}, getRequestUri(), null, null);
 					});
 				}
 			}
@@ -232,7 +232,7 @@ function LuxMain() {
 		var href = link.getAttribute('href');
 		var sendEmail = link.getAttribute('data-lux-email4link-sendemail') || 'false';
 		var email = that.lightboxInstance.element().querySelector('[data-lux-email4link="email"]').value;
-		if (isEmailAddress(email) && isAllowedEmailAddress(email)) {
+		if (isEmailAddress(email)) {
 			addWaitClassToBodyTag();
 			ajaxConnection({
 				'tx_lux_fe[dispatchAction]': 'email4LinkRequest',
@@ -240,26 +240,39 @@ function LuxMain() {
 				'tx_lux_fe[arguments][email]': email,
 				'tx_lux_fe[arguments][sendEmail]': sendEmail === 'true',
 				'tx_lux_fe[arguments][href]': href
-			}, getRequestUri(), null);
+			}, getRequestUri(), 'email4LinkLightboxSubmitCallback', {sendEmail:(sendEmail === 'true'), href:href});
+		} else {
+			showElement(that.lightboxInstance.element().querySelector('[data-lux-email4link="errorEmailAddress"]'));
+		}
+	};
 
-			if (sendEmail === 'true') {
+	/**
+	 * Callback for email4LinkLightboxSubmitListener
+	 *
+	 * @param response
+	 * @param callbackArguments
+	 * @returns {void}
+	 */
+	this.email4LinkLightboxSubmitCallback = function(response, callbackArguments) {
+		removeWaitClassToBodyTag();
+
+		if (response.error === true) {
+			showElement(that.lightboxInstance.element().querySelector('[data-lux-email4link="errorEmailAddress"]'));
+		} else {
+			if (callbackArguments.sendEmail === true) {
 				hideElement(that.lightboxInstance.element().querySelector('[data-lux-email4link="form"]'));
 				showElement(
 					that.lightboxInstance.element().querySelector('[data-lux-email4link="successMessageSendEmail"]')
 				);
 				setTimeout(function() {
 					that.lightboxInstance.close();
-					removeWaitClassToBodyTag();
 				}, 2000);
 			} else {
 				setTimeout(function() {
 					that.lightboxInstance.close();
-					window.location = href;
-					removeWaitClassToBodyTag();
+					window.location = callbackArguments.href;
 				}, 500);
 			}
-		} else {
-			showElement(that.lightboxInstance.element().querySelector('[data-lux-email4link="errorEmailAddress"]'));
 		}
 	};
 
@@ -275,7 +288,7 @@ function LuxMain() {
 			'tx_lux_fe[idCookie]': getIdCookie(),
 			'tx_lux_fe[arguments][key]': key,
 			'tx_lux_fe[arguments][value]': value
-		}, getRequestUri(), null);
+		}, getRequestUri(), null, null);
 	};
 
 	/**
@@ -446,15 +459,17 @@ function LuxMain() {
 	 * @params {object} parameters
 	 * @params {string} uri
 	 * @params {string} callback
+	 * @params {object} callbackArguments
 	 * @returns {void}
 	 */
-	var ajaxConnection = function(parameters, uri, callback) {
+	var ajaxConnection = function(parameters, uri, callback, callbackArguments) {
+		callbackArguments = callbackArguments || {};
 		if (uri !== '') {
 			var xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
 				if (this.readyState === 4 && this.status === 200) {
 					if (callback !== null) {
-						that[callback](JSON.parse(this.responseText));
+						that[callback](JSON.parse(this.responseText), callbackArguments);
 					}
 				}
 			};
@@ -567,30 +582,6 @@ function LuxMain() {
 	var isEmailAddress = function(email) {
 		var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		return re.test(email);
-	};
-
-	/**
-	 * Test if given email address is not in blacklist.
-	 * Normally checks if domain is in file Resources/Public/Static/DisallowedMailProviders.txt
-	 *
-	 * @param {string} email
-	 * @returns {boolean}
-	 */
-	var isAllowedEmailAddress = function(email) {
-		var uri = document.querySelector('[data-lux-disallowedmailprovidersuri]')
-			.getAttribute('data-lux-disallowedmailprovidersuri');
-		var read = new XMLHttpRequest();
-		read.open('GET', uri, false);
-		read.send();
-		return inArray(getDomainFromEmailAddress(email), read.responseText.split("\n")) === false;
-	};
-
-	/**
-	 * @param {string} email
-	 * @returns {string}
-	 */
-	var getDomainFromEmailAddress = function(email) {
-		return email.split('@')[1].toLowerCase();
 	};
 
 	/**

@@ -21,7 +21,7 @@ class GetLastDayNamesViewHelper extends AbstractViewHelper
     {
         $weekdayNames = [];
         $locallangPrefix = 'datetime.weekday.';
-        $weekdayNames[] = LocalizationUtility::translateByKey('now');
+        $weekdayNames[] = LocalizationUtility::translateByKey($locallangPrefix . 'now');
         $yesterday = new \DateTime('yesterday');
         $weekdayNames[] = LocalizationUtility::translateByKey($locallangPrefix . strtolower($yesterday->format('D')));
         $day3 = new \DateTime('2 days ago');

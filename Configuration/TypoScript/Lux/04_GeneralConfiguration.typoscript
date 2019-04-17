@@ -2,6 +2,9 @@ lib.lux.settings {
     general {
         # Path to a simple csv with general telecom providers (to not show them as company in lead list)
         telecommunicationProviderList = EXT:lux/Resources/Private/Static/TelecommunicationProviders.txt
+
+        # Path to a simple csv with disallowed mail providers (don't send them email with email4link)
+        disallowedMailProviderList = EXT:lux/Resources/Private/Static/DisallowedMailProviders.txt
     }
 
     commandControllers {

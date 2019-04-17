@@ -92,4 +92,17 @@ class StringUtility
         }
         return $fileName;
     }
+
+    /**
+     * @param string $email
+     * @return string
+     */
+    public static function getDomainFromEmail(string $email): string
+    {
+        $parts = explode('@', $email);
+        if (isset($parts[1])) {
+            return $parts[1];
+        }
+        return '';
+    }
 }

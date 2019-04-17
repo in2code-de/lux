@@ -73,6 +73,7 @@ class SendAssetEmail4LinkService
     }
 
     /**
+     * @param string $href
      * @return string
      */
     protected function getMailTemplate(string $href): string
