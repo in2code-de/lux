@@ -405,7 +405,7 @@ class Visitor extends AbstractEntity
         $pagevisitsArray = [];
         /** @var Pagevisit $pagevisit */
         foreach ($pagevisits as $pagevisit) {
-            if ($pagevisit->getPage()->getUid() === $pageIdentifier) {
+            if ($pagevisit->getPage() !== null && $pagevisit->getPage()->getUid() === $pageIdentifier) {
                 $pagevisitsArray[$pagevisit->getCrdate()->getTimestamp()] = $pagevisit;
             }
         }
