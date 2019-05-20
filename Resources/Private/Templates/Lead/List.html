@@ -71,8 +71,8 @@
                                     <td>
                                         <f:if condition="{filter.pid}">
                                             <f:else>
-                                                <span title="{f:format.date(date:visitor.tstamp,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
-                                                    <lux:format.readableDate>{visitor.tstamp}</lux:format.readableDate>
+                                                <span title="{f:format.date(date:visitor.pagevisitLast.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
+                                                    <lux:format.readableDate>{visitor.pagevisitLast.crdate}</lux:format.readableDate>
                                                 </span>
                                             </f:else>
                                             <f:then>

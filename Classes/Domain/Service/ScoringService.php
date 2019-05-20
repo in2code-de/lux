@@ -10,7 +10,11 @@ use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use jlawrence\eos\Parser;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
+use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
+use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 
 /**
  * Class ScoringService to calculate a scoring to a visitor
@@ -32,8 +36,9 @@ class ScoringService
 
     /**
      * ScoringService constructor.
-     *
      * @param \DateTime|null $time Set a time if you want to calculate a scoring from the past
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public function __construct(\DateTime $time = null)
     {
@@ -50,6 +55,8 @@ class ScoringService
      * @param Visitor $visitor
      * @return void
      * @throws InvalidQueryException
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
     public function calculateAndSetScoring(Visitor $visitor)
     {
@@ -137,6 +144,7 @@ class ScoringService
     /**
      * @param Visitor $visitor
      * @return int
+     * @throws InvalidQueryException
      */
     protected function getNumberOfDaysSinceLastVisit(Visitor $visitor): int
     {
@@ -151,6 +159,7 @@ class ScoringService
         if ($lastPagevisit !== null) {
             $time = $this->time;
             if ($this->time === null) {
+                /** @noinspection PhpUnhandledExceptionInspection */
                 $time = new \DateTime();
             }
             $delta = $time->diff($lastPagevisit->getCrdate());
@@ -186,6 +195,8 @@ class ScoringService
 
     /**
      * @return void
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public function setCalculation()
     {

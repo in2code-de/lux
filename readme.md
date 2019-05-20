@@ -134,6 +134,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                        |
 | ---------- | ---------- | ---------- | ---------------------------------------------------------------------------------- |
+| 2.3.1      | 2019-05-20 | Bugfix     | Show correct last visited date in lead list in backend                             |
 | 2.3.0      | 2019-04-17 | Feature    | Move client to serverside check for disallowed mail providers, small fixes         |
 | 2.2.0      | 2019-03-07 | Feature    | Show status in extension manager settings, Show lead name of unidentified leads    |
 | 2.1.0      | 2019-03-07 | Task       | Small cleanup, Update and use case-insensitive search in telecom provider list     |

@@ -32,7 +32,7 @@ class LocalizationUtility
      * @param array|null $arguments
      * @return string|null
      */
-    protected static function translate(string $key, string $extensionName = 'Lux', array $arguments = null)
+    public static function translate(string $key, string $extensionName = 'Lux', array $arguments = null)
     {
         $label = LocalizationUtilityExtbase::translate($key, $extensionName, $arguments);
         if (empty($label)) {
