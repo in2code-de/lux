@@ -13,6 +13,7 @@ use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
+use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
@@ -167,10 +168,11 @@ class Visitor extends AbstractEntity
     }
 
     /**
-     * Get the scoring to any time in the past
+     * Get the scoring to any given time in the past
      *
      * @param \DateTime $time
      * @return int
+     * @throws InvalidQueryException
      */
     public function getScoringByDate(\DateTime $time): int
     {
@@ -248,7 +250,6 @@ class Visitor extends AbstractEntity
     }
 
     /**
-     * @param Category $category
      * @return Categoryscoring|null
      */
     public function getHottestCategoryscoring()
@@ -496,6 +497,7 @@ class Visitor extends AbstractEntity
         $pagevisits = $this->pagevisits;
         $number = 1;
         if (count($pagevisits) > 1) {
+            /** @var \DateTime $lastVisit **/
             $lastVisit = null;
             foreach ($pagevisits as $pagevisit) {
                 if ($lastVisit !== null) {
@@ -645,7 +647,7 @@ class Visitor extends AbstractEntity
     }
 
     /**
-     * @return ObjectStorage
+     * @return array
      */
     public function getImportantIpinformations(): array
     {
@@ -895,6 +897,7 @@ class Visitor extends AbstractEntity
         $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
         $visitorRepository->removeRelatedTableRowsByVisitorUid($this->getUid());
 
+        /** @noinspection PhpUnhandledExceptionInspection */
         $now = new \DateTime();
         $this->setDescription('Blacklisted (' . $now->format('Y-m-d H:i:s') . ')');
         $this->setBlacklisted(true);
