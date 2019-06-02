@@ -17,6 +17,13 @@ class TestingHelper
      */
     public static function setDefaultConstants()
     {
+        $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['lux'] =
+            'a:11:{s:13:"checkFunction";s:4:"User";s:18:"scoringCalculation";s:96:"' .
+            '(10 * numberOfSiteVisits) + (1 * numberOfPageVisits) + (20 * downloads) - (1 * lastVisitDaysAgo)";' .
+            's:27:"categoryScoringAddPageVisit";s:2:"10";s:26:"categoryScoringAddDownload";s:2:"20";s:21:' .
+            '"disableAnalysisModule";s:1:"0";s:17:"disableLeadModule";s:1:"0";s:21:"disableWorkflowModule";' .
+            's:1:"0";s:25:"disableLastLeadsBoxInPage";s:1:"0";s:16:"disableIpLogging";s:1:"0";s:11:"anonymizeIp"' .
+            ';s:1:"1";s:20:"disableIpInformation";s:1:"0";}';
         $_SERVER['REMOTE_ADDR'] = '';
         $_SERVER['REQUEST_URI'] = '';
         $_SERVER['SSL_SESSION_ID'] = '';
