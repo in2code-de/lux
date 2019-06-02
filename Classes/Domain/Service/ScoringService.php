@@ -9,7 +9,7 @@ use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\ObjectUtility;
-use jlawrence\eos\Parser;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
@@ -42,8 +42,11 @@ class ScoringService
      */
     public function __construct(\DateTime $time = null)
     {
-        if (!class_exists(Parser::class)) {
-            throw new \BadFunctionCallException('Parser class not found. Did you do a "composer update"?', 1518975126);
+        if (!class_exists(ExpressionLanguage::class)) {
+            throw new \BadFunctionCallException(
+                'ExpressionLanguage class not found. Composer package symfony/expression-language probably not loaded.',
+                1559499211
+            );
         }
         if ($time !== null) {
             $this->time = $time;
@@ -84,7 +87,8 @@ class ScoringService
                 'lastVisitDaysAgo' => $this->getNumberOfDaysSinceLastVisit($visitor),
                 'downloads' => $this->getNumberOfDownloads($visitor)
             ];
-            $scoring = (int)Parser::solve($this->getCalculation(), $variables);
+            $expressionLanguage = new ExpressionLanguage();
+            $scoring = (int)$expressionLanguage->evaluate($this->getCalculation(), $variables);
             if ($scoring < 0) {
                 $scoring = 0;
             }
