@@ -87,9 +87,12 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 - Triggers:
 -- On page visit (define on which number of pagevisit)
 -- On a minimum scoring
+-- When lead reaches a categoryscoring
+-- When lead enters a page of a given category
 -- If in a time frame
--- If visitor enters a page from a category
--- If visitor gets identified
+-- If a lead gets identified
+-- If lead company given
+-- Use your own expressions for doing even mor individual stuff (with Symfony Expression Language)
 - Actions:
 -- Lightbox with a content element
 -- Send an email with lead details
