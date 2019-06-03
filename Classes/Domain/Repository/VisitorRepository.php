@@ -269,8 +269,7 @@ class VisitorRepository extends AbstractRepository
             Visitor::TABLE_NAME
         ];
         foreach ($tables as $table) {
-            $connection = DatabaseUtility::getConnectionForTable($table);
-            $connection->executeQuery('truncate ' . $table);
+            DatabaseUtility::getConnectionForTable($table)->truncate($table);
         }
     }
 

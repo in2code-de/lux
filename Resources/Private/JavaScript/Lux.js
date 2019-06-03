@@ -90,7 +90,8 @@ function LuxMain() {
 				'tx_lux_fe[dispatchAction]': 'pageRequest',
 				'tx_lux_fe[idCookie]': getIdCookie(),
 				'tx_lux_fe[arguments][pageUid]': getPageUid(),
-				'tx_lux_fe[arguments][referrer]': getReferrer()
+				'tx_lux_fe[arguments][referrer]': getReferrer(),
+				'tx_lux_fe[arguments][currentUrl]': encodeURIComponent(window.location.href),
 			}, getRequestUri(), 'generalWorkflowActionCallback', null);
 		}
 	};

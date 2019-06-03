@@ -49,6 +49,7 @@ Possible triggers by default are:
 * On a defined time
 * If a lead gets identified
 * If lead company given
+* Use your own expressions for doing even mor individual stuff (with Symfony Expression Language)
 
 After that you can choose next for step 3 or previous for step 1 again.
 
@@ -204,6 +205,23 @@ lib.lux.settings {
 
                 # Templatefile for implementation of the form in workflow module
                 templateFile = EXT:lux/Resources/Private/Templates/Workflow/Trigger/Company.html
+
+                # Additional configuration
+                configuration {
+                    # Any configuration - available as array in Template File and Trigger class for some own magic
+                }
+            }
+
+            # Symfony Expression Trigger for doing individual magic stuff (compare with GET params, check if visitor country is in a list, etc...)
+            8 {
+                # Title to show in workflow backend module
+                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.symfonyExpression
+
+                # Classname for implementation of the trigger itself
+                className = In2code\Luxenterprise\Domain\Trigger\SymfonyExpressionTrigger
+
+                # Templatefile for implementation of the form in workflow module
+                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/SymfonyExpression.html
 
                 # Additional configuration
                 configuration {

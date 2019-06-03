@@ -87,9 +87,12 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 - Triggers:
 -- On page visit (define on which number of pagevisit)
 -- On a minimum scoring
+-- When lead reaches a categoryscoring
+-- When lead enters a page of a given category
 -- If in a time frame
--- If visitor enters a page from a category
--- If visitor gets identified
+-- If a lead gets identified
+-- If lead company given
+-- Use your own expressions for doing even mor individual stuff (with Symfony Expression Language)
 - Actions:
 -- Lightbox with a content element
 -- Send an email with lead details
@@ -134,6 +137,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                        |
 | ---------- | ---------- | ---------- | ---------------------------------------------------------------------------------- |
+| 2.4.0      | 2019-06-03 | Feature    | Replace eos with expression-language, Add url f. workflows, doc update, php cleanup|
 | 2.3.1      | 2019-05-20 | Bugfix     | Show correct last visited date in lead list in backend                             |
 | 2.3.0      | 2019-04-17 | Feature    | Move client to serverside check for disallowed mail providers, small fixes         |
 | 2.2.0      | 2019-03-07 | Feature    | Show status in extension manager settings, Show lead name of unidentified leads    |
