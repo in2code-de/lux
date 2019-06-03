@@ -82,6 +82,7 @@ class ScoringServiceTest extends UnitTestCase
      * @return void
      * @dataProvider calculateScoringDataProvider
      * @covers ::calculateScoring
+     * @covers ::calculateAndSetScoring
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws InvalidQueryException#
