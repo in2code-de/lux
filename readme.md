@@ -98,6 +98,7 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 -- Send an email with lead details
 -- Redirect to any URL
 -- Send publication to a slack channel
+-- Blacklist a visitor
 
 ### CommandControllers & Scheduler
 
@@ -117,8 +118,10 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 - Toggle Field identification of any form
 - Toogle Email4link functionality
 - CommandController to anonymize records (for developing or for a presentation)
+- Blacklist functionality
+- Workflow blacklist action
 
-### Possible Enterprise Features
+### Possible Enterprise Features in the future
 
 - Todo: Blacklisting
 - Todo: Newsletter tool (replace or extend direct_mail? New tool "luxletter" - usable without Lux?)
@@ -126,6 +129,8 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 - Todo: API (Im- and Export)
 - Todo: A/B Tests
 - Todo: SocialMedia Connection (Twitter)
+
+Interested? Call us!
 
 ## Technical requirements
 
