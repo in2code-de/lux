@@ -72,6 +72,7 @@ Possible actions by default are:
 * Redirect visitor to another page
 * Sends an email
 * Publish a message to a slack channel
+* Add a visitor to a blacklist
 
 After that you can choose save or previous for step 2 again.
 
@@ -321,6 +322,23 @@ lib.lux.settings {
                         # Set an emoji for all this publishings (can be empty, if you already set an image to your webhook in slack)
                         emoji = :fire:
                     }
+                }
+            }
+
+            # Set a blacklisted status
+            5 {
+                # Title to show in workflow backend module
+                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.blacklist
+
+                # Classname for implementation of the action itself
+                className = In2code\Luxenterprise\Domain\Action\BlacklistAction
+
+                # Templatefile for implementation of the form in workflow module
+                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Blacklist.html
+
+                # Additional configuration
+                configuration {
+                    # Any configuration - available as array in Template File and Action class for some own magic
                 }
             }
         }

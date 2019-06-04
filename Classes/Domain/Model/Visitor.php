@@ -775,7 +775,9 @@ class Visitor extends AbstractEntity
      */
     public function addLog(Log $log)
     {
-        $this->logs->attach($log);
+        if ($this->logs !== null) {
+            $this->logs->attach($log);
+        }
         return $this;
     }
 

@@ -8,6 +8,8 @@ use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\LogRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
+use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 
 /**
  * Class LogService
@@ -18,6 +20,8 @@ class LogService
     /**
      * @param Visitor $visitor
      * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
     public function logNewVisitor(Visitor $visitor)
     {
@@ -27,6 +31,8 @@ class LogService
     /**
      * @param Visitor $visitor
      * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
     public function logIdentifiedVisitor(Visitor $visitor)
     {
@@ -36,6 +42,8 @@ class LogService
     /**
      * @param Visitor $visitor
      * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
     public function logIdentifiedVisitorByEmail4Link(Visitor $visitor)
     {
@@ -46,6 +54,8 @@ class LogService
      * @param Visitor $visitor
      * @param string $href
      * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
     public function logEmail4LinkEmail(Visitor $visitor, string $href)
     {
@@ -56,6 +66,8 @@ class LogService
      * @param Visitor $visitor
      * @param string $href
      * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
     public function logEmail4LinkEmailFailed(Visitor $visitor, string $href)
     {
@@ -65,6 +77,8 @@ class LogService
     /**
      * @param Download $download
      * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
     public function logDownload(Download $download)
     {
@@ -76,6 +90,8 @@ class LogService
      * @param int $shownContentUid
      * @param int $containerContentUid
      * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
     public function logContextualContent(Visitor $visitor, int $shownContentUid, int $containerContentUid)
     {
@@ -94,6 +110,8 @@ class LogService
      * @param Visitor $visitor
      * @param array $properties
      * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
     protected function log(int $status, Visitor $visitor, array $properties = [])
     {

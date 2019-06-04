@@ -98,6 +98,7 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 -- Send an email with lead details
 -- Redirect to any URL
 -- Send publication to a slack channel
+-- Blacklist a visitor
 
 ### CommandControllers & Scheduler
 
@@ -117,8 +118,10 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 - Toggle Field identification of any form
 - Toogle Email4link functionality
 - CommandController to anonymize records (for developing or for a presentation)
+- Blacklist functionality
+- Workflow blacklist action
 
-### Possible Enterprise Features
+### Possible Enterprise Features in the future
 
 - Todo: Blacklisting
 - Todo: Newsletter tool (replace or extend direct_mail? New tool "luxletter" - usable without Lux?)
@@ -126,6 +129,8 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 - Todo: API (Im- and Export)
 - Todo: A/B Tests
 - Todo: SocialMedia Connection (Twitter)
+
+Interested? Call us!
 
 ## Technical requirements
 
@@ -137,6 +142,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                        |
 | ---------- | ---------- | ---------- | ---------------------------------------------------------------------------------- |
+| 2.5.0      | 2019-06-04 | Task       | Some preperations for luxenterprise                                                |
 | 2.4.0      | 2019-06-03 | Feature    | Replace eos with expression-language, Add url f. workflows, doc update, php cleanup|
 | 2.3.1      | 2019-05-20 | Bugfix     | Show correct last visited date in lead list in backend                             |
 | 2.3.0      | 2019-04-17 | Feature    | Move client to serverside check for disallowed mail providers, small fixes         |
