@@ -53,6 +53,35 @@ class VisitorRepository extends AbstractRepository
     }
 
     /**
+     * @return string
+     */
+    public function findOneVisitorWithOutdatedCookieId(): string
+    {
+        $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Visitor::TABLE_NAME);
+        return (string)$queryBuilder
+            ->select('uid')
+            ->from(Visitor::TABLE_NAME)
+            ->where('id_cookie != ""')
+            ->setMaxResults(1)
+            ->execute()
+            ->fetchColumn(0);
+    }
+
+    /**
+     * @return array
+     */
+    public function findVisitorsWithOutdatedCookieId(): array
+    {
+        $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Visitor::TABLE_NAME);
+        return (array)$queryBuilder
+            ->select('uid', 'id_cookie')
+            ->from(Visitor::TABLE_NAME)
+            ->where('id_cookie != ""')
+            ->execute()
+            ->fetchAll();
+    }
+
+    /**
      * @param FilterDto $filter
      * @return array
      * @throws InvalidQueryException
@@ -255,7 +284,6 @@ class VisitorRepository extends AbstractRepository
 
     /**
      * @return void
-     * @throws DBALException
      */
     public function truncateAll()
     {

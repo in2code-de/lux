@@ -4,7 +4,7 @@ use In2code\Lux\Domain\Model\Visitor;
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Visitor::TABLE_NAME,
-        'label' => 'id_cookie',
+        'label' => 'uid',
         'label_userFunc' => \In2code\Lux\TCA\VisitorTitle::class . '->getContactTitle',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
@@ -25,7 +25,7 @@ return [
     ],
     'interface' => [
         'showRecordFieldList' =>
-            'scoring,categoryscorings,identified,blacklisted,visits,email,id_cookie,crdate,tstamp,attributes,' .
+            'scoring,categoryscorings,identified,blacklisted,visits,email,idcookies,crdate,tstamp,attributes,' .
             'pagevisits,downloads,referrer,user_agent,ip_address,ipinformations,logs,description',
     ],
     'types' => [
@@ -53,7 +53,7 @@ return [
             'showitem' => 'blacklisted,visits'
         ],
         'mail' => [
-            'showitem' => 'email,id_cookie'
+            'showitem' => 'email,idcookies'
         ],
         'time' => [
             'showitem' => 'crdate,tstamp'
@@ -222,11 +222,16 @@ return [
                 'readOnly' => true
             ]
         ],
-        'id_cookie' => [
+        'idcookies' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Visitor::TABLE_NAME . '.id_cookie',
+            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Visitor::TABLE_NAME . '.idcookies',
             'config' => [
-                'type' => 'input',
+                'type' => 'select',
+                'renderType' => 'selectMultipleSideBySide',
+                'foreign_table' => \In2code\Lux\Domain\Model\Idcookie::TABLE_NAME,
+                'foreign_table_where' => 'ORDER BY ' . \In2code\Lux\Domain\Model\Idcookie::TABLE_NAME . '.uid DESC',
+                'max_size' => 100,
+                'minitems' => 0,
                 'readOnly' => true
             ]
         ],

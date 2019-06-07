@@ -94,6 +94,16 @@
 				<source>Location</source>
 			</trans-unit>
 
+			<trans-unit id="tx_lux_domain_model_idcookie">
+				<source>Cookie</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_idcookie.value">
+				<source>Value</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_idcookie.domain">
+				<source>Domain</source>
+			</trans-unit>
+
 			<trans-unit id="tx_lux_domain_model_pagevisit">
 				<source>Pagevisit</source>
 			</trans-unit>

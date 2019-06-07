@@ -124,6 +124,19 @@
 				<target state="translated">Location</target>
 			</trans-unit>
 
+			<trans-unit id="tx_lux_domain_model_idcookie">
+				<source>Cookie</source>
+				<target state="translated">Cookie</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_idcookie.value">
+				<source>Value</source>
+				<target state="translated">Wert</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_idcookie.domain">
+				<source>Domain</source>
+				<target state="translated">Domain</target>
+			</trans-unit>
+
 			<trans-unit id="tx_lux_domain_model_pagevisit">
 				<source>Pagevisit</source>
 				<target state="translated">Seitenbesuch</target>
