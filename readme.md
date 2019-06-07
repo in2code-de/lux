@@ -123,7 +123,9 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 
 ### Possible Enterprise Features in the future
 
-- Todo: Blacklisting
+- Todo: Multi-Domain and Multi-Device tracking
+- Todo: Complete-Form Tracking in addition to single field tracking
+- Todo: Trigger if property X is not empty
 - Todo: Newsletter tool (replace or extend direct_mail? New tool "luxletter" - usable without Lux?)
 - Todo: Contacts (Import?)
 - Todo: API (Im- and Export)
