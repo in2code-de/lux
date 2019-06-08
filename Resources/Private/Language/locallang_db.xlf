@@ -51,8 +51,8 @@
 			<trans-unit id="tx_lux_domain_model_visitor.tstamp">
 				<source>Last visit</source>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_visitor.id_cookie">
-				<source>Cookie ID</source>
+			<trans-unit id="tx_lux_domain_model_visitor.idcookies">
+				<source>Lux ID Cookies</source>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_visitor.pagevisits">
 				<source>Page visits</source>

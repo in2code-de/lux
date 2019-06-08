@@ -67,9 +67,9 @@
 				<source>Last visit</source>
 				<target state="translated">Letzter Besuch</target>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_visitor.id_cookie">
-				<source>Cookie ID</source>
-				<target state="translated">Cookie ID</target>
+			<trans-unit id="tx_lux_domain_model_visitor.idcookies">
+				<source>Lux ID Cookies</source>
+				<target state="translated">Lux ID Cookies</target>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_visitor.pagevisits">
 				<source>Page visits</source>

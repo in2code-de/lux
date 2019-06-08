@@ -19,8 +19,8 @@ use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 /**
- * If visitor has a new idCookie but tells the system a known email address, we have to more all attributes and
- * pagevisits to the existing visitor and set the new idCookie
+ * If visitor has a new idCookie but tells the system a known email address, we have to move all attributes and
+ * pagevisits to the existing visitor and add the new idCookie
  *
  * Class VisitorMergeService
  */
@@ -79,7 +79,7 @@ class VisitorMergeService
                     $this->mergeCategoryscorings($visitor);
                     $this->mergeDownloads($visitor);
                     $this->mergeAttributes($visitor);
-                    $this->updateIdCookie($visitor);
+                    $this->updateIdcookies($visitor);
                     $this->deleteVisitor($visitor);
                 }
             }
@@ -200,9 +200,9 @@ class VisitorMergeService
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
-    protected function updateIdCookie(Visitor $newVisitor)
+    protected function updateIdcookies(Visitor $newVisitor)
     {
-        $this->firstVisitor->setIdCookie($newVisitor->getIdCookie());
+        $this->firstVisitor->addIdcookies($newVisitor->getIdcookies());
         $this->visitorRepository->update($this->firstVisitor);
         $this->visitorRepository->persistAll();
     }

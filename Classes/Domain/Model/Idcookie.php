@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
@@ -20,6 +21,17 @@ class Idcookie extends AbstractEntity
      * @var string
      */
     protected $domain = '';
+
+    /**
+     * Idcookie constructor.
+     * @param string $domain
+     */
+    public function __construct(string $domain = '')
+    {
+        if ($this->domain === '') {
+            $this->domain = !empty($domain) ? $domain : GeneralUtility::getIndpEnv('HTTP_HOST');
+        }
+    }
 
     /**
      * @return string
@@ -45,15 +57,5 @@ class Idcookie extends AbstractEntity
     public function getDomain(): string
     {
         return $this->domain;
-    }
-
-    /**
-     * @param string $domain
-     * @return Idcookie
-     */
-    public function setDomain(string $domain): self
-    {
-        $this->domain = $domain;
-        return $this;
     }
 }

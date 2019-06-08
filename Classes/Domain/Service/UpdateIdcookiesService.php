@@ -65,7 +65,6 @@ class UpdateIdcookiesService
     protected function createNewCookieRecord(array $visitor, string $domain): int
     {
         $properties = [
-            'visitor' => $visitor['uid'],
             'value' => $visitor['id_cookie'],
             'domain' => !empty($domain) ? $domain : GeneralUtility::getIndpEnv('HTTP_HOST')
         ];
@@ -84,9 +83,7 @@ class UpdateIdcookiesService
         $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Visitor::TABLE_NAME);
         $queryBuilder
             ->update(Visitor::TABLE_NAME)
-            ->where(
-                $queryBuilder->expr()->eq('uid', $visitor)
-            )
+            ->where($queryBuilder->expr()->eq('uid', $visitor))
             ->set('id_cookie', '')
             ->set('idcookies', $uidCookie)
             ->execute();

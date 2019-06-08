@@ -2,15 +2,17 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Factory;
 
+use In2code\Lux\Domain\Model\Idcookie;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\IpUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
-use TYPO3\CMS\Extbase\Persistence\Generic\Exception\UnsupportedMethodException;
 
 /**
  * Class VisitorFactory to add a new visitor to database (if not yet stored).
@@ -22,7 +24,7 @@ class VisitorFactory
     /**
      * @var string
      */
-    protected $idCookie = '';
+    protected $idcookie = null;
 
     /**
      * @var string
@@ -42,15 +44,16 @@ class VisitorFactory
      */
     public function __construct(string $idCookie, string $referrer = '')
     {
-        $this->idCookie = $idCookie;
+        $this->idcookie = GeneralUtility::makeInstance(Idcookie::class)->setValue($idCookie);
         $this->referrer = $referrer;
         $this->visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
     }
 
     /**
      * @return Visitor
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws IllegalObjectTypeException
-     * @throws UnsupportedMethodException
      */
     public function getVisitor(): Visitor
     {
@@ -65,21 +68,22 @@ class VisitorFactory
 
     /**
      * @return Visitor|null
-     * @throws UnsupportedMethodException
      */
     protected function getVisitorFromDatabase()
     {
-        return $this->visitorRepository->findOneAndAlsoBlacklistedByIdCookie($this->idCookie);
+        return $this->visitorRepository->findOneAndAlsoBlacklistedByIdCookie($this->idcookie);
     }
 
     /**
      * @return Visitor
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     * @throws IllegalObjectTypeException
      */
     protected function createNewVisitor(): Visitor
     {
-        /** @var Visitor $visitor */
         $visitor = GeneralUtility::makeInstance(Visitor::class);
-        $visitor->setIdCookie($this->idCookie);
+        $visitor->addIdcookie($this->idcookie);
         $visitor->setUserAgent(GeneralUtility::getIndpEnv('HTTP_USER_AGENT'));
         $visitor->setReferrer($this->referrer);
         $this->enrichNewVisitorWithIpInformation($visitor);
@@ -90,6 +94,9 @@ class VisitorFactory
     /**
      * @param Visitor $visitor
      * @return void
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     * @throws IllegalObjectTypeException
      */
     protected function enrichNewVisitorWithIpInformation(Visitor $visitor)
     {
@@ -107,6 +114,8 @@ class VisitorFactory
      * Decide if the IP-address must be anonymized or not
      *
      * @return string
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     protected function getIpAddress(): string
     {
