@@ -26,7 +26,7 @@ return [
     'interface' => [
         'showRecordFieldList' =>
             'scoring,categoryscorings,identified,blacklisted,visits,email,idcookies,crdate,tstamp,attributes,' .
-            'pagevisits,downloads,referrer,user_agent,ip_address,ipinformations,logs,description',
+            'pagevisits,downloads,referrer,ip_address,ipinformations,logs,description',
     ],
     'types' => [
         '1' => [
@@ -59,7 +59,7 @@ return [
             'showitem' => 'crdate,tstamp'
         ],
         'referrer' => [
-            'showitem' => 'referrer,user_agent'
+            'showitem' => 'referrer'
         ]
     ],
     'columns' => [
@@ -272,14 +272,6 @@ return [
         'referrer' => [
             'exclude' => true,
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Visitor::TABLE_NAME . '.referrer',
-            'config' => [
-                'type' => 'input',
-                'readOnly' => true
-            ]
-        ],
-        'user_agent' => [
-            'exclude' => true,
-            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Visitor::TABLE_NAME . '.user_agent',
             'config' => [
                 'type' => 'input',
                 'readOnly' => true

@@ -85,11 +85,6 @@ class Visitor extends AbstractEntity
     /**
      * @var string
      */
-    protected $userAgent = '';
-
-    /**
-     * @var string
-     */
     protected $ipAddress = '';
 
     /**
@@ -638,24 +633,6 @@ class Visitor extends AbstractEntity
     /**
      * @return string
      */
-    public function getUserAgent(): string
-    {
-        return $this->userAgent;
-    }
-
-    /**
-     * @param string $userAgent
-     * @return Visitor
-     */
-    public function setUserAgent(string $userAgent)
-    {
-        $this->userAgent = $userAgent;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
     public function getIpAddress(): string
     {
         return $this->ipAddress;
@@ -918,7 +895,6 @@ class Visitor extends AbstractEntity
         $this->setIdentified(false);
         $this->setVisits(0);
         $this->setReferrer('');
-        $this->setUserAgent('');
         $this->setIpAddress('');
 
         $this->categoryscorings = null;

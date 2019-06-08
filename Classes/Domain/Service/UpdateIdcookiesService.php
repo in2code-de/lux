@@ -65,8 +65,11 @@ class UpdateIdcookiesService
     protected function createNewCookieRecord(array $visitor, string $domain): int
     {
         $properties = [
+            'crdate' => time(),
+            'tstamp' => time(),
             'value' => $visitor['id_cookie'],
-            'domain' => !empty($domain) ? $domain : GeneralUtility::getIndpEnv('HTTP_HOST')
+            'domain' => !empty($domain) ? $domain : GeneralUtility::getIndpEnv('HTTP_HOST'),
+            'user_agent' => $visitor['user_agent']
         ];
         $connection = DatabaseUtility::getConnectionForTable(Idcookie::TABLE_NAME);
         $connection->insert(Idcookie::TABLE_NAME, $properties);

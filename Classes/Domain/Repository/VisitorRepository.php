@@ -79,7 +79,7 @@ class VisitorRepository extends AbstractRepository
     {
         $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Visitor::TABLE_NAME);
         return (array)$queryBuilder
-            ->select('uid', 'id_cookie')
+            ->select('uid', 'id_cookie', 'user_agent')
             ->from(Visitor::TABLE_NAME)
             ->where('id_cookie != ""')
             ->execute()

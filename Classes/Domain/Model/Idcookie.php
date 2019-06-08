@@ -23,13 +23,22 @@ class Idcookie extends AbstractEntity
     protected $domain = '';
 
     /**
+     * @var string
+     */
+    protected $userAgent = '';
+
+    /**
      * Idcookie constructor.
      * @param string $domain
+     * @param string $userAgent
      */
-    public function __construct(string $domain = '')
+    public function __construct(string $domain = '', string $userAgent = '')
     {
         if ($this->domain === '') {
-            $this->domain = !empty($domain) ? $domain : GeneralUtility::getIndpEnv('HTTP_HOST');
+            $this->domain = ($domain !== '' ? $domain : GeneralUtility::getIndpEnv('HTTP_HOST'));
+        }
+        if ($this->userAgent === '') {
+            $this->userAgent = ($userAgent !== '' ? $userAgent : GeneralUtility::getIndpEnv('HTTP_USER_AGENT'));
         }
     }
 
@@ -57,5 +66,23 @@ class Idcookie extends AbstractEntity
     public function getDomain(): string
     {
         return $this->domain;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserAgent(): string
+    {
+        return $this->userAgent;
+    }
+
+    /**
+     * @param string $userAgent
+     * @return Idcookie
+     */
+    public function setUserAgent(string $userAgent): self
+    {
+        $this->userAgent = $userAgent;
+        return $this;
     }
 }

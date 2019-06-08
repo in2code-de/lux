@@ -87,10 +87,6 @@
 				<source>Source</source>
 				<target state="translated">Quelle</target>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_visitor.user_agent">
-				<source>User agent</source>
-				<target state="translated">User agent</target>
-			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_visitor.ip_address">
 				<source>IP address</source>
 				<target state="translated">IP-Adresse</target>
@@ -135,6 +131,10 @@
 			<trans-unit id="tx_lux_domain_model_idcookie.domain">
 				<source>Domain</source>
 				<target state="translated">Domain</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_idcookie.user_agent">
+				<source>User agent</source>
+				<target state="translated">User agent</target>
 			</trans-unit>
 
 			<trans-unit id="tx_lux_domain_model_pagevisit">

@@ -84,7 +84,6 @@ class VisitorFactory
     {
         $visitor = GeneralUtility::makeInstance(Visitor::class);
         $visitor->addIdcookie($this->idcookie);
-        $visitor->setUserAgent(GeneralUtility::getIndpEnv('HTTP_USER_AGENT'));
         $visitor->setReferrer($this->referrer);
         $this->enrichNewVisitorWithIpInformation($visitor);
         $this->signalDispatch(__CLASS__, 'newVisitor', [$visitor]);
