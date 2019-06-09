@@ -147,7 +147,12 @@ function LuxMain() {
 	 * @returns {void}
 	 */
 	var addFieldListeners = function() {
-		var elements = document.querySelectorAll('input, textarea, select, radio, check');
+		var query = 'form:not([data-lux-form-identification]) input:not([data-lux-disable]), ';
+		query += 'form:not([data-lux-form-identification]) textarea:not([data-lux-disable]), ';
+		query += 'form:not([data-lux-form-identification]) select:not([data-lux-disable]), ';
+		query += 'form:not([data-lux-form-identification]) radio:not([data-lux-disable]), ';
+		query += 'form:not([data-lux-form-identification]) check:not([data-lux-disable])';
+		var elements = document.querySelectorAll(query);
 		for (var i = 0; i < elements.length; i++) {
 			var element = elements[i];
 			// Skip every password field and check if this field is configured for listening in TypoScript
