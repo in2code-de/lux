@@ -655,8 +655,8 @@
 				<target state="translated">Lead Scoring</target>
 			</trans-unit>
 			<trans-unit id="module.detail.description">
-				<source>Add an individual description...</source>
-				<target state="translated">Individuelle Beschreibung hinzufügen...</target>
+				<source>Add an individual description (only internal) ...</source>
+				<target state="translated">Individuelle Beschreibung hinzufügen (nur intern)...</target>
 			</trans-unit>
 			<trans-unit id="module.detail.pagefunnel">
 				<source>Conversion Funnel / Page Visits</source>
@@ -665,6 +665,10 @@
 			<trans-unit id="module.detail.location">
 				<source>Location</source>
 				<target state="translated">Ort</target>
+			</trans-unit>
+			<trans-unit id="module.detail.moreattributes">
+				<source>More attributes</source>
+				<target state="translated">Weitere Eigenschaften</target>
 			</trans-unit>
 
 			<trans-unit id="module.diagrambox.downloads.title">
@@ -1106,6 +1110,10 @@
 			<trans-unit id="close">
 				<source>Close</source>
 				<target state="translated">Schließen</target>
+			</trans-unit>
+			<trans-unit id="seebelow">
+				<source>See below ...</source>
+				<target state="translated">Siehe unten ...</target>
 			</trans-unit>
 		</body>
 	</file>

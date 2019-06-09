@@ -33,12 +33,11 @@
                                             <td>{attribute.value}</td>
                                         </tr>
                                     </f:for>
-                                    <f:for each="{visitor.unimportantAttributes}" as="attribute">
+                                    <f:if condition="{visitor.unimportantAttributes}">
                                         <tr>
-                                            <td><strong>{attribute.label}</strong></td>
-                                            <td>{attribute.value}</td>
-                                        </tr>
-                                    </f:for>
+                                            <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.moreattributes">More attributes</f:translate></td>
+                                            <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:seebelow">See below...</f:translate></td></tr>
+                                    </f:if>
                                 </table>
                             </f:if>
 

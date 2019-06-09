@@ -493,13 +493,16 @@
 				<source>Lead scoring</source>
 			</trans-unit>
 			<trans-unit id="module.detail.description">
-				<source>Add an individual description...</source>
+				<source>Add an individual description (only internal) ...</source>
 			</trans-unit>
 			<trans-unit id="module.detail.pagefunnel">
 				<source>Conversion Funnel / Page Visits</source>
 			</trans-unit>
 			<trans-unit id="module.detail.location">
 				<source>Location</source>
+			</trans-unit>
+			<trans-unit id="module.detail.moreattributes">
+				<source>More attributes</source>
 			</trans-unit>
 
 			<trans-unit id="module.diagrambox.downloads.title">
@@ -822,6 +825,9 @@
 			</trans-unit>
 			<trans-unit id="save">
 				<source>Save</source>
+			</trans-unit>
+			<trans-unit id="seebelow">
+				<source>See below ...</source>
 			</trans-unit>
 		</body>
 	</file>
