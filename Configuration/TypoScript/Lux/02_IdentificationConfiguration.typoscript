@@ -6,6 +6,7 @@ lib.lux.settings {
         _enable = {$plugin.tx_lux.settings.fieldidentification}
 
         # Auto identify with EVERY input field of your website.
+        # Disabled for forms with [data-lux-form-identification] and also disabled for fields with [data-lux-disable]
         # Using a * as wildcard will search for a string in a string while using a key without * will search for the exact match.
         fieldMapping {
             # "email" is the key-field for visitor identification and merging.
@@ -46,6 +47,58 @@ lib.lux.settings {
                 1 = user
                 2 = benutzername
                 3 = benutze
+            }
+        }
+
+        # Identify by complete form submits with '<form data-lux-form-identification="true">'
+        # Using a * as wildcard will search for a string in a string while using a key without * will search for the exact match.
+        formFieldMapping {
+            email {
+                0 = email
+                1 = *[email]
+                2 = *[e-mail]
+                2 = *[e_mail]
+            }
+            firstname {
+                0 = firstname
+                1 = *[firstname]
+                2 = *[first-name]
+                3 = *[first_name]
+                4 = *[firstName]
+                5 = *[vorname]
+            }
+            lastname {
+                0 = lastname
+                1 = *[lastname]
+                2 = *[last-name]
+                3 = *[last_name]
+                4 = *[lastName]
+                5 = *[surname]
+                6 = *[sur-name]
+                7 = *[sur_name]
+                8 = *[name]
+                9 = *[nachname]
+            }
+            company {
+                0 = company
+                1 = *[company]
+                2 = *[firma]
+            }
+            phone {
+                0 = phone
+                1 = *[phone]
+                2 = *[telefon]
+                3 = *[tel]
+            }
+            product {
+                0 = product
+                1 = *[product]
+                2 = *[produkt]
+            }
+            message {
+                0 = message
+                1 = *[message]
+                2 = *[nachricht]
             }
         }
 

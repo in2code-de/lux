@@ -13,10 +13,12 @@ call_user_func(
             'In2code.lux',
             'Fe',
             [
-                'Frontend' => 'dispatchRequest,pageRequest,fieldListeningRequest,email4LinkRequest,downloadRequest'
+                'Frontend' => 'dispatchRequest,pageRequest,fieldListeningRequest,formListeningRequest,' .
+                    'email4LinkRequest,downloadRequest'
             ],
             [
-                'Frontend' => 'dispatchRequest,pageRequest,fieldListeningRequest,email4LinkRequest,downloadRequest'
+                'Frontend' => 'dispatchRequest,pageRequest,fieldListeningRequest,formListeningRequest,' .
+                    'email4LinkRequest,downloadRequest'
             ]
         );
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(

@@ -256,7 +256,7 @@
                                 <f:for each="{visitor.attributes}" as="attribute">
                                     <tr>
                                         <td>{attribute.name}</td>
-                                        <td>{attribute.value}</td>
+                                        <td><f:format.nl2br>{attribute.value}</f:format.nl2br></td>
                                     </tr>
                                 </f:for>
                             </table>

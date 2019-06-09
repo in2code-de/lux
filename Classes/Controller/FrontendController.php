@@ -35,6 +35,7 @@ class FrontendController extends ActionController
         $allowedActions = [
             'pageRequest',
             'fieldListeningRequest',
+            'formListeningRequest',
             'email4LinkRequest',
             'downloadRequest'
         ];
@@ -90,6 +91,29 @@ class FrontendController extends ActionController
                 AttributeTracker::CONTEXT_FIELDLISTENING
             );
             $attributeTracker->addAttribute($arguments['key'], $arguments['value']);
+            return json_encode($this->afterTracking($visitor));
+        } catch (\Exception $exception) {
+            return json_encode(['error' => true]);
+        }
+    }
+
+    /**
+     * @param string $idCookie
+     * @param array $arguments
+     * @return string
+     */
+    public function formListeningRequestAction(string $idCookie, array $arguments): string
+    {
+        try {
+            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $idCookie);
+            $visitor = $visitorFactory->getVisitor();
+            $values = json_decode($arguments['values'], true);
+            $attributeTracker = $this->objectManager->get(
+                AttributeTracker::class,
+                $visitor,
+                AttributeTracker::CONTEXT_EMAIL4LINK
+            );
+            $attributeTracker->addAttributes($values);
             return json_encode($this->afterTracking($visitor));
         } catch (\Exception $exception) {
             return json_encode(['error' => true]);

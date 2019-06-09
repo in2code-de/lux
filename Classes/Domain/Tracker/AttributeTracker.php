@@ -61,6 +61,20 @@ class AttributeTracker
     }
 
     /**
+     * @param array $properties
+     * @return void
+     * @throws DBALException
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    public function addAttributes(array $properties)
+    {
+        foreach ($properties as $key => $value) {
+            $this->addAttribute($key, $value);
+        }
+    }
+
+    /**
      * Add or update an attribute of a visitor and return the visitor
      *
      * @param string $key
