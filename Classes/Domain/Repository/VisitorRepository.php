@@ -26,14 +26,14 @@ class VisitorRepository extends AbstractRepository
     /**
      * Find a visitor by it's cookie and deliver also blacklisted visitors
      *
-     * @param Idcookie $idcookie
+     * @param string $iDcookie
      * @return Visitor|null
      */
-    public function findOneAndAlsoBlacklistedByIdCookie(Idcookie $idcookie)
+    public function findOneAndAlsoBlacklistedByIdCookie(string $iDcookie)
     {
         $query = $this->createQuery();
         $query->getQuerySettings()->setIgnoreEnableFields(true)->setEnableFieldsToBeIgnored(['blacklisted']);
-        $query->matching($query->equals('idcookies.value', $idcookie->getValue()));
+        $query->matching($query->equals('idcookies.value', $iDcookie));
         /** @var Visitor $visitor */
         $visitor = $query->execute()->getFirst();
         return $visitor;
