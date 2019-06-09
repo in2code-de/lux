@@ -46,16 +46,16 @@
                                 <div class="col-md-12">
                                     <table class="table table-striped table-hover table-condensed">
                                         <tr>
-                                            <th>Erster Besuch</th>
+                                            <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.crdate">First visit</f:translate></th>
                                             <td>{lux:format.readableDate(date:visitor.crdate)} ({f:format.date(date:visitor.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')})</td>
                                         </tr>
                                         <tr>
-                                            <th>Letzter Besuch</th>
+                                            <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.tstamp">Last visit</f:translate></th>
                                             <td>{lux:format.readableDate(date:visitor.tstamp)} ({f:format.date(date:visitor.tstamp,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')})</td>
                                         </tr>
                                         <f:if condition="{visitor.referrer}">
                                             <tr>
-                                                <th>Ursprüngliche Quelle</th>
+                                                <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.referrer">Source</f:translate></th>
                                                 <td>
                                                     <a href="{visitor.referrer}" target="_blank" title="{visitor.referrer}">{visitor.readableReferrer}</a>
                                                 </td>
