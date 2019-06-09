@@ -245,20 +245,32 @@
                     </h3>
                 </div>
                 <div class="panel-body collapse" id="properties">
-                    <table class="table table-striped table-hover table-condensed">
-                        <thead>
-                        <tr>
-                            <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.properties.name">Name</f:translate></td>
-                            <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.properties.value">Value</f:translate></td>
-                        </tr>
-                        </thead>
-                        <f:for each="{visitor.attributes}" as="attribute">
-                            <tr>
-                                <td>{attribute.name}</td>
-                                <td>{attribute.value}</td>
-                            </tr>
-                        </f:for>
-                    </table>
+                    <f:if condition="{visitor.attributes}">
+                        <f:then>
+                            <table class="table table-striped table-hover table-condensed">
+                                <thead>
+                                <tr>
+                                    <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.properties.name">Name</f:translate></td>
+                                    <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.properties.value">Value</f:translate></td>
+                                </tr>
+                                </thead>
+                                <f:for each="{visitor.attributes}" as="attribute">
+                                    <tr>
+                                        <td>{attribute.name}</td>
+                                        <td>{attribute.value}</td>
+                                    </tr>
+                                </f:for>
+                            </table>
+                        </f:then>
+                        <f:else>
+                            <div class="alert alert-lux">
+                                <p class="message-body">
+                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.novalues">No values to show</f:translate>
+                                </p>
+                            </div>
+                        </f:else>
+                    </f:if>
+
                 </div>
             </div>
         </div>
@@ -273,26 +285,38 @@
                     </h3>
                 </div>
                 <div class="panel-body collapse" id="profile">
-                    <table class="table table-striped table-hover table-condensed">
-                    <thead>
-                    <tr>
-                        <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.domain">Domain</f:translate></td>
-                        <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.browser">Browser</f:translate></td>
-                        <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.os">OS</f:translate></td>
-                        <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.device">Device</f:translate></td>
-                        <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.cookie">Cookie</f:translate></td>
-                    </tr>
-                    </thead>
-                    <f:for each="{visitor.idcookiesSorted}" as="idcookie">
-                        <tr>
-                            <td>{idcookie.domain}</td>
-                            <td>{idcookie.propertiesFromUserAgent.browser} {idcookie.propertiesFromUserAgent.browserversion}</td>
-                            <td>{idcookie.propertiesFromUserAgent.os} {idcookie.propertiesFromUserAgent.osversion}</td>
-                            <td>{idcookie.propertiesFromUserAgent.manufacturer} {idcookie.propertiesFromUserAgent.type}</td>
-                            <td>{idcookie.value}</td>
-                        </tr>
-                    </f:for>
-                    </table>
+                    <f:if condition="{visitor.idcookies}">
+                        <f:then>
+                            <table class="table table-striped table-hover table-condensed">
+                                <thead>
+                                <tr>
+                                    <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.domain">Domain</f:translate></td>
+                                    <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.browser">Browser</f:translate></td>
+                                    <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.os">OS</f:translate></td>
+                                    <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.device">Device</f:translate></td>
+                                    <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.cookie">Cookie</f:translate></td>
+                                </tr>
+                                </thead>
+                                <f:for each="{visitor.idcookiesSorted}" as="idcookie">
+                                    <tr>
+                                        <td>{idcookie.domain}</td>
+                                        <td>{idcookie.propertiesFromUserAgent.browser} {idcookie.propertiesFromUserAgent.browserversion}</td>
+                                        <td>{idcookie.propertiesFromUserAgent.os} {idcookie.propertiesFromUserAgent.osversion}</td>
+                                        <td>{idcookie.propertiesFromUserAgent.manufacturer} {idcookie.propertiesFromUserAgent.type}</td>
+                                        <td>{idcookie.value}</td>
+                                    </tr>
+                                </f:for>
+                            </table>
+                        </f:then>
+                        <f:else>
+                            <div class="alert alert-lux">
+                                <p class="message-body">
+                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.novalues">No values to show</f:translate>
+                                </p>
+                            </div>
+                        </f:else>
+                    </f:if>
+
                 </div>
             </div>
         </div>
