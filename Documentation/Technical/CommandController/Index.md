@@ -76,3 +76,11 @@ Example summary mail for sales with activities of identified and unknown leads o
 of all leads. Normally used if the calculation changes or if you are using the variable *lastVisitDaysAgo* in
 Extension Manager configuration of the extension Lux. In the last case it's recommended to run the calculation once
 per night.
+
+
+#### LuxUpdateCommandController
+
+`\In2code\Lux\Command\LuxServiceCommandController::removeUnknownVisitorsByAgeCommand()` This command will help you
+to not lose your collected data when updating from an older lux major version to 3.x. The used service is the same
+as you can start in the extension manager by clicking the update button. We would recommend to use the CLI for this
+update and not the extension manager button because of runtime limitations in the apache.

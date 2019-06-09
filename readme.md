@@ -65,6 +65,7 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 - Identify a lead with any webform email field
 - Offer via CkEditor plugin a email4link popup (give me your email and we are going to send you the asset via email)
 - Automaticly merge cookie-ids on second identification (if cookie was removed)
+- Multi-Domain and Multi-Device tracking
 
 ### Analyses
 
@@ -106,6 +107,7 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 - Cleanup commands (to really erase data)
 - Lead commands to get a summary mail with last activities
 - Service commands (calculate scoring for all leads)
+- Update command after updating from lux 1.x or 2.x to the 3.x version
 
 ### Privacy Features
 
@@ -123,7 +125,6 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 
 ### Possible Enterprise Features in the future
 
-- Todo: Multi-Domain and Multi-Device tracking
 - Todo: Complete-Form Tracking in addition to single field tracking
 - Todo: Trigger if property X is not empty
 - Todo: Newsletter tool (replace or extend direct_mail? New tool "luxletter" - usable without Lux?)
