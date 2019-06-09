@@ -99,7 +99,7 @@ class Idcookie extends AbstractEntity
             'manufacturer' => '',
             'type' => ''
         ];
-        try {
+        if (class_exists(\WhichBrowser\Parser::class)) {
             $parser = new \WhichBrowser\Parser($this->getUserAgent());
             $properties = [
                 'browser' => $parser->browser->getName(),
@@ -109,7 +109,6 @@ class Idcookie extends AbstractEntity
                 'manufacturer' => $parser->device->getManufacturer(),
                 'type' => $parser->device->type
             ];
-        } catch (\Exception $exception) {
         }
         return $properties;
     }
