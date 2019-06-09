@@ -529,6 +529,42 @@
 				<source>Time</source>
 				<target state="translated">Zeitpunkt</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.properties">
+				<source>Properties</source>
+				<target state="translated">Eigenschaften</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.properties.name">
+				<source>Name</source>
+				<target state="translated">Name</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.properties.value">
+				<source>Value</source>
+				<target state="translated">Wert</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.profiles">
+				<source>Profiles</source>
+				<target state="translated">Profile</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.profiles.domain">
+				<source>Domain</source>
+				<target state="translated">Domain</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.profiles.browser">
+				<source>Browser</source>
+				<target state="translated">Browser</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.profiles.os">
+				<source>Operating System</source>
+				<target state="translated">Betriebssystem</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.profiles.device">
+				<source>Device</source>
+				<target state="translated">Gerät</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.profiles.cookie">
+				<source>Cookie</source>
+				<target state="translated">Cookie</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.detaildownloads">
 				<source>Downloads</source>
 				<target state="translated">Downloads</target>

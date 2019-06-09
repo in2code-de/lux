@@ -398,6 +398,33 @@
 			<trans-unit id="module.analysis.detailpage.time">
 				<source>Time</source>
 			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.properties">
+				<source>Properties</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.properties.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.properties.value">
+				<source>Value</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.profiles">
+				<source>Profiles</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.profiles.domain">
+				<source>Domain</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.profiles.browser">
+				<source>Browser</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.profiles.os">
+				<source>Operating System</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.profiles.device">
+				<source>Device</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.profiles.cookie">
+				<source>Cookie</source>
+			</trans-unit>
 			<trans-unit id="module.analysis.detaildownloads">
 				<source>Downloads</source>
 			</trans-unit>

@@ -85,4 +85,32 @@ class Idcookie extends AbstractEntity
         $this->userAgent = $userAgent;
         return $this;
     }
+
+    /**
+     * @return array
+     */
+    public function getPropertiesFromUserAgent(): array
+    {
+        $properties = [
+            'browser' => '',
+            'browserversion' => '',
+            'os' => '',
+            'osversion' => '',
+            'manufacturer' => '',
+            'type' => ''
+        ];
+        try {
+            $parser = new \WhichBrowser\Parser($this->getUserAgent());
+            $properties = [
+                'browser' => $parser->browser->getName(),
+                'browserversion' => $parser->browser->version->value,
+                'os' => $parser->os->getName(),
+                'osversion' => $parser->os->getVersion(),
+                'manufacturer' => $parser->device->getManufacturer(),
+                'type' => $parser->device->type
+            ];
+        } catch (\Exception $exception) {
+        }
+        return $properties;
+    }
 }
