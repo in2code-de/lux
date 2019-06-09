@@ -51,8 +51,8 @@
 			<trans-unit id="tx_lux_domain_model_visitor.tstamp">
 				<source>Last visit</source>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_visitor.id_cookie">
-				<source>Cookie ID</source>
+			<trans-unit id="tx_lux_domain_model_visitor.idcookies">
+				<source>Lux ID Cookies</source>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_visitor.pagevisits">
 				<source>Page visits</source>
@@ -65,9 +65,6 @@
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_visitor.referrer">
 				<source>Source</source>
-			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_visitor.user_agent">
-				<source>User agent</source>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_visitor.ip_address">
 				<source>IP address</source>
@@ -92,6 +89,19 @@
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_visitor.location">
 				<source>Location</source>
+			</trans-unit>
+
+			<trans-unit id="tx_lux_domain_model_idcookie">
+				<source>Cookie</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_idcookie.value">
+				<source>Value</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_idcookie.domain">
+				<source>Domain</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_idcookie.user_agent">
+				<source>User agent</source>
 			</trans-unit>
 
 			<trans-unit id="tx_lux_domain_model_pagevisit">

@@ -18,7 +18,7 @@ class VisitorTitle
     public function getContactTitle(array &$parameters, $parentObject)
     {
         unset($parentObject);
-        $parameters['title'] = $this->getEmail($parameters['row']) . ' (' . $parameters['row']['id_cookie'] . ')';
+        $parameters['title'] = $this->getEmail($parameters['row']) . ' (uid' . $parameters['row']['uid'] . ')';
     }
 
     /**

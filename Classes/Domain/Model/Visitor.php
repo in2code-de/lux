@@ -45,9 +45,9 @@ class Visitor extends AbstractEntity
     protected $categoryscorings = null;
 
     /**
-     * @var string
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Idcookie>
      */
-    protected $idCookie = '';
+    protected $idcookies = null;
 
     /**
      * @var string
@@ -81,11 +81,6 @@ class Visitor extends AbstractEntity
      * @var string
      */
     protected $referrer = '';
-
-    /**
-     * @var string
-     */
-    protected $userAgent = '';
 
     /**
      * @var string
@@ -141,12 +136,13 @@ class Visitor extends AbstractEntity
      */
     public function __construct()
     {
+        $this->categoryscorings = new ObjectStorage();
+        $this->idcookies = new ObjectStorage();
         $this->pagevisits = new ObjectStorage();
         $this->attributes = new ObjectStorage();
         $this->ipinformations = new ObjectStorage();
-        $this->logs = new ObjectStorage();
         $this->downloads = new ObjectStorage();
-        $this->categoryscorings = new ObjectStorage();
+        $this->logs = new ObjectStorage();
     }
 
     /**
@@ -308,20 +304,52 @@ class Visitor extends AbstractEntity
     }
 
     /**
-     * @return string
+     * @return ObjectStorage
      */
-    public function getIdCookie(): string
+    public function getIdcookies(): ObjectStorage
     {
-        return $this->idCookie;
+        return $this->idcookies;
     }
 
     /**
-     * @param string $idCookie
+     * @var ObjectStorage $idcookies
      * @return Visitor
      */
-    public function setIdCookie(string $idCookie)
+    public function setIdcookies(ObjectStorage $idcookies)
     {
-        $this->idCookie = $idCookie;
+        $this->idcookies = $idcookies;
+        return $this;
+    }
+
+    /**
+     * @param Idcookie $idcookie
+     * @return $this
+     */
+    public function addIdcookie(Idcookie $idcookie)
+    {
+        $this->idcookies->attach($idcookie);
+        return $this;
+    }
+
+    /**
+     * @param Idcookie $idcookie
+     * @return $this
+     */
+    public function removeIdcookie(Idcookie $idcookie)
+    {
+        $this->idcookies->detach($idcookie);
+        return $this;
+    }
+
+    /**
+     * @param ObjectStorage $idcookies
+     * @return $this
+     */
+    public function addIdcookies(ObjectStorage $idcookies)
+    {
+        foreach ($idcookies as $idcookie) {
+            $this->addIdcookie($idcookie);
+        }
         return $this;
     }
 
@@ -605,24 +633,6 @@ class Visitor extends AbstractEntity
     /**
      * @return string
      */
-    public function getUserAgent(): string
-    {
-        return $this->userAgent;
-    }
-
-    /**
-     * @param string $userAgent
-     * @return Visitor
-     */
-    public function setUserAgent(string $userAgent)
-    {
-        $this->userAgent = $userAgent;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
     public function getIpAddress(): string
     {
         return $this->ipAddress;
@@ -885,7 +895,6 @@ class Visitor extends AbstractEntity
         $this->setIdentified(false);
         $this->setVisits(0);
         $this->setReferrer('');
-        $this->setUserAgent('');
         $this->setIpAddress('');
 
         $this->categoryscorings = null;

@@ -6,6 +6,7 @@ use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Attribute;
 use In2code\Lux\Domain\Model\Categoryscoring;
 use In2code\Lux\Domain\Model\Download;
+use In2code\Lux\Domain\Model\Idcookie;
 use In2code\Lux\Domain\Model\Ipinformation;
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Pagevisit;
@@ -25,14 +26,14 @@ class VisitorRepository extends AbstractRepository
     /**
      * Find a visitor by it's cookie and deliver also blacklisted visitors
      *
-     * @param string $idCookie
+     * @param Idcookie $idcookie
      * @return Visitor|null
      */
-    public function findOneAndAlsoBlacklistedByIdCookie(string $idCookie)
+    public function findOneAndAlsoBlacklistedByIdCookie(Idcookie $idcookie)
     {
         $query = $this->createQuery();
         $query->getQuerySettings()->setIgnoreEnableFields(true)->setEnableFieldsToBeIgnored(['blacklisted']);
-        $query->matching($query->equals('idCookie', $idCookie));
+        $query->matching($query->equals('idcookies.value', $idcookie->getValue()));
         /** @var Visitor $visitor */
         $visitor = $query->execute()->getFirst();
         return $visitor;
@@ -50,6 +51,39 @@ class VisitorRepository extends AbstractRepository
         $query->matching($query->logicalAnd($logicalAnd));
         $query->setOrderings($this->getOrderingsArrayByFilterDto($filter));
         return $query->execute();
+    }
+
+    /**
+     * Find a visitor with a stored cookie id in lux 1.x or 2.x in tx_lux_domain_model_visitor.id_cookie
+     *
+     * @return string
+     */
+    public function findOneVisitorWithOutdatedCookieId(): string
+    {
+        $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Visitor::TABLE_NAME);
+        return (string)$queryBuilder
+            ->select('uid')
+            ->from(Visitor::TABLE_NAME)
+            ->where('id_cookie != ""')
+            ->setMaxResults(1)
+            ->execute()
+            ->fetchColumn(0);
+    }
+
+    /**
+     * Find all visitors with a stored cookie id in lux 1.x or 2.x in tx_lux_domain_model_visitor.id_cookie
+     *
+     * @return array
+     */
+    public function findVisitorsWithOutdatedCookieId(): array
+    {
+        $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Visitor::TABLE_NAME);
+        return (array)$queryBuilder
+            ->select('uid', 'id_cookie', 'user_agent')
+            ->from(Visitor::TABLE_NAME)
+            ->where('id_cookie != ""')
+            ->execute()
+            ->fetchAll();
     }
 
     /**
@@ -245,7 +279,8 @@ class VisitorRepository extends AbstractRepository
             Ipinformation::TABLE_NAME,
             Download::TABLE_NAME,
             Categoryscoring::TABLE_NAME,
-            Log::TABLE_NAME
+            Log::TABLE_NAME,
+            Idcookie::TABLE_NAME
         ];
         foreach ($tables as $table) {
             $connection = DatabaseUtility::getConnectionForTable($table);
@@ -255,7 +290,6 @@ class VisitorRepository extends AbstractRepository
 
     /**
      * @return void
-     * @throws DBALException
      */
     public function truncateAll()
     {
@@ -266,7 +300,8 @@ class VisitorRepository extends AbstractRepository
             Download::TABLE_NAME,
             Categoryscoring::TABLE_NAME,
             Log::TABLE_NAME,
-            Visitor::TABLE_NAME
+            Visitor::TABLE_NAME,
+            Idcookie::TABLE_NAME
         ];
         foreach ($tables as $table) {
             DatabaseUtility::getConnectionForTable($table)->truncate($table);
@@ -292,10 +327,10 @@ class VisitorRepository extends AbstractRepository
             foreach ($filter->getSearchterms() as $searchterm) {
                 $logicalOr[] = $query->like('email', '%' . $searchterm . '%');
                 $logicalOr[] = $query->like('ipAddress', '%' . $searchterm . '%');
-                $logicalOr[] = $query->like('idCookie', '%' . $searchterm . '%');
                 $logicalOr[] = $query->like('referrer', '%' . $searchterm . '%');
                 $logicalOr[] = $query->like('description', '%' . $searchterm . '%');
                 $logicalOr[] = $query->like('attributes.value', '%' . $searchterm . '%');
+                $logicalOr[] = $query->equals('idcookies.value', $searchterm);
             }
             $logicalAnd[] = $query->logicalOr($logicalOr);
         }
