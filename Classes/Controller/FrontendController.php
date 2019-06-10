@@ -111,7 +111,7 @@ class FrontendController extends ActionController
             $attributeTracker = $this->objectManager->get(
                 AttributeTracker::class,
                 $visitor,
-                AttributeTracker::CONTEXT_EMAIL4LINK
+                AttributeTracker::CONTEXT_FORMLISTENING
             );
             $attributeTracker->addAttributes($values);
             return json_encode($this->afterTracking($visitor));

@@ -69,6 +69,14 @@ call_user_func(
             'logIdentifiedVisitor',
             false
         );
+        // Log: Identified visitor by listening to form submits
+        $signalSlotDispatcher->connect(
+            \In2code\Lux\Domain\Tracker\AttributeTracker::class,
+            'isIdentifiedByFormlistening',
+            \In2code\Lux\Slot\Log::class,
+            'logIdentifiedVisitorByFormListening',
+            false
+        );
         // Log: Identified visitor by email4link
         $signalSlotDispatcher->connect(
             \In2code\Lux\Domain\Tracker\AttributeTracker::class,

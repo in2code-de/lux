@@ -7,6 +7,8 @@ use In2code\Lux\Domain\Model\Download;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Service\LogService;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
+use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 
 /**
  * Class Log
@@ -31,6 +33,8 @@ class Log implements SingletonInterface
     /**
      * @param Visitor $visitor
      * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
     public function logNewVisitor(Visitor $visitor)
     {
@@ -41,6 +45,8 @@ class Log implements SingletonInterface
      * @param Attribute $attribute
      * @param Visitor $visitor
      * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
     public function logIdentifiedVisitor(Attribute $attribute, Visitor $visitor)
     {
@@ -51,6 +57,20 @@ class Log implements SingletonInterface
      * @param Attribute $attribute
      * @param Visitor $visitor
      * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    public function logIdentifiedVisitorByFormListening(Attribute $attribute, Visitor $visitor)
+    {
+        $this->logService->logIdentifiedVisitorFormListening($visitor);
+    }
+
+    /**
+     * @param Attribute $attribute
+     * @param Visitor $visitor
+     * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
     public function logIdentifiedVisitorByEmail4Link(Attribute $attribute, Visitor $visitor)
     {
@@ -61,6 +81,8 @@ class Log implements SingletonInterface
      * @param Visitor $visitor
      * @param string $href
      * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
     public function logEmail4LinkEmail(Visitor $visitor, string $href)
     {
@@ -71,6 +93,8 @@ class Log implements SingletonInterface
      * @param Visitor $visitor
      * @param string $href
      * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
     public function logEmail4LinkEmailFailed(Visitor $visitor, string $href)
     {
@@ -81,6 +105,8 @@ class Log implements SingletonInterface
      * @param Download $download
      * @param Visitor $visitor
      * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
     public function logDownload(Download $download, Visitor $visitor)
     {
