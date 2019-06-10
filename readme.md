@@ -143,6 +143,12 @@ lux needs minimum *TYPO3 8.7* as a modern basic together with *composer mode*. E
 for the identification feature (powermail, form, formhandler, felogin, etc...).
 At the moment it's not possible to use lux without **composer mode**!
 
+## Breaking changes !!!
+
+| Version                     | Situation                                           | Upgrade instructions                                                                                                                                               |
+| --------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| From former versions to 3.x | The visitor object can handle more cookies now      | After updating use the update button in extension manager of if you have a lot of data stored, you can also use the LuxUpdateCommandController to prevent timeouts |
+
 ## Changelog
 
 | Version    | Date       | State      | Description                                                                        |
