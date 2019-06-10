@@ -658,6 +658,11 @@ to get helpful information.
 The method initialize() is called before doAction() and the method afterAction() at last.
 While you have to add a boolean method doAction() the others are optional.
 
+**Note:** There are some entry points in lux, that can call actions (e.g. a page visit or if a visitor submits a 
+email4link form). Per default actions are only called by page visits. But maybe it is useful to also start an action
+if a form was submitted. You can define the starting actions with the variable `$controllerActions` in your Action
+class. Have a look into AbstractAction class for some examples and the default value.
+
 
 Last but not least, you should add a locallang file with the keys that you've used in TypoScript and in your Trigger
 HTML file.
