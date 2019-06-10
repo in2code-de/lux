@@ -50,7 +50,7 @@ page {
             }
         }
 
-        # Uri to render a lightbox with a single content element
+        # Uri to render a single content element with html header (for EXT:luxenterprise lightbox content elements in workflows)
         30 = TEXT
         30 {
             noTrimWrap = | data-lux-contenturi="|"|
@@ -65,6 +65,18 @@ page {
         # Blocked key: Uri for contextual content (will be added from EXT:luxenterprise)
         40 = TEXT
         40 {
+        }
+
+        # Uri to render a single content element without html header (for EXT:luxenterprise ajax content elements in workflows)
+        50 = TEXT
+        50 {
+            noTrimWrap = | data-lux-contenturiwithoutheader="|"|
+            typolink {
+                parameter.data = TSFE:id
+                additionalParams = &type=1560175278
+                returnLast = url
+                forceAbsoluteUrl = 1
+            }
         }
 
         # Current page uid

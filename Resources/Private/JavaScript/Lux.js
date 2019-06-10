@@ -145,6 +145,51 @@ function LuxMain() {
 	};
 
 	/**
+	 * Callback for workflow action "AjaxContent" (part of the Enterprise Edition)
+	 *
+	 * @param response
+	 */
+	this.ajaxContentWorkflowAction = function(response) {
+		var uri = document.querySelector('[data-lux-contenturiwithoutheader]')
+				.getAttribute('data-lux-contenturiwithoutheader') || '/index.php?id=1&type=1560175278';
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState === 4 && this.status === 200) {
+				var domSelection = document.querySelector(response['configuration']['domselection']);
+				if (domSelection !== null) {
+					domSelection.innerHTML = this.responseText;
+				} else {
+					console.log('Element ' + response['configuration']['domselection'] + ' could not be found in HTML');
+				}
+			}
+		};
+		xhttp.open(
+			'POST',
+			mergeUriWithParameters(uri, {'luxContent': parseInt(response['configuration']['contentElement'])}),
+			true
+		);
+		xhttp.send();
+	};
+
+	/**
+	 * Callback for workflow action "Showorhide" (part of the Enterprise Edition)
+	 *
+	 * @param response
+	 */
+	this.showorhideWorkflowAction = function(response) {
+		var domSelection = document.querySelector(response['configuration']['domselection']);
+		if (domSelection !== null) {
+			if (response['configuration']['showorhide'] === 'hide') {
+				domSelection.style.display = 'none';
+			} else if (response['configuration']['showorhide'] === 'show') {
+				domSelection.style.display = 'block';
+			}
+		} else {
+			console.log('Element ' + response['configuration']['domselection'] + ' could not be found in HTML');
+		}
+	};
+
+	/**
 	 * @returns {void}
 	 */
 	var addFieldListeners = function() {
