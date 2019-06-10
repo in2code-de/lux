@@ -71,12 +71,14 @@ Clicking on *Show lead details* will open the detail page.
 
 #### Detail View
 
-The detail view will give you a couple of information of the chosen lead. The view is splitted into 5 boxes:
-* Lead information
+The detail view will give you a couple of information of the chosen lead. The view is splitted into 7 boxes:
+* Lead information overview
 * Lead scoring
 * Activity log
 * Conversion funnel / Page visits
 * Categoryscoring
+* Lead properties
+* Profiles
 
 ##### Lead information
 
@@ -119,6 +121,16 @@ See a diagram with all available categoryscorings for this lead.
 
 **Note:** The calculation can be influenced by the Extension Manager settings of the extension.
 **Note:** See [Categoryscorings](../Categoryscorings/Index.md) how to use category scoring in lux.
+
+##### Lead Properties
+
+If you collect more data then just email, firstname, lastname and company (see identification part of the documenation)
+You need also to see this information. And this view shows you all collected attributes from the visitor.
+
+##### Profiles
+
+Because your lead could use more then just one device, all cookies and devices are listed here with some additional
+information.
 
 ##### Interaction Buttons
 

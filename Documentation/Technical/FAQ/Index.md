@@ -3,6 +3,16 @@
 ### FAQ
 
 
+#### How can I identify visitors?
+
+Basicly there are three different ways at the moment:
+- Use fieldMapping to map single fields of any forms on your website and animate visitors to fill out those fields
+- Use formMapping to map complete forms on your website and animate visitors to fill out those forms
+- Use email4link feature in CKEditor and offer whitepapers or other links and get the visitors email address
+
+see [Identification](../Identification/Index.md) for more information.
+
+
 #### How to enable tracking even if I'm logged in into backend?
 
 With a single line of TypoScript constants:

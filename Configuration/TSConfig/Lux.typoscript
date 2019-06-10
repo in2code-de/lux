@@ -6,6 +6,7 @@ mod.web_list.table {
     tx_lux_domain_model_categoryscoring.hideTable = 1
     tx_lux_domain_model_log.hideTable = 1
     tx_lux_domain_model_download.hideTable = 1
+    tx_lux_domain_model_idcookie.hideTable = 1
 }
 
 # CK editor

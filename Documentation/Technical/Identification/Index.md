@@ -24,6 +24,7 @@ You guessed it, ask for the email address.
 
 Going back to the technical part - forms will help us on lead identification.
 
+
 #### Field mapping
 
 The easiest way for an identification is to offer some forms on your website where you listen to the values that your
@@ -39,10 +40,11 @@ lib.lux.settings {
 
     # All identification settings
     identification {
-        # En- or Disable field identification
-        _enable = {$plugin.tx_lux.settings.fieldidentification}
+        # En- or Disable field and form identification
+        _enable = {$plugin.tx_lux.settings.fieldandformidentification}
 
         # Auto identify with EVERY input field of your website.
+        # Disabled for forms with [data-lux-form-identification] and also disabled for fields with [data-lux-disable]
         # Using a * as wildcard will search for a string in a string while using a key without * will search for the exact match.
         fieldMapping {
             # "email" is the key-field for visitor identification and merging.
@@ -94,11 +96,152 @@ You can test the field mapping by adding a simple form to your frontend. Open a 
 As soon as you enter an email and leave the field (on blur), the values are sent asynchronical to Lux. You don't have to
 submit the form. Just go into the backend and check if the lead gets identified.
 
+**Note:** Password fields are ignored for this function
+
 Example powermail form in frontend:
 <img src="../../../Documentation/Images/documentation_identification_fieldmapping_frontend.png" width="800" />
 
 Example lead identification in dashboard:
 <img src="../../../Documentation/Images/documentation_identification_fieldmapping_dashboard.png" width="800" />
+
+
+#### FormFieldMapping
+
+Another way for identifications is to listen to complete form submits of any forms on your website. 
+If you want to send all field informations of a form to lux, just add a `data-lux-form-identification="true"` to the
+form-tag itself.
+
+There some different things when comparing FormFieldMappinng with FieldMapping (see above):
+* The data will be send to lux when the visitor submits the form and not before
+* The complete form will be send to lux (but only the fields that are defined in mapping configuration)
+* You have to change the markup of the forms with a data-attribute to the form tag
+
+The default field-mapping is similar to the FieldMapping: E.g. map a field with name `tx_form_formframework[e-mail]`
+to the lead property *email* (see TypoScript below).
+
+
+```
+lib.lux.settings {
+
+    # All identification settings
+    identification {
+        # En- or Disable field and form identification
+        _enable = {$plugin.tx_lux.settings.fieldandformidentification}
+        
+        # Identify by complete form submits with '<form data-lux-form-identification="true">'
+        # If you want to stop the submit process (pagereload or redirect), you can use data-lux-form-identification="preventDefault"
+        # Using a * as wildcard will search for a string in a string while using a key without * will search for the exact match.
+        formFieldMapping {
+            email {
+                0 = email
+                1 = *[email]
+                2 = *[e-mail]
+                2 = *[e_mail]
+            }
+            firstname {
+                0 = firstname
+                1 = *[firstname]
+                2 = *[first-name]
+                3 = *[first_name]
+                4 = *[firstName]
+                5 = *[vorname]
+            }
+            lastname {
+                0 = lastname
+                1 = *[lastname]
+                2 = *[last-name]
+                3 = *[last_name]
+                4 = *[lastName]
+                5 = *[surname]
+                6 = *[sur-name]
+                7 = *[sur_name]
+                8 = *[name]
+                9 = *[nachname]
+            }
+            company {
+                0 = company
+                1 = *[company]
+                2 = *[firma]
+            }
+            phone {
+                0 = phone
+                1 = *[phone]
+                2 = *[telefon]
+                3 = *[tel]
+            }
+            product {
+                0 = product
+                1 = *[product]
+                2 = *[produkt]
+            }
+            message {
+                0 = message
+                1 = *[message]
+                2 = *[nachricht]
+            }
+        }
+    }
+}
+
+```
+
+**Note:** If you want to stop the submit process, because lux had a workflow for the submit action (show text on form
+submit, etc..), you can use `data-lux-form-identification="preventDefault"`
+instead of `data-lux-form-identification="true"`
+
+Example form (added via content element html):
+
+```
+<form data-lux-form-identification="preventDefault" action="#">
+	<div class="form-group">
+		<label for="email">Ihre E-Mail-Adresse</label>
+		<input type="email" class="form-control" id="email" name="test[email]">
+	</div>
+	<div class="form-group">
+		<label for="firstname">Vorname</label>
+		<input type="text" class="form-control" id="firstname" name="firstname">
+	</div>
+	<div class="form-group">
+		<label for="lastname">Nachname</label>
+		<input type="text" class="form-control" id="lastname" name="lastname">
+	</div>
+	<div class="form-group">
+		<label for="company">Firma</label>
+		<input type="text" class="form-control" id="company" name="company">
+	</div>
+	<div class="form-group">
+		<label for="phone">Phone</label>
+		<input type="text" class="form-control" id="phone" name="phone">
+	</div>
+	<div class="form-group">
+		<label for="product">Zu welchem Produkt können wir Ihnen helfen?</label>
+		<select class="form-control" id="product" name="product">
+			<option>Lux</option>
+			<option>Content Publisher</option>
+			<option>Schulpaket</option>
+			<option>CERMAT</option>
+			<option>Personendatenbank</option>
+		</select>
+	</div>
+	<div class="form-group">
+		<label for="message">Ihre Nachricht an uns</label>
+		<textarea class="form-control" id="message" rows="3" name="message"></textarea>
+	</div>
+	<div class="form-check">
+		<label class="form-check-label">
+			<input type="checkbox" class="form-check-input" value="1" name="agb" required>
+			<a href="/privacy/">Datenschutzerklärung</a> gelesen und akzeptiert
+		</label>
+	</div>
+	<button type="submit" class="btn btn-primary">Nachricht versenden</button>
+</form>
+```
+
+Form in frontend:
+<img src="../../../Documentation/Images/documentation_identification_formmapping_frontend.png" width="800" />
+
+Example lead identification in dashboard:
+<img src="../../../Documentation/Images/documentation_identification_formmapping_dashboard.png" width="800" />
 
 
 #### Email4link

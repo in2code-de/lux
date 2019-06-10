@@ -2,12 +2,22 @@ page {
     # Add Main CSS for the frontend
     includeCSS.lux = EXT:lux/Resources/Public/Css/Frontend.min.css
 
-    # Add JavaScript for field mapping configuration
+    # Add JavaScript for field identification configuration
     1517985223 = TEXT
     1517985223 {
         typolink {
             parameter.data = TSFE:id
             additionalParams = &type=1517985223
+            returnLast = url
+        }
+        wrap = <script type="text/javascript" src="|"></script>
+    }
+    # Add JavaScript for form identification configuration
+    1560095529 = TEXT
+    1560095529 {
+        typolink {
+            parameter.data = TSFE:id
+            additionalParams = &type=1560095529
             returnLast = url
         }
         wrap = <script type="text/javascript" src="|"></script>
@@ -40,7 +50,7 @@ page {
             }
         }
 
-        # Uri to render a lightbox with a single content element
+        # Uri to render a single content element with html header (for EXT:luxenterprise lightbox content elements in workflows)
         30 = TEXT
         30 {
             noTrimWrap = | data-lux-contenturi="|"|
@@ -55,6 +65,18 @@ page {
         # Blocked key: Uri for contextual content (will be added from EXT:luxenterprise)
         40 = TEXT
         40 {
+        }
+
+        # Uri to render a single content element without html header (for EXT:luxenterprise ajax content elements in workflows)
+        50 = TEXT
+        50 {
+            noTrimWrap = | data-lux-contenturiwithoutheader="|"|
+            typolink {
+                parameter.data = TSFE:id
+                additionalParams = &type=1560175278
+                returnLast = url
+                forceAbsoluteUrl = 1
+            }
         }
 
         # Current page uid
@@ -145,9 +167,9 @@ luxPageRequestAjax {
 
 
 # Typenum to get field mapping configuration in a dynamic JS file
-[globalVar = LIT:0 < {$plugin.tx_lux.settings.fieldidentification}]
-    luxConfiguration = PAGE
-    luxConfiguration {
+[globalVar = LIT:0 < {$plugin.tx_lux.settings.fieldandformidentification}]
+    luxConfigurationFieldIdentification = PAGE
+    luxConfigurationFieldIdentification {
         typeNum = 1517985223
         config {
             additionalHeaders.10.header = Content-Type: application/javascript
@@ -160,13 +182,28 @@ luxPageRequestAjax {
 
         10 = FLUIDTEMPLATE
         10 {
-            file = EXT:lux/Resources/Private/Templates/Configuration/JavaScriptConfiguration.js
+            file = EXT:lux/Resources/Private/Templates/Configuration/JavaScriptFieldMappingConfiguration.js
             settings < plugin.tx_lux_fe.settings
             dataProcessing {
                 10 = In2code\Lux\DataProcessing\FieldMappingProcessor
             }
         }
     }
+
+    luxConfigurationFormIdentification < luxConfigurationFieldIdentification
+    luxConfigurationFieldIdentification {
+        typeNum = 1560095529
+
+        10 = FLUIDTEMPLATE
+        10 {
+            file = EXT:lux/Resources/Private/Templates/Configuration/JavaScriptFormFieldMappingConfiguration.js
+            settings < plugin.tx_lux_fe.settings
+            dataProcessing {
+                10 = In2code\Lux\DataProcessing\FormFieldMappingProcessor
+            }
+        }
+    }
 [else]
     page.1517985223 >
+    page.1560095529 >
 [end]

@@ -9,12 +9,13 @@ use In2code\Lux\Domain\Tracker\AttributeTracker;
 use In2code\Lux\Domain\Tracker\DownloadTracker;
 use In2code\Lux\Domain\Tracker\PageTracker;
 use In2code\Lux\Signal\SignalTrait;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
-use TYPO3\CMS\Extbase\Persistence\Generic\Exception\UnsupportedMethodException;
 
 /**
  * Class FrontendController
@@ -34,6 +35,7 @@ class FrontendController extends ActionController
         $allowedActions = [
             'pageRequest',
             'fieldListeningRequest',
+            'formListeningRequest',
             'email4LinkRequest',
             'downloadRequest'
         ];
@@ -61,13 +63,14 @@ class FrontendController extends ActionController
      * @return string
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
-     * @throws UnsupportedMethodException
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public function pageRequestAction(string $idCookie, array $arguments): string
     {
         $visitorFactory = $this->objectManager->get(VisitorFactory::class, $idCookie, $arguments['referrer']);
-        $pageTracker = $this->objectManager->get(PageTracker::class);
         $visitor = $visitorFactory->getVisitor();
+        $pageTracker = $this->objectManager->get(PageTracker::class);
         $pageTracker->trackPage($visitor, (int)$arguments['pageUid']);
         return json_encode($this->afterTracking($visitor));
     }
@@ -88,6 +91,29 @@ class FrontendController extends ActionController
                 AttributeTracker::CONTEXT_FIELDLISTENING
             );
             $attributeTracker->addAttribute($arguments['key'], $arguments['value']);
+            return json_encode($this->afterTracking($visitor));
+        } catch (\Exception $exception) {
+            return json_encode(['error' => true]);
+        }
+    }
+
+    /**
+     * @param string $idCookie
+     * @param array $arguments
+     * @return string
+     */
+    public function formListeningRequestAction(string $idCookie, array $arguments): string
+    {
+        try {
+            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $idCookie);
+            $visitor = $visitorFactory->getVisitor();
+            $values = json_decode($arguments['values'], true);
+            $attributeTracker = $this->objectManager->get(
+                AttributeTracker::class,
+                $visitor,
+                AttributeTracker::CONTEXT_FORMLISTENING
+            );
+            $attributeTracker->addAttributes($values);
             return json_encode($this->afterTracking($visitor));
         } catch (\Exception $exception) {
             return json_encode(['error' => true]);
@@ -125,9 +151,10 @@ class FrontendController extends ActionController
      * @param string $idCookie
      * @param array $arguments
      * @return string
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
-     * @throws UnsupportedMethodException
      */
     public function downloadRequestAction(string $idCookie, array $arguments): string
     {

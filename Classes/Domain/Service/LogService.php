@@ -45,6 +45,17 @@ class LogService
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
+    public function logIdentifiedVisitorFormListening(Visitor $visitor)
+    {
+        $this->log(Log::STATUS_IDENTIFIED_FORMLISTENING, $visitor);
+    }
+
+    /**
+     * @param Visitor $visitor
+     * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
     public function logIdentifiedVisitorByEmail4Link(Visitor $visitor)
     {
         $this->log(Log::STATUS_IDENTIFIED_EMAIL4LINK, $visitor);

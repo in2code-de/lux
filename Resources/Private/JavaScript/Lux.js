@@ -40,6 +40,7 @@ function LuxMain() {
 			generateNewIdCookieIfNoCookieFound();
 			pageRequest();
 			addFieldListeners();
+			addFormListeners();
 			addDownloadListener();
 		}
 		addEmail4LinkListeners();
@@ -144,10 +145,60 @@ function LuxMain() {
 	};
 
 	/**
+	 * Callback for workflow action "AjaxContent" (part of the Enterprise Edition)
+	 *
+	 * @param response
+	 */
+	this.ajaxContentWorkflowAction = function(response) {
+		var uri = document.querySelector('[data-lux-contenturiwithoutheader]')
+				.getAttribute('data-lux-contenturiwithoutheader') || '/index.php?id=1&type=1560175278';
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState === 4 && this.status === 200) {
+				var domSelection = document.querySelector(response['configuration']['domselection']);
+				if (domSelection !== null) {
+					domSelection.innerHTML = this.responseText;
+				} else {
+					console.log('Element ' + response['configuration']['domselection'] + ' could not be found in HTML');
+				}
+			}
+		};
+		xhttp.open(
+			'POST',
+			mergeUriWithParameters(uri, {'luxContent': parseInt(response['configuration']['contentElement'])}),
+			true
+		);
+		xhttp.send();
+	};
+
+	/**
+	 * Callback for workflow action "Showorhide" (part of the Enterprise Edition)
+	 *
+	 * @param response
+	 */
+	this.showorhideWorkflowAction = function(response) {
+		var domSelection = document.querySelector(response['configuration']['domselection']);
+		if (domSelection !== null) {
+			if (response['configuration']['showorhide'] === 'hide') {
+				domSelection.style.display = 'none';
+			} else if (response['configuration']['showorhide'] === 'show') {
+				domSelection.style.display = 'block';
+			}
+		} else {
+			console.log('Element ' + response['configuration']['domselection'] + ' could not be found in HTML');
+		}
+	};
+
+	/**
 	 * @returns {void}
 	 */
 	var addFieldListeners = function() {
-		var elements = document.querySelectorAll('input, textarea, select, radio, check');
+		var query = 'form:not([data-lux-form-identification]) input:not([data-lux-disable]), ';
+		query += 'form:not([data-lux-form-identification]) textarea:not([data-lux-disable]), ';
+		query += 'form:not([data-lux-form-identification]) select:not([data-lux-disable]), ';
+		query += 'form:not([data-lux-form-identification]) radio:not([data-lux-disable]), ';
+		query += 'form:not([data-lux-form-identification]) check:not([data-lux-disable])';
+		var elements = document.querySelectorAll(query);
 		for (var i = 0; i < elements.length; i++) {
 			var element = elements[i];
 			// Skip every password field and check if this field is configured for listening in TypoScript
@@ -156,6 +207,21 @@ function LuxMain() {
 					fieldListener(this);
 				});
 			}
+		}
+	};
+
+	/**
+	 * @returns {void}
+	 */
+	var addFormListeners = function() {
+		var forms = document.querySelectorAll('form[data-lux-form-identification]');
+		for (var i = 0; i < forms.length; i++) {
+			forms[i].addEventListener('submit', function(event) {
+				if (event.target.getAttribute('data-lux-form-identification') === 'preventDefault') {
+					event.preventDefault();
+				}
+				sendFormValues(event.target);
+			});
 		}
 	};
 
@@ -282,14 +348,35 @@ function LuxMain() {
 	 * @returns {void}
 	 */
 	var fieldListener = function(field) {
-		var key = getKeyOfFieldConfigurationToGivenField(field);
+		var key = getKeyOfFieldConfigurationToGivenField(field, getFieldMapping());
 		var value = field.value;
 		ajaxConnection({
 			'tx_lux_fe[dispatchAction]': 'fieldListeningRequest',
 			'tx_lux_fe[idCookie]': getIdCookie(),
 			'tx_lux_fe[arguments][key]': key,
 			'tx_lux_fe[arguments][value]': value
-		}, getRequestUri(), null, null);
+		}, getRequestUri(), 'generalWorkflowActionCallback', null);
+	};
+
+	/**
+	 * @param {Node} form
+	 * @returns {void}
+	 */
+	var sendFormValues = function(form) {
+		var formArguments = {};
+		for (var i = 0; i < form.elements.length; i++) {
+			var field = form.elements[i];
+			var key = getKeyOfFieldConfigurationToGivenField(field, getFormFieldMapping());
+			if (key !== '') {
+				formArguments[key] = field.value;
+			}
+		}
+
+		ajaxConnection({
+			'tx_lux_fe[dispatchAction]': 'formListeningRequest',
+			'tx_lux_fe[idCookie]': getIdCookie(),
+			'tx_lux_fe[arguments][values]': JSON.stringify(formArguments)
+		}, getRequestUri(), 'generalWorkflowActionCallback', null);
 	};
 
 	/**
@@ -313,7 +400,7 @@ function LuxMain() {
 	 * @returns {boolean}
 	 */
 	var isFieldConfiguredInFieldMapping = function(field) {
-		return getKeyOfFieldConfigurationToGivenField(field) !== '';
+		return getKeyOfFieldConfigurationToGivenField(field, getFieldMapping()) !== '';
 	};
 
 	/**
@@ -321,12 +408,12 @@ function LuxMain() {
 	 * the configuration. Oherwise return an empty string.
 	 *
 	 * @param field
+	 * @param fieldMapping
 	 * @returns {string}
 	 */
-	var getKeyOfFieldConfigurationToGivenField = function(field) {
+	var getKeyOfFieldConfigurationToGivenField = function(field, fieldMapping) {
 		var keyConfiguration = '';
 		var fieldName = field.name;
-		var fieldMapping = getFieldMapping();
 		for (var key in fieldMapping) {
 			// iterate through fieldtypes
 			if (fieldMapping.hasOwnProperty(key)) {
@@ -379,6 +466,19 @@ function LuxMain() {
 			json = JSON.parse(window.luxFieldMappingConfiguration);
 		} catch(err) {
 			console.log('Lux: No fieldmapping configuration given.');
+		}
+		return json;
+	};
+
+	/**
+	 * @returns {object}
+	 */
+	var getFormFieldMapping = function() {
+		var json = {};
+		try {
+			json = JSON.parse(window.luxFormFieldMappingConfiguration);
+		} catch(err) {
+			console.log('Lux: No formfieldmapping configuration given.');
 		}
 		return json;
 	};

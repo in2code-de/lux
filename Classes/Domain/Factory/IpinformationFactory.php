@@ -8,6 +8,7 @@ use In2code\Lux\Domain\Repository\IpinformationRepository;
 use In2code\Lux\Utility\IpUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
@@ -18,6 +19,7 @@ class IpinformationFactory
 
     /**
      * @return ObjectStorage
+     * @throws IllegalObjectTypeException
      */
     public function getObjectStorageWithIpinformation(): ObjectStorage
     {

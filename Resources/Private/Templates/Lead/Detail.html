@@ -33,12 +33,11 @@
                                             <td>{attribute.value}</td>
                                         </tr>
                                     </f:for>
-                                    <f:for each="{visitor.unimportantAttributes}" as="attribute">
+                                    <f:if condition="{visitor.unimportantAttributes}">
                                         <tr>
-                                            <td><strong>{attribute.label}</strong></td>
-                                            <td>{attribute.value}</td>
-                                        </tr>
-                                    </f:for>
+                                            <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.moreattributes">More attributes</f:translate></td>
+                                            <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:seebelow">See below...</f:translate></td></tr>
+                                    </f:if>
                                 </table>
                             </f:if>
 
@@ -46,16 +45,16 @@
                                 <div class="col-md-12">
                                     <table class="table table-striped table-hover table-condensed">
                                         <tr>
-                                            <th>Erster Besuch</th>
+                                            <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.crdate">First visit</f:translate></th>
                                             <td>{lux:format.readableDate(date:visitor.crdate)} ({f:format.date(date:visitor.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')})</td>
                                         </tr>
                                         <tr>
-                                            <th>Letzter Besuch</th>
+                                            <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.tstamp">Last visit</f:translate></th>
                                             <td>{lux:format.readableDate(date:visitor.tstamp)} ({f:format.date(date:visitor.tstamp,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')})</td>
                                         </tr>
                                         <f:if condition="{visitor.referrer}">
                                             <tr>
-                                                <th>Ursprüngliche Quelle</th>
+                                                <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.referrer">Source</f:translate></th>
                                                 <td>
                                                     <a href="{visitor.referrer}" target="_blank" title="{visitor.referrer}">{visitor.readableReferrer}</a>
                                                 </td>
@@ -229,6 +228,94 @@
                             </f:if>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <a class="fa fa-chevron-down" data-toggle="collapse" href="#properties" role="button" aria-expanded="false" aria-controls="properties">
+                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.properties">Properties</f:translate>
+                        </a>
+                        <span class="badge" style="float: right;" title="Number of profiles"><f:count>{visitor.attributes}</f:count></span>
+                    </h3>
+                </div>
+                <div class="panel-body collapse" id="properties">
+                    <f:if condition="{visitor.attributes}">
+                        <f:then>
+                            <table class="table table-striped table-hover table-condensed">
+                                <thead>
+                                <tr>
+                                    <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.properties.name">Name</f:translate></td>
+                                    <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.properties.value">Value</f:translate></td>
+                                </tr>
+                                </thead>
+                                <f:for each="{visitor.attributes}" as="attribute">
+                                    <tr>
+                                        <td>{attribute.name}</td>
+                                        <td><f:format.nl2br>{attribute.value}</f:format.nl2br></td>
+                                    </tr>
+                                </f:for>
+                            </table>
+                        </f:then>
+                        <f:else>
+                            <div class="alert alert-lux">
+                                <p class="message-body">
+                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.novalues">No values to show</f:translate>
+                                </p>
+                            </div>
+                        </f:else>
+                    </f:if>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <a class="fa fa-chevron-down" data-toggle="collapse" href="#profile" role="button" aria-expanded="false" aria-controls="profile">
+                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles">Profiles</f:translate>
+                        </a>
+                        <span class="badge" style="float: right;" title="Number of profiles"><f:count>{visitor.idcookies}</f:count></span>
+                    </h3>
+                </div>
+                <div class="panel-body collapse" id="profile">
+                    <f:if condition="{visitor.idcookies}">
+                        <f:then>
+                            <table class="table table-striped table-hover table-condensed">
+                                <thead>
+                                <tr>
+                                    <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.domain">Domain</f:translate></td>
+                                    <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.browser">Browser</f:translate></td>
+                                    <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.os">OS</f:translate></td>
+                                    <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.device">Device</f:translate></td>
+                                    <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.cookie">Cookie</f:translate></td>
+                                </tr>
+                                </thead>
+                                <f:for each="{visitor.idcookiesSorted}" as="idcookie">
+                                    <tr>
+                                        <td>{idcookie.domain}</td>
+                                        <td>{idcookie.propertiesFromUserAgent.browser} {idcookie.propertiesFromUserAgent.browserversion}</td>
+                                        <td>{idcookie.propertiesFromUserAgent.os} {idcookie.propertiesFromUserAgent.osversion}</td>
+                                        <td>{idcookie.propertiesFromUserAgent.manufacturer} {idcookie.propertiesFromUserAgent.type}</td>
+                                        <td>{idcookie.value}</td>
+                                    </tr>
+                                </f:for>
+                            </table>
+                        </f:then>
+                        <f:else>
+                            <div class="alert alert-lux">
+                                <p class="message-body">
+                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.novalues">No values to show</f:translate>
+                                </p>
+                            </div>
+                        </f:else>
+                    </f:if>
+
                 </div>
             </div>
         </div>

@@ -51,8 +51,8 @@
 			<trans-unit id="tx_lux_domain_model_visitor.tstamp">
 				<source>Last visit</source>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_visitor.id_cookie">
-				<source>Cookie ID</source>
+			<trans-unit id="tx_lux_domain_model_visitor.idcookies">
+				<source>Lux ID Cookies</source>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_visitor.pagevisits">
 				<source>Page visits</source>
@@ -65,9 +65,6 @@
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_visitor.referrer">
 				<source>Source</source>
-			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_visitor.user_agent">
-				<source>User agent</source>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_visitor.ip_address">
 				<source>IP address</source>
@@ -92,6 +89,19 @@
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_visitor.location">
 				<source>Location</source>
+			</trans-unit>
+
+			<trans-unit id="tx_lux_domain_model_idcookie">
+				<source>Cookie</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_idcookie.value">
+				<source>Value</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_idcookie.domain">
+				<source>Domain</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_idcookie.user_agent">
+				<source>User agent</source>
 			</trans-unit>
 
 			<trans-unit id="tx_lux_domain_model_pagevisit">
@@ -388,6 +398,33 @@
 			<trans-unit id="module.analysis.detailpage.time">
 				<source>Time</source>
 			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.properties">
+				<source>Properties</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.properties.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.properties.value">
+				<source>Value</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.profiles">
+				<source>Profiles</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.profiles.domain">
+				<source>Domain</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.profiles.browser">
+				<source>Browser</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.profiles.os">
+				<source>Operating System</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.profiles.device">
+				<source>Device</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.profiles.cookie">
+				<source>Cookie</source>
+			</trans-unit>
 			<trans-unit id="module.analysis.detaildownloads">
 				<source>Downloads</source>
 			</trans-unit>
@@ -456,13 +493,16 @@
 				<source>Lead scoring</source>
 			</trans-unit>
 			<trans-unit id="module.detail.description">
-				<source>Add an individual description...</source>
+				<source>Add an individual description (only internal) ...</source>
 			</trans-unit>
 			<trans-unit id="module.detail.pagefunnel">
 				<source>Conversion Funnel / Page Visits</source>
 			</trans-unit>
 			<trans-unit id="module.detail.location">
 				<source>Location</source>
+			</trans-unit>
+			<trans-unit id="module.detail.moreattributes">
+				<source>More attributes</source>
 			</trans-unit>
 
 			<trans-unit id="module.diagrambox.downloads.title">
@@ -785,6 +825,9 @@
 			</trans-unit>
 			<trans-unit id="save">
 				<source>Save</source>
+			</trans-unit>
+			<trans-unit id="seebelow">
+				<source>See below ...</source>
 			</trans-unit>
 		</body>
 	</file>

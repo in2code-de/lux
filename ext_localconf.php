@@ -13,10 +13,12 @@ call_user_func(
             'In2code.lux',
             'Fe',
             [
-                'Frontend' => 'dispatchRequest,pageRequest,fieldListeningRequest,email4LinkRequest,downloadRequest'
+                'Frontend' => 'dispatchRequest,pageRequest,fieldListeningRequest,formListeningRequest,' .
+                    'email4LinkRequest,downloadRequest'
             ],
             [
-                'Frontend' => 'dispatchRequest,pageRequest,fieldListeningRequest,email4LinkRequest,downloadRequest'
+                'Frontend' => 'dispatchRequest,pageRequest,fieldListeningRequest,formListeningRequest,' .
+                    'email4LinkRequest,downloadRequest'
             ]
         );
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
@@ -65,6 +67,14 @@ call_user_func(
             'isIdentifiedByFieldlistening',
             \In2code\Lux\Slot\Log::class,
             'logIdentifiedVisitor',
+            false
+        );
+        // Log: Identified visitor by listening to form submits
+        $signalSlotDispatcher->connect(
+            \In2code\Lux\Domain\Tracker\AttributeTracker::class,
+            'isIdentifiedByFormlistening',
+            \In2code\Lux\Slot\Log::class,
+            'logIdentifiedVisitorByFormListening',
             false
         );
         // Log: Identified visitor by email4link
@@ -137,5 +147,7 @@ call_user_func(
             \In2code\Lux\Command\LuxServiceCommandController::class;
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] =
             \In2code\Lux\Command\LuxLeadCommandController::class;
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] =
+            \In2code\Lux\Command\LuxUpdateCommandController::class;
     }
 );

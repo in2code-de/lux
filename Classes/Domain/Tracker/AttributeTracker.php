@@ -22,6 +22,7 @@ class AttributeTracker
     use SignalTrait;
 
     const CONTEXT_FIELDLISTENING = 'Fieldlistening';
+    const CONTEXT_FORMLISTENING = 'Formlistening';
     const CONTEXT_EMAIL4LINK = 'Email4link';
 
     /**
@@ -58,6 +59,20 @@ class AttributeTracker
         $this->context = $context;
         $this->visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
         $this->attributeRepository = ObjectUtility::getObjectManager()->get(AttributeRepository::class);
+    }
+
+    /**
+     * @param array $properties
+     * @return void
+     * @throws DBALException
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    public function addAttributes(array $properties)
+    {
+        foreach ($properties as $key => $value) {
+            $this->addAttribute($key, $value);
+        }
     }
 
     /**

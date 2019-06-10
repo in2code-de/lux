@@ -63,8 +63,10 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 ### Identification
 
 - Identify a lead with any webform email field
+- Identify a lead while listening to complete form submits
 - Offer via CkEditor plugin a email4link popup (give me your email and we are going to send you the asset via email)
 - Automaticly merge cookie-ids on second identification (if cookie was removed)
+- Multi-Domain and Multi-Device tracking
 
 ### Analyses
 
@@ -93,8 +95,11 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 -- If a lead gets identified
 -- If lead company given
 -- Use your own expressions for doing even mor individual stuff (with Symfony Expression Language)
+-- Limit to a start action (page visit, download, form submit, etc...)
 - Actions:
 -- Lightbox with a content element
+-- Load a content element and show it on the current page
+-- Hide or show an element of the current page
 -- Send an email with lead details
 -- Redirect to any URL
 -- Send publication to a slack channel
@@ -106,6 +111,7 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 - Cleanup commands (to really erase data)
 - Lead commands to get a summary mail with last activities
 - Service commands (calculate scoring for all leads)
+- Update command after updating from lux 1.x or 2.x to the 3.x version
 
 ### Privacy Features
 
@@ -123,7 +129,6 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 
 ### Possible Enterprise Features in the future
 
-- Todo: Blacklisting
 - Todo: Newsletter tool (replace or extend direct_mail? New tool "luxletter" - usable without Lux?)
 - Todo: Contacts (Import?)
 - Todo: API (Im- and Export)
@@ -142,6 +147,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                        |
 | ---------- | ---------- | ---------- | ---------------------------------------------------------------------------------- |
+| 3.0.0      | 2019-06-10 | Task       | Multi device tracking, form listening, show browser and os information of leads    |
 | 2.5.0      | 2019-06-04 | Task       | Some preperations for luxenterprise                                                |
 | 2.4.0      | 2019-06-03 | Feature    | Replace eos with expression-language, Add url f. workflows, doc update, php cleanup|
 | 2.3.1      | 2019-05-20 | Bugfix     | Show correct last visited date in lead list in backend                             |
