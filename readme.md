@@ -147,6 +147,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                        |
 | ---------- | ---------- | ---------- | ---------------------------------------------------------------------------------- |
+| 3.0.0      | 2019-06-10 | Task       | Multi device tracking, form listening, show browser and os information of leads    |
 | 2.5.0      | 2019-06-04 | Task       | Some preperations for luxenterprise                                                |
 | 2.4.0      | 2019-06-03 | Feature    | Replace eos with expression-language, Add url f. workflows, doc update, php cleanup|
 | 2.3.1      | 2019-05-20 | Bugfix     | Show correct last visited date in lead list in backend                             |
