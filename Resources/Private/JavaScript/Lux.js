@@ -355,7 +355,7 @@ function LuxMain() {
 			'tx_lux_fe[idCookie]': getIdCookie(),
 			'tx_lux_fe[arguments][key]': key,
 			'tx_lux_fe[arguments][value]': value
-		}, getRequestUri(), null, null);
+		}, getRequestUri(), 'generalWorkflowActionCallback', null);
 	};
 
 	/**
@@ -376,7 +376,7 @@ function LuxMain() {
 			'tx_lux_fe[dispatchAction]': 'formListeningRequest',
 			'tx_lux_fe[idCookie]': getIdCookie(),
 			'tx_lux_fe[arguments][values]': JSON.stringify(formArguments)
-		}, getRequestUri(), null, null);
+		}, getRequestUri(), 'generalWorkflowActionCallback', null);
 	};
 
 	/**
