@@ -1030,7 +1030,7 @@ class Visitor extends AbstractEntity
      * @param string $key
      * @return string
      */
-    protected function getPropertyFromAttributes(string $key): string
+    public function getPropertyFromAttributes(string $key): string
     {
         $attributes = $this->getAttributes();
         /** @var Attribute $attribute */
@@ -1046,7 +1046,7 @@ class Visitor extends AbstractEntity
      * @param string $key
      * @return string
      */
-    protected function getPropertyFromIpinformations(string $key): string
+    public function getPropertyFromIpinformations(string $key): string
     {
         $ipinformations = $this->getIpinformations();
         if ($ipinformations->count() > 0) {

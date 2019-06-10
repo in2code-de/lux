@@ -94,7 +94,7 @@ lib.lux.settings {
         ############################
         triggers {
 
-            # Trigger if visitor enter a page
+            # Trigger if visitor enters a page
             1 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:trigger.pagevisit
