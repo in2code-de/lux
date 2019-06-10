@@ -172,7 +172,9 @@ function LuxMain() {
 		var forms = document.querySelectorAll('form[data-lux-form-identification]');
 		for (var i = 0; i < forms.length; i++) {
 			forms[i].addEventListener('submit', function(event) {
-				event.preventDefault();
+				if (event.target.getAttribute('data-lux-form-identification') === 'preventDefault') {
+					event.preventDefault();
+				}
 				sendFormValues(event.target);
 			});
 		}

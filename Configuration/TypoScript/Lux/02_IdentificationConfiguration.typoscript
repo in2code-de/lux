@@ -51,6 +51,7 @@ lib.lux.settings {
         }
 
         # Identify by complete form submits with '<form data-lux-form-identification="true">'
+        # If you want to stop the submit process (pagereload or redirect), you can use data-lux-form-identification="preventDefault"
         # Using a * as wildcard will search for a string in a string while using a key without * will search for the exact match.
         formFieldMapping {
             email {
