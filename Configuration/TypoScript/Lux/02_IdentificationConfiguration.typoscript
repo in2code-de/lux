@@ -2,8 +2,8 @@ lib.lux.settings {
 
     # All identification settings
     identification {
-        # En- or Disable field identification
-        _enable = {$plugin.tx_lux.settings.fieldidentification}
+        # En- or Disable field and form identification
+        _enable = {$plugin.tx_lux.settings.fieldandformidentification}
 
         # Auto identify with EVERY input field of your website.
         # Disabled for forms with [data-lux-form-identification] and also disabled for fields with [data-lux-disable]

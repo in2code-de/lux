@@ -8,8 +8,8 @@ plugin.tx_lux.settings {
     # cat=lux//0020; type=text; label= Activate download tracking: (De)Activate tracking if the user downloads an asset.
     tracking.assetDownloads.allowedExtensions = pdf,txt,doc,docx,xls,xlsx,ppt,pptx,jpg,png,zip
 
-    # cat=lux//0100; type=boolean; label= Activate field identification: (De)Activate identification by filling out web forms.
-    fieldidentification = 1
+    # cat=lux//0100; type=boolean; label= Activate field and form identification: (De)Activate identification by filling out web forms.
+    fieldandformidentification = 1
 
     # cat=lux//0200; type=boolean; label= Disable for backend users: Disable lux tracking in frontend if you are also logged in into backend.
     disableTrackingForBackendUsers = 1
