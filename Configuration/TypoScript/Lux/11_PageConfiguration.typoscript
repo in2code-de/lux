@@ -167,7 +167,7 @@ luxPageRequestAjax {
 
 
 # Typenum to get field mapping configuration in a dynamic JS file
-[globalVar = LIT:0 < {$plugin.tx_lux.settings.fieldidentification}]
+[globalVar = LIT:0 < {$plugin.tx_lux.settings.fieldandformidentification}]
     luxConfigurationFieldIdentification = PAGE
     luxConfigurationFieldIdentification {
         typeNum = 1517985223
