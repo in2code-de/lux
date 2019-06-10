@@ -63,6 +63,7 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 ### Identification
 
 - Identify a lead with any webform email field
+- Identify a lead while listening to complete form submits
 - Offer via CkEditor plugin a email4link popup (give me your email and we are going to send you the asset via email)
 - Automaticly merge cookie-ids on second identification (if cookie was removed)
 - Multi-Domain and Multi-Device tracking
@@ -94,8 +95,11 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 -- If a lead gets identified
 -- If lead company given
 -- Use your own expressions for doing even mor individual stuff (with Symfony Expression Language)
+-- Limit to a start action (page visit, download, form submit, etc...)
 - Actions:
 -- Lightbox with a content element
+-- Load a content element and show it on the current page
+-- Hide or show an element of the current page
 -- Send an email with lead details
 -- Redirect to any URL
 -- Send publication to a slack channel
