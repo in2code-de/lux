@@ -33,5 +33,6 @@ See more information in the chapters:
 ### [Leads](Leads/Index.md)
 ### [Workflows](Workflows/Index.md)
 ### [Plugins and Pageoverview](Plugins/Index.md)
+### [Finisher](Finisher/Index.md)
 ### [CommandController](CommandController/Index.md)
 ### [FAQ](FAQ/Index.md)
