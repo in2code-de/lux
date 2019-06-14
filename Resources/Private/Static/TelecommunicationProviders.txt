@@ -1,7 +1,9 @@
 1&1 Versatel Deutschland GmbH
 ACONET
+ADDIX Internet Services GmbH
 Afrihost
 AGENDA komunikacijski in informacijski inzeniring
+Aligia GmbH
 Amazon.com
 ANTIK Telecom s.r.o
 ARCOR-IP
@@ -23,6 +25,7 @@ Bredband2 AB
 Bremen Briteline GmbH
 BT
 CAT Telecom public company Ltd
+CHCTI-CCI
 China Mobile Guangdong
 China Telecom
 China Telecom Guangdong
@@ -31,6 +34,7 @@ China Unicom Liaoning
 "Choopa, LLC"
 CLARANET
 Cogent Communications
+Colt Technologies
 COLT Technology Services Group Limited
 Comcast Cable
 Company T-Systems Multimedia Solutions GmbH
@@ -53,6 +57,7 @@ DSI GmbH Daten Service Informationssysteme
 DTAG European region
 ecotel communication ag
 Envia Tel GmbH
+Eurofiber Nederland BV
 europroNET Bosnia d.o.o.
 EWE-Tel GmbH
 EWE TEL GmbH
@@ -75,9 +80,11 @@ Host1Plus
 Hutchison Drei Austria GmbH
 IBH IT-Service GmbH
 Init7 (Switzerland) Ltd.
+Interactive Network Communications GmbH
 IPHH Internet Port Hamburg GmbH
 IPVanish
 Ishan's Network
+IT.NRW
 ITERGO
 JimmyNet s.r.o.
 Joyent
@@ -91,6 +98,7 @@ Kabelplus GmbH
 KDVZ Citkomm
 KielNET-Main
 Kom4tel GmbH
+KOMDSL-Hochfrankenwald
 Komro
 komro GmbH
 Komro GmbH
@@ -108,8 +116,10 @@ LueneCom Kommunikationsloesungen GmbH
 LWLcom GmbH
 M & A Leasing Limited
 M-net
+M-net Telekommunikations GmbH
 M247 Ltd
 Madnet d.o.o.
+Mannesmann Arcor Telecommunications AG & Co
 MDlink online service center GmbH
 Medianet Group Srl
 mhs internet AG
@@ -133,6 +143,7 @@ Next Layer Telekommunikationsdienstleistungs- und
 NTS workspace AG
 O2 Deutschland
 o2-Germany
+o2-Germany 1-MUN
 OMG.de GmbH
 ONLINE SAS
 OOO NI
@@ -158,6 +169,7 @@ RDSNET
 Rogers Cable
 Rostelecom
 RSM Connect
+S.A.S.
 SANET
 S-IT Informationstechnologie Betreiber GmbH & Co.
 Salt Mobile SA
@@ -167,10 +179,13 @@ ScanPlus GmbH
 "ShenZhen Sunrise Technology Co.,Ltd."
 SK Broadband
 Skynet Belgium
+STNB
 Starnet Servicii SRL
 Strato AG
+Suedwestfalen IT Network
 Sunrise Communications AG
 Swisscom
+Swisscom (Schweiz) AG - Bluewin
 SWU TeleNet GmbH
 SysEleven GmbH
 T-Mobile Austria GmbH
@@ -186,6 +201,7 @@ Telecom Italia Business
 Telecomunikatsiina Companiya Ltd
 Telefonica de Espana
 Telefonica Germany GmbH & Co. OHG
+Telefonica Germany GmbH & Co.OHG
 Telefonica International Wholesale Services II
 Telefonica O2 Germany
 Telekom Austria
@@ -202,6 +218,7 @@ TOPNET
 Turksat Uydu-Net Internet
 TWL-Kom GmbH
 Unitymedia
+Unus
 UPC Austria
 UPC NL
 UPC Schweiz
@@ -221,7 +238,9 @@ Vodafone Kabel Deutschland
 Vodafone Ono
 Vodafone-Libertel NV
 wilhelm.tel
+wilhelm.tel GmbH
 Wojciech Jerzy Winkel trading as Tempus Telecom
+WVNET Information und Kommunikation GmbH
 Xs4all Internet BV
 YANDEX LLC
 Zscaler
