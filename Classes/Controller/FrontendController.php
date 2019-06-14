@@ -76,7 +76,7 @@ class FrontendController extends ActionController
         $visitor = $visitorFactory->getVisitor();
         $pageTracker = $this->objectManager->get(PageTracker::class);
         $pageTracker->trackPage($visitor, (int)$arguments['pageUid']);
-        return json_encode($this->afterTracking($visitor));
+        return json_encode($this->afterAction($visitor));
     }
 
     /**
@@ -95,7 +95,7 @@ class FrontendController extends ActionController
                 AttributeTracker::CONTEXT_FIELDLISTENING
             );
             $attributeTracker->addAttribute($arguments['key'], $arguments['value']);
-            return json_encode($this->afterTracking($visitor));
+            return json_encode($this->afterAction($visitor));
         } catch (\Exception $exception) {
             return json_encode(['error' => true]);
         }
@@ -118,7 +118,7 @@ class FrontendController extends ActionController
                 AttributeTracker::CONTEXT_FORMLISTENING
             );
             $attributeTracker->addAttributes($values);
-            return json_encode($this->afterTracking($visitor));
+            return json_encode($this->afterAction($visitor));
         } catch (\Exception $exception) {
             return json_encode(['error' => true]);
         }
@@ -145,7 +145,7 @@ class FrontendController extends ActionController
             if ($arguments['sendEmail'] === 'true') {
                 $this->objectManager->get(SendAssetEmail4LinkService::class, $visitor)->sendMail($arguments['href']);
             }
-            return json_encode($this->afterTracking($visitor));
+            return json_encode($this->afterAction($visitor));
         } catch (\Exception $exception) {
             return json_encode(['error' => true]);
         }
@@ -168,7 +168,7 @@ class FrontendController extends ActionController
         $visitor = $visitorFactory->getVisitor();
         $downloadFactory = $this->objectManager->get(DownloadTracker::class, $visitor);
         $downloadFactory->addDownload($arguments['href']);
-        return json_encode($this->afterTracking($visitor));
+        return json_encode($this->afterAction($visitor));
     }
 
     /**
@@ -179,6 +179,7 @@ class FrontendController extends ActionController
     }
 
     /**
+     * This method will be called after normal frontend actions.
      * Pass three parameters to slot. The first is the visitor to use this data. The second is the action name from
      * where the signal came from. The third is an array, which could be returned for passing an array as json to the
      * javascript of the visitor.
@@ -188,9 +189,9 @@ class FrontendController extends ActionController
      * @throws InvalidSlotException
      * @throws InvalidSlotReturnException
      */
-    protected function afterTracking(Visitor $visitor): array
+    protected function afterAction(Visitor $visitor): array
     {
-        $result = $this->signalDispatch(__CLASS__, __FUNCTION__, [$visitor, $this->actionMethodName, []]);
+        $result = $this->signalDispatch(__CLASS__, 'afterTracking', [$visitor, $this->actionMethodName, []]);
         return $result[2];
     }
 }

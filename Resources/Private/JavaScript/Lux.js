@@ -190,6 +190,16 @@ function LuxMain() {
 	};
 
 	/**
+	 * Not a real workflowAction but more a finisher action to stop asking for email addresses on email4link clicks if
+	 * the visitor is already known (only with a cookie "luxDisableEmail4Link"
+	 *
+	 * @param response
+	 */
+	this.disableEmail4LinkWorkflowAction = function(response) {
+		setCookie('luxDisableEmail4Link', true);
+	};
+
+	/**
 	 * @returns {void}
 	 */
 	var addFieldListeners = function() {
@@ -266,23 +276,25 @@ function LuxMain() {
 	 * @returns {void}
 	 */
 	var email4LinkListener = function(link, event) {
-		event.preventDefault();
+		if (getCookieByName('luxDisableEmail4Link') !== 'true') {
+			event.preventDefault();
 
-		var title = link.getAttribute('data-lux-email4link-title') || '';
-		var text = link.getAttribute('data-lux-email4link-text') || '';
-		var href = link.getAttribute('href');
-		var containers = document.querySelectorAll('[data-lux-container="email4link"]');
-		if (containers.length > 0) {
-			var container = containers[0].cloneNode(true);
-			var html = container.innerHTML;
-			html = html.replace('###TITLE###', title);
-			html = html.replace('###TEXT###', text);
-			html = html.replace('###HREF###', getFilenameFromHref(href));
-			that.lightboxInstance = basicLightbox.create(html);
-			that.lightboxInstance.element().querySelector('[data-lux-email4link="form"]').addEventListener('submit', function(event) {
-				email4LinkLightboxSubmitListener(this, event, link);
-			});
-			that.lightboxInstance.show();
+			var title = link.getAttribute('data-lux-email4link-title') || '';
+			var text = link.getAttribute('data-lux-email4link-text') || '';
+			var href = link.getAttribute('href');
+			var containers = document.querySelectorAll('[data-lux-container="email4link"]');
+			if (containers.length > 0) {
+				var container = containers[0].cloneNode(true);
+				var html = container.innerHTML;
+				html = html.replace('###TITLE###', title);
+				html = html.replace('###TEXT###', text);
+				html = html.replace('###HREF###', getFilenameFromHref(href));
+				that.lightboxInstance = basicLightbox.create(html);
+				that.lightboxInstance.element().querySelector('[data-lux-email4link="form"]').addEventListener('submit', function(event) {
+					email4LinkLightboxSubmitListener(this, event, link);
+				});
+				that.lightboxInstance.show();
+			}
 		}
 	};
 
@@ -767,7 +779,7 @@ function LuxMain() {
 
 	/**
 	 * @param {string} name
-	 * @param {string} value
+	 * @param value
 	 * @returns {void}
 	 */
 	var setCookie = function(name, value) {
