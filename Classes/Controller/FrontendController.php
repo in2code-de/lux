@@ -16,6 +16,8 @@ use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
+use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
+use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
 
 /**
  * Class FrontendController
@@ -61,10 +63,12 @@ class FrontendController extends ActionController
      * @param string $idCookie
      * @param array $arguments
      * @return string
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
+     * @throws IllegalObjectTypeException
+     * @throws InvalidSlotException
+     * @throws InvalidSlotReturnException
+     * @throws UnknownObjectException
      */
     public function pageRequestAction(string $idCookie, array $arguments): string
     {
@@ -154,6 +158,8 @@ class FrontendController extends ActionController
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws IllegalObjectTypeException
+     * @throws InvalidSlotException
+     * @throws InvalidSlotReturnException
      * @throws UnknownObjectException
      */
     public function downloadRequestAction(string $idCookie, array $arguments): string
@@ -179,6 +185,8 @@ class FrontendController extends ActionController
      *
      * @param Visitor $visitor
      * @return array
+     * @throws InvalidSlotException
+     * @throws InvalidSlotReturnException
      */
     protected function afterTracking(Visitor $visitor): array
     {
