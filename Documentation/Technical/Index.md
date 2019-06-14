@@ -22,7 +22,10 @@ It's possible for visitors to opt out (with the opt-out plugin) or to use the *d
 Lux will respect this settings in every case.
 
 Every visitor will get an unique cookie with name `luxId`. This id will be used for tracking and identification.
-A second cookie can be added for an opt out with the name `luxTrackingOptOut`.
+
+Other cookies are:
+* `luxTrackingOptOut` for a tracking opt out
+* `luxDisableEmail4Link` to disable email4link popups if a visitor is already identified
 
 See more information in the chapters:
 
@@ -35,4 +38,5 @@ See more information in the chapters:
 ### [Plugins and Pageoverview](Plugins/Index.md)
 ### [Finisher](Finisher/Index.md)
 ### [CommandController](CommandController/Index.md)
+### [SignalSlots](SignalSlots/Index.md)
 ### [FAQ](FAQ/Index.md)
