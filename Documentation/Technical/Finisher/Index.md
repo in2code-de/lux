@@ -38,12 +38,15 @@ A small PHP file will do the trick for you:
 ```
 <?php
 declare(strict_types=1);
-namespace In2code\Lux\Domain\Finisher;
+namespace Vendor\Luxextension\Domain\Finisher;
+
+use In2code\Lux\Domain\Finisher\AbstractFinisher;
+use In2code\Lux\Domain\Finisher\FinisherInterface;
 
 /**
- * Class DisableEmail4LinkFinisher
+ * Class SendNotificationEmailFinisher
  */
-class DisableEmail4LinkFinisher extends AbstractFinisher implements FinisherInterface
+class SendNotificationEmailFinisher extends AbstractFinisher implements FinisherInterface
 {
     /**
      * Decide if start() should be called or not by returning a boolean value
