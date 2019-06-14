@@ -143,10 +143,17 @@ lux needs minimum *TYPO3 8.7* as a modern basic together with *composer mode*. E
 for the identification feature (powermail, form, formhandler, felogin, etc...).
 At the moment it's not possible to use lux without **composer mode**!
 
+## Breaking changes !!!
+
+| Version                     | Situation                                           | Upgrade instructions                                                                                                                                               |
+| --------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| From former versions to 3.x | The visitor object can handle more cookies now      | After updating use the update button in extension manager of if you have a lot of data stored, you can also use the LuxUpdateCommandController to prevent timeouts |
+
 ## Changelog
 
 | Version    | Date       | State      | Description                                                                        |
 | ---------- | ---------- | ---------- | ---------------------------------------------------------------------------------- |
+| 4.0.0      | 2019-06-14 | Task       | Include concept of finishers, don't ask again if identified with email4download    |
 | 3.0.0      | 2019-06-10 | Task       | Multi device tracking, form listening, show browser and os information of leads    |
 | 2.5.0      | 2019-06-04 | Task       | Some preperations for luxenterprise                                                |
 | 2.4.0      | 2019-06-03 | Feature    | Replace eos with expression-language, Add url f. workflows, doc update, php cleanup|

@@ -4,6 +4,8 @@ namespace In2code\Lux\Signal;
 
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
+use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
+use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
 
 /**
  * Trait SignalTrait
@@ -22,6 +24,8 @@ trait SignalTrait
      * @param string $signalName
      * @param array $arguments
      * @return array
+     * @throws InvalidSlotException
+     * @throws InvalidSlotReturnException
      */
     protected function signalDispatch(string $signalClassName, string $signalName, array $arguments): array
     {

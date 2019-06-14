@@ -125,6 +125,14 @@ call_user_func(
             'calculateAndSetScoring',
             false
         );
+        // Add finisher
+        $signalSlotDispatcher->connect(
+            \In2code\Lux\Controller\FrontendController::class,
+            'afterTracking',
+            \In2code\Lux\Domain\Finisher\FinisherHandler::class,
+            'startFinisher',
+            false
+        );
 
         /**
          * CK editor configuration

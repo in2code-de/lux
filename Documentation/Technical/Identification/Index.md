@@ -334,3 +334,6 @@ to your links.
     data-lux-email4link-text="Please give us your email-address, we're going to send you the asset."
     data-lux-email4link-title="Receive document via email.">Download our whitepaper</a>
 ```
+
+**Note:** Per default, Lux will not ask twice for the email. But you can configure this via TypoScript constants 
+`plugin.tx_lux.settings.disableEmail4DownloadForIdentifiedVisitors=1`

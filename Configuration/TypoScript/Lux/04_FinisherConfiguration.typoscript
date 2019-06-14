@@ -1,0 +1,15 @@
+lib.lux.settings {
+    # Add finishers classes for your own actions (e.g. pass values to a third party tool like a crm)
+    finisher {
+
+        # Disable email4link if visitor is already identified
+        1 {
+            class = In2code\Lux\Domain\Finisher\DisableEmail4LinkFinisher
+
+            # Additional configuration
+            configuration {
+                enable = {$plugin.tx_lux.settings.disableEmail4DownloadForIdentifiedVisitors}
+            }
+        }
+    }
+}

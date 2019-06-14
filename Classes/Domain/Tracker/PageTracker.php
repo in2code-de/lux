@@ -11,6 +11,8 @@ use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
+use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
+use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
 
 /**
  * Class PageTracker
@@ -38,6 +40,8 @@ class PageTracker
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws InvalidSlotException
+     * @throws InvalidSlotReturnException
      */
     public function trackPage(Visitor $visitor, int $pageUid)
     {
