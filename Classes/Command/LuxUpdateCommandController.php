@@ -23,7 +23,7 @@ class LuxUpdateCommandController extends CommandController
      * @throws DBALException
      * @cli
      */
-    public function removeUnknownVisitorsByAgeCommand(string $domainName)
+    public function updateCookieStorage(string $domainName)
     {
         try {
             $updateService = ObjectUtility::getObjectManager()->get(UpdateIdcookiesService::class);

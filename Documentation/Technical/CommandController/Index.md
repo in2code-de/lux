@@ -80,7 +80,7 @@ per night.
 
 #### LuxUpdateCommandController
 
-`\In2code\Lux\Command\LuxServiceCommandController::removeUnknownVisitorsByAgeCommand()` This command will help you
+`\In2code\Lux\Command\LuxServiceCommandController::updateCookieStorage()` This command will help you
 to not lose your collected data when updating from an older lux major version to 3.x. The used service is the same
 as you can start in the extension manager by clicking the update button. We would recommend to use the CLI for this
 update and not the extension manager button because of runtime limitations in the apache.
