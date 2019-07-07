@@ -137,7 +137,7 @@ call_user_func(
         /**
          * CK editor configuration
          */
-        if (\In2code\Lux\Utility\ConfigurationUtility::isCkEditorConfigurationDisabled() === false) {
+        if (\In2code\Lux\Utility\ConfigurationUtility::isCkEditorConfigurationNeeded()) {
             $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['lux'] = 'EXT:lux/Configuration/Yaml/CkEditor.yaml';
         }
 
