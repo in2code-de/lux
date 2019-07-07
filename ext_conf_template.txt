@@ -28,11 +28,14 @@ disableWorkflowModule = 0
 # cat=advanced/enable/210; type=boolean; label= Disable box with latest leads: If you don't want to show the latest leads box in a page view, choose this settings.
 disableLastLeadsBoxInPage = 0
 
-# cat=advanced/enable/220; type=boolean; label= Disable IP logging: Disable the logging of the visitors IP-address.
+# cat=advanced/enable/220; type=boolean; label= Disable ckeditor configuraiton: Lux adds an own ckeditor configuration file to enable email4link feature. If you don't want this, you can turn this off.
+disableCkEditorConfiguration = 0
+
+# cat=advanced/enable/230; type=boolean; label= Disable IP logging: Disable the logging of the visitors IP-address.
 disableIpLogging = 0
 
-# cat=advanced/enable/230; type=boolean; label= Anonymize IP: As an alternative to disableIpLogging, you can anonymize the visitors IP-address when saving. The last part of the IP will be anonymized with "***".
+# cat=advanced/enable/240; type=boolean; label= Anonymize IP: As an alternative to disableIpLogging, you can anonymize the visitors IP-address when saving. The last part of the IP will be anonymized with "***".
 anonymizeIp = 1
 
-# cat=advanced/enable/240; type=boolean; label= Disable ip-api.com information: You can use or disable ip-api.com to get more information about your visitors by their IP-address. Note - if you set disableIpLogging - this service will not work.
+# cat=advanced/enable/250; type=boolean; label= Disable ip-api.com information: You can use or disable ip-api.com to get more information about your visitors by their IP-address. Note - if you set disableIpLogging - this service will not work.
 disableIpInformation = 0

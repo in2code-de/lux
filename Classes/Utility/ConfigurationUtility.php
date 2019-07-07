@@ -5,6 +5,7 @@ namespace In2code\Lux\Utility;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
@@ -61,6 +62,28 @@ class ConfigurationUtility
     {
         $extensionConfig = self::getExtensionConfiguration();
         return $extensionConfig['disableLastLeadsBoxInPage'] === '1';
+    }
+
+    /**
+     * @return bool
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     */
+    public static function isCkEditorConfigurationNeeded(): bool
+    {
+        return self::isCkEditorConfigurationDisabled() === false
+            && ExtensionManagementUtility::isLoaded('rte_ckeditor');
+    }
+
+    /**
+     * @return bool
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     */
+    protected static function isCkEditorConfigurationDisabled(): bool
+    {
+        $extensionConfig = self::getExtensionConfiguration();
+        return $extensionConfig['disableCkEditorConfiguration'] === '1';
     }
 
     /**

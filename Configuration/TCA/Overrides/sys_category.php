@@ -3,7 +3,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 $columns = [
     'lux_category' => [
-        'exclude' => 1,
+        'exclude' => true,
         'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:sys_category.lux_category',
         'config' => [
             'type' => 'check'
