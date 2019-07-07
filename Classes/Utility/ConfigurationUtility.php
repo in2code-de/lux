@@ -68,6 +68,17 @@ class ConfigurationUtility
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      */
+    public static function isCkEditorConfigurationDisabled(): bool
+    {
+        $extensionConfig = self::getExtensionConfiguration();
+        return $extensionConfig['disableCkEditorConfiguration'] === '1';
+    }
+
+    /**
+     * @return bool
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     */
     public static function isIpLoggingDisabled(): bool
     {
         $extensionConfig = self::getExtensionConfiguration();
