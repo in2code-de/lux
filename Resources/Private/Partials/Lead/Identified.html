@@ -17,63 +17,9 @@
                         id="extension-lux-analysis-identified"
                         width="750"
                         height="350"
+                        data-chart="bar"
                         data-chart-data="{numberOfIdentifiedVisitors},{numberOfUnknownVisitors}"
                         data-chart-labels="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.identified.0')},{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.identified.1')}"></canvas>
-                <script>
-                    require(['TYPO3/CMS/Lux/Vendor/Chart.min'], function (Chart) {
-                        var container = document.getElementById('extension-lux-analysis-identified');
-                        var ctx = container.getContext('2d');
-
-                        /**
-                         * @returns {Array}
-                         */
-                        var getDataChartData = function() {
-                            var string = container.getAttribute('data-chart-data');
-                            return string.split(',');
-                        };
-
-                        /**
-                         * @returns {Array}
-                         */
-                        var getDataChartLabels = function() {
-                            var string = container.getAttribute('data-chart-labels');
-                            return string.split(',');
-                        };
-
-                        var data = {
-                            datasets: [{
-                                label: 'Leads',
-                                data: getDataChartData(),
-                                backgroundColor: [
-                                    'rgba(77, 231, 255, 1)',
-                                    'rgba(221, 221, 221, 1)'
-                                ]
-                            }],
-                            labels: getDataChartLabels()
-                        };
-                        var options = {
-                            legend: {
-                                display: false,
-                                position: 'right',
-                                labels: {
-                                    fontSize: 18
-                                }
-                            },
-                            scales: {
-                                yAxes: [{
-                                    ticks: {
-                                        beginAtZero: true
-                                    }
-                                }]
-                            }
-                        };
-                        new Chart(ctx, {
-                            type: 'bar',
-                            data: data,
-                            options: options
-                        });
-                    });
-                </script>
             </f:then>
             <f:else>
                 <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.novalues">No values to show</f:translate>

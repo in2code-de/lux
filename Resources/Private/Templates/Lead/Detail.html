@@ -103,44 +103,10 @@
                     <canvas id="detailchart"
                             width="750"
                             height="250"
+                            data-chart="line"
                             data-chart-data="{lux:charts.getScoringOfTheLastWeeksToAVisitor(visitor:visitor)}"
                             data-chart-label="Scoring"
                             data-chart-labels="{lux:charts.getLastWeekNames()}"></canvas>
-                    <script type="application/javascript">
-						require(['TYPO3/CMS/Lux/Vendor/Chart.min'], function(Chart) {
-							var container = document.getElementById('detailchart');
-							var ctx = container.getContext('2d');
-
-							new Chart(ctx, {
-								type: 'line',
-								data: {
-									datasets: [{
-										label: container.getAttribute('data-chart-label'),
-										data: container.getAttribute('data-chart-data').split(','),
-										borderColor: 'rgb(77, 231, 255)',
-										"lineTension": 0.5
-									}],
-									labels: container.getAttribute('data-chart-labels').split(',')
-								},
-								options: {
-									legend: {
-										display: false,
-										position: 'right',
-										labels: {
-											fontSize: 18
-										}
-									},
-									scales: {
-										yAxes: [{
-											ticks: {
-												beginAtZero: true
-											}
-										}]
-									}
-								}
-							});
-						});
-                    </script>
                 </div>
             </div>
         </div>
@@ -174,47 +140,9 @@
                                     <canvas id="detailchart-categoryscorings"
                                             width="750"
                                             height="250"
+                                            data-chart="bar"
                                             data-chart-data="{lux:visitor.getCategoryScoringListFromVisitor(visitor:visitor)}"
                                             data-chart-labels="{lux:visitor.getCategoryScoringListFromVisitor(visitor:visitor,property:'title')}"></canvas>
-                                    <script type="application/javascript">
-                                        require(['TYPO3/CMS/Lux/Vendor/Chart.min'], function (Chart) {
-                                            var container = document.getElementById('detailchart-categoryscorings');
-                                            var ctx = container.getContext('2d');
-
-                                            var data = {
-                                                datasets: [{
-                                                    label: 'Scoring',
-                                                    data: container.getAttribute('data-chart-data').split(','),
-                                                    backgroundColor: [
-                                                        'rgba(77, 231, 255, 1)',
-                                                        'rgba(221, 221, 221, 1)'
-                                                    ]
-                                                }],
-                                                labels: container.getAttribute('data-chart-labels').split(',')
-                                            };
-                                            var options = {
-                                                legend: {
-                                                    display: false,
-                                                    position: 'right',
-                                                    labels: {
-                                                        fontSize: 18
-                                                    }
-                                                },
-                                                scales: {
-                                                    yAxes: [{
-                                                        ticks: {
-                                                            beginAtZero: true
-                                                        }
-                                                    }]
-                                                }
-                                            };
-                                            new Chart(ctx, {
-                                                type: 'bar',
-                                                data: data,
-                                                options: options
-                                            });
-                                        });
-                                    </script>
                                 </f:then>
                                 <f:else>
                                     <div class="alert alert-lux">

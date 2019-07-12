@@ -1,4 +1,4 @@
-define(['jquery', 'TYPO3/CMS/Lux/Vendor/Chart.min'], function($) {
+define(['jquery'], function($) {
 	'use strict';
 
 	/**

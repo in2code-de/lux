@@ -153,6 +153,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                        |
 | ---------- | ---------- | ---------- | ---------------------------------------------------------------------------------- |
+| 4.1.1      | 2019-07-13 | Bugfix     | Bugfix for PHP 7.3 - Fluid errors in backend modules                               |
 | 4.1.0      | 2019-07-07 | Task       | Toggle ckeditor configuration, don't add if ckeditor is not installed, fix typo    |
 | 4.0.0      | 2019-06-14 | Task       | Include concept of finishers, don't ask again if identified with email4download    |
 | 3.0.0      | 2019-06-10 | Task       | Multi device tracking, form listening, show browser and os information of leads    |
