@@ -13,62 +13,10 @@
                     <canvas id="extension-lux-list-downloads"
                             width="750"
                             height="250"
+                            data-chart="line"
                             data-chart-data="{lux:format.implode(array:numberOfDownloadsByDay)}"
                             data-chart-label="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.diagrambox.downloads.title')}"
                             data-chart-labels="{lux:charts.getLastDayNames()}"></canvas>
-                    <script>
-						require(['TYPO3/CMS/Lux/Vendor/Chart.min'], function(Chart) {
-							var container = document.getElementById('extension-lux-list-downloads');
-							var ctx = container.getContext('2d');
-
-							/**
-							 * @returns {Array}
-							 */
-							var getDataChartData = function () {
-								var string = container.getAttribute('data-chart-data');
-								return string.split(',');
-							};
-
-							/**
-							 * @returns {Array}
-							 */
-							var getDataChartLabels = function () {
-								var string = container.getAttribute('data-chart-labels');
-								return string.split(',');
-							};
-
-							var data = {
-								datasets: [{
-									label: container.getAttribute('data-chart-label'),
-									data: getDataChartData(),
-									borderColor: 'rgb(77, 231, 255)',
-									"lineTension": 0.5
-								}],
-								labels: getDataChartLabels()
-							};
-							var options = {
-								legend: {
-									display: false,
-									position: 'right',
-									labels: {
-										fontSize: 18
-									}
-								},
-								scales: {
-									yAxes: [{
-										ticks: {
-											beginAtZero: true
-										}
-									}]
-								}
-							};
-							new Chart(ctx, {
-								type: 'line',
-								data: data,
-								options: options
-							});
-						});
-                    </script>
                 </div>
             </f:then>
             <f:else>
