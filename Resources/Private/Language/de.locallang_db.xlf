@@ -497,6 +497,10 @@
 				<source>"formlistening" identified lead</source>
 				<target state="translated">"formlistening" hat einen Lead identifiziert</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.log.status.28">
+				<source>"luxletterlink" identified lead</source>
+				<target state="translated">"luxletterlink" hat einen Lead identifiziert</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.log.status.50">
 				<source>lux tracked a download</source>
 				<target state="translated">lux hat einen Download aufgezeichnet</target>
