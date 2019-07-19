@@ -419,6 +419,9 @@
 			<trans-unit id="module.analysis.detailpage.properties.value">
 				<source>Value</source>
 			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.properties.valuefrontenduser">
+				<source>Value (Frontenduser)</source>
+			</trans-unit>
 			<trans-unit id="module.analysis.detailpage.profiles">
 				<source>Profiles</source>
 			</trans-unit>

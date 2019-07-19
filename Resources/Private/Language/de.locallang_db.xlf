@@ -557,6 +557,10 @@
 				<source>Value</source>
 				<target state="translated">Wert</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.properties.valuefrontenduser">
+				<source>Value (Frontenduser)</source>
+				<target state="translated">Wert (Frontend Benutzer)</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.detailpage.profiles">
 				<source>Profiles</source>
 				<target state="translated">Profile</target>

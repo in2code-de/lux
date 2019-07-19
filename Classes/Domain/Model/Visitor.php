@@ -634,6 +634,28 @@ class Visitor extends AbstractEntity
     }
 
     /**
+     * @return array
+     */
+    public function getAttributesFromFrontenduser(): array
+    {
+        $attributes = [];
+        $disallowed = ['password', 'lockToDomain'];
+        if ($this->frontenduser !== null) {
+            foreach ($this->frontenduser->_getProperties() as $name => $value) {
+                if (!empty($value) && in_array($name, $disallowed) === false) {
+                    if (is_string($value) || is_int($value)) {
+                        $attributes[] = [
+                            'name' => $name,
+                            'value' => $value
+                        ];
+                    }
+                }
+            }
+        }
+        return $attributes;
+    }
+
+    /**
      * @return string
      */
     public function getReferrer(): string
