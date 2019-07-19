@@ -65,6 +65,8 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 - Identify a lead with any webform email field
 - Identify a lead while listening to complete form submits
 - Offer via CkEditor plugin a email4link popup (give me your email and we are going to send you the asset via email)
+- Identify a lead via click in a newsletter email sent by [Extension luxletter](https://github.com/in2code-de/luxletter)
+- Identify a lead automatically via frontend login
 - Automaticly merge cookie-ids on second identification (if cookie was removed)
 - Multi-Domain and Multi-Device tracking
 
