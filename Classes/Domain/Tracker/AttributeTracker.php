@@ -27,6 +27,7 @@ class AttributeTracker
     const CONTEXT_FORMLISTENING = 'Formlistening';
     const CONTEXT_EMAIL4LINK = 'Email4link';
     const CONTEXT_LUXLETTERLINK = 'Luxletterlink';
+    const CONTEXT_FRONTENDUSER = 'Frontendauthentication';
 
     /**
      * @var Visitor|null

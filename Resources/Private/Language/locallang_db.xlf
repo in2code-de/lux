@@ -63,6 +63,9 @@
 			<trans-unit id="tx_lux_domain_model_visitor.description">
 				<source>Description</source>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.frontenduser">
+				<source>Frontend user</source>
+			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_visitor.referrer">
 				<source>Source</source>
 			</trans-unit>
@@ -373,6 +376,9 @@
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.25">
 				<source>"formlistening" identified lead</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.26">
+				<source>Identified lead by frontend login</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.28">
 				<source>"luxletterlink" identified lead</source>

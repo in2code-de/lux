@@ -83,6 +83,10 @@
 				<source>Description</source>
 				<target state="translated">Beschreibung</target>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.frontenduser">
+				<source>Frontend user</source>
+				<target state="translated">Frontend Benutzer</target>
+			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_visitor.referrer">
 				<source>Source</source>
 				<target state="translated">Quelle</target>
@@ -496,6 +500,10 @@
 			<trans-unit id="module.analysis.log.status.25">
 				<source>"formlistening" identified lead</source>
 				<target state="translated">"formlistening" hat einen Lead identifiziert</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.26">
+				<source>Identified lead by frontend login</source>
+				<target state="translated">Lead durch "Frontend Login" identifiziert</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.28">
 				<source>"luxletterlink" identified lead</source>

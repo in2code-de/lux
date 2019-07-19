@@ -8,6 +8,7 @@ CREATE TABLE tx_lux_domain_model_visitor (
 	ipinformations int(11) DEFAULT '0' NOT NULL,
 	downloads int(11) DEFAULT '0' NOT NULL,
 	logs int(11) DEFAULT '0' NOT NULL,
+	frontenduser int(11) DEFAULT '0' NOT NULL,
 
 	identified tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	blacklisted tinyint(4) unsigned DEFAULT '0' NOT NULL,

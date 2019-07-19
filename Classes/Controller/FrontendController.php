@@ -2,11 +2,13 @@
 declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
+use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Factory\VisitorFactory;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Service\SendAssetEmail4LinkService;
 use In2code\Lux\Domain\Tracker\AttributeTracker;
 use In2code\Lux\Domain\Tracker\DownloadTracker;
+use In2code\Lux\Domain\Tracker\FrontenduserAttributeTracker;
 use In2code\Lux\Domain\Tracker\PageTracker;
 use In2code\Lux\Signal\SignalTrait;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
@@ -69,11 +71,14 @@ class FrontendController extends ActionController
      * @throws InvalidSlotException
      * @throws InvalidSlotReturnException
      * @throws UnknownObjectException
+     * @throws DBALException
      */
     public function pageRequestAction(string $idCookie, array $arguments): string
     {
         $visitorFactory = $this->objectManager->get(VisitorFactory::class, $idCookie, $arguments['referrer']);
         $visitor = $visitorFactory->getVisitor();
+        $userAttributeTracker = $this->objectManager->get(FrontenduserAttributeTracker::class, $visitor);
+        $userAttributeTracker->trackByFrontenduserAuthentication();
         $pageTracker = $this->objectManager->get(PageTracker::class);
         $pageTracker->trackPage($visitor, (int)$arguments['pageUid']);
         return json_encode($this->afterAction($visitor));

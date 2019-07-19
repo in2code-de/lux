@@ -32,7 +32,7 @@ return [
         '1' => [
             'showitem' =>
                 '--palette--;Lead;scoring,categoryscorings,--palette--;Lead;visits,--palette--;Lead;mail,' .
-                '--palette--;Lead;time,attributes,--palette--;Lead;referrer,' .
+                '--palette--;Lead;time,frontenduser,attributes,--palette--;Lead;referrer,' .
                 '--div--;LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' .
                 'tx_lux_domain_model_visitor.tab.enrichments,ip_address,ipinformations,' .
                 '--div--;LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' .
@@ -345,6 +345,22 @@ return [
                 'type' => 'text',
                 'cols' => 500,
                 'rows' => 8
+            ]
+        ],
+        'frontenduser' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:'
+                . Visitor::TABLE_NAME . '.frontenduser',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'items' => [
+                    ['', 0],
+                ],
+                'foreign_table' => 'fe_users',
+                'foreign_table_where' => 'AND fe_users.deleted = 0',
+                'default' => 0,
+                'readOnly' => true
             ]
         ]
     ]
