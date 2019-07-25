@@ -27,6 +27,6 @@ class FileUtility
      */
     public static function isStringInFile(string $value, string $filename): bool
     {
-        return exec('grep -i ' . escapeshellarg($value) . ' ' . $filename) !== '';
+        return exec('grep -iw ' . escapeshellarg($value) . ' ' . $filename) !== '';
     }
 }
