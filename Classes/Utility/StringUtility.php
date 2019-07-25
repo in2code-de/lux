@@ -105,4 +105,17 @@ class StringUtility
         }
         return '';
     }
+
+    /**
+     * @param string $haystack
+     * @param string $needle
+     * @return string
+     */
+    public static function removeLeadingStringInString(string $haystack, string $needle): string
+    {
+        if (StringUtility::startsWith($haystack, $needle)) {
+            $haystack = substr($haystack, strlen($needle));
+        }
+        return $haystack;
+    }
 }
