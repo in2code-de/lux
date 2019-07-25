@@ -6,9 +6,12 @@ use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
+use In2code\Lux\Utility\UrlUtility;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
+use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
@@ -42,6 +45,8 @@ class SendAssetEmail4LinkService
     /**
      * @param string $href
      * @return void
+     * @throws InvalidSlotException
+     * @throws InvalidSlotReturnException
      */
     public function sendMail(string $href)
     {
@@ -58,6 +63,8 @@ class SendAssetEmail4LinkService
     /**
      * @param string $href
      * @return void
+     * @throws InvalidSlotException
+     * @throws InvalidSlotReturnException
      */
     protected function send(string $href)
     {
@@ -66,7 +73,9 @@ class SendAssetEmail4LinkService
             ->setTo([$this->visitor->getEmail() => 'Receiver'])
             ->setFrom($this->getSender())
             ->setSubject($this->getSubject())
-            ->attach(\Swift_Attachment::fromPath(GeneralUtility::getFileAbsFileName($this->cleanHref($href))))
+            ->attach(
+                \Swift_Attachment::fromPath(GeneralUtility::getFileAbsFileName(UrlUtility::convertToRelative($href)))
+            )
             ->setBody($this->getMailTemplate($href), 'text/html');
         $this->signalDispatch(__CLASS__, 'send', [$message, $this->visitor, $href]);
         $message->send();
@@ -113,6 +122,7 @@ class SendAssetEmail4LinkService
      */
     protected function isActivatedAndAllowed(string $href): bool
     {
+        // todo: Fix for leading slash: $this->isAllowedStorage($href) and $this->isFileExisting($href)
         return $this->isEnabled() && $this->isAllowedFileExtension($href) && $this->isAllowedStorage($href)
             && $this->isNotMalicious($href) && $this->isFileExisting($href) && $this->visitor->isIdentified();
     }
@@ -160,13 +170,12 @@ class SendAssetEmail4LinkService
             if ($storage->isOnline()) {
                 $configuration = $storage->getConfiguration();
                 $basePath = $configuration['basePath'];
-                if (StringUtility::startsWith($this->cleanHref($href), $basePath)) {
+                if (StringUtility::startsWith(UrlUtility::convertToRelative($href), $basePath)) {
                     $allowed = true;
                     break;
                 }
             }
         }
-
         return $allowed;
     }
 
@@ -186,19 +195,6 @@ class SendAssetEmail4LinkService
      */
     protected function isFileExisting(string $href): bool
     {
-        return file_exists(GeneralUtility::getFileAbsFileName($this->cleanHref($href)));
-    }
-
-    /**
-     * Remove leading slash or domain from href for comparing with basePath
-     *
-     * @param string $path
-     * @return string
-     */
-    protected function cleanHref(string $path): string
-    {
-        $path = ltrim($path, StringUtility::getCurrentUri());
-        $path = ltrim($path, '/');
-        return $path;
+        return file_exists(GeneralUtility::getFileAbsFileName(UrlUtility::convertToRelative($href)));
     }
 }
