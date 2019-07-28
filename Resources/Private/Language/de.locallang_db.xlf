@@ -801,6 +801,11 @@
 				<target state="translated">Aktion</target>
 			</trans-unit>
 
+			<trans-unit id="luxletter.module.newsletter.receiver.title">
+				<source>Receiver analysis</source>
+				<target state="translated">Empfänger Analyse</target>
+			</trans-unit>
+
 			<trans-unit id="trigger.pagevisit">
 				<source>On entering a page</source>
 				<target state="translated">Bei Seitenbesuch</target>

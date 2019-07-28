@@ -1,0 +1,77 @@
+<f:layout name="Backend"/>
+
+<f:section name="content">
+	<h1>
+		<f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:luxletter.module.newsletter.receiver.title">receiver analysis</f:translate>
+	</h1>
+
+	<div class="row">
+		<div class="col-md-6">
+
+			<f:render partial="Misc/FlashMessages" arguments="{_all}"/>
+
+			<f:if condition="{users}">
+				<f:then>
+					<f:render partial="Newsletter/Receiver/Filter" arguments="{_all}"/>
+
+					<f:be.widget.paginate
+							objects="{users}"
+							as="usersPage"
+							configuration="{itemsPerPage:25,insertAbove:0,insertBelow:1,maximumNumberOfLinks:10}">
+						<table class="table table-striped table-hover table-condensed table-pointer">
+							<thead>
+							<tr>
+								<th>#</th>
+								<th>Receiver</th>
+								<th>Usergroup</th>
+								<th>Received Newsletters</th>
+								<th>Newsletter actions</th>
+								<th></th>
+							</tr>
+							</thead>
+							<tbody>
+								<f:for each="{usersPage}" as="user" iteration="iteration">
+									<tr data-luxletter-linkmockaction="detail{user.uid}">
+										<td>{iteration.cycle}.</td>
+										<td>
+											<span title="UID{user.uid} - {user.username}">{user.readableName}</span>
+										</td>
+										<td>
+											<f:for each="{user.usergroup}" as="usergroup" iteration="iteration">
+												<span title="UID{usergroup.uid}">{usergroup.title}</span>
+												<f:if condition="{iteration.isLast} != 1">,</f:if>
+											</f:for>
+										</td>
+										<td>
+											<f:count>{activities.{user.uid}.newlettersdispatched}</f:count>
+										</td>
+										<td>
+											<f:count>{activities.{user.uid}.activities}</f:count>
+										</td>
+										<td>
+											<f:link.action action="receiverDetails" arguments="{user:user}" class="btn btn-default" data="{luxletter-linkmock-link:'detail{user.uid}',luxletter-action-ajax:'{user.uid}'}" style="display:none;">Details</f:link.action>
+										</td>
+									</tr>
+								</f:for>
+							</tbody>
+						</table>
+					</f:be.widget.paginate>
+				</f:then>
+				<f:else>
+					<div class="alert alert-warning" role="alert">
+						<h4 class="alert-heading">
+							No users to show
+						</h4>
+						<p>
+							No users found that would receive a newsletter
+						</p>
+					</div>
+				</f:else>
+			</f:if>
+
+		</div>
+		<div class="col-md-6" id="luxletter-newsletter-receiver-container">
+			<f:render partial="Newsletter/Receiver/MostActivest" arguments="{_all}"/>
+		</div>
+	</div>
+</f:section>

@@ -141,6 +141,9 @@
 			<trans-unit id="tx_lux_domain_model_attribute.label.company">
 				<source>Company</source>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_attribute.label.username">
+				<source>Username</source>
+			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_attribute.label.phone">
 				<source>Phone</source>
 			</trans-unit>
@@ -170,8 +173,8 @@
 			<trans-unit id="tx_lux_domain_model_download.href">
 				<source>File path</source>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_download.href">
-				<source>File path</source>
+			<trans-unit id="tx_lux_domain_model_download.file">
+				<source>File</source>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_download.visitor">
 				<source>Lead</source>
@@ -366,7 +369,7 @@
 				<source>lux has identified a new lead</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.21">
-				<source>lux has identified a new lead by "email4link"</source>
+				<source>"email4link" identified lead</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.22">
 				<source>"email4link" send asset via email</source>
@@ -593,6 +596,19 @@
 			<trans-unit id="module.workflow.field.addaction">
 				<source>Add Action</source>
 			</trans-unit>
+			<trans-unit id="module.workflow.wizard.1">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="module.workflow.wizard.2">
+				<source>Trigger</source>
+			</trans-unit>
+			<trans-unit id="module.workflow.wizard.3">
+				<source>Action</source>
+			</trans-unit>
+
+			<trans-unit id="luxletter.module.newsletter.receiver.title">
+				<source>Receiver analysis</source>
+			</trans-unit>
 
 			<trans-unit id="trigger.pagevisit">
 				<source>On entering a page</source>
@@ -773,7 +789,7 @@
 			</trans-unit>
 
 			<trans-unit id="commandcontrollers.summarymail.title">
-				<source>This is your lead summary mail</source>
+				<source>This is your personal lead summary mail</source>
 			</trans-unit>
 
 			<trans-unit id="datetime.weekday.now">
@@ -802,7 +818,6 @@
 			</trans-unit>
 			<trans-unit id="datetime.week.0">
 				<source>Now</source>
-				<target state="translated">Heute</target>
 			</trans-unit>
 			<trans-unit id="datetime.week.1">
 				<source>1 week ago</source>
@@ -840,6 +855,9 @@
 			</trans-unit>
 			<trans-unit id="save">
 				<source>Save</source>
+			</trans-unit>
+			<trans-unit id="close">
+				<source>Close</source>
 			</trans-unit>
 			<trans-unit id="seebelow">
 				<source>See below ...</source>
