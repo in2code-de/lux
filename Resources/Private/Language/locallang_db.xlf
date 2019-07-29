@@ -609,6 +609,24 @@
 			<trans-unit id="luxletter.module.newsletter.receiver.title">
 				<source>Receiver analysis</source>
 			</trans-unit>
+			<trans-unit id="luxletter.module.newsletter.receiver.table.receiver">
+				<source>Receiver</source>
+			</trans-unit>
+			<trans-unit id="luxletter.module.newsletter.receiver.table.usergroup">
+				<source>Usergroup</source>
+			</trans-unit>
+			<trans-unit id="luxletter.module.newsletter.receiver.table.newsletters">
+				<source>Received Newsletters</source>
+			</trans-unit>
+			<trans-unit id="luxletter.module.newsletter.receiver.table.newsletteractions">
+				<source>Newsletter Actions</source>
+			</trans-unit>
+			<trans-unit id="luxletter.module.newsletter.receiver.nousers.title">
+				<source>No users to show</source>
+			</trans-unit>
+			<trans-unit id="luxletter.module.newsletter.receiver.nousers.text">
+				<source>No users found that would receive a newsletter</source>
+			</trans-unit>
 
 			<trans-unit id="trigger.pagevisit">
 				<source>On entering a page</source>

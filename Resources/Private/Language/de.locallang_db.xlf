@@ -805,6 +805,30 @@
 				<source>Receiver analysis</source>
 				<target state="translated">Empfänger Analyse</target>
 			</trans-unit>
+			<trans-unit id="luxletter.module.newsletter.receiver.table.receiver">
+				<source>Receiver</source>
+				<target state="translated">Empfänger</target>
+			</trans-unit>
+			<trans-unit id="luxletter.module.newsletter.receiver.table.usergroup">
+				<source>Usergroup</source>
+				<target state="translated">Benutzergruppe</target>
+			</trans-unit>
+			<trans-unit id="luxletter.module.newsletter.receiver.table.newsletters">
+				<source>Received Newsletters</source>
+				<target state="translated">Anzahl Newletter</target>
+			</trans-unit>
+			<trans-unit id="luxletter.module.newsletter.receiver.table.newsletteractions">
+				<source>Newsletter Actions</source>
+				<target state="translated">Anzahl Aktionen</target>
+			</trans-unit>
+			<trans-unit id="luxletter.module.newsletter.receiver.nousers.title">
+				<source>No users to show</source>
+				<target state="translated">Keine Benutzer gefunden</target>
+			</trans-unit>
+			<trans-unit id="luxletter.module.newsletter.receiver.nousers.text">
+				<source>No users found that would receive a newsletter</source>
+				<target state="translated">Keine Benutzer gefunden, die einen Newsletter erhalten würden</target>
+			</trans-unit>
 
 			<trans-unit id="trigger.pagevisit">
 				<source>On entering a page</source>

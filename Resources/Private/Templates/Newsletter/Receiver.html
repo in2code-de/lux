@@ -1,5 +1,8 @@
 <f:layout name="Backend"/>
 
+This template is for EXT:luxletter to render a receiver analysis
+
+
 <f:section name="content">
 	<h1>
 		<f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:luxletter.module.newsletter.receiver.title">receiver analysis</f:translate>
@@ -22,10 +25,10 @@
 							<thead>
 							<tr>
 								<th>#</th>
-								<th>Receiver</th>
-								<th>Usergroup</th>
-								<th>Received Newsletters</th>
-								<th>Newsletter actions</th>
+								<th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:luxletter.module.newsletter.receiver.table.receiver">receiver</f:translate></th>
+								<th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:luxletter.module.newsletter.receiver.table.usergroup">usergroup</f:translate></th>
+								<th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:luxletter.module.newsletter.receiver.table.newsletters">received newsletters</f:translate></th>
+								<th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:luxletter.module.newsletter.receiver.table.newsletteractions">newsletter actions</f:translate></th>
 								<th></th>
 							</tr>
 							</thead>
@@ -49,7 +52,7 @@
 											<f:count>{activities.{user.uid}.activities}</f:count>
 										</td>
 										<td>
-											<f:link.action action="receiverDetails" arguments="{user:user}" class="btn btn-default" data="{luxletter-linkmock-link:'detail{user.uid}',luxletter-action-ajax:'{user.uid}'}" style="display:none;">Details</f:link.action>
+											<f:link.action action="receiverDetails" arguments="{user:user}" class="btn btn-default" data="{luxletter-linkmock-link:'detail{user.uid}',luxletter-action-ajax:user.uid}" style="display:none;">Details</f:link.action>
 										</td>
 									</tr>
 								</f:for>
@@ -60,10 +63,10 @@
 				<f:else>
 					<div class="alert alert-warning" role="alert">
 						<h4 class="alert-heading">
-							No users to show
+							<f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:luxletter.module.newsletter.receiver.nousers.title">no users to show</f:translate>
 						</h4>
 						<p>
-							No users found that would receive a newsletter
+							<f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:luxletter.module.newsletter.receiver.nousers.text">no users found that would receive a newsletter</f:translate>
 						</p>
 					</div>
 				</f:else>
