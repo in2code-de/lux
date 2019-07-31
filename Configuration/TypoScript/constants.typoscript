@@ -1,11 +1,14 @@
 plugin.tx_lux.settings {
-    # cat=lux//0010; type=boolean; label= Activate page tracking: (De)Activate tracking of the users pagefunnel.
+    # cat=lux//0010; type=boolean; label= Activate autocookie: Decide if you want to set automaticly a cookie (opt-out feature) or if you want to use the opt-in feature). In last case you have to turn this option off.
+    autocookie = 1
+
+    # cat=lux//0020; type=boolean; label= Activate page tracking: (De)Activate tracking of the users pagefunnel.
     tracking.page = 1
 
-    # cat=lux//0020; type=boolean; label= Activate download tracking: (De)Activate tracking if the user downloads an asset.
+    # cat=lux//0030; type=boolean; label= Activate download tracking: (De)Activate tracking if the user downloads an asset.
     tracking.assetDownloads = 1
 
-    # cat=lux//0020; type=text; label= Activate download tracking: (De)Activate tracking if the user downloads an asset.
+    # cat=lux//0040; type=text; label= Activate download tracking: (De)Activate tracking if the user downloads an asset.
     tracking.assetDownloads.allowedExtensions = pdf,txt,doc,docx,xls,xlsx,ppt,pptx,jpg,png,zip
 
     # cat=lux//0100; type=boolean; label= Activate field and form identification: (De)Activate identification by filling out web forms.

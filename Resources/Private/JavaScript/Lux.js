@@ -37,7 +37,7 @@ function LuxMain() {
 		trackingOptOutListener();
 		if (isLuxActivated()) {
 			setIdCookie();
-			generateNewIdCookieIfNoCookieFound();
+			setCookieIfNoCookieSetAndIfAllowed();
 			pageRequest();
 			addFieldListeners();
 			addFormListeners();
@@ -550,8 +550,8 @@ function LuxMain() {
 	/**
 	 * @returns {void}
 	 */
-	var generateNewIdCookieIfNoCookieFound = function() {
-		if (idCookie === '') {
+	var setCookieIfNoCookieSetAndIfAllowed = function() {
+		if (idCookie === '' && getContainer().getAttribute('data-lux-enableautocookie') === '1') {
 			idCookie = getRandomString(32);
 			setCookie(cookieName, idCookie);
 		}
