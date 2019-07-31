@@ -117,7 +117,8 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 
 ### Privacy Features
 
-- There is a plugin which allows the visitor to opt from tracking
+- There is a plugin which allows the visitor to opt-out from tracking
+- It's also possible to use opt-in instead of opt-out
 - The doNotTrack header of the browser will be respected (no change to overrule this!)
 - Toogle IP anonymize function
 - Toggle IP information enrichment over ipapi.com
