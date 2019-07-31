@@ -161,6 +161,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                        |
 | ---------- | ---------- | ---------- | ---------------------------------------------------------------------------------- |
+| 5.0.0      | 2019-07-31 | Task       | Opt-in functionality, Luxletter support, Identification via frontend-login         |
 | 4.1.2      | 2019-07-25 | Bugfix     | Fix email4link email sending functionality on some edge cases                      |
 | 4.1.1      | 2019-07-13 | Bugfix     | Bugfix for PHP 7.3 - Fluid errors in backend modules                               |
 | 4.1.0      | 2019-07-07 | Task       | Toggle ckeditor configuration, don't add if ckeditor is not installed, fix typo    |
