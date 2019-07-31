@@ -83,13 +83,17 @@ class ReadableDateViewHelper extends AbstractViewHelper
 
     /**
      * @return \DateTime
+     * @throws \Exception
      */
     protected function getDate(): \DateTime
     {
-        $pathAndFilename = $this->renderChildren();
+        $date = $this->renderChildren();
         if (!empty($this->arguments['date'])) {
-            $pathAndFilename = $this->arguments['date'];
+            $date = $this->arguments['date'];
         }
-        return $pathAndFilename;
+        if ($date === null) {
+            $date = new \DateTime();
+        }
+        return $date;
     }
 }

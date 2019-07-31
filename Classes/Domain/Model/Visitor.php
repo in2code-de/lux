@@ -11,6 +11,7 @@ use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
@@ -130,6 +131,14 @@ class Visitor extends AbstractEntity
      * @var bool
      */
     protected $blacklisted = false;
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
+     * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
+     * @extensionScannerIgnoreLine Still needed for TYPO3 8.7
+     * @lazy
+     */
+    protected $frontenduser = null;
 
     /**
      * Visitor constructor.
@@ -625,6 +634,28 @@ class Visitor extends AbstractEntity
     }
 
     /**
+     * @return array
+     */
+    public function getAttributesFromFrontenduser(): array
+    {
+        $attributes = [];
+        $disallowed = ['password', 'lockToDomain'];
+        if ($this->frontenduser !== null) {
+            foreach ($this->frontenduser->_getProperties() as $name => $value) {
+                if (!empty($value) && in_array($name, $disallowed) === false) {
+                    if (is_string($value) || is_int($value)) {
+                        $attributes[] = [
+                            'name' => $name,
+                            'value' => $value
+                        ];
+                    }
+                }
+            }
+        }
+        return $attributes;
+    }
+
+    /**
      * @return string
      */
     public function getReferrer(): string
@@ -924,6 +955,24 @@ class Visitor extends AbstractEntity
         $now = new \DateTime();
         $this->setDescription('Blacklisted (' . $now->format('Y-m-d H:i:s') . ')');
         $this->setBlacklisted(true);
+    }
+
+    /**
+     * @return FrontendUser
+     */
+    public function getFrontenduser()
+    {
+        return $this->frontenduser;
+    }
+
+    /**
+     * @param FrontendUser $frontenduser
+     * @return Visitor
+     */
+    public function setFrontenduser(FrontendUser $frontenduser): self
+    {
+        $this->frontenduser = $frontenduser;
+        return $this;
     }
 
     /**

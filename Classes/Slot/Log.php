@@ -78,6 +78,30 @@ class Log implements SingletonInterface
     }
 
     /**
+     * @param Attribute $attribute
+     * @param Visitor $visitor
+     * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    public function logIdentifiedVisitorByLuxletterlink(Attribute $attribute, Visitor $visitor)
+    {
+        $this->logService->logIdentifiedVisitorByLuxletterlink($visitor);
+    }
+
+    /**
+     * @param Attribute $attribute
+     * @param Visitor $visitor
+     * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    public function logIdentifiedVisitorByFrontendauthentication(Attribute $attribute, Visitor $visitor)
+    {
+        $this->logService->logIdentifiedVisitorByFrontendauthentication($visitor);
+    }
+
+    /**
      * @param Visitor $visitor
      * @param string $href
      * @return void

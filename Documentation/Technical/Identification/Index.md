@@ -24,6 +24,13 @@ You guessed it, ask for the email address.
 
 Going back to the technical part - forms will help us on lead identification.
 
+The possibilities to identify a lead in lux:
+* Identify via field mapping configuration (any single form field in TYPO3)
+* Identify via form mapping configuration (any form in TYPO3)
+* Identify via Email4link CKEditor plugin
+* Identify via Frontend login
+* Identify via Luxletter extension
+
 
 #### Field mapping
 
@@ -337,3 +344,17 @@ to your links.
 
 **Note:** Per default, Lux will not ask twice for the email. But you can configure this via TypoScript constants 
 `plugin.tx_lux.settings.disableEmail4DownloadForIdentifiedVisitors=1`
+
+
+#### Frontend login of a frontend user
+
+If a frontend user logs in into TYPO3, lux automatically creates a relation to this user. If the field
+fe_users.email is filled, lux take over this field property and identification is resolved.
+
+
+#### Luxletter
+
+The extension [Extension luxletter](https://github.com/in2code-de/luxletter) is a email marketing extension that
+allows you to send newsletters to your users.
+If a user clicks on a link in this newsletter, lux identifies who has clicked the link.
+See documentation of luxletter for more details to this extension.

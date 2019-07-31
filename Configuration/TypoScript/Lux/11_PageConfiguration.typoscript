@@ -38,6 +38,13 @@ page {
             value = 1
         }
 
+        # Decide if opt-in for cookies should be used
+        15 = TEXT
+        15 {
+            noTrimWrap = | data-lux-enableautocookie="|"|
+            value = {$plugin.tx_lux.settings.autocookie}
+        }
+
         # Uri to send tracking requests to
         20 = TEXT
         20 {
@@ -100,7 +107,7 @@ page {
             noTrimWrap = | ||
         }
 
-        # Allowed extensions for download tracking
+        # Allowed file extensions for download tracking
         140 = TEXT
         140 {
             value = data-lux-downloadtracking-extensions="{$plugin.tx_lux.settings.tracking.assetDownloads.allowedExtensions}"

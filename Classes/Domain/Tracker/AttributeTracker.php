@@ -13,6 +13,8 @@ use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
+use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
+use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
 
 /**
  * Class AttributeTracker to add an attribute key/value pair to a visitor
@@ -24,6 +26,8 @@ class AttributeTracker
     const CONTEXT_FIELDLISTENING = 'Fieldlistening';
     const CONTEXT_FORMLISTENING = 'Formlistening';
     const CONTEXT_EMAIL4LINK = 'Email4link';
+    const CONTEXT_LUXLETTERLINK = 'Luxletterlink';
+    const CONTEXT_FRONTENDUSER = 'Frontendauthentication';
 
     /**
      * @var Visitor|null
@@ -66,6 +70,8 @@ class AttributeTracker
      * @return void
      * @throws DBALException
      * @throws IllegalObjectTypeException
+     * @throws InvalidSlotException
+     * @throws InvalidSlotReturnException
      * @throws UnknownObjectException
      */
     public function addAttributes(array $properties)
@@ -81,9 +87,11 @@ class AttributeTracker
      * @param string $key
      * @param string $value
      * @return void
+     * @throws DBALException
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
-     * @throws DBALException
+     * @throws InvalidSlotException
+     * @throws InvalidSlotReturnException
      */
     public function addAttribute(string $key, string $value)
     {
@@ -131,6 +139,8 @@ class AttributeTracker
      * @param string $value
      * @return Attribute|null|object
      * @throws IllegalObjectTypeException
+     * @throws InvalidSlotException
+     * @throws InvalidSlotReturnException
      * @throws UnknownObjectException
      */
     protected function getAndUpdateAttributeFromDatabase(string $key, string $value)

@@ -63,6 +63,28 @@ class LogService
 
     /**
      * @param Visitor $visitor
+     * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    public function logIdentifiedVisitorByLuxletterlink(Visitor $visitor)
+    {
+        $this->log(Log::STATUS_IDENTIFIED_LUXLETTERLINK, $visitor);
+    }
+
+    /**
+     * @param Visitor $visitor
+     * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    public function logIdentifiedVisitorByFrontendauthentication(Visitor $visitor)
+    {
+        $this->log(Log::STATUS_IDENTIFIED_FRONTENDAUTHENTICATION, $visitor);
+    }
+
+    /**
+     * @param Visitor $visitor
      * @param string $href
      * @return void
      * @throws IllegalObjectTypeException

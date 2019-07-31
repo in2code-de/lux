@@ -20,6 +20,27 @@ class FrontendUtility
     }
 
     /**
+     * @return bool
+     */
+    public static function isLoggedInFrontendUser(): bool
+    {
+        return !empty(self::getTyposcriptFrontendController()->fe_user->user['uid']);
+    }
+
+    /**
+     * @param string $propertyName
+     * @return string
+     */
+    public static function getPropertyFromLoggedInFrontendUser($propertyName = 'uid'): string
+    {
+        $tsfe = self::getTyposcriptFrontendController();
+        if (!empty($tsfe->fe_user->user[$propertyName])) {
+            return (string)$tsfe->fe_user->user[$propertyName];
+        }
+        return '';
+    }
+
+    /**
      * @return string
      */
     public static function getActionName(): string

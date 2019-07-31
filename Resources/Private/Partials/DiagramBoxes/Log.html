@@ -68,6 +68,30 @@
 
 
 
+<f:section name="status25">
+    <strong><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.log.status.25">Identified lead with "formlistening"</f:translate></strong><br />
+    <f:link.action action="detail" controller="Lead" arguments="{visitor:log.visitor}"><span title="UID:{log.visitor.uid}">{log.visitor.fullName}</span></f:link.action>
+    <f:if condition="{log.visitor.location}">({log.visitor.location})</f:if>
+</f:section>
+
+
+
+<f:section name="status26">
+    <strong><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.log.status.26">Identified lead with a "frontendlogin"</f:translate></strong><br />
+    <f:link.action action="detail" controller="Lead" arguments="{visitor:log.visitor}"><span title="UID:{log.visitor.uid}">{log.visitor.fullName}</span></f:link.action>
+    <f:if condition="{log.visitor.location}">({log.visitor.location})</f:if>
+</f:section>
+
+
+
+<f:section name="status28">
+    <strong><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.log.status.28">Identified lead with "luxletterlink"</f:translate></strong><br />
+    <f:link.action action="detail" controller="Lead" arguments="{visitor:log.visitor}"><span title="UID:{log.visitor.uid}">{log.visitor.fullName}</span></f:link.action>
+    <f:if condition="{log.visitor.location}">({log.visitor.location})</f:if>
+</f:section>
+
+
+
 <f:section name="status50">
     <strong><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.log.status.50">Download tracked</f:translate></strong><br />
     <a href="/{log.href}" target="_blank"><lux:format.getFilenameFromPathAndFilename pathAndFilename="{log.href}" /></a>

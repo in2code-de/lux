@@ -36,8 +36,8 @@ function LuxMain() {
 	this.initialize = function() {
 		trackingOptOutListener();
 		if (isLuxActivated()) {
-			setIdCookie();
-			generateNewIdCookieIfNoCookieFound();
+			setIdCookieProperty();
+			setCookieIfNoCookieSetAndIfAllowed();
 			pageRequest();
 			addFieldListeners();
 			addFormListeners();
@@ -45,6 +45,7 @@ function LuxMain() {
 		}
 		addEmail4LinkListeners();
 		doNotTrackListener();
+		createIdCookieListener();
 	};
 
 	/**
@@ -78,7 +79,7 @@ function LuxMain() {
 	/**
 	 * @returns {void}
 	 */
-	var setIdCookie = function() {
+	var setIdCookieProperty = function() {
 		idCookie = getIdCookie();
 	};
 
@@ -408,6 +409,22 @@ function LuxMain() {
 	};
 
 	/**
+	 * If an id cookie should be set manually, listen for clicks on dom elements with data-lux-action="createIdCookie"
+	 *
+	 * @returns {void}
+	 */
+	var createIdCookieListener = function() {
+		var element = document.querySelector('[data-lux-action="createIdCookie"]');
+		if (element !== null) {
+			element.addEventListener('click', function() {
+				if (idCookie === '') {
+					setIdCookie();
+				}
+			});
+		}
+	};
+
+	/**
 	 * @param field
 	 * @returns {boolean}
 	 */
@@ -550,10 +567,9 @@ function LuxMain() {
 	/**
 	 * @returns {void}
 	 */
-	var generateNewIdCookieIfNoCookieFound = function() {
-		if (idCookie === '') {
-			idCookie = getRandomString(32);
-			setCookie(cookieName, idCookie);
+	var setCookieIfNoCookieSetAndIfAllowed = function() {
+		if (idCookie === '' && getContainer().getAttribute('data-lux-enableautocookie') === '1') {
+			setIdCookie();
 		}
 	};
 
@@ -775,6 +791,14 @@ function LuxMain() {
 	 */
 	var getIdCookie = function() {
 		return getCookieByName(cookieName);
+	};
+
+	/**
+	 * @returns {void}
+	 */
+	var setIdCookie = function() {
+		idCookie = getRandomString(32);
+		setCookie(cookieName, idCookie);
 	};
 
 	/**

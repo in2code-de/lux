@@ -83,6 +83,10 @@
 				<source>Description</source>
 				<target state="translated">Beschreibung</target>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.frontenduser">
+				<source>Frontend user</source>
+				<target state="translated">Frontend Benutzer</target>
+			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_visitor.referrer">
 				<source>Source</source>
 				<target state="translated">Quelle</target>
@@ -493,6 +497,18 @@
 				<source>"email4link" send asset failed</source>
 				<target state="translated">"email4link" Datei versenden fehlgeschlagen</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.log.status.25">
+				<source>"formlistening" identified lead</source>
+				<target state="translated">"formlistening" hat einen Lead identifiziert</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.26">
+				<source>Identified lead by frontend login</source>
+				<target state="translated">Lead durch "Frontend Login" identifiziert</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.28">
+				<source>"luxletterlink" identified lead</source>
+				<target state="translated">"luxletterlink" hat einen Lead identifiziert</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.log.status.50">
 				<source>lux tracked a download</source>
 				<target state="translated">lux hat einen Download aufgezeichnet</target>
@@ -540,6 +556,10 @@
 			<trans-unit id="module.analysis.detailpage.properties.value">
 				<source>Value</source>
 				<target state="translated">Wert</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.properties.valuefrontenduser">
+				<source>Value (Frontenduser)</source>
+				<target state="translated">Wert (Frontend Benutzer)</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.detailpage.profiles">
 				<source>Profiles</source>
@@ -779,6 +799,35 @@
 			<trans-unit id="module.workflow.wizard.3">
 				<source>Action</source>
 				<target state="translated">Aktion</target>
+			</trans-unit>
+
+			<trans-unit id="luxletter.module.newsletter.receiver.title">
+				<source>Receiver analysis</source>
+				<target state="translated">Empfänger Analyse</target>
+			</trans-unit>
+			<trans-unit id="luxletter.module.newsletter.receiver.table.receiver">
+				<source>Receiver</source>
+				<target state="translated">Empfänger</target>
+			</trans-unit>
+			<trans-unit id="luxletter.module.newsletter.receiver.table.usergroup">
+				<source>Usergroup</source>
+				<target state="translated">Benutzergruppe</target>
+			</trans-unit>
+			<trans-unit id="luxletter.module.newsletter.receiver.table.newsletters">
+				<source>Received Newsletters</source>
+				<target state="translated">Anzahl Newletter</target>
+			</trans-unit>
+			<trans-unit id="luxletter.module.newsletter.receiver.table.newsletteractions">
+				<source>Newsletter Actions</source>
+				<target state="translated">Anzahl Aktionen</target>
+			</trans-unit>
+			<trans-unit id="luxletter.module.newsletter.receiver.nousers.title">
+				<source>No users to show</source>
+				<target state="translated">Keine Benutzer gefunden</target>
+			</trans-unit>
+			<trans-unit id="luxletter.module.newsletter.receiver.nousers.text">
+				<source>No users found that would receive a newsletter</source>
+				<target state="translated">Keine Benutzer gefunden, die einen Newsletter erhalten würden</target>
 			</trans-unit>
 
 			<trans-unit id="trigger.pagevisit">

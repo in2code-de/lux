@@ -31,6 +31,9 @@ You can simply add a Plugin Pi1 *trackingOptOut* to a page and add some content 
 
 <img src="../../../Documentation/Images/documentation_plugin_optout_backend.png" width="800" />
 
+*Note*: If you want to use opt-in instead of opt-out functionality, there is a possibility for this 
+(see [Privacy](../../Privacy/Index.md)).
+
 
 
 

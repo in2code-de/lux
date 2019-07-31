@@ -45,12 +45,35 @@ information must be removed.
 Beside a *CommandController* to remove leads and all there data, there is a *Remove completely* button in the detail
 view of a lead. Both will result in a complete remove of all data of the lead.
 
-### Tracking Opt-Out
+### Tracking Opt-Out and Opt-In
 
 #### Opt-Out Plugin
+
 As known from Matomo (former known as Piwik) also Lux offers a Plugin fo an Opt-Out possibility for visitors.
 
 <img src="../Images/documentation_plugin_optout_frontend1.png" width="800" />
+
+#### Opt-In Functionality
+
+If you want to not automaticly set a cookie without the acceptence of the visitor, you can use the opt-in functionality
+if lux.
+
+First of all, you have to disable the autocookie function via TypoScript constants:
+
+```
+plugin.tx_lux.settings.autocookie = 0
+```
+
+Now, lux will not create cookies per default for new page visitors. As next step, you should place a HTML-element
+anywhere on the page with data-lux-action="createIdCookie". A click on this element will create the lux idCookie.
+
+```
+<span data-lux-action="createIdCookie">Opt-In for cookies</span>
+```
+
+How to work with this possibilities? You can add a cookie banner or a cookie lightbox over your website where you can
+ask your visitor, if it's ok to set a cookie for e.g. usability reasons. Place the data-attribute on the ok-button and
+close the banner.
 
 #### DoNotTrack Header
 

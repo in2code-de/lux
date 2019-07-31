@@ -85,6 +85,22 @@ call_user_func(
             'logIdentifiedVisitorByEmail4Link',
             false
         );
+        // Log: Identified visitor by luxletterlink
+        $signalSlotDispatcher->connect(
+            \In2code\Lux\Domain\Tracker\AttributeTracker::class,
+            'isIdentifiedByLuxletterlink',
+            \In2code\Lux\Slot\Log::class,
+            'logIdentifiedVisitorByLuxletterlink',
+            false
+        );
+        // Log: Identified visitor by frontenduser authentication
+        $signalSlotDispatcher->connect(
+            \In2code\Lux\Domain\Tracker\AttributeTracker::class,
+            'isIdentifiedByFrontendauthentication',
+            \In2code\Lux\Slot\Log::class,
+            'logIdentifiedVisitorByFrontendauthentication',
+            false
+        );
         // Log: email4link send mail
         $signalSlotDispatcher->connect(
             \In2code\Lux\Domain\Service\SendAssetEmail4LinkService::class,

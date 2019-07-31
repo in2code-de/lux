@@ -7,15 +7,12 @@ use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Service\SendAssetEmail4LinkService;
 use In2code\Lux\Domain\Tracker\AttributeTracker;
 use In2code\Lux\Domain\Tracker\DownloadTracker;
+use In2code\Lux\Domain\Tracker\FrontenduserAttributeTracker;
 use In2code\Lux\Domain\Tracker\PageTracker;
 use In2code\Lux\Signal\SignalTrait;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
-use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
-use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
 use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
 
@@ -63,20 +60,20 @@ class FrontendController extends ActionController
      * @param string $idCookie
      * @param array $arguments
      * @return string
-     * @throws ExtensionConfigurationExtensionNotConfiguredException
-     * @throws ExtensionConfigurationPathDoesNotExistException
-     * @throws IllegalObjectTypeException
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
-     * @throws UnknownObjectException
      */
     public function pageRequestAction(string $idCookie, array $arguments): string
     {
-        $visitorFactory = $this->objectManager->get(VisitorFactory::class, $idCookie, $arguments['referrer']);
-        $visitor = $visitorFactory->getVisitor();
-        $pageTracker = $this->objectManager->get(PageTracker::class);
-        $pageTracker->trackPage($visitor, (int)$arguments['pageUid']);
-        return json_encode($this->afterAction($visitor));
+        try {
+            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $idCookie, $arguments['referrer']);
+            $visitor = $visitorFactory->getVisitor();
+            $userAttributeTracker = $this->objectManager->get(FrontenduserAttributeTracker::class, $visitor);
+            $userAttributeTracker->trackByFrontenduserAuthentication();
+            $pageTracker = $this->objectManager->get(PageTracker::class);
+            $pageTracker->trackPage($visitor, (int)$arguments['pageUid']);
+            return json_encode($this->afterAction($visitor));
+        } catch (\Exception $exception) {
+            return json_encode($this->getError($exception));
+        }
     }
 
     /**
@@ -97,7 +94,7 @@ class FrontendController extends ActionController
             $attributeTracker->addAttribute($arguments['key'], $arguments['value']);
             return json_encode($this->afterAction($visitor));
         } catch (\Exception $exception) {
-            return json_encode(['error' => true]);
+            return json_encode($this->getError($exception));
         }
     }
 
@@ -120,7 +117,7 @@ class FrontendController extends ActionController
             $attributeTracker->addAttributes($values);
             return json_encode($this->afterAction($visitor));
         } catch (\Exception $exception) {
-            return json_encode(['error' => true]);
+            return json_encode($this->getError($exception));
         }
     }
 
@@ -147,7 +144,7 @@ class FrontendController extends ActionController
             }
             return json_encode($this->afterAction($visitor));
         } catch (\Exception $exception) {
-            return json_encode(['error' => true]);
+            return json_encode($this->getError($exception));
         }
     }
 
@@ -155,20 +152,18 @@ class FrontendController extends ActionController
      * @param string $idCookie
      * @param array $arguments
      * @return string
-     * @throws ExtensionConfigurationExtensionNotConfiguredException
-     * @throws ExtensionConfigurationPathDoesNotExistException
-     * @throws IllegalObjectTypeException
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
-     * @throws UnknownObjectException
      */
     public function downloadRequestAction(string $idCookie, array $arguments): string
     {
-        $visitorFactory = $this->objectManager->get(VisitorFactory::class, $idCookie);
-        $visitor = $visitorFactory->getVisitor();
-        $downloadFactory = $this->objectManager->get(DownloadTracker::class, $visitor);
-        $downloadFactory->addDownload($arguments['href']);
-        return json_encode($this->afterAction($visitor));
+        try {
+            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $idCookie);
+            $visitor = $visitorFactory->getVisitor();
+            $downloadFactory = $this->objectManager->get(DownloadTracker::class, $visitor);
+            $downloadFactory->addDownload($arguments['href']);
+            return json_encode($this->afterAction($visitor));
+        } catch (\Exception $exception) {
+            return json_encode($this->getError($exception));
+        }
     }
 
     /**
@@ -193,5 +188,20 @@ class FrontendController extends ActionController
     {
         $result = $this->signalDispatch(__CLASS__, 'afterTracking', [$visitor, $this->actionMethodName, []]);
         return $result[2];
+    }
+
+    /**
+     * @param \Exception $exception
+     * @return array
+     */
+    protected function getError(\Exception $exception): array
+    {
+        return [
+            'error' => true,
+            'exception' => [
+                'code' => $exception->getCode(),
+                'message' => $exception->getMessage()
+            ]
+        ];
     }
 }

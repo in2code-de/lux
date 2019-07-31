@@ -63,6 +63,9 @@
 			<trans-unit id="tx_lux_domain_model_visitor.description">
 				<source>Description</source>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.frontenduser">
+				<source>Frontend user</source>
+			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_visitor.referrer">
 				<source>Source</source>
 			</trans-unit>
@@ -138,6 +141,9 @@
 			<trans-unit id="tx_lux_domain_model_attribute.label.company">
 				<source>Company</source>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_attribute.label.username">
+				<source>Username</source>
+			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_attribute.label.phone">
 				<source>Phone</source>
 			</trans-unit>
@@ -167,8 +173,8 @@
 			<trans-unit id="tx_lux_domain_model_download.href">
 				<source>File path</source>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_download.href">
-				<source>File path</source>
+			<trans-unit id="tx_lux_domain_model_download.file">
+				<source>File</source>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_download.visitor">
 				<source>Lead</source>
@@ -363,13 +369,22 @@
 				<source>lux has identified a new lead</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.21">
-				<source>lux has identified a new lead by "email4link"</source>
+				<source>"email4link" identified lead</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.22">
 				<source>"email4link" send asset via email</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.23">
 				<source>"email4link" send asset failed</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.25">
+				<source>"formlistening" identified lead</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.26">
+				<source>Identified lead by frontend login</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.28">
+				<source>"luxletterlink" identified lead</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.50">
 				<source>lux tracked a download</source>
@@ -406,6 +421,9 @@
 			</trans-unit>
 			<trans-unit id="module.analysis.detailpage.properties.value">
 				<source>Value</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.properties.valuefrontenduser">
+				<source>Value (Frontenduser)</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.detailpage.profiles">
 				<source>Profiles</source>
@@ -577,6 +595,37 @@
 			</trans-unit>
 			<trans-unit id="module.workflow.field.addaction">
 				<source>Add Action</source>
+			</trans-unit>
+			<trans-unit id="module.workflow.wizard.1">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="module.workflow.wizard.2">
+				<source>Trigger</source>
+			</trans-unit>
+			<trans-unit id="module.workflow.wizard.3">
+				<source>Action</source>
+			</trans-unit>
+
+			<trans-unit id="luxletter.module.newsletter.receiver.title">
+				<source>Receiver analysis</source>
+			</trans-unit>
+			<trans-unit id="luxletter.module.newsletter.receiver.table.receiver">
+				<source>Receiver</source>
+			</trans-unit>
+			<trans-unit id="luxletter.module.newsletter.receiver.table.usergroup">
+				<source>Usergroup</source>
+			</trans-unit>
+			<trans-unit id="luxletter.module.newsletter.receiver.table.newsletters">
+				<source>Received Newsletters</source>
+			</trans-unit>
+			<trans-unit id="luxletter.module.newsletter.receiver.table.newsletteractions">
+				<source>Newsletter Actions</source>
+			</trans-unit>
+			<trans-unit id="luxletter.module.newsletter.receiver.nousers.title">
+				<source>No users to show</source>
+			</trans-unit>
+			<trans-unit id="luxletter.module.newsletter.receiver.nousers.text">
+				<source>No users found that would receive a newsletter</source>
 			</trans-unit>
 
 			<trans-unit id="trigger.pagevisit">
@@ -758,7 +807,7 @@
 			</trans-unit>
 
 			<trans-unit id="commandcontrollers.summarymail.title">
-				<source>This is your lead summary mail</source>
+				<source>This is your personal lead summary mail</source>
 			</trans-unit>
 
 			<trans-unit id="datetime.weekday.now">
@@ -787,7 +836,6 @@
 			</trans-unit>
 			<trans-unit id="datetime.week.0">
 				<source>Now</source>
-				<target state="translated">Heute</target>
 			</trans-unit>
 			<trans-unit id="datetime.week.1">
 				<source>1 week ago</source>
@@ -825,6 +873,9 @@
 			</trans-unit>
 			<trans-unit id="save">
 				<source>Save</source>
+			</trans-unit>
+			<trans-unit id="close">
+				<source>Close</source>
 			</trans-unit>
 			<trans-unit id="seebelow">
 				<source>See below ...</source>
