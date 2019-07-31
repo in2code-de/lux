@@ -50,6 +50,11 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 
 ## Features
 
+### Extensions for lux
+
+- luxenterprise for individual workflows: https://www.in2code.de/produkte/lux-typo3-marketing-automation/
+- luxletter for email marketing aspects: https://github.com/in2code-de/luxletter
+
 ### Tracking
 
 - Page views
