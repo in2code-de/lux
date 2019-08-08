@@ -18,6 +18,7 @@
                                 <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.title">Title</f:translate></th>
                                 <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.lead">Lead</f:translate></th>
                                 <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.company">Company</f:translate></th>
+                                <th>Cookie ID</th>
                                 <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.time">Time</f:translate></th>
                             </tr>
                             </thead>
@@ -25,8 +26,13 @@
                             <f:for each="{pagevisits}" as="pagevisit">
                                 <tr>
                                     <td>{pagevisit.page.title}</td>
-                                    <td><f:link.action action="detail" controller="Lead" arguments="{visitor:pagevisit.visitor}">{pagevisit.visitor.fullName}</f:link.action></td>
+                                    <td>
+                                        <f:link.action action="detail" controller="Lead" arguments="{visitor:pagevisit.visitor}" title="UID{pagevisit.visitor.uid}">{pagevisit.visitor.fullName}</f:link.action>
+                                    </td>
                                     <td>{pagevisit.visitor.company}</td>
+                                    <td>
+                                        {pagevisit.visitor.latestIdcookie.value}
+                                    </td>
                                     <td>
                                         <span class="badge" title="{f:format.date(date:pagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
                                             <lux:format.readableDate>{pagevisit.crdate}</lux:format.readableDate>

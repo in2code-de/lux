@@ -362,6 +362,18 @@ class Visitor extends AbstractEntity
     }
 
     /**
+     * @return Idcookie|null
+     */
+    public function getLatestIdcookie()
+    {
+        $idcookies = $this->getIdcookies();
+        foreach ($idcookies as $idcookie) {
+            return $idcookie;
+        }
+        return null;
+    }
+
+    /**
      * @param ObjectStorage $idcookies
      * @return $this
      */

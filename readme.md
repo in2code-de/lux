@@ -137,8 +137,6 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 
 ### Upcoming todos
 
-- Performance leadlist
-- Remove google bot (e.g. in hottest leads dashboard and lead list)
 - Group page visits by visitor
 - New diagram in dashboard: Number of identified Leads within the last 6 months
 
