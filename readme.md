@@ -163,57 +163,58 @@ At the moment it's not possible to use lux without **composer mode**!
 
 ## Changelog
 
-| Version    | Date       | State      | Description                                                                        |
-| ---------- | ---------- | ---------- | ---------------------------------------------------------------------------------- |
-| 5.0.0      | 2019-07-31 | Task       | Opt-in functionality, Luxletter support, Identification via frontend-login         |
-| 4.1.2      | 2019-07-25 | Bugfix     | Fix email4link email sending functionality on some edge cases                      |
-| 4.1.1      | 2019-07-13 | Bugfix     | Bugfix for PHP 7.3 - Fluid errors in backend modules                               |
-| 4.1.0      | 2019-07-07 | Task       | Toggle ckeditor configuration, don't add if ckeditor is not installed, fix typo    |
-| 4.0.0      | 2019-06-14 | Task       | Include concept of finishers, don't ask again if identified with email4download    |
-| 3.0.0      | 2019-06-10 | Task       | Multi device tracking, form listening, show browser and os information of leads    |
-| 2.5.0      | 2019-06-04 | Task       | Some preperations for luxenterprise                                                |
-| 2.4.0      | 2019-06-03 | Feature    | Replace eos with expression-language, Add url f. workflows, doc update, php cleanup|
-| 2.3.1      | 2019-05-20 | Bugfix     | Show correct last visited date in lead list in backend                             |
-| 2.3.0      | 2019-04-17 | Feature    | Move client to serverside check for disallowed mail providers, small fixes         |
-| 2.2.0      | 2019-03-07 | Feature    | Show status in extension manager settings, Show lead name of unidentified leads    |
-| 2.1.0      | 2019-03-07 | Task       | Small cleanup, Update and use case-insensitive search in telecom provider list     |
-| 2.0.3      | 2019-02-26 | Bugfix     | Show module action switcher in T3 9.5, remove unneeded stuff from former releases  |
-| 2.0.2      | 2019-02-25 | Bugfix     | Small bugfix for TER uploads                                                       |
-| 2.0.1      | 2019-02-25 | Bugfix     | Small fixes with default values if configuration is missing                        |
-| 2.0.0      | 2019-02-24 | Task       | Publish lux as community version (without Workflows), removeAll CommandController  |
-| 1.24.0     | 2018-11-07 | Task       | Update disallowed telecommunication provider list                                  |
-| 1.23.0     | 2018-08-17 | Task       | Update disallowed mail provider and telecommunication list                         |
-| 1.22.0     | 2018-07-23 | Task       | Update disallowed mail provider list                                               |
-| 1.21.1     | 2018-06-28 | Task       | Code cleanup, update telecommunication provider list, performance improvement      |
-| 1.21.0     | 2018-06-28 | Task       | Add blacklist function for onetime-email-accounts in email4link functionality      |
-| 1.20.3     | 2018-05-24 | Task       | Update privacy link in a new tab.                                                  |
-| 1.20.2     | 2018-05-24 | Task       | Small locallang update.                                                            |
-| 1.20.1     | 2018-05-24 | Bugfix     | Small documentation update.                                                        |
-| 1.20.0     | 2018-05-24 | Feature    | Bugfixes, Privacy checkbox in email4link, Manual blacklisting.                     |
-| 1.19.0     | 2018-04-24 | Task       | Documentation update. Telecommunication provider list update.                      |
-| 1.18.0     | 2018-04-21 | Feature    | Introduce summary-mails in command controller.                                     |
-| 1.17.0     | 2018-04-12 | Feature    | Publish to multiple slack channels now.                                            |
-| 1.16.1     | 2018-04-12 | Bugfix     | Fix for chrome select boxes in workflow module, fix filter select in content view. |
-| 1.16.0     | 2018-04-12 | Feature    | Show company from IP-address on different places. Add company trigger.             |
-| 1.15.1     | 2018-04-04 | Bugfix     | Allow links in lightboxes now.                                                     |
-| 1.15.0     | 2018-04-04 | Task       | Add documentation, Dashboard: Show percentual values. Performance in content view. |
-| 1.14.0     | 2018-03-26 | Bugfix     | Small bugfixes (CKeditor Plugin, Dateformat)                                       |
-| 1.13.2     | 2018-03-18 | Bugfix     | Small bugfixes.                                                                    |
-| 1.13.1     | 2018-03-15 | Bugfix     | Small bugfixes.                                                                    |
-| 1.13.0     | 2018-03-14 | Task       | Add css grid for dashboard. Small bugfixes.                                        |
-| 1.12.0     | 2018-03-13 | Feature    | Disable tracking if be-user is logged in. Small bugfixes.                          |
-| 1.11.0     | 2018-03-12 | Feature    | Some privace features. Some brush up. Add contextual content plugin.               |
-| 1.10.0     | 2018-03-10 | Task       | Some small improvements. Add a opt-out plugin.                                     |
-| 1.9.0      | 2018-03-08 | Task       | Some changes to see categoryscorings.                                              |
-| 1.8.0      | 2018-03-07 | Feature    | Optical refactoring of pageoverview. Bugfix in category scoring.                   |
-| 1.7.0      | 2018-03-07 | Feature    | Add identified trigger and slack action.                                           |
-| 1.6.0      | 2018-03-06 | Task       | Add categoryscoring. Bugfix: Don't track downloads with email4link twice.          |
-| 1.5.1      | 2018-03-05 | Bugfix     | Prevent exception in backend.                                                      |
-| 1.5.0      | 2018-03-05 | Task       | Finish workflow modules with initial triggers/actions. Small bugfixes.             |
-| 1.4.0      | 2018-03-04 | Task       | Split backend modules, add content analysis, integrate nearly complete workflow    |
-| 1.3.0      | 2018-03-02 | Task       | Don't show full download path in frontend with email4download                      |
-| 1.2.0      | 2018-03-01 | Task       | Some small fixes in backend analysis show identified and recurring.                |
-| 1.1.1      | 2018-02-27 | Bugfix     | Some small fixes in backend analysis and email4link functionality.                 |
-| 1.1.0      | 2018-02-26 | Task       | Show more relevant information in detail view. Small fixes.                        |
-| 1.0.1      | 2018-02-26 | Bugfix     | Fix some smaller bugs that occurs with live data                                   |
-| 1.0.0      | 2018-02-26 | Task       | Initial Release with a stable tracking, identification and analyses                |
+| Version    | Date       | State      | Description                                                                                                                                                                                |
+| ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 5.1.0      | 2019-08-08 | Task       | Performance update lead list, Keep filter, Don't show duplicates in page content, Add new task to delete a visitor by any property, Disallowed mail providers update, Cleanup tasks bugfix |
+| 5.0.0      | 2019-07-31 | Task       | Opt-in functionality, Luxletter support, Identification via frontend-login                                                                                                                 |
+| 4.1.2      | 2019-07-25 | Bugfix     | Fix email4link email sending functionality on some edge cases                                                                                                                              |
+| 4.1.1      | 2019-07-13 | Bugfix     | Bugfix for PHP 7.3 - Fluid errors in backend modules                                                                                                                                       |
+| 4.1.0      | 2019-07-07 | Task       | Toggle ckeditor configuration, don't add if ckeditor is not installed, fix typo                                                                                                            |
+| 4.0.0      | 2019-06-14 | Task       | Include concept of finishers, don't ask again if identified with email4download                                                                                                            |
+| 3.0.0      | 2019-06-10 | Task       | Multi device tracking, form listening, show browser and os information of leads                                                                                                            |
+| 2.5.0      | 2019-06-04 | Task       | Some preperations for luxenterprise                                                                                                                                                        |
+| 2.4.0      | 2019-06-03 | Feature    | Replace eos with expression-language, Add url f. workflows, doc update, php cleanup                                                                                                        |
+| 2.3.1      | 2019-05-20 | Bugfix     | Show correct last visited date in lead list in backend                                                                                                                                     |
+| 2.3.0      | 2019-04-17 | Feature    | Move client to serverside check for disallowed mail providers, small fixes                                                                                                                 |
+| 2.2.0      | 2019-03-07 | Feature    | Show status in extension manager settings, Show lead name of unidentified leads                                                                                                            |
+| 2.1.0      | 2019-03-07 | Task       | Small cleanup, Update and use case-insensitive search in telecom provider list                                                                                                             |
+| 2.0.3      | 2019-02-26 | Bugfix     | Show module action switcher in T3 9.5, remove unneeded stuff from former releases                                                                                                          |
+| 2.0.2      | 2019-02-25 | Bugfix     | Small bugfix for TER uploads                                                                                                                                                               |
+| 2.0.1      | 2019-02-25 | Bugfix     | Small fixes with default values if configuration is missing                                                                                                                                |
+| 2.0.0      | 2019-02-24 | Task       | Publish lux as community version (without Workflows), removeAll CommandController                                                                                                          |
+| 1.24.0     | 2018-11-07 | Task       | Update disallowed telecommunication provider list                                                                                                                                          |
+| 1.23.0     | 2018-08-17 | Task       | Update disallowed mail provider and telecommunication list                                                                                                                                 |
+| 1.22.0     | 2018-07-23 | Task       | Update disallowed mail provider list                                                                                                                                                       |
+| 1.21.1     | 2018-06-28 | Task       | Code cleanup, update telecommunication provider list, performance improvement                                                                                                              |
+| 1.21.0     | 2018-06-28 | Task       | Add blacklist function for onetime-email-accounts in email4link functionality                                                                                                              |
+| 1.20.3     | 2018-05-24 | Task       | Update privacy link in a new tab.                                                                                                                                                          |
+| 1.20.2     | 2018-05-24 | Task       | Small locallang update.                                                                                                                                                                    |
+| 1.20.1     | 2018-05-24 | Bugfix     | Small documentation update.                                                                                                                                                                |
+| 1.20.0     | 2018-05-24 | Feature    | Bugfixes, Privacy checkbox in email4link, Manual blacklisting.                                                                                                                             |
+| 1.19.0     | 2018-04-24 | Task       | Documentation update. Telecommunication provider list update.                                                                                                                              |
+| 1.18.0     | 2018-04-21 | Feature    | Introduce summary-mails in command controller.                                                                                                                                             |
+| 1.17.0     | 2018-04-12 | Feature    | Publish to multiple slack channels now.                                                                                                                                                    |
+| 1.16.1     | 2018-04-12 | Bugfix     | Fix for chrome select boxes in workflow module, fix filter select in content view.                                                                                                         |
+| 1.16.0     | 2018-04-12 | Feature    | Show company from IP-address on different places. Add company trigger.                                                                                                                     |
+| 1.15.1     | 2018-04-04 | Bugfix     | Allow links in lightboxes now.                                                                                                                                                             |
+| 1.15.0     | 2018-04-04 | Task       | Add documentation, Dashboard: Show percentual values. Performance in content view.                                                                                                         |
+| 1.14.0     | 2018-03-26 | Bugfix     | Small bugfixes (CKeditor Plugin, Dateformat)                                                                                                                                               |
+| 1.13.2     | 2018-03-18 | Bugfix     | Small bugfixes.                                                                                                                                                                            |
+| 1.13.1     | 2018-03-15 | Bugfix     | Small bugfixes.                                                                                                                                                                            |
+| 1.13.0     | 2018-03-14 | Task       | Add css grid for dashboard. Small bugfixes.                                                                                                                                                |
+| 1.12.0     | 2018-03-13 | Feature    | Disable tracking if be-user is logged in. Small bugfixes.                                                                                                                                  |
+| 1.11.0     | 2018-03-12 | Feature    | Some privace features. Some brush up. Add contextual content plugin.                                                                                                                       |
+| 1.10.0     | 2018-03-10 | Task       | Some small improvements. Add a opt-out plugin.                                                                                                                                             |
+| 1.9.0      | 2018-03-08 | Task       | Some changes to see categoryscorings.                                                                                                                                                      |
+| 1.8.0      | 2018-03-07 | Feature    | Optical refactoring of pageoverview. Bugfix in category scoring.                                                                                                                           |
+| 1.7.0      | 2018-03-07 | Feature    | Add identified trigger and slack action.                                                                                                                                                   |
+| 1.6.0      | 2018-03-06 | Task       | Add categoryscoring. Bugfix: Don't track downloads with email4link twice.                                                                                                                  |
+| 1.5.1      | 2018-03-05 | Bugfix     | Prevent exception in backend.                                                                                                                                                              |
+| 1.5.0      | 2018-03-05 | Task       | Finish workflow modules with initial triggers/actions. Small bugfixes.                                                                                                                     |
+| 1.4.0      | 2018-03-04 | Task       | Split backend modules, add content analysis, integrate nearly complete workflow                                                                                                            |
+| 1.3.0      | 2018-03-02 | Task       | Don't show full download path in frontend with email4download                                                                                                                              |
+| 1.2.0      | 2018-03-01 | Task       | Some small fixes in backend analysis show identified and recurring.                                                                                                                        |
+| 1.1.1      | 2018-02-27 | Bugfix     | Some small fixes in backend analysis and email4link functionality.                                                                                                                         |
+| 1.1.0      | 2018-02-26 | Task       | Show more relevant information in detail view. Small fixes.                                                                                                                                |
+| 1.0.1      | 2018-02-26 | Bugfix     | Fix some smaller bugs that occurs with live data                                                                                                                                           |
+| 1.0.0      | 2018-02-26 | Task       | Initial Release with a stable tracking, identification and analyses                                                                                                                        |
