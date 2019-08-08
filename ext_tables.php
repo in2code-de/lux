@@ -68,7 +68,7 @@ call_user_func(
                 'leads',
                 '',
                 [
-                    'Lead' => 'list,detail,downloadCsv,remove,deactivate',
+                    'Lead' => 'list,detail,downloadCsv,remove,deactivate,resetFilterForList',
                     'Analysis' => 'dashboard,content,detailPage,detailDownload',
                 ],
                 [
