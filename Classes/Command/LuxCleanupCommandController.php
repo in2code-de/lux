@@ -38,6 +38,7 @@ class LuxCleanupCommandController extends CommandController
             $this->visitorRepository->removeRelatedTableRowsByVisitorUid($visitor);
             $this->visitorRepository->removeVisitorByVisitorUid($visitor);
         }
+        $this->outputLine(count($visitors) . ' successfully removed');
     }
 
     /**
@@ -59,6 +60,7 @@ class LuxCleanupCommandController extends CommandController
             $this->visitorRepository->removeRelatedTableRowsByVisitorUid($visitor);
             $this->visitorRepository->removeVisitorByVisitorUid($visitor);
         }
+        $this->outputLine(count($visitors) . ' successfully removed');
     }
 
     /**
@@ -74,6 +76,7 @@ class LuxCleanupCommandController extends CommandController
     public function removeAllVisitorsCommand()
     {
         $this->visitorRepository->truncateAll();
+        $this->outputLine('Every lux table successfully truncated');
     }
 
     /**
@@ -92,6 +95,32 @@ class LuxCleanupCommandController extends CommandController
         $visitor = $this->visitorRepository->findByUid($visitorUid);
         $this->visitorRepository->removeRelatedTableRowsByVisitorUid($visitor);
         $this->visitorRepository->removeVisitorByVisitorUid($visitor);
+    }
+
+    /**
+     * Remove a visitor by a given property. E.g. removing all google bots with
+     * "./vendor/bin/typo3cms luxcleanup:removevisitorbyproperty userAgent Googlebot 0" or
+     * "./vendor/bin/typo3cms luxcleanup:removevisitorbyproperty idcookies.userAgent Googlebot 0"
+     *
+     *      Remove a visitor by a given property. E.g. removing all
+     *      !!! Really removes visitors and all rows from related tables from the database
+     *
+     * @param string $propertyName
+     * @param string $propertyValue
+     * @param bool $exactMatch
+     * @return void
+     * @throws DBALException
+     * @throws InvalidQueryException
+     */
+    public function removeVisitorByPropertyCommand(string $propertyName, string $propertyValue, bool $exactMatch = true)
+    {
+        $visitors = $this->visitorRepository->findAllByProperty($propertyName, $propertyValue, $exactMatch);
+        /** @var Visitor $visitor */
+        foreach ($visitors as $visitor) {
+            $this->visitorRepository->removeRelatedTableRowsByVisitorUid($visitor);
+            $this->visitorRepository->removeVisitorByVisitorUid($visitor);
+        }
+        $this->outputLine(count($visitors) . ' successfully removed');
     }
 
     /**

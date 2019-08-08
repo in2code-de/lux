@@ -105,6 +105,27 @@ class VisitorRepository extends AbstractRepository
     }
 
     /**
+     * @param string $propertyName
+     * @param string $propertyValue
+     * @param bool $exactMatch
+     * @return QueryResultInterface
+     * @throws InvalidQueryException
+     */
+    public function findAllByProperty(
+        string $propertyName,
+        string $propertyValue,
+        bool $exactMatch
+    ): QueryResultInterface {
+        $query = $this->createQuery();
+        $constraint = $query->equals($propertyName, $propertyValue);
+        if ($exactMatch === false) {
+            $constraint = $query->like($propertyName, '%' . $propertyValue . '%');
+        }
+        $query->matching($constraint);
+        return $query->execute();
+    }
+
+    /**
      * Find a small couple of hottest visitors
      *
      * @param FilterDto $filter
