@@ -135,9 +135,15 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 - Blacklist functionality
 - Workflow blacklist action
 
+### Upcoming todos
+
+- Performance leadlist
+- Remove google bot (e.g. in hottest leads dashboard and lead list)
+- Group page visits by visitor
+- New diagram in dashboard: Number of identified Leads within the last 6 months
+
 ### Possible Enterprise Features in the future
 
-- Todo: Newsletter tool (replace or extend direct_mail? New tool "luxletter" - usable without Lux?)
 - Todo: Contacts (Import?)
 - Todo: API (Im- and Export)
 - Todo: A/B Tests
