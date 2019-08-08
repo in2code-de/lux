@@ -330,7 +330,6 @@ class VisitorRepository extends AbstractRepository
                 $logicalOr[] = $query->like('referrer', '%' . $searchterm . '%');
                 $logicalOr[] = $query->like('description', '%' . $searchterm . '%');
                 $logicalOr[] = $query->like('attributes.value', '%' . $searchterm . '%');
-                $logicalOr[] = $query->equals('idcookies.value', $searchterm);
             }
             $logicalAnd[] = $query->logicalOr($logicalOr);
         }
