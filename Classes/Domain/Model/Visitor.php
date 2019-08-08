@@ -949,7 +949,7 @@ class Visitor extends AbstractEntity
 
         /** @var VisitorRepository $visitorRepository */
         $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
-        $visitorRepository->removeRelatedTableRowsByVisitorUid($this->getUid());
+        $visitorRepository->removeRelatedTableRowsByVisitorUid($this);
 
         /** @noinspection PhpUnhandledExceptionInspection */
         $now = new \DateTime();

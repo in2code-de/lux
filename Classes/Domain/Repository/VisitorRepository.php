@@ -256,35 +256,38 @@ class VisitorRepository extends AbstractRepository
     }
 
     /**
-     * @param int $visitorUid
+     * @param Visitor $visitor
      * @return void
      * @throws DBALException
      */
-    public function removeVisitorByVisitorUid(int $visitorUid)
+    public function removeVisitorByVisitorUid(Visitor $visitor)
     {
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
-        $connection->query('delete from ' . Visitor::TABLE_NAME . ' where uid=' . (int)$visitorUid);
+        $connection->query('delete from ' . Visitor::TABLE_NAME . ' where uid=' . (int)$visitor->getUid());
     }
 
     /**
-     * @param int $visitorUid
+     * @param Visitor $visitor
      * @return void
      * @throws DBALException
      */
-    public function removeRelatedTableRowsByVisitorUid(int $visitorUid)
+    public function removeRelatedTableRowsByVisitorUid(Visitor $visitor)
     {
+        $connection = DatabaseUtility::getConnectionForTable(Idcookie::TABLE_NAME);
+        foreach ($visitor->getIdcookies() as $idcookie) {
+            $connection->query('delete from ' . Idcookie::TABLE_NAME . ' where uid=' . (int)$idcookie->getUid());
+        }
         $tables = [
             Attribute::TABLE_NAME,
             Pagevisit::TABLE_NAME,
             Ipinformation::TABLE_NAME,
             Download::TABLE_NAME,
             Categoryscoring::TABLE_NAME,
-            Log::TABLE_NAME,
-            Idcookie::TABLE_NAME
+            Log::TABLE_NAME
         ];
         foreach ($tables as $table) {
             $connection = DatabaseUtility::getConnectionForTable($table);
-            $connection->query('delete from ' . $table . ' where visitor=' . (int)$visitorUid);
+            $connection->query('delete from ' . $table . ' where visitor=' . (int)$visitor->getUid());
         }
     }
 

@@ -126,8 +126,8 @@ class LeadController extends ActionController
      */
     public function removeAction(Visitor $visitor)
     {
-        $this->visitorRepository->removeVisitorByVisitorUid($visitor->getUid());
-        $this->visitorRepository->removeRelatedTableRowsByVisitorUid($visitor->getUid());
+        $this->visitorRepository->removeVisitorByVisitorUid($visitor);
+        $this->visitorRepository->removeRelatedTableRowsByVisitorUid($visitor);
         $this->addFlashMessage('Visitor completely removed from database');
         $this->redirect('list');
     }

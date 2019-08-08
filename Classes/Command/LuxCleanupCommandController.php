@@ -35,8 +35,8 @@ class LuxCleanupCommandController extends CommandController
         $visitors = $this->visitorRepository->findByLastChangeUnknown($timestamp);
         /** @var Visitor $visitor */
         foreach ($visitors as $visitor) {
-            $this->visitorRepository->removeRelatedTableRowsByVisitorUid($visitor->getUid());
-            $this->visitorRepository->removeVisitorByVisitorUid($visitor->getUid());
+            $this->visitorRepository->removeRelatedTableRowsByVisitorUid($visitor);
+            $this->visitorRepository->removeVisitorByVisitorUid($visitor);
         }
     }
 
@@ -56,8 +56,8 @@ class LuxCleanupCommandController extends CommandController
         $visitors = $this->visitorRepository->findByLastChange($timestamp);
         /** @var Visitor $visitor */
         foreach ($visitors as $visitor) {
-            $this->visitorRepository->removeRelatedTableRowsByVisitorUid($visitor->getUid());
-            $this->visitorRepository->removeVisitorByVisitorUid($visitor->getUid());
+            $this->visitorRepository->removeRelatedTableRowsByVisitorUid($visitor);
+            $this->visitorRepository->removeVisitorByVisitorUid($visitor);
         }
     }
 
@@ -88,8 +88,10 @@ class LuxCleanupCommandController extends CommandController
      */
     public function removeVisitorByUidCommand(int $visitorUid)
     {
-        $this->visitorRepository->removeRelatedTableRowsByVisitorUid($visitorUid);
-        $this->visitorRepository->removeVisitorByVisitorUid($visitorUid);
+        /** @var Visitor $visitor */
+        $visitor = $this->visitorRepository->findByUid($visitorUid);
+        $this->visitorRepository->removeRelatedTableRowsByVisitorUid($visitor);
+        $this->visitorRepository->removeVisitorByVisitorUid($visitor);
     }
 
     /**
