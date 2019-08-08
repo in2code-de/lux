@@ -25,6 +25,25 @@ class BackendUtility
     }
 
     /**
+     * @param string $key
+     * @param array $data
+     * @return void
+     */
+    public static function saveValueToSession(string $key, array $data)
+    {
+        self::getBackendUserAuthentication()->setAndSaveSessionData($key . '_lux', $data);
+    }
+
+    /**
+     * @param string $key
+     * @return array
+     */
+    public static function getSessionValue(string $key): array
+    {
+        return (array)self::getBackendUserAuthentication()->getSessionData($key . '_lux');
+    }
+
+    /**
      * @return BackendUserAuthentication
      * @SuppressWarnings(PHPMD.Superglobals)
      */

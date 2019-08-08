@@ -8,12 +8,14 @@ use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\CategoryRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
+use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
@@ -45,6 +47,7 @@ class LeadController extends ActionController
     /**
      * @return void
      * @throws InvalidArgumentNameException
+     * @throws NoSuchArgumentException
      */
     public function initializeListAction()
     {
@@ -93,6 +96,17 @@ class LeadController extends ActionController
     }
 
     /**
+     * @return void
+     * @throws StopActionException
+     * @throws UnsupportedRequestTypeException
+     */
+    public function resetFilterForListAction()
+    {
+        BackendUtility::saveValueToSession('filter', []);
+        $this->redirect('list');
+    }
+
+    /**
      * @param Visitor $visitor
      * @return void
      */
@@ -112,8 +126,8 @@ class LeadController extends ActionController
      */
     public function removeAction(Visitor $visitor)
     {
-        $this->visitorRepository->removeVisitorByVisitorUid($visitor->getUid());
-        $this->visitorRepository->removeRelatedTableRowsByVisitorUid($visitor->getUid());
+        $this->visitorRepository->removeVisitorByVisitorUid($visitor);
+        $this->visitorRepository->removeRelatedTableRowsByVisitorUid($visitor);
         $this->addFlashMessage('Visitor completely removed from database');
         $this->redirect('list');
     }
@@ -182,21 +196,26 @@ class LeadController extends ActionController
      *
      * @return void
      * @throws InvalidArgumentNameException
+     * @throws NoSuchArgumentException
      */
     protected function setFilterDto()
     {
-        $filter = [];
-        try {
-            $filter = $this->request->getArgument('filter');
-        } catch (\Exception $exception) {
-            unset($exception);
-            $this->request->setArgument('filter', ObjectUtility::getFilterDto());
+        $filterArgument = $this->arguments->getArgument('filter');
+        $filterPropMapping = $filterArgument->getPropertyMappingConfiguration();
+        $filterPropMapping->allowAllProperties();
+
+        if ($this->request->hasArgument('filter') === false) {
+            $filter = BackendUtility::getSessionValue('filter');
+        } else {
+            $filter = (array)$this->request->getArgument('filter');
+            BackendUtility::saveValueToSession('filter', $filter);
         }
+
         if (array_key_exists('categoryScoring', $filter)
             && (is_array($filter['categoryScoring']) || $filter['categoryScoring'] === '')) {
             $filter['categoryScoring'] = 0;
-            $this->request->setArgument('filter', $filter);
         }
+        $this->request->setArgument('filter', $filter);
     }
 
     /**

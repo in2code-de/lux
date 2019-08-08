@@ -163,15 +163,24 @@ class PagevisitRepository extends AbstractRepository
 
     /**
      * @param Page $page
-     * @return QueryResultInterface
+     * @return array
      */
-    public function findByPage(Page $page): QueryResultInterface
+    public function findByPage(Page $page): array
     {
         $query = $this->createQuery();
         $query->matching($query->equals('page', $page));
         $query->setOrderings(['crdate' => QueryInterface::ORDER_DESCENDING]);
         $query->setLimit(100);
-        return $query->execute();
+        $pagesvisits = $query->execute();
+
+        $result = [];
+        /** @var Pagevisit $pagevisit */
+        foreach ($pagesvisits as $pagevisit) {
+            if (array_key_exists($pagevisit->getVisitor()->getUid(), $result) === false) {
+                $result[$pagevisit->getVisitor()->getUid()] = $pagevisit;
+            }
+        }
+        return $result;
     }
 
     /**

@@ -362,6 +362,18 @@ class Visitor extends AbstractEntity
     }
 
     /**
+     * @return Idcookie|null
+     */
+    public function getLatestIdcookie()
+    {
+        $idcookies = $this->getIdcookies();
+        foreach ($idcookies as $idcookie) {
+            return $idcookie;
+        }
+        return null;
+    }
+
+    /**
      * @param ObjectStorage $idcookies
      * @return $this
      */
@@ -949,7 +961,7 @@ class Visitor extends AbstractEntity
 
         /** @var VisitorRepository $visitorRepository */
         $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
-        $visitorRepository->removeRelatedTableRowsByVisitorUid($this->getUid());
+        $visitorRepository->removeRelatedTableRowsByVisitorUid($this);
 
         /** @noinspection PhpUnhandledExceptionInspection */
         $now = new \DateTime();
