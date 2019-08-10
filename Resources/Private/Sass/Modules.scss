@@ -35,6 +35,24 @@ label {
 /**
  * Bootstrap
  */
+.row.flex {
+  @media screen and (min-width: 992px) {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+.row > .flex[class*='col-'] {
+  @media screen and (min-width: 992px) {
+    display: flex;
+    flex-direction: column;
+  }
+}
+.panel.flex {
+  height: 100%;
+}
 .bg-primary {
   background-color: $colorSoft;
 }
@@ -46,6 +64,20 @@ label {
 }
 .input-lg {
   line-height: 1.3 !important;
+}
+.collapse-arrow {
+  &:after {
+    content: "\f077";
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: 14px;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  &.collapsed:after {
+    content: "\f078";
+  }
 }
 
 /**

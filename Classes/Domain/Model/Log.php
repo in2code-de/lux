@@ -12,7 +12,7 @@ class Log extends AbstractEntity
     const TABLE_NAME = 'tx_lux_domain_model_log';
     const STATUS_DEFAULT = 0;
     const STATUS_NEW = 1;
-    const STATUS_IDENTIFIED = 2;
+    const STATUS_IDENTIFIED = 2; // Fieldlistening
     const STATUS_IDENTIFIED_FORMLISTENING = 25;
     const STATUS_IDENTIFIED_LUXLETTERLINK = 28;
     const STATUS_IDENTIFIED_FRONTENDAUTHENTICATION = 26;
@@ -156,5 +156,21 @@ class Log extends AbstractEntity
             $property = (string)$properties[$key];
         }
         return $property;
+    }
+
+    /**
+     * Get all status codes that shows an identification
+     *
+     * @return array
+     */
+    public static function getIdentifiedStatus(): array
+    {
+        return [
+            Log::STATUS_IDENTIFIED,
+            Log::STATUS_IDENTIFIED_FORMLISTENING,
+            Log::STATUS_IDENTIFIED_LUXLETTERLINK,
+            Log::STATUS_IDENTIFIED_FRONTENDAUTHENTICATION,
+            Log::STATUS_IDENTIFIED_EMAIL4LINK,
+        ];
     }
 }

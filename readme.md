@@ -8,8 +8,6 @@ LUX is an enterprise software solution to fill the gap between your TYPO3-websit
 tool. LUX will track, identify, analyse your leads and give the visitors some improved user experience for your website
 like showing relevant information at the right time.
 
-\newpage
-
 ## Screenshots
 
 Example dashboard overview:\
@@ -110,6 +108,7 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 -- Send an email with lead details
 -- Redirect to any URL
 -- Send publication to a slack channel
+-- Send lead to your CRM via interface connection
 -- Blacklist a visitor
 
 ### CommandControllers & Scheduler
@@ -165,6 +164,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 6.0.0      | 2019-08-10 | Feature    | New dashboard views: Add identified leads per month, add overall statistics, Html refactoring, Don't show wrong default image for leads, New VH for luxenterprise, Documentation update    |
 | 5.1.0      | 2019-08-08 | Task       | Performance update lead list, Keep filter, Don't show duplicates in page content, Add new task to delete a visitor by any property, Disallowed mail providers update, Cleanup tasks bugfix |
 | 5.0.0      | 2019-07-31 | Task       | Opt-in functionality, Luxletter support, Identification via frontend-login                                                                                                                 |
 | 4.1.2      | 2019-07-25 | Bugfix     | Fix email4link email sending functionality on some edge cases                                                                                                                              |

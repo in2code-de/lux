@@ -2,9 +2,11 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
+use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Download;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Utility\DatabaseUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
@@ -122,5 +124,15 @@ class DownloadRepository extends AbstractRepository
             $downloads[] = $query->execute()->count();
         }
         return $downloads;
+    }
+
+    /**
+     * @return int
+     * @throws DBALException
+     */
+    public function findAllAmount(): int
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Download::TABLE_NAME);
+        return (int)$connection->executeQuery('select count(uid) from ' . Download::TABLE_NAME)->fetchColumn(0);
     }
 }

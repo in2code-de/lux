@@ -76,6 +76,7 @@ Possible actions by default are:
 * Sends an email
 * Publish a message to a slack channel
 * Add a visitor to a blacklist
+* Send lead information to any interface (e.g. a CRM)
 
 After that you can choose save or previous for step 2 again.
 
@@ -408,6 +409,40 @@ lib.lux.settings {
                 # Additional configuration
                 configuration {
                     # Any configuration - available as array in Template File and Action class for some own magic
+                }
+            }
+
+            # Send to interface action for any kind of exports to a CRM
+            8 {
+                # Title to show in workflow backend module
+                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.sendtointerface
+
+                # Classname for implementation of the action itself
+                className = In2code\Luxenterprise\Domain\Action\SendToInterfaceAction
+
+                # Templatefile for implementation of the form in workflow module
+                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/SendToInterface.html
+
+                # Additional configuration
+                configuration {
+                    1 {
+                        # Any title for this interface connection
+                        name = Send lead to my CRM
+
+                        # Send to this url
+                        url = https://mycrm.net
+
+                        values {
+                            # build a string like &email=email@address.net&name=Alex&scoring=123 ...
+                            email = {visitor.email}
+                            name = {visitor.fullName}
+                            scoring = {visitor.scoring}
+                            country = {visitor.country}
+                            company = {visitor.company}
+                            anyattribute = {lux:visitor.getPropertyFromAttributes(attribute:'firstname',visitor:visitor)}
+                            anyvalue = any static value
+                        }
+                    }
                 }
             }
         }

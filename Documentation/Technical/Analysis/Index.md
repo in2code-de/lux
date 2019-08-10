@@ -64,11 +64,13 @@ Now, if lux is up and running, you should see information in the Analysis Backen
 
 The dashboard view should give you a quick overview about the latest activities and some useful information:
 * How many recurring/unique leads
-* How many identified leads
 * The latest page visits
+* The latest activities
+* Identified leads vs. unknown leads
+* Identifaction rate of the latest months
 * Hottest leads (orderings by scoring)
-* Activity log
 * A world map for a basic visitor analysis
+* A basic statistics about the records that are stored in lux
 
 Clicking on a name/email/"anonymous" will open a detail page with some more information of the lead.
 

@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-default flex">
     <div class="panel-heading">
         <h3 class="panel-title">
             <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.pagefunnel">Pagefunnel</f:translate>
@@ -8,7 +8,7 @@
     <div class="panel-body">
         <f:if condition="{visitor.pagevisits}">
             <f:then>
-                <div style="height: 394px; overflow: auto; ">
+                <div style="height: 450px; overflow: auto; ">
                     <nav class="timeline timeline--vertical">
                         <f:for each="{visitor.pagevisits}" as="pagevisit">
                             <div class="timeline__item" title="PID{pagevisit.page.uid}">

@@ -1,23 +1,45 @@
-<f:layout name="Backend" />
+<f:layout name="Backend"/>
 
 <f:section name="content">
-    <div class="row">
-        <div class="col-md-12">
-            <f:alias map="{action:'dashboard'}">
-                <f:render partial="Lead/Filter" arguments="{_all}" />
-            </f:alias>
-        </div>
-    </div>
-    <div class="g-layout">
-        <f:render partial="Lead/Recurring" arguments="{_all}" />
-        <f:render partial="Lead/Identified" arguments="{_all}" />
-        <f:render partial="Lead/Pagevisits" arguments="{_all}" />
-        <f:render partial="Lead/HottestVisitors" arguments="{_all}" />
-        <f:render partial="DiagramBoxes/Log" arguments="{_all}" />
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <f:render partial="Lead/Map" arguments="{_all}" />
-        </div>
-    </div>
+	<div class="row">
+		<div class="col-md-12">
+			<f:alias map="{action:'dashboard'}">
+				<f:render partial="Lead/Filter" arguments="{_all}"/>
+			</f:alias>
+		</div>
+	</div>
+	<div class="row flex">
+		<div class="col-md-8 flex">
+			<div class="row flex">
+				<div class="col-md-6 flex">
+					<f:render partial="Lead/Recurring" arguments="{_all}"/>
+				</div>
+				<div class="col-md-6 flex">
+					<f:render partial="Lead/Pagevisits" arguments="{_all}"/>
+				</div>
+			</div>
+			<div class="row flex">
+				<div class="col-md-6 flex">
+					<f:render partial="Lead/Identified" arguments="{_all}"/>
+				</div>
+				<div class="col-md-6 flex">
+					<f:render partial="Lead/IdentifiedPerMonth" arguments="{_all}"/>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4 flex">
+			<f:render partial="DiagramBoxes/Log" arguments="{_all}"/>
+		</div>
+	</div>
+	<div class="row flex">
+		<div class="col-md-3 flex">
+			<f:render partial="Lead/HottestVisitors" arguments="{_all}"/>
+		</div>
+		<div class="col-md-6 flex">
+			<f:render partial="Lead/Map" arguments="{_all}"/>
+		</div>
+		<div class="col-md-3 flex">
+			<f:render partial="Lead/Statistics" arguments="{_all}"/>
+		</div>
+	</div>
 </f:section>

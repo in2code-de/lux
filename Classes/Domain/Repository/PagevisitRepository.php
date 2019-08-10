@@ -2,10 +2,12 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
+use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Utility\DatabaseUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
@@ -181,6 +183,16 @@ class PagevisitRepository extends AbstractRepository
             }
         }
         return $result;
+    }
+
+    /**
+     * @return int
+     * @throws DBALException
+     */
+    public function findAllAmount(): int
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
+        return (int)$connection->executeQuery('select count(uid) from ' . Pagevisit::TABLE_NAME)->fetchColumn(0);
     }
 
     /**
