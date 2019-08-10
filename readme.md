@@ -8,8 +8,6 @@ LUX is an enterprise software solution to fill the gap between your TYPO3-websit
 tool. LUX will track, identify, analyse your leads and give the visitors some improved user experience for your website
 like showing relevant information at the right time.
 
-\newpage
-
 ## Screenshots
 
 Example dashboard overview:\
