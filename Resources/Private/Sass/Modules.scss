@@ -35,6 +35,24 @@ label {
 /**
  * Bootstrap
  */
+.row.flex {
+  @media screen and (min-width: 992px) {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+.row > .flex[class*='col-'] {
+  @media screen and (min-width: 992px) {
+    display: flex;
+    flex-direction: column;
+  }
+}
+.panel.flex {
+  height: 100%;
+}
 .bg-primary {
   background-color: $colorSoft;
 }

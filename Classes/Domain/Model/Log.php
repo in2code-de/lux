@@ -157,4 +157,20 @@ class Log extends AbstractEntity
         }
         return $property;
     }
+
+    /**
+     * Get all status codes that shows an identification
+     *
+     * @return array
+     */
+    public static function getIdentifiedStatus(): array
+    {
+        return [
+            Log::STATUS_IDENTIFIED,
+            Log::STATUS_IDENTIFIED_FORMLISTENING,
+            Log::STATUS_IDENTIFIED_LUXLETTERLINK,
+            Log::STATUS_IDENTIFIED_FRONTENDAUTHENTICATION,
+            Log::STATUS_IDENTIFIED_EMAIL4LINK,
+        ];
+    }
 }

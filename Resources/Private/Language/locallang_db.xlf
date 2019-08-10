@@ -344,6 +344,9 @@
 			<trans-unit id="module.analysis.pagevisits">
 				<source>Latest page visits</source>
 			</trans-unit>
+			<trans-unit id="module.analysis.identifiedpermonth">
+				<source>Identified leads per month</source>
+			</trans-unit>
 			<trans-unit id="module.analysis.bestvisitors">
 				<source>Hottest leads</source>
 			</trans-unit>
@@ -857,6 +860,42 @@
 			</trans-unit>
 			<trans-unit id="datetime.week.7">
 				<source>7 weeks ago</source>
+			</trans-unit>
+			<trans-unit id="datetime.month.1">
+				<source>January</source>
+			</trans-unit>
+			<trans-unit id="datetime.month.2">
+				<source>February</source>
+			</trans-unit>
+			<trans-unit id="datetime.month.3">
+				<source>March</source>
+			</trans-unit>
+			<trans-unit id="datetime.month.4">
+				<source>April</source>
+			</trans-unit>
+			<trans-unit id="datetime.month.5">
+				<source>May</source>
+			</trans-unit>
+			<trans-unit id="datetime.month.6">
+				<source>June</source>
+			</trans-unit>
+			<trans-unit id="datetime.month.7">
+				<source>July</source>
+			</trans-unit>
+			<trans-unit id="datetime.month.8">
+				<source>August</source>
+			</trans-unit>
+			<trans-unit id="datetime.month.9">
+				<source>September</source>
+			</trans-unit>
+			<trans-unit id="datetime.month.10">
+				<source>October</source>
+			</trans-unit>
+			<trans-unit id="datetime.month.11">
+				<source>November</source>
+			</trans-unit>
+			<trans-unit id="datetime.month.12">
+				<source>December</source>
 			</trans-unit>
 
 			<trans-unit id="pleaseChoose">

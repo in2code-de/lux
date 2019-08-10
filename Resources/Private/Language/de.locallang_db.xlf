@@ -453,6 +453,10 @@
 				<source>Latest page visits</source>
 				<target state="translated">Letzte Seitenbesuche</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.identifiedpermonth">
+				<source>Identified leads per month</source>
+				<target state="translated">Identifizierte Leads pro Monat</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.bestvisitors">
 				<source>Hottest leads</source>
 				<target state="translated">Hottest Leads</target>
@@ -1134,6 +1138,54 @@
 			<trans-unit id="datetime.week.7">
 				<source>7 weeks ago</source>
 				<target state="translated">Vor 7 Wochen</target>
+			</trans-unit>
+			<trans-unit id="datetime.month.1">
+				<source>January</source>
+				<target state="translated">Januar</target>
+			</trans-unit>
+			<trans-unit id="datetime.month.2">
+				<source>February</source>
+				<target state="translated">Februar</target>
+			</trans-unit>
+			<trans-unit id="datetime.month.3">
+				<source>March</source>
+				<target state="translated">März</target>
+			</trans-unit>
+			<trans-unit id="datetime.month.4">
+				<source>April</source>
+				<target state="translated">April</target>
+			</trans-unit>
+			<trans-unit id="datetime.month.5">
+				<source>May</source>
+				<target state="translated">Mai</target>
+			</trans-unit>
+			<trans-unit id="datetime.month.6">
+				<source>June</source>
+				<target state="translated">Juni</target>
+			</trans-unit>
+			<trans-unit id="datetime.month.7">
+				<source>July</source>
+				<target state="translated">Juli</target>
+			</trans-unit>
+			<trans-unit id="datetime.month.8">
+				<source>August</source>
+				<target state="translated">August</target>
+			</trans-unit>
+			<trans-unit id="datetime.month.9">
+				<source>September</source>
+				<target state="translated">September</target>
+			</trans-unit>
+			<trans-unit id="datetime.month.10">
+				<source>October</source>
+				<target state="translated">Oktober</target>
+			</trans-unit>
+			<trans-unit id="datetime.month.11">
+				<source>November</source>
+				<target state="translated">November</target>
+			</trans-unit>
+			<trans-unit id="datetime.month.12">
+				<source>December</source>
+				<target state="translated">Dezember</target>
 			</trans-unit>
 
 			<trans-unit id="pleaseChoose">

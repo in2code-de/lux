@@ -74,7 +74,8 @@ class AnalysisController extends ActionController
             'interestingLogs' => $this->logRepository->findInterestingLogs($filter),
             'countries' => $this->ipinformationRepository->findAllCountryCodesGrouped($filter),
             'latestPagevisits' => $this->pagevisitsRepository->findLatestPagevisits($filter),
-            'identifiedByMostVisits' => $this->visitorRepository->findIdentifiedByMostVisits($filter)
+            'identifiedByMostVisits' => $this->visitorRepository->findIdentifiedByMostVisits($filter),
+            'identifiedPerMonth' => $this->logRepository->findIdentifiedLogsFromMonths(6)
         ]);
     }
 

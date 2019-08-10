@@ -137,7 +137,7 @@ class VisitorRepository extends AbstractRepository
         $query = $this->createQuery();
         $logicalAnd = $this->extendLogicalAndWithFilterConstraints($filter, $query, []);
         $query->matching($query->logicalAnd($logicalAnd));
-        $query->setLimit(7);
+        $query->setLimit(16);
         $query->setOrderings([
             'scoring' => QueryInterface::ORDER_DESCENDING,
             'tstamp' => QueryInterface::ORDER_DESCENDING
