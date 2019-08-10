@@ -9,7 +9,6 @@ use In2code\Lux\Domain\Service\ConfigurationService;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\DateUtility;
 use In2code\Lux\Utility\ObjectUtility;
-use Nimut\TestingFramework\Database\Database;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
@@ -60,6 +59,18 @@ class LogRepository extends AbstractRepository
             $result[] = $queryBuilder->executeQuery($query)->fetchAll();
         }
         return $result;
+    }
+
+    /**
+     * @param int $status
+     * @return int
+     * @throws DBALException
+     */
+    public function findByStatusAmount(int $status): int
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Log::TABLE_NAME);
+        $query = 'select count(uid) from ' . Log::TABLE_NAME . ' where status=' . (int)$status;
+        return (int)$connection->executeQuery($query)->fetchColumn(0);
     }
 
     /**

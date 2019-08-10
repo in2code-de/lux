@@ -137,7 +137,7 @@ class VisitorRepository extends AbstractRepository
         $query = $this->createQuery();
         $logicalAnd = $this->extendLogicalAndWithFilterConstraints($filter, $query, []);
         $query->matching($query->logicalAnd($logicalAnd));
-        $query->setLimit(16);
+        $query->setLimit(14);
         $query->setOrderings([
             'scoring' => QueryInterface::ORDER_DESCENDING,
             'tstamp' => QueryInterface::ORDER_DESCENDING
@@ -274,6 +274,38 @@ class VisitorRepository extends AbstractRepository
         ];
         $query->matching($query->logicalAnd($logicalAnd));
         return $query->execute();
+    }
+
+    /**
+     * @return int
+     * @throws DBALException
+     */
+    public function findAllAmount(): int
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
+        return (int)$connection->executeQuery('select count(uid) from ' . Visitor::TABLE_NAME)->fetchColumn(0);
+    }
+
+    /**
+     * @return int
+     * @throws DBALException
+     */
+    public function findAllIdentifiedAmount(): int
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
+        return (int)$connection->executeQuery('select count(uid) from ' . Visitor::TABLE_NAME . ' where identified = 1')
+            ->fetchColumn(0);
+    }
+
+    /**
+     * @return int
+     * @throws DBALException
+     */
+    public function findAllUnknownAmount(): int
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
+        return (int)$connection->executeQuery('select count(uid) from ' . Visitor::TABLE_NAME . ' where identified = 0')
+            ->fetchColumn(0);
     }
 
     /**

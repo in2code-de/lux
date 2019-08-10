@@ -347,6 +347,51 @@
 			<trans-unit id="module.analysis.identifiedpermonth">
 				<source>Identified leads per month</source>
 			</trans-unit>
+			<trans-unit id="module.analysis.statistics">
+				<source>Lux Statistics</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.visitors">
+				<source>Number of visitors</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.identified">
+				<source>Identified</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.unknown">
+				<source>Unknown</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.identifiedemail4link">
+				<source>Identified per Email4Link</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.identifiedfieldlistening">
+				<source>Identified per Fieldlistening</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.identifiedformlistening">
+				<source>Identified per Formlistening</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.identifiedfrontentlogin">
+				<source>Identified per Frontendlogin</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.identifiedluxletter">
+				<source>Identified per Luxletter</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.luxcategories">
+				<source>Lux categories</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.pagevisits">
+				<source>Page visits</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.downloads">
+				<source>Downloads</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.versionlux">
+				<source>Lux version</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.versionluxenterprise">
+				<source>Luxenterprise version</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.versionluxletter">
+				<source>Luxletter version</source>
+			</trans-unit>
 			<trans-unit id="module.analysis.bestvisitors">
 				<source>Hottest leads</source>
 			</trans-unit>

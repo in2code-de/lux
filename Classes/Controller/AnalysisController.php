@@ -3,13 +3,16 @@ declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
 use Doctrine\DBAL\DBALException;
+use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
+use In2code\Lux\Domain\Repository\CategoryRepository;
 use In2code\Lux\Domain\Repository\DownloadRepository;
 use In2code\Lux\Domain\Repository\IpinformationRepository;
 use In2code\Lux\Domain\Repository\LogRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Utility\ExtensionUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
@@ -48,6 +51,11 @@ class AnalysisController extends ActionController
     protected $downloadRepository = null;
 
     /**
+     * @var CategoryRepository
+     */
+    protected $categoryRepository = null;
+
+    /**
      * @return void
      * @throws InvalidArgumentNameException
      */
@@ -75,7 +83,25 @@ class AnalysisController extends ActionController
             'countries' => $this->ipinformationRepository->findAllCountryCodesGrouped($filter),
             'latestPagevisits' => $this->pagevisitsRepository->findLatestPagevisits($filter),
             'identifiedByMostVisits' => $this->visitorRepository->findIdentifiedByMostVisits($filter),
-            'identifiedPerMonth' => $this->logRepository->findIdentifiedLogsFromMonths(6)
+            'identifiedPerMonth' => $this->logRepository->findIdentifiedLogsFromMonths(6),
+            'statistics' => [
+                'visitors' => $this->visitorRepository->findAllAmount(),
+                'identified' => $this->visitorRepository->findAllIdentifiedAmount(),
+                'unknown' => $this->visitorRepository->findAllUnknownAmount(),
+                'identifiedEmail4Link' => $this->logRepository->findByStatusAmount(Log::STATUS_IDENTIFIED_EMAIL4LINK),
+                'identifiedFieldListening' => $this->logRepository->findByStatusAmount(Log::STATUS_IDENTIFIED),
+                'identifiedFormListening' =>
+                    $this->logRepository->findByStatusAmount(Log::STATUS_IDENTIFIED_FORMLISTENING),
+                'identifiedFrontendLogin' =>
+                    $this->logRepository->findByStatusAmount(Log::STATUS_IDENTIFIED_FRONTENDAUTHENTICATION),
+                'identifiedLuxletter' => $this->logRepository->findByStatusAmount(Log::STATUS_IDENTIFIED_LUXLETTERLINK),
+                'luxcategories' => $this->categoryRepository->findAllAmount(),
+                'pagevisits' => $this->pagevisitsRepository->findAllAmount(),
+                'downloads' => $this->downloadRepository->findAllAmount(),
+                'versionLux' => ExtensionUtility::getLuxVersion(),
+                'versionLuxenterprise' => ExtensionUtility::getLuxenterpriseVersion(),
+                'versionLuxletter' => ExtensionUtility::getLuxletterVersion()
+            ]
         ]);
     }
 
@@ -186,5 +212,14 @@ class AnalysisController extends ActionController
     public function injectDownloadRepository(DownloadRepository $downloadRepository)
     {
         $this->downloadRepository = $downloadRepository;
+    }
+
+    /**
+     * @param CategoryRepository $categoryRepository
+     * @return void
+     */
+    public function injectCategoryRepository(CategoryRepository $categoryRepository)
+    {
+        $this->categoryRepository = $categoryRepository;
     }
 }

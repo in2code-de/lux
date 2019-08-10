@@ -1,0 +1,67 @@
+<div class="panel panel-default flex">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics">Statistics</f:translate>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <ol class="list-group">
+            <li class="list-group-item">
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.pagevisits">Page visits</f:translate>
+                <span class="badge">{statistics.pagevisits}</span>
+            </li>
+            <li class="list-group-item">
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.downloads">Downloads</f:translate>
+                <span class="badge">{statistics.downloads}</span>
+            </li>
+            <li class="list-group-item">
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.visitors">Number of visitors</f:translate>
+                <span class="badge">{statistics.visitors}</span>
+            </li>
+            <li class="list-group-item">
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.identified">Identified</f:translate>
+                <span class="badge">{statistics.identified}</span>
+            </li>
+            <li class="list-group-item">
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.unknown">Unknown</f:translate>
+                <span class="badge">{statistics.unknown}</span>
+            </li>
+            <li class="list-group-item">
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.identifiedemail4link">Identified per Email4Link</f:translate>
+                <span class="badge">{statistics.identifiedEmail4Link}</span>
+            </li>
+            <li class="list-group-item">
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.identifiedfieldlistening">Identified per Fieldlistening</f:translate>
+                <span class="badge">{statistics.identifiedFieldListening}</span>
+            </li>
+            <li class="list-group-item">
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.identifiedformlistening">Identified per Formlistening</f:translate>
+                <span class="badge">{statistics.identifiedFormListening}</span>
+            </li>
+            <li class="list-group-item">
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.identifiedfrontentlogin">Identified per Frontend Login</f:translate>
+                <span class="badge">{statistics.identifiedFrontendLogin}</span>
+            </li>
+            <li class="list-group-item">
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.identifiedluxletter">Identified per Luxletter</f:translate>
+                <span class="badge">{statistics.identifiedLuxletter}</span>
+            </li>
+            <li class="list-group-item">
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.luxcategories">Identified per Luxletter</f:translate>
+                <span class="badge">{statistics.luxcategories}</span>
+            </li>
+            <li class="list-group-item">
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.versionlux">Lux Version</f:translate>
+                <span class="badge">{statistics.versionLux}</span>
+            </li>
+            <li class="list-group-item">
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.versionluxenterprise">Luxenterprise Version</f:translate>
+                <span class="badge"><f:if condition="{statistics.versionLuxenterprise} == ''"><f:then>not installed</f:then><f:else>{statistics.versionLuxenterprise}</f:else></f:if></span>
+            </li>
+            <li class="list-group-item">
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.versionluxletter">Luxletter Version</f:translate>
+                <span class="badge"><f:if condition="{statistics.versionLuxletter} == ''"><f:then>not installed</f:then><f:else>{statistics.versionLuxletter}</f:else></f:if></span>
+            </li>
+        </ol>
+    </div>
+</div>
