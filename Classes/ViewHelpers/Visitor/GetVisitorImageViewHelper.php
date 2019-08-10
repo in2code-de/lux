@@ -77,7 +77,7 @@ class GetVisitorImageViewHelper extends AbstractViewHelper
     {
         if (empty($url) && $this->getVisitor()->isIdentified()) {
             $gravatarUrl = 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($this->getVisitor()->getEmail())))
-                . '?d=' . urlencode($url) . '&s=' . $this->size;
+                . '?d=' . urlencode($this->getDefaultUrl($url)) . '&s=' . $this->size;
             $header = GeneralUtility::getUrl($gravatarUrl, 2);
             if (!empty($header)) {
                 $url = $gravatarUrl;
