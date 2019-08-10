@@ -2,272 +2,38 @@
 <f:layout name="Backend"/>
 
 <f:section name="content">
-    <div class="row" data-lux-container="detail">
-        <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail">Preview</f:translate>
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <img src="{lux:visitor.getVisitorImage(visitor:visitor)}" width="150" style="max-width: 100%; margin-top: 20px;" class="img-circle img-responsive" />
-                        </div>
-                        <div class="col-md-9">
-                            <h3 title="UID{visitor.uid}">
-                                {visitor.fullName}
-                                <span class="badge" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.scoring')}">{visitor.scoring}</span>
-                                <f:if condition="{visitor.hottestCategoryscoring}">
-                                    <span class="badge badge-primary" title="{visitor.hottestCategoryscoring.category.title}">{visitor.hottestCategoryscoring.scoring}</span>
-                                </f:if>
-                                <f:if condition="{visitor.identified}"><a href="http://www.google.com/search?q={visitor.fullName}" target="_blank" title="Search on google"><img src="{f:uri.resource(path:'Images/LogoGoogle.svg',extensionName:'Lux')}" width="16" /></a></f:if>
-                            </h3>
-
-                            <f:if condition="{visitor.attributes}">
-                                <table class="table table-striped table-hover table-condensed">
-                                    <f:for each="{visitor.importantAttributes}" as="attribute">
-                                        <tr>
-                                            <td><strong>{attribute.label}</strong></td>
-                                            <td>{attribute.value}</td>
-                                        </tr>
-                                    </f:for>
-                                    <f:if condition="{visitor.unimportantAttributes}">
-                                        <tr>
-                                            <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.moreattributes">More attributes</f:translate></td>
-                                            <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:seebelow">See below...</f:translate></td></tr>
-                                    </f:if>
-                                </table>
-                            </f:if>
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <table class="table table-striped table-hover table-condensed">
-                                        <tr>
-                                            <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.crdate">First visit</f:translate></th>
-                                            <td>{lux:format.readableDate(date:visitor.crdate)} ({f:format.date(date:visitor.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')})</td>
-                                        </tr>
-                                        <tr>
-                                            <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.tstamp">Last visit</f:translate></th>
-                                            <td>{lux:format.readableDate(date:visitor.tstamp)} ({f:format.date(date:visitor.tstamp,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')})</td>
-                                        </tr>
-                                        <f:if condition="{visitor.referrer}">
-                                            <tr>
-                                                <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.referrer">Source</f:translate></th>
-                                                <td>
-                                                    <a href="{visitor.referrer}" target="_blank" title="{visitor.referrer}">{visitor.readableReferrer}</a>
-                                                </td>
-                                            </tr>
-                                        </f:if>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <table class="table table-striped table-hover table-condensed">
-                                        <f:for each="{visitor.importantIpinformations}" as="information">
-                                            <tr>
-                                                <td>
-                                                    {information.value}
-                                                    <f:if condition="{information.name} == 'city'">
-                                                        <a href="https://www.google.com/maps/?q={visitor.latitude},{visitor.longitude}" target="_blank" title="View on google maps"><img src="{f:uri.resource(path:'Images/LogoGoogleMaps.svg',extensionName:'Lux')}" width="16" /></a>
-                                                    </f:if>
-                                                </td>
-                                            </tr>
-                                        </f:for>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <textarea class="lux-textarea{f:if(condition:'{visitor.description}',else:' lux-textarea__default')}" data-lux-visitor-description="{visitor.uid}"><f:if condition="{visitor.description}"><f:then>{visitor.description}</f:then><f:else><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.description">Add text...</f:translate></f:else></f:if></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.scoring">Scoring</f:translate>
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    <canvas id="detailchart"
-                            width="750"
-                            height="250"
-                            data-chart="line"
-                            data-chart-data="{lux:charts.getScoringOfTheLastWeeksToAVisitor(visitor:visitor)}"
-                            data-chart-label="Scoring"
-                            data-chart-labels="{lux:charts.getLastWeekNames()}"></canvas>
-                </div>
-            </div>
+    <div class="row flex" data-lux-container="detail">
+        <div class="col-md-6 flex">
+            <f:render partial="Lead/Detail/Preview" arguments="{_all}"/>
         </div>
-
-
-        <div class="col-md-6">
-            <div class="row">
-                <div class="col-md-6">
-                    <f:alias map="{interestingLogs:visitor.logs, style:'height: 398px; overflow: auto;'}">
-                        <f:render partial="DiagramBoxes/Log" arguments="{_all}" />
-                    </f:alias>
-                </div>
-
-                <div class="col-md-6">
-                    <f:render partial="DiagramBoxes/PageFunnel" arguments="{_all}" />
-                </div>
-            </div>
-
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">
-                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.categoryscorings">CategoryScoring</f:translate>
-                            </h3>
-                        </div>
-                        <div class="panel-body">
-                            <f:if condition="{visitor.categoryscorings}">
-                                <f:then>
-                                    <canvas id="detailchart-categoryscorings"
-                                            width="750"
-                                            height="250"
-                                            data-chart="bar"
-                                            data-chart-data="{lux:visitor.getCategoryScoringListFromVisitor(visitor:visitor)}"
-                                            data-chart-labels="{lux:visitor.getCategoryScoringListFromVisitor(visitor:visitor,property:'title')}"></canvas>
-                                </f:then>
-                                <f:else>
-                                    <div class="alert alert-lux">
-                                        <div class="header-container">
-                                            <p class="message-body">
-                                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.novalues">No values to show</f:translate>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </f:else>
-                            </f:if>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="col-md-6 flex">
+            <f:render partial="Lead/Detail/Diagram" arguments="{_all}"/>
         </div>
     </div>
+
     <div class="row">
         <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        <a class="fa fa-chevron-down" data-toggle="collapse" href="#properties" role="button" aria-expanded="false" aria-controls="properties">
-                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.properties">Properties</f:translate>
-                        </a>
-                        <span class="badge" style="float: right;" title="Number of profiles"><f:count>{visitor.attributes}</f:count></span>
-                    </h3>
-                </div>
-                <div class="panel-body collapse" id="properties">
-                    <f:if condition="{visitor.attributes} || {visitor.attributesFromFrontenduser}">
-                        <f:then>
-                            <f:if condition="{visitor.attributes}">
-                                <table class="table table-striped table-hover table-condensed">
-                                    <thead>
-                                    <tr>
-                                        <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.properties.name">Name</f:translate></td>
-                                        <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.properties.value">Value</f:translate></td>
-                                    </tr>
-                                    </thead>
-                                    <f:for each="{visitor.attributes}" as="attribute">
-                                        <tr>
-                                            <td>{attribute.name}</td>
-                                            <td><f:format.nl2br>{attribute.value}</f:format.nl2br></td>
-                                        </tr>
-                                    </f:for>
-                                </table>
-                            </f:if>
-                            <f:if condition="{visitor.attributesFromFrontenduser}">
-                                <table class="table table-striped table-hover table-condensed">
-                                    <thead>
-                                    <tr>
-                                        <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.properties.name">Name</f:translate></td>
-                                        <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.properties.valuefrontenduser">Value</f:translate></td>
-                                    </tr>
-                                    </thead>
-                                    <f:for each="{visitor.attributesFromFrontenduser}" as="attribute">
-                                        <tr>
-                                            <td>{attribute.name}</td>
-                                            <td><f:format.nl2br>{attribute.value}</f:format.nl2br></td>
-                                        </tr>
-                                    </f:for>
-                                </table>
-                            </f:if>
-                        </f:then>
-                        <f:else>
-                            <div class="alert alert-lux">
-                                <p class="message-body">
-                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.novalues">No values to show</f:translate>
-                                </p>
-                            </div>
-                        </f:else>
-                    </f:if>
-                </div>
-            </div>
+            <f:render partial="Lead/Detail/Scoring" arguments="{_all}"/>
         </div>
         <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        <a class="fa fa-chevron-down" data-toggle="collapse" href="#profile" role="button" aria-expanded="false" aria-controls="profile">
-                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles">Profiles</f:translate>
-                        </a>
-                        <span class="badge" style="float: right;" title="Number of profiles"><f:count>{visitor.idcookies}</f:count></span>
-                    </h3>
-                </div>
-                <div class="panel-body collapse" id="profile">
-                    <f:if condition="{visitor.idcookies}">
-                        <f:then>
-                            <table class="table table-striped table-hover table-condensed">
-                                <thead>
-                                <tr>
-                                    <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.domain">Domain</f:translate></td>
-                                    <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.browser">Browser</f:translate></td>
-                                    <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.os">OS</f:translate></td>
-                                    <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.device">Device</f:translate></td>
-                                    <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.cookie">Cookie</f:translate></td>
-                                </tr>
-                                </thead>
-                                <f:for each="{visitor.idcookiesSorted}" as="idcookie">
-                                    <tr>
-                                        <td>{idcookie.domain}</td>
-                                        <td>{idcookie.propertiesFromUserAgent.browser} {idcookie.propertiesFromUserAgent.browserversion}</td>
-                                        <td>{idcookie.propertiesFromUserAgent.os} {idcookie.propertiesFromUserAgent.osversion}</td>
-                                        <td>{idcookie.propertiesFromUserAgent.manufacturer} {idcookie.propertiesFromUserAgent.type}</td>
-                                        <td>{idcookie.value}</td>
-                                    </tr>
-                                </f:for>
-                            </table>
-                        </f:then>
-                        <f:else>
-                            <div class="alert alert-lux">
-                                <p class="message-body">
-                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.novalues">No values to show</f:translate>
-                                </p>
-                            </div>
-                        </f:else>
-                    </f:if>
-
-                </div>
-            </div>
+            <f:render partial="Lead/Detail/CategoryScoring" arguments="{_all}"/>
         </div>
     </div>
+
     <div class="row">
+        <div class="col-md-6">
+            <f:render partial="Lead/Detail/Properties" arguments="{_all}"/>
+        </div>
+        <div class="col-md-6">
+            <f:render partial="Lead/Detail/Profiles" arguments="{_all}"/>
+        </div>
+    </div>
+
+    <div class="row" style="padding-bottom: 20px;">
         <div class="col-md-12">
-            <button onclick="window.history.back();" class="btn btn-primary">Go Back</button>
+            <button onclick="window.history.back();" class="btn btn-primary">
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:back">go back</f:translate>
+            </button>
 
             <f:link.action action="deactivate" arguments="{visitor:visitor}" class="btn btn-default" onclick="return confirm('{f:translate(key:\"LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:areYouSure\")}')">
                 <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.link.deactivate">ignore</f:translate>

@@ -1,0 +1,11 @@
+<div class="row flex" style="height: 100%;">
+	<div class="col-md-6 flex">
+		<f:alias map="{interestingLogs:visitor.logs, style:'height: 450px; overflow: auto;'}">
+			<f:render partial="DiagramBoxes/Log" arguments="{_all}" />
+		</f:alias>
+	</div>
+
+	<div class="col-md-6 flex">
+		<f:render partial="DiagramBoxes/PageFunnel" arguments="{_all}" />
+	</div>
+</div>
