@@ -110,6 +110,7 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 -- Send an email with lead details
 -- Redirect to any URL
 -- Send publication to a slack channel
+-- Send lead to your CRM via interface connection
 -- Blacklist a visitor
 
 ### CommandControllers & Scheduler
