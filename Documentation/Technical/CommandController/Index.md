@@ -39,7 +39,6 @@ Truncate all lux tables. Can be used for some kind of content updates to a devel
 
 Example CLI call (via typo3_console) to remove google bot records:
 ```
-./vendor/bin/typo3cms luxcleanup:removevisitorbyproperty userAgent Googlebot 0
 ./vendor/bin/typo3cms luxcleanup:removevisitorbyproperty idcookies.userAgent Googlebot 0
 ```
 

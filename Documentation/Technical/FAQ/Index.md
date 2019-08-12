@@ -60,7 +60,7 @@ There is a cleanup command controller that can be used for this kind of task.
 
 Example CLI call:
 ```
-./vendor/bin/typo3cms luxcleanup:removevisitorbyproperty userAgent Googlebot 0
+./vendor/bin/typo3cms luxcleanup:removevisitorbyproperty idcookies.userAgent Googlebot 0
 ```
 
 See [CommandController](../CommandController/Index.md) for more information.
