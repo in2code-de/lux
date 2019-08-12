@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace In2code\Lux\ViewHelpers\Charts;
 
 use In2code\Lux\Domain\Model\Visitor;
+use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -23,11 +24,13 @@ class GetScoringOfTheLastWeeksToAVisitorViewHelper extends AbstractViewHelper
      * Get scorings of a visitor from the last 8 weeks
      *
      * @return string
+     * @throws InvalidQueryException
      */
     public function render(): string
     {
         /** @var Visitor $visitor */
         $visitor = $this->arguments['visitor'];
+        /** @noinspection PhpUnhandledExceptionInspection */
         $scorings = [
             $visitor->getScoring(),
             $visitor->getScoringByDate(new \DateTime('7 days ago midnight')),

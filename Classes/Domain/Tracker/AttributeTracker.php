@@ -175,9 +175,11 @@ class AttributeTracker
      * @param string $key
      * @param string $value
      * @return void
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
      * @throws DBALException
+     * @throws IllegalObjectTypeException
+     * @throws InvalidSlotException
+     * @throws InvalidSlotReturnException
+     * @throws UnknownObjectException
      */
     protected function mergeVisitorsOnGivenEmail(string $key, string $value)
     {

@@ -122,7 +122,6 @@ class SendAssetEmail4LinkService
      */
     protected function isActivatedAndAllowed(string $href): bool
     {
-        // todo: Fix for leading slash: $this->isAllowedStorage($href) and $this->isFileExisting($href)
         return $this->isEnabled() && $this->isAllowedFileExtension($href) && $this->isAllowedStorage($href)
             && $this->isNotMalicious($href) && $this->isFileExisting($href) && $this->visitor->isIdentified();
     }
@@ -132,8 +131,8 @@ class SendAssetEmail4LinkService
      */
     protected function isEnabled(): bool
     {
-        return $this->configurationService->getTypoScriptSettingsByPath('identification.email4link.mail._enable')
-            === '1';
+        $path = 'identification.email4link.mail._enable';
+        return $this->configurationService->getTypoScriptSettingsByPath($path) === '1';
     }
 
     /**

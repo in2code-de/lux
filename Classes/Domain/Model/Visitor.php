@@ -444,6 +444,7 @@ class Visitor extends AbstractEntity
      * Get pagevisits of a visitor and sort it descending (last visit at first)
      *
      * @return array
+     * @throws \Exception
      */
     public function getPagevisits(): array
     {
@@ -460,6 +461,7 @@ class Visitor extends AbstractEntity
     /**
      * @param int $pageIdentifier
      * @return array
+     * @throws \Exception
      */
     public function getPagevisitsOfGivenPageIdentifier(int $pageIdentifier): array
     {
@@ -479,6 +481,7 @@ class Visitor extends AbstractEntity
      * Get last page visit
      *
      * @return Pagevisit|null
+     * @throws \Exception
      */
     public function getPagevisitLast()
     {
@@ -493,6 +496,7 @@ class Visitor extends AbstractEntity
      * Get first page visit
      *
      * @return Pagevisit|null
+     * @throws \Exception
      */
     public function getPagevisitFirst()
     {
@@ -536,6 +540,7 @@ class Visitor extends AbstractEntity
 
     /**
      * @return Pagevisit|null
+     * @throws \Exception
      */
     public function getLastPagevisit()
     {
@@ -552,6 +557,7 @@ class Visitor extends AbstractEntity
      * Calculate number of unique page visits. If user show a reaction after min. 1h we define it as new pagevisit.
      *
      * @return int
+     * @throws \Exception
      */
     public function getNumberOfUniquePagevisits(): int
     {
@@ -635,14 +641,14 @@ class Visitor extends AbstractEntity
     public function getUnimportantAttributes(): array
     {
         $attributes = $this->getAttributes();
-        $unimportantAttributes = [];
+        $unimportant = [];
         /** @var Attribute $attribute */
         foreach ($attributes as $attribute) {
             if (!in_array($attribute->getName(), self::IMPORTANT_ATTRIBUTES)) {
-                $unimportantAttributes[] = $attribute;
+                $unimportant[] = $attribute;
             }
         }
-        return $unimportantAttributes;
+        return $unimportant;
     }
 
     /**
@@ -722,14 +728,14 @@ class Visitor extends AbstractEntity
             'city'
         ];
         $informations = $this->getIpinformations();
-        $importantInformations = [];
+        $importantInfo = [];
         /** @var Ipinformation $information */
         foreach ($informations as $information) {
             if (in_array($information->getName(), $important)) {
-                $importantInformations[] = $information;
+                $importantInfo[] = $information;
             }
         }
-        return $importantInformations;
+        return $importantInfo;
     }
 
     /**

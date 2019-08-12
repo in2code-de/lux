@@ -1,4 +1,6 @@
 <?php
+/** @noinspection SqlNoDataSourceInspection */
+/** @noinspection SqlDialectInspection */
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
@@ -94,14 +96,14 @@ class VisitorRepository extends AbstractRepository
     public function findAllWithKnownCompanies(FilterDto $filter): array
     {
         $visitors = $this->findAllWithIdentifiedFirst($filter);
-        $visitorsWithCompanies = [];
+        $withCompanies = [];
         /** @var Visitor $visitor */
         foreach ($visitors as $visitor) {
             if ($visitor->getCompany() !== '') {
-                $visitorsWithCompanies[] = $visitor;
+                $withCompanies[] = $visitor;
             }
         }
-        return $visitorsWithCompanies;
+        return $withCompanies;
     }
 
     /**

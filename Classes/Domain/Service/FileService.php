@@ -42,6 +42,7 @@ class FileService
     /**
      * Try to convert fileadmin/abc.pdf to 1:/abc.pdf
      *
+     * @param string $href
      * @return string
      */
     protected function convertHrefToStorageAndFilePath(string $href): string

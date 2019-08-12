@@ -17,6 +17,8 @@ use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
+use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
+use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
 
 /**
  * If visitor has a new idCookie but tells the system a known email address, we have to move all attributes and
@@ -65,6 +67,8 @@ class VisitorMergeService
      * @throws DBALException
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws InvalidSlotException
+     * @throws InvalidSlotReturnException
      */
     public function merge()
     {

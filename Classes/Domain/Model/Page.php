@@ -2,7 +2,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
-use In2code\Lux\Utility\DatabaseUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 

@@ -189,6 +189,7 @@ class AnonymizeService
 
     /**
      * @return void
+     * @throws DBALException
      */
     public function anonymizeAll()
     {
