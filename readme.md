@@ -136,8 +136,7 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 
 ### Upcoming todos
 
-- Group page visits by visitor
-- New diagram in dashboard: Number of identified Leads within the last 6 months
+- Crawler detection e.g. jaybizzle/crawler-detect in StopTracking.php
 
 ### Possible Enterprise Features in the future
 
