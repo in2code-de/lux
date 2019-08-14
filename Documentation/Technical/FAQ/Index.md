@@ -5,10 +5,12 @@
 
 #### How can I identify visitors?
 
-Basicly there are three different ways at the moment:
+Basicly there are 5 different ways at the moment:
 - Use fieldMapping to map single fields of any forms on your website and animate visitors to fill out those fields
 - Use formMapping to map complete forms on your website and animate visitors to fill out those forms
 - Use email4link feature in CKEditor and offer whitepapers or other links and get the visitors email address
+- If a user logs in into your TYPO3 frontend
+- If a newsletter receiver opens a link from the newsletter (needs free extension luxletter)
 
 see [Identification](../Identification/Index.md) for more information.
 
@@ -50,3 +52,21 @@ This is very simple - see [Workflows](../Workflows/Index.md) for more informatio
 #### How to add own workflow actions?
 
 This is very simple - see [Workflows](../Workflows/Index.md) for more information.
+
+
+#### How can I remove the annoying google bot from lux?
+
+There is a cleanup command controller that can be used for this kind of task.
+
+Example CLI call:
+```
+./vendor/bin/typo3cms luxcleanup:removevisitorbyproperty idcookies.userAgent Googlebot 0
+```
+
+See [CommandController](../CommandController/Index.md) for more information.
+
+
+#### How to use opt-in instead of opt-out for cookies on my website?
+
+If you want to use opt-in instead of opt-out functionality, there is a possibility for this -
+see [Privacy](../../Privacy/Index.md) for more information.

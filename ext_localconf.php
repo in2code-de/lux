@@ -149,6 +149,14 @@ call_user_func(
             'startFinisher',
             false
         );
+        // Add a class to stop tracking
+        $signalSlotDispatcher->connect(
+            \In2code\Lux\Domain\Factory\VisitorFactory::class,
+            'stopAnyProcessBeforePersistence',
+            \In2code\Lux\Domain\Tracker\StopTracking::class,
+            'stop',
+            false
+        );
 
         /**
          * CK editor configuration

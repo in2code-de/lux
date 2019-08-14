@@ -7,6 +7,8 @@ use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\FrontendUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 
@@ -20,6 +22,8 @@ class CategoryScoringService
      * @param Visitor $visitor
      * @param string $actionMethodName
      * @return void
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
@@ -37,6 +41,8 @@ class CategoryScoringService
     /**
      * @param Visitor $visitor
      * @return void
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
@@ -60,6 +66,8 @@ class CategoryScoringService
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     protected function calculateCategoryScoringForDownload(Visitor $visitor)
     {

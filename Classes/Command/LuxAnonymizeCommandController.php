@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Command;
 
+use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Service\AnonymizeService;
 use TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
 
@@ -17,6 +18,7 @@ class LuxAnonymizeCommandController extends CommandController
      *
      * @return void
      * @cli
+     * @throws DBALException
      */
     public function anonymizeAllCommand()
     {

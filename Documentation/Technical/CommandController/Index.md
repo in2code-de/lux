@@ -30,8 +30,17 @@ Remove means in this case not deleted=1 but really remove from database.
 (identified or anonymous) by a given uid.
 Remove means in this case not deleted=1 but really remove from database.
 
+* `\In2code\Lux\Command\LuxCleanupCommandController::removeVisitorByPropertyCommand(string $propertyName, string $propertyValue, bool $exactMatch = true)`
+Remove visitors by given attributes (identified or anonymous).
+Could be used to remove e.g. bots from your system from time to time.
+
 * `\In2code\Lux\Command\LuxCleanupCommandController::removeAllVisitorsCommand()` Removes all visitors.
 Truncate all lux tables. Can be used for some kind of content updates to a development server
+
+Example CLI call (via typo3_console) to remove google bot records:
+```
+./vendor/bin/typo3cms luxcleanup:removevisitorbyproperty idcookies.userAgent Googlebot 0
+```
 
 
 #### LuxLeadCommandController

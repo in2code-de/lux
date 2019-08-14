@@ -1,4 +1,6 @@
 <?php
+/** @noinspection SqlNoDataSourceInspection */
+/** @noinspection SqlDialectInspection */
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
@@ -77,6 +79,7 @@ class DownloadRepository extends AbstractRepository
      */
     public function getNumberOfDownloadsByDay(): array
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
         $frames = [
             [
                 new \DateTime('today midnight'),

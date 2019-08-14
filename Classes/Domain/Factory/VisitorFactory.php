@@ -43,12 +43,15 @@ class VisitorFactory
      *
      * @param string $idCookie
      * @param string $referrer
+     * @throws InvalidSlotException
+     * @throws InvalidSlotReturnException
      */
     public function __construct(string $idCookie, string $referrer = '')
     {
         $this->idcookie = GeneralUtility::makeInstance(Idcookie::class)->setValue($idCookie);
         $this->referrer = $referrer;
         $this->visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
+        $this->signalDispatch(__CLASS__, 'stopAnyProcessBeforePersistence', [$this->idcookie, $this->referrer]);
     }
 
     /**
@@ -62,11 +65,13 @@ class VisitorFactory
     public function getVisitor(): Visitor
     {
         $visitor = $this->getVisitorFromDatabase();
+        $this->signalDispatch(__CLASS__, __FUNCTION__ . 'beforeCreateNew', [$this->idcookie, $this->referrer]);
         if ($visitor === null) {
             $visitor = $this->createNewVisitor();
             $this->visitorRepository->add($visitor);
             $this->visitorRepository->persistAll();
         }
+        $this->signalDispatch(__CLASS__, __FUNCTION__, [$this->idcookie, $this->referrer]);
         return $visitor;
     }
 

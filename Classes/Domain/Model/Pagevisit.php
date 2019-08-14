@@ -64,6 +64,7 @@ class Pagevisit extends AbstractEntity
 
     /**
      * @return \DateTime
+     * @throws \Exception
      */
     public function getCrdate(): \DateTime
     {

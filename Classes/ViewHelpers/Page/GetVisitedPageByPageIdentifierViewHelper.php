@@ -26,6 +26,7 @@ class GetVisitedPageByPageIdentifierViewHelper extends AbstractViewHelper
      * Get all pagevisits from visitor related to a given page identifier
      *
      * @return array
+     * @throws \Exception
      */
     public function render(): array
     {

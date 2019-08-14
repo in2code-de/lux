@@ -127,9 +127,11 @@ class FilterDto
 
     /**
      * @return \DateTime
+     * @throws \Exception
      */
     public function getTimeFromDateTime(): \DateTime
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
         return new \DateTime($this->getTimeFrom());
     }
 
@@ -153,9 +155,11 @@ class FilterDto
 
     /**
      * @return \DateTime
+     * @throws \Exception
      */
     public function getTimeToDateTime(): \DateTime
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
         return new \DateTime($this->getTimeTo());
     }
 
@@ -210,11 +214,14 @@ class FilterDto
      *
      * @param int $seconds
      * @return FilterDto
+     * @throws \Exception
      */
     public function setTimeFrame(int $seconds)
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
         $timeFrom = new \DateTime($seconds . ' seconds ago');
         $this->setTimeFrom($timeFrom->format('c'));
+        /** @noinspection PhpUnhandledExceptionInspection */
         $timeTo = new \DateTime();
         $this->setTimeTo($timeTo->format('c'));
         return $this;
@@ -279,6 +286,7 @@ class FilterDto
      * Get a start datetime for period filter
      *
      * @return \DateTime
+     * @throws \Exception
      */
     public function getStartTimeForFilter(): \DateTime
     {
@@ -294,6 +302,7 @@ class FilterDto
      * Get a stop datetime for period filter
      *
      * @return \DateTime
+     * @throws \Exception
      */
     public function getEndTimeForFilter(): \DateTime
     {
@@ -307,9 +316,11 @@ class FilterDto
 
     /**
      * @return \DateTime
+     * @throws \Exception
      */
     protected function getStartTimeFromTimePeriod(): \DateTime
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
         $time = new \DateTime();
         if ($this->getTimePeriod() === self::PERIOD_ALL) {
             $time = new \DateTime();
@@ -332,11 +343,14 @@ class FilterDto
 
     /**
      * @return \DateTime
+     * @throws \Exception
      */
     protected function getEndTimeFromTimePeriod(): \DateTime
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
         $time = new \DateTime();
         if ($this->getTimePeriod() === self::PERIOD_LASTMONTH) {
+            /** @noinspection PhpUnhandledExceptionInspection */
             $time = new \DateTime('last day of last month');
             $time->setTime(23, 59, 59);
         }

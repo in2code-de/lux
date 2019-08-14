@@ -1,4 +1,6 @@
 <?php
+/** @noinspection SqlNoDataSourceInspection */
+/** @noinspection SqlDialectInspection */
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
@@ -70,6 +72,7 @@ class PagevisitRepository extends AbstractRepository
      */
     public function getNumberOfVisitorsByDay(): array
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
         $frames = [
             [
                 new \DateTime('today midnight'),

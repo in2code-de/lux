@@ -27,6 +27,7 @@ class GetLastVisitedPageByPageIdentifierViewHelper extends AbstractViewHelper
      * return the first that fits to this identifier)
      *
      * @return Pagevisit|null
+     * @throws \Exception
      */
     public function render()
     {

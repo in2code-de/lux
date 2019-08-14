@@ -112,9 +112,10 @@ class ScoringService
             $pagevisits = $pagevisitRepository->findByVisitorAndTime($visitor, $this->time);
             if ($pagevisits > 0) {
                 $lastVisit = null;
+                /** @var Pagevisit $pagevisit */
                 foreach ($pagevisits as $pagevisit) {
+                    /** @var \DateTime $lastVisit */
                     if ($lastVisit !== null) {
-                        /** @var Pagevisit $pagevisit */
                         $interval = $lastVisit->diff($pagevisit->getCrdate());
                         // if difference is greater then one hour
                         if ($interval->h > 0) {
