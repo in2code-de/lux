@@ -136,6 +136,7 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 
 ### Upcoming todos
 
+- Channel detection with individual GET-params like &lc=emailsignature or &lc=googleadscampaign1
 - Crawler detection e.g. jaybizzle/crawler-detect in StopTracking.php
 
 ### Possible Enterprise Features in the future
