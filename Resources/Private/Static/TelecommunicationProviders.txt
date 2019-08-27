@@ -1,4 +1,5 @@
 1&1 Versatel Deutschland GmbH
+A1 Telekom Austria AG
 ACONET
 ADDIX Internet Services GmbH
 Afrihost
@@ -16,6 +17,8 @@ Automattic
 Beijing Baidu Netcom Science and Technology Co.
 Beijing Qihu Technology Company Limited
 Bell Canada
+Bell Teleservices India Pvt Ltd
+BELWUE
 BH Telecom d.d. Sarajevo
 Bharti Broadband
 Bisping & Bisping GmbH & Co KG
@@ -24,6 +27,8 @@ bn:t Blatzheim Networks Telecom GmbH
 Bredband2 AB
 Bremen Briteline GmbH
 BT
+BT UK
+Cable Onda
 CAT Telecom public company Ltd
 CHCTI-CCI
 China Mobile Guangdong
@@ -57,8 +62,10 @@ DSI GmbH Daten Service Informationssysteme
 DTAG European region
 ecotel communication ag
 Envia Tel GmbH
+EUNET
 Eurofiber Nederland BV
 europroNET Bosnia d.o.o.
+EWETEL
 EWE-Tel GmbH
 EWE TEL GmbH
 Facebook
@@ -71,6 +78,8 @@ Google
 Google Cloud
 Google LLC
 Google Proxy
+H3G-AUSTRIA Customer dynamic
+HANSENET
 HeLi NET Telekommunikation GmbH & Co. KG
 Herzo Media GmbH & Co. KG
 HETZNER
@@ -80,10 +89,14 @@ Host Europe GmbH
 Host1Plus
 Hutchison Drei Austria GmbH
 IBH IT-Service GmbH
+inexio Informationstechnologie und Telekommunikation Gmbh
+Infibeam Avenues Limited
 Init7 (Switzerland) Ltd.
 Interactive Network Communications GmbH
+ip&more GmbH
 IPHH Internet Port Hamburg GmbH
 IPVanish
+ISAR
 Ishan's Network
 IT.NRW
 ITERGO
@@ -96,6 +109,7 @@ Kabeldeutschland
 Kabelfernsehen Muenchen ServiCenter GmbH & Co.KG
 kabelplus GmbH
 Kabelplus GmbH
+KEVAG Telekom GmbH
 KDVZ Citkomm
 KielNET-Main
 Kom4tel GmbH
@@ -109,6 +123,7 @@ Leaseweb Deutschland GmbH
 LeaseWeb Netherlands B.V.
 Leaseweb USA
 LEW TelNet GmbH
+Liberty Global B.V.
 Liberty Global Operations B.V.
 Limestone Networks
 "Linode, LLC"
@@ -132,6 +147,7 @@ myLoc managed IT AG
 NBP
 Neofonie GmbH
 Netalis SAS
+NetCologne Gesellschaft fur Telekommunikation mbH
 NetCologne GmbH
 NetCom BW GmbH
 NETHINKS GmbH
@@ -151,13 +167,16 @@ OOO NI
 Optimate-Server
 Orange
 Orange Polska
+Orange Slovensko a.s.
 Orange Swiatlowod
 Orion Telekom ISP IP network
+OSNATEL
 OVH SAS
 Pakistan Telecommuication company limited
 Planet Digital Lichtwellenleiternetz Errichtungs- und Betrieb GmbH & Co KG
 Play
 Plus.line AG
+Plusnet GmbH
 PT. Core Mediatech
 QITS Quality Information Technology Services GmbH
 QSC AG
@@ -167,6 +186,7 @@ R-KOM Regensburger Telekommunikationsgesellschaft mbH & Co. KG
 RelAix Networks GmbH
 REWE Systems GmbH
 RDSNET
+RJIL Internet
 Rogers Cable
 Rostelecom
 RSM Connect
@@ -179,14 +199,19 @@ Serbia Broadband
 ScanPlus GmbH
 "ShenZhen Sunrise Technology Co.,Ltd."
 SK Broadband
+Sky Broadband
 Skynet Belgium
+Slovak Telecom AS6855
 STNB
 Starnet Servicii SRL
 Strato AG
 Suedwestfalen IT Network
 Sunrise Communications AG
 Swisscom
+Swisscom 6RD
 Swisscom (Schweiz) AG - Bluewin
+Swisscom (Schweiz) AG - SME/Cybernet
+SWITCH
 SWU TeleNet GmbH
 SysEleven GmbH
 T-Mobile Austria GmbH
@@ -194,6 +219,7 @@ T-mobile Polska
 T-Systems Multimedia Solutions GmbH
 T-Systems International GmbH
 Tajik Academician Research and Educational Network
+TDC A/S
 Telcom Networks Limited
 Tele Columbus AG
 Tele2 Business AB
@@ -201,6 +227,7 @@ Telecom Italia
 Telecom Italia Business
 Telecomunikatsiina Companiya Ltd
 Telefonica de Espana
+Telefonica Deutschland GmbH
 Telefonica Germany GmbH & Co. OHG
 Telefonica Germany GmbH & Co.OHG
 Telefonica International Wholesale Services II
@@ -229,6 +256,7 @@ Vectra Broadband
 Versatel Deutschland
 VF-Network
 Video-Broadcast GmbH
+VIP mobile
 VISTEC Internet Service GmbH
 vitroconnect GmbH
 Vodafone Albania Sh.A.
@@ -244,5 +272,6 @@ Wojciech Jerzy Winkel trading as Tempus Telecom
 WVNET Information und Kommunikation GmbH
 Xs4all Internet BV
 YANDEX LLC
+ZIT
 Zscaler
 ZSCALER
