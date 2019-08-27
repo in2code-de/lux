@@ -164,6 +164,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 6.2.0      | 2019-08-27 | Feature    | Updated disallowed mail provider list and updated telecommunication provider list                                                                                                          |
 | 6.1.0      | 2019-08-14 | Feature    | Stop tracking of google bots before records get persisted, add some new signals, small cleanup                                                                                             |
 | 6.0.0      | 2019-08-10 | Feature    | New dashboard views: Add identified leads per month, add overall statistics, Html refactoring, Don't show wrong default image for leads, New VH for luxenterprise, Documentation update    |
 | 5.1.0      | 2019-08-08 | Task       | Performance update lead list, Keep filter, Don't show duplicates in page content, Add new task to delete a visitor by any property, Disallowed mail providers update, Cleanup tasks bugfix |
