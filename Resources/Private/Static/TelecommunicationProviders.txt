@@ -76,8 +76,10 @@ Global Layer B.V.
 Globalways AG
 Google
 Google Cloud
+Google India Pvt. Ltd.
 Google LLC
 Google Proxy
+Gujarat Telelink Pvt Ltd
 H3G-AUSTRIA Customer dynamic
 HANSENET
 HeLi NET Telekommunikation GmbH & Co. KG
@@ -157,6 +159,7 @@ netplusFR SA
 Netwire Internet Solutions Pvt
 Nexinto GmbH
 Next Layer Telekommunikationsdienstleistungs- und
+Next Layer Telekommunikationsdienstleistungs- und Beratungs GmbH
 NTS workspace AG
 O2 Deutschland
 o2-Germany
@@ -177,10 +180,12 @@ Planet Digital Lichtwellenleiternetz Errichtungs- und Betrieb GmbH & Co KG
 Play
 Plus.line AG
 Plusnet GmbH
+PlusNet plc.
 PT. Core Mediatech
 QITS Quality Information Technology Services GmbH
 QSC AG
 Quickline
+R-KOM GmbH & Co. KG
 R-KOM Regensburger Telekommunikationsgesellschaft
 R-KOM Regensburger Telekommunikationsgesellschaft mbH & Co. KG
 RelAix Networks GmbH
