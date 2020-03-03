@@ -341,6 +341,9 @@
 			<trans-unit id="module.analysis.filter.timePeriod.2">
 				<source>Previous month</source>
 			</trans-unit>
+			<trans-unit id="module.analysis.filter.timePeriod.3">
+				<source>Previous year</source>
+			</trans-unit>
 			<trans-unit id="module.analysis.pagevisits">
 				<source>Latest page visits</source>
 			</trans-unit>

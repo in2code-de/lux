@@ -449,6 +449,10 @@
 				<source>Previous month</source>
 				<target state="translated">Letzter Monat</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.filter.timePeriod.3">
+				<source>Previous year</source>
+				<target state="translated">Letztes Jahr</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.pagevisits">
 				<source>Latest page visits</source>
 				<target state="translated">Letzte Seitenbesuche</target>

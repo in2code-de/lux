@@ -17,6 +17,7 @@ class FilterDto
     const PERIOD_THISYEAR = 1;
     const PERIOD_THISMONTH = 2;
     const PERIOD_LASTMONTH = 3;
+    const PERIOD_LASTYEAR = 4;
     const IDENTIFIED_ALL = -1;
     const IDENTIFIED_UNKNOWN = 0;
     const IDENTIFIED_IDENTIFIED = 1;
@@ -320,7 +321,6 @@ class FilterDto
      */
     protected function getStartTimeFromTimePeriod(): \DateTime
     {
-        /** @noinspection PhpUnhandledExceptionInspection */
         $time = new \DateTime();
         if ($this->getTimePeriod() === self::PERIOD_ALL) {
             $time = new \DateTime();
@@ -329,6 +329,10 @@ class FilterDto
         if ($this->getTimePeriod() === self::PERIOD_THISYEAR) {
             $time = new \DateTime();
             $time->setDate((int)$time->format('Y'), 1, 1)->setTime(0, 0, 0);
+        }
+        if ($this->getTimePeriod() === self::PERIOD_LASTYEAR) {
+            $time = new \DateTime();
+            $time->setDate(((int)$time->format('Y') - 1), 1, 1)->setTime(0, 0, 0);
         }
         if ($this->getTimePeriod() === self::PERIOD_THISMONTH) {
             $time = new \DateTime('first day of this month');
@@ -347,10 +351,11 @@ class FilterDto
      */
     protected function getEndTimeFromTimePeriod(): \DateTime
     {
-        /** @noinspection PhpUnhandledExceptionInspection */
         $time = new \DateTime();
+        if ($this->getTimePeriod() === self::PERIOD_LASTYEAR) {
+            $time = new \DateTime('first day of january this year');
+        }
         if ($this->getTimePeriod() === self::PERIOD_LASTMONTH) {
-            /** @noinspection PhpUnhandledExceptionInspection */
             $time = new \DateTime('last day of last month');
             $time->setTime(23, 59, 59);
         }
