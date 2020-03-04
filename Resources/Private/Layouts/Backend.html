@@ -28,7 +28,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="lux-backend{lux:condition.isTypo3VersionOrHigher(version:'10.0.0',else:' module-body')}">
+		<div class="lux-backend{lux:condition.isVersionToCompareSameOrLowerThenCurrentTypo3Version(version:'10.0.0',else:' module-body')}">
 			<f:render section="content" />
 		</div>
 	</div>

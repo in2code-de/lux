@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\ViewHelpers\Condition;
 
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+use In2code\Lux\Utility\ConfigurationUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractConditionViewHelper;
 
 /**
@@ -10,7 +10,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractConditionViewHelper;
  * Todo: This is needed as long as TYPO3 9 is supported
  * @noinspection PhpUnused
  */
-class IsTypo3VersionOrHigherViewHelper extends AbstractConditionViewHelper
+class IsVersionToCompareSameOrLowerThenCurrentTypo3VersionViewHelper extends AbstractConditionViewHelper
 {
     /**
      * Initializes the "then" and "else" arguments
@@ -27,16 +27,6 @@ class IsTypo3VersionOrHigherViewHelper extends AbstractConditionViewHelper
      */
     protected static function evaluateCondition($arguments = null): bool
     {
-        return self::getCurrentVersion() >= VersionNumberUtility::convertVersionNumberToInteger($arguments['version']);
-    }
-
-    /**
-     * Return current TYPO3 version as integer - e.g. 10003000 (10.3.0) or 9005014 (9.5.14)
-     *
-     * @return int
-     */
-    protected static function getCurrentVersion(): int
-    {
-        return VersionNumberUtility::convertVersionNumberToInteger(VersionNumberUtility::getNumericTypo3Version());
+        return ConfigurationUtility::isVersionToCompareSameOrLowerThenCurrentTypo3Version($arguments['version']);
     }
 }

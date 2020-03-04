@@ -155,26 +155,9 @@ class ConfigurationUtility
     /**
      * @return bool
      */
-    public static function isTypo3OlderThen9(): bool
-    {
-        return VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 9000000;
-    }
-
-    /**
-     * @return bool
-     */
     public static function isComposerMode(): bool
     {
         return defined('TYPO3_COMPOSER_MODE');
-    }
-
-    /**
-     * @return array
-     * @SuppressWarnings(PHPMD.Superglobals)
-     */
-    protected static function getTypo3ConfigurationVariables(): array
-    {
-        return (array)$GLOBALS['TYPO3_CONF_VARS'];
     }
 
     /**
@@ -186,17 +169,25 @@ class ConfigurationUtility
      */
     protected static function getExtensionConfiguration(): array
     {
-        $configuration = [];
-        if (ConfigurationUtility::isTypo3OlderThen9()) {
-            $configVariables = self::getTypo3ConfigurationVariables();
-            // @extensionScannerIgnoreLine We still need to access extConf for TYPO3 8.7
-            $possibleConfig = unserialize((string)$configVariables['EXT']['extConf']['lux']);
-            if (!empty($possibleConfig) && is_array($possibleConfig)) {
-                $configuration = $possibleConfig;
-            }
-        } else {
-            $configuration = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('lux');
-        }
-        return $configuration;
+        return GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('lux');
+    }
+
+    /**
+     * @param string $versionToCompare like "1.2.3"
+     * @return bool
+     */
+    public static function isVersionToCompareSameOrLowerThenCurrentTypo3Version(string $versionToCompare): bool
+    {
+        return VersionNumberUtility::convertVersionNumberToInteger($versionToCompare) <= self::getCurrentTypo3Version();
+    }
+
+    /**
+     * Return current TYPO3 version as integer - e.g. 10003000 (10.3.0) or 9005014 (9.5.14)
+     *
+     * @return int
+     */
+    protected static function getCurrentTypo3Version(): int
+    {
+        return VersionNumberUtility::convertVersionNumberToInteger(VersionNumberUtility::getNumericTypo3Version());
     }
 }

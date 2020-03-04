@@ -24,7 +24,6 @@
     "whichbrowser/parser": "*"
   },
   "replace": {
-    "lux": "self.version",
     "typo3-ter/lux": "self.version"
   },
   "require-dev": {
