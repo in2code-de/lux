@@ -6,6 +6,7 @@ var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
 var plumber = require('gulp-plumber');
 var rename = require('gulp-rename');
+var concat = require('gulp-concat');
 
 var project = {
 	base: __dirname + '/../../Public',
@@ -28,8 +29,16 @@ gulp.task('css', function() {
 		.pipe(gulp.dest(project.css));
 });
 
-gulp.task('js', function() {
-	gulp.src([__dirname + '/../JavaScript/*.js'])
+gulp.task('jsFrontend', function() {
+	gulp.src([__dirname + '/../JavaScript/Frontend/*.js'])
+		.pipe(plumber())
+		.pipe(concat('Lux.min.js'))
+		.pipe(uglify())
+		.pipe(gulp.dest(project.js));
+});
+
+gulp.task('jsBackend', function() {
+	gulp.src([__dirname + '/../JavaScript/Backend/*.js'])
 		.pipe(plumber())
 		.pipe(uglify())
 		.pipe(rename({
@@ -39,10 +48,10 @@ gulp.task('js', function() {
 });
 
 // "npm run build"
-gulp.task('build', ['js', 'css']);
+gulp.task('build', ['jsFrontend', 'jsBackend', 'css']);
 
 // "npm run watch"
 gulp.task('default', function() {
 	gulp.watch(__dirname + '/../Sass/*.scss', ['css']);
-	gulp.watch(__dirname + '/../JavaScript/*.js', ['js']);
+	gulp.watch(__dirname + '/../JavaScript/*.js', ['jsFrontend', 'jsBackend']);
 });

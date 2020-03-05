@@ -7,18 +7,6 @@ function LuxMain() {
 	'use strict';
 
 	/**
-	 * @type {string}
-	 */
-	var cookieName = 'luxId';
-
-	/**
-	 * Cookie Id
-	 *
-	 * @type {string}
-	 */
-	var idCookie = '';
-
-	/**
 	 * @type {null}
 	 */
 	this.lightboxInstance = null;
@@ -29,14 +17,21 @@ function LuxMain() {
 	var that = this;
 
 	/**
+	 * @type {LuxIdentification}
+	 */
+	var identification = null;
+
+	/**
 	 * Initialize
 	 *
 	 * @returns {void}
 	 */
 	this.initialize = function() {
+		identification = new window.LuxIdentification();
+
 		trackingOptOutListener();
 		if (isLuxActivated()) {
-			setIdCookieProperty();
+			identification.setIdCookieProperty();
 			setCookieIfNoCookieSetAndIfAllowed();
 			pageRequest();
 			addFieldListeners();
@@ -65,22 +60,15 @@ function LuxMain() {
 		for (var i = 0; i < elements.length; i++) {
 			var element = elements[i];
 			// check/uncheck checkbox with data-lux-trackingoptout="checkbox". Check if tracking is allowed.
-			element.checked = isOptOutStatusSet() === false;
+			element.checked = identification.isOptOutStatusSet() === false;
 			element.addEventListener('change', function() {
-				if (isOptOutStatusSet()) {
-					removeTrackingOptOutStatus();
+				if (identification.isOptOutStatusSet()) {
+					identification.removeTrackingOptOutStatus();
 				} else {
-					setTrackingOptOutStatus();
+					identification.setTrackingOptOutStatus();
 				}
 			});
 		}
-	};
-
-	/**
-	 * @returns {void}
-	 */
-	var setIdCookieProperty = function() {
-		idCookie = getIdCookie();
 	};
 
 	/**
@@ -90,7 +78,7 @@ function LuxMain() {
 		if (isPageTrackingEnabled()) {
 			ajaxConnection({
 				'tx_lux_fe[dispatchAction]': 'pageRequest',
-				'tx_lux_fe[idCookie]': getIdCookie(),
+				'tx_lux_fe[idCookie]': identification.getIdCookie(),
 				'tx_lux_fe[arguments][pageUid]': getPageUid(),
 				'tx_lux_fe[arguments][referrer]': getReferrer(),
 				'tx_lux_fe[arguments][currentUrl]': encodeURIComponent(window.location.href),
@@ -197,7 +185,7 @@ function LuxMain() {
 	 * @param response
 	 */
 	this.disableEmail4LinkWorkflowAction = function(response) {
-		setCookie('luxDisableEmail4Link', true);
+		identification.setDisableForLinkCookie();
 	};
 
 	/**
@@ -262,7 +250,7 @@ function LuxMain() {
 					links[i].addEventListener('click', function() {
 						ajaxConnection({
 							'tx_lux_fe[dispatchAction]': 'downloadRequest',
-							'tx_lux_fe[idCookie]': getIdCookie(),
+							'tx_lux_fe[idCookie]': identification.getIdCookie(),
 							'tx_lux_fe[arguments][href]': this.getAttribute('href')
 						}, getRequestUri(), null, null);
 					});
@@ -277,7 +265,7 @@ function LuxMain() {
 	 * @returns {void}
 	 */
 	var email4LinkListener = function(link, event) {
-		if (getCookieByName('luxDisableEmail4Link') !== 'true') {
+		if (identification.isDisableForLinkCookieSet() === false) {
 			event.preventDefault();
 
 			var title = link.getAttribute('data-lux-email4link-title') || '';
@@ -316,7 +304,7 @@ function LuxMain() {
 			addWaitClassToBodyTag();
 			ajaxConnection({
 				'tx_lux_fe[dispatchAction]': 'email4LinkRequest',
-				'tx_lux_fe[idCookie]': getIdCookie(),
+				'tx_lux_fe[idCookie]': identification.getIdCookie(),
 				'tx_lux_fe[arguments][email]': email,
 				'tx_lux_fe[arguments][sendEmail]': sendEmail === 'true',
 				'tx_lux_fe[arguments][href]': href
@@ -365,7 +353,7 @@ function LuxMain() {
 		var value = field.value;
 		ajaxConnection({
 			'tx_lux_fe[dispatchAction]': 'fieldListeningRequest',
-			'tx_lux_fe[idCookie]': getIdCookie(),
+			'tx_lux_fe[idCookie]': identification.getIdCookie(),
 			'tx_lux_fe[arguments][key]': key,
 			'tx_lux_fe[arguments][value]': value
 		}, getRequestUri(), 'generalWorkflowActionCallback', null);
@@ -387,7 +375,7 @@ function LuxMain() {
 
 		ajaxConnection({
 			'tx_lux_fe[dispatchAction]': 'formListeningRequest',
-			'tx_lux_fe[idCookie]': getIdCookie(),
+			'tx_lux_fe[idCookie]': identification.getIdCookie(),
 			'tx_lux_fe[arguments][values]': JSON.stringify(formArguments)
 		}, getRequestUri(), 'generalWorkflowActionCallback', null);
 	};
@@ -417,8 +405,8 @@ function LuxMain() {
 		var element = document.querySelector('[data-lux-action="createIdCookie"]');
 		if (element !== null) {
 			element.addEventListener('click', function() {
-				if (idCookie === '') {
-					setIdCookie();
+				if (identification.idCookie === '') {
+					identification.setIdCookie();
 				}
 			});
 		}
@@ -568,8 +556,8 @@ function LuxMain() {
 	 * @returns {void}
 	 */
 	var setCookieIfNoCookieSetAndIfAllowed = function() {
-		if (idCookie === '' && getContainer().getAttribute('data-lux-enableautocookie') === '1') {
-			setIdCookie();
+		if (identification.idCookie === '' && getContainer().getAttribute('data-lux-enableautocookie') === '1') {
+			identification.setIdCookie();
 		}
 	};
 
@@ -648,7 +636,7 @@ function LuxMain() {
 	 * @returns {boolean}
 	 */
 	var isLuxActivated = function() {
-		return isOptOutStatusSet() === false && navigator.doNotTrack !== '1' && getContainer() !== null
+		return identification.isOptOutStatusSet() === false && navigator.doNotTrack !== '1' && getContainer() !== null
 			&& getContainer().getAttribute('data-lux-enable') === '1';
 	};
 
@@ -687,19 +675,6 @@ function LuxMain() {
 	 */
 	var showElement = function(element) {
 		element.style.display = 'block';
-	};
-
-	/**
-	 * @param {int} length
-	 * @returns {string}
-	 */
-	var getRandomString = function(length) {
-		var text = '';
-		var possible = 'abcdefghijklmnopqrstuvwxyz0123456789';
-		for (var i = 0; i < length; i++) {
-			text += possible.charAt(Math.floor(Math.random() * possible.length));
-		}
-		return text;
 	};
 
 	/**
@@ -761,76 +736,6 @@ function LuxMain() {
 	var getFileExtension = function(filename) {
 		if (filename.indexOf('.') !== -1) {
 			return filename.split('.').pop();
-		}
-		return '';
-	};
-
-	/**
-	 * @returns {Boolean} return true if trackingOptOut is set
-	 */
-	var isOptOutStatusSet = function () {
-		return getCookieByName('luxTrackingOptOut') === 'true';
-	};
-
-	/**
-	 * @returns {void}
-	 */
-	var setTrackingOptOutStatus = function() {
-		setCookie('luxTrackingOptOut', true);
-	};
-
-	/**
-	 * @returns {void}
-	 */
-	var removeTrackingOptOutStatus = function() {
-		setCookie('luxTrackingOptOut', false);
-	};
-
-	/**
-	 * @returns {string}
-	 */
-	var getIdCookie = function() {
-		return getCookieByName(cookieName);
-	};
-
-	/**
-	 * @returns {void}
-	 */
-	var setIdCookie = function() {
-		idCookie = getRandomString(32);
-		setCookie(cookieName, idCookie);
-	};
-
-	/**
-	 * @param {string} name
-	 * @param value
-	 * @returns {void}
-	 */
-	var setCookie = function(name, value) {
-		var now = new Date();
-		var time = now.getTime();
-		time += 3600 * 24 * 365 * 10000; // 10 years from now
-		now.setTime(time);
-		document.cookie = name + '=' + value + '; expires=' + now.toUTCString() + '; path=/';
-	};
-
-	/**
-	 * Get cookie value by its name
-	 *
-	 * @param cookieName
-	 * @returns {string}
-	 */
-	var getCookieByName = function(cookieName) {
-		var name = cookieName + '=';
-		var ca = document.cookie.split(';');
-		for(var i = 0; i < ca.length; i++) {
-			var c = ca[i];
-			while (c.charAt(0) === ' ') {
-				c = c.substring(1);
-			}
-			if (c.indexOf(name) === 0) {
-				return c.substring(name.length, c.length);
-			}
 		}
 		return '';
 	};
