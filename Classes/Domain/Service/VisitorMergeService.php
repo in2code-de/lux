@@ -21,8 +21,8 @@ use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
 use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
 
 /**
- * If visitor has a new idCookie but tells the system a known email address, we have to move all attributes and
- * pagevisits to the existing visitor and add the new idCookie
+ * If visitor has a new fingerprint but tells the system a known email address, we have to move all attributes and
+ * pagevisits to the existing visitor and add the new fingerprint
  *
  * Class VisitorMergeService
  */
@@ -83,7 +83,7 @@ class VisitorMergeService
                     $this->mergeCategoryscorings($visitor);
                     $this->mergeDownloads($visitor);
                     $this->mergeAttributes($visitor);
-                    $this->updateIdcookies($visitor);
+                    $this->updateFingerprints($visitor);
                     $this->deleteVisitor($visitor);
                 }
             }
@@ -204,9 +204,9 @@ class VisitorMergeService
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
-    protected function updateIdcookies(Visitor $newVisitor)
+    protected function updateFingerprints(Visitor $newVisitor)
     {
-        $this->firstVisitor->addIdcookies($newVisitor->getIdcookies());
+        $this->firstVisitor->addFingerprints($newVisitor->getFingerprints());
         $this->visitorRepository->update($this->firstVisitor);
         $this->visitorRepository->persistAll();
     }

@@ -6,11 +6,13 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
- * Class Category
+ * Class Fingerprint
  */
-class Idcookie extends AbstractEntity
+class Fingerprint extends AbstractEntity
 {
-    const TABLE_NAME = 'tx_lux_domain_model_idcookie';
+    const TABLE_NAME = 'tx_lux_domain_model_fingerprint';
+    const TYPE_FINGERPRINT = 0;
+    const TYPE_COOKIE = 1;
 
     /**
      * @var string
@@ -28,7 +30,12 @@ class Idcookie extends AbstractEntity
     protected $userAgent = '';
 
     /**
-     * Idcookie constructor.
+     * @var int
+     */
+    protected $type = 0;
+
+    /**
+     * Fingerprint constructor.
      * @param string $domain
      * @param string $userAgent
      */
@@ -52,7 +59,7 @@ class Idcookie extends AbstractEntity
 
     /**
      * @param string $value
-     * @return Idcookie
+     * @return Fingerprint
      */
     public function setValue(string $value): self
     {
@@ -78,12 +85,42 @@ class Idcookie extends AbstractEntity
 
     /**
      * @param string $userAgent
-     * @return Idcookie
+     * @return Fingerprint
      */
     public function setUserAgent(string $userAgent): self
     {
         $this->userAgent = $userAgent;
         return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getType(): int
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param int $type
+     * @return Fingerprint
+     */
+    public function setType(int $type): self
+    {
+        $this->type = $type;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTypeString(): string
+    {
+        if ($this->getType() === self::TYPE_COOKIE) {
+            return 'Cookie';
+        } else {
+            return 'Fingerprint';
+        }
     }
 
     /**

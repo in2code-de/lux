@@ -4,12 +4,12 @@
 			<a class="collapse-arrow collapsed nolink" data-toggle="collapse" href="#profile" role="button" aria-expanded="false" aria-controls="profile">
 				<f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles">Profiles</f:translate>
 			</a>
-			<span class="badge" style="float: right;" title="Number of profiles"><f:count>{visitor.idcookies}</f:count></span>
+			<span class="badge" style="float: right;" title="Number of profiles"><f:count>{visitor.fingerprints}</f:count></span>
 		</h3>
 	</div>
 	<div class="panel-body">
 		<div class="collapse" id="profile">
-			<f:if condition="{visitor.idcookies}">
+			<f:if condition="{visitor.fingerprints}">
 				<f:then>
 					<table class="table table-striped table-hover table-condensed">
 						<thead>
@@ -18,16 +18,18 @@
 							<td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.browser">Browser</f:translate></td>
 							<td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.os">OS</f:translate></td>
 							<td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.device">Device</f:translate></td>
-							<td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.cookie">Cookie</f:translate></td>
+							<td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.type">Type</f:translate></td>
+							<td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.value">Value</f:translate></td>
 						</tr>
 						</thead>
-						<f:for each="{visitor.idcookiesSorted}" as="idcookie">
+						<f:for each="{visitor.fingerprintsSorted}" as="fingerprint">
 							<tr>
-								<td>{idcookie.domain}</td>
-								<td>{idcookie.propertiesFromUserAgent.browser} {idcookie.propertiesFromUserAgent.browserversion}</td>
-								<td>{idcookie.propertiesFromUserAgent.os} {idcookie.propertiesFromUserAgent.osversion}</td>
-								<td>{idcookie.propertiesFromUserAgent.manufacturer} {idcookie.propertiesFromUserAgent.type}</td>
-								<td>{idcookie.value}</td>
+								<td>{fingerprint.domain}</td>
+								<td>{fingerprint.propertiesFromUserAgent.browser} {fingerprint.propertiesFromUserAgent.browserversion}</td>
+								<td>{fingerprint.propertiesFromUserAgent.os} {fingerprint.propertiesFromUserAgent.osversion}</td>
+								<td>{fingerprint.propertiesFromUserAgent.manufacturer} {fingerprint.propertiesFromUserAgent.type}</td>
+								<td>{fingerprint.typeString}</td>
+								<td>{fingerprint.value}</td>
 							</tr>
 						</f:for>
 					</table>

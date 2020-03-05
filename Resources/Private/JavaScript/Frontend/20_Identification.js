@@ -7,37 +7,25 @@ function LuxIdentification() {
 	'use strict';
 
 	/**
-	 * Cookie Id
+	 * Fingerprint Id
 	 *
 	 * @type {string}
 	 */
-	this.idCookie = '';
+	this.fingerprint = '';
 
 	/**
-	 * @type {string}
+	 * @type {LuxMain}
 	 */
-	var cookieName = 'luxId';
-
-	/**
-	 * @returns {void}
-	 */
-	this.setIdCookieProperty = function() {
-		this.idCookie = this.getIdCookie();
-	};
-
-	/**
-	 * @returns {void}
-	 */
-	this.setIdCookie = function() {
-		this.idCookie = getRandomString(32);
-		setCookie(cookieName, this.idCookie);
-	};
+	var that = this;
 
 	/**
 	 * @returns {string}
 	 */
-	this.getIdCookie = function() {
-		return getCookieByName(cookieName);
+	this.getFingerprint = function() {
+		if (this.fingerprint === '') {
+			console.log('Fingerprint not yet calculated!');
+		}
+		return this.fingerprint;
 	};
 
 	/**
@@ -110,15 +98,42 @@ function LuxIdentification() {
 	};
 
 	/**
-	 * @param {int} length
+	 * @returns {void}
+	 */
+	this.setFingerprint = function() {
+		if (window.requestIdleCallback) {
+			requestIdleCallback(function () {
+				Fingerprint2.get(function (components) {
+					var hashValue = getCombinedComponentValue(components);
+					that.fingerprint = Fingerprint2.x64hash128(hashValue, 31);
+				})
+			})
+		} else {
+			setTimeout(function () {
+				Fingerprint2.get(function (components) {
+					var hashValue = getCombinedComponentValue(components);
+					that.fingerprint = Fingerprint2.x64hash128(hashValue, 31);
+				})
+			}, 500)
+		}
+	};
+
+	/**
+	 * @param components
 	 * @returns {string}
 	 */
-	var getRandomString = function(length) {
-		var text = '';
-		var possible = 'abcdefghijklmnopqrstuvwxyz0123456789';
-		for (var i = 0; i < length; i++) {
-			text += possible.charAt(Math.floor(Math.random() * possible.length));
+	var getCombinedComponentValue = function(components) {
+		var hashValue = '';
+		for (var i = 0; i < components.length; i++) {
+			if (components[i].value instanceof Array) {
+				var valueValueHash = '';
+				for (var j = 0; j < components[i].value.length; j++) {
+					valueValueHash = valueValueHash + components[i].value[j];
+				}      hashValue = valueValueHash + hashValue;
+			} else {
+				hashValue = components[i].value + hashValue;
+			}
 		}
-		return text;
+		return hashValue;
 	};
 }

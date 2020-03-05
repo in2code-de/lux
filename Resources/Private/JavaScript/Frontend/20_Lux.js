@@ -30,17 +30,20 @@ function LuxMain() {
 		identification = new window.LuxIdentification();
 
 		trackingOptOutListener();
+
 		if (isLuxActivated()) {
-			identification.setIdCookieProperty();
-			setCookieIfNoCookieSetAndIfAllowed();
-			pageRequest();
-			addFieldListeners();
-			addFormListeners();
-			addDownloadListener();
+			identification.setFingerprint();
+
+			setTimeout(function () {
+				pageRequest();
+				addFieldListeners();
+				addFormListeners();
+				addDownloadListener();
+			}, 510);
 		}
+
 		addEmail4LinkListeners();
 		doNotTrackListener();
-		createIdCookieListener();
 	};
 
 	/**
@@ -78,7 +81,7 @@ function LuxMain() {
 		if (isPageTrackingEnabled()) {
 			ajaxConnection({
 				'tx_lux_fe[dispatchAction]': 'pageRequest',
-				'tx_lux_fe[idCookie]': identification.getIdCookie(),
+				'tx_lux_fe[fingerprint]': identification.getFingerprint(),
 				'tx_lux_fe[arguments][pageUid]': getPageUid(),
 				'tx_lux_fe[arguments][referrer]': getReferrer(),
 				'tx_lux_fe[arguments][currentUrl]': encodeURIComponent(window.location.href),
@@ -250,7 +253,7 @@ function LuxMain() {
 					links[i].addEventListener('click', function() {
 						ajaxConnection({
 							'tx_lux_fe[dispatchAction]': 'downloadRequest',
-							'tx_lux_fe[idCookie]': identification.getIdCookie(),
+							'tx_lux_fe[fingerprint]': identification.getFingerprint(),
 							'tx_lux_fe[arguments][href]': this.getAttribute('href')
 						}, getRequestUri(), null, null);
 					});
@@ -304,7 +307,7 @@ function LuxMain() {
 			addWaitClassToBodyTag();
 			ajaxConnection({
 				'tx_lux_fe[dispatchAction]': 'email4LinkRequest',
-				'tx_lux_fe[idCookie]': identification.getIdCookie(),
+				'tx_lux_fe[fingerprint]': identification.getFingerprint(),
 				'tx_lux_fe[arguments][email]': email,
 				'tx_lux_fe[arguments][sendEmail]': sendEmail === 'true',
 				'tx_lux_fe[arguments][href]': href
@@ -353,7 +356,7 @@ function LuxMain() {
 		var value = field.value;
 		ajaxConnection({
 			'tx_lux_fe[dispatchAction]': 'fieldListeningRequest',
-			'tx_lux_fe[idCookie]': identification.getIdCookie(),
+			'tx_lux_fe[fingerprint]': identification.getFingerprint(),
 			'tx_lux_fe[arguments][key]': key,
 			'tx_lux_fe[arguments][value]': value
 		}, getRequestUri(), 'generalWorkflowActionCallback', null);
@@ -375,7 +378,7 @@ function LuxMain() {
 
 		ajaxConnection({
 			'tx_lux_fe[dispatchAction]': 'formListeningRequest',
-			'tx_lux_fe[idCookie]': identification.getIdCookie(),
+			'tx_lux_fe[fingerprint]': identification.getFingerprint(),
 			'tx_lux_fe[arguments][values]': JSON.stringify(formArguments)
 		}, getRequestUri(), 'generalWorkflowActionCallback', null);
 	};
@@ -393,22 +396,6 @@ function LuxMain() {
 			for (var j = 0; j < textDoNotTrack.length; j++) {
 				showElement(textDoNotTrack[j]);
 			}
-		}
-	};
-
-	/**
-	 * If an id cookie should be set manually, listen for clicks on dom elements with data-lux-action="createIdCookie"
-	 *
-	 * @returns {void}
-	 */
-	var createIdCookieListener = function() {
-		var element = document.querySelector('[data-lux-action="createIdCookie"]');
-		if (element !== null) {
-			element.addEventListener('click', function() {
-				if (identification.idCookie === '') {
-					identification.setIdCookie();
-				}
-			});
 		}
 	};
 
@@ -550,15 +537,6 @@ function LuxMain() {
 	 */
 	var getReferrer = function() {
 		return encodeURIComponent(document.referrer);
-	};
-
-	/**
-	 * @returns {void}
-	 */
-	var setCookieIfNoCookieSetAndIfAllowed = function() {
-		if (identification.idCookie === '' && getContainer().getAttribute('data-lux-enableautocookie') === '1') {
-			identification.setIdCookie();
-		}
 	};
 
 	/**

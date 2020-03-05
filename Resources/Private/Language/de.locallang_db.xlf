@@ -67,9 +67,9 @@
 				<source>Last visit</source>
 				<target state="translated">Letzter Besuch</target>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_visitor.idcookies">
-				<source>Lux ID Cookies</source>
-				<target state="translated">Lux ID Cookies</target>
+			<trans-unit id="tx_lux_domain_model_visitor.fingerprints">
+				<source>Lux Fingerprints</source>
+				<target state="translated">Lux Fingerprints</target>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_visitor.pagevisits">
 				<source>Page visits</source>
@@ -124,19 +124,19 @@
 				<target state="translated">Location</target>
 			</trans-unit>
 
-			<trans-unit id="tx_lux_domain_model_idcookie">
+			<trans-unit id="tx_lux_domain_model_fingerprint">
 				<source>Cookie</source>
 				<target state="translated">Cookie</target>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_idcookie.value">
+			<trans-unit id="tx_lux_domain_model_fingerprint.value">
 				<source>Value</source>
 				<target state="translated">Wert</target>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_idcookie.domain">
+			<trans-unit id="tx_lux_domain_model_fingerprint.domain">
 				<source>Domain</source>
 				<target state="translated">Domain</target>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_idcookie.user_agent">
+			<trans-unit id="tx_lux_domain_model_fingerprint.user_agent">
 				<source>User agent</source>
 				<target state="translated">User agent</target>
 			</trans-unit>
@@ -652,6 +652,14 @@
 			<trans-unit id="module.analysis.detailpage.profiles.cookie">
 				<source>Cookie</source>
 				<target state="translated">Cookie</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.profiles.value">
+				<source>Value</source>
+				<target state="translated">Wert</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.profiles.type">
+				<source>Type</source>
+				<target state="translated">Typ</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.detaildownloads">
 				<source>Downloads</source>

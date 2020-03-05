@@ -44,9 +44,9 @@ class Visitor extends AbstractEntity
     protected $categoryscorings = null;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Idcookie>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Fingerprint>
      */
-    protected $idcookies = null;
+    protected $fingerprints = null;
 
     /**
      * @var string
@@ -133,7 +133,7 @@ class Visitor extends AbstractEntity
     public function __construct()
     {
         $this->categoryscorings = new ObjectStorage();
-        $this->idcookies = new ObjectStorage();
+        $this->fingerprints = new ObjectStorage();
         $this->pagevisits = new ObjectStorage();
         $this->attributes = new ObjectStorage();
         $this->ipinformations = new ObjectStorage();
@@ -302,73 +302,73 @@ class Visitor extends AbstractEntity
     /**
      * @return ObjectStorage
      */
-    public function getIdcookies(): ObjectStorage
+    public function getFingerprints(): ObjectStorage
     {
-        return $this->idcookies;
+        return $this->fingerprints;
     }
 
     /**
-     * @var ObjectStorage $idcookies
+     * @var ObjectStorage $fingerprints
      * @return Visitor
      */
-    public function setIdcookies(ObjectStorage $idcookies)
+    public function setFingerprints(ObjectStorage $fingerprints)
     {
-        $this->idcookies = $idcookies;
+        $this->fingerprints = $fingerprints;
         return $this;
     }
 
     /**
-     * @param Idcookie $idcookie
+     * @param Fingerprint $fingerprint
      * @return $this
      */
-    public function addIdcookie(Idcookie $idcookie)
+    public function addFingerprint(Fingerprint $fingerprint)
     {
-        $this->idcookies->attach($idcookie);
+        $this->fingerprints->attach($fingerprint);
         return $this;
     }
 
     /**
-     * @param Idcookie $idcookie
+     * @param Fingerprint $fingerprint
      * @return $this
      */
-    public function removeIdcookie(Idcookie $idcookie)
+    public function removeFingerprint(Fingerprint $fingerprint)
     {
-        $this->idcookies->detach($idcookie);
+        $this->fingerprints->detach($fingerprint);
         return $this;
     }
 
     /**
-     * Get related idcookies sorted with the latest first
+     * Get related fingerprints sorted with the latest first
      *
      * @return array
      */
-    public function getIdcookiesSorted(): array
+    public function getFingerprintsSorted(): array
     {
-        $idcookies = $this->getIdcookies()->toArray();
-        return array_reverse($idcookies);
+        $fingerprints = $this->getFingerprints()->toArray();
+        return array_reverse($fingerprints);
     }
 
     /**
-     * @return Idcookie|null
+     * @return Fingerprint|null
      */
-    public function getLatestIdcookie()
+    public function getLatestFingerprint(): ?Fingerprint
     {
-        $idcookies = $this->getIdcookies();
-        foreach ($idcookies as $idcookie) {
-            return $idcookie;
+        $fingerprints = $this->getFingerprints();
+        foreach ($fingerprints as $fingerprint) {
+            return $fingerprint;
         }
         return null;
     }
 
     /**
-     * @param ObjectStorage $idcookies
+     * @param ObjectStorage $fingerprints
      * @return $this
      */
-    public function addIdcookies(ObjectStorage $idcookies)
+    public function addFingerprints(ObjectStorage $fingerprints)
     {
-        foreach ($idcookies as $idcookie) {
-            /** @var Idcookie $idcookie */
-            $this->addIdcookie($idcookie);
+        foreach ($fingerprints as $fingerprint) {
+            /** @var Fingerprint $fingerprint */
+            $this->addFingerprint($fingerprint);
         }
         return $this;
     }

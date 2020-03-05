@@ -181,7 +181,11 @@ call_user_func(
             \In2code\Lux\Command\LuxServiceCommandController::class;
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] =
             \In2code\Lux\Command\LuxLeadCommandController::class;
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] =
-            \In2code\Lux\Command\LuxUpdateCommandController::class;
+
+        /**
+         * Upgrade Wizards
+         */
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['luxIdCookieToFingerprintUpgradeWizard']
+            = \In2code\Lux\Update\LuxIdCookieToFingerprintUpgradeWizard::class;
     }
 );

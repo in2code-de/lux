@@ -169,7 +169,7 @@ class AttributeTracker
     }
 
     /**
-     * If email is given and there is already an email stored but with a different idCookie, merge everything to the
+     * If email is given and there is already an email stored but with a different fingerprint, merge everything to the
      * oldest visitor
      *
      * @param string $key

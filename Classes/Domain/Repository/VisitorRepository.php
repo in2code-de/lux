@@ -8,7 +8,7 @@ use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Attribute;
 use In2code\Lux\Domain\Model\Categoryscoring;
 use In2code\Lux\Domain\Model\Download;
-use In2code\Lux\Domain\Model\Idcookie;
+use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Domain\Model\Ipinformation;
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Pagevisit;
@@ -28,14 +28,21 @@ class VisitorRepository extends AbstractRepository
     /**
      * Find a visitor by it's cookie and deliver also blacklisted visitors
      *
-     * @param string $iDcookie
+     * @param string $fingerprint
+     * @param int $type
      * @return Visitor|null
      */
-    public function findOneAndAlsoBlacklistedByIdCookie(string $iDcookie)
-    {
+    public function findOneAndAlsoBlacklistedByFingerprint(
+        string $fingerprint,
+        int $type = Fingerprint::TYPE_FINGERPRINT
+    ): ?Visitor {
         $query = $this->createQuery();
         $query->getQuerySettings()->setIgnoreEnableFields(true)->setEnableFieldsToBeIgnored(['blacklisted']);
-        $query->matching($query->equals('idcookies.value', $iDcookie));
+        $and = [
+            $query->equals('fingerprints.value', $fingerprint),
+            $query->equals('fingerprints.type', $type)
+        ];
+        $query->matching($query->logicalAnd($and));
         /** @var Visitor $visitor */
         $visitor = $query->execute()->getFirst();
         return $visitor;
@@ -328,9 +335,9 @@ class VisitorRepository extends AbstractRepository
      */
     public function removeRelatedTableRowsByVisitorUid(Visitor $visitor)
     {
-        $connection = DatabaseUtility::getConnectionForTable(Idcookie::TABLE_NAME);
-        foreach ($visitor->getIdcookies() as $idcookie) {
-            $connection->query('delete from ' . Idcookie::TABLE_NAME . ' where uid=' . (int)$idcookie->getUid());
+        $connection = DatabaseUtility::getConnectionForTable(Fingerprint::TABLE_NAME);
+        foreach ($visitor->getFingerprints() as $fingerprint) {
+            $connection->query('delete from ' . Fingerprint::TABLE_NAME . ' where uid=' . (int)$fingerprint->getUid());
         }
         $tables = [
             Attribute::TABLE_NAME,
@@ -359,7 +366,7 @@ class VisitorRepository extends AbstractRepository
             Categoryscoring::TABLE_NAME,
             Log::TABLE_NAME,
             Visitor::TABLE_NAME,
-            Idcookie::TABLE_NAME
+            Fingerprint::TABLE_NAME
         ];
         foreach ($tables as $table) {
             DatabaseUtility::getConnectionForTable($table)->truncate($table);

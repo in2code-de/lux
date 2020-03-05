@@ -9,6 +9,7 @@ use In2code\Lux\Domain\Tracker\AttributeTracker;
 use In2code\Lux\Domain\Tracker\DownloadTracker;
 use In2code\Lux\Domain\Tracker\FrontenduserAttributeTracker;
 use In2code\Lux\Domain\Tracker\PageTracker;
+use In2code\Lux\Exception\ActionNotAllowedException;
 use In2code\Lux\Signal\SignalTrait;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
@@ -28,8 +29,10 @@ class FrontendController extends ActionController
      *
      * @return void
      * @throws NoSuchArgumentException
+     * @throws ActionNotAllowedException
+     * @noinspection PhpUnused
      */
-    public function initializeDispatchRequestAction()
+    public function initializeDispatchRequestAction(): void
     {
         $allowedActions = [
             'pageRequest',
@@ -40,31 +43,33 @@ class FrontendController extends ActionController
         ];
         $action = $this->request->getArgument('dispatchAction');
         if (!in_array($action, $allowedActions)) {
-            throw new \UnexpectedValueException('Action not allowed', 1518815149);
+            throw new ActionNotAllowedException('Action not allowed', 1518815149);
         }
     }
 
     /**
      * @param string $dispatchAction
-     * @param string $idCookie
+     * @param string $fingerprint
      * @param array $arguments
      * @return void
      * @throws StopActionException
+     * @noinspection PhpUnused
      */
-    public function dispatchRequestAction(string $dispatchAction, string $idCookie, array $arguments)
+    public function dispatchRequestAction(string $dispatchAction, string $fingerprint, array $arguments): void
     {
-        $this->forward($dispatchAction, null, null, ['idCookie' => $idCookie, 'arguments' => $arguments]);
+        $this->forward($dispatchAction, null, null, ['fingerprint' => $fingerprint, 'arguments' => $arguments]);
     }
 
     /**
-     * @param string $idCookie
+     * @param string $fingerprint
      * @param array $arguments
      * @return string
+     * @noinspection PhpUnused
      */
-    public function pageRequestAction(string $idCookie, array $arguments): string
+    public function pageRequestAction(string $fingerprint, array $arguments): string
     {
         try {
-            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $idCookie, $arguments['referrer']);
+            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $fingerprint, $arguments['referrer']);
             $visitor = $visitorFactory->getVisitor();
             $userAttributeTracker = $this->objectManager->get(FrontenduserAttributeTracker::class, $visitor);
             $userAttributeTracker->trackByFrontenduserAuthentication();
@@ -77,14 +82,15 @@ class FrontendController extends ActionController
     }
 
     /**
-     * @param string $idCookie
+     * @param string $fingerprint
      * @param array $arguments
      * @return string
+     * @noinspection PhpUnused
      */
-    public function fieldListeningRequestAction(string $idCookie, array $arguments): string
+    public function fieldListeningRequestAction(string $fingerprint, array $arguments): string
     {
         try {
-            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $idCookie);
+            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $fingerprint);
             $visitor = $visitorFactory->getVisitor();
             $attributeTracker = $this->objectManager->get(
                 AttributeTracker::class,
@@ -99,14 +105,15 @@ class FrontendController extends ActionController
     }
 
     /**
-     * @param string $idCookie
+     * @param string $fingerprint
      * @param array $arguments
      * @return string
+     * @noinspection PhpUnused
      */
-    public function formListeningRequestAction(string $idCookie, array $arguments): string
+    public function formListeningRequestAction(string $fingerprint, array $arguments): string
     {
         try {
-            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $idCookie);
+            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $fingerprint);
             $visitor = $visitorFactory->getVisitor();
             $values = json_decode($arguments['values'], true);
             $attributeTracker = $this->objectManager->get(
@@ -122,14 +129,15 @@ class FrontendController extends ActionController
     }
 
     /**
-     * @param string $idCookie
+     * @param string $fingerprint
      * @param array $arguments
      * @return string
+     * @noinspection PhpUnused
      */
-    public function email4LinkRequestAction(string $idCookie, array $arguments): string
+    public function email4LinkRequestAction(string $fingerprint, array $arguments): string
     {
         try {
-            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $idCookie);
+            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $fingerprint);
             $visitor = $visitorFactory->getVisitor();
             $attributeTracker = $this->objectManager->get(
                 AttributeTracker::class,
@@ -149,14 +157,15 @@ class FrontendController extends ActionController
     }
 
     /**
-     * @param string $idCookie
+     * @param string $fingerprint
      * @param array $arguments
      * @return string
+     * @noinspection PhpUnused
      */
-    public function downloadRequestAction(string $idCookie, array $arguments): string
+    public function downloadRequestAction(string $fingerprint, array $arguments): string
     {
         try {
-            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $idCookie);
+            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $fingerprint);
             $visitor = $visitorFactory->getVisitor();
             $downloadFactory = $this->objectManager->get(DownloadTracker::class, $visitor);
             $downloadFactory->addDownload($arguments['href']);
@@ -168,8 +177,9 @@ class FrontendController extends ActionController
 
     /**
      * @return void
+     * @noinspection PhpUnused
      */
-    public function trackingOptOutAction()
+    public function trackingOptOutAction(): void
     {
     }
 
