@@ -38,9 +38,10 @@ gulp.task('js', function() {
 		.pipe(gulp.dest(project.js));
 });
 
-/*********************************
- *         Watch Tasks
- *********************************/
+// "npm run build"
+gulp.task('build', ['js', 'css']);
+
+// "npm run watch"
 gulp.task('default', function() {
 	gulp.watch(__dirname + '/../Sass/*.scss', ['css']);
 	gulp.watch(__dirname + '/../JavaScript/*.js', ['js']);
