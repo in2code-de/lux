@@ -12,12 +12,14 @@ use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
@@ -154,10 +156,15 @@ class LeadController extends ActionController
      *
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
-     * @return ResponseInterface
+     * @return ResponseInterface Todo: Second parameter is removed in TYPO3 10
+     * @throws Exception
+     * @noinspection PhpUnused
      */
-    public function detailAjax(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    public function detailAjax(ServerRequestInterface $request, ResponseInterface $response = null): ResponseInterface
     {
+        if ($response === null) {
+            $response = ObjectUtility::getObjectManager()->get(JsonResponse::class);
+        }
         $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
         $standaloneView = ObjectUtility::getObjectManager()->get(StandaloneView::class);
         $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
@@ -172,15 +179,20 @@ class LeadController extends ActionController
 
     /**
      * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
+     * @param ResponseInterface $response Todo: Second parameter is removed in TYPO3 10
      * @return ResponseInterface
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
+     * @noinspection PhpUnused
      */
     public function detailDescriptionAjax(
         ServerRequestInterface $request,
-        ResponseInterface $response
+        ResponseInterface $response = null
     ): ResponseInterface {
+        if ($response === null) {
+            $response = ObjectUtility::getObjectManager()->get(JsonResponse::class);
+        }
         /** @var VisitorRepository $visitorRepository */
         $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
         $visitor = $visitorRepository->findByUid((int)$request->getQueryParams()['visitor']);
