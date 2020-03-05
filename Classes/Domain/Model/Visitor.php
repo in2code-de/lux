@@ -124,7 +124,6 @@ class Visitor extends AbstractEntity
 
     /**
      * @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
-     * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
      */
     protected $frontenduser = null;
 
