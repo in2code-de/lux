@@ -44,10 +44,10 @@ Ask for the visitors email-address when he/she wants to download an asset:\
 
 ## Todos for 7.0.0
 
-* TYPO3 10 update
-* Replace cookieID with fingerprinting
-* Replace functional cookies with local storage records
-* Update TypoScript conditions
+* [done] TYPO3 10 update
+* [done] Replace cookieID with fingerprinting
+* [done] Replace functional cookies with local storage records
+* [done] Update TypoScript conditions
 * Update CommandControllers
 * Add some dashboard widgets
 * Performance
