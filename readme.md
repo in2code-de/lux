@@ -42,6 +42,17 @@ Ask for the visitors email-address when he/she wants to download an asset:\
 \
 ![Email for Link with CKEditor](Documentation/Images/screenshot_email4link_ckeditor_plugin.png "with CKeditor")
 
+## Todos for 7.0.0
+
+* TYPO3 10 update
+* Replace cookieID with fingerprinting
+* Replace functional cookies with local storage records
+* Update TypoScript conditions
+* Update CommandControllers
+* Add some dashboard widgets
+* Performance
+* Update documentation with new stuff
+
 ## Documentation
 
 See the full [documentation](Documentation/Index.md) (technical, marketing and privacy)

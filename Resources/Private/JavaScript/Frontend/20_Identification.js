@@ -31,36 +31,156 @@ function LuxIdentification() {
 	/**
 	 * @returns {void}
 	 */
-	this.setDisableForLinkCookie = function() {
-		setCookie('luxDisableEmail4Link', true);
+	this.setDisableForLinkStorageEntry = function() {
+		addLocalStorageEntry('luxDisableEmail4Link', true);
 	};
 
 	/**
 	 * @returns {Boolean}
 	 */
-	this.isDisableForLinkCookieSet = function() {
-		return getCookieByName('luxDisableEmail4Link') === 'true'
+	this.isDisableForLinkStorageEntrySet = function() {
+		return getLocalStorageEntryByName('luxDisableEmail4Link') === 'true'
 	};
 
 	/**
 	 * @returns {void}
 	 */
 	this.setTrackingOptOutStatus = function() {
-		setCookie('luxTrackingOptOut', true);
+		addLocalStorageEntry('luxTrackingOptOut', true);
 	};
 
 	/**
 	 * @returns {void}
 	 */
 	this.removeTrackingOptOutStatus = function() {
-		setCookie('luxTrackingOptOut', false);
+		addLocalStorageEntry('luxTrackingOptOut', false);
 	};
 
 	/**
 	 * @returns {Boolean} return true if trackingOptOut is set
 	 */
 	this.isOptOutStatusSet = function () {
-		return getCookieByName('luxTrackingOptOut') === 'true';
+		return getLocalStorageEntryByName('luxTrackingOptOut') === 'true';
+	};
+
+	/**
+	 * @returns {void}
+	 */
+	this.setTrackingOptInStatus = function() {
+		addLocalStorageEntry('luxTrackingOptIn', true);
+	};
+
+	/**
+	 * @returns {void}
+	 */
+	this.removeTrackingOptInStatus = function() {
+		addLocalStorageEntry('luxTrackingOptIn', false);
+	};
+
+	/**
+	 * @returns {Boolean} return true if trackingOptIn is set
+	 */
+	this.isOptInStatusSet = function () {
+		return getLocalStorageEntryByName('luxTrackingOptIn') === 'true';
+	};
+
+	/**
+	 * @param {string} key
+	 * @returns {string}
+	 */
+	var getLocalStorageEntryByName = function(key) {
+		return localStorage.getItem(key);
+	};
+
+	/**
+	 * @param {string} key
+	 * @param value
+	 * @returns {void}
+	 */
+	var addLocalStorageEntry = function(key, value) {
+		localStorage.setItem(key, value);
+	};
+
+	/**
+	 * Set fingerprint from calculated hash
+	 *
+	 * @returns {void}
+	 */
+	this.setFingerprint = function() {
+		var overruleFingerprint = getOverruleFingerprint();
+		if (overruleFingerprint === '') {
+			if (window.requestIdleCallback) {
+				requestIdleCallback(function () {
+					Fingerprint2.get(function (components) {
+						var hashValue = getCombinedComponentValue(components);
+						that.fingerprint = Fingerprint2.x64hash128(hashValue, 31);
+					})
+				})
+			} else {
+				setTimeout(function () {
+					Fingerprint2.get(function (components) {
+						var hashValue = getCombinedComponentValue(components);
+						that.fingerprint = Fingerprint2.x64hash128(hashValue, 31);
+					})
+				}, 500)
+			}
+		} else {
+			this.fingerprint = overruleFingerprint;
+		}
+	};
+
+	/**
+	 * Overrule from GET param ?luxfingerprint=abc
+	 * or from cookie with name "luxfingerprint"
+	 *
+	 * @returns {string}
+	 */
+	var getOverruleFingerprint = function() {
+		var overruleFingerprint = findGetParameter('luxfingerprint');
+		if (overruleFingerprint === '') {
+			overruleFingerprint = getCookieByName('luxfingerprint');
+		}
+		return overruleFingerprint;
+	};
+
+	/**
+	 * @param components
+	 * @returns {string}
+	 */
+	var getCombinedComponentValue = function(components) {
+		var hashValue = '';
+		for (var i = 0; i < components.length; i++) {
+			if (components[i].value instanceof Array) {
+				var valueValueHash = '';
+				for (var j = 0; j < components[i].value.length; j++) {
+					valueValueHash = valueValueHash + components[i].value[j];
+				}      hashValue = valueValueHash + hashValue;
+			} else {
+				hashValue = components[i].value + hashValue;
+			}
+		}
+		return hashValue;
+	};
+
+	/**
+	 * Get value from GET param
+	 *
+	 * @param {string} parameterName
+	 * @returns {string}
+	 */
+	var findGetParameter = function(parameterName) {
+		var result = '',
+			tmp = [];
+		location.search
+			.substr(1)
+			.split('&')
+			.forEach(function (item) {
+				tmp = item.split('=');
+				if (tmp[0] === parameterName) {
+					result = decodeURIComponent(tmp[1]);
+				}
+			});
+		return result;
 	};
 
 	/**
@@ -82,58 +202,5 @@ function LuxIdentification() {
 			}
 		}
 		return '';
-	};
-
-	/**
-	 * @param {string} name
-	 * @param value
-	 * @returns {void}
-	 */
-	var setCookie = function(name, value) {
-		var now = new Date();
-		var time = now.getTime();
-		time += 3600 * 24 * 365 * 10000; // 10 years from now
-		now.setTime(time);
-		document.cookie = name + '=' + value + '; expires=' + now.toUTCString() + '; path=/';
-	};
-
-	/**
-	 * @returns {void}
-	 */
-	this.setFingerprint = function() {
-		if (window.requestIdleCallback) {
-			requestIdleCallback(function () {
-				Fingerprint2.get(function (components) {
-					var hashValue = getCombinedComponentValue(components);
-					that.fingerprint = Fingerprint2.x64hash128(hashValue, 31);
-				})
-			})
-		} else {
-			setTimeout(function () {
-				Fingerprint2.get(function (components) {
-					var hashValue = getCombinedComponentValue(components);
-					that.fingerprint = Fingerprint2.x64hash128(hashValue, 31);
-				})
-			}, 500)
-		}
-	};
-
-	/**
-	 * @param components
-	 * @returns {string}
-	 */
-	var getCombinedComponentValue = function(components) {
-		var hashValue = '';
-		for (var i = 0; i < components.length; i++) {
-			if (components[i].value instanceof Array) {
-				var valueValueHash = '';
-				for (var j = 0; j < components[i].value.length; j++) {
-					valueValueHash = valueValueHash + components[i].value[j];
-				}      hashValue = valueValueHash + hashValue;
-			} else {
-				hashValue = components[i].value + hashValue;
-			}
-		}
-		return hashValue;
 	};
 }

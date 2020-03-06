@@ -22,32 +22,38 @@ function LuxMain() {
 	var identification = null;
 
 	/**
-	 * Initialize
-	 *
 	 * @returns {void}
 	 */
 	this.initialize = function() {
 		identification = new window.LuxIdentification();
 
 		trackingOptOutListener();
-
+		trackingOptInListener();
 		if (isLuxActivated()) {
-			identification.setFingerprint();
-
-			setTimeout(function () {
-				pageRequest();
-				addFieldListeners();
-				addFormListeners();
-				addDownloadListener();
-			}, 510);
+			initializeTracking();
 		}
-
 		addEmail4LinkListeners();
 		doNotTrackListener();
 	};
 
 	/**
+	 * @returns {void}
+	 */
+	var initializeTracking = function() {
+		identification.setFingerprint();
+
+		setTimeout(function () {
+			pageRequest();
+			addFieldListeners();
+			addFormListeners();
+			addDownloadListener();
+		}, 510);
+	};
+
+	/**
 	 * Close any lightbox
+	 *
+	 * @returns {void}
 	 */
 	this.closeLightbox = function() {
 		if (that.lightboxInstance !== null) {
@@ -56,6 +62,45 @@ function LuxMain() {
 	};
 
 	/**
+	 * Store if someone opts out (don't track any more)
+	 *
+	 * @returns {void}
+	 */
+	this.optOut = function() {
+		identification.setTrackingOptOutStatus();
+	};
+
+	/**
+	 * Remove opt out status (someone can be tracked again)
+	 *
+	 * @returns {void}
+	 */
+	this.optOutDisabled = function() {
+		identification.removeTrackingOptOutStatus();
+	};
+
+	/**
+	 * OptIn (probably relevant if autoenable is disabled)
+	 *
+	 * @returns {void}
+	 */
+	this.optIn = function() {
+		identification.setTrackingOptInStatus();
+		initializeTracking();
+	};
+
+	/**
+	 * OptIn remove (probably relevant if autoenable is disabled)
+	 *
+	 * @returns {void}
+	 */
+	this.optInDisabled = function() {
+		identification.removeTrackingOptInStatus();
+	};
+
+	/**
+	 * If someone clicks don't want to be tracked any more, use a checkbox with data-lux-trackingoptout="checkbox"
+	 *
 	 * @returns {void}
 	 */
 	var trackingOptOutListener = function() {
@@ -66,9 +111,34 @@ function LuxMain() {
 			element.checked = identification.isOptOutStatusSet() === false;
 			element.addEventListener('change', function() {
 				if (identification.isOptOutStatusSet()) {
-					identification.removeTrackingOptOutStatus();
+					console.log('Lux: Disable Opt Out');
+					that.optOutDisabled();
 				} else {
-					identification.setTrackingOptOutStatus();
+					console.log('Lux: Opt Out');
+					that.optOut();
+				}
+			});
+		}
+	};
+
+	/**
+	 * If autoenable is turned off, tracking can be toggled by clicking an element with
+	 * data-lux-trackingoptin="true" or ="false"
+	 *
+	 * @returns {void}
+	 */
+	var trackingOptInListener = function() {
+		var elements = document.querySelectorAll('[data-lux-trackingoptin]');
+		for (var i = 0; i < elements.length; i++) {
+			var element = elements[i];
+			element.addEventListener('click', function(element) {
+				var status = element.target.getAttribute('data-lux-trackingoptin') === 'true';
+				if (status === true) {
+					console.log('Lux: Opt In selected');
+					that.optIn();
+				} else {
+					console.log('Lux: Opt Out selected');
+					that.optInDisabled();
 				}
 			});
 		}
@@ -188,7 +258,7 @@ function LuxMain() {
 	 * @param response
 	 */
 	this.disableEmail4LinkWorkflowAction = function(response) {
-		identification.setDisableForLinkCookie();
+		identification.setDisableForLinkStorageEntry();
 	};
 
 	/**
@@ -268,7 +338,7 @@ function LuxMain() {
 	 * @returns {void}
 	 */
 	var email4LinkListener = function(link, event) {
-		if (identification.isDisableForLinkCookieSet() === false) {
+		if (identification.isDisableForLinkStorageEntrySet() === false) {
 			event.preventDefault();
 
 			var title = link.getAttribute('data-lux-email4link-title') || '';
@@ -606,16 +676,30 @@ function LuxMain() {
 
 	/**
 	 * Check if tracking is possible - when
-	 * - optOutStatus is not set (cookie)
 	 * - doNotTrack header ist not set
+	 * - optOutStatus is not set (visitor did not opt out)
 	 * - container with important serverside information is available in DOM
-	 * - data-lux-enable="1"
+	 * - data-lux-enable="1" (lux is enabled in general)
 	 *
 	 * @returns {boolean}
 	 */
 	var isLuxActivated = function() {
-		return identification.isOptOutStatusSet() === false && navigator.doNotTrack !== '1' && getContainer() !== null
-			&& getContainer().getAttribute('data-lux-enable') === '1';
+			return navigator.doNotTrack !== '1'
+			&& identification.isOptOutStatusSet() === false
+			&& getContainer() !== null
+			&& getContainer().getAttribute('data-lux-enable') === '1'
+			&& isLuxAutoEnabled();
+	};
+
+	/**
+	 * - If lux autoenable is turned on
+	 * - OR if autoenable is off but optInStatus is set (visitor did an opt in)
+	 *
+	 * @returns {boolean}
+	 */
+	var isLuxAutoEnabled = function() {
+		var autoEnable = getContainer().getAttribute('data-lux-autoenable') === '1';
+		return autoEnable === true || (autoEnable === false && identification.isOptInStatusSet());
 	};
 
 	/**
