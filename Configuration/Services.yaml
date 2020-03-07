@@ -1,0 +1,53 @@
+services:
+
+  In2code\Lux\:
+    resource: '../Classes/*'
+
+  In2code\Lux\Widgets\LuxPageVisitsWidget:
+    arguments: ['luxPageVisits']
+    tags:
+      - name: dashboard.widget
+        identifier: luxPageVisits
+        widgetGroups: 'general'
+
+  In2code\Lux\Widgets\LuxDownloadsWidget:
+    arguments: ['luxDownloads']
+    tags:
+      - name: dashboard.widget
+        identifier: luxDownloads
+        widgetGroups: 'general'
+
+  In2code\Lux\Widgets\LuxIdentifiedWidget:
+    arguments: ['luxIdentified']
+    tags:
+      - name: dashboard.widget
+        identifier: luxIdentified
+        widgetGroups: 'general'
+
+  In2code\Lux\Widgets\LuxIdentifiedPerMonthWidget:
+    arguments: ['luxIdentifiedPerMonth']
+    tags:
+      - name: dashboard.widget
+        identifier: luxIdentifiedPerMonth
+        widgetGroups: 'general'
+
+  In2code\Lux\Widgets\LuxRecurringWidget:
+    arguments: ['luxRecurring']
+    tags:
+      - name: dashboard.widget
+        identifier: luxRecurring
+        widgetGroups: 'general'
+
+  In2code\Lux\Widgets\LuxPageVisitsWeekWidget:
+    arguments: ['luxPageVisitsWeek']
+    tags:
+      - name: dashboard.widget
+        identifier: luxPageVisitsWeek
+        widgetGroups: 'general'
+
+  In2code\Lux\Widgets\LuxDownloadsWeekWidget:
+    arguments: ['luxDownloadsWeek']
+    tags:
+      - name: dashboard.widget
+        identifier: luxDownloadsWeek
+        widgetGroups: 'general'

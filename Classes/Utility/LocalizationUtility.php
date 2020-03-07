@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Utility;
 
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility as LocalizationUtilityExtbase;
 
 /**
@@ -39,5 +40,14 @@ class LocalizationUtility
             $label = $key;
         }
         return $label;
+    }
+
+    /**
+     * @return LanguageService|null
+     * @SuppressWarnings(PHPMD.Superglobals)
+     */
+    public static function getLanguageService(): ?LanguageService
+    {
+        return $GLOBALS['LANG'];
     }
 }

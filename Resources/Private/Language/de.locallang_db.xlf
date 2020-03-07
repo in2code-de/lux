@@ -877,6 +877,111 @@
 				<target state="translated">Aktion</target>
 			</trans-unit>
 
+			<trans-unit id="module.dashboard.widget.luxpagevisits.title">
+				<source>Page visits of this year</source>
+				<target state="translated">Seitenbesuche des aktuellen Jahres</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxpagevisits.description">
+				<source>Show 6 best visited pages</source>
+				<target state="translated">Zeige die 6 bestbesuchtesten Seiten</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxpagevisits.label">
+				<source>Page visits</source>
+				<target state="translated">Seitenaufrufe</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxdownloads.title">
+				<source>File downloads of this year</source>
+				<target state="translated">Datei-Downloads des aktuellen Jahres</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxdownloads.description">
+				<source>Show 6 best downloaded files</source>
+				<target state="translated">Zeige die 6 meist heruntergeladenen Dateien</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxdownloads.label">
+				<source>Downloads</source>
+				<target state="translated">Downloads</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxidentified.title">
+				<source>Identified visitors</source>
+				<target state="translated">Identifizierte Besuche</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxidentified.description">
+				<source>Show how many visitors are identified and how many are unknown</source>
+				<target state="translated">Zeige wie viele Besucher bereits identifieziert sind</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxidentified.label">
+				<source>Visitors</source>
+				<target state="translated">Besucher</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxidentified.label.0">
+				<source>Identified</source>
+				<target state="translated">Identifiziert</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxidentified.label.1">
+				<source>Unknown</source>
+				<target state="translated">Unbekannt</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxidentified.label.2">
+				<source>All</source>
+				<target state="translated">Alle</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxrecurring.title">
+				<source>Recurring visitors</source>
+				<target state="translated">Wiederkehrende Besucher</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxrecurring.description">
+				<source>Show how many visitors are new or recurring</source>
+				<target state="translated">Zeige wie viele Besucher neu bzw. wiederkehrend sind</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxrecurring.label">
+				<source>Visitors</source>
+				<target state="translated">Besucher</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxrecurring.label.0">
+				<source>Recurring</source>
+				<target state="translated">Wiederkehrend</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxrecurring.label.1">
+				<source>Single visit</source>
+				<target state="translated">Einmalig</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxidentifiedpermonth.title">
+				<source>Identified visitors per month</source>
+				<target state="translated">Identifizierte Besucher pro Monat</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxidentifiedpermonth.description">
+				<source>Show the number of identified leads of the last 6 months</source>
+				<target state="translated">Zeige die Anzahl der identifiezierten Leads der letzten 6 Monate</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxidentifiedpermonth.label">
+				<source>Identified</source>
+				<target state="translated">Identifiziert</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxpagevisitsweek.title">
+				<source>Pagevisits of the last 7 days</source>
+				<target state="translated">Seitenbesuche der letzten 7 Tage</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxpagevisitsweek.description">
+				<source>Show number of pagevisits of the last 7 days</source>
+				<target state="translated">Zeige die Anzahl der Seitenbesuche der letzten 7 Tage</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxpagevisitsweek.label">
+				<source>Visits</source>
+				<target state="translated">Besuche</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxdownloadsweek.title">
+				<source>Downloads of the last 7 days</source>
+				<target state="translated">Downloads der letzten 7 Tage</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxdownloadsweek.description">
+				<source>Show number of downloads of the last 7 days</source>
+				<target state="translated">Zeige die Anzahl der Downloads der letzten 7 Tage</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxdownloadsweek.label">
+				<source>Downloads</source>
+				<target state="translated">Downloads</target>
+			</trans-unit>
+
 			<trans-unit id="luxletter.module.newsletter.receiver.title">
 				<source>Receiver analysis</source>
 				<target state="translated">Empfänger Analyse</target>
