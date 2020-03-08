@@ -34,6 +34,8 @@ class LuxCleanupVisitorsByAgeCommand extends Command
      *      Remove all visitors where the last update (tstamp) is older than a given timestamp
      *      !!! Really removes visitors and all rows from related tables from the database
      *
+     *      Example command: ./vendor/bin/typo3 lux:cleanupVisitorsByAge 1583410470
+     *
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int

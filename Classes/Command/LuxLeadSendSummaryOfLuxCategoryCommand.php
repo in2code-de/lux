@@ -39,6 +39,8 @@ class LuxLeadSendSummaryOfLuxCategoryCommand extends Command
      *      Send a summary of leads to one or more email addresses as a table. Define if leads should be identified or
      *      not and if you want only leads from a given category. Also a minimum scoring is possible.
      *
+     *      Example command: ./vendor/bin/typo3 lux:leadSendSummaryOfLuxCategory alex@mail.org 86400 1 123
+     *
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int

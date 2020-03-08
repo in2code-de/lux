@@ -32,8 +32,8 @@ class LuxCleanupVisitorsByPropertyCommand extends Command
 
     /**
      * Remove a visitor by a given property. E.g. removing all google bots with
-     * "./vendor/bin/typo3cms luxcleanup:removevisitorbyproperty userAgent Googlebot 0" or
-     * "./vendor/bin/typo3cms luxcleanup:removevisitorbyproperty fingerprints.userAgent Googlebot 0"
+     * "./vendor/bin/typo3 lux:cleanupVisitorsByProperty userAgent Googlebot 0" or
+     * "./vendor/bin/typo3 lux:cleanupVisitorsByProperty fingerprints.userAgent "Ubuntu; Linux" 0"
      *
      *      Remove a visitor by a given property. E.g. removing all
      *      !!! Really removes visitors and all rows from related tables from the database

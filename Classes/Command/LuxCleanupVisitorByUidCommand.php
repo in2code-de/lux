@@ -32,6 +32,8 @@ class LuxCleanupVisitorByUidCommand extends Command
      *      Remove a single visitor by a given UID
      *      !!! Really removes visitors and all rows from related tables from the database
      *
+     *      Example command: /vendor/bin/typo3 lux:cleanupVisitorByUid 123
+     *
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int

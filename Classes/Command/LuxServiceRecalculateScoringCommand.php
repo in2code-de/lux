@@ -35,6 +35,8 @@ class LuxServiceRecalculateScoringCommand extends Command
      *      You should run this task frequently (1 time a day) if you are using the variable {lastVisitDaysAgo}
      *      in your calculation
      *
+     *      Example command: ./vendor/bin/typo3 lux:serviceRecalculateScoring
+     *
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int

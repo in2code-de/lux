@@ -28,6 +28,8 @@ class LuxCleanupAllVisitorsCommand extends Command
      *      Remove all visitors
      *      !!! Really removes visitors and all rows from related tables from the database
      *
+     *      Example command: ./vendor/bin/typo3 lux:cleanupAllVisitors
+     *
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int

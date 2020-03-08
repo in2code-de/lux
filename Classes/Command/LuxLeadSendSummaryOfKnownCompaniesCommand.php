@@ -40,6 +40,8 @@ class LuxLeadSendSummaryOfKnownCompaniesCommand extends Command
      *      should have a minimum scoring (0 disables this function). Also define if only leads should be send with
      *      a scoring in a category.
      *
+     *      Example command: ./vendor/bin/typo3 lux:leadSendSummaryOfKnownCompanies alex@mail.org 86400 0 123
+     *
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int
