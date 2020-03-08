@@ -26,8 +26,8 @@ class LuxAnonymizeCommand extends Command
     }
 
     /**
-     * This command will really (!!!) overwrite all your records with dummy values. This command is for local
-     * development or for a presentation only!
+     * This command will really (!!!) overwrite all your identified-visitor-records with dummy values.
+     * This command is e.g. for local development or for a presentation!
      *
      * @param InputInterface $input
      * @param OutputInterface $output
