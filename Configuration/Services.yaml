@@ -8,67 +8,67 @@ services:
     tags:
       - name: dashboard.widget
         identifier: luxPageVisits
-        widgetGroups: 'general'
+        widgetGroups: 'luxgroup'
 
   In2code\Lux\Widgets\LuxDownloadsWidget:
     arguments: ['luxDownloads']
     tags:
       - name: dashboard.widget
         identifier: luxDownloads
-        widgetGroups: 'general'
+        widgetGroups: 'luxgroup'
 
   In2code\Lux\Widgets\LuxIdentifiedWidget:
     arguments: ['luxIdentified']
     tags:
       - name: dashboard.widget
         identifier: luxIdentified
-        widgetGroups: 'general'
+        widgetGroups: 'luxgroup'
 
   In2code\Lux\Widgets\LuxIdentifiedPerMonthWidget:
     arguments: ['luxIdentifiedPerMonth']
     tags:
       - name: dashboard.widget
         identifier: luxIdentifiedPerMonth
-        widgetGroups: 'general'
+        widgetGroups: 'luxgroup'
 
   In2code\Lux\Widgets\LuxRecurringWidget:
     arguments: ['luxRecurring']
     tags:
       - name: dashboard.widget
         identifier: luxRecurring
-        widgetGroups: 'general'
+        widgetGroups: 'luxgroup'
 
   In2code\Lux\Widgets\LuxPageVisitsWeekWidget:
     arguments: ['luxPageVisitsWeek']
     tags:
       - name: dashboard.widget
         identifier: luxPageVisitsWeek
-        widgetGroups: 'general'
+        widgetGroups: 'luxgroup'
 
   In2code\Lux\Widgets\LuxDownloadsWeekWidget:
     arguments: ['luxDownloadsWeek']
     tags:
       - name: dashboard.widget
         identifier: luxDownloadsWeek
-        widgetGroups: 'general'
+        widgetGroups: 'luxgroup'
 
   In2code\Lux\Widgets\LuxReferrerWidget:
     arguments: ['luxReferrer']
     tags:
       - name: dashboard.widget
         identifier: luxReferrer
-        widgetGroups: 'general'
+        widgetGroups: 'luxgroup'
 
   In2code\Lux\Widgets\LuxBrowserWidget:
     arguments: ['luxBrowser']
     tags:
       - name: dashboard.widget
         identifier: luxBrowser
-        widgetGroups: 'general'
+        widgetGroups: 'luxgroup'
 
   In2code\Lux\Widgets\LuxHottestLeadsWidget:
     arguments: ['luxHottestLeads']
     tags:
       - name: dashboard.widget
         identifier: luxHottestLeads
-        widgetGroups: 'general'
+        widgetGroups: 'luxgroup'

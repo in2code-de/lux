@@ -669,6 +669,9 @@
 			<trans-unit id="module.dashboard.preset.lux.description">
 				<source>Show all Lux widgets in an own dashboard</source>
 			</trans-unit>
+			<trans-unit id="module.dashboard.group.lux.title">
+				<source>Lux</source>
+			</trans-unit>
 			<trans-unit id="module.dashboard.widget.luxpagevisits.title">
 				<source>Page visits of this year</source>
 			</trans-unit>

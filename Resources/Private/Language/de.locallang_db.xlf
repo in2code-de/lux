@@ -885,6 +885,10 @@
 				<source>Show all Lux widgets in an own dashboard</source>
 				<target state="translated">Zeige alle Lux Widgets in einem eigenen Dashboard</target>
 			</trans-unit>
+			<trans-unit id="module.dashboard.group.lux.title">
+				<source>Lux</source>
+				<target state="translated">Lux</target>
+			</trans-unit>
 			<trans-unit id="module.dashboard.widget.luxpagevisits.title">
 				<source>Page visits of this year</source>
 				<target state="translated">Seitenbesuche des aktuellen Jahres</target>
