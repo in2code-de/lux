@@ -663,6 +663,12 @@
 				<source>Action</source>
 			</trans-unit>
 
+			<trans-unit id="module.dashboard.preset.lux.title">
+				<source>Lux dashboard</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.preset.lux.description">
+				<source>Show all Lux widgets in an own dashboard</source>
+			</trans-unit>
 			<trans-unit id="module.dashboard.widget.luxpagevisits.title">
 				<source>Page visits of this year</source>
 			</trans-unit>
@@ -762,10 +768,10 @@
 			<trans-unit id="module.dashboard.widget.browser.further">
 				<source>Further</source>
 			</trans-unit>
-			<trans-unit id="module.dashboard.widget.statistic.title">
+			<trans-unit id="module.dashboard.widget.hottestleads.title">
 				<source>Hottest leads</source>
 			</trans-unit>
-			<trans-unit id="module.dashboard.widget.statistic.description">
+			<trans-unit id="module.dashboard.widget.hottestleads.description">
 				<source>Show hottest leads from Lux</source>
 			</trans-unit>
 

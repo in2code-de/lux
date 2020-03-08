@@ -66,9 +66,9 @@ services:
         identifier: luxBrowser
         widgetGroups: 'general'
 
-  In2code\Lux\Widgets\LuxStatisticWidget:
-    arguments: ['luxStatistic']
+  In2code\Lux\Widgets\LuxHottestLeadsWidget:
+    arguments: ['luxHottestLeads']
     tags:
       - name: dashboard.widget
-        identifier: luxStatistic
+        identifier: luxHottestLeads
         widgetGroups: 'general'

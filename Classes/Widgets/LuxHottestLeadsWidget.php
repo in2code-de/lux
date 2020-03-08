@@ -13,15 +13,15 @@ use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
 /**
- * Class LuxStatisticWidget
+ * Class LuxHottestLeadsWidget
  * @noinspection PhpUnused
  */
-class LuxStatisticWidget extends AbstractListWidget
+class LuxHottestLeadsWidget extends AbstractListWidget
 {
     protected $title =
-        'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.statistic.title';
+        'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.hottestleads.title';
     protected $description =
-        'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.statistic.description';
+        'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.hottestleads.description';
     protected $iconIdentifier = 'extension-lux-turquoise';
     protected $height = 4;
     protected $width = 2;
