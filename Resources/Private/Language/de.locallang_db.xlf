@@ -1009,6 +1009,14 @@
 				<source>Further</source>
 				<target state="translated">Weitere</target>
 			</trans-unit>
+			<trans-unit id="module.dashboard.widget.statistic.title">
+				<source>Hottest leads</source>
+				<target state="translated">Hottest Leads</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.statistic.description">
+				<source>Show hottest leads from Lux</source>
+				<target state="translated">Zeige "Hottest Leads" von Lux</target>
+			</trans-unit>
 
 			<trans-unit id="luxletter.module.newsletter.receiver.title">
 				<source>Receiver analysis</source>

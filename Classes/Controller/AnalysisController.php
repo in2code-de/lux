@@ -72,6 +72,11 @@ class AnalysisController extends ActionController
      */
     public function dashboardAction(FilterDto $filter)
     {
+        $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
+        $filter = ObjectUtility::getFilterDto(FilterDto::PERIOD_THISMONTH);
+        $visitors = $visitorRepository->findByHottestScorings($filter);
+        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($visitors, 'in2code ' . __CLASS__ . ':' . __LINE__);
+        die(__CLASS__ . ':' . __LINE__);
         $this->view->assignMultiple([
             'filter' => $filter,
             'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter),

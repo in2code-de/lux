@@ -302,7 +302,7 @@ class Visitor extends AbstractEntity
     /**
      * @return ObjectStorage
      */
-    public function getFingerprints(): ObjectStorage
+    public function getFingerprints(): ?ObjectStorage
     {
         return $this->fingerprints;
     }

@@ -762,6 +762,12 @@
 			<trans-unit id="module.dashboard.widget.browser.further">
 				<source>Further</source>
 			</trans-unit>
+			<trans-unit id="module.dashboard.widget.statistic.title">
+				<source>Hottest leads</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.statistic.description">
+				<source>Show hottest leads from Lux</source>
+			</trans-unit>
 
 			<trans-unit id="luxletter.module.newsletter.receiver.title">
 				<source>Receiver analysis</source>
