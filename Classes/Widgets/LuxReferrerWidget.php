@@ -2,9 +2,9 @@
 declare(strict_types=1);
 namespace In2code\Lux\Widgets;
 
+use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
-use In2code\Lux\Domain\Repository\DownloadRepository;
-use In2code\Lux\Utility\FileUtility;
+use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Dashboard\Widgets\AbstractBarChartWidget;
@@ -12,38 +12,39 @@ use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
 /**
- * Class LuxDownloadsWidget
+ * Class LuxReferrerWidget
  * @noinspection PhpUnused
  */
-class LuxDownloadsWidget extends AbstractBarChartWidget
+class LuxReferrerWidget extends AbstractBarChartWidget
 {
     protected $title =
-        'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxdownloads.title';
+        'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.referrer.title';
     protected $description =
-        'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxdownloads.description';
+        'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.referrer.description';
     protected $iconIdentifier = 'extension-lux-turquoise';
     protected $height = 4;
     protected $width = 4;
 
     /**
      * @return void
+     * @throws DBALException
      * @throws Exception
      * @throws InvalidQueryException
      */
     protected function prepareChartData(): void
     {
-        $data = $this->getDownloadData();
+        $llPrefix = 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:';
         $label = LocalizationUtility::getLanguageService()->sL(
-            'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxpagevisits.label'
+            $llPrefix . 'module.dashboard.widget.referrer.label'
         );
         $this->chartData = [
-            'labels' => $data['titles'],
+            'labels' => $this->getReferrerData()['titles'],
             'datasets' => [
                 [
                     'label' => $label,
                     'backgroundColor' => [$this->chartColors[0], '#dddddd'],
                     'border' => 0,
-                    'data' => $data['amounts']
+                    'data' => $this->getReferrerData()['amounts']
                 ]
             ]
         ];
@@ -63,22 +64,22 @@ class LuxDownloadsWidget extends AbstractBarChartWidget
      *
      * @return array
      * @throws Exception
-     * @throws InvalidQueryException
+     * @throws DBALException
      */
-    protected function getDownloadData(): array
+    protected function getReferrerData(): array
     {
-        $downloadRepository = ObjectUtility::getObjectManager()->get(DownloadRepository::class);
-        $downloads = $downloadRepository->findCombinedByHref(
-            ObjectUtility::getFilterDto(FilterDto::PERIOD_THISYEAR)
-        );
+        $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
+        $filter = ObjectUtility::getFilterDto(FilterDto::PERIOD_THISYEAR);
+        $referrers = $visitorRepository->getAmountOfReferrers($filter);
         $titles = $amounts = [];
         $counter = 0;
-        foreach ($downloads as $filename => $combinedDownloads) {
-            $titles[] = FileUtility::getFilenameFromPathAndFilename($filename);
-            $amounts[] = count($combinedDownloads);
+        foreach ($referrers as $referrer => $amount) {
+            $titles[] = $referrer;
+            $amounts[] = $amount;
             if ($counter >= 5) {
                 break;
             }
+            $counter++;
         }
         return ['amounts' => $amounts, 'titles' => $titles];
     }

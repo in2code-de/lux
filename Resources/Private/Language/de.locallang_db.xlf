@@ -981,6 +981,34 @@
 				<source>Downloads</source>
 				<target state="translated">Downloads</target>
 			</trans-unit>
+			<trans-unit id="module.dashboard.widget.referrer.title">
+				<source>External referrers</source>
+				<target state="translated">Externe Quellen</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.referrer.description">
+				<source>Show the most used external referrers from your visitors</source>
+				<target state="translated">Zeige die häufigste externe Quellen der Besucher</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.referrer.label">
+				<source>Visitor</source>
+				<target state="translated">Besucher</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.browser.title">
+				<source>Visitor browsers</source>
+				<target state="translated">Besucher Browser</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.browser.description">
+				<source>Show browser version of website visitors</source>
+				<target state="translated">Zeige Browser Versionen der Website Besucher</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.browser.label">
+				<source>Visitor</source>
+				<target state="translated">Besucher</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.browser.further">
+				<source>Further</source>
+				<target state="translated">Weitere</target>
+			</trans-unit>
 
 			<trans-unit id="luxletter.module.newsletter.receiver.title">
 				<source>Receiver analysis</source>

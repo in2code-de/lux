@@ -741,6 +741,27 @@
 			<trans-unit id="module.dashboard.widget.luxdownloadsweek.label">
 				<source>Downloads</source>
 			</trans-unit>
+			<trans-unit id="module.dashboard.widget.referrer.title">
+				<source>External referrers</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.referrer.description">
+				<source>Show the most used external referrers from your visitors</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.referrer.label">
+				<source>Visitor</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.browser.title">
+				<source>Visitor browsers</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.browser.description">
+				<source>Show browser version of website visitors</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.browser.label">
+				<source>Visitor</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.browser.further">
+				<source>Further</source>
+			</trans-unit>
 
 			<trans-unit id="luxletter.module.newsletter.receiver.title">
 				<source>Receiver analysis</source>

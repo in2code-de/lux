@@ -14,7 +14,10 @@ use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Domain\Service\ReadableReferrerService;
 use In2code\Lux\Utility\DatabaseUtility;
+use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
@@ -24,7 +27,6 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
  */
 class VisitorRepository extends AbstractRepository
 {
-
     /**
      * Find a visitor by it's cookie and deliver also blacklisted visitors
      *
@@ -63,36 +65,38 @@ class VisitorRepository extends AbstractRepository
     }
 
     /**
-     * Find a visitor with a stored cookie id in lux 1.x or 2.x in tx_lux_domain_model_visitor.id_cookie
+     * Get an array with sorted values with a limit of 100:
+     * [
+     *      'twitter.com' => 234,
+     *      'facebook.com' => 123
+     * ]
      *
-     * @return string
-     */
-    public function findOneVisitorWithOutdatedCookieId(): string
-    {
-        $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Visitor::TABLE_NAME);
-        return (string)$queryBuilder
-            ->select('uid')
-            ->from(Visitor::TABLE_NAME)
-            ->where('id_cookie != ""')
-            ->setMaxResults(1)
-            ->execute()
-            ->fetchColumn(0);
-    }
-
-    /**
-     * Find all visitors with a stored cookie id in lux 1.x or 2.x in tx_lux_domain_model_visitor.id_cookie
-     *
+     * @param FilterDto $filter
      * @return array
+     * @throws DBALException
+     * @throws Exception
      */
-    public function findVisitorsWithOutdatedCookieId(): array
+    public function getAmountOfReferrers(FilterDto $filter): array
     {
-        $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Visitor::TABLE_NAME);
-        return (array)$queryBuilder
-            ->select('uid', 'id_cookie', 'user_agent')
-            ->from(Visitor::TABLE_NAME)
-            ->where('id_cookie != ""')
-            ->execute()
-            ->fetchAll();
+        $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
+        $sql = 'select referrer, count(referrer) count from ' . Visitor::TABLE_NAME
+            . ' where referrer != "" and crdate > ' . $filter->getStartTimeForFilter()->format('U')
+            . ' and crdate <' . $filter->getEndTimeForFilter()->format('U')
+            . ' group by referrer having (count > 1) order by count desc limit 100';
+        $records = (array)$connection->executeQuery($sql)->fetchAll();
+        $result = [];
+        foreach ($records as $record) {
+            $readableReferrer = ObjectUtility::getObjectManager()->get(
+                ReadableReferrerService::class,
+                $record['referrer']
+            );
+            if (array_key_exists($readableReferrer->getReadableReferrer(), $result)) {
+                $result[$readableReferrer->getReadableReferrer()] += $record['count'];
+            } else {
+                $result[$readableReferrer->getReadableReferrer()] = $record['count'];
+            }
+        }
+        return $result;
     }
 
     /**
