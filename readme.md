@@ -10,6 +10,10 @@ like showing relevant information at the right time.
 
 ## Screenshots
 
+TYPO3 dashboard (for TYPO3 10 with package "typo3/cms-dashboard"):\
+\
+![Example dashboard of TYPO3 10](Documentation/Images/screenshot_typo3dashboard.png "TYPO3 Dashboard")
+
 Example dashboard overview:\
 \
 ![Example dashboard overview](Documentation/Images/screenshot_dashboard.png "Dashboard")
