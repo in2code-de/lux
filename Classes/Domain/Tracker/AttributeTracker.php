@@ -9,8 +9,10 @@ use In2code\Lux\Domain\Repository\AttributeRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\AllowedMailProvidersService;
 use In2code\Lux\Domain\Service\VisitorMergeService;
+use In2code\Lux\Exception\EmailValidationException;
 use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
@@ -56,6 +58,7 @@ class AttributeTracker
      *
      * @param Visitor $visitor
      * @param string $context
+     * @throws Exception
      */
     public function __construct(Visitor $visitor, string $context = self::CONTEXT_FIELDLISTENING)
     {
@@ -69,6 +72,8 @@ class AttributeTracker
      * @param array $properties
      * @return void
      * @throws DBALException
+     * @throws EmailValidationException
+     * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws InvalidSlotException
      * @throws InvalidSlotReturnException
@@ -88,10 +93,12 @@ class AttributeTracker
      * @param string $value
      * @return void
      * @throws DBALException
+     * @throws EmailValidationException
+     * @throws Exception
      * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
      * @throws InvalidSlotException
      * @throws InvalidSlotReturnException
+     * @throws UnknownObjectException
      */
     public function addAttribute(string $key, string $value)
     {
@@ -121,13 +128,15 @@ class AttributeTracker
      * @param string $key
      * @param string $value
      * @return void
+     * @throws EmailValidationException
+     * @throws Exception
      */
     protected function checkDisallowedMailProviders(string $key, string $value)
     {
         if ($key === 'email') {
             $mailProviderService = ObjectUtility::getObjectManager()->get(AllowedMailProvidersService::class);
             if ($mailProviderService->isEmailAllowed($value) === false) {
-                throw new \LogicException('Email is not allowed', 1555427969);
+                throw new EmailValidationException('Email is not allowed', 1555427969);
             }
         }
     }
@@ -158,6 +167,7 @@ class AttributeTracker
      * @param string $key
      * @param string $value
      * @return Attribute
+     * @throws Exception
      */
     protected function createNewAttribute(string $key, string $value): Attribute
     {
@@ -180,6 +190,7 @@ class AttributeTracker
      * @throws InvalidSlotException
      * @throws InvalidSlotReturnException
      * @throws UnknownObjectException
+     * @throws Exception
      */
     protected function mergeVisitorsOnGivenEmail(string $key, string $value)
     {
@@ -192,6 +203,7 @@ class AttributeTracker
     /**
      * @param string $value
      * @return bool
+     * @throws Exception
      */
     protected function isAttributeAddingEnabled(string $value): bool
     {
@@ -200,6 +212,7 @@ class AttributeTracker
 
     /**
      * @return bool
+     * @throws Exception
      */
     protected function isEnabledIdentificationInSettings(): bool
     {

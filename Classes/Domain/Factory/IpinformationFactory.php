@@ -5,6 +5,7 @@ namespace In2code\Lux\Domain\Factory;
 use Doctrine\Common\Proxy\Exception\UnexpectedValueException;
 use In2code\Lux\Domain\Model\Ipinformation;
 use In2code\Lux\Domain\Repository\IpinformationRepository;
+use In2code\Lux\Exception\ConnectionFailedException;
 use In2code\Lux\Utility\IpUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -40,6 +41,7 @@ class IpinformationFactory
      * Get information out of an IP address
      *
      * @return array
+     * @throws ConnectionFailedException
      */
     protected function getInformationFromIp(): array
     {
@@ -47,7 +49,7 @@ class IpinformationFactory
         $properties = [];
         $json = GeneralUtility::getUrl('http://ip-api.com/json/' . $ipAddress);
         if ($json === false) {
-            throw new UnexpectedValueException('Could not connect to http://ip-api.com', 1518208369);
+            throw new ConnectionFailedException('Could not connect to http://ip-api.com', 1518208369);
         }
         if (!empty($json)) {
             $properties = json_decode($json, true);
