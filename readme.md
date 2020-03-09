@@ -56,7 +56,7 @@ Ask for the visitors email-address when he/she wants to download an asset:\
 * [done] Replace functional cookies with local storage records
 * [done] Add some dashboard widgets
 * Allow identification of luxletter with fingerprints
-* Performance
+* [done] Performance
 * Update documentation with new stuff
 
 ## Documentation
