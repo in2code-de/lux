@@ -7,7 +7,7 @@
 /**
  * General backend classes
  */
-a:not(.btn):not(.nolink) {
+a:not(.btn):not(.nolink):not(.colorwhite) {
   color: $colorAlternative !important;
   cursor: pointer !important;
 }
