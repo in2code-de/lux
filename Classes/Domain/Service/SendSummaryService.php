@@ -4,6 +4,7 @@ namespace In2code\Lux\Domain\Service;
 
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\EmailValidationException;
+use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\EmailUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Mail\MailMessage;
@@ -54,14 +55,24 @@ class SendSummaryService
     public function send(array $emails): bool
     {
         $this->checkProperties($emails);
-        /** @var MailMessage $message */
         $message = ObjectUtility::getObjectManager()->get(MailMessage::class);
-        $logo = $message->embed(\Swift_Image::fromPath(GeneralUtility::getFileAbsFileName($this->luxLogoPath)));
-        $message
-            ->setTo(EmailUtility::extendEmailReceiverArray($emails))
-            ->setFrom($this->getSender())
-            ->setSubject($this->getSubject())
-            ->setBody($this->getMailTemplate(['luxLogo' => $logo]), 'text/html');
+        if (ConfigurationUtility::isVersionToCompareSameOrLowerThenCurrentTypo3Version('10.0.0')) {
+            // TYPO3 10
+            $message->embedFromPath(GeneralUtility::getFileAbsFileName($this->luxLogoPath), 'luxLogo');
+            $message
+                ->setTo(EmailUtility::extendEmailReceiverArray($emails))
+                ->setFrom($this->getSender())
+                ->setSubject($this->getSubject())
+                ->html($this->getMailTemplate());
+        } else {
+            // Todo: Remove when TYPO3 9.5 support will be dropped
+            $logo = $message->embed(\Swift_Image::fromPath(GeneralUtility::getFileAbsFileName($this->luxLogoPath)));
+            $message
+                ->setTo(EmailUtility::extendEmailReceiverArray($emails))
+                ->setFrom($this->getSender())
+                ->setSubject($this->getSubject())
+                ->setBody($this->getMailTemplate(['luxLogo' => $logo]), 'text/html');
+        }
         $message->send();
         return $message->isSent();
     }
