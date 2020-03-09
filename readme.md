@@ -51,7 +51,7 @@ Ask for the visitors email-address when he/she wants to download an asset:\
 * [done] TYPO3 10 general support
 * [done] Update TypoScript conditions
 * [done] Update CommandControllers
-* Update MailMessage for TYPO3 9 and 10
+* [done] Update MailMessage for TYPO3 9 and 10
 * [done] Replace cookieID with fingerprinting
 * [done] Replace functional cookies with local storage records
 * [done] Add some dashboard widgets
