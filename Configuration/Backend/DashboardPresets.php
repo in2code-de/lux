@@ -1,6 +1,6 @@
 <?php
 return [
-    'custom' => [
+    'lux' => [
         'title' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.preset.lux.title',
         'description' =>
             'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.preset.lux.description',
