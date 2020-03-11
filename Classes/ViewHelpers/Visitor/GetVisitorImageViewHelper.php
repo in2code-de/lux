@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace In2code\Lux\ViewHelpers\Visitor;
 
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -44,6 +45,7 @@ class GetVisitorImageViewHelper extends AbstractViewHelper
         $url = '';
         $url = $this->getImageUrlFromFrontenduser($url);
         $url = $this->getImageUrlFromGravatar($url);
+        $url = $this->getImageFromGoogle($url);
         $url = $this->getDefaultUrl($url);
         return $url;
     }
@@ -83,6 +85,25 @@ class GetVisitorImageViewHelper extends AbstractViewHelper
             $header = GeneralUtility::getUrl($gravatarUrl, 2);
             if (!empty($header)) {
                 $url = $gravatarUrl;
+            }
+        }
+        return $url;
+    }
+
+    /**
+     * @param string $url
+     * @return string
+     */
+    protected function getImageFromGoogle(string $url): string
+    {
+        if (empty($url) && $this->getVisitor()->isIdentified()
+            && class_exists(\Buchin\GoogleImageGrabber\GoogleImageGrabber::class)) {
+            $images = \Buchin\GoogleImageGrabber\GoogleImageGrabber::grab($this->getVisitor()->getEmail());
+            foreach ((array)$images as $image) {
+                if (!empty($image['url']) && FileUtility::isImageFile($image['url'])) {
+                    $url = $image['url'];
+                    break;
+                }
             }
         }
         return $url;

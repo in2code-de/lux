@@ -243,3 +243,13 @@ label {
     font-size: 16px;
   }
 }
+.lux {
+
+  // Make round images from landscape and portrait images
+  .img-circle {
+    object-fit: cover;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+  }
+}

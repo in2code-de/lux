@@ -21,7 +21,8 @@
     "ext-json": "*",
     "typo3/cms-core": ">=9.5.0 <11.0.0",
     "symfony/expression-language": "*",
-    "whichbrowser/parser": "*"
+    "whichbrowser/parser": "*",
+    "buchin/google-image-grabber": "*"
   },
   "replace": {
     "typo3-ter/lux": "self.version"
