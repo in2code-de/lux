@@ -55,7 +55,7 @@ Ask for the visitors email-address when he/she wants to download an asset:\
 * [done] Replace cookieID with fingerprinting
 * [done] Replace functional cookies with local storage records
 * [done] Add some dashboard widgets
-* Allow identification of luxletter with fingerprints
+* [done] Allow identification of luxletter with fingerprints
 * [done] Performance
 * Update documentation with new stuff
 
