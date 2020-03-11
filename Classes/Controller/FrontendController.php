@@ -2,18 +2,24 @@
 declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
+use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Factory\VisitorFactory;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Service\SendAssetEmail4LinkService;
 use In2code\Lux\Domain\Tracker\AttributeTracker;
 use In2code\Lux\Domain\Tracker\DownloadTracker;
-use In2code\Lux\Domain\Tracker\FrontenduserAttributeTracker;
+use In2code\Lux\Domain\Tracker\FrontenduserAuthenticationTracker;
+use In2code\Lux\Domain\Tracker\LuxletterlinkAttributeTracker;
 use In2code\Lux\Domain\Tracker\PageTracker;
 use In2code\Lux\Exception\ActionNotAllowedException;
+use In2code\Lux\Exception\EmailValidationException;
 use In2code\Lux\Signal\SignalTrait;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
+use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
+use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
 use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
 
@@ -71,8 +77,7 @@ class FrontendController extends ActionController
         try {
             $visitorFactory = $this->objectManager->get(VisitorFactory::class, $fingerprint, $arguments['referrer']);
             $visitor = $visitorFactory->getVisitor();
-            $userAttributeTracker = $this->objectManager->get(FrontenduserAttributeTracker::class, $visitor);
-            $userAttributeTracker->trackByFrontenduserAuthentication();
+            $this->callAdditionalTrackers($visitor);
             $pageTracker = $this->objectManager->get(PageTracker::class);
             $pageTracker->trackPage($visitor, (int)$arguments['pageUid']);
             return json_encode($this->afterAction($visitor));
@@ -181,6 +186,33 @@ class FrontendController extends ActionController
      */
     public function trackingOptOutAction(): void
     {
+    }
+
+    /**
+     * Track visitors with
+     * - frontendlogin or from a
+     * - luxletter-link
+     *
+     * @param Visitor $visitor
+     * @return void
+     * @throws InvalidSlotException
+     * @throws InvalidSlotReturnException
+     * @throws DBALException
+     * @throws EmailValidationException
+     * @throws Exception
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    protected function callAdditionalTrackers(Visitor $visitor): void
+    {
+        $authenticationTracker = $this->objectManager->get(FrontenduserAuthenticationTracker::class, $visitor);
+        $authenticationTracker->trackByFrontenduserAuthentication();
+        $luxletterTracker = $this->objectManager->get(
+            LuxletterlinkAttributeTracker::class,
+            $visitor,
+            AttributeTracker::CONTEXT_LUXLETTERLINK
+        );
+        $luxletterTracker->trackFromLuxletterLink();
     }
 
     /**
