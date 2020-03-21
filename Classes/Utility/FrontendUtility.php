@@ -55,32 +55,25 @@ class FrontendUtility
     }
 
     /**
-     * @return string
+     * Get module name from GET param in backend context.
+     * While TYPO3 9 delivers "/lux/LuxAnalysis/",
+     * in 10 "/module/lux/LuxAnalysis" is delivered
+     *
+     * @return string - e.g. "Analysis"
      */
     public static function getModuleName(): string
     {
         $module = '';
         $route = GeneralUtility::_GP('route');
         if (!empty($route)) {
-            $module = rtrim(ltrim($route, '/lux/Lux'), '/');
-        }
-        if (ConfigurationUtility::isTypo3OlderThen9() === true) {
-            $module = self::getModuleNameLegacy();
-        }
-        return $module;
-    }
-
-    /**
-     * Get module name in TYPO3 8.7
-     *
-     * @return string
-     */
-    protected static function getModuleNameLegacy(): string
-    {
-        $module = '';
-        $moduleName = GeneralUtility::_GP('M');
-        if (!empty($moduleName)) {
-            $module = ltrim($moduleName, 'lux_Lux');
+            if (ConfigurationUtility::isVersionToCompareSameOrLowerThenCurrentTypo3Version('10.0.0')) {
+                // TYPO3 10.x
+                $routParts = explode('/', $route);
+                $module = ltrim(end($routParts), 'Lux');
+            } else {
+                // Todo: TYPO3 9.5.x
+                $module = rtrim(ltrim($route, '/lux/Lux'), '/');
+            }
         }
         return $module;
     }

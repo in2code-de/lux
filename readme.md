@@ -7,8 +7,13 @@
 LUX is an enterprise software solution to fill the gap between your TYPO3-website and a standalone marketing automation
 tool. LUX will track, identify, analyse your leads and give the visitors some improved user experience for your website
 like showing relevant information at the right time.
+LUX will not set any cookies.
 
 ## Screenshots
+
+TYPO3 dashboard (for TYPO3 10 with package "typo3/cms-dashboard"):\
+\
+![Example dashboard of TYPO3 10](Documentation/Images/screenshot_typo3dashboard.png "TYPO3 Dashboard")
 
 Example dashboard overview:\
 \
@@ -42,6 +47,15 @@ Ask for the visitors email-address when he/she wants to download an asset:\
 \
 ![Email for Link with CKEditor](Documentation/Images/screenshot_email4link_ckeditor_plugin.png "with CKeditor")
 
+## What's new in 7.0.0?
+
+* TYPO3 10 general support (with new TypoScript conditions, symfony Commands, MailMessage class for 9 and 10)
+* Replace cookieID with fingerprinting method (no more cookies for identification) - multi domain and platform identification
+* Replace functional cookies with local storage records (no more functional cookies)
+* Add a lot of dashboard widgets
+* Performance feature
+* Update documentation with new stuff
+
 ## Documentation
 
 See the full [documentation](Documentation/Index.md) (technical, marketing and privacy)
@@ -50,120 +64,130 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 
 ### Extensions for lux
 
-- luxenterprise for individual workflows: https://www.in2code.de/produkte/lux-typo3-marketing-automation/
-- luxletter for email marketing aspects: https://github.com/in2code-de/luxletter
+* luxenterprise for individual workflows: https://www.in2code.de/produkte/lux-typo3-marketing-automation/
+* luxletter for email marketing aspects: https://github.com/in2code-de/luxletter
 
 ### Tracking
 
-- Page views
-- Number of website visits
-- Pagefunnel
-- First and last visit
-- Store attributes from any form on the website
-- Enrich information via IP: Country, Region, Company
-- Track any asset download
+* Page views
+* Number of website visits
+* Pagefunnel
+* First and last visit
+* Store attributes from any form on the website
+* Enrich information via IP: Country, Region, Company
+* Track any asset download
 
 ### Identification
 
-- Identify a lead with any webform email field
-- Identify a lead while listening to complete form submits
-- Offer via CkEditor plugin a email4link popup (give me your email and we are going to send you the asset via email)
-- Identify a lead via click in a newsletter email sent by [Extension luxletter](https://github.com/in2code-de/luxletter)
-- Identify a lead automatically via frontend login
-- Automaticly merge cookie-ids on second identification (if cookie was removed)
-- Multi-Domain and Multi-Device tracking
+* Identify a lead with any webform email field
+* Identify a lead while listening to complete form submits
+* Offer via CkEditor plugin a email4link popup (give me your email and we are going to send you the asset via email)
+* Identify a lead via click in a newsletter email sent by [Extension luxletter](https://github.com/in2code-de/luxletter)
+* Identify a lead automatically via frontend login
+* Automatically merge legacy cookie-ids or different fingerprints on new identifications
+* Multi-Domain, Multi-Device and Multi-Platorm tracking
 
 ### Analyses
 
-- Last leads per page
-- Dashboard (most important information)
-- Listview
-- Detailview with pagefunnel and activity-log
-- Show pageviews
-- Show asset downloads
+* TYPO3 Dashboard supported
+* Last leads per page
+* Dashboard (most important information)
+* Listview
+* Detailview with pagefunnel and activity-log
+* Show pageviews
+* Show asset downloads
 
 ### Scoring
 
-- General scoring (with individual calculation)
-- Category Scoring
-- Contextual content (based on category scoring)
+* General scoring (with individual calculation)
+* Category Scoring
+* Contextual content (based on category scoring)
 
 ### Workflow & User Experience (Enterprise version only)
 
-- Workflow backend module with a GUI and easy extension possibility
-- Triggers:
--- On page visit (define on which number of pagevisit)
--- On a minimum scoring
--- When lead reaches a categoryscoring
--- When lead enters a page of a given category
--- If in a time frame
--- If a lead gets identified
--- If lead company given
--- Use your own expressions for doing even mor individual stuff (with Symfony Expression Language)
--- Limit to a start action (page visit, download, form submit, etc...)
-- Actions:
--- Lightbox with a content element
--- Load a content element and show it on the current page
--- Hide or show an element of the current page
--- Send an email with lead details
--- Redirect to any URL
--- Send publication to a slack channel
--- Send lead to your CRM via interface connection
--- Blacklist a visitor
+* Workflow backend module with a GUI and easy extension possibility
+* Triggers:
+  * On page visit (define on which number of pagevisit)
+  * On a minimum scoring
+  * When lead reaches a categoryscoring
+  * When lead enters a page of a given category
+  * If in a time frame
+  * If a lead gets identified
+  * If lead company given
+  * Use your own expressions for doing even mor individual stuff (with Symfony Expression Language)
+  * Limit to a start action (page visit, download, form submit, etc...)
+* Actions:
+  * Lightbox with a content element
+  * Load a content element and show it on the current page
+  * Hide or show an element of the current page
+  * Send an email with lead details
+  * Redirect to any URL
+  * Send publication to a slack channel
+  * Send lead to your CRM via interface connection
+  * Blacklist a visitor
 
 ### CommandControllers & Scheduler
 
-- Anonymize leads (for presentations or local development)
-- Cleanup commands (to really erase data)
-- Lead commands to get a summary mail with last activities
-- Service commands (calculate scoring for all leads)
-- Update command after updating from lux 1.x or 2.x to the 3.x version
+* Anonymize leads (for presentations or local development)
+* Cleanup commands (to really erase data from database)
+  * Remove all visitors
+  * Remove all visitors by age
+  * Remove unknown visitors by age
+  * Remove a defined visitor by uid
+  * Remove visitors by a given property
+* Lead commands to get a summary mail for your sales team
+  * Send an overall summary
+  * Send a summary mail with known companies
+  * Send a summary mail by a lux category
+* Service commands (calculate scoring for all leads)
 
 ### Privacy Features
 
-- There is a plugin which allows the visitor to opt-out from tracking
-- It's also possible to use opt-in instead of opt-out
-- The doNotTrack header of the browser will be respected (no change to overrule this!)
-- Toogle IP anonymize function
-- Toggle IP information enrichment over ipapi.com
-- Toggle Tracking of Pagevisits
-- Toggle Tracking of Downloads
-- Toggle Field identification of any form
-- Toogle Email4link functionality
-- CommandController to anonymize records (for developing or for a presentation)
-- Blacklist functionality
-- Workflow blacklist action
+* There is a plugin which allows the visitor to opt-out from tracking
+* It's also possible to use opt-in instead of opt-out
+* The doNotTrack header of the browser will be respected (hardcoded - no change to overrule this!)
+* Toogle IP anonymize function
+* Toggle IP information enrichment over ipapi.com
+* Toggle Tracking of Pagevisits
+* Toggle Tracking of Downloads
+* Toggle Field identification of any form
+* Toogle Email4link functionality
+* CommandController to anonymize records (for developing or for a presentation)
+* Blacklist functionality
+* Workflow blacklist action
 
 ### Upcoming todos
 
-- Channel detection with individual GET-params like &lc=emailsignature or &lc=googleadscampaign1
-- Crawler detection e.g. jaybizzle/crawler-detect in StopTracking.php
+* Channel detection with individual GET-params like &lc=emailsignature or &lc=googleadscampaign1
+* Crawler detection e.g. jaybizzle/crawler-detect in StopTracking.php
 
 ### Possible Enterprise Features in the future
 
-- Todo: Contacts (Import?)
-- Todo: API (Im- and Export)
-- Todo: A/B Tests
-- Todo: SocialMedia Connection (Twitter)
+* Todo: Contacts (Import?)
+* Todo: API (Im- and Export)
+* Todo: A/B Tests
+* Todo: SocialMedia Connection (Twitter)
 
 Interested? Call us!
 
 ## Technical requirements
 
-lux needs minimum *TYPO3 8.7* as a modern basic together with *composer mode*. Every kind of form extension is supported
+lux needs minimum *TYPO3 9.5* as a modern basic together with *composer mode*. Every kind of form extension is supported
 for the identification feature (powermail, form, formhandler, felogin, etc...).
 At the moment it's not possible to use lux without **composer mode**!
 
 ## Breaking changes !!!
 
-| Version                     | Situation                                           | Upgrade instructions                                                                                                                                               |
-| --------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| From former versions to 3.x | The visitor object can handle more cookies now      | After updating use the update button in extension manager of if you have a lot of data stored, you can also use the LuxUpdateCommandController to prevent timeouts |
+| Version                     | Situation                                           | Upgrade instructions                                                                                                                                                                      |
+| --------------------------- | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| From former versions to 7.x | Cookie-Table was replaced with a Fingerprint-Table  | Call your TYPO3 upgrade wizard. There will be one more step that will copy values from _idcookie to _fingerprint table. Note that CommandControllers are replaced by Symfony Commands!    |
+| From former versions to 3.x | The visitor object can handle more cookies now      | After updating use the update button in extension manager of if you have a lot of data stored, you can also use the LuxUpdateCommandController to prevent timeouts                        |
 
 ## Changelog
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 7.0.0 !!!  | 2020-03-30 | Task       | Support TYPO3 10 and new dashboard module. Don't set cookies any more. Recognize visitors by fingerprinting now. Performance update.                                                       |
 | 6.3.0      | 2019-09-14 | Task       | Small update of the telecommunication provider list                                                                                                                                        |
 | 6.2.0      | 2019-08-27 | Feature    | Updated disallowed mail provider list and updated telecommunication provider list                                                                                                          |
 | 6.1.0      | 2019-08-14 | Feature    | Stop tracking of google bots before records get persisted, add some new signals, small cleanup                                                                                             |
@@ -174,7 +198,7 @@ At the moment it's not possible to use lux without **composer mode**!
 | 4.1.1      | 2019-07-13 | Bugfix     | Bugfix for PHP 7.3 - Fluid errors in backend modules                                                                                                                                       |
 | 4.1.0      | 2019-07-07 | Task       | Toggle ckeditor configuration, don't add if ckeditor is not installed, fix typo                                                                                                            |
 | 4.0.0      | 2019-06-14 | Task       | Include concept of finishers, don't ask again if identified with email4download                                                                                                            |
-| 3.0.0      | 2019-06-10 | Task       | Multi device tracking, form listening, show browser and os information of leads                                                                                                            |
+| 3.0.0 !!!  | 2019-06-10 | Task       | Multi device tracking, form listening, show browser and os information of leads                                                                                                            |
 | 2.5.0      | 2019-06-04 | Task       | Some preperations for luxenterprise                                                                                                                                                        |
 | 2.4.0      | 2019-06-03 | Feature    | Replace eos with expression-language, Add url f. workflows, doc update, php cleanup                                                                                                        |
 | 2.3.1      | 2019-05-20 | Bugfix     | Show correct last visited date in lead list in backend                                                                                                                                     |

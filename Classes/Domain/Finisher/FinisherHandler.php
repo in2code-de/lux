@@ -3,7 +3,10 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Finisher;
 
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Exception\ClassDoesNotExistException;
+use In2code\Lux\Exception\InterfaceIsMissingException;
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
  * Class FinisherHandler
@@ -15,6 +18,9 @@ class FinisherHandler
      * @param string $controllerAction
      * @param array $actions
      * @return array
+     * @throws ClassDoesNotExistException
+     * @throws Exception
+     * @throws InterfaceIsMissingException
      */
     public function startFinisher(Visitor $visitor, string $controllerAction, array $actions): array
     {
@@ -34,6 +40,9 @@ class FinisherHandler
 
     /**
      * @return array
+     * @throws ClassDoesNotExistException
+     * @throws InterfaceIsMissingException
+     * @throws Exception
      */
     protected function getFinisherClassConfiguration(): array
     {
@@ -42,13 +51,13 @@ class FinisherHandler
         $settings = $configurationService->getTypoScriptSettings();
         foreach ((array)$settings['finisher'] as $fConfiguration) {
             if (!class_exists($fConfiguration['class'])) {
-                throw new \UnexpectedValueException(
+                throw new ClassDoesNotExistException(
                     'Finisher class ' . $fConfiguration['class'] . ' does not exists, can not be loaded',
                     1560510775
                 );
             }
             if (is_subclass_of($fConfiguration['class'], FinisherInterface::class) === false) {
-                throw new \UnexpectedValueException(
+                throw new InterfaceIsMissingException(
                     'Finisher class ' . $fConfiguration['class'] . ' does not implement ' . FinisherInterface::class,
                     1560510886
                 );

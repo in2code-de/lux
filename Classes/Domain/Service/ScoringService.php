@@ -7,11 +7,13 @@ use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\DownloadRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Exception\ClassDoesNotExistException;
 use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
@@ -39,11 +41,12 @@ class ScoringService
      * @param \DateTime|null $time Set a time if you want to calculate a scoring from the past
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
+     * @throws ClassDoesNotExistException
      */
     public function __construct(\DateTime $time = null)
     {
         if (!class_exists(ExpressionLanguage::class)) {
-            throw new \BadFunctionCallException(
+            throw new ClassDoesNotExistException(
                 'ExpressionLanguage class not found. Composer package symfony/expression-language probably not loaded.',
                 1559499211
             );
@@ -60,6 +63,7 @@ class ScoringService
      * @throws InvalidQueryException
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      */
     public function calculateAndSetScoring(Visitor $visitor)
     {
@@ -100,6 +104,7 @@ class ScoringService
      * @param Visitor $visitor
      * @return int
      * @throws InvalidQueryException
+     * @throws Exception
      */
     protected function getNumberOfSiteVisits(Visitor $visitor): int
     {
@@ -133,6 +138,7 @@ class ScoringService
      * @param Visitor $visitor
      * @return int
      * @throws InvalidQueryException
+     * @throws Exception
      */
     protected function getNumberOfVisits(Visitor $visitor): int
     {
@@ -150,6 +156,7 @@ class ScoringService
      * @param Visitor $visitor
      * @return int
      * @throws InvalidQueryException
+     * @throws Exception
      */
     protected function getNumberOfDaysSinceLastVisit(Visitor $visitor): int
     {
@@ -177,6 +184,7 @@ class ScoringService
      * @param Visitor $visitor
      * @return int
      * @throws InvalidQueryException
+     * @throws Exception
      */
     protected function getNumberOfDownloads(Visitor $visitor): int
     {

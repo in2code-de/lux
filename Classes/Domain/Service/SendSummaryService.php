@@ -2,10 +2,14 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Service;
 
+use In2code\Lux\Exception\ConfigurationException;
+use In2code\Lux\Exception\EmailValidationException;
+use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\EmailUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
@@ -14,7 +18,9 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  */
 class SendSummaryService
 {
-
+    /**
+     * @var string
+     */
     protected $luxLogoPath = 'EXT:lux/Resources/Public/Icons/lux.png';
 
     /**
@@ -31,6 +37,7 @@ class SendSummaryService
      * SendSummaryService constructor.
      *
      * @param QueryResultInterface|array $visitors
+     * @throws Exception
      */
     public function __construct($visitors)
     {
@@ -41,18 +48,31 @@ class SendSummaryService
     /**
      * @param array $emails
      * @return bool
+     * @throws ConfigurationException
+     * @throws EmailValidationException
+     * @throws Exception
      */
     public function send(array $emails): bool
     {
         $this->checkProperties($emails);
-        /** @var MailMessage $message */
         $message = ObjectUtility::getObjectManager()->get(MailMessage::class);
-        $logo = $message->embed(\Swift_Image::fromPath(GeneralUtility::getFileAbsFileName($this->luxLogoPath)));
-        $message
-            ->setTo(EmailUtility::extendEmailReceiverArray($emails))
-            ->setFrom($this->getSender())
-            ->setSubject($this->getSubject())
-            ->setBody($this->getMailTemplate(['luxLogo' => $logo]), 'text/html');
+        if (ConfigurationUtility::isVersionToCompareSameOrLowerThenCurrentTypo3Version('10.0.0')) {
+            // TYPO3 10
+            $message->embedFromPath(GeneralUtility::getFileAbsFileName($this->luxLogoPath), 'luxLogo');
+            $message
+                ->setTo(EmailUtility::extendEmailReceiverArray($emails))
+                ->setFrom($this->getSender())
+                ->setSubject($this->getSubject())
+                ->html($this->getMailTemplate());
+        } else {
+            // Todo: Remove when TYPO3 9.5 support will be dropped
+            $logo = $message->embed(\Swift_Image::fromPath(GeneralUtility::getFileAbsFileName($this->luxLogoPath)));
+            $message
+                ->setTo(EmailUtility::extendEmailReceiverArray($emails))
+                ->setFrom($this->getSender())
+                ->setSubject($this->getSubject())
+                ->setBody($this->getMailTemplate(['luxLogo' => $logo]), 'text/html');
+        }
         $message->send();
         return $message->isSent();
     }
@@ -77,6 +97,7 @@ class SendSummaryService
     /**
      * @param array $assignment
      * @return string
+     * @throws Exception
      */
     protected function getMailTemplate(array $assignment = []): string
     {
@@ -95,19 +116,21 @@ class SendSummaryService
     /**
      * @param array $emails
      * @return void
+     * @throws EmailValidationException
+     * @throws ConfigurationException
      */
     protected function checkProperties(array $emails)
     {
         if ($emails === []) {
-            throw new \LogicException('No emails to send given', 1524299754);
+            throw new ConfigurationException('No emails to send given', 1524299754);
         }
         foreach ($emails as $email) {
             if (GeneralUtility::validEmail($email) === false) {
-                throw new \LogicException('Wrong email format given', 1524299869);
+                throw new EmailValidationException('Wrong email format given', 1524299869);
             }
         }
         if (count($this->visitors) === 0) {
-            throw new \LogicException('No leads given to send email to', 1524300114);
+            throw new ConfigurationException('No leads given to send email to', 1524300114);
         }
     }
 }

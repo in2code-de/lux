@@ -6,9 +6,9 @@ This part of the documentation describes how to install lux to your TYPO3 instan
 
 #### 1. Requirements
 
-* TYPO3 8.7 or 9.5
+* TYPO3 9.5 or 10.x
 * TYPO3 must run in **composer mode**
-* PHP 7.x
+* PHP 7.2 or higher
 
 #### 2. Installation via composer
 
@@ -17,20 +17,22 @@ Example composer.json file:
 ```
 {
   "require": {
-    "php": ">=7.0.0 <7.4.0",
-    "typo3/cms": "^8.7",
-    "in2code/lux": "^1.0",
+    "php": ">=7.2.0",
+    "typo3/cms": "^9.5",
+    "in2code/lux": "^7.0",
   }
 }
 ```
 
-Because lux is registered at packagist.org, you can simple do a `composer update in2code/lux` for example to
+Because lux is registered at packagist.org, you can simple do a `composer require in2code/lux` for example to
 install the package. Don't forget to activate (e.g. in the extension manager) the extension once it is installed.
 
 **Note:** You need a github user that has access to the private lux repository for an installation of EXT:luxenterprise.
 
-**Note:** Lux itself will also load the php package [jlawrence/eos](https://packagist.org/packages/jlawrence/eos) for
-some scoring calculation magic.
+**Note:** Lux itself will also load some other php packages: 
+* symfony/expression-language for a calculating magic
+* whichbrowser/parser to show some information about the user agent
+* buchin/google-image-grabber to show an image by email address from google images
 
 #### Extension Manager settings
 

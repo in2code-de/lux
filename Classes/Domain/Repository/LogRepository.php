@@ -60,6 +60,7 @@ class LogRepository extends AbstractRepository
                 ' and crdate >= ' . $dates[0]->format('U') . ' and crdate <= ' . $dates[1]->format('U');
             $result[] = $queryBuilder->executeQuery($query)->fetchAll();
         }
+        $result = array_reverse($result);
         return $result;
     }
 

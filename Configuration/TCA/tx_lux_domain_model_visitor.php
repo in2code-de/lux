@@ -25,7 +25,7 @@ return [
     ],
     'interface' => [
         'showRecordFieldList' =>
-            'scoring,categoryscorings,identified,blacklisted,visits,email,idcookies,crdate,tstamp,attributes,' .
+            'scoring,categoryscorings,identified,blacklisted,visits,email,fingerprints,crdate,tstamp,attributes,' .
             'pagevisits,downloads,referrer,ip_address,ipinformations,logs,description',
     ],
     'types' => [
@@ -53,7 +53,7 @@ return [
             'showitem' => 'blacklisted,visits'
         ],
         'mail' => [
-            'showitem' => 'email,idcookies'
+            'showitem' => 'email,fingerprints'
         ],
         'time' => [
             'showitem' => 'crdate,tstamp'
@@ -222,14 +222,15 @@ return [
                 'readOnly' => true
             ]
         ],
-        'idcookies' => [
+        'fingerprints' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Visitor::TABLE_NAME . '.idcookies',
+            'label' =>
+                'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Visitor::TABLE_NAME . '.fingerprints',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
-                'foreign_table' => \In2code\Lux\Domain\Model\Idcookie::TABLE_NAME,
-                'foreign_table_where' => 'ORDER BY ' . \In2code\Lux\Domain\Model\Idcookie::TABLE_NAME . '.uid DESC',
+                'foreign_table' => \In2code\Lux\Domain\Model\Fingerprint::TABLE_NAME,
+                'foreign_table_where' => 'ORDER BY ' . \In2code\Lux\Domain\Model\Fingerprint::TABLE_NAME . '.uid DESC',
                 'max_size' => 100,
                 'minitems' => 0,
                 'readOnly' => true
