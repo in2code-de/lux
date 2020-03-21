@@ -18,7 +18,7 @@ below.
 
 | Field                     | Description                                                                                                              |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| Searchterm                | Use this fulltext search field for filtering (name, email, company, cookieId, etc...)                                    |
+| Searchterm                | Use this fulltext search field for filtering (name, email, company, fingerprint, etc...)                                 |
 | Page ID                   | Show only leads that visited a page (Table columns change - pagevisits available now)                                    |
 | Scoring                   | Search for leads with a minimum scoring                                                                                  |
 | Category-Scoring          | Show only leads that have a category-scoring of a given category (Table columns change - Categoryscoring will be available) |
@@ -39,7 +39,7 @@ The table will show you your website leads.
 
 | Column                    | Description                                                                                                              |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| Lead identification       | Use this fulltext search field for filtering (name, email, company, cookieId, etc...)                                    |
+| Lead identification       | Use this fulltext search field for filtering (name, email, company, fingerprint, etc...)                                 |
 | Lead scoring              | Show only leads that visited a page (Table rows change - pagevisits available now)                                       |
 | Email                     | Search for leads with a minimum scoring                                                                                  |
 | Company                   | Show only leads that have a category-scoring of a given category (Table rows change - Categoryscoring will be available) |
@@ -129,8 +129,8 @@ You need also to see this information. And this view shows you all collected att
 
 ##### Profiles
 
-Because your lead could use more then just one device, all cookies and devices are listed here with some additional
-information.
+Because your lead could use more then just one device, all fingerprints + legacy cookies and devices are listed here 
+with some additional information.
 
 ##### Interaction Buttons
 

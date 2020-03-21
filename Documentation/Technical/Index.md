@@ -2,7 +2,7 @@
 
 ## Technical documenation
 
-This documentation is the interesting part for administrators and developers and should clearify how lux can be
+This documentation is the interesting part for administrators and developers and should explain how lux can be
 installed, configured and how does it work. In addition we want to give you some hints how to extend lux with your own
 workflow triggers or workflow actions.
 
@@ -21,11 +21,13 @@ are disabled if the visitor is also logged in into backend at the same time (to 
 It's possible for visitors to opt out (with the opt-out plugin) or to use the *do not track* settings in their browser.
 Lux will respect this settings in every case.
 
-Every visitor will get an unique cookie with name `luxId`. This id will be used for tracking and identification.
+Every visitor has an individual fingerprint, based on his hard- and software. This anonymous hash is used to
+recognize the visitor in future visits. This hash will be used for tracking and identification.
 
-Other cookies are:
-* `luxTrackingOptOut` for a tracking opt out
+There are some functional settings - saved to localstorage in browser which are:
 * `luxDisableEmail4Link` to disable email4link popups if a visitor is already identified
+* `luxTrackingOptOut` for a tracking opt out
+* `luxTrackingOptIn` for a tracking opt in (if lux should not track visitors by default - can be switch on via constants)
 
 See more information in the chapters:
 
@@ -37,6 +39,6 @@ See more information in the chapters:
 ### [Workflows](Workflows/Index.md)
 ### [Plugins and Pageoverview](Plugins/Index.md)
 ### [Finisher](Finisher/Index.md)
-### [CommandController](CommandController/Index.md)
+### [Commands & Scheduler Tasks](Commands/Index.md)
 ### [SignalSlots](SignalSlots/Index.md)
 ### [FAQ](FAQ/Index.md)

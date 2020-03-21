@@ -70,3 +70,60 @@ See [CommandController](../CommandController/Index.md) for more information.
 
 If you want to use opt-in instead of opt-out functionality, there is a possibility for this -
 see [Privacy](../../Privacy/Index.md) for more information.
+
+
+#### How to increase performance?
+
+All data is stored on your server. The upside is quite clear in time of GDPR/DSGVO: You don't have to pass data to
+third party companies. The downside could be, that a lot of data is stored within your TYPO3 database.
+There a some possibilities to increase performance.
+
+##### 1. Extract lux data into a different database
+
+In TYPO3 you have the possibility to separate tables into different databases like:
+```
+<?php
+$GLOBALS['TYPO3_CONF_VARS']['DB']['Connections'] = [
+    'Default' => [
+        'charset' => 'utf8',
+        'driver' => 'mysqli',
+        'dbname' => 'typo3',
+        'host' => '127.0.0.1',
+        'user' => 'typo3',
+        'password' => 'anypassword'
+    ],
+    'Lux' => [
+        'charset' => 'utf8',
+        'driver' => 'mysqli',
+        'dbname' => 'typo3lux',
+        'host' => '127.0.0.1',
+        'user' => 'typo3lux',
+        'password' => 'anypassword'
+    ],
+];
+$GLOBALS['TYPO3_CONF_VARS']['DB']['TableMapping'] = [
+      'tx_lux_domain_model_visitor' => 'Lux',
+      'tx_lux_domain_model_fingerprint' => 'Lux',
+      'tx_lux_domain_model_attribute' => 'Lux',
+      'tx_lux_domain_model_pagevisit' => 'Lux',
+      'tx_lux_domain_model_ipinformation' => 'Lux',
+      'tx_lux_domain_model_download' => 'Lux',
+      'tx_lux_domain_model_categoryscoring' => 'Lux',
+      'tx_lux_domain_model_log' => 'Lux'
+];
+```
+
+##### 2. Clean outdated data from time to time
+
+Remove all visitor data that is older then three years:
+
+`./vendor/bin/typo3 lux:cleanupVisitorsByAge 94608000`
+
+Remove only unknown visitors and their data that is older then one year:
+
+`./vendor/bin/typo3 lux:cleanupUnknownVisitorsByAge 31536000`
+
+
+##### 3. Help from in2code
+
+We offer help for users with in2code/luxenterprise. Just call us.
