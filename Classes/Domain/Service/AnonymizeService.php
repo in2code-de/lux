@@ -3,14 +3,12 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Service;
 
 use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Query\QueryBuilder;
 use In2code\Lux\Domain\Model\Attribute;
 use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Domain\Model\Ipinformation;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\StringUtility;
-use TYPO3\CMS\Core\Database\Connection;
 
 /**
  * Class AnonymizeService to really anonymize and overwrite all privacy values (for local development or for a

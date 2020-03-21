@@ -2,7 +2,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Factory;
 
-use Doctrine\Common\Proxy\Exception\UnexpectedValueException;
 use In2code\Lux\Domain\Model\Ipinformation;
 use In2code\Lux\Domain\Repository\IpinformationRepository;
 use In2code\Lux\Exception\ConnectionFailedException;

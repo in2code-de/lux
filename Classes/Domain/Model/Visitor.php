@@ -13,6 +13,7 @@ use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
@@ -165,6 +166,7 @@ class Visitor extends AbstractEntity
      * @param \DateTime $time
      * @return int
      * @throws InvalidQueryException
+     * @throws Exception
      */
     public function getScoringByDate(\DateTime $time): int
     {
@@ -261,6 +263,7 @@ class Visitor extends AbstractEntity
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      */
     public function setCategoryscoringByCategory(int $scoring, Category $category)
     {
@@ -935,6 +938,8 @@ class Visitor extends AbstractEntity
      *
      * @return void
      * @throws DBALException
+     * @throws Exception
+     * @noinspection PhpUnhandledExceptionInspection
      */
     public function setBlacklistedStatus()
     {
@@ -952,11 +957,9 @@ class Visitor extends AbstractEntity
         $this->downloads = null;
         $this->logs = null;
 
-        /** @var VisitorRepository $visitorRepository */
         $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
-        $visitorRepository->removeRelatedTableRowsByVisitorUid($this);
+        $visitorRepository->removeRelatedTableRowsByVisitor($this);
 
-        /** @noinspection PhpUnhandledExceptionInspection */
         $now = new \DateTime();
         $this->setDescription('Blacklisted (' . $now->format('Y-m-d H:i:s') . ')');
         $this->setBlacklisted(true);
@@ -1051,6 +1054,7 @@ class Visitor extends AbstractEntity
 
     /**
      * @return string
+     * @throws Exception
      */
     public function getCompany(): string
     {
@@ -1146,6 +1150,7 @@ class Visitor extends AbstractEntity
 
     /**
      * @return string
+     * @throws Exception
      */
     public function getReadableReferrer(): string
     {
@@ -1174,6 +1179,7 @@ class Visitor extends AbstractEntity
     /**
      * @param string $company
      * @return bool
+     * @throws Exception
      */
     protected function isTelecomProvider(string $company): bool
     {

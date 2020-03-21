@@ -7,10 +7,10 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Class GetPropertyFromPageIdentifierViewHelper
+ * @noinspection PhpUnused
  */
 class GetPropertyFromPageIdentifierViewHelper extends AbstractViewHelper
 {
-
     /**
      * @return void
      */
@@ -27,13 +27,13 @@ class GetPropertyFromPageIdentifierViewHelper extends AbstractViewHelper
     {
         $property = $this->arguments['property'];
         $queryBuilder = DatabaseUtility::getQueryBuilderForTable('pages');
-        $value = $queryBuilder
+        $value = (string)$queryBuilder
             ->select($property)
             ->from('pages')
             ->where('uid=' . (int)$this->arguments['pageIdentifier'])
             ->execute()
             ->fetchColumn(0);
-        if ($value === false) {
+        if ($value === '') {
             $value = $this->arguments['pageIdentifier'];
         }
         return $value;

@@ -6,7 +6,6 @@ use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Utility\DatabaseUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
  * Class FingerprintRepository

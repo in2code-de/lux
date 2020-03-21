@@ -30,7 +30,6 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  */
 class LeadController extends ActionController
 {
-
     /**
      * @var VisitorRepository
      */
@@ -128,8 +127,8 @@ class LeadController extends ActionController
      */
     public function removeAction(Visitor $visitor)
     {
-        $this->visitorRepository->removeVisitorByVisitorUid($visitor);
-        $this->visitorRepository->removeRelatedTableRowsByVisitorUid($visitor);
+        $this->visitorRepository->removeVisitor($visitor);
+        $this->visitorRepository->removeRelatedTableRowsByVisitor($visitor);
         $this->addFlashMessage('Visitor completely removed from database');
         $this->redirect('list');
     }
@@ -142,6 +141,7 @@ class LeadController extends ActionController
      * @throws UnknownObjectException
      * @throws UnsupportedRequestTypeException
      * @throws DBALException
+     * @throws Exception
      */
     public function deactivateAction(Visitor $visitor)
     {

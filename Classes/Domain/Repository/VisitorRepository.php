@@ -1,6 +1,4 @@
 <?php
-/** @noinspection SqlNoDataSourceInspection */
-/** @noinspection SqlDialectInspection */
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
@@ -103,6 +101,7 @@ class VisitorRepository extends AbstractRepository
      * @param FilterDto $filter
      * @return array
      * @throws InvalidQueryException
+     * @throws Exception
      */
     public function findAllWithKnownCompanies(FilterDto $filter): array
     {
@@ -326,7 +325,7 @@ class VisitorRepository extends AbstractRepository
      * @return void
      * @throws DBALException
      */
-    public function removeVisitorByVisitorUid(Visitor $visitor)
+    public function removeVisitor(Visitor $visitor): void
     {
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
         $connection->query('delete from ' . Visitor::TABLE_NAME . ' where uid=' . (int)$visitor->getUid());
@@ -337,7 +336,7 @@ class VisitorRepository extends AbstractRepository
      * @return void
      * @throws DBALException
      */
-    public function removeRelatedTableRowsByVisitorUid(Visitor $visitor)
+    public function removeRelatedTableRowsByVisitor(Visitor $visitor): void
     {
         $connection = DatabaseUtility::getConnectionForTable(Fingerprint::TABLE_NAME);
         foreach ($visitor->getFingerprints() as $fingerprint) {

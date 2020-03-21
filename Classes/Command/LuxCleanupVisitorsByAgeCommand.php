@@ -49,8 +49,8 @@ class LuxCleanupVisitorsByAgeCommand extends Command
         $visitors = $visitorRepository->findByLastChange((int)$input->getArgument('timestamp'));
         /** @var Visitor $visitor */
         foreach ($visitors as $visitor) {
-            $visitorRepository->removeRelatedTableRowsByVisitorUid($visitor);
-            $visitorRepository->removeVisitorByVisitorUid($visitor);
+            $visitorRepository->removeRelatedTableRowsByVisitor($visitor);
+            $visitorRepository->removeVisitor($visitor);
         }
         $output->writeln(count($visitors) . ' successfully removed');
         return 0;

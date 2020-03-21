@@ -4,7 +4,6 @@ namespace In2code\Lux\Widgets;
 
 use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Repository\LogRepository;
-use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Dashboard\Widgets\AbstractBarChartWidget;

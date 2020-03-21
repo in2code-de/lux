@@ -7,10 +7,10 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Class GetContentHeaderFromContentUidViewHelper
+ * @noinspection PhpUnused
  */
 class GetContentHeaderFromContentUidViewHelper extends AbstractViewHelper
 {
-
     /**
      * @return void
      */
@@ -24,17 +24,12 @@ class GetContentHeaderFromContentUidViewHelper extends AbstractViewHelper
      */
     public function render(): string
     {
-        /** @var  $queryBuilder */
         $queryBuilder = DatabaseUtility::getQueryBuilderForTable('tt_content');
-        $header = $queryBuilder
+        return (string)$queryBuilder
             ->select('header')
             ->from('tt_content')
             ->where('uid=' . (int)$this->arguments['uid'])
             ->execute()
             ->fetchColumn(0);
-        if ($header !== false) {
-            return $header;
-        }
-        return '';
     }
 }

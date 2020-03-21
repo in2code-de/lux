@@ -2,11 +2,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Widgets;
 
-use In2code\Lux\Domain\Model\Page;
-use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Repository\DownloadRepository;
-use In2code\Lux\Domain\Repository\PageRepository;
-use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Dashboard\Widgets\AbstractBarChartWidget;
