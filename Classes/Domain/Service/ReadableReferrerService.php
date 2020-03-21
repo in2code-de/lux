@@ -19,7 +19,9 @@ class ReadableReferrerService
      * @var array
      */
     protected $sources = [
-        't.co' => 'Twitter'
+        't.co' => 'Twitter',
+        'www.google.com' => 'Google International',
+        'www.google.de' => 'Google Germany'
     ];
 
     /**

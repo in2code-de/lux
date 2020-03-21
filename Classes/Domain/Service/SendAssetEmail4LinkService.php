@@ -4,12 +4,14 @@ namespace In2code\Lux\Domain\Service;
 
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Signal\SignalTrait;
+use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use In2code\Lux\Utility\UrlUtility;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
 use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
 use TYPO3\CMS\Fluid\View\StandaloneView;
@@ -35,6 +37,7 @@ class SendAssetEmail4LinkService
      * SendAssetEmail4LinkService constructor.
      *
      * @param Visitor $visitor
+     * @throws Exception
      */
     public function __construct(Visitor $visitor)
     {
@@ -47,6 +50,7 @@ class SendAssetEmail4LinkService
      * @return void
      * @throws InvalidSlotException
      * @throws InvalidSlotReturnException
+     * @throws Exception
      */
     public function sendMail(string $href)
     {
@@ -65,18 +69,30 @@ class SendAssetEmail4LinkService
      * @return void
      * @throws InvalidSlotException
      * @throws InvalidSlotReturnException
+     * @throws Exception
      */
     protected function send(string $href)
     {
         $message = ObjectUtility::getObjectManager()->get(MailMessage::class);
-        $message
-            ->setTo([$this->visitor->getEmail() => 'Receiver'])
-            ->setFrom($this->getSender())
-            ->setSubject($this->getSubject())
-            ->attach(
-                \Swift_Attachment::fromPath(GeneralUtility::getFileAbsFileName(UrlUtility::convertToRelative($href)))
-            )
-            ->setBody($this->getMailTemplate($href), 'text/html');
+        if (ConfigurationUtility::isVersionToCompareSameOrLowerThenCurrentTypo3Version('10.0.0')) {
+            // TYPO3 10
+            $message
+                ->setTo([$this->visitor->getEmail() => 'Receiver'])
+                ->setFrom($this->getSender())
+                ->setSubject($this->getSubject())
+                ->attachFromPath(GeneralUtility::getFileAbsFileName(UrlUtility::convertToRelative($href)))
+                ->html($this->getMailTemplate($href));
+        } else {
+            // Todo: Remove when TYPO3 9.5 support will be dropped
+            $message
+                ->setTo([$this->visitor->getEmail() => 'Receiver'])
+                ->setFrom($this->getSender())
+                ->setSubject($this->getSubject())
+                ->attach(
+                    \Swift_Attachment::fromPath(GeneralUtility::getFileAbsFileName(UrlUtility::convertToRelative($href)))
+                )
+                ->setBody($this->getMailTemplate($href), 'text/html');
+        }
         $this->signalDispatch(__CLASS__, 'send', [$message, $this->visitor, $href]);
         $message->send();
     }
@@ -84,6 +100,7 @@ class SendAssetEmail4LinkService
     /**
      * @param string $href
      * @return string
+     * @throws Exception
      */
     protected function getMailTemplate(string $href): string
     {
@@ -119,6 +136,7 @@ class SendAssetEmail4LinkService
     /**
      * @param string $href
      * @return bool
+     * @throws Exception
      */
     protected function isActivatedAndAllowed(string $href): bool
     {
@@ -159,6 +177,7 @@ class SendAssetEmail4LinkService
     /**
      * @param string $href
      * @return bool
+     * @throws Exception
      */
     protected function isAllowedStorage(string $href): bool
     {

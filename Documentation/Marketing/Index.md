@@ -24,7 +24,8 @@ simplifies the work with marketing automation tools in general.
 | Workflow Action           | An action will be executed if a trigger fits. A known action could be to open a lightbox for the visitor. |
 | Identified Lead           | An identified lead means, that we know his/her email address.                                          |
 | Lead identification       | This is a virtual field of the lead and is used in the lead backend module and on some other places of Lux. Depending on the information that we have, we show the email or the first- and lastname or simply "Anonymous" if the lead is still not identified. |
-| Cookie                    | A cookie is an individual value that is saved in the visitors browser.                                 |
+| Cookie                    | A cookie is an individual value that is saved in the visitors browser. Since 7.0.0 lux will not use cookies any more. |
+| Fingerprinting            | We can recognize visitors by their complete hard- and software usage - a values build from all this settings is an unique fingerprint. This is an anonymized hash that allows lux to recognize the visitor by further visits in the future. |
 | DoNotTrack                | Browser support a *DoNotTrack* setting. This setting must be turned on from the user (it is not a default setting of the browser). If lux recognize this setting, all tracking functions are disabled. We will respect this privacy setting! |
 | Slack                     | Slack is a chat platform. Mainly used for team-communication and loved by developers. There is a *Publish to a slack channel* workflow action available in Lux. |
 

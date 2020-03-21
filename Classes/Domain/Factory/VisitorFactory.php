@@ -2,17 +2,20 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Factory;
 
-use In2code\Lux\Domain\Model\Idcookie;
+use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\ConfigurationUtility;
+use In2code\Lux\Utility\CookieUtility;
 use In2code\Lux\Utility\IpUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
+use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
 use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
 
@@ -26,7 +29,7 @@ class VisitorFactory
     /**
      * @var string
      */
-    protected $idcookie = null;
+    protected $fingerprint = null;
 
     /**
      * @var string
@@ -41,17 +44,18 @@ class VisitorFactory
     /**
      * VisitorFactory constructor.
      *
-     * @param string $idCookie
+     * @param string $fingerprint
      * @param string $referrer
      * @throws InvalidSlotException
      * @throws InvalidSlotReturnException
+     * @throws Exception
      */
-    public function __construct(string $idCookie, string $referrer = '')
+    public function __construct(string $fingerprint, string $referrer = '')
     {
-        $this->idcookie = GeneralUtility::makeInstance(Idcookie::class)->setValue($idCookie);
+        $this->fingerprint = GeneralUtility::makeInstance(Fingerprint::class)->setValue($fingerprint);
         $this->referrer = $referrer;
         $this->visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
-        $this->signalDispatch(__CLASS__, 'stopAnyProcessBeforePersistence', [$this->idcookie, $this->referrer]);
+        $this->signalDispatch(__CLASS__, 'stopAnyProcessBeforePersistence', [$this->fingerprint, $this->referrer]);
     }
 
     /**
@@ -61,26 +65,56 @@ class VisitorFactory
      * @throws IllegalObjectTypeException
      * @throws InvalidSlotException
      * @throws InvalidSlotReturnException
+     * @throws Exception
+     * @throws UnknownObjectException
      */
     public function getVisitor(): Visitor
     {
-        $visitor = $this->getVisitorFromDatabase();
-        $this->signalDispatch(__CLASS__, __FUNCTION__ . 'beforeCreateNew', [$this->idcookie, $this->referrer]);
+        $visitor = $this->getVisitorFromDatabaseByFingerprint();
+        $this->signalDispatch(__CLASS__, __FUNCTION__ . 'beforeCreateNew', [$this->fingerprint, $this->referrer]);
         if ($visitor === null) {
             $visitor = $this->createNewVisitor();
             $this->visitorRepository->add($visitor);
             $this->visitorRepository->persistAll();
         }
-        $this->signalDispatch(__CLASS__, __FUNCTION__, [$this->idcookie, $this->referrer]);
+        $this->signalDispatch(__CLASS__, __FUNCTION__, [$this->fingerprint, $this->referrer]);
+        return $visitor;
+    }
+
+    /**
+     * Check if there is a visitor already stored in database by given fingerprint. Also legacy luxId-cookie will be
+     * respected, to not loose visitors when changing lux from 6.x to 7.x
+     *
+     * @return Visitor|null
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    protected function getVisitorFromDatabaseByFingerprint(): ?Visitor
+    {
+        $visitor = $this->visitorRepository->findOneAndAlsoBlacklistedByFingerprint($this->fingerprint->getValue());
+        if ($visitor === null && CookieUtility::getLuxId() !== '') {
+            $visitor = $this->getVisitorFromDatabaseByLegacyCookie();
+        }
         return $visitor;
     }
 
     /**
      * @return Visitor|null
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
-    protected function getVisitorFromDatabase()
+    protected function getVisitorFromDatabaseByLegacyCookie(): ?Visitor
     {
-        return $this->visitorRepository->findOneAndAlsoBlacklistedByIdCookie($this->idcookie->getValue());
+        $visitor = $this->visitorRepository->findOneAndAlsoBlacklistedByFingerprint(
+            CookieUtility::getLuxId(),
+            Fingerprint::TYPE_COOKIE
+        );
+        if ($visitor !== null) {
+            $visitor->addFingerprint($this->fingerprint);
+            $this->visitorRepository->update($visitor);
+            $this->visitorRepository->persistAll();
+        }
+        return $visitor;
     }
 
     /**
@@ -90,11 +124,12 @@ class VisitorFactory
      * @throws IllegalObjectTypeException
      * @throws InvalidSlotException
      * @throws InvalidSlotReturnException
+     * @throws Exception
      */
     protected function createNewVisitor(): Visitor
     {
         $visitor = GeneralUtility::makeInstance(Visitor::class);
-        $visitor->addIdcookie($this->idcookie);
+        $visitor->addFingerprint($this->fingerprint);
         $visitor->setReferrer($this->referrer);
         $this->enrichNewVisitorWithIpInformation($visitor);
         $this->signalDispatch(__CLASS__, 'newVisitor', [$visitor]);
@@ -107,6 +142,7 @@ class VisitorFactory
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws IllegalObjectTypeException
+     * @throws Exception
      */
     protected function enrichNewVisitorWithIpInformation(Visitor $visitor)
     {

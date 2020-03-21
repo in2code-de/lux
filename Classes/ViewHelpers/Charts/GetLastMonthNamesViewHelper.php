@@ -34,6 +34,7 @@ class GetLastMonthNamesViewHelper extends AbstractViewHelper
             $month->modify('-' . $i . ' months');
             $monthNames[] = LocalizationUtility::translateByKey('datetime.month.' . $month->format('n'));
         }
+        $monthNames = array_reverse($monthNames);
         return implode(',', $monthNames);
     }
 }

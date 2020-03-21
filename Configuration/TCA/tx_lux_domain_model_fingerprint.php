@@ -1,9 +1,9 @@
 <?php
-use In2code\Lux\Domain\Model\Idcookie;
+use In2code\Lux\Domain\Model\Fingerprint;
 
 return [
     'ctrl' => [
-        'title' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Idcookie::TABLE_NAME,
+        'title' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Fingerprint::TABLE_NAME,
         'label' => 'value',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
@@ -18,19 +18,19 @@ return [
             'starttime' => 'starttime',
             'endtime' => 'endtime',
         ],
-        'iconfile' => 'EXT:lux/Resources/Public/Icons/' . Idcookie::TABLE_NAME . '.svg',
+        'iconfile' => 'EXT:lux/Resources/Public/Icons/' . Fingerprint::TABLE_NAME . '.svg',
         'rootLevel' => -1
     ],
     'interface' => [
-        'showRecordFieldList' => 'value,domain,user_agent',
+        'showRecordFieldList' => 'value,domain,user_agent,type',
     ],
     'types' => [
-        '1' => ['showitem' => 'value,domain,user_agent'],
+        '1' => ['showitem' => 'value,domain,user_agent,type'],
     ],
     'columns' => [
         'value' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Idcookie::TABLE_NAME . '.value',
+            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Fingerprint::TABLE_NAME . '.value',
             'config' => [
                 'type' => 'input',
                 'readOnly' => true
@@ -38,7 +38,7 @@ return [
         ],
         'domain' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Idcookie::TABLE_NAME . '.domain',
+            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Fingerprint::TABLE_NAME . '.domain',
             'config' => [
                 'type' => 'input',
                 'readOnly' => true
@@ -47,11 +47,24 @@ return [
         'user_agent' => [
             'exclude' => true,
             'label' =>
-                'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Idcookie::TABLE_NAME . '.user_agent',
+                'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Fingerprint::TABLE_NAME . '.user_agent',
             'config' => [
                 'type' => 'input',
                 'readOnly' => true
             ]
-        ]
+        ],
+        'type' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Fingerprint::TABLE_NAME . '.type',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'default' => 0,
+                'items' => [
+                    ['Fingerprint', 0],
+                    ['Cookie', 1]
+                ]
+            ]
+        ],
     ]
 ];

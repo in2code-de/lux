@@ -38,6 +38,25 @@ class DatabaseUtility
     }
 
     /**
+     * @param string $tableName
+     * @return bool
+     * @throws DBALException
+     */
+    public static function isTableExisting(string $tableName): bool
+    {
+        $existing = false;
+        $connection = self::getConnectionForTable($tableName);
+        $queryResult = $connection->query('show tables;')->fetchAll();
+        foreach ($queryResult as $tableProperties) {
+            if (in_array($tableName, array_values($tableProperties))) {
+                $existing = true;
+                break;
+            }
+        }
+        return $existing;
+    }
+
+    /**
      * @param string $fieldName
      * @param string $tableName
      * @return bool
@@ -55,5 +74,15 @@ class DatabaseUtility
             }
         }
         return $found;
+    }
+
+    /**
+     * @param string $tableName
+     * @return bool
+     */
+    public static function isTableFilled(string $tableName): bool
+    {
+        $queryBuilder = self::getQueryBuilderForTable($tableName);
+        return (int)$queryBuilder->select('*')->from($tableName)->setMaxResults(1)->execute()->fetch() > 0;
     }
 }

@@ -1,6 +1,6 @@
 plugin.tx_lux.settings {
-    # cat=lux//0010; type=boolean; label= Activate autocookie: Decide if you want to set automaticly a cookie (opt-out feature) or if you want to use the opt-in feature). In last case you have to turn this option off.
-    autocookie = 1
+    # cat=lux//0010; type=boolean; label= Activate autoenable: Decide if you want to register automaticly by fingerprints (opt-out feature or if you want to use the opt-in feature). In last case you have to turn this option off.
+    autoenable = 1
 
     # cat=lux//0020; type=boolean; label= Activate page tracking: (De)Activate tracking of the users pagefunnel.
     tracking.page = 1

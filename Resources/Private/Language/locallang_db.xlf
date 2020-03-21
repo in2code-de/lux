@@ -51,8 +51,8 @@
 			<trans-unit id="tx_lux_domain_model_visitor.tstamp">
 				<source>Last visit</source>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_visitor.idcookies">
-				<source>Lux ID Cookies</source>
+			<trans-unit id="tx_lux_domain_model_visitor.fingerprints">
+				<source>Lux Fingerprints</source>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_visitor.pagevisits">
 				<source>Page visits</source>
@@ -94,16 +94,16 @@
 				<source>Location</source>
 			</trans-unit>
 
-			<trans-unit id="tx_lux_domain_model_idcookie">
+			<trans-unit id="tx_lux_domain_model_fingerprint">
 				<source>Cookie</source>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_idcookie.value">
+			<trans-unit id="tx_lux_domain_model_fingerprint.value">
 				<source>Value</source>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_idcookie.domain">
+			<trans-unit id="tx_lux_domain_model_fingerprint.domain">
 				<source>Domain</source>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_idcookie.user_agent">
+			<trans-unit id="tx_lux_domain_model_fingerprint.user_agent">
 				<source>User agent</source>
 			</trans-unit>
 
@@ -341,6 +341,9 @@
 			<trans-unit id="module.analysis.filter.timePeriod.2">
 				<source>Previous month</source>
 			</trans-unit>
+			<trans-unit id="module.analysis.filter.timePeriod.3">
+				<source>Previous year</source>
+			</trans-unit>
 			<trans-unit id="module.analysis.pagevisits">
 				<source>Latest page visits</source>
 			</trans-unit>
@@ -490,6 +493,12 @@
 			</trans-unit>
 			<trans-unit id="module.analysis.detailpage.profiles.cookie">
 				<source>Cookie</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.profiles.value">
+				<source>Value</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.profiles.type">
+				<source>Type</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.detaildownloads">
 				<source>Downloads</source>
@@ -652,6 +661,121 @@
 			</trans-unit>
 			<trans-unit id="module.workflow.wizard.3">
 				<source>Action</source>
+			</trans-unit>
+
+			<trans-unit id="module.dashboard.preset.lux.title">
+				<source>Lux dashboard</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.preset.lux.description">
+				<source>Show all Lux widgets in an own dashboard</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.group.lux.title">
+				<source>Lux</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxpagevisits.title">
+				<source>Page visits of this year</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxpagevisits.description">
+				<source>Show 6 best visited pages</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxpagevisits.label">
+				<source>Page visits</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxdownloads.title">
+				<source>File downloads of this year</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxdownloads.description">
+				<source>Show 6 best downloaded files</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxdownloads.label">
+				<source>Downloads</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxidentified.title">
+				<source>Identified visitors</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxidentified.description">
+				<source>Show how many visitors are identified and how many are unknown</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxidentified.label">
+				<source>Visitors</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxidentified.label.0">
+				<source>Identified</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxidentified.label.1">
+				<source>Unknown</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxidentified.label.2">
+				<source>All</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxrecurring.title">
+				<source>Recurring visitors</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxrecurring.description">
+				<source>Show how many visitors are new or recurring</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxrecurring.label">
+				<source>Visitors</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxrecurring.label.0">
+				<source>Recurring</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxrecurring.label.1">
+				<source>Single visit</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxidentifiedpermonth.title">
+				<source>Identified visitors per month</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxidentifiedpermonth.description">
+				<source>Show the number of identified leads of the last 6 months</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxidentifiedpermonth.label">
+				<source>Identified</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxpagevisitsweek.title">
+				<source>Pagevisits of the last 7 days</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxpagevisitsweek.description">
+				<source>Show number of pagevisits of the last 7 days</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxpagevisitsweek.label">
+				<source>Visits</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxdownloadsweek.title">
+				<source>Downloads of the last 7 days</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxdownloadsweek.description">
+				<source>Show number of downloads of the last 7 days</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxdownloadsweek.label">
+				<source>Downloads</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.referrer.title">
+				<source>External referrers</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.referrer.description">
+				<source>Show the most used external referrers from your visitors</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.referrer.label">
+				<source>Visitor</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.browser.title">
+				<source>Visitor browsers</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.browser.description">
+				<source>Show browser version of website visitors</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.browser.label">
+				<source>Visitor</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.browser.further">
+				<source>Further</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.hottestleads.title">
+				<source>Hottest leads</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.hottestleads.description">
+				<source>Show hottest leads from Lux</source>
 			</trans-unit>
 
 			<trans-unit id="luxletter.module.newsletter.receiver.title">

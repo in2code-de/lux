@@ -3,13 +3,12 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Service;
 
 use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Query\QueryBuilder;
 use In2code\Lux\Domain\Model\Attribute;
+use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Domain\Model\Ipinformation;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\StringUtility;
-use TYPO3\CMS\Core\Database\Connection;
 
 /**
  * Class AnonymizeService to really anonymize and overwrite all privacy values (for local development or for a
@@ -196,6 +195,7 @@ class AnonymizeService
         $this->anonymizeIdentifiedVisitors();
         $this->anonymizeAttributes();
         $this->anonymizeIpinformation();
+        $this->anonymizeAllFingerprints();
     }
 
     /**
@@ -204,7 +204,6 @@ class AnonymizeService
      */
     protected function anonymizeIdentifiedVisitors()
     {
-        /** @var QueryBuilder $queryBuilder */
         $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Visitor::TABLE_NAME, true);
         $rows = $queryBuilder
             ->select('*')
@@ -215,17 +214,15 @@ class AnonymizeService
         foreach ($rows as $row) {
             $properties = [
                 'email' => $this->getRandomEmail(),
-                'id_cookie' => StringUtility::getRandomString(32, false),
                 'ip_address' => '127.0.0.***',
                 'referrer' => $this->getRandomReferrer(),
                 'description' => $this->getRandomDescription()
             ];
-            /** @var Connection $connection */
             $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
-            $connection->query(
+            $connection->executeQuery(
                 'update ' . Visitor::TABLE_NAME . ' set ' . $this->getUpdateQueryFromProperties($properties)
                 . ' where uid=' . $row['uid']
-            )->execute();
+            );
         }
     }
 
@@ -235,7 +232,6 @@ class AnonymizeService
      */
     protected function anonymizeAttributes()
     {
-        /** @var QueryBuilder $queryBuilder */
         $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Attribute::TABLE_NAME, true);
         $rows = $queryBuilder
             ->select('*')
@@ -259,11 +255,10 @@ class AnonymizeService
             if ($row['value'] === '') {
                 $value = '';
             }
-            /** @var Connection $connection */
             $connection = DatabaseUtility::getConnectionForTable(Attribute::TABLE_NAME);
-            $connection->query(
+            $connection->executeQuery(
                 'update ' . Attribute::TABLE_NAME . ' set value="' . $value . '" where uid=' . $row['uid']
-            )->execute();
+            );
         }
     }
 
@@ -273,7 +268,6 @@ class AnonymizeService
      */
     protected function anonymizeIpinformation()
     {
-        /** @var QueryBuilder $queryBuilder */
         $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Ipinformation::TABLE_NAME, true);
         $rows = $queryBuilder
             ->select('*')
@@ -282,12 +276,21 @@ class AnonymizeService
             ->fetchAll();
         foreach ($rows as $row) {
             $value = $this->getRandomIpinformation($row['name']);
-            /** @var Connection $connection */
             $connection = DatabaseUtility::getConnectionForTable(Ipinformation::TABLE_NAME);
-            $connection->query(
+            $connection->executeQuery(
                 'update ' . Ipinformation::TABLE_NAME . ' set value="' . $value . '" where uid=' . $row['uid']
-            )->execute();
+            );
         }
+    }
+
+    /**
+     * @return void
+     * @throws DBALException
+     */
+    protected function anonymizeAllFingerprints()
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Fingerprint::TABLE_NAME);
+        $connection->executeQuery('update ' . Fingerprint::TABLE_NAME . ' set value="abcrandomvalue12345456";');
     }
 
     /**

@@ -31,18 +31,18 @@ page {
     1518815717 {
         wrap = <script id="lux_container"|></script>
 
-        # Enable lux in Frontend
+        # Enable lux in Frontend (probably disabled if be_user is logged in)
         10 = TEXT
         10 {
             noTrimWrap = | data-lux-enable="|"|
             value = 1
         }
 
-        # Decide if opt-in for cookies should be used
+        # Decide if opt-in for fingerprinting should be used
         15 = TEXT
         15 {
-            noTrimWrap = | data-lux-enableautocookie="|"|
-            value = {$plugin.tx_lux.settings.autocookie}
+            noTrimWrap = | data-lux-autoenable="|"|
+            value = {$plugin.tx_lux.settings.autoenable}
         }
 
         # Uri to send tracking requests to
@@ -131,7 +131,7 @@ page {
 
 
 # Disable analytics in Frontend if Backenduser is logged in (should prevent thousands of page visits while the editor reloads the FE again and again)
-[globalVar = LIT:0 < {$plugin.tx_lux.settings.disableTrackingForBackendUsers}] && [globalVar = TSFE:beUserLogin > 0]
+[{$plugin.tx_lux.settings.disableTrackingForBackendUsers} == 1] && [backend.user.isLoggedIn]
     page.1518815717.10.value = 0
 [end]
 
@@ -174,7 +174,7 @@ luxPageRequestAjax {
 
 
 # Typenum to get field mapping configuration in a dynamic JS file
-[globalVar = LIT:0 < {$plugin.tx_lux.settings.fieldandformidentification}]
+[{$plugin.tx_lux.settings.fieldandformidentification} == 1]
     luxConfigurationFieldIdentification = PAGE
     luxConfigurationFieldIdentification {
         typeNum = 1517985223

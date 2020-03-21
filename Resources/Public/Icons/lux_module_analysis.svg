@@ -1,1 +1,11 @@
-<svg id="lux_Analysis" data-name="lux Analysis" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70.87 70.87"><defs><style>.cls-2{fill:#fff}.cls-3{fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:3px}</style></defs><path fill="#4de7ff" d="M0 0h70.87v70.87H0z"/><path class="cls-3" d="M64.15 61.99H9.99M11.43 13.67v49.69"/><path class="cls-2" d="M11.43 8.04l-5.06 8.77H16.5l-5.07-8.77z"/><path stroke-linecap="round" stroke-width="5" fill="none" stroke="#fff" stroke-miterlimit="10" d="M18.94 51.62l14.25-22.09 7.67 8.67 18.83-15.14"/></svg>
+<svg id="lux_Analysis" data-name="lux Analysis" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70.87 70.87">
+    <defs>
+        <style>
+            .cls-3{fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:3px}
+        </style>
+    </defs>
+    <path fill="#4de7ff" d="M0 0h70.87v70.87H0z"/>
+    <path class="cls-3" d="M64.15 61.99H9.99M11.43 13.67v49.69"/>
+    <path class="cls-2" d="M11.43 8.04l-5.06 8.77H16.5l-5.07-8.77z" fill="#fff"/>
+    <path stroke-linecap="round" stroke-width="5" fill="none" stroke="#fff" stroke-miterlimit="10" d="M18.94 51.62l14.25-22.09 7.67 8.67 18.83-15.14"/>
+</svg>

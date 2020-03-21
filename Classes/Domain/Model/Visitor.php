@@ -13,6 +13,7 @@ use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
@@ -40,15 +41,13 @@ class Visitor extends AbstractEntity
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Categoryscoring>
      * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
-     * @extensionScannerIgnoreLine Still needed for TYPO3 8.7
-     * @lazy
      */
     protected $categoryscorings = null;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Idcookie>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Fingerprint>
      */
-    protected $idcookies = null;
+    protected $fingerprints = null;
 
     /**
      * @var string
@@ -68,8 +67,6 @@ class Visitor extends AbstractEntity
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Pagevisit>
      * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
-     * @extensionScannerIgnoreLine Still needed for TYPO3 8.7
-     * @lazy
      */
     protected $pagevisits = null;
 
@@ -91,24 +88,18 @@ class Visitor extends AbstractEntity
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Ipinformation>
      * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
-     * @extensionScannerIgnoreLine Still needed for TYPO3 8.7
-     * @lazy
      */
     protected $ipinformations = null;
 
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Download>
      * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
-     * @extensionScannerIgnoreLine Still needed for TYPO3 8.7
-     * @lazy
      */
     protected $downloads = null;
 
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Log>
      * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
-     * @extensionScannerIgnoreLine Still needed for TYPO3 8.7
-     * @lazy
      */
     protected $logs = null;
 
@@ -134,9 +125,6 @@ class Visitor extends AbstractEntity
 
     /**
      * @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
-     * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
-     * @extensionScannerIgnoreLine Still needed for TYPO3 8.7
-     * @lazy
      */
     protected $frontenduser = null;
 
@@ -146,7 +134,7 @@ class Visitor extends AbstractEntity
     public function __construct()
     {
         $this->categoryscorings = new ObjectStorage();
-        $this->idcookies = new ObjectStorage();
+        $this->fingerprints = new ObjectStorage();
         $this->pagevisits = new ObjectStorage();
         $this->attributes = new ObjectStorage();
         $this->ipinformations = new ObjectStorage();
@@ -178,6 +166,7 @@ class Visitor extends AbstractEntity
      * @param \DateTime $time
      * @return int
      * @throws InvalidQueryException
+     * @throws Exception
      */
     public function getScoringByDate(\DateTime $time): int
     {
@@ -274,6 +263,7 @@ class Visitor extends AbstractEntity
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      */
     public function setCategoryscoringByCategory(int $scoring, Category $category)
     {
@@ -315,73 +305,73 @@ class Visitor extends AbstractEntity
     /**
      * @return ObjectStorage
      */
-    public function getIdcookies(): ObjectStorage
+    public function getFingerprints(): ?ObjectStorage
     {
-        return $this->idcookies;
+        return $this->fingerprints;
     }
 
     /**
-     * @var ObjectStorage $idcookies
+     * @var ObjectStorage $fingerprints
      * @return Visitor
      */
-    public function setIdcookies(ObjectStorage $idcookies)
+    public function setFingerprints(ObjectStorage $fingerprints)
     {
-        $this->idcookies = $idcookies;
+        $this->fingerprints = $fingerprints;
         return $this;
     }
 
     /**
-     * @param Idcookie $idcookie
+     * @param Fingerprint $fingerprint
      * @return $this
      */
-    public function addIdcookie(Idcookie $idcookie)
+    public function addFingerprint(Fingerprint $fingerprint)
     {
-        $this->idcookies->attach($idcookie);
+        $this->fingerprints->attach($fingerprint);
         return $this;
     }
 
     /**
-     * @param Idcookie $idcookie
+     * @param Fingerprint $fingerprint
      * @return $this
      */
-    public function removeIdcookie(Idcookie $idcookie)
+    public function removeFingerprint(Fingerprint $fingerprint)
     {
-        $this->idcookies->detach($idcookie);
+        $this->fingerprints->detach($fingerprint);
         return $this;
     }
 
     /**
-     * Get related idcookies sorted with the latest first
+     * Get related fingerprints sorted with the latest first
      *
      * @return array
      */
-    public function getIdcookiesSorted(): array
+    public function getFingerprintsSorted(): array
     {
-        $idcookies = $this->getIdcookies()->toArray();
-        return array_reverse($idcookies);
+        $fingerprints = $this->getFingerprints()->toArray();
+        return array_reverse($fingerprints);
     }
 
     /**
-     * @return Idcookie|null
+     * @return Fingerprint|null
      */
-    public function getLatestIdcookie()
+    public function getLatestFingerprint(): ?Fingerprint
     {
-        $idcookies = $this->getIdcookies();
-        foreach ($idcookies as $idcookie) {
-            return $idcookie;
+        $fingerprints = $this->getFingerprints();
+        foreach ($fingerprints as $fingerprint) {
+            return $fingerprint;
         }
         return null;
     }
 
     /**
-     * @param ObjectStorage $idcookies
+     * @param ObjectStorage $fingerprints
      * @return $this
      */
-    public function addIdcookies(ObjectStorage $idcookies)
+    public function addFingerprints(ObjectStorage $fingerprints)
     {
-        foreach ($idcookies as $idcookie) {
-            /** @var Idcookie $idcookie */
-            $this->addIdcookie($idcookie);
+        foreach ($fingerprints as $fingerprint) {
+            /** @var Fingerprint $fingerprint */
+            $this->addFingerprint($fingerprint);
         }
         return $this;
     }
@@ -948,6 +938,8 @@ class Visitor extends AbstractEntity
      *
      * @return void
      * @throws DBALException
+     * @throws Exception
+     * @noinspection PhpUnhandledExceptionInspection
      */
     public function setBlacklistedStatus()
     {
@@ -965,11 +957,9 @@ class Visitor extends AbstractEntity
         $this->downloads = null;
         $this->logs = null;
 
-        /** @var VisitorRepository $visitorRepository */
         $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
-        $visitorRepository->removeRelatedTableRowsByVisitorUid($this);
+        $visitorRepository->removeRelatedTableRowsByVisitor($this);
 
-        /** @noinspection PhpUnhandledExceptionInspection */
         $now = new \DateTime();
         $this->setDescription('Blacklisted (' . $now->format('Y-m-d H:i:s') . ')');
         $this->setBlacklisted(true);
@@ -1064,6 +1054,7 @@ class Visitor extends AbstractEntity
 
     /**
      * @return string
+     * @throws Exception
      */
     public function getCompany(): string
     {
@@ -1159,6 +1150,7 @@ class Visitor extends AbstractEntity
 
     /**
      * @return string
+     * @throws Exception
      */
     public function getReadableReferrer(): string
     {
@@ -1187,6 +1179,7 @@ class Visitor extends AbstractEntity
     /**
      * @param string $company
      * @return bool
+     * @throws Exception
      */
     protected function isTelecomProvider(string $company): bool
     {

@@ -101,3 +101,15 @@ pages and assets for your leads.
 
 Clicking on an asset or a page will open a detail page to this item, where you can exactly see which lead was interested
 in this item.
+
+
+### TYPO3 Dashboard Module
+
+In addition to the build in dashboard, since TYPO3 10 it is possible to install another dashboard for system wide
+diagrams in TYPO3. 
+You could do this simply with `composer require typo3/cms-dashboard`. Once it is available, you can add some widgets
+from Lux. 
+
+This is a screenshot fom default values:
+
+<img src="../../../Documentation/Images/screenshot_typo3dashboard.png" width="800" />

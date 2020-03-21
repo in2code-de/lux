@@ -5,6 +5,7 @@ namespace In2code\Lux\Utility;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Service\ConfigurationService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
@@ -25,6 +26,7 @@ class ObjectUtility
 
     /**
      * @return ConfigurationService
+     * @throws Exception
      */
     public static function getConfigurationService(): ConfigurationService
     {
@@ -36,6 +38,7 @@ class ObjectUtility
     /**
      * @param int $period
      * @return FilterDto
+     * @throws Exception
      */
     public static function getFilterDto(int $period = FilterDto::PERIOD_ALL): FilterDto
     {

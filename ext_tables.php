@@ -22,6 +22,11 @@ call_user_func(
             \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
             ['source' => 'EXT:lux/Resources/Public/Icons/lux.svg']
         );
+        $iconRegistry->registerIcon(
+            'extension-lux-turquoise',
+            \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
+            ['source' => 'EXT:lux/Resources/Public/Icons/Extension.svg']
+        );
 
         /**
          * Include Modules

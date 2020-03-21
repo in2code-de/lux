@@ -8,7 +8,7 @@ lib.lux.settings {
             _enable = {$plugin.tx_lux.settings.tracking.page}
         }
         assetDownloads {
-            # Toogle asset download tracking (on/off)
+            # Toggle asset download tracking (on/off)
             _enable = {$plugin.tx_lux.settings.tracking.assetDownloads}
 
             # Allow only files with this extensions

@@ -20,6 +20,8 @@ class GetOptionsArrayTimePeriodFilterViewHelper extends AbstractViewHelper
         return [
             FilterDto::PERIOD_THISYEAR
                 => LocalizationUtility::translateByKey('module.analysis.filter.timePeriod.0'),
+            FilterDto::PERIOD_LASTYEAR
+                => LocalizationUtility::translateByKey('module.analysis.filter.timePeriod.3'),
             FilterDto::PERIOD_THISMONTH
                 => LocalizationUtility::translateByKey('module.analysis.filter.timePeriod.1'),
             FilterDto::PERIOD_LASTMONTH

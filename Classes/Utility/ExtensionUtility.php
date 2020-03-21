@@ -3,13 +3,13 @@ declare(strict_types=1);
 namespace In2code\Lux\Utility;
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * Class ExtensionUtility
  */
 class ExtensionUtility
 {
-
     /**
      * @return string
      */
@@ -44,5 +44,15 @@ class ExtensionUtility
         } catch (\Exception $exception) {
             return '';
         }
+    }
+
+    /**
+     * @param string $version
+     * @return bool
+     */
+    public static function isLuxletterVersionOrHigherAvailable(string $version): bool
+    {
+        return VersionNumberUtility::convertVersionNumberToInteger($version) >=
+            VersionNumberUtility::convertVersionNumberToInteger(self::getLuxletterVersion());
     }
 }
