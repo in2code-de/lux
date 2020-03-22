@@ -1,6 +1,4 @@
 <?php
-/** @noinspection SqlNoDataSourceInspection */
-/** @noinspection SqlDialectInspection */
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
@@ -19,13 +17,13 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
  */
 class PagevisitRepository extends AbstractRepository
 {
-
     /**
      * Find by single page entries with all pagevisits ordered by number of pagevisits with a limit of 100
      *
      * @param FilterDto $filter
      * @return array
      * @throws InvalidQueryException
+     * @throws \Exception
      */
     public function findCombinedByPageIdentifier(FilterDto $filter): array
     {
@@ -38,14 +36,14 @@ class PagevisitRepository extends AbstractRepository
             ])
         );
         $pages = $query->execute(true);
-        $result = $this->combineAndCutPages($pages);
-        return $result;
+        return $this->combineAndCutPages($pages);
     }
 
     /**
      * @param FilterDto $filter
      * @return QueryResultInterface
      * @throws InvalidQueryException
+     * @throws \Exception
      */
     public function findLatestPagevisits(FilterDto $filter): QueryResultInterface
     {
@@ -72,7 +70,6 @@ class PagevisitRepository extends AbstractRepository
      */
     public function getNumberOfVisitorsByDay(): array
     {
-        /** @noinspection PhpUnhandledExceptionInspection */
         $frames = [
             [
                 new \DateTime('today midnight'),

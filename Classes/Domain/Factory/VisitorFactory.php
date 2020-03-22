@@ -27,7 +27,7 @@ class VisitorFactory
     use SignalTrait;
 
     /**
-     * @var string
+     * @var Fingerprint
      */
     protected $fingerprint = null;
 

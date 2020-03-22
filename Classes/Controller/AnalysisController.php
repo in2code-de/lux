@@ -16,6 +16,7 @@ use In2code\Lux\Utility\ExtensionUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\Generic\Exception\UnsupportedMethodException;
 
@@ -24,7 +25,6 @@ use TYPO3\CMS\Extbase\Persistence\Generic\Exception\UnsupportedMethodException;
  */
 class AnalysisController extends ActionController
 {
-
     /**
      * @var VisitorRepository
      */
@@ -58,6 +58,7 @@ class AnalysisController extends ActionController
     /**
      * @return void
      * @throws InvalidArgumentNameException
+     * @throws Exception
      */
     public function initializeDashboardAction()
     {
@@ -108,6 +109,7 @@ class AnalysisController extends ActionController
     /**
      * @return void
      * @throws InvalidArgumentNameException
+     * @throws Exception
      */
     public function initializeContentAction()
     {
@@ -148,6 +150,7 @@ class AnalysisController extends ActionController
      */
     public function detailDownloadAction(string $href)
     {
+        /** @noinspection PhpUndefinedMethodInspection */
         $this->view->assignMultiple([
             'downloads' => $this->downloadRepository->findByHref($href)
         ]);
@@ -158,6 +161,7 @@ class AnalysisController extends ActionController
      *
      * @return void
      * @throws InvalidArgumentNameException
+     * @throws Exception
      */
     protected function setFilterDto()
     {

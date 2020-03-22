@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
@@ -13,7 +14,6 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  */
 abstract class AbstractRepository extends Repository
 {
-
     /**
      * @var array
      */
@@ -34,6 +34,7 @@ abstract class AbstractRepository extends Repository
 
     /**
      * @return void
+     * @throws Exception
      */
     public function persistAll()
     {
