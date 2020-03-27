@@ -39,7 +39,7 @@ class CookieUtility
      */
     public static function setCookie(string $name, string $value): void
     {
-        setcookie($name, $value);
+        setcookie($name, $value, 0, '/');
     }
 
     /**
@@ -48,6 +48,6 @@ class CookieUtility
      */
     public static function deleteCookie(string $name): void
     {
-        setcookie($name, '', (time() - 3600));
+        setcookie($name, null, -1, '/');
     }
 }
