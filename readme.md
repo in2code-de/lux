@@ -187,6 +187,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 7.0.1      | 2020-03-27 | Bugfix     | Version of luxletter could not detected correctly. Only relevant if lux was used with luxletter.                                                                                           |
 | 7.0.0 !!!  | 2020-03-21 | Task       | Support TYPO3 10 and new dashboard module. Don't set cookies any more. Recognize visitors by fingerprinting now. Performance update.                                                       |
 | 6.3.0      | 2019-09-14 | Task       | Small update of the telecommunication provider list                                                                                                                                        |
 | 6.2.0      | 2019-08-27 | Feature    | Updated disallowed mail provider list and updated telecommunication provider list                                                                                                          |
