@@ -127,3 +127,39 @@ Remove only unknown visitors and their data that is older then one year:
 ##### 3. Help from in2code
 
 We offer help for users with in2code/luxenterprise. Just call us.
+
+
+#### AJAX requests don't work as expectded
+
+##### TypeNum declaration in site configuration
+
+If you define any type-parameters in your site configuration, you have to define also all types for lux:
+
+| Type | Explanation |
+|------|-------------|
+| 1518815717 | Pagevisit request |
+| 1517985223 | Fieldmapping configuration |
+| 1560095529 | Formmapping configuration |
+
+Example configuration:
+
+```
+...
+rootPageId: 1
+routes:
+  -
+    route: robots.txt
+    type: staticText
+    content: "Disallow: /typo3/\r\n"
+routeEnhancers:
+  PageTypeSuffix:
+    type: PageType
+    default: /
+    index: ''
+    suffix: /
+    map:
+      pagevisit.html: 1518815717
+      fieldmapping.html: 1517985223
+      formmapping.html: 1560095529
+...
+```
