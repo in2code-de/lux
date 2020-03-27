@@ -52,7 +52,7 @@ class ExtensionUtility
      */
     public static function isLuxletterVersionOrHigherAvailable(string $version): bool
     {
-        return VersionNumberUtility::convertVersionNumberToInteger($version) >=
+        return VersionNumberUtility::convertVersionNumberToInteger($version) <=
             VersionNumberUtility::convertVersionNumberToInteger(self::getLuxletterVersion());
     }
 }

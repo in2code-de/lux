@@ -9,14 +9,15 @@ use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidExtensionNameException;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * Class EnableStatus
+ * @noinspection PhpUnused
  */
 class EnableStatus
 {
-
     /**
      * @var string
      */
@@ -25,6 +26,8 @@ class EnableStatus
     /**
      * @return string
      * @throws InvalidExtensionNameException
+     * @throws Exception
+     * @noinspection PhpUnused
      */
     public function showEnableStatus()
     {
@@ -48,6 +51,7 @@ class EnableStatus
      * @param array $variables
      * @return string
      * @throws InvalidExtensionNameException
+     * @throws Exception
      */
     protected function renderMarkup(array $variables): string
     {
@@ -65,12 +69,11 @@ class EnableStatus
     protected function getVisitors(string $where = 'identified=1')
     {
         $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Visitor::TABLE_NAME);
-        $rows = (array)$queryBuilder
+        return (array)$queryBuilder
             ->select('uid')
             ->from(Visitor::TABLE_NAME)
             ->where($where)
             ->execute()
             ->fetchAll();
-        return $rows;
     }
 }
