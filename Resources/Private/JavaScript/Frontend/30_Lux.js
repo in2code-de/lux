@@ -47,7 +47,7 @@ function LuxMain() {
 			addFieldListeners();
 			addFormListeners();
 			addDownloadListener();
-		}, 510);
+		}, 600);
 	};
 
 	/**
