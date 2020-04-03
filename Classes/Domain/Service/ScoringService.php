@@ -23,7 +23,6 @@ use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
  */
 class ScoringService
 {
-
     /**
      * Calculation string like "(10 * numberOfSiteVisits)"
      *
@@ -80,6 +79,7 @@ class ScoringService
      * @param Visitor $visitor
      * @return int Integer value 0 or higher
      * @throws InvalidQueryException
+     * @throws Exception
      */
     public function calculateScoring(Visitor $visitor): int
     {
@@ -105,6 +105,7 @@ class ScoringService
      * @return int
      * @throws InvalidQueryException
      * @throws Exception
+     * @throws \Exception
      */
     protected function getNumberOfSiteVisits(Visitor $visitor): int
     {
@@ -139,6 +140,7 @@ class ScoringService
      * @return int
      * @throws InvalidQueryException
      * @throws Exception
+     * @throws \Exception
      */
     protected function getNumberOfVisits(Visitor $visitor): int
     {
@@ -157,6 +159,7 @@ class ScoringService
      * @return int
      * @throws InvalidQueryException
      * @throws Exception
+     * @throws \Exception
      */
     protected function getNumberOfDaysSinceLastVisit(Visitor $visitor): int
     {
@@ -171,7 +174,6 @@ class ScoringService
         if ($lastPagevisit !== null) {
             $time = $this->time;
             if ($this->time === null) {
-                /** @noinspection PhpUnhandledExceptionInspection */
                 $time = new \DateTime();
             }
             $delta = $time->diff($lastPagevisit->getCrdate());

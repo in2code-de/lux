@@ -22,10 +22,17 @@ function LuxIdentification() {
 	 * @returns {string}
 	 */
 	this.getFingerprint = function() {
-		if (this.fingerprint === '') {
+		if (this.isFingerprintSet() === false) {
 			console.log('Fingerprint not yet calculated!');
 		}
 		return this.fingerprint;
+	};
+
+	/**
+	 * @returns {boolean}
+	 */
+	this.isFingerprintSet = function() {
+		return this.fingerprint !== '';
 	};
 
 	/**

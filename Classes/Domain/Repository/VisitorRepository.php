@@ -16,7 +16,9 @@ use In2code\Lux\Domain\Service\ReadableReferrerService;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
+use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
@@ -382,6 +384,7 @@ class VisitorRepository extends AbstractRepository
      * @param array $logicalAnd
      * @return array
      * @throws InvalidQueryException
+     * @throws \Exception
      */
     protected function extendLogicalAndWithFilterConstraints(
         FilterDto $filter,
@@ -431,5 +434,18 @@ class VisitorRepository extends AbstractRepository
         }
         $orderings['tstamp'] = QueryInterface::ORDER_DESCENDING;
         return $orderings;
+    }
+
+    /**
+     * @param object $modifiedObject
+     * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    public function update($modifiedObject)
+    {
+        if ($modifiedObject->getUid() > 0) {
+            parent::update($modifiedObject);
+        }
     }
 }

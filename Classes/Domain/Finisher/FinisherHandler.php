@@ -17,13 +17,18 @@ class FinisherHandler
      * @param Visitor $visitor
      * @param string $controllerAction
      * @param array $actions
+     * @param array $parameters
      * @return array
      * @throws ClassDoesNotExistException
      * @throws Exception
      * @throws InterfaceIsMissingException
      */
-    public function startFinisher(Visitor $visitor, string $controllerAction, array $actions): array
-    {
+    public function startFinisher(
+        Visitor $visitor,
+        string $controllerAction,
+        array $actions,
+        array $parameters = []
+    ): array {
         foreach ($this->getFinisherClassConfiguration() as $fConfiguration) {
             /** @var AbstractFinisher $instance */
             $instance = ObjectUtility::getObjectManager()->get(
@@ -31,11 +36,12 @@ class FinisherHandler
                 $visitor,
                 $controllerAction,
                 $actions,
+                $parameters,
                 $fConfiguration['configuration']
             );
             $actions = $instance->handle();
         }
-        return [$visitor, $controllerAction, $actions];
+        return [$visitor, $controllerAction, $actions, $parameters];
     }
 
     /**

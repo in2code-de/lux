@@ -49,6 +49,11 @@ abstract class AbstractFinisher implements FinisherInterface
     protected $actions = [];
 
     /**
+     * @var array
+     */
+    protected $parameters = [];
+
+    /**
      * Finisher configuration from TypoScript setup
      *
      * @var array
@@ -60,13 +65,20 @@ abstract class AbstractFinisher implements FinisherInterface
      * @param Visitor $visitor
      * @param string $controllerAction
      * @param array $actions
+     * @param array $parameters
      * @param array $configuration
      */
-    public function __construct(Visitor $visitor, string $controllerAction, array $actions, array $configuration)
-    {
+    public function __construct(
+        Visitor $visitor,
+        string $controllerAction,
+        array $actions,
+        array $parameters,
+        array $configuration
+    ) {
         $this->visitor = $visitor;
         $this->controllerAction = $controllerAction;
         $this->actions = $actions;
+        $this->parameters = $parameters;
         $this->configuration = $configuration;
     }
 
