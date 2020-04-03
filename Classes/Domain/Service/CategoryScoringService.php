@@ -9,6 +9,7 @@ use In2code\Lux\Utility\FrontendUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 
@@ -26,6 +27,7 @@ class CategoryScoringService
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      */
     public function calculateAndSetScoring(Visitor $visitor, string $actionMethodName)
     {
@@ -45,6 +47,7 @@ class CategoryScoringService
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      */
     protected function calculateCategoryScoringForPageRequest(Visitor $visitor)
     {

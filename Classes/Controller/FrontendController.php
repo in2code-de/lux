@@ -70,6 +70,8 @@ class FrontendController extends ActionController
      * @param string $fingerprint
      * @param array $arguments
      * @return string
+     * @throws InvalidSlotException
+     * @throws InvalidSlotReturnException
      * @noinspection PhpUnused
      */
     public function pageRequestAction(string $fingerprint, array $arguments): string
@@ -90,6 +92,8 @@ class FrontendController extends ActionController
      * @param string $fingerprint
      * @param array $arguments
      * @return string
+     * @throws InvalidSlotException
+     * @throws InvalidSlotReturnException
      * @noinspection PhpUnused
      */
     public function fieldListeningRequestAction(string $fingerprint, array $arguments): string
@@ -113,6 +117,8 @@ class FrontendController extends ActionController
      * @param string $fingerprint
      * @param array $arguments
      * @return string
+     * @throws InvalidSlotException
+     * @throws InvalidSlotReturnException
      * @noinspection PhpUnused
      */
     public function formListeningRequestAction(string $fingerprint, array $arguments): string
@@ -137,6 +143,8 @@ class FrontendController extends ActionController
      * @param string $fingerprint
      * @param array $arguments
      * @return string
+     * @throws InvalidSlotException
+     * @throws InvalidSlotReturnException
      * @noinspection PhpUnused
      */
     public function email4LinkRequestAction(string $fingerprint, array $arguments): string
@@ -165,6 +173,8 @@ class FrontendController extends ActionController
      * @param string $fingerprint
      * @param array $arguments
      * @return string
+     * @throws InvalidSlotException
+     * @throws InvalidSlotReturnException
      * @noinspection PhpUnused
      */
     public function downloadRequestAction(string $fingerprint, array $arguments): string
@@ -217,9 +227,9 @@ class FrontendController extends ActionController
 
     /**
      * This method will be called after normal frontend actions.
-     * Pass three parameters to slot. The first is the visitor to use this data. The second is the action name from
+     * Pass four parameters to slot. The first is the visitor to use this data. The second is the action name from
      * where the signal came from. The third is an array, which could be returned for passing an array as json to the
-     * javascript of the visitor.
+     * javascript of the visitor. The last one is mandatory and in this case useless.
      *
      * @param Visitor $visitor
      * @return array
@@ -228,16 +238,19 @@ class FrontendController extends ActionController
      */
     protected function afterAction(Visitor $visitor): array
     {
-        $result = $this->signalDispatch(__CLASS__, 'afterTracking', [$visitor, $this->actionMethodName, []]);
+        $result = $this->signalDispatch(__CLASS__, 'afterTracking', [$visitor, $this->actionMethodName, [], []]);
         return $result[2];
     }
 
     /**
      * @param \Exception $exception
      * @return array
+     * @throws InvalidSlotException
+     * @throws InvalidSlotReturnException
      */
     protected function getError(\Exception $exception): array
     {
+        $this->signalDispatch(__CLASS__, 'afterTracking', [new Visitor(), 'error', [], ['error' => $exception]]);
         return [
             'error' => true,
             'exception' => [
