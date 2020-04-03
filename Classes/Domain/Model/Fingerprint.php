@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
+use In2code\Lux\Exception\FingerprintMustNotBeEmptyException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
@@ -59,10 +60,14 @@ class Fingerprint extends AbstractEntity
 
     /**
      * @param string $value
-     * @return Fingerprint
+     * @return $this
+     * @throws FingerprintMustNotBeEmptyException
      */
     public function setValue(string $value): self
     {
+        if ($value === '') {
+            throw new FingerprintMustNotBeEmptyException('Fingerprint is empty', 1585901797);
+        }
         $this->value = $value;
         return $this;
     }
