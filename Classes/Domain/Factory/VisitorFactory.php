@@ -5,6 +5,7 @@ namespace In2code\Lux\Domain\Factory;
 use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Exception\FingerprintMustNotBeEmptyException;
 use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\CookieUtility;
@@ -49,6 +50,7 @@ class VisitorFactory
      * @throws InvalidSlotException
      * @throws InvalidSlotReturnException
      * @throws Exception
+     * @throws FingerprintMustNotBeEmptyException
      */
     public function __construct(string $fingerprint, string $referrer = '')
     {
