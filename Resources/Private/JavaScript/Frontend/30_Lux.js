@@ -22,6 +22,12 @@ function LuxMain() {
 	var identification = null;
 
 	/**
+	 *
+	 * @type {number}
+	 */
+	var trackIteration = 0;
+
+	/**
 	 * @returns {void}
 	 */
 	this.initialize = function() {
@@ -45,6 +51,8 @@ function LuxMain() {
 	};
 
 	/**
+	 * Try to send async tracking request as soon as the fingerprint is calculated (try max. 20s)
+	 *
 	 * @returns {void}
 	 */
 	var track = function() {
@@ -54,7 +62,12 @@ function LuxMain() {
 			addFormListeners();
 			addDownloadListener();
 		} else {
-			setTimeout(track, 100);
+			trackIteration++;
+			if (trackIteration < 200) {
+				setTimeout(track, 100);
+			} else {
+				console.log('Fingerprint could not be calculated within 20s');
+			}
 		}
 	};
 
