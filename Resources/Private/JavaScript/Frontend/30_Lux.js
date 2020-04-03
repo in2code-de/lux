@@ -41,13 +41,21 @@ function LuxMain() {
 	 */
 	var initializeTracking = function() {
 		identification.setFingerprint();
+		track();
+	};
 
-		setTimeout(function () {
+	/**
+	 * @returns {void}
+	 */
+	var track = function() {
+		if (identification.isFingerprintSet()) {
 			pageRequest();
 			addFieldListeners();
 			addFormListeners();
 			addDownloadListener();
-		}, 600);
+		} else {
+			setTimeout(track, 100);
+		}
 	};
 
 	/**
