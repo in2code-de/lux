@@ -163,6 +163,10 @@ call_user_func(
          */
         if (\In2code\Lux\Utility\ConfigurationUtility::isCkEditorConfigurationNeeded()) {
             $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['lux'] = 'EXT:lux/Configuration/Yaml/CkEditor.yaml';
+
+            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+                'RTE.default.preset = lux'
+            );
         }
 
         /**
