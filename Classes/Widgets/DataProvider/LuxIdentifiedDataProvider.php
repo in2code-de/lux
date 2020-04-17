@@ -1,41 +1,34 @@
 <?php
 declare(strict_types=1);
-namespace In2code\Lux\Widgets;
+namespace In2code\Lux\Widgets\DataProvider;
 
 use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
-use TYPO3\CMS\Dashboard\Widgets\AbstractBarChartWidget;
+use TYPO3\CMS\Dashboard\WidgetApi;
+use TYPO3\CMS\Dashboard\Widgets\ChartDataProviderInterface;
 use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
- * Class LuxIdentifiedWidget
+ * Class LuxIdentifiedDataProvider
  * @noinspection PhpUnused
  */
-class LuxIdentifiedWidget extends AbstractBarChartWidget
+class LuxIdentifiedDataProvider implements ChartDataProviderInterface
 {
-    protected $title =
-        'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxidentified.title';
-    protected $description =
-        'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxidentified.description';
-    protected $iconIdentifier = 'extension-lux-turquoise';
-    protected $height = 4;
-    protected $width = 2;
-
     /**
-     * @return void
-     * @throws DBALException
+     * @return array
      * @throws Exception
+     * @throws DBALException
      */
-    protected function prepareChartData(): void
+    public function getChartData(): array
     {
         $llPrefix = 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:';
         $label = LocalizationUtility::getLanguageService()->sL(
             $llPrefix . 'module.dashboard.widget.luxidentified.label'
         );
         $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
-        $this->chartData = [
+        return [
             'labels' => [
                 LocalizationUtility::getLanguageService()->sL(
                     $llPrefix . 'module.dashboard.widget.luxidentified.label.0'
@@ -50,7 +43,7 @@ class LuxIdentifiedWidget extends AbstractBarChartWidget
             'datasets' => [
                 [
                     'label' => $label,
-                    'backgroundColor' => [$this->chartColors[0], '#dddddd'],
+                    'backgroundColor' => [WidgetApi::getDefaultChartColors()[0], '#dddddd'],
                     'border' => 0,
                     'data' => [
                         $visitorRepository->findAllIdentifiedAmount(),

@@ -9,9 +9,6 @@ mod.web_list.table {
     tx_lux_domain_model_fingerprint.hideTable = 1
 }
 
-# CK editor
-RTE.default.preset = lux
-
 # Add wizard icon in backend
 mod.wizards.newContentElement.wizardItems.plugins {
     elements {

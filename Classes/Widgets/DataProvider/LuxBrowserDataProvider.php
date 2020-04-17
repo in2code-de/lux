@@ -1,64 +1,45 @@
 <?php
 declare(strict_types=1);
-namespace In2code\Lux\Widgets;
+namespace In2code\Lux\Widgets\DataProvider;
 
 use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Repository\FingerprintRepository;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
-use TYPO3\CMS\Dashboard\Widgets\AbstractDoughnutChartWidget;
+use TYPO3\CMS\Dashboard\WidgetApi;
+use TYPO3\CMS\Dashboard\Widgets\ChartDataProviderInterface;
 use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
- * Class LuxBrowserWidget
+ * Class LuxBrowserDataProvider
  * @noinspection PhpUnused
  */
-class LuxBrowserWidget extends AbstractDoughnutChartWidget
+class LuxBrowserDataProvider implements ChartDataProviderInterface
 {
-    protected $title =
-        'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.browser.title';
-    protected $description =
-        'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.browser.description';
-    protected $iconIdentifier = 'extension-lux-turquoise';
-    protected $height = 4;
-    protected $width = 2;
-
     /**
      * @var array
      */
     protected $browserData = [];
 
     /**
-     * @var array
-     */
-    protected $chartOptions = [
-        'maintainAspectRatio' => false,
-        'legend' => [
-            'display' => true,
-            'position' => 'right'
-        ],
-        'cutoutPercentage' => 40
-    ];
-
-    /**
-     * @return void
-     * @throws DBALException
+     * @return array
      * @throws Exception
+     * @throws DBALException
      */
-    protected function prepareChartData(): void
+    public function getChartData(): array
     {
-        $this->chartData = [
+        return [
             'labels' => $this->getBrowserData()['titles'],
             'datasets' => [
                 [
                     'label' => $this->getWidgetLabel('browser.label'),
                     'backgroundColor' => [
-                        $this->chartColors[0],
-                        $this->chartColors[1],
-                        $this->chartColors[2],
-                        $this->chartColors[3],
-                        $this->chartColors[4],
+                        WidgetApi::getDefaultChartColors()[0],
+                        WidgetApi::getDefaultChartColors()[1],
+                        WidgetApi::getDefaultChartColors()[2],
+                        WidgetApi::getDefaultChartColors()[3],
+                        WidgetApi::getDefaultChartColors()[4],
                         '#dddddd'
                     ],
                     'border' => 0,
