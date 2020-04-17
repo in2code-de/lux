@@ -187,6 +187,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 7.2.0      | 2020-04-27 | Task       | Update for TYPO3 10.4 LTS and it's dashboard breaking changes.                                                                                                                             |
 | 7.1.0      | 2020-04-03 | Feature    | Allow errorhandling in workflows and finishers now.                                                                                                                                        |
 | 7.0.2      | 2020-04-03 | Bugfix     | In some cases fingerprints are not calculated in time: Extend time and don't track if there is an empty fingerprint.                                                                       |
 | 7.0.1      | 2020-03-27 | Bugfix     | Version of luxletter could not detected correctly. Only relevant if lux was used with luxletter.                                                                                           |
