@@ -1,41 +1,34 @@
 <?php
 declare(strict_types=1);
-namespace In2code\Lux\Widgets;
+namespace In2code\Lux\Widgets\DataProvider;
 
-use In2code\Lux\Domain\Repository\PagevisitRepository;
+use In2code\Lux\Domain\Repository\DownloadRepository;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
-use TYPO3\CMS\Dashboard\Widgets\AbstractBarChartWidget;
+use TYPO3\CMS\Dashboard\WidgetApi;
+use TYPO3\CMS\Dashboard\Widgets\Interfaces\ChartDataProviderInterface;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
 /**
- * Class LuxPageVisitsWeekWidget
+ * Class LuxPageVisitsWeekDataProvider
  * @noinspection PhpUnused
  */
-class LuxPageVisitsWeekWidget extends AbstractBarChartWidget
+class LuxPageVisitsWeekDataProvider implements ChartDataProviderInterface
 {
-    protected $title =
-        'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxpagevisitsweek.title';
-    protected $description =
-        'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxpagevisitsweek.description';
-    protected $iconIdentifier = 'extension-lux-turquoise';
-    protected $height = 4;
-    protected $width = 4;
-
     /**
-     * @return void
+     * @return array
      * @throws Exception
      * @throws InvalidQueryException
      */
-    protected function prepareChartData(): void
+    public function getChartData(): array
     {
-        $pagevisitRepository = ObjectUtility::getObjectManager()->get(PagevisitRepository::class);
-        $data = $pagevisitRepository->getNumberOfVisitorsByDay();
+        $downloadRepository = ObjectUtility::getObjectManager()->get(DownloadRepository::class);
+        $data = $downloadRepository->getNumberOfDownloadsByDay();
         $label = LocalizationUtility::getLanguageService()->sL(
-            'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxpagevisitsweek.label'
+            'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxdownloadsweek.label'
         );
-        $this->chartData = [
+        return [
             'labels' => $this->getLabels(),
             'datasets' => [
                 [
@@ -48,7 +41,7 @@ class LuxPageVisitsWeekWidget extends AbstractBarChartWidget
                         '#dddddd',
                         '#dddddd',
                         '#dddddd',
-                        $this->chartColors[0]
+                        WidgetApi::getDefaultChartColors()[0]
                     ],
                     'border' => 0,
                     'data' => array_values($data)
