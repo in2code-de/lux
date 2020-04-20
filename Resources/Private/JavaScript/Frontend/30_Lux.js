@@ -207,8 +207,13 @@ function LuxMain() {
 		var contentElementUid = response['configuration']['contentElement'];
 		var uri = document.querySelector('[data-lux-contenturi]').getAttribute('data-lux-contenturi')
 			|| '/index.php?id=1&type=1520192598';
+		if (uri.indexOf('?') === -1) {
+			uri += '?luxContent=';
+		} else {
+			uri += '&luxContent=';
+		}
 		var html =
-			'<div><iframe src="' + uri + '&luxContent=' + parseInt(contentElementUid) + '" width="800" height="600">' +
+			'<div><iframe src="' + uri + parseInt(contentElementUid) + '" width="800" height="600">' +
 			'</iframe></div>';
 		that.lightboxInstance = basicLightbox.create(html);
 		setTimeout(function() {

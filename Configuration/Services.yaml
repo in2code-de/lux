@@ -15,7 +15,6 @@ services:
         title: 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxpagevisits.title'
         description: 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxpagevisits.description'
         iconIdentifier: 'extension-lux-turquoise'
-        additionalCssClasses: 'dashboard-item--chart'
         height: 'medium'
         width: 'medium'
 
@@ -31,7 +30,6 @@ services:
         title: 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxdownloads.title'
         description: 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxdownloads.description'
         iconIdentifier: 'extension-lux-turquoise'
-        additionalCssClasses: 'dashboard-item--chart'
         height: 'medium'
         width: 'medium'
 
@@ -47,7 +45,6 @@ services:
         title: 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxidentified.title'
         description: 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxidentified.description'
         iconIdentifier: 'extension-lux-turquoise'
-        additionalCssClasses: 'dashboard-item--chart'
         height: 'medium'
         width: 'small'
 
@@ -63,7 +60,6 @@ services:
         title: 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxidentifiedpermonth.title'
         description: 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxidentifiedpermonth.description'
         iconIdentifier: 'extension-lux-turquoise'
-        additionalCssClasses: 'dashboard-item--chart'
         height: 'medium'
         width: 'medium'
 
@@ -79,7 +75,6 @@ services:
         title: 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxrecurring.title'
         description: 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxrecurring.description'
         iconIdentifier: 'extension-lux-turquoise'
-        additionalCssClasses: 'dashboard-item--chart'
         height: 'medium'
         width: 'small'
 
@@ -95,7 +90,6 @@ services:
         title: 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxpagevisitsweek.title'
         description: 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxpagevisitsweek.description'
         iconIdentifier: 'extension-lux-turquoise'
-        additionalCssClasses: 'dashboard-item--chart'
         height: 'medium'
         width: 'medium'
 
@@ -111,7 +105,6 @@ services:
         title: 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxdownloadsweek.title'
         description: 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxdownloadsweek.description'
         iconIdentifier: 'extension-lux-turquoise'
-        additionalCssClasses: 'dashboard-item--chart'
         height: 'medium'
         width: 'medium'
 
@@ -127,7 +120,6 @@ services:
         title: 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.referrer.title'
         description: 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.referrer.description'
         iconIdentifier: 'extension-lux-turquoise'
-        additionalCssClasses: 'dashboard-item--chart'
         height: 'medium'
         width: 'medium'
 
@@ -143,7 +135,6 @@ services:
         title: 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.browser.title'
         description: 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.browser.description'
         iconIdentifier: 'extension-lux-turquoise'
-        additionalCssClasses: 'dashboard-item--chart'
         height: 'medium'
         width: 'small'
 
@@ -159,6 +150,5 @@ services:
         title: 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.hottestleads.title'
         description: 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.hottestleads.description'
         iconIdentifier: 'extension-lux-turquoise'
-        additionalCssClasses: 'dashboard-item--chart'
         height: 'medium'
         width: 'small'
