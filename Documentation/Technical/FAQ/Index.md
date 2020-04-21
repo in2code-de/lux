@@ -138,8 +138,8 @@ If you define any type-parameters in your site configuration, you have to define
 | Type | Explanation | Extension |
 |------|-------------|-----------|
 | 1518815717 | Pagevisit request | in2code/lux |
-| 1517985223 | Fieldmapping configuration | in2code/lux |
-| 1560095529 | Formmapping configuration | in2code/lux |
+| 1517985223 | Fieldmapping configuration in JavaScript | in2code/lux |
+| 1560095529 | Formmapping configuration in JavaScript | in2code/lux |
 | 1520192598 | Render content in a lightbox | in2code/luxenterprise |
 | 1560175278 | Render content via AJAX | in2code/luxenterprise |
 | 1520796480 | Render content via contextual content plugin | in2code/luxenterprise |
@@ -162,8 +162,8 @@ routeEnhancers:
     suffix: /
     map:
       pagevisit.html: 1518815717
-      fieldmapping.html: 1517985223
-      formmapping.html: 1560095529
+      fieldmapping.js: 1517985223
+      formmapping.js: 1560095529
       contentLightbox.html: 1520192598
       contentAjax.html: 1560175278
       contentContextualContent.html: 1520796480
