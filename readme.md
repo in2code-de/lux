@@ -187,6 +187,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 7.2.2      | 2020-04-21 | Bugfix     | Change mimetypes of dynamically generated Javascript from application/javascript to text/javascript for older browsers.                                                                    |
 | 7.2.1      | 2020-04-20 | Bugfix     | Support content in popups also with typenum in siteconfiguration (only relevant for in2code/luxenterprise). Small cleanup.                                                                 |
 | 7.2.0      | 2020-04-17 | Task       | Update for TYPO3 10.4 LTS and it's dashboard breaking changes.                                                                                                                             |
 | 7.1.0      | 2020-04-03 | Feature    | Allow errorhandling in workflows and finishers now.                                                                                                                                        |
