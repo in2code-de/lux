@@ -109,7 +109,7 @@ function LuxIdentification() {
 	};
 
 	/**
-	 * Set fingerprint from calculated hash
+	 * Preflight for setting fingerprint from calculated hash after a timeout
 	 *
 	 * @returns {void}
 	 */
@@ -118,22 +118,37 @@ function LuxIdentification() {
 		if (overruleFingerprint === '') {
 			if (window.requestIdleCallback) {
 				requestIdleCallback(function () {
-					Fingerprint2.get(function (components) {
-						var hashValue = getCombinedComponentValue(components);
-						that.fingerprint = Fingerprint2.x64hash128(hashValue, 31);
-					})
+					callFingerprintFunctionAndSetValue();
 				})
 			} else {
 				setTimeout(function () {
-					Fingerprint2.get(function (components) {
-						var hashValue = getCombinedComponentValue(components);
-						that.fingerprint = Fingerprint2.x64hash128(hashValue, 31);
-					})
+					callFingerprintFunctionAndSetValue();
 				}, 500)
 			}
 		} else {
 			this.fingerprint = overruleFingerprint;
 		}
+	};
+
+	/**
+	 * Set fingerprint from calculated hash without browser version
+	 *
+	 * @returns {void}
+	 */
+	var callFingerprintFunctionAndSetValue = function() {
+		Fingerprint2.get({
+			preprocessor: function(key, value) {
+				if (key === 'userAgent') {
+					var parser = new UAParser(value);
+					var userAgentWithoutVersion = parser.getOS().name + ' ' + parser.getBrowser().name;
+					return userAgentWithoutVersion;
+				}
+				return value
+			}
+		}, function(components) {
+			var hashValue = getCombinedComponentValue(components);
+			that.fingerprint = Fingerprint2.x64hash128(hashValue, 31);
+		});
 	};
 
 	/**
