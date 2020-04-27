@@ -48,6 +48,6 @@ class CookieUtility
      */
     public static function deleteCookie(string $name): void
     {
-        setcookie($name, null, -1, '/');
+        setcookie($name, '', -1, '/');
     }
 }
