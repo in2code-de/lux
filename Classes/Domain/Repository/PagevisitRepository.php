@@ -7,7 +7,10 @@ use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Domain\Service\ReadableReferrerService;
 use In2code\Lux\Utility\DatabaseUtility;
+use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
@@ -207,6 +210,41 @@ class PagevisitRepository extends AbstractRepository
         }
         array_multisort(array_map('count', $result), SORT_DESC, $result);
         $result = array_slice($result, 0, 100);
+        return $result;
+    }
+
+    /**
+     * Get an array with sorted values with a limit of 100:
+     * [
+     *      'twitter.com' => 234,
+     *      'facebook.com' => 123
+     * ]
+     *
+     * @param FilterDto $filter
+     * @return array
+     * @throws DBALException
+     * @throws Exception
+     */
+    public function getAmountOfReferrers(FilterDto $filter): array
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
+        $sql = 'select referrer, count(referrer) count from ' . Pagevisit::TABLE_NAME
+            . ' where referrer != "" and crdate > ' . $filter->getStartTimeForFilter()->format('U')
+            . ' and crdate <' . $filter->getEndTimeForFilter()->format('U')
+            . ' group by referrer having (count > 1) order by count desc limit 100';
+        $records = (array)$connection->executeQuery($sql)->fetchAll();
+        $result = [];
+        foreach ($records as $record) {
+            $readableReferrer = ObjectUtility::getObjectManager()->get(
+                ReadableReferrerService::class,
+                $record['referrer']
+            );
+            if (array_key_exists($readableReferrer->getReadableReferrer(), $result)) {
+                $result[$readableReferrer->getReadableReferrer()] += $record['count'];
+            } else {
+                $result[$readableReferrer->getReadableReferrer()] = $record['count'];
+            }
+        }
         return $result;
     }
 }

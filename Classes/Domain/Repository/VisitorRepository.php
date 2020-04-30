@@ -65,42 +65,6 @@ class VisitorRepository extends AbstractRepository
     }
 
     /**
-     * Get an array with sorted values with a limit of 100:
-     * [
-     *      'twitter.com' => 234,
-     *      'facebook.com' => 123
-     * ]
-     *
-     * @param FilterDto $filter
-     * @return array
-     * @throws DBALException
-     * @throws Exception
-     */
-    public function getAmountOfReferrers(FilterDto $filter): array
-    {
-        throw new \LogicException('Function must be developed with the new referrer', 1588281417);
-//        $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
-//        $sql = 'select referrer, count(referrer) count from ' . Visitor::TABLE_NAME
-//            . ' where referrer != "" and crdate > ' . $filter->getStartTimeForFilter()->format('U')
-//            . ' and crdate <' . $filter->getEndTimeForFilter()->format('U')
-//            . ' group by referrer having (count > 1) order by count desc limit 100';
-//        $records = (array)$connection->executeQuery($sql)->fetchAll();
-//        $result = [];
-//        foreach ($records as $record) {
-//            $readableReferrer = ObjectUtility::getObjectManager()->get(
-//                ReadableReferrerService::class,
-//                $record['referrer']
-//            );
-//            if (array_key_exists($readableReferrer->getReadableReferrer(), $result)) {
-//                $result[$readableReferrer->getReadableReferrer()] += $record['count'];
-//            } else {
-//                $result[$readableReferrer->getReadableReferrer()] = $record['count'];
-//            }
-//        }
-//        return $result;
-    }
-
-    /**
      * @param FilterDto $filter
      * @return array
      * @throws InvalidQueryException

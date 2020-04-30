@@ -4,7 +4,7 @@ namespace In2code\Lux\Widgets\DataProvider;
 
 use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
-use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Dashboard\WidgetApi;
@@ -48,8 +48,8 @@ class LuxReferrerDataProvider implements ChartDataProviderInterface
      *          88
      *      ],
      *      'titles' => [
-     *          '/fileadmin/user_upload/whitepaper.pdf',
-     *          '/fileadmin/whitepaperProductX.pdf',
+     *          'twitter.com',
+     *          'facebook.com',
      *      ]
      *  ]
      *
@@ -59,9 +59,9 @@ class LuxReferrerDataProvider implements ChartDataProviderInterface
      */
     protected function getReferrerData(): array
     {
-        $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
+        $pagevisitRepository = ObjectUtility::getObjectManager()->get(PagevisitRepository::class);
         $filter = ObjectUtility::getFilterDto(FilterDto::PERIOD_THISYEAR);
-        $referrers = $visitorRepository->getAmountOfReferrers($filter);
+        $referrers = $pagevisitRepository->getAmountOfReferrers($filter);
         $titles = $amounts = [];
         $counter = 0;
         foreach ($referrers as $referrer => $amount) {

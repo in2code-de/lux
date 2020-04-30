@@ -187,5 +187,7 @@ call_user_func(
          */
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['luxIdCookieToFingerprintUpgradeWizard']
             = \In2code\Lux\Update\LuxIdCookieToFingerprintUpgradeWizard::class;
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['moveReferrerToPageVisitUpgradeWizard']
+            = \In2code\Lux\Update\MoveReferrerToPageVisitUpgradeWizard::class;
     }
 );

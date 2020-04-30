@@ -85,4 +85,20 @@ class DatabaseUtility
         $queryBuilder = self::getQueryBuilderForTable($tableName);
         return (int)$queryBuilder->select('*')->from($tableName)->setMaxResults(1)->execute()->fetch() > 0;
     }
+
+    /**
+     * @param string $fieldName
+     * @param string $tableName
+     * @return bool
+     */
+    public static function isFieldInTableFilled(string $fieldName, string $tableName): bool
+    {
+        $queryBuilder = self::getQueryBuilderForTable($tableName);
+        return (string)$queryBuilder
+                ->select($fieldName)
+                ->from($tableName)
+                ->setMaxResults(1)
+                ->execute()
+                ->fetchColumn() !== '';
+    }
 }
