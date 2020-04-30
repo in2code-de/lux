@@ -146,6 +146,9 @@ function LuxIdentification() {
 				return value
 			}
 		}, function(components) {
+			if (isDebugMode() === true) {
+				console.log('Debug: Fingerprint values', components);
+			}
 			var hashValue = getCombinedComponentValue(components);
 			that.fingerprint = Fingerprint2.x64hash128(hashValue, 31);
 		});
@@ -225,4 +228,13 @@ function LuxIdentification() {
 		}
 		return '';
 	};
+
+	/**
+	 * Search for text "ENABLELUXDEBUG" anywhere on the website to show some debug information
+	 *
+	 * @returns {boolean}
+	 */
+	var isDebugMode = function() {
+		return document.body.innerHTML.search('ENABLELUXDEBUG') !== -1;
+	}
 }
