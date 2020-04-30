@@ -18,7 +18,6 @@ CREATE TABLE tx_lux_domain_model_visitor (
 	email varchar(255) DEFAULT '' NOT NULL,
 	fingerprints varchar(255) DEFAULT '' NOT NULL,
 	ip_address varchar(255) DEFAULT '' NOT NULL,
-	referrer varchar(255) DEFAULT '' NOT NULL,
 	visits int(11) unsigned DEFAULT '0' NOT NULL,
 	scoring int(11) unsigned DEFAULT '0' NOT NULL,
 	description text NOT NULL,

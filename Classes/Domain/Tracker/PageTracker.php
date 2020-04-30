@@ -9,6 +9,7 @@ use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
@@ -42,6 +43,8 @@ class PageTracker
      * @throws UnknownObjectException
      * @throws InvalidSlotException
      * @throws InvalidSlotReturnException
+     * @throws Exception
+     * @throws \Exception
      */
     public function trackPage(Visitor $visitor, int $pageUid)
     {
@@ -57,6 +60,7 @@ class PageTracker
     /**
      * @param int $pageUid
      * @return Pagevisit
+     * @throws Exception
      */
     protected function getPageVisit(int $pageUid): Pagevisit
     {
@@ -73,6 +77,7 @@ class PageTracker
      * @param Visitor $visitor
      * @param int $pageUid
      * @return bool
+     * @throws Exception
      */
     protected function isTrackingActivated(Visitor $visitor, int $pageUid): bool
     {
@@ -83,6 +88,7 @@ class PageTracker
      * Check if tracking of pagevisits is turned on via TypoScript
      *
      * @return bool
+     * @throws Exception
      */
     protected function isTrackingActivatedInSettings(): bool
     {

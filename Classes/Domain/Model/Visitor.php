@@ -5,7 +5,6 @@ namespace In2code\Lux\Domain\Model;
 use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Repository\CategoryscoringRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
-use In2code\Lux\Domain\Service\ReadableReferrerService;
 use In2code\Lux\Domain\Service\ScoringService;
 use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\LocalizationUtility;
@@ -74,11 +73,6 @@ class Visitor extends AbstractEntity
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Attribute>
      */
     protected $attributes = null;
-
-    /**
-     * @var string
-     */
-    protected $referrer = '';
 
     /**
      * @var string
@@ -291,6 +285,7 @@ class Visitor extends AbstractEntity
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      */
     public function increaseCategoryscoringByCategory(int $value, Category $category)
     {
@@ -666,24 +661,6 @@ class Visitor extends AbstractEntity
     /**
      * @return string
      */
-    public function getReferrer(): string
-    {
-        return $this->referrer;
-    }
-
-    /**
-     * @param string $referrer
-     * @return Visitor
-     */
-    public function setReferrer(string $referrer)
-    {
-        $this->referrer = $referrer;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
     public function getIpAddress(): string
     {
         return $this->ipAddress;
@@ -947,7 +924,6 @@ class Visitor extends AbstractEntity
         $this->setEmail('');
         $this->setIdentified(false);
         $this->setVisits(0);
-        $this->setReferrer('');
         $this->setIpAddress('');
 
         $this->categoryscorings = null;
@@ -1146,16 +1122,6 @@ class Visitor extends AbstractEntity
             }
         }
         return $lng;
-    }
-
-    /**
-     * @return string
-     * @throws Exception
-     */
-    public function getReadableReferrer(): string
-    {
-        $referrerService = ObjectUtility::getObjectManager()->get(ReadableReferrerService::class, $this->getReferrer());
-        return $referrerService->getReadableReferrer();
     }
 
     /**

@@ -78,25 +78,26 @@ class VisitorRepository extends AbstractRepository
      */
     public function getAmountOfReferrers(FilterDto $filter): array
     {
-        $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
-        $sql = 'select referrer, count(referrer) count from ' . Visitor::TABLE_NAME
-            . ' where referrer != "" and crdate > ' . $filter->getStartTimeForFilter()->format('U')
-            . ' and crdate <' . $filter->getEndTimeForFilter()->format('U')
-            . ' group by referrer having (count > 1) order by count desc limit 100';
-        $records = (array)$connection->executeQuery($sql)->fetchAll();
-        $result = [];
-        foreach ($records as $record) {
-            $readableReferrer = ObjectUtility::getObjectManager()->get(
-                ReadableReferrerService::class,
-                $record['referrer']
-            );
-            if (array_key_exists($readableReferrer->getReadableReferrer(), $result)) {
-                $result[$readableReferrer->getReadableReferrer()] += $record['count'];
-            } else {
-                $result[$readableReferrer->getReadableReferrer()] = $record['count'];
-            }
-        }
-        return $result;
+        throw new \LogicException('Function must be developed with the new referrer', 1588281417);
+//        $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
+//        $sql = 'select referrer, count(referrer) count from ' . Visitor::TABLE_NAME
+//            . ' where referrer != "" and crdate > ' . $filter->getStartTimeForFilter()->format('U')
+//            . ' and crdate <' . $filter->getEndTimeForFilter()->format('U')
+//            . ' group by referrer having (count > 1) order by count desc limit 100';
+//        $records = (array)$connection->executeQuery($sql)->fetchAll();
+//        $result = [];
+//        foreach ($records as $record) {
+//            $readableReferrer = ObjectUtility::getObjectManager()->get(
+//                ReadableReferrerService::class,
+//                $record['referrer']
+//            );
+//            if (array_key_exists($readableReferrer->getReadableReferrer(), $result)) {
+//                $result[$readableReferrer->getReadableReferrer()] += $record['count'];
+//            } else {
+//                $result[$readableReferrer->getReadableReferrer()] = $record['count'];
+//            }
+//        }
+//        return $result;
     }
 
     /**
@@ -398,7 +399,6 @@ class VisitorRepository extends AbstractRepository
             foreach ($filter->getSearchterms() as $searchterm) {
                 $logicalOr[] = $query->like('email', '%' . $searchterm . '%');
                 $logicalOr[] = $query->like('ipAddress', '%' . $searchterm . '%');
-                $logicalOr[] = $query->like('referrer', '%' . $searchterm . '%');
                 $logicalOr[] = $query->like('description', '%' . $searchterm . '%');
                 $logicalOr[] = $query->like('attributes.value', '%' . $searchterm . '%');
             }

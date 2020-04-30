@@ -24,13 +24,11 @@ class StopTracking
 
     /**
      * @param Fingerprint $fingerprint
-     * @param string $referrer
      * @return void
      * @throws BlacklistedUserAgentException
      */
-    public function stop(Fingerprint $fingerprint, string $referrer)
+    public function stop(Fingerprint $fingerprint)
     {
-        unset($referrer);
         $browser = $fingerprint->getPropertiesFromUserAgent()['browser'];
         if (in_array($browser, $this->blacklistedBrowsers)) {
             throw new BlacklistedUserAgentException('Stop tracking because of blacklisted browser', 1565604005);

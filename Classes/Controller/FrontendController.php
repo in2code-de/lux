@@ -79,7 +79,7 @@ class FrontendController extends ActionController
     public function pageRequestAction(string $fingerprint, array $arguments): string
     {
         try {
-            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $fingerprint, $arguments['referrer']);
+            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $fingerprint);
             $visitor = $visitorFactory->getVisitor();
             $this->callAdditionalTrackers($visitor);
             $pageTracker = $this->objectManager->get(PageTracker::class);
