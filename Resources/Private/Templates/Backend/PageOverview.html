@@ -29,10 +29,10 @@
                                                     <lux:format.readableDate>{pagevisit.crdate}</lux:format.readableDate>
                                                 </span>
                                             </f:alias>
-                                            <f:if condition="{visitor.referrer}">
+                                            <f:if condition="{visitor.pagevisitFirst.referrer}">
                                                 <br />
                                                 <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.referrer">source</f:translate>:
-                                                {visitor.readableReferrer}
+                                                {visitor.pagevisitFirst.readableReferrer}
                                             </f:if>
                                         </p>
                                     </div>

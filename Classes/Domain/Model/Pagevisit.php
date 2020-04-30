@@ -2,7 +2,10 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
+use In2code\Lux\Domain\Service\ReadableReferrerService;
+use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
  * Class Pagevisit
@@ -25,6 +28,11 @@ class Pagevisit extends AbstractEntity
      * @var \DateTime
      */
     protected $crdate = null;
+
+    /**
+     * @var string
+     */
+    protected $referrer = '';
 
     /**
      * @return Visitor
@@ -86,9 +94,38 @@ class Pagevisit extends AbstractEntity
     }
 
     /**
+     * @return string
+     */
+    public function getReferrer(): string
+    {
+        return $this->referrer;
+    }
+
+    /**
+     * @return string
+     * @throws Exception
+     */
+    public function getReadableReferrer(): string
+    {
+        $referrerService = ObjectUtility::getObjectManager()->get(ReadableReferrerService::class, $this->getReferrer());
+        return $referrerService->getReadableReferrer();
+    }
+
+    /**
+     * @param string $referrer
+     * @return Pagevisit
+     */
+    public function setReferrer(string $referrer): self
+    {
+        $this->referrer = $referrer;
+        return $this;
+    }
+
+    /**
      * Get all pagevisits of the current visitor
      *
      * @return Pagevisit[]
+     * @throws \Exception
      */
     public function getAllPagevisits()
     {
@@ -97,6 +134,7 @@ class Pagevisit extends AbstractEntity
 
     /**
      * @return Pagevisit|null
+     * @throws \Exception
      */
     public function getNextPagevisit()
     {
@@ -117,6 +155,7 @@ class Pagevisit extends AbstractEntity
 
     /**
      * @return Pagevisit|null
+     * @throws \Exception
      */
     public function getPreviousPagevisit()
     {

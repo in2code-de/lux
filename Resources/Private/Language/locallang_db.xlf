@@ -66,9 +66,6 @@
 			<trans-unit id="tx_lux_domain_model_visitor.frontenduser">
 				<source>Frontend user</source>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_visitor.referrer">
-				<source>Source</source>
-			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_visitor.ip_address">
 				<source>IP address</source>
 			</trans-unit>
@@ -115,6 +112,9 @@
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_pagevisit.page">
 				<source>Page</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_pagevisit.referrer">
+				<source>Source</source>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_pagevisit.visitor">
 				<source>Lead</source>

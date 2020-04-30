@@ -46,11 +46,11 @@
 								<th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.tstamp">Last visit</f:translate></th>
 								<td>{lux:format.readableDate(date:visitor.tstamp)} ({f:format.date(date:visitor.tstamp,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')})</td>
 							</tr>
-							<f:if condition="{visitor.referrer}">
+							<f:if condition="{visitor.pagevisitFirst.referrer}">
 								<tr>
 									<th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.referrer">Source</f:translate></th>
 									<td>
-										<a href="{visitor.referrer}" target="_blank" title="{visitor.referrer}">{visitor.readableReferrer}</a>
+										<a href="{visitor.pagevisitFirst.referrer}" target="_blank" title="{visitor.pagevisitFirst.referrer}">{visitor.pagevisitFirst.readableReferrer}</a>
 									</td>
 								</tr>
 							</f:if>

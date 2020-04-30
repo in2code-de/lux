@@ -10,22 +10,23 @@
             <f:then>
                 <div style="height: 450px; overflow: auto; ">
                     <nav class="timeline timeline--vertical">
-                        <f:for each="{visitor.pagevisits}" as="pagevisit">
-                            <div class="timeline__item" title="PID{pagevisit.page.uid}">
+                        <f:for each="{visitor.pagevisits}" as="pagevisit" iteration="iteration">
+                            <div class="timeline__item" title="PID{pagevisit.page.uid}" data-identifier-pagevisit="{pagevisit.uid}">
                                 <div style="margin-top: 5px;">
                                     {pagevisit.page.title}
                                     <span class="badge pull-right" title="{f:format.date(date:pagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">{lux:format.readableDate(date:pagevisit.crdate)}</span>
                                 </div>
                             </div>
-                        </f:for>
-                        <f:if condition="{visitor.referrer}">
-                            <div class="timeline__item">
-                                <div style="margin-top: 5px;">
-                                    <a href="{visitor.referrer}" target="_blank">{visitor.readableReferrer}</a>
-                                    <span class="badge pull-right" title="{f:format.date(date:visitor.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">{lux:format.readableDate(date:visitor.crdate)}</span>
+
+                            <f:if condition="{iteration.isLast} && {pagevisit.referrer}">
+                                <div class="timeline__item">
+                                    <div style="margin-top: 5px;">
+                                        <a href="{pagevisit.referrer}" target="_blank">{pagevisit.readableReferrer}</a>
+                                        <span class="badge pull-right" title="{f:format.date(date:pagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">{lux:format.readableDate(date:pagevisit.crdate)}</span>
+                                    </div>
                                 </div>
-                            </div>
-                        </f:if>
+                            </f:if>
+                        </f:for>
                     </nav>
                 </div>
             </f:then>
