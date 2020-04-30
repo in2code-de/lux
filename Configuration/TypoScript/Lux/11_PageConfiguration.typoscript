@@ -149,6 +149,7 @@ luxPageRequestAjax {
     typeNum = 1518815717
     config {
         additionalHeaders.10.header = Content-Type: application/json
+        additionalHeaders.10.replace = 1
         no_cache = 1
         disableAllHeaderCode = 1
         disablePrefixComment = 1
@@ -180,6 +181,7 @@ luxPageRequestAjax {
         typeNum = 1517985223
         config {
             additionalHeaders.10.header = Content-Type: text/javascript
+            additionalHeaders.10.replace = 1
             disableAllHeaderCode = 1
             disablePrefixComment = 1
             xhtml_cleaning = 0
