@@ -354,6 +354,27 @@
 				<target state="translated">Konfiguration</target>
 			</trans-unit>
 
+			<trans-unit id="tx_lux_domain_model_linkclick">
+				<source>Click on a link</source>
+				<target state="translated">Klick auf einen Link</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linkclick.crdate">
+				<source>Creation date</source>
+				<target state="translated">Erstellungsdatum</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linkclick.tag">
+				<source>Tag</source>
+				<target state="translated">Tag Name</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linkclick.page">
+				<source>Page</source>
+				<target state="translated">Seite</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linkclick.visitor">
+				<source>Lead</source>
+				<target state="translated">Lead</target>
+			</trans-unit>
+
 			<trans-unit id="sys_category.lux_category">
 				<source>Is lux category?</source>
 				<target state="translated">Ist eine lux-Kategorie?</target>

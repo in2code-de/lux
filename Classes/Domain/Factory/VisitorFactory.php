@@ -90,6 +90,7 @@ class VisitorFactory
      * @return Visitor|null
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      */
     protected function getVisitorFromDatabaseByFingerprint(): ?Visitor
     {
@@ -104,6 +105,7 @@ class VisitorFactory
      * @return Visitor|null
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      */
     protected function getVisitorFromDatabaseByLegacyCookie(): ?Visitor
     {

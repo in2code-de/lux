@@ -269,6 +269,22 @@
 				<source>Configuration</source>
 			</trans-unit>
 
+			<trans-unit id="tx_lux_domain_model_linkclick">
+				<source>Click on a link</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linkclick.crdate">
+				<source>Creation date</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linkclick.tag">
+				<source>Tag</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linkclick.page">
+				<source>Page</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linkclick.visitor">
+				<source>Lead</source>
+			</trans-unit>
+
 			<trans-unit id="sys_category.lux_category">
 				<source>Is lux category?</source>
 			</trans-unit>
