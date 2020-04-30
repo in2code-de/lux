@@ -7,6 +7,7 @@ use In2code\Lux\Domain\Model\Download;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Service\LogService;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 
@@ -35,6 +36,7 @@ class Log implements SingletonInterface
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      */
     public function logNewVisitor(Visitor $visitor)
     {
@@ -47,6 +49,7 @@ class Log implements SingletonInterface
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      * @noinspection PhpUnusedParameterInspection
      */
     public function logIdentifiedVisitor(Attribute $attribute, Visitor $visitor)
@@ -60,6 +63,7 @@ class Log implements SingletonInterface
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      * @noinspection PhpUnusedParameterInspection
      */
     public function logIdentifiedVisitorByFormListening(Attribute $attribute, Visitor $visitor)
@@ -73,6 +77,7 @@ class Log implements SingletonInterface
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      * @noinspection PhpUnusedParameterInspection
      */
     public function logIdentifiedVisitorByEmail4Link(Attribute $attribute, Visitor $visitor)
@@ -86,6 +91,7 @@ class Log implements SingletonInterface
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      * @noinspection PhpUnusedParameterInspection
      */
     public function logIdentifiedVisitorByLuxletterlink(Attribute $attribute, Visitor $visitor)
@@ -99,6 +105,7 @@ class Log implements SingletonInterface
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      * @noinspection PhpUnusedParameterInspection
      */
     public function logIdentifiedVisitorByFrontendauthentication(Attribute $attribute, Visitor $visitor)
@@ -112,6 +119,7 @@ class Log implements SingletonInterface
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      */
     public function logEmail4LinkEmail(Visitor $visitor, string $href)
     {
@@ -124,6 +132,7 @@ class Log implements SingletonInterface
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      */
     public function logEmail4LinkEmailFailed(Visitor $visitor, string $href)
     {
@@ -136,10 +145,25 @@ class Log implements SingletonInterface
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      * @noinspection PhpUnusedParameterInspection
      */
     public function logDownload(Download $download, Visitor $visitor)
     {
         $this->logService->logDownload($download);
+    }
+
+    /**
+     * @param string $tag
+     * @param int $pageUid
+     * @param Visitor $visitor
+     * @return void
+     * @throws Exception
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    public function logLinkClick(string $tag, int $pageUid, Visitor $visitor)
+    {
+        $this->logService->logLinkListener($visitor, $tag, $pageUid);
     }
 }

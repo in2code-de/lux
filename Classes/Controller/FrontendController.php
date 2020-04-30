@@ -9,6 +9,7 @@ use In2code\Lux\Domain\Service\SendAssetEmail4LinkService;
 use In2code\Lux\Domain\Tracker\AttributeTracker;
 use In2code\Lux\Domain\Tracker\DownloadTracker;
 use In2code\Lux\Domain\Tracker\FrontenduserAuthenticationTracker;
+use In2code\Lux\Domain\Tracker\LinkListenerTracker;
 use In2code\Lux\Domain\Tracker\LuxletterlinkAttributeTracker;
 use In2code\Lux\Domain\Tracker\PageTracker;
 use In2code\Lux\Exception\ActionNotAllowedException;
@@ -45,7 +46,8 @@ class FrontendController extends ActionController
             'fieldListeningRequest',
             'formListeningRequest',
             'email4LinkRequest',
-            'downloadRequest'
+            'downloadRequest',
+            'linkListenerRequest'
         ];
         $action = $this->request->getArgument('dispatchAction');
         if (!in_array($action, $allowedActions)) {
@@ -158,8 +160,8 @@ class FrontendController extends ActionController
                 AttributeTracker::CONTEXT_EMAIL4LINK
             );
             $attributeTracker->addAttribute('email', $arguments['email']);
-            $downloadFactory = $this->objectManager->get(DownloadTracker::class, $visitor);
-            $downloadFactory->addDownload($arguments['href']);
+            $downloadTracker = $this->objectManager->get(DownloadTracker::class, $visitor);
+            $downloadTracker->addDownload($arguments['href']);
             if ($arguments['sendEmail'] === 'true') {
                 $this->objectManager->get(SendAssetEmail4LinkService::class, $visitor)->sendMail($arguments['href']);
             }
@@ -182,8 +184,29 @@ class FrontendController extends ActionController
         try {
             $visitorFactory = $this->objectManager->get(VisitorFactory::class, $fingerprint);
             $visitor = $visitorFactory->getVisitor();
-            $downloadFactory = $this->objectManager->get(DownloadTracker::class, $visitor);
-            $downloadFactory->addDownload($arguments['href']);
+            $downloadTracker = $this->objectManager->get(DownloadTracker::class, $visitor);
+            $downloadTracker->addDownload($arguments['href']);
+            return json_encode($this->afterAction($visitor));
+        } catch (\Exception $exception) {
+            return json_encode($this->getError($exception));
+        }
+    }
+
+    /**
+     * @param string $fingerprint
+     * @param array $arguments
+     * @return string
+     * @throws InvalidSlotException
+     * @throws InvalidSlotReturnException
+     * @noinspection PhpUnused
+     */
+    public function linkListenerRequestAction(string $fingerprint, array $arguments): string
+    {
+        try {
+            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $fingerprint);
+            $visitor = $visitorFactory->getVisitor();
+            $linkListenerTracker = $this->objectManager->get(LinkListenerTracker::class, $visitor);
+            $linkListenerTracker->addLinkClick($arguments['tag'], (int)$arguments['pageUid']);
             return json_encode($this->afterAction($visitor));
         } catch (\Exception $exception) {
             return json_encode($this->getError($exception));

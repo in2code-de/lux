@@ -125,6 +125,14 @@ call_user_func(
             'logDownload',
             false
         );
+        // Log: linklistener click tracking
+        $signalSlotDispatcher->connect(
+            \In2code\Lux\Domain\Tracker\LinkListenerTracker::class,
+            'addLinkClick',
+            \In2code\Lux\Slot\Log::class,
+            'logLinkClick',
+            false
+        );
         // Calculate main scoring
         $signalSlotDispatcher->connect(
             \In2code\Lux\Controller\FrontendController::class,

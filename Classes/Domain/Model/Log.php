@@ -27,6 +27,7 @@ class Log extends AbstractEntity
     const STATUS_DOWNLOAD = 50;
     const STATUS_ACTION = 60;
     const STATUS_CONTEXTUAL_CONTENT = 70;
+    const STATUS_LINKLISTENER = 80;
 
     /**
      * @var \In2code\Lux\Domain\Model\Visitor
@@ -142,6 +143,22 @@ class Log extends AbstractEntity
     public function getShownContentUid(): string
     {
         return $this->getPropertyByKey('shownContentUid');
+    }
+
+    /**
+     * @return string
+     */
+    public function getPageUid(): string
+    {
+        return $this->getPropertyByKey('pageUid');
+    }
+
+    /**
+     * @return string
+     */
+    public function getTag(): string
+    {
+        return $this->getPropertyByKey('tag');
     }
 
     /**

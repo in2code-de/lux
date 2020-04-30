@@ -9,6 +9,7 @@ use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\FileService;
 use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
@@ -35,6 +36,7 @@ class DownloadTracker
      * DownloadTracker constructor.
      *
      * @param Visitor $visitor
+     * @throws Exception
      */
     public function __construct(Visitor $visitor)
     {
@@ -49,6 +51,7 @@ class DownloadTracker
      * @throws UnknownObjectException
      * @throws InvalidSlotException
      * @throws InvalidSlotReturnException
+     * @throws Exception
      */
     public function addDownload(string $href)
     {
@@ -66,6 +69,7 @@ class DownloadTracker
      * @param string $href
      * @return Download
      * @throws IllegalObjectTypeException
+     * @throws Exception
      */
     protected function getAndPersistNewDownload(string $href): Download
     {
@@ -87,6 +91,7 @@ class DownloadTracker
     /**
      * @param string $href
      * @return bool
+     * @throws Exception
      */
     protected function isDownloadAddingEnabled(string $href): bool
     {
@@ -95,6 +100,7 @@ class DownloadTracker
 
     /**
      * @return bool
+     * @throws Exception
      */
     protected function isEnabledDownloadTrackingInSettings(): bool
     {

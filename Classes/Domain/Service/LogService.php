@@ -8,6 +8,7 @@ use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\LogRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 
@@ -16,12 +17,12 @@ use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
  */
 class LogService
 {
-
     /**
      * @param Visitor $visitor
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      */
     public function logNewVisitor(Visitor $visitor)
     {
@@ -33,6 +34,7 @@ class LogService
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      */
     public function logIdentifiedVisitor(Visitor $visitor)
     {
@@ -44,6 +46,7 @@ class LogService
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      */
     public function logIdentifiedVisitorFormListening(Visitor $visitor)
     {
@@ -55,6 +58,7 @@ class LogService
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      */
     public function logIdentifiedVisitorByEmail4Link(Visitor $visitor)
     {
@@ -66,6 +70,7 @@ class LogService
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      */
     public function logIdentifiedVisitorByLuxletterlink(Visitor $visitor)
     {
@@ -77,6 +82,7 @@ class LogService
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      */
     public function logIdentifiedVisitorByFrontendauthentication(Visitor $visitor)
     {
@@ -89,6 +95,7 @@ class LogService
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      */
     public function logEmail4LinkEmail(Visitor $visitor, string $href)
     {
@@ -101,6 +108,7 @@ class LogService
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      */
     public function logEmail4LinkEmailFailed(Visitor $visitor, string $href)
     {
@@ -112,10 +120,25 @@ class LogService
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      */
     public function logDownload(Download $download)
     {
         $this->log(Log::STATUS_DOWNLOAD, $download->getVisitor(), ['href' => $download->getHref()]);
+    }
+
+    /**
+     * @param Visitor $visitor
+     * @param string $tag
+     * @param int $pageUid
+     * @return void
+     * @throws Exception
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    public function logLinkListener(Visitor $visitor, string $tag, int $pageUid)
+    {
+        $this->log(Log::STATUS_LINKLISTENER, $visitor, ['tag' => $tag, 'pageUid' => $pageUid]);
     }
 
     /**
@@ -125,6 +148,7 @@ class LogService
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      */
     public function logContextualContent(Visitor $visitor, int $shownContentUid, int $containerContentUid)
     {
@@ -145,6 +169,7 @@ class LogService
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      */
     protected function log(int $status, Visitor $visitor, array $properties = [])
     {

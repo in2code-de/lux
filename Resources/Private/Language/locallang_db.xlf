@@ -446,6 +446,9 @@
 			<trans-unit id="module.analysis.log.status.70">
 				<source>"lux showed a contextual content</source>
 			</trans-unit>
+			<trans-unit id="module.analysis.log.status.80">
+				<source>lux tracked a link click</source>
+			</trans-unit>
 			<trans-unit id="module.analysis.map">
 				<source>Lead source</source>
 			</trans-unit>

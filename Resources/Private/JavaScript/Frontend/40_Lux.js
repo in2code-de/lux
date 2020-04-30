@@ -61,6 +61,7 @@ function LuxMain() {
 			addFieldListeners();
 			addFormListeners();
 			addDownloadListener();
+			addLinkListener();
 		} else {
 			trackIteration++;
 			if (trackIteration < 200) {
@@ -355,6 +356,24 @@ function LuxMain() {
 					});
 				}
 			}
+		}
+	};
+
+	/**
+	 * @returns {void}
+	 */
+	var addLinkListener = function() {
+		var links = document.querySelectorAll('[data-lux-linklistener]');
+		for (var i = 0; i < links.length; i++) {
+			links[i].addEventListener('click', function(event) {
+				var tag = event.target.getAttribute('data-lux-linklistener');
+				ajaxConnection({
+					'tx_lux_fe[dispatchAction]': 'linkListenerRequest',
+					'tx_lux_fe[fingerprint]': identification.getFingerprint(),
+					'tx_lux_fe[arguments][tag]': tag,
+					'tx_lux_fe[arguments][pageUid]': getPageUid()
+				}, getRequestUri(), null, null);
+			});
 		}
 	};
 
