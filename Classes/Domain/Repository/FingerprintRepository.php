@@ -5,6 +5,7 @@ namespace In2code\Lux\Domain\Repository;
 use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
+use In2code\Lux\Exception\ClassDoesNotExistException;
 use In2code\Lux\Utility\DatabaseUtility;
 
 /**
@@ -23,6 +24,7 @@ class FingerprintRepository extends AbstractRepository
      * @param FilterDto $filter
      * @return array
      * @throws DBALException
+     * @throws ClassDoesNotExistException
      */
     public function getAmountOfUserAgents(FilterDto $filter): array
     {
@@ -42,6 +44,8 @@ class FingerprintRepository extends AbstractRepository
                 } else {
                     $result[$osBrowser] = $record['count'];
                 }
+            } else {
+                throw new ClassDoesNotExistException('\WhichBrowser\Parser class is missing', 1588337756);
             }
         }
         arsort($result);
