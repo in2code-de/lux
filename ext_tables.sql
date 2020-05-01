@@ -6,6 +6,7 @@ CREATE TABLE tx_lux_domain_model_visitor (
 	pid int(11) DEFAULT '0' NOT NULL,
 
 	pagevisits int(11) DEFAULT '0' NOT NULL,
+	linkclicks int(11) DEFAULT '0' NOT NULL,
 	categoryscorings int(11) DEFAULT '0' NOT NULL,
 	attributes int(11) DEFAULT '0' NOT NULL,
 	ipinformations int(11) DEFAULT '0' NOT NULL,

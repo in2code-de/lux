@@ -75,6 +75,10 @@
 				<source>Page visits</source>
 				<target state="translated">Seitenbesuche</target>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.linkclicks">
+				<source>Tracked link clicks</source>
+				<target state="translated">Getrackte Link Aufrufe</target>
+			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_visitor.attributes">
 				<source>Lead attributes</source>
 				<target state="translated">Eigenschaften des Leads</target>

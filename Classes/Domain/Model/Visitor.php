@@ -70,6 +70,12 @@ class Visitor extends AbstractEntity
     protected $pagevisits = null;
 
     /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Linkclick>
+     * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
+     */
+    protected $linkclicks = null;
+
+    /**
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Attribute>
      */
     protected $attributes = null;
@@ -130,6 +136,7 @@ class Visitor extends AbstractEntity
         $this->categoryscorings = new ObjectStorage();
         $this->fingerprints = new ObjectStorage();
         $this->pagevisits = new ObjectStorage();
+        $this->linkclicks = new ObjectStorage();
         $this->attributes = new ObjectStorage();
         $this->ipinformations = new ObjectStorage();
         $this->downloads = new ObjectStorage();
@@ -564,6 +571,44 @@ class Visitor extends AbstractEntity
             }
         }
         return $number;
+    }
+
+    /**
+     * @return ObjectStorage
+     */
+    public function getLinkclicks(): ObjectStorage
+    {
+        return $this->linkclicks;
+    }
+
+    /**
+     * @param ObjectStorage $linkclicks
+     * @return Visitor
+     */
+    public function setLinkclicks(ObjectStorage $linkclicks): self
+    {
+        $this->linkclicks = $linkclicks;
+        return $this;
+    }
+
+    /**
+     * @param Linkclick $linkclick
+     * @return $this
+     */
+    public function addLinkclick(Linkclick $linkclick)
+    {
+        $this->linkclicks->attach($linkclick);
+        return $this;
+    }
+
+    /**
+     * @param Linkclick $linkclick
+     * @return $this
+     */
+    public function removeLinkclick(Linkclick $linkclick)
+    {
+        $this->linkclicks->detach($linkclick);
+        return $this;
     }
 
     /**
