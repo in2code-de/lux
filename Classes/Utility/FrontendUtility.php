@@ -20,6 +20,14 @@ class FrontendUtility
     }
 
     /**
+     * @return string "currentdomain.org"
+     */
+    public static function getCurrentDomain(): string
+    {
+        return GeneralUtility::getIndpEnv('HTTP_HOST');
+    }
+
+    /**
      * @return bool
      */
     public static function isLoggedInFrontendUser(): bool

@@ -2,9 +2,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Widgets\DataProvider;
 
-use Doctrine\DBAL\DBALException;
-use In2code\Lux\Domain\Model\Transfer\FilterDto;
-use In2code\Lux\Domain\Repository\FingerprintRepository;
+use In2code\Lux\Domain\DataProvider\BrowserAmountDataProvider;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Dashboard\WidgetApi;
@@ -18,22 +16,17 @@ use TYPO3\CMS\Extbase\Object\Exception;
 class LuxBrowserDataProvider implements ChartDataProviderInterface
 {
     /**
-     * @var array
-     */
-    protected $browserData = [];
-
-    /**
      * @return array
      * @throws Exception
-     * @throws DBALException
      */
     public function getChartData(): array
     {
+        $browserAmountDP = ObjectUtility::getObjectManager()->get(BrowserAmountDataProvider::class);
         return [
-            'labels' => $this->getBrowserData()['titles'],
+            'labels' => $browserAmountDP->getData()['titles'],
             'datasets' => [
                 [
-                    'label' => $this->getWidgetLabel('browser.label'),
+                    'label' => $this->getWidgetLabel(),
                     'backgroundColor' => [
                         WidgetApi::getDefaultChartColors()[0],
                         WidgetApi::getDefaultChartColors()[1],
@@ -43,64 +36,19 @@ class LuxBrowserDataProvider implements ChartDataProviderInterface
                         '#dddddd'
                     ],
                     'border' => 0,
-                    'data' => $this->getBrowserData()['amounts']
+                    'data' => $browserAmountDP->getData()['amounts']
                 ]
             ]
         ];
     }
 
     /**
-     *  [
-     *      'amounts' => [
-     *          120,
-     *          88
-     *      ],
-     *      'titles' => [
-     *          'google.com',
-     *          'twitter.com',
-     *      ]
-     *  ]
-     *
-     * @return array
-     * @throws Exception
-     * @throws DBALException
-     */
-    protected function getBrowserData(): array
-    {
-        if ($this->browserData === []) {
-            $fingerprintRepo = ObjectUtility::getObjectManager()->get(FingerprintRepository::class);
-            $filter = ObjectUtility::getFilterDto(FilterDto::PERIOD_THISYEAR);
-            $osBrowsers = $fingerprintRepo->getAmountOfUserAgents($filter);
-            $titles = $amounts = [];
-            $counter = $additionalAmount = 0;
-            foreach ($osBrowsers as $osBrowser => $amount) {
-                if ($counter < 5) {
-                    $titles[] = $osBrowser;
-                    $amounts[] = $amount;
-                } else {
-                    $additionalAmount += $amount;
-                }
-                $counter++;
-            }
-            $titles[] = $this->getWidgetLabel('browser.further');
-            $amounts[] = $additionalAmount;
-            $this->browserData = ['amounts' => $amounts, 'titles' => $titles];
-        }
-        return $this->browserData;
-    }
-
-    /**
-     * @param string $key e.g. "browser.label"
      * @return string
      */
-    protected function getWidgetLabel(string $key): string
+    protected function getWidgetLabel(): string
     {
-        $label = LocalizationUtility::getLanguageService()->sL(
-            'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.' . $key
+        return LocalizationUtility::getLanguageService()->sL(
+            'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.browser.label'
         );
-        if (empty($label)) {
-            $label = $key;
-        }
-        return $label;
     }
 }

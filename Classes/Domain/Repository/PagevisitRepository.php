@@ -9,6 +9,7 @@ use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Service\ReadableReferrerService;
 use In2code\Lux\Utility\DatabaseUtility;
+use In2code\Lux\Utility\FrontendUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
@@ -214,7 +215,7 @@ class PagevisitRepository extends AbstractRepository
     }
 
     /**
-     * Get an array with sorted values with a limit of 100:
+     * Get an array with sorted values with a limit of 100 (but ignore current domain):
      * [
      *      'twitter.com' => 234,
      *      'facebook.com' => 123
@@ -229,7 +230,8 @@ class PagevisitRepository extends AbstractRepository
     {
         $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
         $sql = 'select referrer, count(referrer) count from ' . Pagevisit::TABLE_NAME
-            . ' where referrer != "" and crdate > ' . $filter->getStartTimeForFilter()->format('U')
+            . ' where referrer != "" and referrer not like "%' . FrontendUtility::getCurrentDomain() . '%"'
+            . ' and crdate > ' . $filter->getStartTimeForFilter()->format('U')
             . ' and crdate <' . $filter->getEndTimeForFilter()->format('U')
             . ' group by referrer having (count > 1) order by count desc limit 100';
         $records = (array)$connection->executeQuery($sql)->fetchAll();
