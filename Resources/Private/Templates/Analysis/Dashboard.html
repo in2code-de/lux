@@ -4,42 +4,43 @@
 	<div class="row">
 		<div class="col-md-12">
 			<f:alias map="{action:'dashboard'}">
-				<f:render partial="Lead/Filter" arguments="{_all}"/>
+				<f:render partial="Analysis/Filter" arguments="{_all}"/>
 			</f:alias>
 		</div>
 	</div>
+
 	<div class="row flex">
 		<div class="col-md-8 flex">
 			<div class="row flex">
 				<div class="col-md-6 flex">
-					<f:render partial="Lead/Recurring" arguments="{_all}"/>
+					<f:render partial="Box/Leads/Recurring" arguments="{_all}"/>
 				</div>
 				<div class="col-md-6 flex">
-					<f:render partial="Lead/Pagevisits" arguments="{_all}"/>
+					<f:render partial="Box/Leads/Pagevisits" arguments="{_all}"/>
 				</div>
 			</div>
 			<div class="row flex">
 				<div class="col-md-6 flex">
-					<f:render partial="Lead/Identified" arguments="{_all}"/>
+					<f:render partial="Box/Leads/Identified" arguments="{_all}"/>
 				</div>
 				<div class="col-md-6 flex">
-					<f:render partial="Lead/IdentifiedPerMonth" arguments="{_all}"/>
+					<f:render partial="Box/Leads/IdentifiedPerMonth" arguments="{_all}"/>
 				</div>
 			</div>
 		</div>
 		<div class="col-md-4 flex">
-			<f:render partial="DiagramBoxes/Log" arguments="{_all}"/>
+			<f:render partial="Box/Miscellaneous/Log" arguments="{_all}"/>
 		</div>
 	</div>
 	<div class="row flex">
 		<div class="col-md-3 flex">
-			<f:render partial="Lead/HottestVisitors" arguments="{_all}"/>
+			<f:render partial="Box/Leads/HottestLeads" arguments="{_all}"/>
 		</div>
 		<div class="col-md-6 flex">
-			<f:render partial="Lead/Map" arguments="{_all}"/>
+			<f:render partial="Box/Leads/Map" arguments="{_all}"/>
 		</div>
 		<div class="col-md-3 flex">
-			<f:render partial="Lead/Statistics" arguments="{_all}"/>
+			<f:render partial="Box/Miscellaneous/LuxStatistics" arguments="{_all}"/>
 		</div>
 	</div>
 </f:section>

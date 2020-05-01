@@ -2,12 +2,12 @@
 
 <f:section name="content">
     <f:alias map="{action:'content'}">
-        <f:render partial="Lead/Filter" arguments="{_all}" />
+        <f:render partial="Analysis/Filter" arguments="{_all}" />
     </f:alias>
 
     <div class="row">
         <div class="col-md-6">
-            <f:render partial="DiagramBoxes/Pagevisits" arguments="{_all}"/>
+            <f:render partial="Box/Analysis/Pagevisits" arguments="{_all}"/>
 
             <f:if condition="{pages}">
                 <f:then>
@@ -58,7 +58,7 @@
             </f:if>
         </div>
         <div class="col-md-6">
-            <f:render partial="DiagramBoxes/Downloads" arguments="{_all}"/>
+            <f:render partial="Box/Analysis/Downloads" arguments="{_all}"/>
 
             <f:if condition="{downloads}">
                 <f:then>

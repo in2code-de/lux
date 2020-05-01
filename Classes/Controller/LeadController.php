@@ -170,6 +170,7 @@ class LeadController extends ActionController
         $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
             'EXT:lux/Resources/Private/Templates/Lead/DetailAjax.html'
         ));
+        $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         $standaloneView->assignMultiple([
             'visitor' => $visitorRepository->findByUid((int)$request->getQueryParams()['visitor'])
         ]);
