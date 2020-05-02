@@ -3,7 +3,7 @@
 <f:section name="content">
     <div class="row">
         <div class="col-md-8">
-            <f:render partial="Lead/Filter" arguments="{_all}"/>
+            <f:render partial="Filter/FilterExtended" arguments="{_all}"/>
 
             <f:if condition="{allVisitors}">
                 <f:then>
@@ -120,7 +120,7 @@
         <div class="col-md-4">
             <div data-lux-container="detail">
                 <f:render partial="Box/Analysis/Pagevisits" arguments="{_all}"/>
-                <f:render partial="Box/Leads/HottestLeads" arguments="{_all}"/>
+                <f:render partial="Box/Leads/Hottest" arguments="{_all}"/>
             </div>
         </div>
     </div>

@@ -136,6 +136,6 @@ class DownloadRepository extends AbstractRepository
     public function findAllAmount(): int
     {
         $connection = DatabaseUtility::getConnectionForTable(Download::TABLE_NAME);
-        return (int)$connection->executeQuery('select count(uid) from ' . Download::TABLE_NAME)->fetchColumn(0);
+        return (int)$connection->executeQuery('select count(uid) from ' . Download::TABLE_NAME)->fetchColumn();
     }
 }

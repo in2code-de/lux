@@ -1,8 +1,8 @@
-<div class="panel panel-default">
+<div class="panel panel-default flex">
     <div class="panel-heading">
         <h3 class="panel-title">
-            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.diagrambox.downloads.title">
-                Todo downloads
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.downloads.title">
+                Downloads
             </f:translate>
         </h3>
     </div>
@@ -15,7 +15,7 @@
                             height="250"
                             data-chart="line"
                             data-chart-data="{lux:format.implode(array:numberOfDownloadsByDay)}"
-                            data-chart-label="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.diagrambox.downloads.title')}"
+                            data-chart-label="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.downloads.title')}"
                             data-chart-labels="{lux:charts.getLastDayNames()}"></canvas>
                 </div>
             </f:then>

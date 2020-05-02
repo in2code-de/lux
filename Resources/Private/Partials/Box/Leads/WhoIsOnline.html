@@ -1,0 +1,41 @@
+<div class="panel panel-default flex">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.whoisonline.title">Now online</f:translate>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <f:if condition="{whoisonline}">
+            <f:then>
+                <ol class="lux-group">
+                    <f:for each="{whoisonline}" as="visitor">
+                        <li data-lux-identifier="UID{visitor.uid}">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <img src="{visitor.imageUrl}" alt="{visitor.fullName}" class="img-circle img-small"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <f:link.action action="detail" controller="Lead" arguments="{visitor:visitor}">
+                                        <strong title="{visitor.location}">{visitor.fullName}</strong>
+                                    </f:link.action>
+                                    <f:if condition="{visitor.company}">({visitor.company})</f:if>
+                                    <br>
+
+                                    <span style="display:inline-block;margin-top: 5px;">
+                                        <span class="badge" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.scoring')}">{visitor.scoring}</span>
+                                        <f:if condition="{visitor.hottestCategoryscoring}">
+                                            <span class="badge badge-primary" title="{visitor.hottestCategoryscoring.category.title}">{visitor.hottestCategoryscoring.scoring}</span>
+                                        </f:if>
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                    </f:for>
+                </ol>
+            </f:then>
+            <f:else>
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.whoisonline.nobody">Nobody</f:translate>
+            </f:else>
+        </f:if>
+    </div>
+</div>

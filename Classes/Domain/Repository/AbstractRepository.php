@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
+use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
@@ -40,5 +41,22 @@ abstract class AbstractRepository extends Repository
     {
         $persistanceManager = ObjectUtility::getObjectManager()->get(PersistenceManager::class);
         $persistanceManager->persistAll();
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @param bool $andPrefix
+     * @return string
+     * @throws \Exception
+     */
+    protected function extendWhereClauseWithFilterTime(FilterDto $filter, bool $andPrefix = true): string
+    {
+        $string = '';
+        if ($andPrefix === true) {
+            $string .= ' and ';
+        }
+        $string .= 'crdate > ' . $filter->getStartTimeForFilter()->format('U')
+            . ' and crdate <' . $filter->getEndTimeForFilter()->format('U');
+        return $string;
     }
 }

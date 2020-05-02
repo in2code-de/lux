@@ -27,6 +27,8 @@ define(['jquery', 'TYPO3/CMS/Lux/Vendor/Chart.min'], function($) {
 					diagramDoughnut(diagrams[i]);
 				} else if (type === 'bar') {
 					diagramBar(diagrams[i]);
+				} else if (type === 'bardouble') {
+					diagramBarDouble(diagrams[i]);
 				} else if (type === 'line') {
 					diagramLine(diagrams[i]);
 				}
@@ -44,7 +46,11 @@ define(['jquery', 'TYPO3/CMS/Lux/Vendor/Chart.min'], function($) {
 						data: element.getAttribute('data-chart-data').split(','),
 						backgroundColor: [
 							'rgba(77, 231, 255, 1)',
-							'rgba(221, 221, 221, 1)'
+							'rgba(221, 221, 221, 1)',
+							'rgba(77, 231, 255, 0.8)',
+							'rgba(77, 231, 255, 0.6)',
+							'rgba(77, 231, 255, 0.4)',
+							'rgba(77, 231, 255, 0.2)'
 						]
 					}],
 					labels: element.getAttribute('data-chart-labels').split(',')
@@ -91,6 +97,59 @@ define(['jquery', 'TYPO3/CMS/Lux/Vendor/Chart.min'], function($) {
 							ticks: {
 								beginAtZero: true
 							}
+						}]
+					}
+				}
+			});
+		};
+
+		/**
+		 * @returns {void}
+		 */
+		var diagramBarDouble = function(element) {
+			new Chart(element.getContext('2d'), {
+				type: 'bar',
+				data: {
+					datasets: [
+						{
+							label: element.getAttribute('data-chart-labelbottom'),
+							data: element.getAttribute('data-chart-databottom').split(','),
+							backgroundColor: [
+								'rgba(77, 231, 255, 1)',
+								'rgba(77, 231, 255, 1)'
+							]
+						},
+						{
+							label: element.getAttribute('data-chart-labeltop'),
+							data: element.getAttribute('data-chart-datatop').split(','),
+							backgroundColor: [
+								'rgba(221, 221, 221, 1)',
+								'rgba(221, 221, 221, 1)'
+							]
+						}
+					],
+					labels: element.getAttribute('data-chart-labels').split(',')
+				},
+				options: {
+					legend: {
+						display: false,
+						position: 'right',
+						labels: {
+							fontSize: 18
+						}
+					},
+					scales: {
+						xAxes: [{
+							ticks: {
+								beginAtZero: true
+							},
+							stacked: true
+						}],
+						yAxes: [{
+							ticks: {
+								beginAtZero: true
+							},
+							stacked: true
 						}]
 					}
 				}

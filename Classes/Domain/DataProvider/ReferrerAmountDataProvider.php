@@ -3,7 +3,6 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider;
 
 use Doctrine\DBAL\DBALException;
-use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -34,8 +33,7 @@ class ReferrerAmountDataProvider extends AbstractDataProvider
     public function prepareData(): void
     {
         $pagevisitRepository = ObjectUtility::getObjectManager()->get(PagevisitRepository::class);
-        $filter = ObjectUtility::getFilterDto(FilterDto::PERIOD_THISYEAR);
-        $referrers = $pagevisitRepository->getAmountOfReferrers($filter);
+        $referrers = $pagevisitRepository->getAmountOfReferrers($this->filter);
         $titles = $amounts = [];
         $counter = 0;
         foreach ($referrers as $referrer => $amount) {

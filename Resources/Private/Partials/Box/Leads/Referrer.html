@@ -1,0 +1,22 @@
+<div class="panel panel-default flex">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.referrer.title">Referrer</f:translate>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <f:if condition="{referrerAmountData.dataAvailable}">
+            <f:then>
+                <canvas
+                        width="750"
+                        height="350"
+                        data-chart="bar"
+                        data-chart-data="{referrerAmountData.amountsList}"
+                        data-chart-labels="{referrerAmountData.titlesList}"></canvas>
+            </f:then>
+            <f:else>
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.novalues">No values to show</f:translate>
+            </f:else>
+        </f:if>
+    </div>
+</div>

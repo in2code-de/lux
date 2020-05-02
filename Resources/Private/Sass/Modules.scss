@@ -8,248 +8,288 @@
  * General backend classes
  */
 a:not(.btn):not(.nolink):not(.colorwhite) {
-  color: $colorAlternative !important;
-  cursor: pointer !important;
+    color: $colorAlternative !important;
+    cursor: pointer !important;
 }
 
 hr {
-  border-style: dashed;
-  border-color: $colorGrey;
-  border-bottom: 0;
-  border-left: 0;
-  border-right: 0;
-  margin: 40px 0;
+    border-style: dashed;
+    border-color: $colorGrey;
+    border-bottom: 0;
+    border-left: 0;
+    border-right: 0;
+    margin: 40px 0;
 }
 
 label {
-  font-weight: normal;
+    font-weight: normal;
 }
 
 .color-lux {
-  color: $colorMain;
+    color: $colorMain;
 }
+
 .color-grey {
-  color: $colorGrey;
+    color: $colorGrey;
 }
 
 /**
  * Bootstrap
  */
 .lux {
-  .row.flex {
-    @media screen and (min-width: 992px) {
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      flex-wrap: wrap;
+    h3 {
+        font-weight: bold;
     }
-  }
-  .row > .flex[class*='col-'] {
-    @media screen and (min-width: 992px) {
-      display: flex;
-      flex-direction: column;
+
+    .row.flex {
+        @media screen and (min-width: 992px) {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            flex-wrap: wrap;
+        }
     }
-  }
-  .panel.flex {
-    height: 100%;
-  }
-  .bg-primary {
-    background-color: $colorSoft;
-  }
-  .badge-primary {
-    background-color: $colorMain;
-  }
-  .alert-lux {
-    background-color: $colorMain;
-  }
-  .input-lg {
-    line-height: 1.3 !important;
-  }
-  .collapse-arrow {
-    &:after {
-      content: "\f077";
-      font: normal normal normal 14px/1 FontAwesome;
-      font-size: 14px;
-      font-size: inherit;
-      text-rendering: auto;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+
+    .row > .flex[class*='col-'] {
+        @media screen and (min-width: 992px) {
+            display: flex;
+            flex-direction: column;
+        }
     }
-    &.collapsed:after {
-      content: "\f078";
+
+    .panel.flex {
+        height: 100%;
     }
-  }
 
-  /**
-   * Button classes
-   */
-  .btn-lg-extra {
-    padding: 30px 60px;
-    font-size: 25px;
-    line-height: 2;
-    border-radius: 5px;
-  }
-
-  .btn-primary {
-    background-color: $colorMain;
-    border-color: $colorMain;
-    color: $white;
-    &:hover {
-      background-color: $colorAlternative;
-      border-color: $colorAlternative;
+    .bg-primary {
+        background-color: $colorSoft;
     }
-  }
 
-  .btn-primary-extra {
-    appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    left: 50%;
-    top: 50%;
-    margin-top: -100px;
-    margin-left: -200px;
-    position: fixed;
-    line-height: 1.6;
-
-    > span {
-      display: block;
-      font-size: 16px;
+    .badge-primary {
+        background-color: $colorMain;
     }
-  }
 
-  .btn-add-lg {
-    display: block;
-    width: 100%;
-    padding: 5px;
-    font-weight: bold;
-    font-size: 20px;
-  }
+    .alert-lux {
+        background-color: $colorMain;
+    }
 
-  /**
-   * Form classes
-   */
-  .lb-lg {
-    font-size: 20px;
-  }
+    .input-lg {
+        line-height: 1.3 !important;
+    }
 
-  .help-block {
-    margin-top: 15px;
-    margin-left: 15px;
+    .collapse-arrow {
+        &:after {
+            content: "\f077";
+            font: normal normal normal 14px/1 FontAwesome;
+            font-size: 14px;
+            font-size: inherit;
+            text-rendering: auto;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
 
-    &__code {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
+        &.collapsed:after {
+            content: "\f078";
+        }
+    }
 
-      > li {
-        margin: 5px 0;
+    /**
+     * Button classes
+     */
+    .btn-lg-extra {
+        padding: 30px 60px;
+        font-size: 25px;
+        line-height: 2;
+        border-radius: 5px;
+    }
+
+    .btn-primary {
+        background-color: $colorMain;
+        border-color: $colorMain;
+        color: $white;
+
+        &:hover {
+            background-color: $colorAlternative;
+            border-color: $colorAlternative;
+        }
+    }
+
+    .btn-primary-extra {
+        appearance: none;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        left: 50%;
+        top: 50%;
+        margin-top: -100px;
+        margin-left: -200px;
+        position: fixed;
+        line-height: 1.6;
 
         > span {
-          font-style: italic;
-          background: #ddd;
-          display: inline-block;
-          padding: 2px 10px;
-          margin-right: 10px;
-          font-weight: bold;
+            display: block;
+            font-size: 16px;
         }
-      }
     }
-  }
 
-  /**
-   * Table classes
-   */
-  .table-hover > tbody > tr:hover,
-  .table-hover > tbody > tr.lux-action-detail {
-    background-color: $colorMain;
-
-    > td {
-      color: $white;
+    .btn-add-lg {
+        display: block;
+        width: 100%;
+        padding: 5px;
+        font-weight: bold;
+        font-size: 20px;
     }
-  }
 
-  .table-pointer > tbody > tr {
-    cursor: pointer;
-  }
+    /**
+     * Form classes
+     */
+    .lb-lg {
+        font-size: 20px;
+    }
+
+    .help-block {
+        margin-top: 15px;
+        margin-left: 15px;
+
+        &__code {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+
+            > li {
+                margin: 5px 0;
+
+                > span {
+                    font-style: italic;
+                    background: #ddd;
+                    display: inline-block;
+                    padding: 2px 10px;
+                    margin-right: 10px;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+
+    /**
+     * Table classes
+     */
+    .table-hover > tbody > tr:hover,
+    .table-hover > tbody > tr.lux-action-detail {
+        background-color: $colorMain;
+
+        > td {
+            color: $white;
+        }
+    }
+
+    .table-pointer > tbody > tr {
+        cursor: pointer;
+    }
 }
 
 .lux-textarea {
-  width: 100%;
-  padding: 10px;
+    width: 100%;
+    padding: 10px;
 
-  &__default {
-    color: $colorGrey;
-  }
+    &__default {
+        color: $colorGrey;
+    }
 }
 
 /**
  * Lux special
  */
 .lux-workflow-new {
-  background-color: rgba(0, 0, 0, 0.8);
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 }
 
 .lux_triggerarea,
 .lux_actionarea {
 
-  position: relative;
+    position: relative;
 
-  .lux-trigger,
-  .lux-action {
-    margin: 80px 0 20px 0;
-    padding: 20px;
-    border-style: dashed;
-    border-color: $colorGrey;
+    .lux-trigger,
+    .lux-action {
+        margin: 80px 0 20px 0;
+        padding: 20px;
+        border-style: dashed;
+        border-color: $colorGrey;
 
-    &:before {
-      content: 'AND';
-      display: block;
-      width: 10px;
-      height: 50px;
-      border-left: 3px solid $colorGrey;
-      position: absolute;
-      left: 50%;
-      margin-top: -87px;
-      padding: 13px 0 0 18px;
-      font-size: 18px;
-      color: $colorGrey;
+        &:before {
+            content: 'AND';
+            display: block;
+            width: 10px;
+            height: 50px;
+            border-left: 3px solid $colorGrey;
+            position: absolute;
+            left: 50%;
+            margin-top: -87px;
+            padding: 13px 0 0 18px;
+            font-size: 18px;
+            color: $colorGrey;
+        }
+
+        &:first-child {
+            margin-top: 20px;
+
+            &:before {
+                display: none;
+            }
+        }
     }
 
-    &:first-child {
-      margin-top: 20px;
-
-      &:before {
-        display: none;
-      }
+    .lux-trigger-conjunctionOR:before {
+        content: 'OR';
     }
-  }
-
-  .lux-trigger-conjunctionOR:before {
-    content: 'OR';
-  }
 }
 
 .lux-messages {
-  padding: 15px 0;
-  list-style-type: none;
-  > li {
-    margin: 5px 30px;
-    font-size: 16px;
-  }
+    padding: 15px 0;
+    list-style-type: none;
+
+    > li {
+        margin: 5px 30px;
+        font-size: 16px;
+    }
 }
+
 .lux {
 
-  // Make round images from landscape and portrait images
-  .img-circle {
-    object-fit: cover;
-    border-radius: 50%;
-    width: 150px;
-    height: 150px;
-  }
+    // Make round images from landscape and portrait images
+    .img-circle {
+        object-fit: cover;
+        border-radius: 50%;
+        width: 150px;
+        height: 150px;
+    }
+
+    .img-medium {
+        width: 100px;
+        height: 100px;
+    }
+
+    .img-small {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+.lux-group {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+
+    > li {
+        flex: 0 0 50%;
+        padding: 10px 5px;
+    }
 }

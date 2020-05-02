@@ -23,7 +23,7 @@ class LuxBrowserDataProvider implements ChartDataProviderInterface
     {
         $browserAmountDP = ObjectUtility::getObjectManager()->get(BrowserAmountDataProvider::class);
         return [
-            'labels' => $browserAmountDP->getData()['titles'],
+            'labels' => $browserAmountDP->getTitlesFromData(),
             'datasets' => [
                 [
                     'label' => $this->getWidgetLabel(),
@@ -36,7 +36,7 @@ class LuxBrowserDataProvider implements ChartDataProviderInterface
                         '#dddddd'
                     ],
                     'border' => 0,
-                    'data' => $browserAmountDP->getData()['amounts']
+                    'data' => $browserAmountDP->getAmountsFromData()
                 ]
             ]
         ];

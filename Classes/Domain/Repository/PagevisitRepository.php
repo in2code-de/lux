@@ -196,7 +196,23 @@ class PagevisitRepository extends AbstractRepository
     public function findAllAmount(): int
     {
         $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
-        return (int)$connection->executeQuery('select count(uid) from ' . Pagevisit::TABLE_NAME)->fetchColumn(0);
+        return (int)$connection->executeQuery('select count(*) from ' . Pagevisit::TABLE_NAME)->fetchColumn();
+    }
+
+    /**
+     * @param int $pageIdentifier
+     * @param FilterDto $filter
+     * @return int
+     * @throws DBALException
+     * @throws \Exception
+     */
+    public function findAmountPerPage(int $pageIdentifier, FilterDto $filter): int
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
+        return (int)$connection->executeQuery(
+            'select count(*) from ' . Pagevisit::TABLE_NAME . ' where page=' . $pageIdentifier
+            . $this->extendWhereClauseWithFilterTime($filter)
+        )->fetchColumn();
     }
 
     /**
@@ -225,14 +241,14 @@ class PagevisitRepository extends AbstractRepository
      * @return array
      * @throws DBALException
      * @throws Exception
+     * @throws \Exception
      */
     public function getAmountOfReferrers(FilterDto $filter): array
     {
         $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
         $sql = 'select referrer, count(referrer) count from ' . Pagevisit::TABLE_NAME
             . ' where referrer != "" and referrer not like "%' . FrontendUtility::getCurrentDomain() . '%"'
-            . ' and crdate > ' . $filter->getStartTimeForFilter()->format('U')
-            . ' and crdate <' . $filter->getEndTimeForFilter()->format('U')
+            . $this->extendWhereClauseWithFilterTime($filter)
             . ' group by referrer having (count > 1) order by count desc limit 100';
         $records = (array)$connection->executeQuery($sql)->fetchAll();
         $result = [];

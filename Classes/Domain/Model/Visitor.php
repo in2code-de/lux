@@ -6,6 +6,7 @@ use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Repository\CategoryscoringRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\ScoringService;
+use In2code\Lux\Domain\Service\VisitorImageService;
 use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
@@ -1007,6 +1008,11 @@ class Visitor extends AbstractEntity
     /**
      * Calculated properties
      */
+    public function getImageUrl(): string
+    {
+        $visitorImageService = ObjectUtility::getObjectManager()->get(VisitorImageService::class, $this);
+        return $visitorImageService->getImageUrl();
+    }
 
     /**
      * Default: "Lastname, Firstname"

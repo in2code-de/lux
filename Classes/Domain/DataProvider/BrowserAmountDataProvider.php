@@ -3,8 +3,8 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider;
 
 use Doctrine\DBAL\DBALException;
-use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Repository\FingerprintRepository;
+use In2code\Lux\Exception\ClassDoesNotExistException;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -30,12 +30,12 @@ class BrowserAmountDataProvider extends AbstractDataProvider
      * @return void
      * @throws Exception
      * @throws DBALException
+     * @throws ClassDoesNotExistException
      */
     public function prepareData(): void
     {
         $fingerprintRepo = ObjectUtility::getObjectManager()->get(FingerprintRepository::class);
-        $filter = ObjectUtility::getFilterDto(FilterDto::PERIOD_THISYEAR);
-        $osBrowsers = $fingerprintRepo->getAmountOfUserAgents($filter);
+        $osBrowsers = $fingerprintRepo->getAmountOfUserAgents($this->filter);
         $titles = $amounts = [];
         $counter = $additionalAmount = 0;
         foreach ($osBrowsers as $osBrowser => $amount) {
@@ -47,8 +47,10 @@ class BrowserAmountDataProvider extends AbstractDataProvider
             }
             $counter++;
         }
-        $titles[] = $this->getFurtherLabel();
-        $amounts[] = $additionalAmount;
+        if ($counter > 0) {
+            $titles[] = $this->getFurtherLabel();
+            $amounts[] = $additionalAmount;
+        }
         $this->data = ['amounts' => $amounts, 'titles' => $titles];
     }
 

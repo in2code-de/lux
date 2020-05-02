@@ -32,7 +32,7 @@ class GetPropertyFromPageIdentifierViewHelper extends AbstractViewHelper
             ->from('pages')
             ->where('uid=' . (int)$this->arguments['pageIdentifier'])
             ->execute()
-            ->fetchColumn(0);
+            ->fetchColumn();
         if ($value === '') {
             $value = $this->arguments['pageIdentifier'];
         }

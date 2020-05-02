@@ -33,11 +33,15 @@ class FilterDto
     protected $pid = '';
 
     /**
+     * Must be a string like "2021-01-01T15:03:01.012345Z" (date format "c")
+     *
      * @var string
      */
     protected $timeFrom = '';
 
     /**
+     * Must be a string like "2021-01-01T15:03:01.012345Z" (date format "c")
+     *
      * @var string
      */
     protected $timeTo = '';

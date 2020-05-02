@@ -453,6 +453,10 @@
 				<source>Number of downloads</source>
 				<target state="translated">Anzahl an Downloads</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.information">
+				<source>About Lux</source>
+				<target state="translated">Über Lux</target>
+			</trans-unit>
 
 			<trans-unit id="module.analysis.novalues">
 				<source>No data found</source>
@@ -479,8 +483,8 @@
 				<target state="translated">Letztes Jahr</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.pagevisits">
-				<source>Latest page visits</source>
-				<target state="translated">Letzte Seitenbesuche</target>
+				<source>Newest page visits</source>
+				<target state="translated">Neueste Seitenbesuche</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.identifiedpermonth">
 				<source>Identified leads per month</source>
@@ -514,7 +518,7 @@
 				<source>Identified per Formlistening</source>
 				<target state="translated">Identifiziert mit Formlistening</target>
 			</trans-unit>
-			<trans-unit id="module.analysis.statistics.identifiedfrontentlogin">
+			<trans-unit id="module.analysis.statistics.identifiedfrontendlogin">
 				<source>Identified per Frontendlogin</source>
 				<target state="translated">Identifiziert mit Frontend-Login</target>
 			</trans-unit>
@@ -534,6 +538,10 @@
 				<source>Downloads</source>
 				<target state="translated">Downloads</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.statistics.linkclicks">
+				<source>Number of tracked clicks on links</source>
+				<target state="translated">Anzahl getrackter Klicks auf Links</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.statistics.versionlux">
 				<source>Lux version</source>
 				<target state="translated">Lux Version</target>
@@ -545,6 +553,18 @@
 			<trans-unit id="module.analysis.statistics.versionluxletter">
 				<source>Luxletter version</source>
 				<target state="translated">Luxletter Version</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.fingerprints">
+				<source>Number of fingerprint records</source>
+				<target state="translated">Anzahl Fingerprint Datensätze</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.ipinformation">
+				<source>Number of IP information records</source>
+				<target state="translated">Anzahl Datensätze IP Informationen</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.log">
+				<source>Number of log records</source>
+				<target state="translated">Anzahl Log Datensätze</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.bestvisitors">
 				<source>Hottest leads</source>
@@ -796,9 +816,62 @@
 				<target state="translated">Weitere Eigenschaften</target>
 			</trans-unit>
 
-			<trans-unit id="module.diagrambox.downloads.title">
+			<trans-unit id="module.lead.dashboard">
+				<source>Dashboard</source>
+				<target state="translated">Dashboard</target>
+			</trans-unit>
+			<trans-unit id="module.lead.list">
+				<source>Leads</source>
+				<target state="translated">Leads</target>
+			</trans-unit>
+
+			<trans-unit id="module.box.downloads.title">
 				<source>Downloads</source>
 				<target state="translated">Downloads</target>
+			</trans-unit>
+			<trans-unit id="module.box.toppages.title">
+				<source>Top 10 most visited pages</source>
+				<target state="translated">Top 10 meist besuchte Seiten</target>
+			</trans-unit>
+			<trans-unit id="module.box.topdownloads.title">
+				<source>Top 10 downloads</source>
+				<target state="translated">Top 10 Downloads</target>
+			</trans-unit>
+			<trans-unit id="module.box.linkclicks.title">
+				<source>Top 10 link listeners</source>
+				<target state="translated">Top 10 Linktracker</target>
+			</trans-unit>
+			<trans-unit id="module.box.linkclicks.labelbottom">
+				<source>Click on tracked link</source>
+				<target state="translated">Klick auf tracked Link</target>
+			</trans-unit>
+			<trans-unit id="module.box.linkclicks.labeltop">
+				<source>Further visitors without click on tracked link</source>
+				<target state="translated">Alle Weiteren auf der Seite</target>
+			</trans-unit>
+			<trans-unit id="module.box.linkclicks.note">
+				<source>Tip: Add some data-attributes to your "call to action" links to measure their performance - look at this example:</source>
+				<target state="translated">Tipp: Statten sie ein paar Ihrer "Call to Action" Links mit einem entsprechenden Data-Attribut aus, um die Performance dieser zu überwachen - siehe Beispiel:</target>
+			</trans-unit>
+			<trans-unit id="module.box.browser.title">
+				<source>Top Browser</source>
+				<target state="translated">Top Browser</target>
+			</trans-unit>
+			<trans-unit id="module.box.identifiedpermethod.title">
+				<source>Identified by</source>
+				<target state="translated">Identifizierung durch</target>
+			</trans-unit>
+			<trans-unit id="module.box.referrer.title">
+				<source>Visitor came from</source>
+				<target state="translated">Besucher kommen von</target>
+			</trans-unit>
+			<trans-unit id="module.box.whoisonline.title">
+				<source>Who is online?</source>
+				<target state="translated">Wer ist gerade online?</target>
+			</trans-unit>
+			<trans-unit id="module.box.whoisonline.nobody">
+				<source>Nobody is online at the moment on your website :(</source>
+				<target state="translated">Derzeit ist leider niemand online auf ihrer Website :(</target>
 			</trans-unit>
 
 			<trans-unit id="module.workflow">

@@ -23,13 +23,13 @@ class LuxReferrerDataProvider implements ChartDataProviderInterface
     {
         $referrerAmountDP = ObjectUtility::getObjectManager()->get(ReferrerAmountDataProvider::class);
         return [
-            'labels' => $referrerAmountDP->getData()['titles'],
+            'labels' => $referrerAmountDP->getTitlesFromData(),
             'datasets' => [
                 [
                     'label' => $this->getLabel(),
                     'backgroundColor' => [WidgetApi::getDefaultChartColors()[0], '#dddddd'],
                     'border' => 0,
-                    'data' => $referrerAmountDP->getData()['amounts']
+                    'data' => $referrerAmountDP->getAmountsFromData()
                 ]
             ]
         ];

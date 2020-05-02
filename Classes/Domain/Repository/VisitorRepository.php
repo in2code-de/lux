@@ -12,9 +12,8 @@ use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
-use In2code\Lux\Domain\Service\ReadableReferrerService;
 use In2code\Lux\Utility\DatabaseUtility;
-use In2code\Lux\Utility\ObjectUtility;
+use In2code\Lux\Utility\DateUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
@@ -108,15 +107,16 @@ class VisitorRepository extends AbstractRepository
      * Find a small couple of hottest visitors
      *
      * @param FilterDto $filter
+     * @param int $limit
      * @return QueryResultInterface
      * @throws InvalidQueryException
      */
-    public function findByHottestScorings(FilterDto $filter): QueryResultInterface
+    public function findByHottestScorings(FilterDto $filter, int $limit = 10): QueryResultInterface
     {
         $query = $this->createQuery();
         $logicalAnd = $this->extendLogicalAndWithFilterConstraints($filter, $query, []);
         $query->matching($query->logicalAnd($logicalAnd));
-        $query->setLimit(14);
+        $query->setLimit($limit);
         $query->setOrderings([
             'scoring' => QueryInterface::ORDER_DESCENDING,
             'tstamp' => QueryInterface::ORDER_DESCENDING
@@ -224,6 +224,23 @@ class VisitorRepository extends AbstractRepository
     }
 
     /**
+     * Find visitors that are now on the website (5 Min last activity)
+     *
+     * @param int $limit
+     * @return QueryResultInterface
+     * @throws InvalidQueryException
+     * @throws \Exception
+     */
+    public function findOnline(int $limit = 10): QueryResultInterface
+    {
+        $query = $this->createQuery();
+        $query->matching($query->greaterThan('tstamp', DateUtility::getCurrentOnlineDateTime()->format('U')));
+        $query->setLimit($limit);
+        $query->setOrderings(['tstamp' => QueryInterface::ORDER_DESCENDING]);
+        return $query->execute();
+    }
+
+    /**
      * Find visitors where tstamp is older then given timestamp
      *
      * @param int $timestamp
@@ -262,7 +279,7 @@ class VisitorRepository extends AbstractRepository
     public function findAllAmount(): int
     {
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
-        return (int)$connection->executeQuery('select count(uid) from ' . Visitor::TABLE_NAME)->fetchColumn(0);
+        return (int)$connection->executeQuery('select count(uid) from ' . Visitor::TABLE_NAME)->fetchColumn();
     }
 
     /**
@@ -273,7 +290,7 @@ class VisitorRepository extends AbstractRepository
     {
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
         return (int)$connection->executeQuery('select count(uid) from ' . Visitor::TABLE_NAME . ' where identified = 1')
-            ->fetchColumn(0);
+            ->fetchColumn();
     }
 
     /**
@@ -284,7 +301,7 @@ class VisitorRepository extends AbstractRepository
     {
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
         return (int)$connection->executeQuery('select count(uid) from ' . Visitor::TABLE_NAME . ' where identified = 0')
-            ->fetchColumn(0);
+            ->fetchColumn();
     }
 
     /**

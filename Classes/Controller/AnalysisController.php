@@ -3,27 +3,29 @@ declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
 use Doctrine\DBAL\DBALException;
+use In2code\Lux\Domain\DataProvider\BrowserAmountDataProvider;
+use In2code\Lux\Domain\DataProvider\LinkclickDataProvider;
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Repository\CategoryRepository;
 use In2code\Lux\Domain\Repository\DownloadRepository;
+use In2code\Lux\Domain\Repository\FingerprintRepository;
 use In2code\Lux\Domain\Repository\IpinformationRepository;
+use In2code\Lux\Domain\Repository\LinkclickRepository;
 use In2code\Lux\Domain\Repository\LogRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Utility\ExtensionUtility;
 use In2code\Lux\Utility\ObjectUtility;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
-use TYPO3\CMS\Extbase\Persistence\Generic\Exception\UnsupportedMethodException;
 
 /**
  * Class AnalysisController
  */
-class AnalysisController extends ActionController
+class AnalysisController extends AbstractController
 {
     /**
      * @var VisitorRepository
@@ -60,50 +62,33 @@ class AnalysisController extends ActionController
      * @throws InvalidArgumentNameException
      * @throws Exception
      */
-    public function initializeDashboardAction()
+    public function initializeDashboardAction(): void
     {
-        $this->setFilterDto();
+        $this->setFilter();
     }
 
     /**
      * @param FilterDto $filter
      * @return void
      * @throws InvalidQueryException
-     * @throws DBALException
+     * @throws Exception
      */
-    public function dashboardAction(FilterDto $filter)
+    public function dashboardAction(FilterDto $filter): void
     {
-        $this->view->assignMultiple([
+        $browserDataProvider = ObjectUtility::getObjectManager()->get(BrowserAmountDataProvider::class, $filter);
+        $linkclkickProvider = ObjectUtility::getObjectManager()->get(LinkclickDataProvider::class, $filter);
+        $values = [
             'filter' => $filter,
-            'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter),
-            'numberOfUniqueSiteVisitors' => $this->visitorRepository->findByUniqueSiteVisits($filter)->count(),
-            'numberOfRecurringSiteVisitors' => $this->visitorRepository->findByRecurringSiteVisits($filter)->count(),
-            'numberOfIdentifiedVisitors' => $this->visitorRepository->findIdentified($filter)->count(),
-            'numberOfUnknownVisitors' => $this->visitorRepository->findUnknown($filter)->count(),
+            'numberOfVisitorsByDay' => $this->pagevisitsRepository->getNumberOfVisitorsByDay(),
+            'numberOfDownloadsByDay' => $this->downloadRepository->getNumberOfDownloadsByDay(),
             'interestingLogs' => $this->logRepository->findInterestingLogs($filter),
-            'countries' => $this->ipinformationRepository->findAllCountryCodesGrouped($filter),
+            'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
+            'downloads' => $this->downloadRepository->findCombinedByHref($filter),
             'latestPagevisits' => $this->pagevisitsRepository->findLatestPagevisits($filter),
-            'identifiedByMostVisits' => $this->visitorRepository->findIdentifiedByMostVisits($filter),
-            'identifiedPerMonth' => $this->logRepository->findIdentifiedLogsFromMonths(6),
-            'statistics' => [
-                'visitors' => $this->visitorRepository->findAllAmount(),
-                'identified' => $this->visitorRepository->findAllIdentifiedAmount(),
-                'unknown' => $this->visitorRepository->findAllUnknownAmount(),
-                'identifiedEmail4Link' => $this->logRepository->findByStatusAmount(Log::STATUS_IDENTIFIED_EMAIL4LINK),
-                'identifiedFieldListening' => $this->logRepository->findByStatusAmount(Log::STATUS_IDENTIFIED),
-                'identifiedFormListening' =>
-                    $this->logRepository->findByStatusAmount(Log::STATUS_IDENTIFIED_FORMLISTENING),
-                'identifiedFrontendLogin' =>
-                    $this->logRepository->findByStatusAmount(Log::STATUS_IDENTIFIED_FRONTENDAUTHENTICATION),
-                'identifiedLuxletter' => $this->logRepository->findByStatusAmount(Log::STATUS_IDENTIFIED_LUXLETTERLINK),
-                'luxcategories' => $this->categoryRepository->findAllAmount(),
-                'pagevisits' => $this->pagevisitsRepository->findAllAmount(),
-                'downloads' => $this->downloadRepository->findAllAmount(),
-                'versionLux' => ExtensionUtility::getLuxVersion(),
-                'versionLuxenterprise' => ExtensionUtility::getLuxenterpriseVersion(),
-                'versionLuxletter' => ExtensionUtility::getLuxletterVersion()
-            ]
-        ]);
+            'browserData' => $browserDataProvider,
+            'linkclickData' => $linkclkickProvider
+        ];
+        $this->view->assignMultiple($values);
     }
 
     /**
@@ -111,9 +96,9 @@ class AnalysisController extends ActionController
      * @throws InvalidArgumentNameException
      * @throws Exception
      */
-    public function initializeContentAction()
+    public function initializeContentAction(): void
     {
-        $this->setFilterDto();
+        $this->setFilter();
     }
 
     /**
@@ -121,7 +106,7 @@ class AnalysisController extends ActionController
      * @return void
      * @throws InvalidQueryException
      */
-    public function contentAction(FilterDto $filter)
+    public function contentAction(FilterDto $filter): void
     {
         $this->view->assignMultiple([
             'filter' => $filter,
@@ -133,10 +118,50 @@ class AnalysisController extends ActionController
     }
 
     /**
+     * @return void
+     * @throws DBALException
+     * @throws Exception
+     */
+    public function informationAction(): void
+    {
+        $linkclickRepository = ObjectUtility::getObjectManager()->get(LinkclickRepository::class);
+        $fingerprintRepo = ObjectUtility::getObjectManager()->get(FingerprintRepository::class);
+        $filter = ObjectUtility::getFilterDto(FilterDto::PERIOD_THISYEAR);
+        $values = [
+            'countries' => $this->ipinformationRepository->findAllCountryCodesGrouped($filter),
+            'statistics' => [
+                'visitors' => $this->visitorRepository->findAllAmount(),
+                'identified' => $this->visitorRepository->findAllIdentifiedAmount(),
+                'unknown' => $this->visitorRepository->findAllUnknownAmount(),
+                'identifiedEmail4Link' =>
+                    $this->logRepository->findByStatusAmount(Log::STATUS_IDENTIFIED_EMAIL4LINK, $filter),
+                'identifiedFieldListening' => $this->logRepository->findByStatusAmount(Log::STATUS_IDENTIFIED, $filter),
+                'identifiedFormListening' =>
+                    $this->logRepository->findByStatusAmount(Log::STATUS_IDENTIFIED_FORMLISTENING, $filter),
+                'identifiedFrontendLogin' =>
+                    $this->logRepository->findByStatusAmount(Log::STATUS_IDENTIFIED_FRONTENDAUTHENTICATION, $filter),
+                'identifiedLuxletter' =>
+                    $this->logRepository->findByStatusAmount(Log::STATUS_IDENTIFIED_LUXLETTERLINK, $filter),
+                'luxcategories' => $this->categoryRepository->findAllAmount(),
+                'pagevisits' => $this->pagevisitsRepository->findAllAmount(),
+                'downloads' => $this->downloadRepository->findAllAmount(),
+                'versionLux' => ExtensionUtility::getLuxVersion(),
+                'versionLuxenterprise' => ExtensionUtility::getLuxenterpriseVersion(),
+                'versionLuxletter' => ExtensionUtility::getLuxletterVersion(),
+                'linkclicks' => $linkclickRepository->findAllAmount(),
+                'fingerprints' => $fingerprintRepo->findAllAmount(),
+                'ipinformations' => $this->ipinformationRepository->findAllAmount(),
+                'logs' => $this->logRepository->findAllAmount()
+            ]
+        ];
+        $this->view->assignMultiple($values);
+    }
+
+    /**
      * @param Page $page
      * @return void
      */
-    public function detailPageAction(Page $page)
+    public function detailPageAction(Page $page): void
     {
         $this->view->assignMultiple([
             'pagevisits' => $this->pagevisitsRepository->findByPage($page)
@@ -146,9 +171,8 @@ class AnalysisController extends ActionController
     /**
      * @param string $href
      * @return void
-     * @throws UnsupportedMethodException
      */
-    public function detailDownloadAction(string $href)
+    public function detailDownloadAction(string $href): void
     {
         /** @noinspection PhpUndefinedMethodInspection */
         $this->view->assignMultiple([
@@ -157,27 +181,10 @@ class AnalysisController extends ActionController
     }
 
     /**
-     * Always set a default FilterDto even if there are no filter params
-     *
-     * @return void
-     * @throws InvalidArgumentNameException
-     * @throws Exception
-     */
-    protected function setFilterDto()
-    {
-        try {
-            $this->request->getArgument('filter');
-        } catch (\Exception $exception) {
-            unset($exception);
-            $this->request->setArgument('filter', ObjectUtility::getFilterDto(FilterDto::PERIOD_THISYEAR));
-        }
-    }
-
-    /**
      * @param VisitorRepository $visitorRepository
      * @return void
      */
-    public function injectVisitorRepository(VisitorRepository $visitorRepository)
+    public function injectVisitorRepository(VisitorRepository $visitorRepository): void
     {
         $this->visitorRepository = $visitorRepository;
     }
@@ -186,7 +193,7 @@ class AnalysisController extends ActionController
      * @param IpinformationRepository $ipinformationRepository
      * @return void
      */
-    public function injectIpinformationRepository(IpinformationRepository $ipinformationRepository)
+    public function injectIpinformationRepository(IpinformationRepository $ipinformationRepository): void
     {
         $this->ipinformationRepository = $ipinformationRepository;
     }
@@ -195,7 +202,7 @@ class AnalysisController extends ActionController
      * @param LogRepository $logRepository
      * @return void
      */
-    public function injectLogRepository(LogRepository $logRepository)
+    public function injectLogRepository(LogRepository $logRepository): void
     {
         $this->logRepository = $logRepository;
     }
@@ -204,7 +211,7 @@ class AnalysisController extends ActionController
      * @param PagevisitRepository $pagevisitRepository
      * @return void
      */
-    public function injectPagevisitRepository(PagevisitRepository $pagevisitRepository)
+    public function injectPagevisitRepository(PagevisitRepository $pagevisitRepository): void
     {
         $this->pagevisitsRepository = $pagevisitRepository;
     }
@@ -213,7 +220,7 @@ class AnalysisController extends ActionController
      * @param DownloadRepository $downloadRepository
      * @return void
      */
-    public function injectDownloadRepository(DownloadRepository $downloadRepository)
+    public function injectDownloadRepository(DownloadRepository $downloadRepository): void
     {
         $this->downloadRepository = $downloadRepository;
     }
@@ -222,7 +229,7 @@ class AnalysisController extends ActionController
      * @param CategoryRepository $categoryRepository
      * @return void
      */
-    public function injectCategoryRepository(CategoryRepository $categoryRepository)
+    public function injectCategoryRepository(CategoryRepository $categoryRepository): void
     {
         $this->categoryRepository = $categoryRepository;
     }

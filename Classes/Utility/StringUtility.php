@@ -107,15 +107,25 @@ class StringUtility
     }
 
     /**
-     * @param string $haystack
-     * @param string $needle
+     * @param string $string
+     * @param string $prefix
      * @return string
      */
-    public static function removeLeadingStringInString(string $haystack, string $needle): string
+    public static function removeStringPrefix(string $string, string $prefix): string
     {
-        if (StringUtility::startsWith($haystack, $needle)) {
-            $haystack = substr($haystack, strlen($needle));
+        if (StringUtility::startsWith($string, $prefix)) {
+            $string = substr($string, strlen($prefix));
         }
-        return $haystack;
+        return $string;
+    }
+
+    /**
+     * @param string $string
+     * @param string $postfix
+     * @return string
+     */
+    public static function removeStringPostfix(string $string, string $postfix): string
+    {
+        return preg_replace('~' . $postfix . '$~', '', $string);
     }
 }

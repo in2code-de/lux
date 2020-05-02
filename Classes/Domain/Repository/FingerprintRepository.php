@@ -13,6 +13,15 @@ use In2code\Lux\Utility\DatabaseUtility;
  */
 class FingerprintRepository extends AbstractRepository
 {
+    /**
+     * @return int
+     * @throws DBALException
+     */
+    public function findAllAmount(): int
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Fingerprint::TABLE_NAME);
+        return (int)$connection->executeQuery('select count(*) from ' . Fingerprint::TABLE_NAME)->fetchColumn();
+    }
 
     /**
      * Get an array with sorted values with a limit of 1000:
@@ -30,8 +39,7 @@ class FingerprintRepository extends AbstractRepository
     {
         $connection = DatabaseUtility::getConnectionForTable(Fingerprint::TABLE_NAME);
         $sql = 'select user_agent, count(user_agent) count from ' . Fingerprint::TABLE_NAME
-            . ' where user_agent != "" and crdate > ' . $filter->getStartTimeForFilter()->format('U')
-            . ' and crdate <' . $filter->getEndTimeForFilter()->format('U')
+            . ' where user_agent != ""' . $this->extendWhereClauseWithFilterTime($filter)
             . ' group by user_agent having (count > 1) order by count desc limit 1000';
         $records = (array)$connection->executeQuery($sql)->fetchAll();
         $result = [];

@@ -11,6 +11,7 @@ use In2code\Lux\Domain\Service\ConfigurationService;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\DateUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
@@ -20,19 +21,30 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
  */
 class LogRepository extends AbstractRepository
 {
+    /**
+     * @return int
+     * @throws DBALException
+     */
+    public function findAllAmount(): int
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Log::TABLE_NAME);
+        return (int)$connection->executeQuery('select count(*) from ' . Log::TABLE_NAME)->fetchColumn();
+    }
 
     /**
      * @param FilterDto $filter
+     * @param int $limit
      * @return array|QueryResultInterface
+     * @throws Exception
      * @throws InvalidQueryException
      */
-    public function findInterestingLogs(FilterDto $filter)
+    public function findInterestingLogs(FilterDto $filter, int $limit = 8)
     {
         $query = $this->createQuery();
         $logicalAnd = $this->interestingLogsLogicalAnd($query);
         $logicalAnd = $this->extendLogicalAndWithFilterConstraints($filter, $query, $logicalAnd);
         $query->matching($query->logicalAnd($logicalAnd));
-        $query->setLimit(8);
+        $query->setLimit($limit);
         return $query->execute();
     }
 
@@ -66,14 +78,17 @@ class LogRepository extends AbstractRepository
 
     /**
      * @param int $status
+     * @param FilterDto $filter
      * @return int
      * @throws DBALException
+     * @throws \Exception
      */
-    public function findByStatusAmount(int $status): int
+    public function findByStatusAmount(int $status, FilterDto $filter): int
     {
         $connection = DatabaseUtility::getConnectionForTable(Log::TABLE_NAME);
-        $query = 'select count(uid) from ' . Log::TABLE_NAME . ' where status=' . (int)$status;
-        return (int)$connection->executeQuery($query)->fetchColumn(0);
+        $query = 'select count(uid) from ' . Log::TABLE_NAME . ' where status=' . (int)$status
+            . $this->extendWhereClauseWithFilterTime($filter);
+        return (int)$connection->executeQuery($query)->fetchColumn();
     }
 
     /**
@@ -99,6 +114,7 @@ class LogRepository extends AbstractRepository
      * @param QueryInterface $query
      * @return array
      * @throws InvalidQueryException
+     * @throws Exception
      */
     protected function interestingLogsLogicalAnd(QueryInterface $query): array
     {

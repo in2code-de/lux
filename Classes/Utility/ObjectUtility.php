@@ -42,8 +42,19 @@ class ObjectUtility
      */
     public static function getFilterDto(int $period = FilterDto::PERIOD_ALL): FilterDto
     {
-        /** @var FilterDto $filterDto */
-        $filterDto = self::getObjectManager()->get(FilterDto::class, $period);
+        return self::getObjectManager()->get(FilterDto::class, $period);
+    }
+
+    /**
+     * @param \DateTime $start
+     * @param \DateTime $end
+     * @return FilterDto
+     * @throws Exception
+     */
+    public static function getFilterDtoFromStartAndEnd(\DateTime $start, \DateTime $end): FilterDto
+    {
+        $filterDto = self::getObjectManager()->get(FilterDto::class);
+        $filterDto->setTimeFrom($start->format('c'))->setTimeTo($end->format('c'));
         return $filterDto;
     }
 }

@@ -3,9 +3,12 @@ declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
 use Doctrine\DBAL\DBALException;
+use In2code\Lux\Domain\DataProvider\IdentificationMethodsDataProvider;
+use In2code\Lux\Domain\DataProvider\ReferrerAmountDataProvider;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\CategoryRepository;
+use In2code\Lux\Domain\Repository\LogRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Utility\BackendUtility;
@@ -14,11 +17,9 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
-use TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
@@ -26,9 +27,9 @@ use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
- * Class LeadsController
+ * Class LeadController
  */
-class LeadController extends ActionController
+class LeadController extends AbstractController
 {
     /**
      * @var VisitorRepository
@@ -46,13 +47,55 @@ class LeadController extends ActionController
     protected $categoryRepository = null;
 
     /**
+     * @var LogRepository
+     */
+    protected $logRepository = null;
+
+    /**
+     * @return void
+     * @throws Exception
+     * @throws InvalidArgumentNameException
+     */
+    public function initializeDashboardAction(): void
+    {
+        $this->setFilter();
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @return void
+     * @throws Exception
+     * @throws InvalidQueryException
+     * @throws DBALException
+     */
+    public function dashboardAction(FilterDto $filter): void
+    {
+        $identificationMDP = ObjectUtility::getObjectManager()->get(IdentificationMethodsDataProvider::class, $filter);
+        $referrerAmountDP = ObjectUtility::getObjectManager()->get(ReferrerAmountDataProvider::class, $filter);
+        $values = [
+            'filter' => $filter,
+            'interestingLogs' => $this->logRepository->findInterestingLogs($filter, 10),
+            'numberOfUniqueSiteVisitors' => $this->visitorRepository->findByUniqueSiteVisits($filter)->count(),
+            'numberOfRecurringSiteVisitors' => $this->visitorRepository->findByRecurringSiteVisits($filter)->count(),
+            'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter, 8),
+            'numberOfIdentifiedVisitors' => $this->visitorRepository->findIdentified($filter)->count(),
+            'identifiedPerMonth' => $this->logRepository->findIdentifiedLogsFromMonths(6),
+            'numberOfUnknownVisitors' => $this->visitorRepository->findUnknown($filter)->count(),
+            'identificationMethods' => $identificationMDP,
+            'referrerAmountData' => $referrerAmountDP,
+            'whoisonline' => $this->visitorRepository->findOnline(8)
+        ];
+        $this->view->assignMultiple($values);
+    }
+
+    /**
      * @return void
      * @throws InvalidArgumentNameException
      * @throws NoSuchArgumentException
      */
-    public function initializeListAction()
+    public function initializeListAction(): void
     {
-        $this->setFilterDto();
+        $this->setFilterExtended();
     }
 
     /**
@@ -62,7 +105,7 @@ class LeadController extends ActionController
      * @throws StopActionException
      * @throws InvalidQueryException
      */
-    public function listAction(FilterDto $filter, string $export = '')
+    public function listAction(FilterDto $filter, string $export = ''): void
     {
         if ($export === 'csv') {
             $this->forward('downloadCsv', null, null, ['filter' => $filter]);
@@ -82,7 +125,7 @@ class LeadController extends ActionController
      * @return void
      * @throws InvalidQueryException
      */
-    public function downloadCsvAction(FilterDto $filter)
+    public function downloadCsvAction(FilterDto $filter): void
     {
         $this->view->assignMultiple([
             'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter),
@@ -99,9 +142,8 @@ class LeadController extends ActionController
     /**
      * @return void
      * @throws StopActionException
-     * @throws UnsupportedRequestTypeException
      */
-    public function resetFilterForListAction()
+    public function resetFilterForListAction(): void
     {
         BackendUtility::saveValueToSession('filter', []);
         $this->redirect('list');
@@ -111,7 +153,7 @@ class LeadController extends ActionController
      * @param Visitor $visitor
      * @return void
      */
-    public function detailAction(Visitor $visitor)
+    public function detailAction(Visitor $visitor): void
     {
         $this->view->assign('visitor', $visitor);
     }
@@ -122,10 +164,9 @@ class LeadController extends ActionController
      * @param Visitor $visitor
      * @return void
      * @throws StopActionException
-     * @throws UnsupportedRequestTypeException
      * @throws DBALException
      */
-    public function removeAction(Visitor $visitor)
+    public function removeAction(Visitor $visitor): void
     {
         $this->visitorRepository->removeVisitor($visitor);
         $this->visitorRepository->removeRelatedTableRowsByVisitor($visitor);
@@ -139,11 +180,10 @@ class LeadController extends ActionController
      * @throws IllegalObjectTypeException
      * @throws StopActionException
      * @throws UnknownObjectException
-     * @throws UnsupportedRequestTypeException
      * @throws DBALException
      * @throws Exception
      */
-    public function deactivateAction(Visitor $visitor)
+    public function deactivateAction(Visitor $visitor): void
     {
         $visitor->setBlacklistedStatus();
         $this->visitorRepository->update($visitor);
@@ -204,38 +244,10 @@ class LeadController extends ActionController
     }
 
     /**
-     * Always set a default FilterDto even if there are no filter params. In addition remove categoryScoring with 0 to
-     * avoid propertymapping exceptions
-     *
-     * @return void
-     * @throws InvalidArgumentNameException
-     * @throws NoSuchArgumentException
-     */
-    protected function setFilterDto()
-    {
-        $filterArgument = $this->arguments->getArgument('filter');
-        $filterPropMapping = $filterArgument->getPropertyMappingConfiguration();
-        $filterPropMapping->allowAllProperties();
-
-        if ($this->request->hasArgument('filter') === false) {
-            $filter = BackendUtility::getSessionValue('filter');
-        } else {
-            $filter = (array)$this->request->getArgument('filter');
-            BackendUtility::saveValueToSession('filter', $filter);
-        }
-
-        if (array_key_exists('categoryScoring', $filter)
-            && (is_array($filter['categoryScoring']) || $filter['categoryScoring'] === '')) {
-            $filter['categoryScoring'] = 0;
-        }
-        $this->request->setArgument('filter', $filter);
-    }
-
-    /**
      * @param VisitorRepository $visitorRepository
      * @return void
      */
-    public function injectFormRepository(VisitorRepository $visitorRepository)
+    public function injectFormRepository(VisitorRepository $visitorRepository): void
     {
         $this->visitorRepository = $visitorRepository;
     }
@@ -244,7 +256,7 @@ class LeadController extends ActionController
      * @param PagevisitRepository $pagevisitRepository
      * @return void
      */
-    public function injectPagevisitRepository(PagevisitRepository $pagevisitRepository)
+    public function injectPagevisitRepository(PagevisitRepository $pagevisitRepository): void
     {
         $this->pagevisitsRepository = $pagevisitRepository;
     }
@@ -253,8 +265,17 @@ class LeadController extends ActionController
      * @param CategoryRepository $categoryRepository
      * @return void
      */
-    public function injectCategoryRepository(CategoryRepository $categoryRepository)
+    public function injectCategoryRepository(CategoryRepository $categoryRepository): void
     {
         $this->categoryRepository = $categoryRepository;
+    }
+
+    /**
+     * @param LogRepository $logRepository
+     * @return void
+     */
+    public function injectLogRepository(LogRepository $logRepository): void
+    {
+        $this->logRepository = $logRepository;
     }
 }
