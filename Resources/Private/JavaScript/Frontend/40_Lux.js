@@ -347,12 +347,13 @@ function LuxMain() {
       for (var i = 0; i < links.length; i++) {
         if (!links[i].hasAttribute('data-lux-email4link-title')) {
           href = links[i].getAttribute('href');
-          links[i].addEventListener('click', function () {
+          links[i].addEventListener('click', function (event) {
             ajaxConnection({
               'tx_lux_fe[dispatchAction]': 'downloadRequest',
               'tx_lux_fe[fingerprint]': identification.getFingerprint(),
               'tx_lux_fe[arguments][href]': this.getAttribute('href')
             }, getRequestUri(), null, null);
+            delayClick(event);
           });
         }
       }
@@ -374,8 +375,26 @@ function LuxMain() {
             'tx_lux_fe[arguments][tag]': tag,
             'tx_lux_fe[arguments][pageUid]': getPageUid()
           }, getRequestUri(), null, null);
+          delayClick(event);
         }
       });
+    }
+  };
+
+  /**
+   * Delay a click to a link to give AJAX some time
+   *
+   * @returns {void}
+   */
+  var delayClick = function(event) {
+    var href = event.target.getAttribute('href');
+    if (href !== null) {
+      event.preventDefault();
+      setTimeout(
+        function() {
+          window.location = href;
+        }, 400
+      );
     }
   };
 
