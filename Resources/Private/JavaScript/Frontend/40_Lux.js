@@ -22,16 +22,22 @@ function LuxMain() {
   var identification = null;
 
   /**
-   *
    * @type {number}
    */
   var trackIteration = 0;
 
   /**
+   * Here objects and functions can be registered that are be called when fingerprint is ready
+   *
+   * @type {*[]}
+   */
+  this.registeredFunctions = [];
+
+  /**
    * @returns {void}
    */
-  this.initialize = function () {
-    identification = new window.LuxIdentification();
+  this.initialize = function() {
+    identification = new LuxIdentification();
 
     trackingOptOutListener();
     trackingOptInListener();
@@ -43,41 +49,11 @@ function LuxMain() {
   };
 
   /**
-   * @returns {void}
-   */
-  var initializeTracking = function () {
-    identification.setFingerprint();
-    track();
-  };
-
-  /**
-   * Try to send async tracking request as soon as the fingerprint is calculated (try max. 20s)
-   *
-   * @returns {void}
-   */
-  var track = function () {
-    if (identification.isFingerprintSet()) {
-      pageRequest();
-      addFieldListeners();
-      addFormListeners();
-      addDownloadListener();
-      addLinkListener();
-    } else {
-      trackIteration++;
-      if (trackIteration < 200) {
-        setTimeout(track, 100);
-      } else {
-        console.log('Fingerprint could not be calculated within 20s');
-      }
-    }
-  };
-
-  /**
    * Close any lightbox
    *
    * @returns {void}
    */
-  this.closeLightbox = function () {
+  this.closeLightbox = function() {
     if (that.lightboxInstance !== null) {
       that.lightboxInstance.close();
     }
@@ -88,7 +64,7 @@ function LuxMain() {
    *
    * @returns {void}
    */
-  this.optOut = function () {
+  this.optOut = function() {
     identification.setTrackingOptOutStatus();
   };
 
@@ -97,7 +73,7 @@ function LuxMain() {
    *
    * @returns {void}
    */
-  this.optOutDisabled = function () {
+  this.optOutDisabled = function() {
     identification.removeTrackingOptOutStatus();
   };
 
@@ -106,7 +82,7 @@ function LuxMain() {
    *
    * @returns {void}
    */
-  this.optIn = function () {
+  this.optIn = function() {
     identification.setTrackingOptInStatus();
     initializeTracking();
   };
@@ -116,69 +92,8 @@ function LuxMain() {
    *
    * @returns {void}
    */
-  this.optInDisabled = function () {
+  this.optInDisabled = function() {
     identification.removeTrackingOptInStatus();
-  };
-
-  /**
-   * If someone clicks don't want to be tracked any more, use a checkbox with data-lux-trackingoptout="checkbox"
-   *
-   * @returns {void}
-   */
-  var trackingOptOutListener = function () {
-    var elements = document.querySelectorAll('[data-lux-trackingoptout="checkbox"]');
-    for (var i = 0; i < elements.length; i++) {
-      var element = elements[i];
-      // check/uncheck checkbox with data-lux-trackingoptout="checkbox". Check if tracking is allowed.
-      element.checked = identification.isOptOutStatusSet() === false;
-      element.addEventListener('change', function () {
-        if (identification.isOptOutStatusSet()) {
-          console.log('Lux: Disable Opt Out');
-          that.optOutDisabled();
-        } else {
-          console.log('Lux: Opt Out');
-          that.optOut();
-        }
-      });
-    }
-  };
-
-  /**
-   * If autoenable is turned off, tracking can be toggled by clicking an element with
-   * data-lux-trackingoptin="true" or ="false"
-   *
-   * @returns {void}
-   */
-  var trackingOptInListener = function () {
-    var elements = document.querySelectorAll('[data-lux-trackingoptin]');
-    for (var i = 0; i < elements.length; i++) {
-      var element = elements[i];
-      element.addEventListener('click', function (element) {
-        var status = element.target.getAttribute('data-lux-trackingoptin') === 'true';
-        if (status === true) {
-          console.log('Lux: Opt In selected');
-          that.optIn();
-        } else {
-          console.log('Lux: Opt Out selected');
-          that.optInDisabled();
-        }
-      });
-    }
-  };
-
-  /**
-   * @returns {void}
-   */
-  var pageRequest = function () {
-    if (isPageTrackingEnabled()) {
-      ajaxConnection({
-        'tx_lux_fe[dispatchAction]': 'pageRequest',
-        'tx_lux_fe[fingerprint]': identification.getFingerprint(),
-        'tx_lux_fe[arguments][pageUid]': getPageUid(),
-        'tx_lux_fe[arguments][referrer]': getReferrer(),
-        'tx_lux_fe[arguments][currentUrl]': encodeURIComponent(window.location.href),
-      }, getRequestUri(), 'generalWorkflowActionCallback', null);
-    }
   };
 
   /**
@@ -187,7 +102,7 @@ function LuxMain() {
    * @params {Json} response
    * @returns {void}
    */
-  this.generalWorkflowActionCallback = function (response) {
+  this.generalWorkflowActionCallback = function(response) {
     for (var i = 0; i < response.length; i++) {
       if (response[i]['action']) {
         try {
@@ -204,7 +119,7 @@ function LuxMain() {
    *
    * @param response
    */
-  this.lightboxContentWorkflowAction = function (response) {
+  this.lightboxContentWorkflowAction = function(response) {
     var contentElementUid = response['configuration']['contentElement'];
     var uri = document.querySelector('[data-lux-contenturi]').getAttribute('data-lux-contenturi')
       || '/index.php?id=1&type=1520192598';
@@ -217,7 +132,7 @@ function LuxMain() {
       '<div><iframe src="' + uri + parseInt(contentElementUid) + '" width="800" height="600">' +
       '</iframe></div>';
     that.lightboxInstance = basicLightbox.create(html);
-    setTimeout(function () {
+    setTimeout(function() {
       that.lightboxInstance.show();
     }, parseInt(response['configuration']['delay']));
   };
@@ -227,7 +142,7 @@ function LuxMain() {
    *
    * @param response
    */
-  this.redirectWorkflowAction = function (response) {
+  this.redirectWorkflowAction = function(response) {
     if (response['configuration']['uri']) {
       window.location = response['configuration']['uri'];
     }
@@ -238,11 +153,11 @@ function LuxMain() {
    *
    * @param response
    */
-  this.ajaxContentWorkflowAction = function (response) {
+  this.ajaxContentWorkflowAction = function(response) {
     var uri = document.querySelector('[data-lux-contenturiwithoutheader]')
       .getAttribute('data-lux-contenturiwithoutheader') || '/index.php?id=1&type=1560175278';
     var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
+    xhttp.onreadystatechange = function() {
       if (this.readyState === 4 && this.status === 200) {
         var domSelection = document.querySelector(response['configuration']['domselection']);
         if (domSelection !== null) {
@@ -265,7 +180,7 @@ function LuxMain() {
    *
    * @param response
    */
-  this.showorhideWorkflowAction = function (response) {
+  this.showorhideWorkflowAction = function(response) {
     var domSelection = document.querySelector(response['configuration']['domselection']);
     if (domSelection !== null) {
       if (response['configuration']['showorhide'] === 'hide') {
@@ -284,14 +199,139 @@ function LuxMain() {
    *
    * @param response
    */
-  this.disableEmail4LinkWorkflowAction = function (response) {
+  this.disableEmail4LinkWorkflowAction = function(response) {
     identification.setDisableForLinkStorageEntry();
+  };
+
+  /**
+   * Add objects and functions to a register. They are called as soon as the fingerprint is ready calculated.
+   *
+   * @param object
+   * @param functionName
+   */
+  this.addFunctionToRegister = function(object, functionName) {
+    this.registeredFunctions.push([object, functionName]);
+  };
+
+  /**
+   * Get LuxIdentification object in luxenterprise
+   *
+   * @returns {LuxIdentification}
+   */
+  this.getIdentification = function() {
+    return identification;
   };
 
   /**
    * @returns {void}
    */
-  var addFieldListeners = function () {
+  var initializeTracking = function() {
+    identification.setFingerprint();
+    track();
+  };
+
+  /**
+   * Try to send async tracking request as soon as the fingerprint is calculated (try max. 20s)
+   *
+   * @returns {void}
+   */
+  var track = function() {
+    if (identification.isFingerprintSet()) {
+      executeRegisteredFunctions();
+      pageRequest();
+      addFieldListeners();
+      addFormListeners();
+      addDownloadListener();
+      addLinkListener();
+    } else {
+      trackIteration++;
+      if (trackIteration < 200) {
+        setTimeout(track, 100);
+      } else {
+        console.log('Fingerprint could not be calculated within 20s');
+      }
+    }
+  };
+
+  /**
+   * Registered functions are called when fingerprint is ready
+   *
+   * @returns {void}
+   */
+  var executeRegisteredFunctions = function() {
+    for (var i = 0; i < that.registeredFunctions.length; i++) {
+      var configuration = that.registeredFunctions[i];
+      var object = configuration[0];
+      var functionName = configuration[1];
+      object[functionName]();
+    }
+  };
+
+  /**
+   * If someone clicks don't want to be tracked any more, use a checkbox with data-lux-trackingoptout="checkbox"
+   *
+   * @returns {void}
+   */
+  var trackingOptOutListener = function() {
+    var elements = document.querySelectorAll('[data-lux-trackingoptout="checkbox"]');
+    for (var i = 0; i < elements.length; i++) {
+      var element = elements[i];
+      // check/uncheck checkbox with data-lux-trackingoptout="checkbox". Check if tracking is allowed.
+      element.checked = identification.isOptOutStatusSet() === false;
+      element.addEventListener('change', function() {
+        if (identification.isOptOutStatusSet()) {
+          console.log('Lux: Disable Opt Out');
+          that.optOutDisabled();
+        } else {
+          console.log('Lux: Opt Out');
+          that.optOut();
+        }
+      });
+    }
+  };
+
+  /**
+   * If autoenable is turned off, tracking can be toggled by clicking an element with
+   * data-lux-trackingoptin="true" or ="false"
+   *
+   * @returns {void}
+   */
+  var trackingOptInListener = function() {
+    var elements = document.querySelectorAll('[data-lux-trackingoptin]');
+    for (var i = 0; i < elements.length; i++) {
+      var element = elements[i];
+      element.addEventListener('click', function(element) {
+        var status = element.target.getAttribute('data-lux-trackingoptin') === 'true';
+        if (status === true) {
+          console.log('Lux: Opt In selected');
+          that.optIn();
+        } else {
+          console.log('Lux: Opt Out selected');
+          that.optInDisabled();
+        }
+      });
+    }
+  };
+
+  /**
+   * @returns {void}
+   */
+  var pageRequest = function() {
+    if (isPageTrackingEnabled()) {
+      ajaxConnection({
+        'tx_lux_fe[dispatchAction]': 'pageRequest',
+        'tx_lux_fe[fingerprint]': identification.getFingerprint(),
+        'tx_lux_fe[arguments][pageUid]': getPageUid(),
+        'tx_lux_fe[arguments][referrer]': getReferrer(),
+        'tx_lux_fe[arguments][currentUrl]': encodeURIComponent(window.location.href),
+      }, getRequestUri(), 'generalWorkflowActionCallback', null);
+    }
+  };
+
+  /**
+   * @returns {void}
+   */
+  var addFieldListeners = function() {
     var query = 'form:not([data-lux-form-identification]) input:not([data-lux-disable]), ';
     query += 'form:not([data-lux-form-identification]) textarea:not([data-lux-disable]), ';
     query += 'form:not([data-lux-form-identification]) select:not([data-lux-disable]), ';
@@ -302,7 +342,7 @@ function LuxMain() {
       var element = elements[i];
       // Skip every password field and check if this field is configured for listening in TypoScript
       if (element.type !== 'password' && isFieldConfiguredInFieldMapping(element)) {
-        element.addEventListener('change', function () {
+        element.addEventListener('change', function() {
           fieldListener(this);
         });
       }
@@ -312,10 +352,10 @@ function LuxMain() {
   /**
    * @returns {void}
    */
-  var addFormListeners = function () {
+  var addFormListeners = function() {
     var forms = document.querySelectorAll('form[data-lux-form-identification]');
     for (var i = 0; i < forms.length; i++) {
-      forms[i].addEventListener('submit', function (event) {
+      forms[i].addEventListener('submit', function(event) {
         if (event.target.getAttribute('data-lux-form-identification') === 'preventDefault') {
           event.preventDefault();
         }
@@ -327,11 +367,11 @@ function LuxMain() {
   /**
    * @returns {void}
    */
-  var addEmail4LinkListeners = function () {
+  var addEmail4LinkListeners = function() {
     var links = document.querySelectorAll('[data-lux-email4link-title]');
     for (var i = 0; i < links.length; i++) {
       var element = links[i];
-      element.addEventListener('click', function (event) {
+      element.addEventListener('click', function(event) {
         email4LinkListener(this, event);
       });
     }
@@ -340,14 +380,14 @@ function LuxMain() {
   /**
    * @returns {void}
    */
-  var addDownloadListener = function () {
+  var addDownloadListener = function() {
     if (isDownloadTrackingEnabled()) {
       var links = document.querySelectorAll(getExpressionForLinkSelection());
       var href;
       for (var i = 0; i < links.length; i++) {
         if (!links[i].hasAttribute('data-lux-email4link-title')) {
           href = links[i].getAttribute('href');
-          links[i].addEventListener('click', function (event) {
+          links[i].addEventListener('click', function(event) {
             ajaxConnection({
               'tx_lux_fe[dispatchAction]': 'downloadRequest',
               'tx_lux_fe[fingerprint]': identification.getFingerprint(),
@@ -363,10 +403,10 @@ function LuxMain() {
   /**
    * @returns {void}
    */
-  var addLinkListener = function () {
+  var addLinkListener = function() {
     var links = document.querySelectorAll('[data-lux-linklistener]');
     for (var i = 0; i < links.length; i++) {
-      links[i].addEventListener('click', function (event) {
+      links[i].addEventListener('click', function(event) {
         var tag = event.target.getAttribute('data-lux-linklistener');
         if (tag !== '') {
           ajaxConnection({
@@ -403,7 +443,7 @@ function LuxMain() {
    * @param event
    * @returns {void}
    */
-  var email4LinkListener = function (link, event) {
+  var email4LinkListener = function(link, event) {
     if (identification.isDisableForLinkStorageEntrySet() === false) {
       event.preventDefault();
 
@@ -418,7 +458,7 @@ function LuxMain() {
         html = html.replace('###TEXT###', text);
         html = html.replace('###HREF###', getFilenameFromHref(href));
         that.lightboxInstance = basicLightbox.create(html);
-        that.lightboxInstance.element().querySelector('[data-lux-email4link="form"]').addEventListener('submit', function (event) {
+        that.lightboxInstance.element().querySelector('[data-lux-email4link="form"]').addEventListener('submit', function(event) {
           email4LinkLightboxSubmitListener(this, event, link);
         });
         that.lightboxInstance.show();
@@ -434,7 +474,7 @@ function LuxMain() {
    * @param {Node} link
    * @returns {void}
    */
-  var email4LinkLightboxSubmitListener = function (element, event, link) {
+  var email4LinkLightboxSubmitListener = function(element, event, link) {
     event.preventDefault();
     var href = link.getAttribute('href');
     var sendEmail = link.getAttribute('data-lux-email4link-sendemail') || 'false';
@@ -460,7 +500,7 @@ function LuxMain() {
    * @param callbackArguments
    * @returns {void}
    */
-  this.email4LinkLightboxSubmitCallback = function (response, callbackArguments) {
+  this.email4LinkLightboxSubmitCallback = function(response, callbackArguments) {
     removeWaitClassToBodyTag();
 
     if (response.error === true) {
@@ -471,11 +511,11 @@ function LuxMain() {
         showElement(
           that.lightboxInstance.element().querySelector('[data-lux-email4link="successMessageSendEmail"]')
         );
-        setTimeout(function () {
+        setTimeout(function() {
           that.lightboxInstance.close();
         }, 2000);
       } else {
-        setTimeout(function () {
+        setTimeout(function() {
           that.lightboxInstance.close();
           window.location = callbackArguments.href;
         }, 500);
@@ -487,7 +527,7 @@ function LuxMain() {
    * @param {Node} field
    * @returns {void}
    */
-  var fieldListener = function (field) {
+  var fieldListener = function(field) {
     var key = getKeyOfFieldConfigurationToGivenField(field, getFieldMapping());
     var value = field.value;
     ajaxConnection({
@@ -502,7 +542,7 @@ function LuxMain() {
    * @param {Node} form
    * @returns {void}
    */
-  var sendFormValues = function (form) {
+  var sendFormValues = function(form) {
     var formArguments = {};
     for (var i = 0; i < form.elements.length; i++) {
       var field = form.elements[i];
@@ -522,7 +562,7 @@ function LuxMain() {
   /**
    * @returns {void}
    */
-  var doNotTrackListener = function () {
+  var doNotTrackListener = function() {
     if (navigator.doNotTrack === '1') {
       var text = document.querySelectorAll('[data-lux-container-optout="text"]');
       for (var i = 0; i < text.length; i++) {
@@ -539,7 +579,7 @@ function LuxMain() {
    * @param field
    * @returns {boolean}
    */
-  var isFieldConfiguredInFieldMapping = function (field) {
+  var isFieldConfiguredInFieldMapping = function(field) {
     return getKeyOfFieldConfigurationToGivenField(field, getFieldMapping()) !== '';
   };
 
@@ -551,7 +591,7 @@ function LuxMain() {
    * @param fieldMapping
    * @returns {string}
    */
-  var getKeyOfFieldConfigurationToGivenField = function (field, fieldMapping) {
+  var getKeyOfFieldConfigurationToGivenField = function(field, fieldMapping) {
     var keyConfiguration = '';
     var fieldName = field.name;
     for (var key in fieldMapping) {
@@ -574,7 +614,7 @@ function LuxMain() {
    *
    * @returns {String}
    */
-  var getExpressionForLinkSelection = function () {
+  var getExpressionForLinkSelection = function() {
     var extensions = getContainer().getAttribute('data-lux-downloadtracking-extensions').toLowerCase().split(',');
     return 'a[href$="' + extensions.join('"],a[href$="') + '"]';
   };
@@ -587,7 +627,7 @@ function LuxMain() {
    * @param needle
    * @returns {boolean}
    */
-  var matchStringInString = function (haystack, needle) {
+  var matchStringInString = function(haystack, needle) {
     if (needle.indexOf('*') !== -1) {
       needle = needle.replace('*', '');
       var found = haystack.indexOf(needle) !== -1;
@@ -600,7 +640,7 @@ function LuxMain() {
   /**
    * @returns {object}
    */
-  var getFieldMapping = function () {
+  var getFieldMapping = function() {
     var json = {};
     try {
       json = JSON.parse(window.luxFieldMappingConfiguration);
@@ -613,7 +653,7 @@ function LuxMain() {
   /**
    * @returns {object}
    */
-  var getFormFieldMapping = function () {
+  var getFormFieldMapping = function() {
     var json = {};
     try {
       json = JSON.parse(window.luxFormFieldMappingConfiguration);
@@ -626,7 +666,7 @@ function LuxMain() {
   /**
    * @returns {boolean}
    */
-  var isPageTrackingEnabled = function () {
+  var isPageTrackingEnabled = function() {
     var enabled = false;
     var container = getContainer();
     if (container !== null) {
@@ -641,7 +681,7 @@ function LuxMain() {
   /**
    * @returns {boolean}
    */
-  var isDownloadTrackingEnabled = function () {
+  var isDownloadTrackingEnabled = function() {
     var enabled = false;
     var container = getContainer();
     if (container !== null) {
@@ -656,7 +696,7 @@ function LuxMain() {
   /**
    * @returns {int}
    */
-  var getPageUid = function () {
+  var getPageUid = function() {
     var uid = 0;
     var container = getContainer();
     if (container !== null) {
@@ -671,14 +711,14 @@ function LuxMain() {
   /**
    * @returns {string}
    */
-  var getReferrer = function () {
+  var getReferrer = function() {
     return encodeURIComponent(document.referrer);
   };
 
   /**
    * @returns {string}
    */
-  var getRequestUri = function () {
+  var getRequestUri = function() {
     var container = getContainer();
     if (container !== null) {
       return container.getAttribute('data-lux-requesturi');
@@ -693,11 +733,11 @@ function LuxMain() {
    * @params {object} callbackArguments
    * @returns {void}
    */
-  var ajaxConnection = function (parameters, uri, callback, callbackArguments) {
+  var ajaxConnection = function(parameters, uri, callback, callbackArguments) {
     callbackArguments = callbackArguments || {};
     if (uri !== '') {
       var xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function () {
+      xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
           if (callback !== null) {
             that[callback](JSON.parse(this.responseText), callbackArguments);
@@ -726,7 +766,7 @@ function LuxMain() {
    * @params {object} parameters
    * @returns {string} e.g. "index.php?id=123&type=123&x=123&y=abc"
    */
-  var mergeUriWithParameters = function (uri, parameters) {
+  var mergeUriWithParameters = function(uri, parameters) {
     for (var key in parameters) {
       if (parameters.hasOwnProperty(key)) {
         if (uri.indexOf('?') !== -1) {
@@ -749,7 +789,7 @@ function LuxMain() {
    *
    * @returns {boolean}
    */
-  var isLuxActivated = function () {
+  var isLuxActivated = function() {
     return navigator.doNotTrack !== '1'
       && identification.isOptOutStatusSet() === false
       && getContainer() !== null
@@ -763,7 +803,7 @@ function LuxMain() {
    *
    * @returns {boolean}
    */
-  var isLuxAutoEnabled = function () {
+  var isLuxAutoEnabled = function() {
     var autoEnable = getContainer().getAttribute('data-lux-autoenable') === '1';
     return autoEnable === true || (autoEnable === false && identification.isOptInStatusSet());
   };
@@ -771,21 +811,21 @@ function LuxMain() {
   /**
    * @returns {object}
    */
-  var getContainer = function () {
+  var getContainer = function() {
     return document.getElementById('lux_container');
   };
 
   /**
    * @returns {void}
    */
-  var addWaitClassToBodyTag = function () {
+  var addWaitClassToBodyTag = function() {
     document.body.className += ' ' + 'lux_waiting';
   };
 
   /**
    * @returns {void}
    */
-  var removeWaitClassToBodyTag = function () {
+  var removeWaitClassToBodyTag = function() {
     document.body.classList.remove('lux_waiting');
   };
 
@@ -793,7 +833,7 @@ function LuxMain() {
    * @param {Node} element
    * @returns {void}
    */
-  var hideElement = function (element) {
+  var hideElement = function(element) {
     element.style.display = 'none';
   };
 
@@ -801,7 +841,7 @@ function LuxMain() {
    * @param {Node} element
    * @returns {void}
    */
-  var showElement = function (element) {
+  var showElement = function(element) {
     element.style.display = 'block';
   };
 
@@ -811,7 +851,7 @@ function LuxMain() {
    * @param email
    * @returns {boolean}
    */
-  var isEmailAddress = function (email) {
+  var isEmailAddress = function(email) {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
   };
@@ -823,7 +863,7 @@ function LuxMain() {
    * @param {String} href
    * @returns {String}
    */
-  var getFilenameFromHref = function (href) {
+  var getFilenameFromHref = function(href) {
     var filename = href.replace(/^.*[\\\/]/, '');
     var fileExtensions = [
       'pdf',
@@ -849,7 +889,7 @@ function LuxMain() {
    * @param {Array} haystack
    * @returns {boolean}
    */
-  var inArray = function (needle, haystack) {
+  var inArray = function(needle, haystack) {
     var length = haystack.length;
     for (var i = 0; i < length; i++) {
       if (haystack[i] === needle) return true;
@@ -861,7 +901,7 @@ function LuxMain() {
    * @param {String} filename
    * @returns {String}
    */
-  var getFileExtension = function (filename) {
+  var getFileExtension = function(filename) {
     if (filename.indexOf('.') !== -1) {
       return filename.split('.').pop();
     }
@@ -869,5 +909,27 @@ function LuxMain() {
   };
 }
 
-var Lux = new window.LuxMain();
+/**
+ * Get a singleton object in lux and luxenterprise
+ *
+ * @type {{getInstance: (function(): LuxIdentification)}}
+ */
+var LuxSingleton = (function() {
+  var instance;
+
+  function createInstance() {
+    return new LuxMain();
+  }
+
+  return {
+    getInstance: function() {
+      if (!instance) {
+        instance = createInstance();
+      }
+      return instance;
+    }
+  };
+})();
+
+var Lux = LuxSingleton.getInstance();
 Lux.initialize();
