@@ -69,6 +69,24 @@ class DownloadRepository extends AbstractRepository
     }
 
     /**
+     * @param \DateTime $start
+     * @param \DateTime $end
+     * @return int
+     * @throws InvalidQueryException
+     */
+    public function getNumberOfDownloadsInTimeFrame(\DateTime $start, \DateTime $end): int
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->logicalAnd([
+                $query->greaterThanOrEqual('crdate', $start->format('U')),
+                $query->lessThanOrEqual('crdate', $end->format('U'))
+            ])
+        );
+        return (int)$query->execute()->count();
+    }
+
+    /**
      * Get the number of downloads of the last 8 days
      *      Example return
      *          [10,52,8,54,536,15,55,44] or

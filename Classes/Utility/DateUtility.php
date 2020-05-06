@@ -40,6 +40,19 @@ class DateUtility
     }
 
     /**
+     * Get a DateTime 5 minutes ago to find out who is online at the moment
+     *
+     * @return \DateTime
+     * @throws \Exception
+     */
+    public static function getCurrentOnlineDateTime(): \DateTime
+    {
+        $date = new \DateTime();
+        $date->modify('-' . self::IS_ONLINE_TIME . ' minutes');
+        return $date;
+    }
+
+    /**
      * @param \DateTime $date
      * @return \DateTime
      * @throws \Exception
@@ -64,16 +77,25 @@ class DateUtility
     }
 
     /**
-     * Get a DateTime 5 minutes ago to find out who is online at the moment
-     *
+     * @param \DateTime $date
      * @return \DateTime
-     * @throws \Exception
      */
-    public static function getCurrentOnlineDateTime(): \DateTime
+    public static function getPreviousMonday(\DateTime $date): \DateTime
     {
-        $date = new \DateTime();
-        $date->modify('-' . self::IS_ONLINE_TIME . ' minutes');
-        return $date;
+        $new = clone $date;
+        $new->modify('monday this week');
+        return $new;
+    }
+
+    /**
+     * @param \DateTime $date
+     * @return \DateTime
+     */
+    public static function getStartOfMonth(\DateTime $date): \DateTime
+    {
+        $start = clone $date;
+        $start->modify('first day of this month')->modify('midnight');
+        return $start;
     }
 
     /**
@@ -91,10 +113,10 @@ class DateUtility
      * @param \DateTime $date
      * @return \DateTime
      */
-    protected static function getStartOfMonth(\DateTime $date): \DateTime
+    public static function getStartOfYear(\DateTime $date): \DateTime
     {
         $start = clone $date;
-        $start->modify('first day of this month')->modify('midnight');
+        $start->modify('first day of january this year')->modify('midnight');
         return $start;
     }
 }

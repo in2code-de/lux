@@ -2,7 +2,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
-use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
@@ -35,7 +34,7 @@ abstract class AbstractController extends ActionController
     }
 
     /**
-     * Always set a default FilterDto even if there are no filter params
+     * Set a filter for the last 12 month
      *
      * @return void
      * @throws InvalidArgumentNameException
@@ -43,12 +42,7 @@ abstract class AbstractController extends ActionController
      */
     protected function setFilter(): void
     {
-        try {
-            $this->request->getArgument('filter');
-        } catch (\Exception $exception) {
-            unset($exception);
-            $this->request->setArgument('filter', ObjectUtility::getFilterDto(FilterDto::PERIOD_THISYEAR));
-        }
+        $this->request->setArgument('filter', ObjectUtility::getFilterDto());
     }
 
     /**

@@ -4,7 +4,9 @@ namespace In2code\Lux\Controller;
 
 use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\DataProvider\BrowserAmountDataProvider;
+use In2code\Lux\Domain\DataProvider\DownloadsDataProvider;
 use In2code\Lux\Domain\DataProvider\LinkclickDataProvider;
+use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
@@ -76,17 +78,20 @@ class AnalysisController extends AbstractController
     public function dashboardAction(FilterDto $filter): void
     {
         $browserDataProvider = ObjectUtility::getObjectManager()->get(BrowserAmountDataProvider::class, $filter);
-        $linkclkickProvider = ObjectUtility::getObjectManager()->get(LinkclickDataProvider::class, $filter);
+        $linkclickProvider = ObjectUtility::getObjectManager()->get(LinkclickDataProvider::class, $filter);
+        $pagevisitsProvider = ObjectUtility::getObjectManager()->get(PagevisistsDataProvider::class, $filter);
+        $downloadsProvider = ObjectUtility::getObjectManager()->get(DownloadsDataProvider::class, $filter);
+
         $values = [
             'filter' => $filter,
-            'numberOfVisitorsByDay' => $this->pagevisitsRepository->getNumberOfVisitorsByDay(),
-            'numberOfDownloadsByDay' => $this->downloadRepository->getNumberOfDownloadsByDay(),
+            'numberOfVisitorsData' => $pagevisitsProvider,
+            'numberOfDownloadsData' => $downloadsProvider,
             'interestingLogs' => $this->logRepository->findInterestingLogs($filter),
             'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
             'downloads' => $this->downloadRepository->findCombinedByHref($filter),
             'latestPagevisits' => $this->pagevisitsRepository->findLatestPagevisits($filter),
             'browserData' => $browserDataProvider,
-            'linkclickData' => $linkclkickProvider
+            'linkclickData' => $linkclickProvider
         ];
         $this->view->assignMultiple($values);
     }
@@ -104,16 +109,20 @@ class AnalysisController extends AbstractController
     /**
      * @param FilterDto $filter
      * @return void
+     * @throws Exception
      * @throws InvalidQueryException
      */
     public function contentAction(FilterDto $filter): void
     {
+        $pagevisitsProvider = ObjectUtility::getObjectManager()->get(PagevisistsDataProvider::class, $filter);
+        $downloadsProvider = ObjectUtility::getObjectManager()->get(DownloadsDataProvider::class, $filter);
+
         $this->view->assignMultiple([
             'filter' => $filter,
+            'numberOfVisitorsData' => $pagevisitsProvider,
+            'numberOfDownloadsData' => $downloadsProvider,
             'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
-            'downloads' => $this->downloadRepository->findCombinedByHref($filter),
-            'numberOfVisitorsByDay' => $this->pagevisitsRepository->getNumberOfVisitorsByDay(),
-            'numberOfDownloadsByDay' => $this->downloadRepository->getNumberOfDownloadsByDay(),
+            'downloads' => $this->downloadRepository->findCombinedByHref($filter)
         ]);
     }
 

@@ -1404,7 +1404,7 @@
 
 			<trans-unit id="datetime.weekday.now">
 				<source>Now</source>
-				<target state="translated">Heute</target>
+				<target state="translated">Jetzt</target>
 			</trans-unit>
 			<trans-unit id="datetime.weekday.mon">
 				<source>Mo</source>
@@ -1435,8 +1435,12 @@
 				<target state="translated">So</target>
 			</trans-unit>
 			<trans-unit id="datetime.week.0">
-				<source>Now</source>
+				<source>Today</source>
 				<target state="translated">Heute</target>
+			</trans-unit>
+			<trans-unit id="datetime.week.n">
+				<source>%s week(s) ago</source>
+				<target state="translated">Vor %s Woche</target>
 			</trans-unit>
 			<trans-unit id="datetime.week.1">
 				<source>1 week ago</source>
@@ -1513,6 +1517,14 @@
 			<trans-unit id="datetime.month.12">
 				<source>December</source>
 				<target state="translated">Dezember</target>
+			</trans-unit>
+			<trans-unit id="datetime.n">
+				<source>%s</source>
+				<target state="translated">%s</target>
+			</trans-unit>
+			<trans-unit id="datetime.week.n">
+				<source>Week%s</source>
+				<target state="translated">KW%s</target>
 			</trans-unit>
 
 			<trans-unit id="pleaseChoose">

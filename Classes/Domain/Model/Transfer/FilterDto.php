@@ -4,8 +4,10 @@ namespace In2code\Lux\Domain\Model\Transfer;
 
 use In2code\Lux\Domain\Model\Category;
 use In2code\Lux\Domain\Repository\CategoryRepository;
+use In2code\Lux\Utility\DateUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
  * Class FilterDto is a filter class that helps filtering visitors by given parameters. Per default, get visitors
@@ -13,11 +15,13 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class FilterDto
 {
-    const PERIOD_ALL = 0;
+    const PERIOD_DEFAULT = 0;
     const PERIOD_THISYEAR = 1;
     const PERIOD_THISMONTH = 2;
     const PERIOD_LASTMONTH = 3;
     const PERIOD_LASTYEAR = 4;
+    const PERIOD_LAST12MONTH = 10;
+    const PERIOD_ALL = 100;
     const IDENTIFIED_ALL = -1;
     const IDENTIFIED_UNKNOWN = 0;
     const IDENTIFIED_IDENTIFIED = 1;
@@ -61,7 +65,7 @@ class FilterDto
     /**
      * @var int
      */
-    protected $timePeriod = self::PERIOD_ALL;
+    protected $timePeriod = 0;
 
     /**
      * @var int
@@ -69,11 +73,19 @@ class FilterDto
     protected $identified = self::IDENTIFIED_ALL;
 
     /**
+     * If turned on, there is a short timeframe for pagevisits and downloads (the last 7 days) while all other diagrams
+     * should show the latest diagrams
+     *
+     * @var bool
+     */
+    protected $shortMode = false;
+
+    /**
      * FilterDto constructor.
      *
      * @param int $timePeriod
      */
-    public function __construct(int $timePeriod = self::PERIOD_ALL)
+    public function __construct(int $timePeriod = self::PERIOD_DEFAULT)
     {
         $this->setTimePeriod($timePeriod);
     }
@@ -146,6 +158,7 @@ class FilterDto
      */
     public function setTimeFrom(string $timeFrom)
     {
+        $this->removeShortMode();
         $this->timeFrom = $timeFrom;
         return $this;
     }
@@ -174,6 +187,7 @@ class FilterDto
      */
     public function setTimeTo(string $timeTo)
     {
+        $this->removeShortMode();
         $this->timeTo = $timeTo;
         return $this;
     }
@@ -183,6 +197,9 @@ class FilterDto
      */
     public function getTimePeriod(): int
     {
+        if ($this->timePeriod === self::PERIOD_DEFAULT) {
+            return self::PERIOD_LAST12MONTH;
+        }
         return $this->timePeriod;
     }
 
@@ -192,6 +209,9 @@ class FilterDto
      */
     public function setTimePeriod(int $timePeriod)
     {
+        if ($timePeriod === self::PERIOD_DEFAULT) {
+            $this->setShortMode();
+        }
         $this->timePeriod = $timePeriod;
         return $this;
     }
@@ -226,7 +246,6 @@ class FilterDto
         /** @noinspection PhpUnhandledExceptionInspection */
         $timeFrom = new \DateTime($seconds . ' seconds ago');
         $this->setTimeFrom($timeFrom->format('c'));
-        /** @noinspection PhpUnhandledExceptionInspection */
         $timeTo = new \DateTime();
         $this->setTimeTo($timeTo->format('c'));
         return $this;
@@ -261,6 +280,7 @@ class FilterDto
     /**
      * @param int $categoryUid
      * @return FilterDto
+     * @throws Exception
      */
     public function setCategoryScoring(int $categoryUid)
     {
@@ -275,6 +295,32 @@ class FilterDto
     }
 
     /**
+     * @return bool
+     */
+    public function isShortMode(): bool
+    {
+        return $this->shortMode;
+    }
+
+    /**
+     * @return FilterDto
+     */
+    public function setShortMode(): self
+    {
+        $this->shortMode = true;
+        return $this;
+    }
+
+    /**
+     * @return FilterDto
+     */
+    public function removeShortMode(): self
+    {
+        $this->shortMode = false;
+        return $this;
+    }
+
+    /**
      * Calculated values
      */
 
@@ -284,21 +330,26 @@ class FilterDto
     public function isSet(): bool
     {
         return $this->searchterm !== '' || $this->pid !== '' || $this->scoring > 0 || $this->categoryScoring !== null
-            || $this->timeFrom !== '' || $this->timeTo !== '' || $this->timePeriod !== self::PERIOD_THISYEAR;
+            || $this->timeFrom !== '' || $this->timeTo !== '' || $this->timePeriod !== self::PERIOD_DEFAULT;
     }
 
     /**
      * Get a start datetime for period filter
      *
+     * @param bool $shortmode
      * @return \DateTime
      * @throws \Exception
      */
-    public function getStartTimeForFilter(): \DateTime
+    public function getStartTimeForFilter(bool $shortmode = false): \DateTime
     {
         if ($this->isTimeFromAndTimeToGiven()) {
             $time = $this->getTimeFromDateTime();
         } else {
-            $time = $this->getStartTimeFromTimePeriod();
+            if ($shortmode === false || $this->isShortMode() === false) {
+                $time = $this->getStartTimeFromTimePeriod();
+            } else {
+                $time = $this->getStartTimeFromTimePeriodShort();
+            }
         }
         return $time;
     }
@@ -325,26 +376,26 @@ class FilterDto
      */
     protected function getStartTimeFromTimePeriod(): \DateTime
     {
-        $time = new \DateTime();
         if ($this->getTimePeriod() === self::PERIOD_ALL) {
             $time = new \DateTime();
             $time->setTimestamp(0);
-        }
-        if ($this->getTimePeriod() === self::PERIOD_THISYEAR) {
+        } elseif ($this->getTimePeriod() === self::PERIOD_THISYEAR) {
             $time = new \DateTime();
             $time->setDate((int)$time->format('Y'), 1, 1)->setTime(0, 0, 0);
-        }
-        if ($this->getTimePeriod() === self::PERIOD_LASTYEAR) {
+        } elseif ($this->getTimePeriod() === self::PERIOD_LASTYEAR) {
             $time = new \DateTime();
             $time->setDate(((int)$time->format('Y') - 1), 1, 1)->setTime(0, 0, 0);
-        }
-        if ($this->getTimePeriod() === self::PERIOD_THISMONTH) {
+        } elseif ($this->getTimePeriod() === self::PERIOD_THISMONTH) {
             $time = new \DateTime('first day of this month');
             $time->setTime(0, 0, 0);
-        }
-        if ($this->getTimePeriod() === self::PERIOD_LASTMONTH) {
+        } elseif ($this->getTimePeriod() === self::PERIOD_LASTMONTH) {
             $time = new \DateTime('first day of last month');
             $time->setTime(0, 0, 0);
+        } elseif ($this->getTimePeriod() === self::PERIOD_LAST12MONTH) {
+            $time = new \DateTime();
+            $time->modify('-12 months')->setTime(0, 0, 0);
+        } else {
+            $time = new \DateTime();
         }
         return $time;
     }
@@ -355,15 +406,162 @@ class FilterDto
      */
     protected function getEndTimeFromTimePeriod(): \DateTime
     {
-        $time = new \DateTime();
         if ($this->getTimePeriod() === self::PERIOD_LASTYEAR) {
             $time = new \DateTime('first day of january this year');
-        }
-        if ($this->getTimePeriod() === self::PERIOD_LASTMONTH) {
+        } elseif ($this->getTimePeriod() === self::PERIOD_LASTMONTH) {
             $time = new \DateTime('last day of last month');
             $time->setTime(23, 59, 59);
+        } else {
+            $time = new \DateTime();
         }
         return $time;
+    }
+
+    /**
+     * @return \DateTime
+     * @throws \Exception
+     */
+    protected function getStartTimeFromTimePeriodShort(): \DateTime
+    {
+        if ($this->isShortMode()) {
+            return new \DateTime('7 days ago midnight');
+        }
+        return $this->getStartTimeFromTimePeriod();
+    }
+
+    /**
+     * Example return values
+     *  [
+     *      'intervals' => [
+     *          [
+     *              'start' => {DateTime 2020-10-01 00:00:00},
+     *              'end' => {DateTime 2020-10-01 23:59:59}
+     *          ],
+     *          [
+     *              'start' => {DateTime 2020-10-02 00:00:00},
+     *              'end' => {DateTime 2020-10-02 23:59:59}
+     *          ],
+     *          [
+     *              'start' => {DateTime 2020-10-03 00:00:00},
+     *              'end' => {DateTime 2020-10-03 23:59:59}
+     *          ],
+     *      ],
+     *      'frequency' => 'day' // or "week", "month", "year"
+     *  ]
+     *
+     * @return \DateTime[]
+     * @throws \Exception
+     */
+    public function getIntervals(): array
+    {
+        $intervals = ['frequency' => $this->getStartIntervals()['frequency']];
+        $startIntervals = $this->getStartIntervals()['intervals'];
+        foreach ($startIntervals as $dateTime) {
+            if ($next = next($startIntervals)) {
+                $end = clone $next;
+                $end->modify('-1 second');
+                $intervals['intervals'][] = [
+                    'start' => $dateTime,
+                    'end' => $end
+                ];
+            }
+        }
+        return $intervals;
+    }
+
+    /**
+     * Example return values
+     *  [
+     *      'intervals' => [
+     *          {DateTime 2020-10-01 00:00:00},
+     *          {DateTime 2020-10-02 00:00:00},
+     *          {DateTime 2020-10-03 00:00:00}
+     *      ],
+     *      'frequency' => 'day' // or "week", "month", "year"
+     *  ]
+     *
+     * @return \DateTime[]
+     * @throws \Exception
+     */
+    protected function getStartIntervals(): array
+    {
+        $start = $this->getStartTimeForFilter(true);
+        $end = $this->getEndTimeForFilter();
+        $interval = $start->diff($end);
+        $deltaDays = $interval->format('%a');
+        if ($deltaDays <= 14) { // until 2 weeks
+            return ['intervals' => $this->getDayIntervals(), 'frequency' => 'day'];
+        } elseif ($deltaDays <= 60) { // until 2 month
+            return ['intervals' => $this->getWeekIntervals(), 'frequency' => 'week'];
+        } elseif ($deltaDays <= 730) { // until 2 years
+            return ['intervals' => $this->getMonthIntervals(), 'frequency' => 'month'];
+        } else { // over 2 years
+            return ['intervals' => $this->getYearIntervals(), 'frequency' => 'year'];
+        }
+    }
+
+    /**
+     * @return \DateTime[]
+     * @throws \Exception
+     */
+    protected function getDayIntervals(): array
+    {
+        $start = DateUtility::getDayStart($this->getStartTimeForFilter(true));
+        $end = $this->getEndTimeFromTimePeriod();
+        $interval = [];
+        for ($day = clone $start; $day < $end; $day->modify('+1 day')) {
+            $interval[] = clone $day;
+        }
+        $interval[] = $end;
+        return $interval;
+    }
+
+    /**
+     * @return \DateTime[]
+     * @throws \Exception
+     */
+    protected function getWeekIntervals(): array
+    {
+        $start = DateUtility::getPreviousMonday($this->getStartTimeForFilter(true));
+        $end = $this->getEndTimeFromTimePeriod();
+        $interval = [];
+        for ($week = clone $start; $week < $end; $week->modify('+1 week')) {
+            $interval[] = clone $week;
+        }
+        $interval[] = $end;
+        return $interval;
+    }
+
+    /**
+     * @return \DateTime[]
+     * @throws \Exception
+     */
+    protected function getMonthIntervals(): array
+    {
+        $start = DateUtility::getStartOfMonth($this->getStartTimeForFilter(true));
+        $end = $this->getEndTimeFromTimePeriod();
+        $interval = [];
+        for ($month = clone $start; $month < $end; $month->modify('+1 month')) {
+            $interval[] = clone $month;
+        }
+        $interval[] = $end;
+        return $interval;
+    }
+
+    /**
+     * @return \DateTime[]
+     * @throws \Exception
+     */
+    protected function getYearIntervals(): array
+    {
+        $start = DateUtility::getStartOfYear($this->getStartTimeForFilter(true));
+        $end = $this->getEndTimeFromTimePeriod();
+        $interval = [];
+        for ($year = clone $start; $year < $end; $year->modify('+1 year')) {
+            $interval[] = clone $year;
+        }
+        $interval[] = $end;
+        return $interval;
     }
 
     /**

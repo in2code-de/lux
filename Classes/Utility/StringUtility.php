@@ -128,4 +128,13 @@ class StringUtility
     {
         return preg_replace('~' . $postfix . '$~', '', $string);
     }
+
+    /**
+     * @param string $string
+     * @return string
+     */
+    public static function removeLeadingZeros(string $string): string
+    {
+        return ltrim($string, '0');
+    }
 }

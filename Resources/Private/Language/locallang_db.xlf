@@ -1084,7 +1084,10 @@
 				<source>Su</source>
 			</trans-unit>
 			<trans-unit id="datetime.week.0">
-				<source>Now</source>
+				<source>Today</source>
+			</trans-unit>
+			<trans-unit id="datetime.week.n">
+				<source>%s week(s) ago</source>
 			</trans-unit>
 			<trans-unit id="datetime.week.1">
 				<source>1 week ago</source>
@@ -1142,6 +1145,12 @@
 			</trans-unit>
 			<trans-unit id="datetime.month.12">
 				<source>December</source>
+			</trans-unit>
+			<trans-unit id="datetime.n">
+				<source>%s</source>
+			</trans-unit>
+			<trans-unit id="datetime.week.n">
+				<source>Week%s</source>
 			</trans-unit>
 
 			<trans-unit id="pleaseChoose">

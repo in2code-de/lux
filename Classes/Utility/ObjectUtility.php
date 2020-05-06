@@ -40,7 +40,7 @@ class ObjectUtility
      * @return FilterDto
      * @throws Exception
      */
-    public static function getFilterDto(int $period = FilterDto::PERIOD_ALL): FilterDto
+    public static function getFilterDto(int $period = FilterDto::PERIOD_DEFAULT): FilterDto
     {
         return self::getObjectManager()->get(FilterDto::class, $period);
     }

@@ -7,16 +7,16 @@
         </h3>
     </div>
     <div class="panel-body">
-        <f:if condition="{numberOfDownloadsByDay}">
+        <f:if condition="{numberOfDownloadsData.dataAvailable}">
             <f:then>
                 <div>
                     <canvas id="extension-lux-list-downloads"
                             width="750"
                             height="250"
                             data-chart="line"
-                            data-chart-data="{lux:format.implode(array:numberOfDownloadsByDay)}"
+                            data-chart-data="{numberOfDownloadsData.amountsList}"
                             data-chart-label="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.downloads.title')}"
-                            data-chart-labels="{lux:charts.getLastDayNames()}"></canvas>
+                            data-chart-labels="{numberOfDownloadsData.titlesList}"></canvas>
                 </div>
             </f:then>
             <f:else>
