@@ -25,6 +25,11 @@ class Pagevisit extends AbstractEntity
     protected $page = null;
 
     /**
+     * @var int
+     */
+    protected $language = 0;
+
+    /**
      * @var \DateTime
      */
     protected $crdate = null;
@@ -67,6 +72,24 @@ class Pagevisit extends AbstractEntity
     public function setPage(Page $page)
     {
         $this->page = $page;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLanguage(): int
+    {
+        return $this->language;
+    }
+
+    /**
+     * @param int $language
+     * @return Pagevisit
+     */
+    public function setLanguage(int $language): self
+    {
+        $this->language = $language;
         return $this;
     }
 

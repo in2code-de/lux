@@ -322,6 +322,7 @@ function LuxMain() {
         'tx_lux_fe[dispatchAction]': 'pageRequest',
         'tx_lux_fe[fingerprint]': identification.getFingerprint(),
         'tx_lux_fe[arguments][pageUid]': getPageUid(),
+        'tx_lux_fe[arguments][languageUid]': getLanguageUid(),
         'tx_lux_fe[arguments][referrer]': getReferrer(),
         'tx_lux_fe[arguments][currentUrl]': encodeURIComponent(window.location.href),
       }, getRequestUri(), 'generalWorkflowActionCallback', null);
@@ -702,6 +703,21 @@ function LuxMain() {
     if (container !== null) {
       if (container.hasAttribute('data-lux-pageuid')) {
         var uidContainer = container.getAttribute('data-lux-pageuid');
+        uid = parseInt(uidContainer);
+      }
+    }
+    return uid;
+  };
+
+  /**
+   * @returns {int}
+   */
+  var getLanguageUid = function() {
+    var uid = 0;
+    var container = getContainer();
+    if (container !== null) {
+      if (container.hasAttribute('data-lux-languageuid')) {
+        var uidContainer = container.getAttribute('data-lux-languageuid');
         uid = parseInt(uidContainer);
       }
     }

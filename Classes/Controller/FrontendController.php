@@ -83,7 +83,12 @@ class FrontendController extends ActionController
             $visitor = $visitorFactory->getVisitor();
             $this->callAdditionalTrackers($visitor);
             $pageTracker = $this->objectManager->get(PageTracker::class);
-            $pageTracker->trackPage($visitor, (int)$arguments['pageUid'], $arguments['referrer']);
+            $pageTracker->trackPage(
+                $visitor,
+                (int)$arguments['pageUid'],
+                (int)$arguments['languageUid'],
+                $arguments['referrer']
+            );
             return json_encode($this->afterAction($visitor));
         } catch (\Exception $exception) {
             return json_encode($this->getError($exception));

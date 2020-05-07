@@ -98,23 +98,30 @@ page {
             data = TSFE:id
         }
 
-        # Activate page tracking
+        # Current language uid
         120 = TEXT
         120 {
+            noTrimWrap = | data-lux-languageuid="|"|
+            data = sitelanguage:languageId
+        }
+
+        # Activate page tracking
+        130 = TEXT
+        130 {
             value = data-lux-pagetracking="{$plugin.tx_lux.settings.tracking.page}"
             noTrimWrap = | ||
         }
 
         # Activate download tracking
-        130 = TEXT
-        130 {
+        140 = TEXT
+        140 {
             value = data-lux-downloadtracking="{$plugin.tx_lux.settings.tracking.assetDownloads}"
             noTrimWrap = | ||
         }
 
         # Allowed file extensions for download tracking
-        140 = TEXT
-        140 {
+        150 = TEXT
+        150 {
             value = data-lux-downloadtracking-extensions="{$plugin.tx_lux.settings.tracking.assetDownloads.allowedExtensions}"
             noTrimWrap = | ||
         }

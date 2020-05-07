@@ -22,10 +22,10 @@ return [
         'rootLevel' => -1
     ],
     'interface' => [
-        'showRecordFieldList' => 'page,crdate,referrer,visitor',
+        'showRecordFieldList' => 'page,language,crdate,referrer,visitor',
     ],
     'types' => [
-        '1' => ['showitem' => 'page,crdate,referrer,visitor'],
+        '1' => ['showitem' => 'page,language,crdate,referrer,visitor'],
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -122,6 +122,18 @@ return [
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'pages',
                 'foreign_table_where' => 'ORDER BY pages.title',
+                'default' => 0,
+                'readOnly' => true
+            ],
+        ],
+        'language' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Pagevisit::TABLE_NAME . '.language',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'foreign_table' => 'sys_language',
+                'foreign_table_where' => 'ORDER BY sys_language.title',
                 'default' => 0,
                 'readOnly' => true
             ],

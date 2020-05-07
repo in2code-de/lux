@@ -38,19 +38,20 @@ class PageTracker
     /**
      * @param Visitor $visitor
      * @param int $pageUid
+     * @param int $languageUid
      * @param string $referrer
      * @return void
      * @throws Exception
-     * @throws \Exception
      * @throws IllegalObjectTypeException
      * @throws InvalidSlotException
      * @throws InvalidSlotReturnException
      * @throws UnknownObjectException
+     * @throws \Exception
      */
-    public function trackPage(Visitor $visitor, int $pageUid, string $referrer): void
+    public function trackPage(Visitor $visitor, int $pageUid, int $languageUid, string $referrer): void
     {
         if ($this->isTrackingActivated($visitor, $pageUid)) {
-            $visitor->addPagevisit($this->getPageVisit($pageUid, $referrer));
+            $visitor->addPagevisit($this->getPageVisit($pageUid, $languageUid, $referrer));
             $visitor->setVisits($visitor->getNumberOfUniquePagevisits());
             $this->visitorRepository->update($visitor);
             $this->visitorRepository->persistAll();
@@ -60,18 +61,19 @@ class PageTracker
 
     /**
      * @param int $pageUid
+     * @param int $languageUid
      * @param string $referrer
      * @return Pagevisit
      * @throws Exception
      */
-    protected function getPageVisit(int $pageUid, string $referrer): Pagevisit
+    protected function getPageVisit(int $pageUid, int $languageUid, string $referrer): Pagevisit
     {
         /** @var Pagevisit $pageVisit */
         $pageVisit = ObjectUtility::getObjectManager()->get(Pagevisit::class);
         $pageRepository = ObjectUtility::getObjectManager()->get(PageRepository::class);
         /** @var Page $page */
         $page = $pageRepository->findByUid($pageUid);
-        $pageVisit->setPage($page)->setReferrer($referrer);
+        $pageVisit->setPage($page)->setLanguage($languageUid)->setReferrer($referrer);
         return $pageVisit;
     }
 
