@@ -63,7 +63,8 @@ class PagevisistsDataProvider extends AbstractDataProvider
         foreach ($intervals['intervals'] as $interval) {
             $this->data['amounts'][] = $pagevisitRepository->getNumberOfVisitorsInTimeFrame(
                 $interval['start'],
-                $interval['end']
+                $interval['end'],
+                $this->filter
             );
             $this->data['titles'][] = $this->getLabelForFrequency($frequency, $interval['start']);
         }

@@ -82,12 +82,11 @@ return [
             'exclude' => true,
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Download::TABLE_NAME . '.file',
             'config' => [
-                'type' => 'group',
-                'internal_type' => 'db',
-                'allowed' => \In2code\Lux\Domain\Model\File::TABLE_NAME,
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'foreign_table' => \In2code\Lux\Domain\Model\File::TABLE_NAME,
                 'size' => 1,
                 'maxitems' => 1,
-                'multiple' => 0,
                 'default' => 0,
                 'readOnly' => true
             ]
@@ -96,12 +95,9 @@ return [
             'exclude' => true,
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Download::TABLE_NAME . '.visitor',
             'config' => [
-                'type' => 'group',
-                'internal_type' => 'db',
-                'allowed' => \In2code\Lux\Domain\Model\Visitor::TABLE_NAME,
-                'size' => 1,
-                'maxitems' => 1,
-                'multiple' => 0,
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'foreign_table' => \In2code\Lux\Domain\Model\Visitor::TABLE_NAME,
                 'default' => 0,
                 'readOnly' => true
             ]

@@ -11,7 +11,6 @@ use In2code\Lux\Domain\Repository\CategoryRepository;
 use In2code\Lux\Domain\Repository\LogRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
-use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -136,16 +135,6 @@ class LeadController extends AbstractController
         $this->response->sendHeaders();
         echo $this->view->render();
         exit;
-    }
-
-    /**
-     * @return void
-     * @throws StopActionException
-     */
-    public function resetFilterForListAction(): void
-    {
-        BackendUtility::saveValueToSession('filter', []);
-        $this->redirect('list');
     }
 
     /**

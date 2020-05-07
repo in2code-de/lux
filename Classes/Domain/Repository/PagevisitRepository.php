@@ -11,6 +11,7 @@ use In2code\Lux\Domain\Service\ReadableReferrerService;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\FrontendUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
@@ -32,13 +33,13 @@ class PagevisitRepository extends AbstractRepository
     public function findCombinedByPageIdentifier(FilterDto $filter): array
     {
         $query = $this->createQuery();
-        $query->matching(
-            $query->logicalAnd([
-                $query->greaterThan('crdate', $filter->getStartTimeForFilter()),
-                $query->lessThan('crdate', $filter->getEndTimeForFilter()),
-                $query->greaterThan('page.uid', 0),
-            ])
-        );
+        $logicalAnd = [
+            $query->greaterThan('crdate', $filter->getStartTimeForFilter()),
+            $query->lessThan('crdate', $filter->getEndTimeForFilter()),
+            $query->greaterThan('page.uid', 0),
+        ];
+        $logicalAnd = $this->extendWithExtendedFilterQuery($query, $logicalAnd, $filter);
+        $query->matching($query->logicalAnd($logicalAnd));
         $pages = $query->execute(true);
         return $this->combineAndCutPages($pages);
     }
@@ -66,18 +67,19 @@ class PagevisitRepository extends AbstractRepository
     /**
      * @param \DateTime $start
      * @param \DateTime $end
+     * @param FilterDto $filter
      * @return int
      * @throws InvalidQueryException
      */
-    public function getNumberOfVisitorsInTimeFrame(\DateTime $start, \DateTime $end): int
+    public function getNumberOfVisitorsInTimeFrame(\DateTime $start, \DateTime $end, FilterDto $filter = null): int
     {
         $query = $this->createQuery();
-        $query->matching(
-            $query->logicalAnd([
-                $query->greaterThanOrEqual('crdate', $start->format('U')),
-                $query->lessThanOrEqual('crdate', $end->format('U'))
-            ])
-        );
+        $logicalAnd = [
+            $query->greaterThanOrEqual('crdate', $start->format('U')),
+            $query->lessThanOrEqual('crdate', $end->format('U'))
+        ];
+        $logicalAnd = $this->extendWithExtendedFilterQuery($query, $logicalAnd, $filter);
+        $query->matching($query->logicalAnd($logicalAnd));
         return (int)$query->execute()->count();
     }
 
@@ -222,5 +224,39 @@ class PagevisitRepository extends AbstractRepository
             }
         }
         return $result;
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @param QueryInterface $query
+     * @param array $logicalAnd
+     * @return array
+     * @throws InvalidQueryException
+     */
+    protected function extendWithExtendedFilterQuery(
+        QueryInterface $query,
+        array $logicalAnd,
+        FilterDto $filter = null
+    ): array {
+        if ($filter !== null) {
+            if ($filter->getSearchterm() !== '') {
+                $logicalOr = [];
+                foreach ($filter->getSearchterms() as $searchterm) {
+                    if (MathUtility::canBeInterpretedAsInteger($searchterm)) {
+                        $logicalOr[] = $query->equals('page.uid', (int)$searchterm);
+                    } else {
+                        $logicalOr[] = $query->like('page.title', '%' . $searchterm . '%');
+                    }
+                }
+                $logicalAnd[] = $query->logicalOr($logicalOr);
+            }
+            if ($filter->getScoring() > 0) {
+                $logicalAnd[] = $query->greaterThanOrEqual('visitor.scoring', $filter->getScoring());
+            }
+            if ($filter->getCategoryScoring() !== null) {
+                $logicalAnd[] = $query->contains('visitor.categoryscorings', $filter->getCategoryScoring());
+            }
+        }
+        return $logicalAnd;
     }
 }

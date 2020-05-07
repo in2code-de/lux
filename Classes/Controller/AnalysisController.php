@@ -21,6 +21,7 @@ use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Utility\ExtensionUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
+use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
@@ -60,38 +61,48 @@ class AnalysisController extends AbstractController
     protected $categoryRepository = null;
 
     /**
-     * @return void
-     * @throws InvalidArgumentNameException
-     * @throws Exception
+     * AnalysisController constructor.
+     * @param VisitorRepository $visitorRepository
+     * @param IpinformationRepository $ipinformationRepository
+     * @param LogRepository $logRepository
+     * @param PagevisitRepository $pagevisitsRepository
+     * @param DownloadRepository $downloadRepository
+     * @param CategoryRepository $categoryRepository
      */
-    public function initializeDashboardAction(): void
-    {
-        $this->setFilter();
+    public function __construct(
+        VisitorRepository $visitorRepository,
+        IpinformationRepository $ipinformationRepository,
+        LogRepository $logRepository,
+        PagevisitRepository $pagevisitsRepository,
+        DownloadRepository $downloadRepository,
+        CategoryRepository $categoryRepository
+    ) {
+        $this->visitorRepository = $visitorRepository;
+        $this->ipinformationRepository = $ipinformationRepository;
+        $this->logRepository = $logRepository;
+        $this->pagevisitsRepository = $pagevisitsRepository;
+        $this->downloadRepository = $downloadRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
-     * @param FilterDto $filter
      * @return void
      * @throws InvalidQueryException
      * @throws Exception
      */
-    public function dashboardAction(FilterDto $filter): void
+    public function dashboardAction(): void
     {
-        $browserDataProvider = ObjectUtility::getObjectManager()->get(BrowserAmountDataProvider::class, $filter);
-        $linkclickProvider = ObjectUtility::getObjectManager()->get(LinkclickDataProvider::class, $filter);
-        $pagevisitsProvider = ObjectUtility::getObjectManager()->get(PagevisistsDataProvider::class, $filter);
-        $downloadsProvider = ObjectUtility::getObjectManager()->get(DownloadsDataProvider::class, $filter);
-
+        $filter = ObjectUtility::getFilterDto();
         $values = [
             'filter' => $filter,
-            'numberOfVisitorsData' => $pagevisitsProvider,
-            'numberOfDownloadsData' => $downloadsProvider,
+            'numberOfVisitorsData' => ObjectUtility::getObjectManager()->get(PagevisistsDataProvider::class, $filter),
+            'numberOfDownloadsData' => ObjectUtility::getObjectManager()->get(DownloadsDataProvider::class, $filter),
             'interestingLogs' => $this->logRepository->findInterestingLogs($filter),
             'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
             'downloads' => $this->downloadRepository->findCombinedByHref($filter),
             'latestPagevisits' => $this->pagevisitsRepository->findLatestPagevisits($filter),
-            'browserData' => $browserDataProvider,
-            'linkclickData' => $linkclickProvider
+            'browserData' => ObjectUtility::getObjectManager()->get(BrowserAmountDataProvider::class, $filter),
+            'linkclickData' => ObjectUtility::getObjectManager()->get(LinkclickDataProvider::class, $filter)
         ];
         $this->view->assignMultiple($values);
     }
@@ -99,11 +110,11 @@ class AnalysisController extends AbstractController
     /**
      * @return void
      * @throws InvalidArgumentNameException
-     * @throws Exception
+     * @throws NoSuchArgumentException
      */
     public function initializeContentAction(): void
     {
-        $this->setFilter();
+        $this->setFilterExtended();
     }
 
     /**
@@ -114,15 +125,13 @@ class AnalysisController extends AbstractController
      */
     public function contentAction(FilterDto $filter): void
     {
-        $pagevisitsProvider = ObjectUtility::getObjectManager()->get(PagevisistsDataProvider::class, $filter);
-        $downloadsProvider = ObjectUtility::getObjectManager()->get(DownloadsDataProvider::class, $filter);
-
         $this->view->assignMultiple([
             'filter' => $filter,
-            'numberOfVisitorsData' => $pagevisitsProvider,
-            'numberOfDownloadsData' => $downloadsProvider,
+            'numberOfVisitorsData' => ObjectUtility::getObjectManager()->get(PagevisistsDataProvider::class, $filter),
+            'numberOfDownloadsData' => ObjectUtility::getObjectManager()->get(DownloadsDataProvider::class, $filter),
             'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
-            'downloads' => $this->downloadRepository->findCombinedByHref($filter)
+            'downloads' => $this->downloadRepository->findCombinedByHref($filter),
+            'luxCategories' => $this->categoryRepository->findAllLuxCategories()
         ]);
     }
 
@@ -187,59 +196,5 @@ class AnalysisController extends AbstractController
         $this->view->assignMultiple([
             'downloads' => $this->downloadRepository->findByHref($href)
         ]);
-    }
-
-    /**
-     * @param VisitorRepository $visitorRepository
-     * @return void
-     */
-    public function injectVisitorRepository(VisitorRepository $visitorRepository): void
-    {
-        $this->visitorRepository = $visitorRepository;
-    }
-
-    /**
-     * @param IpinformationRepository $ipinformationRepository
-     * @return void
-     */
-    public function injectIpinformationRepository(IpinformationRepository $ipinformationRepository): void
-    {
-        $this->ipinformationRepository = $ipinformationRepository;
-    }
-
-    /**
-     * @param LogRepository $logRepository
-     * @return void
-     */
-    public function injectLogRepository(LogRepository $logRepository): void
-    {
-        $this->logRepository = $logRepository;
-    }
-
-    /**
-     * @param PagevisitRepository $pagevisitRepository
-     * @return void
-     */
-    public function injectPagevisitRepository(PagevisitRepository $pagevisitRepository): void
-    {
-        $this->pagevisitsRepository = $pagevisitRepository;
-    }
-
-    /**
-     * @param DownloadRepository $downloadRepository
-     * @return void
-     */
-    public function injectDownloadRepository(DownloadRepository $downloadRepository): void
-    {
-        $this->downloadRepository = $downloadRepository;
-    }
-
-    /**
-     * @param CategoryRepository $categoryRepository
-     * @return void
-     */
-    public function injectCategoryRepository(CategoryRepository $categoryRepository): void
-    {
-        $this->categoryRepository = $categoryRepository;
     }
 }

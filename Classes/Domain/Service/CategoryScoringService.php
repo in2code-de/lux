@@ -71,6 +71,7 @@ class CategoryScoringService
      * @throws UnknownObjectException
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
+     * @throws Exception
      */
     protected function calculateCategoryScoringForDownload(Visitor $visitor)
     {

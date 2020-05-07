@@ -63,7 +63,8 @@ class DownloadsDataProvider extends AbstractDataProvider
         foreach ($intervals['intervals'] as $interval) {
             $this->data['amounts'][] = $downloadRepository->getNumberOfDownloadsInTimeFrame(
                 $interval['start'],
-                $interval['end']
+                $interval['end'],
+                $this->filter
             );
             $this->data['titles'][] = $this->getLabelForFrequency($frequency, $interval['start']);
         }

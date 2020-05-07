@@ -28,7 +28,7 @@ class GetClassNameOnActionViewHelper extends AbstractViewHelper
      */
     public function render(): string
     {
-        if ($this->arguments['view']['action'] === $this->arguments['onAction']) {
+        if (strtolower($this->arguments['view']['action']) === strtolower($this->arguments['onAction'])) {
             return $this->arguments['className'];
         }
         return $this->arguments['fallbackClassName'];

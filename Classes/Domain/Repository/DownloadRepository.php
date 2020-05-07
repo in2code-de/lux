@@ -9,6 +9,7 @@ use In2code\Lux\Domain\Model\Download;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\DatabaseUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
@@ -25,17 +26,19 @@ class DownloadRepository extends AbstractRepository
      * @param FilterDto $filter
      * @return array
      * @throws InvalidQueryException
+     * @throws \Exception
      */
     public function findCombinedByHref(FilterDto $filter): array
     {
         $query = $this->createQuery();
-        $query->matching(
-            $query->logicalAnd([
-                $query->greaterThan('crdate', $filter->getStartTimeForFilter()),
-                $query->lessThan('crdate', $filter->getEndTimeForFilter())
-            ])
-        );
+        $logicalAnd = [
+            $query->greaterThan('crdate', $filter->getStartTimeForFilter()),
+            $query->lessThan('crdate', $filter->getEndTimeForFilter())
+        ];
+        $logicalAnd = $this->extendWithExtendedFilterQuery($query, $logicalAnd, $filter);
+        $query->matching($query->logicalAnd($logicalAnd));
         $assets = $query->execute(true);
+
         $result = [];
         /** @var Download $asset */
         foreach ($assets as $asset) {
@@ -71,80 +74,20 @@ class DownloadRepository extends AbstractRepository
     /**
      * @param \DateTime $start
      * @param \DateTime $end
+     * @param FilterDto|null $filter
      * @return int
      * @throws InvalidQueryException
      */
-    public function getNumberOfDownloadsInTimeFrame(\DateTime $start, \DateTime $end): int
+    public function getNumberOfDownloadsInTimeFrame(\DateTime $start, \DateTime $end, FilterDto $filter = null): int
     {
         $query = $this->createQuery();
-        $query->matching(
-            $query->logicalAnd([
-                $query->greaterThanOrEqual('crdate', $start->format('U')),
-                $query->lessThanOrEqual('crdate', $end->format('U'))
-            ])
-        );
-        return (int)$query->execute()->count();
-    }
-
-    /**
-     * Get the number of downloads of the last 8 days
-     *      Example return
-     *          [10,52,8,54,536,15,55,44] or
-     *          [numberOfDownloadsToday,numberOfDownloadsYesterday,...]
-     *
-     * @return array
-     * @throws InvalidQueryException
-     */
-    public function getNumberOfDownloadsByDay(): array
-    {
-        /** @noinspection PhpUnhandledExceptionInspection */
-        $frames = [
-            [
-                new \DateTime('today midnight'),
-                new \DateTime()
-            ],
-            [
-                new \DateTime('yesterday midnight'),
-                new \DateTime('today midnight')
-            ],
-            [
-                new \DateTime('2 days ago midnight'),
-                new \DateTime('yesterday midnight')
-            ],
-            [
-                new \DateTime('3 days ago midnight'),
-                new \DateTime('2 days ago midnight')
-            ],
-            [
-                new \DateTime('4 days ago midnight'),
-                new \DateTime('3 days ago midnight')
-            ],
-            [
-                new \DateTime('5 days ago midnight'),
-                new \DateTime('4 days ago midnight')
-            ],
-            [
-                new \DateTime('6 days ago midnight'),
-                new \DateTime('5 days ago midnight')
-            ],
-            [
-                new \DateTime('7 days ago midnight'),
-                new \DateTime('6 days ago midnight')
-            ]
+        $logicalAnd = [
+            $query->greaterThanOrEqual('crdate', $start->format('U')),
+            $query->lessThanOrEqual('crdate', $end->format('U'))
         ];
-        $frames = array_reverse($frames);
-        $downloads = [];
-        foreach ($frames as $frame) {
-            $query = $this->createQuery();
-            $query->matching(
-                $query->logicalAnd([
-                    $query->greaterThan('crdate', $frame[0]),
-                    $query->lessThan('crdate', $frame[1])
-                ])
-            );
-            $downloads[] = $query->execute()->count();
-        }
-        return $downloads;
+        $logicalAnd = $this->extendWithExtendedFilterQuery($query, $logicalAnd, $filter);
+        $query->matching($query->logicalAnd($logicalAnd));
+        return (int)$query->execute()->count();
     }
 
     /**
@@ -155,5 +98,39 @@ class DownloadRepository extends AbstractRepository
     {
         $connection = DatabaseUtility::getConnectionForTable(Download::TABLE_NAME);
         return (int)$connection->executeQuery('select count(uid) from ' . Download::TABLE_NAME)->fetchColumn();
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @param QueryInterface $query
+     * @param array $logicalAnd
+     * @return array
+     * @throws InvalidQueryException
+     */
+    protected function extendWithExtendedFilterQuery(
+        QueryInterface $query,
+        array $logicalAnd,
+        FilterDto $filter = null
+    ): array {
+        if ($filter !== null) {
+            if ($filter->getSearchterm() !== '') {
+                $logicalOr = [];
+                foreach ($filter->getSearchterms() as $searchterm) {
+                    if (MathUtility::canBeInterpretedAsInteger($searchterm)) {
+                        $logicalOr[] = $query->equals('file.uid', (int)$searchterm);
+                    } else {
+                        $logicalOr[] = $query->like('file.name', '%' . $searchterm . '%');
+                    }
+                }
+                $logicalAnd[] = $query->logicalOr($logicalOr);
+            }
+            if ($filter->getScoring() > 0) {
+                $logicalAnd[] = $query->greaterThanOrEqual('visitor.scoring', $filter->getScoring());
+            }
+            if ($filter->getCategoryScoring() !== null) {
+                $logicalAnd[] = $query->contains('visitor.categoryscorings', $filter->getCategoryScoring());
+            }
+        }
+        return $logicalAnd;
     }
 }

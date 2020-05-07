@@ -78,7 +78,7 @@ class FilterDto
      *
      * @var bool
      */
-    protected $shortMode = false;
+    protected $shortMode = true;
 
     /**
      * FilterDto constructor.
@@ -158,7 +158,9 @@ class FilterDto
      */
     public function setTimeFrom(string $timeFrom)
     {
-        $this->removeShortMode();
+        if (!empty($timeFrom)) {
+            $this->removeShortMode();
+        }
         $this->timeFrom = $timeFrom;
         return $this;
     }
@@ -187,7 +189,9 @@ class FilterDto
      */
     public function setTimeTo(string $timeTo)
     {
-        $this->removeShortMode();
+        if (!empty($timeTo)) {
+            $this->removeShortMode();
+        }
         $this->timeTo = $timeTo;
         return $this;
     }
@@ -209,9 +213,6 @@ class FilterDto
      */
     public function setTimePeriod(int $timePeriod)
     {
-        if ($timePeriod === self::PERIOD_DEFAULT) {
-            $this->setShortMode();
-        }
         $this->timePeriod = $timePeriod;
         return $this;
     }

@@ -434,8 +434,8 @@
 				<target state="translated">Leads</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.content">
-				<source>Content</source>
-				<target state="translated">Content</target>
+				<source>Pagevisits and Downloads</source>
+				<target state="translated">Seitenaufrufe und Downloads</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.content.page">
 				<source>Page</source>
@@ -761,6 +761,10 @@
 			<trans-unit id="module.list.filter.searchterm">
 				<source>Searchterm</source>
 				<target state="translated">Suchbegriff</target>
+			</trans-unit>
+			<trans-unit id="module.list.filter.searchtermpagefile">
+				<source>Pagename, Page UID or Filename</source>
+				<target state="translated">Seitenname, Seiten UID oder Dateiname</target>
 			</trans-unit>
 			<trans-unit id="module.list.filter.pid">
 				<source>Page ID to search for</source>

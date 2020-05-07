@@ -1,9 +1,7 @@
 <f:layout name="Backend" />
 
 <f:section name="content">
-    <f:alias map="{action:'content'}">
-        <f:render partial="Filter/Filter" arguments="{_all}" />
-    </f:alias>
+    <f:render partial="Filter/{view.controller}/{view.actionUpper}" arguments="{_all}" />
 
     <div class="row">
         <div class="col-md-6">

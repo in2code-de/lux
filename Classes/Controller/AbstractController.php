@@ -8,6 +8,7 @@ use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
+use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 use TYPO3\CMS\Extbase\Object\Exception;
 
@@ -28,7 +29,8 @@ abstract class AbstractController extends ActionController
         $this->view->assignMultiple([
             'view' => [
                 'controller' => $this->getControllerName(),
-                'action' => $this->getActionName()
+                'action' => $this->getActionName(),
+                'actionUpper' => ucfirst($this->getActionName())
             ]
         ]);
     }
@@ -60,10 +62,10 @@ abstract class AbstractController extends ActionController
         $filterPropMapping->allowAllProperties();
 
         if ($this->request->hasArgument('filter') === false) {
-            $filter = BackendUtility::getSessionValue('filter');
+            $filter = BackendUtility::getSessionValue('filter', $this->getActionName(), $this->getControllerName());
         } else {
             $filter = (array)$this->request->getArgument('filter');
-            BackendUtility::saveValueToSession('filter', $filter);
+            BackendUtility::saveValueToSession('filter', $this->getActionName(), $this->getControllerName(), $filter);
         }
 
         if (array_key_exists('categoryScoring', $filter)
@@ -74,7 +76,18 @@ abstract class AbstractController extends ActionController
     }
 
     /**
-     * @return string
+     * @param string $redirectAction
+     * @return void
+     * @throws StopActionException
+     */
+    public function resetFilterAction(string $redirectAction): void
+    {
+        BackendUtility::saveValueToSession('filter', $redirectAction, $this->getControllerName(), []);
+        $this->redirect($redirectAction);
+    }
+
+    /**
+     * @return string like "Analysis" or "Lead"
      */
     protected function getControllerName(): string
     {
@@ -83,7 +96,7 @@ abstract class AbstractController extends ActionController
     }
 
     /**
-     * @return string
+     * @return string like "List" or "Detail" (uppercase)
      */
     protected function getActionName(): string
     {
