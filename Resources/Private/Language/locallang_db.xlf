@@ -57,6 +57,9 @@
 			<trans-unit id="tx_lux_domain_model_visitor.pagevisits">
 				<source>Page visits</source>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.newsvisits">
+				<source>News visits</source>
+			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_visitor.linkclicks">
 				<source>Tracked link clicks</source>
 			</trans-unit>
@@ -288,6 +291,22 @@
 				<source>Page</source>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_linkclick.visitor">
+				<source>Lead</source>
+			</trans-unit>
+
+			<trans-unit id="tx_lux_domain_model_newsvisit">
+				<source>News visit</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_newsvisit.crdate">
+				<source>Creation date</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_newsvisit.news">
+				<source>News</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_newsvisit.crdate">
+				<source>News visit</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_newsvisit.visitor">
 				<source>Lead</source>
 			</trans-unit>
 

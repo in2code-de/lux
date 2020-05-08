@@ -318,14 +318,18 @@ function LuxMain() {
    */
   var pageRequest = function() {
     if (isPageTrackingEnabled()) {
-      ajaxConnection({
+      var parameters = {
         'tx_lux_fe[dispatchAction]': 'pageRequest',
         'tx_lux_fe[fingerprint]': identification.getFingerprint(),
         'tx_lux_fe[arguments][pageUid]': getPageUid(),
         'tx_lux_fe[arguments][languageUid]': getLanguageUid(),
         'tx_lux_fe[arguments][referrer]': getReferrer(),
         'tx_lux_fe[arguments][currentUrl]': encodeURIComponent(window.location.href),
-      }, getRequestUri(), 'generalWorkflowActionCallback', null);
+      };
+      if (getNewsUid() > 0) {
+        parameters['tx_lux_fe[arguments][newsUid]'] = getNewsUid();
+      }
+      ajaxConnection(parameters, getRequestUri(), 'generalWorkflowActionCallback', null);
     }
   };
 
@@ -718,6 +722,21 @@ function LuxMain() {
     if (container !== null) {
       if (container.hasAttribute('data-lux-languageuid')) {
         var uidContainer = container.getAttribute('data-lux-languageuid');
+        uid = parseInt(uidContainer);
+      }
+    }
+    return uid;
+  };
+
+  /**
+   * @returns {int}
+   */
+  var getNewsUid = function() {
+    var uid = 0;
+    var container = getContainer();
+    if (container !== null) {
+      if (container.hasAttribute('data-lux-newsuid')) {
+        var uidContainer = container.getAttribute('data-lux-newsuid');
         uid = parseInt(uidContainer);
       }
     }

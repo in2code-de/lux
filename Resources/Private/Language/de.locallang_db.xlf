@@ -75,6 +75,10 @@
 				<source>Page visits</source>
 				<target state="translated">Seitenbesuche</target>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.newsvisits">
+				<source>News visits</source>
+				<target state="translated">Newsbesuche</target>
+			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_visitor.linkclicks">
 				<source>Tracked link clicks</source>
 				<target state="translated">Getrackte Link Aufrufe</target>
@@ -379,6 +383,27 @@
 				<target state="translated">Seite</target>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_linkclick.visitor">
+				<source>Lead</source>
+				<target state="translated">Lead</target>
+			</trans-unit>
+
+			<trans-unit id="tx_lux_domain_model_newsvisit">
+				<source>News visit</source>
+				<target state="translated">Öffnen einer News</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_newsvisit.crdate">
+				<source>Creation date</source>
+				<target state="translated">Erstellungsdatum</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_newsvisit.news">
+				<source>News</source>
+				<target state="translated">News</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_newsvisit.crdate">
+				<source>News visit</source>
+				<target state="translated">Öffnen einer News</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_newsvisit.visitor">
 				<source>Lead</source>
 				<target state="translated">Lead</target>
 			</trans-unit>

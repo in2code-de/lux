@@ -71,6 +71,12 @@ class Visitor extends AbstractEntity
     protected $pagevisits = null;
 
     /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Newsvisit>
+     * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
+     */
+    protected $newsvisits = null;
+
+    /**
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Linkclick>
      * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
      */
@@ -134,9 +140,11 @@ class Visitor extends AbstractEntity
      */
     public function __construct()
     {
+        die(__CLASS__ . ':' . __LINE__);
         $this->categoryscorings = new ObjectStorage();
         $this->fingerprints = new ObjectStorage();
         $this->pagevisits = new ObjectStorage();
+        $this->newsvisits = new ObjectStorage();
         $this->linkclicks = new ObjectStorage();
         $this->attributes = new ObjectStorage();
         $this->ipinformations = new ObjectStorage();
@@ -572,6 +580,44 @@ class Visitor extends AbstractEntity
             }
         }
         return $number;
+    }
+
+    /**
+     * @return ObjectStorage
+     */
+    public function getNewsvisits(): ObjectStorage
+    {
+        return $this->newsvisits;
+    }
+
+    /**
+     * @param ObjectStorage $newsvisits
+     * @return Visitor
+     */
+    public function setNewsvisits(ObjectStorage $newsvisits): self
+    {
+        $this->newsvisits = $newsvisits;
+        return $this;
+    }
+
+    /**
+     * @param Newsvisit $newsvisits
+     * @return $this
+     */
+    public function addNewsvisit(Newsvisit $newsvisits)
+    {
+        $this->newsvisits->attach($newsvisits);
+        return $this;
+    }
+
+    /**
+     * @param Newsvisit $newsvisits
+     * @return $this
+     */
+    public function removeNewsvisit(Newsvisit $newsvisits)
+    {
+        $this->pagevisits->detach($newsvisits);
+        return $this;
     }
 
     /**

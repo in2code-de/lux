@@ -2,10 +2,10 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Tracker;
 
-use In2code\Lux\Domain\Model\Page;
-use In2code\Lux\Domain\Model\Pagevisit;
+use In2code\Lux\Domain\Model\News;
+use In2code\Lux\Domain\Model\Newsvisit;
 use In2code\Lux\Domain\Model\Visitor;
-use In2code\Lux\Domain\Repository\PageRepository;
+use In2code\Lux\Domain\Repository\NewsRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\ObjectUtility;
@@ -18,7 +18,7 @@ use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
 /**
  * Class PageTracker
  */
-class PageTracker
+class NewsTracker
 {
     use SignalTrait;
 
@@ -44,16 +44,11 @@ class PageTracker
      * @throws InvalidSlotException
      * @throws InvalidSlotReturnException
      * @throws UnknownObjectException
-     * @throws \Exception
      */
     public function track(Visitor $visitor, array $arguments): void
     {
-        $pageUid = (int)$arguments['pageUid'];
-        $languageUid = (int)$arguments['languageUid'];
-        $referrer = $arguments['referrer'];
-        if ($this->isTrackingActivated($visitor, $pageUid)) {
-            $visitor->addPagevisit($this->getPageVisit($pageUid, $languageUid, $referrer));
-            $visitor->setVisits($visitor->getNumberOfUniquePagevisits());
+        if ($this->isTrackingActivated($visitor, $arguments)) {
+            $visitor->addNewsvisit($this->getNewsvisit((int)$arguments['newsUid'], (int)$arguments['languageUid']));
             $this->visitorRepository->update($visitor);
             $this->visitorRepository->persistAll();
             $this->signalDispatch(__CLASS__, __METHOD__, [$visitor]);
@@ -61,32 +56,31 @@ class PageTracker
     }
 
     /**
-     * @param int $pageUid
+     * @param int $newsUid
      * @param int $languageUid
-     * @param string $referrer
-     * @return Pagevisit
+     * @return Newsvisit
      * @throws Exception
      */
-    protected function getPageVisit(int $pageUid, int $languageUid, string $referrer): Pagevisit
+    protected function getNewsvisit(int $newsUid, int $languageUid): Newsvisit
     {
-        /** @var Pagevisit $pageVisit */
-        $pageVisit = ObjectUtility::getObjectManager()->get(Pagevisit::class);
-        $pageRepository = ObjectUtility::getObjectManager()->get(PageRepository::class);
-        /** @var Page $page */
-        $page = $pageRepository->findByUid($pageUid);
-        $pageVisit->setPage($page)->setLanguage($languageUid)->setReferrer($referrer)->setDomain();
-        return $pageVisit;
+        /** @var Newsvisit $newsvisit */
+        $newsvisit = ObjectUtility::getObjectManager()->get(Newsvisit::class);
+        $newsRepository = ObjectUtility::getObjectManager()->get(NewsRepository::class);
+        /** @var News $news */
+        $news = $newsRepository->findByUid($newsUid);
+        $newsvisit->setNews($news)->setLanguage($languageUid);
+        return $newsvisit;
     }
 
     /**
      * @param Visitor $visitor
-     * @param int $pageUid
+     * @param array $arguments
      * @return bool
      * @throws Exception
      */
-    protected function isTrackingActivated(Visitor $visitor, int $pageUid): bool
+    protected function isTrackingActivated(Visitor $visitor, array $arguments): bool
     {
-        return $pageUid > 0 && $visitor->isNotBlacklisted() && $this->isTrackingActivatedInSettings();
+        return !empty($arguments['newsUid']) && $visitor->isNotBlacklisted() && $this->isTrackingActivatedInSettings();
     }
 
     /**

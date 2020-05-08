@@ -11,6 +11,7 @@ use In2code\Lux\Domain\Tracker\DownloadTracker;
 use In2code\Lux\Domain\Tracker\FrontenduserAuthenticationTracker;
 use In2code\Lux\Domain\Tracker\LinkListenerTracker;
 use In2code\Lux\Domain\Tracker\LuxletterlinkAttributeTracker;
+use In2code\Lux\Domain\Tracker\NewsTracker;
 use In2code\Lux\Domain\Tracker\PageTracker;
 use In2code\Lux\Exception\ActionNotAllowedException;
 use In2code\Lux\Exception\EmailValidationException;
@@ -83,12 +84,9 @@ class FrontendController extends ActionController
             $visitor = $visitorFactory->getVisitor();
             $this->callAdditionalTrackers($visitor);
             $pageTracker = $this->objectManager->get(PageTracker::class);
-            $pageTracker->trackPage(
-                $visitor,
-                (int)$arguments['pageUid'],
-                (int)$arguments['languageUid'],
-                $arguments['referrer']
-            );
+            $pageTracker->track($visitor, $arguments);
+            $newsTracker = $this->objectManager->get(NewsTracker::class);
+            $newsTracker->track($visitor, $arguments);
             return json_encode($this->afterAction($visitor));
         } catch (\Exception $exception) {
             return json_encode($this->getError($exception));

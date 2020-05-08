@@ -105,23 +105,31 @@ page {
             data = sitelanguage:languageId
         }
 
+        # Current news uid (if given)
+        120 = TEXT
+        120 {
+            noTrimWrap = | data-lux-newsuid="|"|
+            data = GP:tx_news_pi1|news
+            intval = 1
+        }
+
         # Activate page tracking
-        130 = TEXT
-        130 {
+        200 = TEXT
+        200 {
             value = data-lux-pagetracking="{$plugin.tx_lux.settings.tracking.page}"
             noTrimWrap = | ||
         }
 
         # Activate download tracking
-        140 = TEXT
-        140 {
+        210 = TEXT
+        210 {
             value = data-lux-downloadtracking="{$plugin.tx_lux.settings.tracking.assetDownloads}"
             noTrimWrap = | ||
         }
 
         # Allowed file extensions for download tracking
-        150 = TEXT
-        150 {
+        220 = TEXT
+        220 {
             value = data-lux-downloadtracking-extensions="{$plugin.tx_lux.settings.tracking.assetDownloads.allowedExtensions}"
             noTrimWrap = | ||
         }
