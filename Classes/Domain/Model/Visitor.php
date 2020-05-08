@@ -140,7 +140,6 @@ class Visitor extends AbstractEntity
      */
     public function __construct()
     {
-        die(__CLASS__ . ':' . __LINE__);
         $this->categoryscorings = new ObjectStorage();
         $this->fingerprints = new ObjectStorage();
         $this->pagevisits = new ObjectStorage();
