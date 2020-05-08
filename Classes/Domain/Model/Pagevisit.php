@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
 use In2code\Lux\Domain\Service\ReadableReferrerService;
+use In2code\Lux\Utility\FrontendUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -38,6 +39,11 @@ class Pagevisit extends AbstractEntity
      * @var string
      */
     protected $referrer = '';
+
+    /**
+     * @var string
+     */
+    protected $domain = '';
 
     /**
      * @return Visitor
@@ -141,6 +147,23 @@ class Pagevisit extends AbstractEntity
     public function setReferrer(string $referrer): self
     {
         $this->referrer = $referrer;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDomain(): string
+    {
+        return $this->domain;
+    }
+
+    /**
+     * @return Pagevisit
+     */
+    public function setDomain(): self
+    {
+        $this->domain = FrontendUtility::getCurrentDomain();
         return $this;
     }
 

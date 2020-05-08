@@ -119,6 +119,9 @@
 			<trans-unit id="tx_lux_domain_model_pagevisit.referrer">
 				<source>Source</source>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_pagevisit.domain">
+				<source>Current domain</source>
+			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_pagevisit.visitor">
 				<source>Lead</source>
 			</trans-unit>

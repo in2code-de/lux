@@ -157,6 +157,10 @@
 				<source>Source</source>
 				<target state="translated">Quelle</target>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_pagevisit.domain">
+				<source>Current domain</source>
+				<target state="translated">Aktuelle Domain</target>
+			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_pagevisit.visitor">
 				<source>Lead</source>
 				<target state="translated">Lead</target>

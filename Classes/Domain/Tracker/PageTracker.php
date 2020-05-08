@@ -73,7 +73,7 @@ class PageTracker
         $pageRepository = ObjectUtility::getObjectManager()->get(PageRepository::class);
         /** @var Page $page */
         $page = $pageRepository->findByUid($pageUid);
-        $pageVisit->setPage($page)->setLanguage($languageUid)->setReferrer($referrer);
+        $pageVisit->setPage($page)->setLanguage($languageUid)->setReferrer($referrer)->setDomain();
         return $pageVisit;
     }
 
