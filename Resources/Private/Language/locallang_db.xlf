@@ -658,6 +658,9 @@
 			<trans-unit id="module.box.topdownloads.title">
 				<source>Top 10 downloads</source>
 			</trans-unit>
+			<trans-unit id="module.box.topnews.title">
+				<source>Top 10 most visited news</source>
+			</trans-unit>
 			<trans-unit id="module.box.linkclicks.title">
 				<source>Top 10 link listeners</source>
 			</trans-unit>
@@ -684,6 +687,12 @@
 			</trans-unit>
 			<trans-unit id="module.box.whoisonline.nobody">
 				<source>Nobody is online at the moment on your website :(</source>
+			</trans-unit>
+			<trans-unit id="module.box.language.title">
+				<source>Pagevisits per language</source>
+			</trans-unit>
+			<trans-unit id="module.box.domain.title">
+				<source>Pagevisits per domain</source>
 			</trans-unit>
 
 			<trans-unit id="module.workflow">
@@ -1082,6 +1091,13 @@
 
 			<trans-unit id="commandcontrollers.summarymail.title">
 				<source>This is your personal lead summary mail</source>
+			</trans-unit>
+
+			<trans-unit id="dataprovider.languages.label">
+				<source>Page visits in language "%s"</source>
+			</trans-unit>
+			<trans-unit id="dataprovider.domain.label">
+				<source>Page visits %s</source>
 			</trans-unit>
 
 			<trans-unit id="datetime.weekday.now">

@@ -1,0 +1,26 @@
+<div class="panel panel-default flex">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.language.title">Languages</f:translate>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <f:if condition="{languageData.dataAvailable}">
+            <f:then>
+                <canvas width="750"
+                        data-chart="bar"
+                        data-chart-data="{languageData.amountslist}"
+                        data-chart-labels="{languageData.titlesList}"></canvas>
+            </f:then>
+            <f:else>
+                <div class="alert alert-lux">
+                    <div class="header-container">
+                        <p class="message-body">
+                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.novalues">No values to show</f:translate>
+                        </p>
+                    </div>
+                </div>
+            </f:else>
+        </f:if>
+    </div>
+</div>

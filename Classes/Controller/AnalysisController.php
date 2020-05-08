@@ -4,7 +4,9 @@ namespace In2code\Lux\Controller;
 
 use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\DataProvider\BrowserAmountDataProvider;
+use In2code\Lux\Domain\DataProvider\DomainDataProvider;
 use In2code\Lux\Domain\DataProvider\DownloadsDataProvider;
+use In2code\Lux\Domain\DataProvider\LanguagesDataProvider;
 use In2code\Lux\Domain\DataProvider\LinkclickDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
 use In2code\Lux\Domain\Model\Log;
@@ -16,6 +18,8 @@ use In2code\Lux\Domain\Repository\FingerprintRepository;
 use In2code\Lux\Domain\Repository\IpinformationRepository;
 use In2code\Lux\Domain\Repository\LinkclickRepository;
 use In2code\Lux\Domain\Repository\LogRepository;
+use In2code\Lux\Domain\Repository\NewsRepository;
+use In2code\Lux\Domain\Repository\NewsvisitRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Utility\ExtensionUtility;
@@ -56,6 +60,11 @@ class AnalysisController extends AbstractController
     protected $downloadRepository = null;
 
     /**
+     * @var NewsvisitRepository
+     */
+    protected $newsvisitRepository = null;
+
+    /**
      * @var CategoryRepository
      */
     protected $categoryRepository = null;
@@ -67,6 +76,7 @@ class AnalysisController extends AbstractController
      * @param LogRepository $logRepository
      * @param PagevisitRepository $pagevisitsRepository
      * @param DownloadRepository $downloadRepository
+     * @param NewsvisitRepository $newsvisitRepository
      * @param CategoryRepository $categoryRepository
      */
     public function __construct(
@@ -75,6 +85,7 @@ class AnalysisController extends AbstractController
         LogRepository $logRepository,
         PagevisitRepository $pagevisitsRepository,
         DownloadRepository $downloadRepository,
+        NewsvisitRepository $newsvisitRepository,
         CategoryRepository $categoryRepository
     ) {
         $this->visitorRepository = $visitorRepository;
@@ -82,13 +93,15 @@ class AnalysisController extends AbstractController
         $this->logRepository = $logRepository;
         $this->pagevisitsRepository = $pagevisitsRepository;
         $this->downloadRepository = $downloadRepository;
+        $this->newsvisitRepository = $newsvisitRepository;
         $this->categoryRepository = $categoryRepository;
     }
 
     /**
      * @return void
-     * @throws InvalidQueryException
+     * @throws DBALException
      * @throws Exception
+     * @throws InvalidQueryException
      */
     public function dashboardAction(): void
     {
@@ -100,9 +113,12 @@ class AnalysisController extends AbstractController
             'interestingLogs' => $this->logRepository->findInterestingLogs($filter),
             'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
             'downloads' => $this->downloadRepository->findCombinedByHref($filter),
+            'news' => $this->newsvisitRepository->findCombinedByNewsIdentifier($filter),
             'latestPagevisits' => $this->pagevisitsRepository->findLatestPagevisits($filter),
             'browserData' => ObjectUtility::getObjectManager()->get(BrowserAmountDataProvider::class, $filter),
-            'linkclickData' => ObjectUtility::getObjectManager()->get(LinkclickDataProvider::class, $filter)
+            'linkclickData' => ObjectUtility::getObjectManager()->get(LinkclickDataProvider::class, $filter),
+            'languageData' => ObjectUtility::getObjectManager()->get(LanguagesDataProvider::class, $filter),
+            'domainData' => ObjectUtility::getObjectManager()->get(DomainDataProvider::class, $filter)
         ];
         $this->view->assignMultiple($values);
     }

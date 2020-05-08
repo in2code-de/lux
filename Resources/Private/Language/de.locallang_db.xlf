@@ -868,7 +868,11 @@
 			</trans-unit>
 			<trans-unit id="module.box.topdownloads.title">
 				<source>Top 10 downloads</source>
-				<target state="translated">Top 10 Downloads</target>
+				<target state="translated">Top 10 meist heruntergeladene Dateien</target>
+			</trans-unit>
+			<trans-unit id="module.box.topnews.title">
+				<source>Top 10 most visited news</source>
+				<target state="translated">Top 10 meist gesehene News</target>
 			</trans-unit>
 			<trans-unit id="module.box.linkclicks.title">
 				<source>Top 10 link listeners</source>
@@ -905,6 +909,14 @@
 			<trans-unit id="module.box.whoisonline.nobody">
 				<source>Nobody is online at the moment on your website :(</source>
 				<target state="translated">Derzeit ist leider niemand online auf ihrer Website :(</target>
+			</trans-unit>
+			<trans-unit id="module.box.language.title">
+				<source>Pagevisits per language</source>
+				<target state="translated">Seitenaufrufe in Sprache</target>
+			</trans-unit>
+			<trans-unit id="module.box.domain.title">
+				<source>Pagevisits per domain</source>
+				<target state="translated">Seitenaufrufe pro Domain</target>
 			</trans-unit>
 
 			<trans-unit id="module.workflow">
@@ -1433,6 +1445,15 @@
 			<trans-unit id="commandcontrollers.summarymail.title">
 				<source>This is your personal lead summary mail</source>
 				<target state="translated">Ihre persönliche Lead Zusammenfassung</target>
+			</trans-unit>
+
+			<trans-unit id="dataprovider.languages.label">
+				<source>Page visits in language "%s"</source>
+				<target state="translated">Seitenbesuche in der Sprache "%s"</target>
+			</trans-unit>
+			<trans-unit id="dataprovider.domain.label">
+				<source>Page visits %s</source>
+				<target state="translated">Seitenbesuche %s</target>
 			</trans-unit>
 
 			<trans-unit id="datetime.weekday.now">
