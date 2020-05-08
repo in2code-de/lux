@@ -106,8 +106,8 @@ page {
         }
 
         # Current news uid (if given)
-        120 = TEXT
-        120 {
+        130 = TEXT
+        130 {
             noTrimWrap = | data-lux-newsuid="|"|
             data = GP:tx_news_pi1|news
             intval = 1
