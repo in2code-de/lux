@@ -488,8 +488,8 @@
 			</trans-unit>
 
 			<trans-unit id="module.analysis.novalues">
-				<source>No data found</source>
-				<target state="translated">Keine Daten für eine Anzeige vorhanden</target>
+				<source>No data available yet</source>
+				<target state="translated">Noch keine Daten für eine Anzeige vorhanden</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.filter.submit">
 				<source>Filter now</source>

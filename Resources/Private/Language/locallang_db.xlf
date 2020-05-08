@@ -371,7 +371,7 @@
 			</trans-unit>
 
 			<trans-unit id="module.analysis.novalues">
-				<source>No data found</source>
+				<source>No data available yet</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.filter.submit">
 				<source>Filter now</source>

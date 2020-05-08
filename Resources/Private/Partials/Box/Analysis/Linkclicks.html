@@ -18,7 +18,8 @@
                         data-chart-labels="{linkclickData.titlesList}"></canvas>
             </f:then>
             <f:else>
-                <h4><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.novalues">No values to show</f:translate></h4>
+                <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+
                 <p>
                     <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.linkclicks.note">
                         Tipp: measure your call to action links
