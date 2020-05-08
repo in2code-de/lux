@@ -4,6 +4,7 @@ namespace In2code\Lux\Controller;
 
 use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\DataProvider\IdentificationMethodsDataProvider;
+use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
 use In2code\Lux\Domain\DataProvider\ReferrerAmountDataProvider;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
@@ -103,6 +104,7 @@ class LeadController extends AbstractController
      * @return void
      * @throws StopActionException
      * @throws InvalidQueryException
+     * @throws Exception
      */
     public function listAction(FilterDto $filter, string $export = ''): void
     {
@@ -110,6 +112,7 @@ class LeadController extends AbstractController
             $this->forward('downloadCsv', null, null, ['filter' => $filter]);
         }
         $this->view->assignMultiple([
+            'numberOfVisitorsData' => ObjectUtility::getObjectManager()->get(PagevisistsDataProvider::class, $filter),
             'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter),
             'filter' => $filter,
             'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter),
