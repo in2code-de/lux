@@ -127,22 +127,28 @@ class AnalysisController extends AbstractController
     /**
      * @param Page $page
      * @return void
+     * @throws Exception
      */
     public function detailPageAction(Page $page): void
     {
+        $filter = ObjectUtility::getFilterDto()->setSearchterm((string)$page->getUid());
         $this->view->assignMultiple([
-            'pagevisits' => $this->pagevisitsRepository->findByPage($page)
+            'pagevisits' => $this->pagevisitsRepository->findByPage($page, 100),
+            'numberOfVisitorsData' => ObjectUtility::getObjectManager()->get(PagevisistsDataProvider::class, $filter)
         ]);
     }
 
     /**
      * @param string $href
      * @return void
+     * @throws Exception
      */
     public function detailDownloadAction(string $href): void
     {
+        $filter = ObjectUtility::getFilterDto()->setSearchterm(FileUtility::getFilenameFromPathAndFilename($href));
         $this->view->assignMultiple([
-            'downloads' => $this->downloadRepository->findByHref($href)
+            'downloads' => $this->downloadRepository->findByHref($href, 100),
+            'numberOfDownloadsData' => ObjectUtility::getObjectManager()->get(DownloadsDataProvider::class, $filter)
         ]);
     }
 
