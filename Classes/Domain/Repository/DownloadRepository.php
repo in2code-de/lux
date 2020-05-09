@@ -23,11 +23,16 @@ class DownloadRepository extends AbstractRepository
      * @param string $href
      * @param int $limit
      * @return QueryResultInterface
+     * @throws InvalidQueryException
      */
     public function findByHref(string $href, int $limit = 100): QueryResultInterface
     {
         $query = $this->createQuery();
-        $query->matching($query->equals('href', $href));
+        $logicalAnd = [
+            $query->equals('href', $href),
+            $query->greaterThan('visitor.uid', 0),
+        ];
+        $query->matching($query->logicalAnd($logicalAnd));
         $query->setLimit($limit);
         return $query->execute();
     }

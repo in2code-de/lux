@@ -142,6 +142,7 @@ class AnalysisController extends AbstractController
      * @param string $href
      * @return void
      * @throws Exception
+     * @throws InvalidQueryException
      */
     public function detailDownloadAction(string $href): void
     {
