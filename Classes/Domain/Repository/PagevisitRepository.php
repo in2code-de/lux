@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
 use Doctrine\DBAL\DBALException;
+use In2code\Lux\Domain\Model\Categoryscoring;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
@@ -224,6 +225,43 @@ class PagevisitRepository extends AbstractRepository
             }
         }
         return $result;
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @return array
+     * @throws DBALException
+     */
+    public function getAllDomains(FilterDto $filter): array
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
+        $sql = 'SELECT count(*) as count, pv.domain FROM ' . Pagevisit::TABLE_NAME . ' pv'
+            . ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = pv.visitor'
+            . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
+            . ' where pv.domain!="" ' . $this->extendWhereClauseWithFilterTime($filter, true, 'pv')
+            . $this->extendWhereClauseWithFilterScoring($filter, 'v')
+            . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
+            . ' group by domain order by count desc';
+        return (array)$connection->executeQuery($sql)->fetchAll();
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @return array
+     * @throws DBALException
+     */
+    public function getAllLanguages(FilterDto $filter): array
+    {
+        $connection = DatabaseUtility::getConnectionForTable('sys_language');
+        $sql = 'SELECT count(*) as count, pv.language, l.title FROM ' . Pagevisit::TABLE_NAME . ' pv'
+            . ' left join sys_language l on l.uid = pv.language'
+            . ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = pv.visitor'
+            . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
+            . ' where ' . $this->extendWhereClauseWithFilterTime($filter, false, 'pv')
+            . $this->extendWhereClauseWithFilterScoring($filter, 'v')
+            . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
+            . ' group by pv.language order by count desc ';
+        return (array)$connection->executeQuery($sql)->fetchAll();
     }
 
     /**

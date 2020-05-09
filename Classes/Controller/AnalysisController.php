@@ -147,7 +147,9 @@ class AnalysisController extends AbstractController
             'numberOfDownloadsData' => ObjectUtility::getObjectManager()->get(DownloadsDataProvider::class, $filter),
             'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
             'downloads' => $this->downloadRepository->findCombinedByHref($filter),
-            'luxCategories' => $this->categoryRepository->findAllLuxCategories()
+            'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
+            'languageData' => ObjectUtility::getObjectManager()->get(LanguagesDataProvider::class, $filter),
+            'domainData' => ObjectUtility::getObjectManager()->get(DomainDataProvider::class, $filter)
         ]);
     }
 

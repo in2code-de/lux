@@ -84,7 +84,7 @@ label {
     }
 
     .form-control {
-        border: 1px solid #ddd;
+        border: 1px solid $colorGrey;
     }
 
     .collapse-arrow {
@@ -149,6 +149,15 @@ label {
         font-size: 20px;
     }
 
+    .pagination {
+        margin: 0;
+
+        > .active > .page-link {
+            background-color: $colorMain;
+            border-color: $colorGrey;
+        }
+    }
+
     /**
      * Form classes
      */
@@ -170,7 +179,7 @@ label {
 
                 > span {
                     font-style: italic;
-                    background: #ddd;
+                    background: $colorGrey;
                     display: inline-block;
                     padding: 2px 10px;
                     margin-right: 10px;

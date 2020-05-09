@@ -4,8 +4,11 @@ namespace In2code\Lux\Domain\DataProvider;
 
 use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Pagevisit;
+use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\LocalizationUtility;
+use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
  * Class LanguagesDataProvider
@@ -28,7 +31,7 @@ class LanguagesDataProvider extends AbstractDataProvider
      *  ]
      *
      * @return void
-     * @throws DBALException
+     * @throws Exception
      */
     public function prepareData(): void
     {
@@ -41,14 +44,12 @@ class LanguagesDataProvider extends AbstractDataProvider
 
     /**
      * @return array
-     * @throws DBALException
+     * @throws Exception
      */
     protected function getLanguagesFromSystem(): array
     {
-        $connection = DatabaseUtility::getConnectionForTable('sys_language');
-        $sql = 'SELECT count(*) as count, pv.language, l.title FROM ' . Pagevisit::TABLE_NAME . ' pv'
-            . ' left join sys_language l on l.uid = pv.language group by pv.language order by count desc ';
-        $rows = (array)$connection->executeQuery($sql)->fetchAll();
+        $pagevisitRepository = ObjectUtility::getObjectManager()->get(PagevisitRepository::class);
+        $rows = $pagevisitRepository->getAllLanguages($this->filter);
 
         foreach ($rows as &$row) {
             $row['label'] = $row['title'] ?: 'Standard';

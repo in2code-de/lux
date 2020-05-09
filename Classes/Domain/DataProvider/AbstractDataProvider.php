@@ -51,7 +51,7 @@ abstract class AbstractDataProvider implements DataProviderInterface
      */
     public function getTitlesFromData(): array
     {
-        return $this->getData()['titles'];
+        return (array)$this->getData()['titles'];
     }
 
     /**
@@ -67,7 +67,7 @@ abstract class AbstractDataProvider implements DataProviderInterface
      */
     public function getAmountsFromData(): array
     {
-        return $this->getData()['amounts'];
+        return (array)$this->getData()['amounts'];
     }
 
     /**
@@ -83,7 +83,7 @@ abstract class AbstractDataProvider implements DataProviderInterface
      */
     public function getAmounts2FromData(): array
     {
-        return $this->getData()['amounts2'];
+        return (array)$this->getData()['amounts2'];
     }
 
     /**
