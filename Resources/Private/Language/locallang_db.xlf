@@ -626,6 +626,9 @@
 			<trans-unit id="module.detail.linkdetail">
 				<source>Show lead details</source>
 			</trans-unit>
+			<trans-unit id="module.detail.detail">
+				<source>Show details</source>
+			</trans-unit>
 			<trans-unit id="module.detail.scoring">
 				<source>Lead scoring</source>
 			</trans-unit>
@@ -693,6 +696,9 @@
 			</trans-unit>
 			<trans-unit id="module.box.domain.title">
 				<source>Pagevisits per domain</source>
+			</trans-unit>
+			<trans-unit id="module.box.headerpostfix">
+				<source>(all)</source>
 			</trans-unit>
 
 			<trans-unit id="module.workflow">

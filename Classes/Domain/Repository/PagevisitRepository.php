@@ -130,14 +130,15 @@ class PagevisitRepository extends AbstractRepository
 
     /**
      * @param Page $page
+     * @param int $limit
      * @return array
      */
-    public function findByPage(Page $page): array
+    public function findByPage(Page $page, int $limit = 100): array
     {
         $query = $this->createQuery();
         $query->matching($query->equals('page', $page));
         $query->setOrderings(['crdate' => QueryInterface::ORDER_DESCENDING]);
-        $query->setLimit(100);
+        $query->setLimit($limit * 100);
         $pagesvisits = $query->execute();
 
         $result = [];
@@ -147,6 +148,7 @@ class PagevisitRepository extends AbstractRepository
                 $result[$pagevisit->getVisitor()->getUid()] = $pagevisit;
             }
         }
+        $result = array_slice($result, 0, $limit);
         return $result;
     }
 

@@ -8,19 +8,24 @@
 
             <div class="row">
                 <div class="col-md-6">
-                    <f:render partial="Box/Analysis/Pagevisits" arguments="{_all}"/>
+                    <f:alias map="{headerPostfix:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.headerpostfix\')}'}">
+                        <f:render partial="Box/Analysis/Pagevisits" arguments="{_all}"/>
+                    </f:alias>
                     <f:render partial="Box/Analysis/PagevisitsList" arguments="{_all}"/>
                 </div>
                 <div class="col-md-6">
-                    <f:render partial="Box/Analysis/Downloads" arguments="{_all}"/>
+                    <f:alias map="{headerPostfix:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.headerpostfix\')}'}">
+                        <f:render partial="Box/Analysis/Downloads" arguments="{_all}"/>
+                    </f:alias>
                     <f:render partial="Box/Analysis/DownloadsList" arguments="{_all}"/>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <f:render partial="Box/Analysis/Domain" arguments="{_all}"/>
-
-            <f:render partial="Box/Analysis/Language" arguments="{_all}"/>
+            <div data-lux-container="detail">
+                <f:render partial="Box/Analysis/Domain" arguments="{_all}"/>
+                <f:render partial="Box/Analysis/Language" arguments="{_all}"/>
+            </div>
         </div>
     </div>
 </f:section>

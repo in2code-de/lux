@@ -19,6 +19,18 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
  */
 class DownloadRepository extends AbstractRepository
 {
+    /**
+     * @param string $href
+     * @param int $limit
+     * @return QueryResultInterface
+     */
+    public function findByHref(string $href, int $limit = 100): QueryResultInterface
+    {
+        $query = $this->createQuery();
+        $query->matching($query->equals('href', $href));
+        $query->setLimit($limit);
+        return $query->execute();
+    }
 
     /**
      * Find all combined by href ordered by number of downloads with a limit of 100

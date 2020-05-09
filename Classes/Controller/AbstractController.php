@@ -2,6 +2,16 @@
 declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
+use In2code\Lux\Domain\Repository\CategoryRepository;
+use In2code\Lux\Domain\Repository\DownloadRepository;
+use In2code\Lux\Domain\Repository\FingerprintRepository;
+use In2code\Lux\Domain\Repository\IpinformationRepository;
+use In2code\Lux\Domain\Repository\LinkclickRepository;
+use In2code\Lux\Domain\Repository\LogRepository;
+use In2code\Lux\Domain\Repository\NewsvisitRepository;
+use In2code\Lux\Domain\Repository\PageRepository;
+use In2code\Lux\Domain\Repository\PagevisitRepository;
+use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
@@ -17,6 +27,107 @@ use TYPO3\CMS\Extbase\Object\Exception;
  */
 abstract class AbstractController extends ActionController
 {
+    /**
+     * @var VisitorRepository
+     */
+    protected $visitorRepository = null;
+
+    /**
+     * @var IpinformationRepository
+     */
+    protected $ipinformationRepository = null;
+
+    /**
+     * @var LogRepository
+     */
+    protected $logRepository = null;
+
+    /**
+     * @var PagevisitRepository
+     */
+    protected $pagevisitsRepository = null;
+
+    /**
+     * @var PageRepository
+     */
+    protected $pageRepository = null;
+
+    /**
+     * @var DownloadRepository
+     */
+    protected $downloadRepository = null;
+
+    /**
+     * @var NewsvisitRepository
+     */
+    protected $newsvisitRepository = null;
+
+    /**
+     * @var CategoryRepository
+     */
+    protected $categoryRepository = null;
+
+    /**
+     * @var LinkclickRepository
+     */
+    protected $linkclickRepository = null;
+
+    /**
+     * @var FingerprintRepository
+     */
+    protected $fingerprintRepository = null;
+
+    /**
+     * AbstractController constructor.
+     * @param VisitorRepository|null $visitorRepository
+     * @param IpinformationRepository|null $ipinformationRepository
+     * @param LogRepository|null $logRepository
+     * @param PagevisitRepository|null $pagevisitsRepository
+     * @param PageRepository|null $pageRepository
+     * @param DownloadRepository|null $downloadRepository
+     * @param NewsvisitRepository|null $newsvisitRepository
+     * @param CategoryRepository|null $categoryRepository
+     * @param LinkclickRepository|null $linkclickRepository
+     * @param FingerprintRepository|null $fingerprintRepository
+     * @throws Exception
+     */
+    public function __construct(
+        VisitorRepository $visitorRepository = null,
+        IpinformationRepository $ipinformationRepository = null,
+        LogRepository $logRepository = null,
+        PagevisitRepository $pagevisitsRepository = null,
+        PageRepository $pageRepository = null,
+        DownloadRepository $downloadRepository = null,
+        NewsvisitRepository $newsvisitRepository = null,
+        CategoryRepository $categoryRepository = null,
+        LinkclickRepository $linkclickRepository = null,
+        FingerprintRepository $fingerprintRepository = null
+    ) {
+        if ($visitorRepository === null) {
+            // Todo: Fallback for TYPO3 9 without symfony DI
+            $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
+            $ipinformationRepository = ObjectUtility::getObjectManager()->get(IpinformationRepository::class);
+            $logRepository = ObjectUtility::getObjectManager()->get(LogRepository::class);
+            $pagevisitsRepository = ObjectUtility::getObjectManager()->get(PagevisitRepository::class);
+            $pageRepository = ObjectUtility::getObjectManager()->get(PageRepository::class);
+            $downloadRepository = ObjectUtility::getObjectManager()->get(DownloadRepository::class);
+            $newsvisitRepository = ObjectUtility::getObjectManager()->get(NewsvisitRepository::class);
+            $categoryRepository = ObjectUtility::getObjectManager()->get(CategoryRepository::class);
+            $linkclickRepository = ObjectUtility::getObjectManager()->get(LinkclickRepository::class);
+            $fingerprintRepository = ObjectUtility::getObjectManager()->get(FingerprintRepository::class);
+        }
+        $this->visitorRepository = $visitorRepository;
+        $this->ipinformationRepository = $ipinformationRepository;
+        $this->logRepository = $logRepository;
+        $this->pagevisitsRepository = $pagevisitsRepository;
+        $this->pageRepository = $pageRepository;
+        $this->downloadRepository = $downloadRepository;
+        $this->newsvisitRepository = $newsvisitRepository;
+        $this->categoryRepository = $categoryRepository;
+        $this->linkclickRepository = $linkclickRepository;
+        $this->fingerprintRepository = $fingerprintRepository;
+    }
+
     /**
      * Pass some important variables to all views
      *

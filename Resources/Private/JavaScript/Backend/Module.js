@@ -20,28 +20,73 @@ define(['jquery'], function($) {
      * @returns {void}
      */
     this.initialize = function() {
-      addDetailViewListener();
+      addLeadListDetailViewListener();
+      addAnalysisContentDetailPageViewListener();
+      addAnalysisContentDetailDownloadViewListener();
       addDescriptionListener();
       addLinkMockListener();
       addDatePickers();
     };
 
     /**
-     * Add listener
+     * Add listener for lead/list detail ajax view
+     *
      * @returns {void}
      */
-    var addDetailViewListener = function() {
-      var elements = document.querySelectorAll('[data-lux-action-detail]');
+    var addLeadListDetailViewListener = function() {
+      var elements = document.querySelectorAll('[data-lux-action-leadlistdetail]');
       for (var i = 0; i < elements.length; i++) {
         var element = elements[i];
         element.addEventListener('click', function() {
           removeClassFromElements(elements, 'lux-action-detail');
           this.classList.add('lux-action-detail');
-          var visitor = this.getAttribute('data-lux-action-detail');
+          var visitor = this.getAttribute('data-lux-action-leadlistdetail');
 
-          ajaxConnection(TYPO3.settings.ajaxUrls['/lux/detail'], {
+          ajaxConnection(TYPO3.settings.ajaxUrls['/lux/leadlistdetail'], {
             visitor: visitor
-          }, 'showDetailCallback');
+          }, 'generalDetailCallback');
+        });
+      }
+    };
+
+    /**
+     * Add listener for analysis/content (page) detail ajax view
+     *
+     * @returns {void}
+     */
+    var addAnalysisContentDetailPageViewListener = function() {
+      var elements = document.querySelectorAll('[data-lux-action-analysiscontentdetailpage]');
+      for (var i = 0; i < elements.length; i++) {
+        var element = elements[i];
+        element.addEventListener('click', function() {
+          removeClassFromElements(elements, 'lux-action-detail');
+          this.classList.add('lux-action-detail');
+          var page = this.getAttribute('data-lux-action-analysiscontentdetailpage');
+
+          ajaxConnection(TYPO3.settings.ajaxUrls['/lux/analysiscontentdetailpage'], {
+            page: page
+          }, 'generalDetailCallback');
+        });
+      }
+    };
+
+    /**
+     * Add listener for analysis/content (download) detail ajax view
+     *
+     * @returns {void}
+     */
+    var addAnalysisContentDetailDownloadViewListener = function() {
+      var elements = document.querySelectorAll('[data-lux-action-analysiscontentdetaildownload]');
+      for (var i = 0; i < elements.length; i++) {
+        var element = elements[i];
+        element.addEventListener('click', function() {
+          removeClassFromElements(elements, 'lux-action-detail');
+          this.classList.add('lux-action-detail');
+          var download = this.getAttribute('data-lux-action-analysiscontentdetaildownload');
+
+          ajaxConnection(TYPO3.settings.ajaxUrls['/lux/analysiscontentdetaildownload'], {
+            download: download
+          }, 'generalDetailCallback');
         });
       }
     };
@@ -93,39 +138,9 @@ define(['jquery'], function($) {
     /**
      * @params {Json} response
      */
-    this.showDetailCallback = function(response) {
+    this.generalDetailCallback = function(response) {
       document.querySelector('[data-lux-container="detail"]').innerHTML = response.html;
-
-      var container = document.querySelector('[data-lux-container="detailchart"]');
-      var ctx = container.getContext('2d');
-      new Chart(ctx, {
-        type: 'line',
-        data: {
-          datasets: [{
-            label: container.getAttribute('data-chart-label'),
-            data: container.getAttribute('data-chart-data').split(','),
-            borderColor: 'rgb(77, 231, 255)',
-            "lineTension": 0.5
-          }],
-          labels: container.getAttribute('data-chart-labels').split(',')
-        },
-        options: {
-          legend: {
-            display: false,
-            position: 'right',
-            labels: {
-              fontSize: 18
-            }
-          },
-          scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: true
-              }
-            }]
-          }
-        }
-      });
+      window.LuxDiagramObject.initialize();
     };
 
     /**

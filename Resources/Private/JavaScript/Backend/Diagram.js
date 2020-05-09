@@ -196,7 +196,7 @@ define(['jquery', 'TYPO3/CMS/Lux/Vendor/Chart.min'], function($) {
    * Init
    */
   $(document).ready(function() {
-    var LuxDiagramObject = new LuxDiagram($);
-    LuxDiagramObject.initialize();
+    window.LuxDiagramObject = new LuxDiagram($);
+    window.LuxDiagramObject.initialize();
   })
 });

@@ -8,13 +8,11 @@ use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
 use In2code\Lux\Domain\DataProvider\ReferrerAmountDataProvider;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
-use In2code\Lux\Domain\Repository\CategoryRepository;
-use In2code\Lux\Domain\Repository\LogRepository;
-use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\StreamInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
@@ -31,26 +29,6 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  */
 class LeadController extends AbstractController
 {
-    /**
-     * @var VisitorRepository
-     */
-    protected $visitorRepository = null;
-
-    /**
-     * @var PagevisitRepository
-     */
-    protected $pagevisitsRepository = null;
-
-    /**
-     * @var CategoryRepository
-     */
-    protected $categoryRepository = null;
-
-    /**
-     * @var LogRepository
-     */
-    protected $logRepository = null;
-
     /**
      * @return void
      * @throws Exception
@@ -186,87 +164,43 @@ class LeadController extends AbstractController
      * AJAX action to show a detail view
      *
      * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
      * @return ResponseInterface Todo: Second parameter is removed in TYPO3 10
      * @throws Exception
      * @noinspection PhpUnused
      */
-    public function detailAjax(ServerRequestInterface $request, ResponseInterface $response = null): ResponseInterface
+    public function detailAjax(ServerRequestInterface $request): ResponseInterface
     {
-        if ($response === null) {
-            $response = ObjectUtility::getObjectManager()->get(JsonResponse::class);
-        }
+        $response = ObjectUtility::getObjectManager()->get(JsonResponse::class);
         $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
         $standaloneView = ObjectUtility::getObjectManager()->get(StandaloneView::class);
         $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
-            'EXT:lux/Resources/Private/Templates/Lead/DetailAjax.html'
+            'EXT:lux/Resources/Private/Templates/Lead/ListDetailAjax.html'
         ));
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         $standaloneView->assignMultiple([
             'visitor' => $visitorRepository->findByUid((int)$request->getQueryParams()['visitor'])
         ]);
-        $response->getBody()->write(json_encode(['html' => $standaloneView->render()]));
+        /** @var StreamInterface $stream */
+        $stream = $response->getBody();
+        $stream->write(json_encode(['html' => $standaloneView->render()]));
         return $response;
     }
 
     /**
      * @param ServerRequestInterface $request
-     * @param ResponseInterface $response Todo: Second parameter is removed in TYPO3 10
      * @return ResponseInterface
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
      * @throws Exception
      * @noinspection PhpUnused
      */
-    public function detailDescriptionAjax(
-        ServerRequestInterface $request,
-        ResponseInterface $response = null
-    ): ResponseInterface {
-        if ($response === null) {
-            $response = ObjectUtility::getObjectManager()->get(JsonResponse::class);
-        }
-        /** @var VisitorRepository $visitorRepository */
+    public function detailDescriptionAjax(ServerRequestInterface $request): ResponseInterface
+    {
+        $response = ObjectUtility::getObjectManager()->get(JsonResponse::class);
         $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
+        /** @var Visitor $visitor */
         $visitor = $visitorRepository->findByUid((int)$request->getQueryParams()['visitor']);
         $visitor->setDescription($request->getQueryParams()['value']);
         $visitorRepository->update($visitor);
         $visitorRepository->persistAll();
         return $response;
-    }
-
-    /**
-     * @param VisitorRepository $visitorRepository
-     * @return void
-     */
-    public function injectFormRepository(VisitorRepository $visitorRepository): void
-    {
-        $this->visitorRepository = $visitorRepository;
-    }
-
-    /**
-     * @param PagevisitRepository $pagevisitRepository
-     * @return void
-     */
-    public function injectPagevisitRepository(PagevisitRepository $pagevisitRepository): void
-    {
-        $this->pagevisitsRepository = $pagevisitRepository;
-    }
-
-    /**
-     * @param CategoryRepository $categoryRepository
-     * @return void
-     */
-    public function injectCategoryRepository(CategoryRepository $categoryRepository): void
-    {
-        $this->categoryRepository = $categoryRepository;
-    }
-
-    /**
-     * @param LogRepository $logRepository
-     * @return void
-     */
-    public function injectLogRepository(LogRepository $logRepository): void
-    {
-        $this->logRepository = $logRepository;
     }
 }

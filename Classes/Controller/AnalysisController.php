@@ -12,18 +12,14 @@ use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
-use In2code\Lux\Domain\Repository\CategoryRepository;
-use In2code\Lux\Domain\Repository\DownloadRepository;
-use In2code\Lux\Domain\Repository\FingerprintRepository;
-use In2code\Lux\Domain\Repository\IpinformationRepository;
-use In2code\Lux\Domain\Repository\LinkclickRepository;
-use In2code\Lux\Domain\Repository\LogRepository;
-use In2code\Lux\Domain\Repository\NewsRepository;
-use In2code\Lux\Domain\Repository\NewsvisitRepository;
-use In2code\Lux\Domain\Repository\PagevisitRepository;
-use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Utility\ExtensionUtility;
+use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\StreamInterface;
+use TYPO3\CMS\Core\Http\JsonResponse;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -34,69 +30,6 @@ use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
  */
 class AnalysisController extends AbstractController
 {
-    /**
-     * @var VisitorRepository
-     */
-    protected $visitorRepository = null;
-
-    /**
-     * @var IpinformationRepository
-     */
-    protected $ipinformationRepository = null;
-
-    /**
-     * @var LogRepository
-     */
-    protected $logRepository = null;
-
-    /**
-     * @var PagevisitRepository
-     */
-    protected $pagevisitsRepository = null;
-
-    /**
-     * @var DownloadRepository
-     */
-    protected $downloadRepository = null;
-
-    /**
-     * @var NewsvisitRepository
-     */
-    protected $newsvisitRepository = null;
-
-    /**
-     * @var CategoryRepository
-     */
-    protected $categoryRepository = null;
-
-    /**
-     * AnalysisController constructor.
-     * @param VisitorRepository $visitorRepository
-     * @param IpinformationRepository $ipinformationRepository
-     * @param LogRepository $logRepository
-     * @param PagevisitRepository $pagevisitsRepository
-     * @param DownloadRepository $downloadRepository
-     * @param NewsvisitRepository $newsvisitRepository
-     * @param CategoryRepository $categoryRepository
-     */
-    public function __construct(
-        VisitorRepository $visitorRepository,
-        IpinformationRepository $ipinformationRepository,
-        LogRepository $logRepository,
-        PagevisitRepository $pagevisitsRepository,
-        DownloadRepository $downloadRepository,
-        NewsvisitRepository $newsvisitRepository,
-        CategoryRepository $categoryRepository
-    ) {
-        $this->visitorRepository = $visitorRepository;
-        $this->ipinformationRepository = $ipinformationRepository;
-        $this->logRepository = $logRepository;
-        $this->pagevisitsRepository = $pagevisitsRepository;
-        $this->downloadRepository = $downloadRepository;
-        $this->newsvisitRepository = $newsvisitRepository;
-        $this->categoryRepository = $categoryRepository;
-    }
-
     /**
      * @return void
      * @throws DBALException
@@ -160,8 +93,6 @@ class AnalysisController extends AbstractController
      */
     public function informationAction(): void
     {
-        $linkclickRepository = ObjectUtility::getObjectManager()->get(LinkclickRepository::class);
-        $fingerprintRepo = ObjectUtility::getObjectManager()->get(FingerprintRepository::class);
         $filter = ObjectUtility::getFilterDto(FilterDto::PERIOD_THISYEAR);
         $values = [
             'countries' => $this->ipinformationRepository->findAllCountryCodesGrouped($filter),
@@ -184,8 +115,8 @@ class AnalysisController extends AbstractController
                 'versionLux' => ExtensionUtility::getLuxVersion(),
                 'versionLuxenterprise' => ExtensionUtility::getLuxenterpriseVersion(),
                 'versionLuxletter' => ExtensionUtility::getLuxletterVersion(),
-                'linkclicks' => $linkclickRepository->findAllAmount(),
-                'fingerprints' => $fingerprintRepo->findAllAmount(),
+                'linkclicks' => $this->linkclickRepository->findAllAmount(),
+                'fingerprints' => $this->fingerprintRepository->findAllAmount(),
                 'ipinformations' => $this->ipinformationRepository->findAllAmount(),
                 'logs' => $this->logRepository->findAllAmount()
             ]
@@ -210,9 +141,66 @@ class AnalysisController extends AbstractController
      */
     public function detailDownloadAction(string $href): void
     {
-        /** @noinspection PhpUndefinedMethodInspection */
         $this->view->assignMultiple([
             'downloads' => $this->downloadRepository->findByHref($href)
         ]);
+    }
+
+    /**
+     * AJAX action to show a detail view
+     *
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     * @throws Exception
+     * @noinspection PhpUnused
+     */
+    public function detailAjaxPage(ServerRequestInterface $request): ResponseInterface
+    {
+        $filter = ObjectUtility::getFilterDto()->setSearchterm($request->getQueryParams()['page']);
+        /** @var Page $page */
+        $page = $this->pageRepository->findByIdentifier((int)$request->getQueryParams()['page']);
+        $standaloneView = ObjectUtility::getStandaloneView();
+        $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
+            'EXT:lux/Resources/Private/Templates/Analysis/ContentDetailPageAjax.html'
+        ));
+        $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
+        $standaloneView->assignMultiple([
+            'pagevisits' => $this->pagevisitsRepository->findByPage($page, 10),
+            'numberOfVisitorsData' => ObjectUtility::getObjectManager()->get(PagevisistsDataProvider::class, $filter)
+        ]);
+        $response = ObjectUtility::getObjectManager()->get(JsonResponse::class);
+        /** @var StreamInterface $stream */
+        $stream = $response->getBody();
+        $stream->write(json_encode(['html' => $standaloneView->render()]));
+        return $response;
+    }
+
+    /**
+     * AJAX action to show a detail view
+     *
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     * @throws Exception
+     * @noinspection PhpUnused
+     */
+    public function detailAjaxDownload(ServerRequestInterface $request): ResponseInterface
+    {
+        $filter = ObjectUtility::getFilterDto()->setSearchterm(
+            FileUtility::getFilenameFromPathAndFilename($request->getQueryParams()['download'])
+        );
+        $standaloneView = ObjectUtility::getStandaloneView();
+        $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
+            'EXT:lux/Resources/Private/Templates/Analysis/ContentDetailDownloadAjax.html'
+        ));
+        $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
+        $standaloneView->assignMultiple([
+            'downloads' => $this->downloadRepository->findByHref($request->getQueryParams()['download'], 10),
+            'numberOfDownloadsData' => ObjectUtility::getObjectManager()->get(DownloadsDataProvider::class, $filter)
+        ]);
+        $response = ObjectUtility::getObjectManager()->get(JsonResponse::class);
+        /** @var StreamInterface $stream */
+        $stream = $response->getBody();
+        $stream->write(json_encode(['html' => $standaloneView->render()]));
+        return $response;
     }
 }

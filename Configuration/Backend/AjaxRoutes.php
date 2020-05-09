@@ -1,8 +1,16 @@
 <?php
 return [
-    '/lux/detail' => [
-        'path' => '/lux/detail',
+    '/lux/leadlistdetail' => [
+        'path' => '/lux/leadlistdetail',
         'target' => \In2code\Lux\Controller\LeadController::class . '::detailAjax',
+    ],
+    '/lux/analysiscontentdetailpage' => [
+        'path' => '/lux/analysiscontentdetailpage',
+        'target' => \In2code\Lux\Controller\AnalysisController::class . '::detailAjaxPage',
+    ],
+    '/lux/analysiscontentdetaildownload' => [
+        'path' => '/lux/analysiscontentdetaildownload',
+        'target' => \In2code\Lux\Controller\AnalysisController::class . '::detailAjaxDownload',
     ],
     '/lux/visitordescription' => [
         'path' => '/lux/visitordescription',
