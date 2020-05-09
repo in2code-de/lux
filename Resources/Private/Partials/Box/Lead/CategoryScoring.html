@@ -7,8 +7,7 @@
 	<div class="panel-body">
 		<f:if condition="{visitor.categoryscorings}">
 			<f:then>
-				<canvas id="detailchart-categoryscorings"
-						width="750"
+				<canvas width="750"
 						height="250"
 						data-chart="bar"
 						data-chart-data="{lux:visitor.getCategoryScoringListFromVisitor(visitor:visitor)}"

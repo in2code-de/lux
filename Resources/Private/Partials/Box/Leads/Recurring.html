@@ -13,9 +13,7 @@
     <div class="panel-body">
         <f:if condition="{numberOfUniqueSiteVisitors} || {numberOfRecurringSiteVisitors}">
             <f:then>
-                <canvas
-                        id="extension-lux-analysis-recurring"
-                        width="750"
+                <canvas width="750"
                         height="400"
                         data-chart="doughnut"
                         data-chart-data="{numberOfRecurringSiteVisitors},{numberOfUniqueSiteVisitors}"

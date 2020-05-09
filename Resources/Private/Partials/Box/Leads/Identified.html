@@ -13,9 +13,7 @@
     <div class="panel-body">
         <f:if condition="{numberOfIdentifiedVisitors} || {numberOfUnknownVisitors}">
             <f:then>
-                <canvas
-                        id="extension-lux-analysis-identified"
-                        width="750"
+                <canvas width="750"
                         height="350"
                         data-chart="bar"
                         data-chart-data="{numberOfIdentifiedVisitors},{numberOfUnknownVisitors}"

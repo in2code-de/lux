@@ -7,9 +7,7 @@
     <div class="panel-body">
         <f:if condition="{numberOfIdentifiedVisitors}">
             <f:then>
-                <canvas
-                        id="extension-lux-analysis-identified"
-                        width="750"
+                <canvas width="750"
                         height="350"
                         data-chart="line"
                         data-chart-data="{lux:charts.getIdentifiedNumbersPerMonth(logs:identifiedPerMonth)}"
