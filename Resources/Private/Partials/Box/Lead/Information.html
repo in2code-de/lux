@@ -20,7 +20,7 @@
 				</h3>
 
 				<f:if condition="{visitor.attributes}">
-					<table class="table table-striped table-hover table-condensed">
+					<table class="table table-striped">
 						<f:for each="{visitor.importantAttributes}" as="attribute">
 							<tr>
 								<td><strong>{attribute.label}</strong></td>
@@ -37,7 +37,7 @@
 
 				<div class="row">
 					<div class="col-md-12">
-						<table class="table table-striped table-hover table-condensed">
+						<table class="table table-striped">
 							<tr>
 								<th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.crdate">First visit</f:translate></th>
 								<td>{lux:format.readableDate(date:visitor.crdate)} ({f:format.date(date:visitor.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')})</td>
@@ -60,7 +60,7 @@
 
 				<div class="row">
 					<div class="col-md-12">
-						<table class="table table-striped table-hover table-condensed">
+						<table class="table table-striped">
 							<f:for each="{visitor.importantIpinformations}" as="information">
 								<tr>
 									<td>
