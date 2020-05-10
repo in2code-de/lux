@@ -49,7 +49,19 @@ Ask for the visitors email-address when he/she wants to download an asset:\
 \
 ![Email for Link with CKEditor](Documentation/Images/screenshot_email4link_ckeditor_plugin.png "with CKeditor")
 
-## What's new in 7.0.0?
+## What's new
+
+### in 8.0.0
+
+* TYPO3 language will be tracked now
+* News (tx_news) visits will be tracked now
+* Domains will be saved now (for multi-domain usage)
+* Full dynamical diagrams in all views with filters
+* A general UX update for nearly all views
+* Multiple referrers can be stored now (see upgrade wizard)
+* Images from leads are now cached for better performance
+
+### in 7.0.0
 
 * TYPO3 10 general support (with new TypoScript conditions, symfony Commands, MailMessage class for 9 and 10)
 * Replace cookieID with fingerprinting method (no more cookies for identification) - multi domain and platform identification
@@ -72,6 +84,7 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 ### Tracking
 
 * Page views
+* News views
 * Number of website visits
 * Pagefunnel
 * First and last visit
@@ -182,6 +195,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version                     | Situation                                           | Upgrade instructions                                                                                                                                                                      |
 | --------------------------- | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| From former versions to 8.x | Referrers are stored on a different place now       | Call your TYPO3 upgrade wizard. There will be one more step that will copy values from _visitor.referrer to _pagevisit.referrer table.                                                    |
 | From former versions to 7.x | Cookie-Table was replaced with a Fingerprint-Table  | Call your TYPO3 upgrade wizard. There will be one more step that will copy values from _idcookie to _fingerprint table. Note that CommandControllers are replaced by Symfony Commands!    |
 | From former versions to 3.x | The visitor object can handle more cookies now      | After updating use the update button in extension manager of if you have a lot of data stored, you can also use the LuxUpdateCommandController to prevent timeouts                        |
 
@@ -189,6 +203,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 8.0.0      | 2020-05-10 | Task       | A basic UX update, store news views, languages and domains now.                                                                                                                            |
 | 7.3.0      | 2020-04-27 | Task       | Ignore browser version when calculating a fingerprint. Small bugfix with deleting old cookies.                                                                                             |
 | 7.2.3      | 2020-04-22 | Bugfix     | Add css class in backend modules to fix view in TYPO3 10.4.                                                                                                                                |
 | 7.2.2      | 2020-04-21 | Bugfix     | Change mimetypes of dynamically generated Javascript from application/javascript to text/javascript for older browsers.                                                                    |
