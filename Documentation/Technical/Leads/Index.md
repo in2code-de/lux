@@ -4,6 +4,11 @@
 
 <img src="../../../Documentation/Images/screenshot_modules.png" />
 
+<img src="../../../Documentation/Images/screenshot_dashboard.png" />
+
+A dashboard helps to to give you an overview about your lead activities on your website.
+Change the view to List module by clicking on "Leads".
+
 The backend module Leads show you all identified (and anonymous) leads.
 <img src="../../../Documentation/Images/documentation_leads_list.png" width="800" />
 
@@ -129,7 +134,7 @@ You need also to see this information. And this view shows you all collected att
 
 ##### Profiles
 
-Because your lead could use more then just one device, all fingerprints + legacy cookies and devices are listed here 
+Because your lead could use more then just one device, all fingerprints + legacy cookies and devices are listed here
 with some additional information.
 
 ##### Interaction Buttons

@@ -15,9 +15,11 @@ TYPO3 dashboard (for TYPO3 10 with package "typo3/cms-dashboard"):\
 \
 ![Example dashboard of TYPO3 10](Documentation/Images/screenshot_typo3dashboard.png "TYPO3 Dashboard")
 
-Example dashboard overview:\
+Example dashboards:\
 \
-![Example dashboard overview](Documentation/Images/screenshot_dashboard.png "Dashboard")
+![Example dashboard1](Documentation/Images/screenshot_dashboard.png "Dashboard1")
+
+![Example dashboard2](Documentation/Images/screenshot_analysis_dashboard.png "Dashboard2")
 
 Example leadlist:\
 \
