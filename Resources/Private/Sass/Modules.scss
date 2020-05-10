@@ -78,6 +78,11 @@ label {
         background-color: $colorMain;
     }
 
+    .alert-warning {
+        background-color: $colorSecondary;
+        color: $black;
+    }
+
     .input-lg {
         line-height: 1.3 !important;
     }
