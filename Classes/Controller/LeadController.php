@@ -32,24 +32,12 @@ class LeadController extends AbstractController
     /**
      * @return void
      * @throws Exception
-     * @throws InvalidArgumentNameException
-     */
-    public function initializeDashboardAction(): void
-    {
-        $this->setFilter();
-    }
-
-    /**
-     * @param FilterDto $filter
-     * @return void
-     * @throws Exception
      * @throws InvalidQueryException
      * @throws DBALException
      */
-    public function dashboardAction(FilterDto $filter): void
+    public function dashboardAction(): void
     {
-        $identificationMDP = ObjectUtility::getObjectManager()->get(IdentificationMethodsDataProvider::class, $filter);
-        $referrerAmountDP = ObjectUtility::getObjectManager()->get(ReferrerAmountDataProvider::class, $filter);
+        $filter = ObjectUtility::getFilterDto();
         $values = [
             'filter' => $filter,
             'interestingLogs' => $this->logRepository->findInterestingLogs($filter, 10),
@@ -59,8 +47,14 @@ class LeadController extends AbstractController
             'numberOfIdentifiedVisitors' => $this->visitorRepository->findIdentified($filter)->count(),
             'identifiedPerMonth' => $this->logRepository->findIdentifiedLogsFromMonths(6),
             'numberOfUnknownVisitors' => $this->visitorRepository->findUnknown($filter)->count(),
-            'identificationMethods' => $identificationMDP,
-            'referrerAmountData' => $referrerAmountDP,
+            'identificationMethods' => ObjectUtility::getObjectManager()->get(
+                IdentificationMethodsDataProvider::class,
+                $filter
+            ),
+            'referrerAmountData' => ObjectUtility::getObjectManager()->get(
+                ReferrerAmountDataProvider::class,
+                $filter
+            ),
             'whoisonline' => $this->visitorRepository->findOnline(8),
             'countries' => $this->ipinformationRepository->findAllCountryCodesGrouped($filter),
         ];

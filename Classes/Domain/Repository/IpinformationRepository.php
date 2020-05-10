@@ -36,6 +36,7 @@ class IpinformationRepository extends AbstractRepository
      * @param FilterDto $filter
      * @return array
      * @throws DBALException
+     * @throws \Exception
      */
     public function findAllCountryCodesGrouped(FilterDto $filter): array
     {

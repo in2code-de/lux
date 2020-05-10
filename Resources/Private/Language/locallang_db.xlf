@@ -697,13 +697,22 @@
 				<source>Who is online?</source>
 			</trans-unit>
 			<trans-unit id="module.box.whoisonline.nobody">
-				<source>Nobody is online at the moment on your website :(</source>
+				<source>No visitors on your website at the moment</source>
 			</trans-unit>
 			<trans-unit id="module.box.language.title">
 				<source>Pagevisits per language</source>
 			</trans-unit>
 			<trans-unit id="module.box.domain.title">
 				<source>Pagevisits per domain</source>
+			</trans-unit>
+			<trans-unit id="module.box.countrylist.title">
+				<source>Top 20 countries</source>
+			</trans-unit>
+			<trans-unit id="module.box.countrylist.country">
+				<source>Country</source>
+			</trans-unit>
+			<trans-unit id="module.box.countrylist.amount">
+				<source>Amount of leads</source>
 			</trans-unit>
 			<trans-unit id="module.box.headerpostfix">
 				<source>(all)</source>

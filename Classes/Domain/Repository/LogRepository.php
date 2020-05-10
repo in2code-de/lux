@@ -60,7 +60,7 @@ class LogRepository extends AbstractRepository
      * @return array
      * @throws DBALException
      */
-    public function findIdentifiedLogsFromMonths(int $months): array
+    public function findIdentifiedLogsFromMonths(int $months = 6): array
     {
         $queryBuilder = DatabaseUtility::getConnectionForTable(Log::TABLE_NAME);
         $result = [];

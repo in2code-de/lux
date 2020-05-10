@@ -1,14 +1,6 @@
 <f:layout name="Backend"/>
 
 <f:section name="content">
-    <div class="row">
-        <div class="col-md-12">
-            <f:alias map="{action:'dashboard'}">
-                <f:render partial="Filter/Filter" arguments="{_all}"/>
-            </f:alias>
-        </div>
-    </div>
-
     <div class="row flex">
         <div class="col-md-8 flex">
             <div class="row flex">
@@ -45,12 +37,12 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row flex">
         <div class="col-md-8">
             <f:render partial="Box/Leads/Map" arguments="{_all}"/>
         </div>
         <div class="col-md-4">
-            Todo Länderliste
+            <f:render partial="Box/Leads/CountryList" arguments="{_all}"/>
         </div>
     </div>
 </f:section>

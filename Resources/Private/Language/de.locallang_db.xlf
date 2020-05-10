@@ -920,8 +920,8 @@
 				<target state="translated">Wer ist gerade online?</target>
 			</trans-unit>
 			<trans-unit id="module.box.whoisonline.nobody">
-				<source>Nobody is online at the moment on your website :(</source>
-				<target state="translated">Derzeit ist leider niemand online auf ihrer Website :(</target>
+				<source>No visitors on your website at the moment</source>
+				<target state="translated">Derzeit befinden sich keine Besucher auf ihrer Website</target>
 			</trans-unit>
 			<trans-unit id="module.box.language.title">
 				<source>Pagevisits per language</source>
@@ -930,6 +930,18 @@
 			<trans-unit id="module.box.domain.title">
 				<source>Pagevisits per domain</source>
 				<target state="translated">Seitenaufrufe pro Domain</target>
+			</trans-unit>
+			<trans-unit id="module.box.countrylist.title">
+				<source>Top 20 countries</source>
+				<target state="translated">Top 20 Länder</target>
+			</trans-unit>
+			<trans-unit id="module.box.countrylist.country">
+				<source>Country</source>
+				<target state="translated">Land</target>
+			</trans-unit>
+			<trans-unit id="module.box.countrylist.amount">
+				<source>Amount of leads</source>
+				<target state="translated">Anzahl Leads</target>
 			</trans-unit>
 			<trans-unit id="module.box.headerpostfix">
 				<source>(all)</source>
