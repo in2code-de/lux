@@ -86,7 +86,7 @@ class LeadController extends AbstractController
         }
         $this->view->assignMultiple([
             'numberOfVisitorsData' => ObjectUtility::getObjectManager()->get(PagevisistsDataProvider::class, $filter),
-            'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter),
+            'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter, 8),
             'filter' => $filter,
             'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter),
             'identifiedByMostVisits' => $this->visitorRepository->findIdentifiedByMostVisits($filter),
