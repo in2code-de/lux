@@ -98,7 +98,7 @@ label {
 
     .collapse-arrow {
         &:after {
-            content: "\f077";
+            content: "\f078";
             font: normal normal normal 14px/1 FontAwesome;
             font-size: 14px;
             font-size: inherit;
@@ -108,7 +108,7 @@ label {
         }
 
         &.collapsed:after {
-            content: "\f078";
+            content: "\f077";
         }
     }
 
