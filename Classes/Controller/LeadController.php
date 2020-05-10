@@ -43,7 +43,7 @@ class LeadController extends AbstractController
             'interestingLogs' => $this->logRepository->findInterestingLogs($filter, 10),
             'numberOfUniqueSiteVisitors' => $this->visitorRepository->findByUniqueSiteVisits($filter)->count(),
             'numberOfRecurringSiteVisitors' => $this->visitorRepository->findByRecurringSiteVisits($filter)->count(),
-            'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter, 8),
+            'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter, 10),
             'numberOfIdentifiedVisitors' => $this->visitorRepository->findIdentified($filter)->count(),
             'identifiedPerMonth' => $this->logRepository->findIdentifiedLogsFromMonths(6),
             'numberOfUnknownVisitors' => $this->visitorRepository->findUnknown($filter)->count(),

@@ -15,7 +15,7 @@
                         <f:widget.paginate
                             objects="{pagevisits}"
                             as="pagevisitsItem"
-                            configuration="{itemsPerPage:25,insertAbove:0,insertBelow:1,maximumNumberOfLinks:10}">
+                            configuration="{itemsPerPage:25,insertAbove:0,insertBelow:'{f:if(condition: \'{pagevisits -> f:count()} > 25\',then:1)}',maximumNumberOfLinks:10}">
                             <table class="table table-striped">
                                 <thead>
                                 <tr>

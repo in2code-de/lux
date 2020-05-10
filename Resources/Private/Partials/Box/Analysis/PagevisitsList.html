@@ -3,7 +3,7 @@
         <f:widget.paginate
             objects="{pages}"
             as="pagesItem"
-            configuration="{itemsPerPage:15,insertAbove:0,insertBelow:1,maximumNumberOfLinks:10}">
+            configuration="{itemsPerPage:15,insertAbove:0,insertBelow:'{f:if(condition: \'{pages -> f:count()} > 15\',then:1)}',maximumNumberOfLinks:10}">
             <table class="table table-striped table-hover table-pointer">
                 <thead>
                 <tr>
