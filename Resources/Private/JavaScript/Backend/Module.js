@@ -26,6 +26,7 @@ define(['jquery'], function($) {
       addDescriptionListener();
       addLinkMockListener();
       addDatePickers();
+      addConfirmListeners();
     };
 
     /**
@@ -150,6 +151,21 @@ define(['jquery'], function($) {
       if (document.querySelector('.t3js-datetimepicker') !== null) {
         require(['TYPO3/CMS/Backend/DateTimePicker'], function(DateTimePicker) {
           DateTimePicker.initialize();
+        });
+      }
+    };
+
+    /**
+     * @returns {void}
+     */
+    var addConfirmListeners = function() {
+      var elements = document.querySelectorAll('[data-lux-confirm]');
+      for (var i = 0; i < elements.length; i++) {
+        elements[i].addEventListener('click', function(event) {
+          var message = event.currentTarget.getAttribute('data-lux-confirm');
+          if (confirm(message) === false) {
+            event.preventDefault();
+          }
         });
       }
     };
