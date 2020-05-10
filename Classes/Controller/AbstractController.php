@@ -207,7 +207,7 @@ abstract class AbstractController extends ActionController
     }
 
     /**
-     * @return string like "List" or "Detail" (uppercase)
+     * @return string like "list" or "detail"
      */
     protected function getActionName(): string
     {

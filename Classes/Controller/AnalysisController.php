@@ -13,6 +13,7 @@ use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
 use In2code\Lux\Domain\Model\Linkclick;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
+use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
@@ -178,7 +179,7 @@ class AnalysisController extends AbstractController
      */
     public function detailAjaxPage(ServerRequestInterface $request): ResponseInterface
     {
-        $filter = ObjectUtility::getFilterDto()->setSearchterm($request->getQueryParams()['page']);
+        $filter = $this->getFilterFromSessionForAjaxRequests($request->getQueryParams()['page']);
         /** @var Page $page */
         $page = $this->pageRepository->findByIdentifier((int)$request->getQueryParams()['page']);
         $standaloneView = ObjectUtility::getStandaloneView();
@@ -208,7 +209,7 @@ class AnalysisController extends AbstractController
      */
     public function detailAjaxDownload(ServerRequestInterface $request): ResponseInterface
     {
-        $filter = ObjectUtility::getFilterDto()->setSearchterm(
+        $filter = $this->getFilterFromSessionForAjaxRequests(
             FileUtility::getFilenameFromPathAndFilename($request->getQueryParams()['download'])
         );
         $standaloneView = ObjectUtility::getStandaloneView();
@@ -225,5 +226,29 @@ class AnalysisController extends AbstractController
         $stream = $response->getBody();
         $stream->write(json_encode(['html' => $standaloneView->render()]));
         return $response;
+    }
+
+    /**
+     * @param string $searterm
+     * @return FilterDto
+     * @throws Exception
+     */
+    protected function getFilterFromSessionForAjaxRequests(string $searterm): FilterDto
+    {
+        $filterValues = BackendUtility::getSessionValue('filter', 'content', $this->getControllerName());
+        $filter = ObjectUtility::getFilterDto()->setSearchterm($searterm);
+        if (!empty($filterValues['timeFrom'])) {
+            $filter->setTimeFrom((string)$filterValues['timeFrom']);
+        }
+        if (!empty($filterValues['timeTo'])) {
+            $filter->setTimeTo((string)$filterValues['timeTo']);
+        }
+        if (!empty($filterValues['scoring'])) {
+            $filter->setScoring((int)$filterValues['scoring']);
+        }
+        if (!empty($filterValues['categoryscoring'])) {
+            $filter->setCategoryScoring((int)$filterValues['categoryscoring']);
+        }
+        return $filter;
     }
 }
