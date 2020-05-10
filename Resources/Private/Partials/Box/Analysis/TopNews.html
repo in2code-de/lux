@@ -1,0 +1,30 @@
+<div class="panel panel-default flex">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.topnews.title">top 10
+                news
+            </f:translate>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <f:if condition="{news}">
+            <f:then>
+                <table class="table table-striped">
+                    <f:for each="{news}" as="newsItem" iteration="iteration">
+                        <f:if condition="{iteration.cycle} < 11">
+                            <tr>
+                                <td>
+                                    <span title="UID{newsItem.news.uid}">{newsItem.news.title}</span>
+                                </td>
+                                <td>{newsItem.count}</td>
+                            </tr>
+                        </f:if>
+                    </f:for>
+                </table>
+            </f:then>
+            <f:else>
+                <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+            </f:else>
+        </f:if>
+    </div>
+</div>

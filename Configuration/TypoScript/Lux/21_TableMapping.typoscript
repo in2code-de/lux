@@ -27,6 +27,11 @@ config.tx_extbase {
                     tableName = sys_file_metadata
                 }
             }
+            In2code\Lux\Domain\Model\News {
+                mapping {
+                    tableName = tx_news_domain_model_news
+                }
+            }
         }
     }
 }

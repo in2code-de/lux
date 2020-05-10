@@ -25,9 +25,9 @@ Most of the Commands can be called via CLI or via Scheduler Backend Module (dire
 #### Anonymize Leads Command
 
 ##### \In2code\Lux\Command\LuxAnonymizeCommand
- 
+
 Will anonymous all recorded data related to Lux in your database.
-This is only a function if you want to present your Lux information to others. 
+This is only a function if you want to present your Lux information to others.
 Because this function cannot be reverted, please do this only on test systems.
 
 **Note:** This Command can be started from CLI only (not from Scheduler).
@@ -43,7 +43,7 @@ Example usage:
 
 ##### \In2code\Lux\Command\LuxCleanupAllVisitorsCommand
 
-Removes all visitors by truncating all lux tables. 
+Removes all visitors by truncating all lux tables.
 Can be used for some kind of content updates to a development server.
 
 Example usage:
@@ -96,11 +96,14 @@ Could be used to remove e.g. bots from your system from time to time.
 Example usage:
 
 ```
-# Remove all google bots records
-./vendor/bin/typo3 lux:cleanupVisitorsByProperty userAgent Googlebot 0
+# Remove visitor by email address
+./vendor/bin/typo3 lux:cleanupVisitorsByProperty email name@mail.org 1
 
-# Remove visitors with userAgents with Ubuntu OS
-./vendor/bin/typo3 lux:cleanupVisitorsByProperty fingerprints.userAgent "Ubuntu; Linux" 0
+# Remove visitors with userAgents "Googlebot"
+./vendor/bin/typo3 lux:cleanupVisitorsByProperty fingerprints.userAgent Googlebot 0
+
+# Remove visitors with referrer from a testdomain
+./vendor/bin/typo3 lux:cleanupVisitorsByProperty pagevisits.referrer "test.in2code.de" 0
 ```
 
 
@@ -117,7 +120,7 @@ last 24h"), if lux should send you only identified leads and a minimum scoring.
 Example usage:
 
 ```
-# Send a summary email within the last week (604800 seconds) to 2 email addresses but only identified leads with a minimum scoring of 10 
+# Send a summary email within the last week (604800 seconds) to 2 email addresses but only identified leads with a minimum scoring of 10
 ./vendor/bin/typo3 lux:leadSendSummary alex@mail.org,alex2@mail.org 604800 1 10
 ```
 
@@ -130,7 +133,7 @@ last 24h"), if lux should send you only identified leads and a scoring of a cate
 Example usage:
 
 ```
-# Send a summary email within the last week (604800 seconds) to an email address but only identified leads with any scoring in category 123 
+# Send a summary email within the last week (604800 seconds) to an email address but only identified leads with any scoring in category 123
 ./vendor/bin/typo3 lux:leadSendSummaryOfLuxCategory alex@mail.org 604800 1 123
 ```
 
@@ -143,7 +146,7 @@ last 24h"), a minimum scoring and if there must be a scoring in a lux category (
 Example usage:
 
 ```
-# Send a summary email within the last week (604800 seconds) to an email address even with unidentified leads with any scoring in category 123 
+# Send a summary email within the last week (604800 seconds) to an email address even with unidentified leads with any scoring in category 123
 ./vendor/bin/typo3 lux:leadSendSummaryOfKnownCompanies alex@mail.org 604800 0 123
 ```
 
@@ -155,8 +158,8 @@ Example summary mail for sales with activities of identified and unknown leads o
 
 ##### \In2code\Lux\Command\LuxServiceRecalculateScoringCommand
 
-This command will calculate the scoring of all leads. Normally used if the calculation changes 
-or if you are using the variable *lastVisitDaysAgo* in Extension Manager configuration of the extension Lux. 
+This command will calculate the scoring of all leads. Normally used if the calculation changes
+or if you are using the variable *lastVisitDaysAgo* in Extension Manager configuration of the extension Lux.
 In the last case it's recommended to run the calculation once per night.
 
 Example usage:

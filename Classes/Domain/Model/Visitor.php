@@ -5,8 +5,8 @@ namespace In2code\Lux\Domain\Model;
 use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Repository\CategoryscoringRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
-use In2code\Lux\Domain\Service\ReadableReferrerService;
 use In2code\Lux\Domain\Service\ScoringService;
+use In2code\Lux\Domain\Service\VisitorImageService;
 use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
@@ -71,14 +71,21 @@ class Visitor extends AbstractEntity
     protected $pagevisits = null;
 
     /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Newsvisit>
+     * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
+     */
+    protected $newsvisits = null;
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Linkclick>
+     * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
+     */
+    protected $linkclicks = null;
+
+    /**
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Attribute>
      */
     protected $attributes = null;
-
-    /**
-     * @var string
-     */
-    protected $referrer = '';
 
     /**
      * @var string
@@ -136,6 +143,8 @@ class Visitor extends AbstractEntity
         $this->categoryscorings = new ObjectStorage();
         $this->fingerprints = new ObjectStorage();
         $this->pagevisits = new ObjectStorage();
+        $this->newsvisits = new ObjectStorage();
+        $this->linkclicks = new ObjectStorage();
         $this->attributes = new ObjectStorage();
         $this->ipinformations = new ObjectStorage();
         $this->downloads = new ObjectStorage();
@@ -291,6 +300,7 @@ class Visitor extends AbstractEntity
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      */
     public function increaseCategoryscoringByCategory(int $value, Category $category)
     {
@@ -574,6 +584,82 @@ class Visitor extends AbstractEntity
     /**
      * @return ObjectStorage
      */
+    public function getNewsvisits(): ObjectStorage
+    {
+        return $this->newsvisits;
+    }
+
+    /**
+     * @param ObjectStorage $newsvisits
+     * @return Visitor
+     */
+    public function setNewsvisits(ObjectStorage $newsvisits): self
+    {
+        $this->newsvisits = $newsvisits;
+        return $this;
+    }
+
+    /**
+     * @param Newsvisit $newsvisits
+     * @return $this
+     */
+    public function addNewsvisit(Newsvisit $newsvisits)
+    {
+        $this->newsvisits->attach($newsvisits);
+        return $this;
+    }
+
+    /**
+     * @param Newsvisit $newsvisits
+     * @return $this
+     */
+    public function removeNewsvisit(Newsvisit $newsvisits)
+    {
+        $this->pagevisits->detach($newsvisits);
+        return $this;
+    }
+
+    /**
+     * @return ObjectStorage
+     */
+    public function getLinkclicks(): ObjectStorage
+    {
+        return $this->linkclicks;
+    }
+
+    /**
+     * @param ObjectStorage $linkclicks
+     * @return Visitor
+     */
+    public function setLinkclicks(ObjectStorage $linkclicks): self
+    {
+        $this->linkclicks = $linkclicks;
+        return $this;
+    }
+
+    /**
+     * @param Linkclick $linkclick
+     * @return $this
+     */
+    public function addLinkclick(Linkclick $linkclick)
+    {
+        $this->linkclicks->attach($linkclick);
+        return $this;
+    }
+
+    /**
+     * @param Linkclick $linkclick
+     * @return $this
+     */
+    public function removeLinkclick(Linkclick $linkclick)
+    {
+        $this->linkclicks->detach($linkclick);
+        return $this;
+    }
+
+    /**
+     * @return ObjectStorage
+     */
     public function getAttributes(): ObjectStorage
     {
         return $this->attributes;
@@ -661,24 +747,6 @@ class Visitor extends AbstractEntity
             }
         }
         return $attributes;
-    }
-
-    /**
-     * @return string
-     */
-    public function getReferrer(): string
-    {
-        return $this->referrer;
-    }
-
-    /**
-     * @param string $referrer
-     * @return Visitor
-     */
-    public function setReferrer(string $referrer)
-    {
-        $this->referrer = $referrer;
-        return $this;
     }
 
     /**
@@ -947,7 +1015,6 @@ class Visitor extends AbstractEntity
         $this->setEmail('');
         $this->setIdentified(false);
         $this->setVisits(0);
-        $this->setReferrer('');
         $this->setIpAddress('');
 
         $this->categoryscorings = null;
@@ -984,8 +1051,14 @@ class Visitor extends AbstractEntity
     }
 
     /**
-     * Calculated properties
+     * @return string
+     * @throws Exception
      */
+    public function getImageUrl(): string
+    {
+        $visitorImageService = GeneralUtility::makeInstance(VisitorImageService::class, $this);
+        return $visitorImageService->getUrl();
+    }
 
     /**
      * Default: "Lastname, Firstname"
@@ -1146,16 +1219,6 @@ class Visitor extends AbstractEntity
             }
         }
         return $lng;
-    }
-
-    /**
-     * @return string
-     * @throws Exception
-     */
-    public function getReadableReferrer(): string
-    {
-        $referrerService = ObjectUtility::getObjectManager()->get(ReadableReferrerService::class, $this->getReferrer());
-        return $referrerService->getReadableReferrer();
     }
 
     /**

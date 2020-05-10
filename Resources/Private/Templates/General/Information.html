@@ -1,0 +1,21 @@
+<f:layout name="Backend"/>
+
+<f:section name="content">
+    <div class="row flex">
+        <div class="col-md-6">
+            <f:render partial="Box/Miscellaneous/LuxStatistics1" arguments="{_all}"/>
+        </div>
+        <div class="col-md-6">
+            <f:render partial="Box/Miscellaneous/LuxStatistics2" arguments="{_all}"/>
+        </div>
+    </div>
+
+    <p style="margin-top: 20px">
+        Lux the TYPO3 Marketing Automation and Luxletter the TYPO3 Email Marketing is provided by<br>
+        <a href="https://www.in2code.de" target="_blank" rel="noopener">in2code.de - Wir leben TYPO3</a>
+    </p>
+
+    <button onclick="window.history.back();" class="btn btn-primary">
+        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:back">go back</f:translate>
+    </button>
+</f:section>

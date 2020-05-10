@@ -7,6 +7,7 @@ use In2code\Lux\Domain\Service\ConfigurationService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * Class ObjectUtility
@@ -36,14 +37,34 @@ class ObjectUtility
     }
 
     /**
+     * @return StandaloneView
+     * @throws Exception
+     */
+    public static function getStandaloneView(): StandaloneView
+    {
+        return self::getObjectManager()->get(StandaloneView::class);
+    }
+
+    /**
      * @param int $period
      * @return FilterDto
      * @throws Exception
      */
-    public static function getFilterDto(int $period = FilterDto::PERIOD_ALL): FilterDto
+    public static function getFilterDto(int $period = FilterDto::PERIOD_DEFAULT): FilterDto
     {
-        /** @var FilterDto $filterDto */
-        $filterDto = self::getObjectManager()->get(FilterDto::class, $period);
+        return self::getObjectManager()->get(FilterDto::class, $period);
+    }
+
+    /**
+     * @param \DateTime $start
+     * @param \DateTime $end
+     * @return FilterDto
+     * @throws Exception
+     */
+    public static function getFilterDtoFromStartAndEnd(\DateTime $start, \DateTime $end): FilterDto
+    {
+        $filterDto = self::getObjectManager()->get(FilterDto::class);
+        $filterDto->setTimeFrom($start->format('c'))->setTimeTo($end->format('c'));
         return $filterDto;
     }
 }

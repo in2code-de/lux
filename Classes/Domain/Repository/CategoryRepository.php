@@ -53,6 +53,6 @@ class CategoryRepository extends AbstractRepository
     {
         $connection = DatabaseUtility::getConnectionForTable(Category::TABLE_NAME);
         $query = 'select count(uid) from ' . Category::TABLE_NAME . ' where lux_category=1 and deleted=0';
-        return (int)$connection->executeQuery($query)->fetchColumn(0);
+        return (int)$connection->executeQuery($query)->fetchColumn();
     }
 }

@@ -1,0 +1,38 @@
+<div class="panel panel-default flex">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.pagefunnel">Pagefunnel</f:translate>
+            <span class="badge pull-right" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.pagevisits')}">{visitor.pagevisits -> f:count()}</span>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <f:if condition="{visitor.pagevisits}">
+            <f:then>
+                <div style="height: 450px; overflow: auto; ">
+                    <nav class="timeline timeline--vertical">
+                        <f:for each="{visitor.pagevisits}" as="pagevisit" iteration="iteration">
+                            <div class="timeline__item" title="PID{pagevisit.page.uid}" data-identifier-pagevisit="{pagevisit.uid}">
+                                <div style="margin-top: 5px;">
+                                    {pagevisit.page.title}
+                                    <span class="badge pull-right" title="{f:format.date(date:pagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">{lux:format.readableDate(date:pagevisit.crdate)}</span>
+                                </div>
+                            </div>
+
+                            <f:if condition="{iteration.isLast} && {pagevisit.referrer}">
+                                <div class="timeline__item">
+                                    <div style="margin-top: 5px;">
+                                        <a href="{pagevisit.referrer}" target="_blank">{pagevisit.readableReferrer}</a>
+                                        <span class="badge pull-right" title="{f:format.date(date:pagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">{lux:format.readableDate(date:pagevisit.crdate)}</span>
+                                    </div>
+                                </div>
+                            </f:if>
+                        </f:for>
+                    </nav>
+                </div>
+            </f:then>
+            <f:else>
+                <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+            </f:else>
+        </f:if>
+    </div>
+</div>

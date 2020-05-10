@@ -1,0 +1,36 @@
+<div class="panel panel-default flex">
+    <div class="panel-heading">
+        <h3 class="panel-title"><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.countrylist.title">Top Countries</f:translate></h3>
+    </div>
+    <div class="panel-body">
+        <f:if condition="{countries}">
+            <f:then>
+                <table class="table table-striped">
+                    <thead>
+                        <th>
+                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.countrylist.country">country</f:translate>
+                        </th>
+                        <th>
+                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.countrylist.amount">amount</f:translate>
+                        </th>
+                    </thead>
+                    <tbody>
+                    <f:for each="{countries}" as="amount" key="country" iteration="iteration">
+                        <f:if condition="{iteration.cycle} <= 20">
+                            <tr>
+                                <td>
+                                    {country}
+                                </td>
+                                <td>{amount}</td>
+                            </tr>
+                        </f:if>
+                    </f:for>
+                    </tbody>
+                </table>
+            </f:then>
+            <f:else>
+                <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+            </f:else>
+        </f:if>
+    </div>
+</div>

@@ -33,11 +33,6 @@ class VisitorFactory
     protected $fingerprint = null;
 
     /**
-     * @var string
-     */
-    protected $referrer = '';
-
-    /**
      * @var VisitorRepository|null
      */
     protected $visitorRepository = null;
@@ -46,18 +41,16 @@ class VisitorFactory
      * VisitorFactory constructor.
      *
      * @param string $fingerprint
-     * @param string $referrer
      * @throws InvalidSlotException
      * @throws InvalidSlotReturnException
      * @throws Exception
      * @throws FingerprintMustNotBeEmptyException
      */
-    public function __construct(string $fingerprint, string $referrer = '')
+    public function __construct(string $fingerprint)
     {
         $this->fingerprint = GeneralUtility::makeInstance(Fingerprint::class)->setValue($fingerprint);
-        $this->referrer = $referrer;
         $this->visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
-        $this->signalDispatch(__CLASS__, 'stopAnyProcessBeforePersistence', [$this->fingerprint, $this->referrer]);
+        $this->signalDispatch(__CLASS__, 'stopAnyProcessBeforePersistence', [$this->fingerprint]);
     }
 
     /**
@@ -73,13 +66,13 @@ class VisitorFactory
     public function getVisitor(): Visitor
     {
         $visitor = $this->getVisitorFromDatabaseByFingerprint();
-        $this->signalDispatch(__CLASS__, __FUNCTION__ . 'beforeCreateNew', [$this->fingerprint, $this->referrer]);
+        $this->signalDispatch(__CLASS__, __FUNCTION__ . 'beforeCreateNew', [$this->fingerprint]);
         if ($visitor === null) {
             $visitor = $this->createNewVisitor();
             $this->visitorRepository->add($visitor);
             $this->visitorRepository->persistAll();
         }
-        $this->signalDispatch(__CLASS__, __FUNCTION__, [$this->fingerprint, $this->referrer]);
+        $this->signalDispatch(__CLASS__, __FUNCTION__, [$this->fingerprint]);
         return $visitor;
     }
 
@@ -90,6 +83,7 @@ class VisitorFactory
      * @return Visitor|null
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      */
     protected function getVisitorFromDatabaseByFingerprint(): ?Visitor
     {
@@ -104,6 +98,7 @@ class VisitorFactory
      * @return Visitor|null
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
      */
     protected function getVisitorFromDatabaseByLegacyCookie(): ?Visitor
     {
@@ -132,7 +127,6 @@ class VisitorFactory
     {
         $visitor = GeneralUtility::makeInstance(Visitor::class);
         $visitor->addFingerprint($this->fingerprint);
-        $visitor->setReferrer($this->referrer);
         $this->enrichNewVisitorWithIpInformation($visitor);
         $this->signalDispatch(__CLASS__, 'newVisitor', [$visitor]);
         return $visitor;

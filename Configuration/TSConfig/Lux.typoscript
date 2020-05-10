@@ -7,6 +7,7 @@ mod.web_list.table {
     tx_lux_domain_model_log.hideTable = 1
     tx_lux_domain_model_download.hideTable = 1
     tx_lux_domain_model_fingerprint.hideTable = 1
+    tx_lux_domain_model_linkclick.hideTable = 1
 }
 
 # Add wizard icon in backend

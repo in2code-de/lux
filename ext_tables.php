@@ -55,8 +55,11 @@ call_user_func(
                 'analysis',
                 '',
                 [
-                    'Analysis' => 'dashboard,content,detailPage,detailDownload',
-                    'Lead' => 'list,detail,downloadCsv,remove,deactivate'
+                    'Analysis' =>
+                        'dashboard,content,linkClicks,newLinkClick,createLinkClick,editLinkClick,updateLinkClick,' .
+                        'detailPage,detailDownload,resetFilter',
+                    'Lead' => 'dashboard,list,detail,downloadCsv,remove,deactivate,resetFilter',
+                    'General' => 'information'
                 ],
                 [
                     'access' => 'user,group',
@@ -73,8 +76,9 @@ call_user_func(
                 'leads',
                 '',
                 [
-                    'Lead' => 'list,detail,downloadCsv,remove,deactivate,resetFilterForList',
-                    'Analysis' => 'dashboard,content,detailPage,detailDownload',
+                    'Lead' => 'dashboard,list,detail,downloadCsv,remove,deactivate,resetFilter',
+                    'Analysis' => 'dashboard,content,linkClicks,detailPage,detailDownload,resetFilter',
+                    'General' => 'information'
                 ],
                 [
                     'access' => 'user,group',

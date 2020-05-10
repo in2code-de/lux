@@ -4,28 +4,38 @@
 <f:section name="content">
     <div class="row flex" data-lux-container="detail">
         <div class="col-md-6 flex">
-            <f:render partial="Lead/Detail/Preview" arguments="{_all}"/>
+            <f:render partial="Box/Lead/Information" arguments="{_all}"/>
         </div>
         <div class="col-md-6 flex">
-            <f:render partial="Lead/Detail/Diagram" arguments="{_all}"/>
+            <div class="row flex" style="height: 100%;">
+                <div class="col-md-6 flex">
+                    <f:alias map="{interestingLogs:visitor.logs, style:'height: 450px; overflow: auto;'}">
+                        <f:render partial="Box/Miscellaneous/Log" arguments="{_all}" />
+                    </f:alias>
+                </div>
+
+                <div class="col-md-6 flex">
+                    <f:render partial="Box/Lead/PageFunnel" arguments="{_all}" />
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-6">
-            <f:render partial="Lead/Detail/Scoring" arguments="{_all}"/>
+            <f:render partial="Box/Lead/Scoring" arguments="{_all}"/>
         </div>
         <div class="col-md-6">
-            <f:render partial="Lead/Detail/CategoryScoring" arguments="{_all}"/>
+            <f:render partial="Box/Lead/CategoryScoring" arguments="{_all}"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-6">
-            <f:render partial="Lead/Detail/Properties" arguments="{_all}"/>
+            <f:render partial="Box/Lead/Properties" arguments="{_all}"/>
         </div>
         <div class="col-md-6">
-            <f:render partial="Lead/Detail/Profiles" arguments="{_all}"/>
+            <f:render partial="Box/Lead/Profiles" arguments="{_all}"/>
         </div>
     </div>
 

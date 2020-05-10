@@ -24,8 +24,8 @@ class UrlUtility
         if ($currentUri === '') {
             $currentUri = StringUtility::getCurrentUri();
         }
-        $path = StringUtility::removeLeadingStringInString($path, $currentUri);
-        $path = StringUtility::removeLeadingStringInString($path, '/');
+        $path = StringUtility::removeStringPrefix($path, $currentUri);
+        $path = StringUtility::removeStringPrefix($path, '/');
         return $path;
     }
 }

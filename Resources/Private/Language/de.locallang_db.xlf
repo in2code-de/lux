@@ -75,6 +75,14 @@
 				<source>Page visits</source>
 				<target state="translated">Seitenbesuche</target>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.newsvisits">
+				<source>News visits</source>
+				<target state="translated">Newsbesuche</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_visitor.linkclicks">
+				<source>Tracked link clicks</source>
+				<target state="translated">Getrackte Link Aufrufe</target>
+			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_visitor.attributes">
 				<source>Lead attributes</source>
 				<target state="translated">Eigenschaften des Leads</target>
@@ -86,10 +94,6 @@
 			<trans-unit id="tx_lux_domain_model_visitor.frontenduser">
 				<source>Frontend user</source>
 				<target state="translated">Frontend Benutzer</target>
-			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_visitor.referrer">
-				<source>Source</source>
-				<target state="translated">Quelle</target>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_visitor.ip_address">
 				<source>IP address</source>
@@ -152,6 +156,14 @@
 			<trans-unit id="tx_lux_domain_model_pagevisit.page">
 				<source>Page</source>
 				<target state="translated">Seite</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_pagevisit.referrer">
+				<source>Source</source>
+				<target state="translated">Quelle</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_pagevisit.domain">
+				<source>Current domain</source>
+				<target state="translated">Aktuelle Domain</target>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_pagevisit.visitor">
 				<source>Lead</source>
@@ -354,6 +366,48 @@
 				<target state="translated">Konfiguration</target>
 			</trans-unit>
 
+			<trans-unit id="tx_lux_domain_model_linkclick">
+				<source>Link Listener</source>
+				<target state="translated">Link Listener</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linkclick.crdate">
+				<source>Creation date</source>
+				<target state="translated">Erstellungsdatum</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linkclick.title">
+				<source>Title</source>
+				<target state="translated">Bezeichnung</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linkclick.link">
+				<source>Link</source>
+				<target state="translated">Link</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linkclick.category">
+				<source>Lux Category</source>
+				<target state="translated">Lux Kategorie</target>
+			</trans-unit>
+
+			<trans-unit id="tx_lux_domain_model_newsvisit">
+				<source>News visit</source>
+				<target state="translated">Öffnen einer News</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_newsvisit.crdate">
+				<source>Creation date</source>
+				<target state="translated">Erstellungsdatum</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_newsvisit.news">
+				<source>News</source>
+				<target state="translated">News</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_newsvisit.crdate">
+				<source>News visit</source>
+				<target state="translated">Öffnen einer News</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_newsvisit.visitor">
+				<source>Lead</source>
+				<target state="translated">Lead</target>
+			</trans-unit>
+
 			<trans-unit id="sys_category.lux_category">
 				<source>Is lux category?</source>
 				<target state="translated">Ist eine lux-Kategorie?</target>
@@ -409,8 +463,12 @@
 				<target state="translated">Leads</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.content">
-				<source>Content</source>
-				<target state="translated">Content</target>
+				<source>Pagevisits and Downloads</source>
+				<target state="translated">Seitenaufrufe und Downloads</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.linkListeners">
+				<source>Link listeners</source>
+				<target state="translated">Link Listeners</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.content.page">
 				<source>Page</source>
@@ -422,16 +480,20 @@
 			</trans-unit>
 			<trans-unit id="module.analysis.content.asset">
 				<source>Asset</source>
-				<target state="translated">Asset</target>
+				<target state="translated">Datei</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.content.downloads">
 				<source>Number of downloads</source>
 				<target state="translated">Anzahl an Downloads</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.information">
+				<source>About Lux</source>
+				<target state="translated">Über Lux</target>
+			</trans-unit>
 
 			<trans-unit id="module.analysis.novalues">
-				<source>No data found</source>
-				<target state="translated">Keine Daten für eine Anzeige vorhanden</target>
+				<source>No data available yet</source>
+				<target state="translated">Noch keine Daten für eine Anzeige vorhanden</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.filter.submit">
 				<source>Filter now</source>
@@ -454,8 +516,8 @@
 				<target state="translated">Letztes Jahr</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.pagevisits">
-				<source>Latest page visits</source>
-				<target state="translated">Letzte Seitenbesuche</target>
+				<source>Newest page visits</source>
+				<target state="translated">Neueste Seitenbesuche</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.identifiedpermonth">
 				<source>Identified leads per month</source>
@@ -478,24 +540,24 @@
 				<target state="translated">Unbekannt</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.identifiedemail4link">
-				<source>Identified per Email4Link</source>
-				<target state="translated">Identifiziert mit Email4Link</target>
+				<source>Email4Link</source>
+				<target state="translated">Email4Link</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.identifiedfieldlistening">
-				<source>Identified per Fieldlistening</source>
-				<target state="translated">Identifiziert mit Fieldlistening</target>
+				<source>Form fields</source>
+				<target state="translated">Formularfelder</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.identifiedformlistening">
-				<source>Identified per Formlistening</source>
-				<target state="translated">Identifiziert mit Formlistening</target>
+				<source>Form submits</source>
+				<target state="translated">Formular Submits</target>
 			</trans-unit>
-			<trans-unit id="module.analysis.statistics.identifiedfrontentlogin">
-				<source>Identified per Frontendlogin</source>
-				<target state="translated">Identifiziert mit Frontend-Login</target>
+			<trans-unit id="module.analysis.statistics.identifiedfrontendlogin">
+				<source>Frontendlogin</source>
+				<target state="translated">Frontend-Login</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.identifiedluxletter">
-				<source>Identified per Luxletter</source>
-				<target state="translated">Identifiziert mit Luxletter</target>
+				<source>Luxletter</source>
+				<target state="translated">Luxletter</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.luxcategories">
 				<source>Lux categories</source>
@@ -509,6 +571,10 @@
 				<source>Downloads</source>
 				<target state="translated">Downloads</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.statistics.linkclicks">
+				<source>Number of tracked clicks on links</source>
+				<target state="translated">Anzahl getrackter Klicks auf Links</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.statistics.versionlux">
 				<source>Lux version</source>
 				<target state="translated">Lux Version</target>
@@ -520,6 +586,18 @@
 			<trans-unit id="module.analysis.statistics.versionluxletter">
 				<source>Luxletter version</source>
 				<target state="translated">Luxletter Version</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.fingerprints">
+				<source>Number of fingerprint records</source>
+				<target state="translated">Anzahl Fingerprint Datensätze</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.ipinformation">
+				<source>Number of IP information records</source>
+				<target state="translated">Anzahl Datensätze IP Informationen</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.log">
+				<source>Number of log records</source>
+				<target state="translated">Anzahl Log Datensätze</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.bestvisitors">
 				<source>Hottest leads</source>
@@ -588,6 +666,10 @@
 			<trans-unit id="module.analysis.log.status.70">
 				<source>"lux showed a contextual content</source>
 				<target state="translated">lux hat einen passenden Seiteninhalt gezeigt</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.80">
+				<source>lux tracked a link click</source>
+				<target state="translated">lux hat einen Klick auf einen Link getrackt</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.map">
 				<source>Lead source</source>
@@ -694,8 +776,12 @@
 				<target state="translated">Suche</target>
 			</trans-unit>
 			<trans-unit id="module.list.filter.header.scoring">
-				<source>Scoring</source>
-				<target state="translated">Scoring</target>
+				<source>General Scoring of Visitors</source>
+				<target state="translated">Allgemeines Scoring des Besuchers</target>
+			</trans-unit>
+			<trans-unit id="module.list.filter.header.categoryscoring">
+				<source>Category Scoring of Visitors</source>
+				<target state="translated">Kategorie-Scoring des Besuchers</target>
 			</trans-unit>
 			<trans-unit id="module.list.filter.header.time">
 				<source>Time</source>
@@ -712,6 +798,10 @@
 			<trans-unit id="module.list.filter.searchterm">
 				<source>Searchterm</source>
 				<target state="translated">Suchbegriff</target>
+			</trans-unit>
+			<trans-unit id="module.list.filter.searchtermpagefile">
+				<source>Pagename, Page UID or Filename</source>
+				<target state="translated">Seitenname, Seiten UID oder Dateiname</target>
 			</trans-unit>
 			<trans-unit id="module.list.filter.pid">
 				<source>Page ID to search for</source>
@@ -744,7 +834,11 @@
 			</trans-unit>
 			<trans-unit id="module.detail.linkdetail">
 				<source>Show lead details</source>
-				<target state="translated">Show Lead Details</target>
+				<target state="translated">Zeige Lead Details</target>
+			</trans-unit>
+			<trans-unit id="module.detail.detail">
+				<source>Show details</source>
+				<target state="translated">Zeige Details</target>
 			</trans-unit>
 			<trans-unit id="module.detail.scoring">
 				<source>Lead scoring</source>
@@ -767,9 +861,95 @@
 				<target state="translated">Weitere Eigenschaften</target>
 			</trans-unit>
 
-			<trans-unit id="module.diagrambox.downloads.title">
+			<trans-unit id="module.lead.dashboard">
+				<source>Dashboard</source>
+				<target state="translated">Dashboard</target>
+			</trans-unit>
+			<trans-unit id="module.lead.list">
+				<source>Leads</source>
+				<target state="translated">Leads</target>
+			</trans-unit>
+
+			<trans-unit id="module.linkclick.new">
+				<source>Add new Link Listener</source>
+				<target state="translated">Neuen Link Listener hinzufügen</target>
+			</trans-unit>
+
+			<trans-unit id="module.box.downloads.title">
 				<source>Downloads</source>
 				<target state="translated">Downloads</target>
+			</trans-unit>
+			<trans-unit id="module.box.toppages.title">
+				<source>Top 10 most visited pages</source>
+				<target state="translated">Top 10 meist besuchte Seiten</target>
+			</trans-unit>
+			<trans-unit id="module.box.topdownloads.title">
+				<source>Top 10 downloads</source>
+				<target state="translated">Top 10 meist heruntergeladene Dateien</target>
+			</trans-unit>
+			<trans-unit id="module.box.topnews.title">
+				<source>Top 10 most visited news</source>
+				<target state="translated">Top 10 meist gesehene News</target>
+			</trans-unit>
+			<trans-unit id="module.box.linkclicks.title">
+				<source>Top 10 link listeners</source>
+				<target state="translated">Top 10 Linktracker</target>
+			</trans-unit>
+			<trans-unit id="module.box.linkclicks.labelbottom">
+				<source>Click on tracked link</source>
+				<target state="translated">Klick auf tracked Link</target>
+			</trans-unit>
+			<trans-unit id="module.box.linkclicks.labeltop">
+				<source>Further visitors without click on tracked link</source>
+				<target state="translated">Alle Weiteren auf der Seite</target>
+			</trans-unit>
+			<trans-unit id="module.box.linkclicks.note">
+				<source>Tip: Add some data-attributes to your "call to action" links to measure their performance - look at this example:</source>
+				<target state="translated">Tipp: Statten sie ein paar Ihrer "Call to Action" Links mit einem entsprechenden Data-Attribut aus, um die Performance dieser zu überwachen - siehe Beispiel:</target>
+			</trans-unit>
+			<trans-unit id="module.box.browser.title">
+				<source>Top Browser</source>
+				<target state="translated">Top Browser</target>
+			</trans-unit>
+			<trans-unit id="module.box.identifiedpermethod.title">
+				<source>Identified by</source>
+				<target state="translated">Identifizierung durch</target>
+			</trans-unit>
+			<trans-unit id="module.box.referrer.title">
+				<source>Visitor came from</source>
+				<target state="translated">Besucher kommen von</target>
+			</trans-unit>
+			<trans-unit id="module.box.whoisonline.title">
+				<source>Who is online?</source>
+				<target state="translated">Wer ist gerade online?</target>
+			</trans-unit>
+			<trans-unit id="module.box.whoisonline.nobody">
+				<source>No visitors on your website at the moment</source>
+				<target state="translated">Derzeit befinden sich keine Besucher auf ihrer Website</target>
+			</trans-unit>
+			<trans-unit id="module.box.language.title">
+				<source>Pagevisits per language</source>
+				<target state="translated">Seitenaufrufe in Sprache</target>
+			</trans-unit>
+			<trans-unit id="module.box.domain.title">
+				<source>Pagevisits per domain</source>
+				<target state="translated">Seitenaufrufe pro Domain</target>
+			</trans-unit>
+			<trans-unit id="module.box.countrylist.title">
+				<source>Top 20 countries</source>
+				<target state="translated">Top 20 Länder</target>
+			</trans-unit>
+			<trans-unit id="module.box.countrylist.country">
+				<source>Country</source>
+				<target state="translated">Land</target>
+			</trans-unit>
+			<trans-unit id="module.box.countrylist.amount">
+				<source>Amount of leads</source>
+				<target state="translated">Anzahl Leads</target>
+			</trans-unit>
+			<trans-unit id="module.box.headerpostfix">
+				<source>(all)</source>
+				<target state="translated">(alle)</target>
 			</trans-unit>
 
 			<trans-unit id="module.workflow">
@@ -1300,9 +1480,18 @@
 				<target state="translated">Ihre persönliche Lead Zusammenfassung</target>
 			</trans-unit>
 
+			<trans-unit id="dataprovider.languages.label">
+				<source>Page visits in language "%s"</source>
+				<target state="translated">Seitenbesuche in der Sprache "%s"</target>
+			</trans-unit>
+			<trans-unit id="dataprovider.domain.label">
+				<source>Page visits %s</source>
+				<target state="translated">Seitenbesuche %s</target>
+			</trans-unit>
+
 			<trans-unit id="datetime.weekday.now">
 				<source>Now</source>
-				<target state="translated">Heute</target>
+				<target state="translated">Jetzt</target>
 			</trans-unit>
 			<trans-unit id="datetime.weekday.mon">
 				<source>Mo</source>
@@ -1333,8 +1522,12 @@
 				<target state="translated">So</target>
 			</trans-unit>
 			<trans-unit id="datetime.week.0">
-				<source>Now</source>
+				<source>Today</source>
 				<target state="translated">Heute</target>
+			</trans-unit>
+			<trans-unit id="datetime.week.n">
+				<source>%s week(s) ago</source>
+				<target state="translated">Vor %s Woche</target>
 			</trans-unit>
 			<trans-unit id="datetime.week.1">
 				<source>1 week ago</source>
@@ -1411,6 +1604,14 @@
 			<trans-unit id="datetime.month.12">
 				<source>December</source>
 				<target state="translated">Dezember</target>
+			</trans-unit>
+			<trans-unit id="datetime.n">
+				<source>%s</source>
+				<target state="translated">%s</target>
+			</trans-unit>
+			<trans-unit id="datetime.week.n">
+				<source>Week%s</source>
+				<target state="translated">KW%s</target>
 			</trans-unit>
 
 			<trans-unit id="pleaseChoose">

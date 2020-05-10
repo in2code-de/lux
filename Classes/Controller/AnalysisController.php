@@ -3,227 +3,252 @@ declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
 use Doctrine\DBAL\DBALException;
-use In2code\Lux\Domain\Model\Log;
+use In2code\Lux\Domain\DataProvider\AllLinkclickDataProvider;
+use In2code\Lux\Domain\DataProvider\BrowserAmountDataProvider;
+use In2code\Lux\Domain\DataProvider\DomainDataProvider;
+use In2code\Lux\Domain\DataProvider\DownloadsDataProvider;
+use In2code\Lux\Domain\DataProvider\LanguagesDataProvider;
+use In2code\Lux\Domain\DataProvider\LinkclickDataProvider;
+use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
+use In2code\Lux\Domain\Model\Linkclick;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
-use In2code\Lux\Domain\Repository\CategoryRepository;
-use In2code\Lux\Domain\Repository\DownloadRepository;
-use In2code\Lux\Domain\Repository\IpinformationRepository;
-use In2code\Lux\Domain\Repository\LogRepository;
-use In2code\Lux\Domain\Repository\PagevisitRepository;
-use In2code\Lux\Domain\Repository\VisitorRepository;
-use In2code\Lux\Utility\ExtensionUtility;
+use In2code\Lux\Utility\BackendUtility;
+use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\ObjectUtility;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\StreamInterface;
+use TYPO3\CMS\Core\Http\JsonResponse;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
+use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
-use TYPO3\CMS\Extbase\Persistence\Generic\Exception\UnsupportedMethodException;
 
 /**
  * Class AnalysisController
  */
-class AnalysisController extends ActionController
+class AnalysisController extends AbstractController
 {
     /**
-     * @var VisitorRepository
-     */
-    protected $visitorRepository = null;
-
-    /**
-     * @var IpinformationRepository
-     */
-    protected $ipinformationRepository = null;
-
-    /**
-     * @var LogRepository
-     */
-    protected $logRepository = null;
-
-    /**
-     * @var PagevisitRepository
-     */
-    protected $pagevisitsRepository = null;
-
-    /**
-     * @var DownloadRepository
-     */
-    protected $downloadRepository = null;
-
-    /**
-     * @var CategoryRepository
-     */
-    protected $categoryRepository = null;
-
-    /**
      * @return void
-     * @throws InvalidArgumentNameException
-     * @throws Exception
-     */
-    public function initializeDashboardAction()
-    {
-        $this->setFilterDto();
-    }
-
-    /**
-     * @param FilterDto $filter
-     * @return void
-     * @throws InvalidQueryException
      * @throws DBALException
-     */
-    public function dashboardAction(FilterDto $filter)
-    {
-        $this->view->assignMultiple([
-            'filter' => $filter,
-            'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter),
-            'numberOfUniqueSiteVisitors' => $this->visitorRepository->findByUniqueSiteVisits($filter)->count(),
-            'numberOfRecurringSiteVisitors' => $this->visitorRepository->findByRecurringSiteVisits($filter)->count(),
-            'numberOfIdentifiedVisitors' => $this->visitorRepository->findIdentified($filter)->count(),
-            'numberOfUnknownVisitors' => $this->visitorRepository->findUnknown($filter)->count(),
-            'interestingLogs' => $this->logRepository->findInterestingLogs($filter),
-            'countries' => $this->ipinformationRepository->findAllCountryCodesGrouped($filter),
-            'latestPagevisits' => $this->pagevisitsRepository->findLatestPagevisits($filter),
-            'identifiedByMostVisits' => $this->visitorRepository->findIdentifiedByMostVisits($filter),
-            'identifiedPerMonth' => $this->logRepository->findIdentifiedLogsFromMonths(6),
-            'statistics' => [
-                'visitors' => $this->visitorRepository->findAllAmount(),
-                'identified' => $this->visitorRepository->findAllIdentifiedAmount(),
-                'unknown' => $this->visitorRepository->findAllUnknownAmount(),
-                'identifiedEmail4Link' => $this->logRepository->findByStatusAmount(Log::STATUS_IDENTIFIED_EMAIL4LINK),
-                'identifiedFieldListening' => $this->logRepository->findByStatusAmount(Log::STATUS_IDENTIFIED),
-                'identifiedFormListening' =>
-                    $this->logRepository->findByStatusAmount(Log::STATUS_IDENTIFIED_FORMLISTENING),
-                'identifiedFrontendLogin' =>
-                    $this->logRepository->findByStatusAmount(Log::STATUS_IDENTIFIED_FRONTENDAUTHENTICATION),
-                'identifiedLuxletter' => $this->logRepository->findByStatusAmount(Log::STATUS_IDENTIFIED_LUXLETTERLINK),
-                'luxcategories' => $this->categoryRepository->findAllAmount(),
-                'pagevisits' => $this->pagevisitsRepository->findAllAmount(),
-                'downloads' => $this->downloadRepository->findAllAmount(),
-                'versionLux' => ExtensionUtility::getLuxVersion(),
-                'versionLuxenterprise' => ExtensionUtility::getLuxenterpriseVersion(),
-                'versionLuxletter' => ExtensionUtility::getLuxletterVersion()
-            ]
-        ]);
-    }
-
-    /**
-     * @return void
-     * @throws InvalidArgumentNameException
      * @throws Exception
-     */
-    public function initializeContentAction()
-    {
-        $this->setFilterDto();
-    }
-
-    /**
-     * @param FilterDto $filter
-     * @return void
      * @throws InvalidQueryException
      */
-    public function contentAction(FilterDto $filter)
+    public function dashboardAction(): void
     {
-        $this->view->assignMultiple([
+        $filter = ObjectUtility::getFilterDto();
+        $values = [
             'filter' => $filter,
+            'numberOfVisitorsData' => ObjectUtility::getObjectManager()->get(PagevisistsDataProvider::class, $filter),
+            'numberOfDownloadsData' => ObjectUtility::getObjectManager()->get(DownloadsDataProvider::class, $filter),
+            'interestingLogs' => $this->logRepository->findInterestingLogs($filter),
             'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
             'downloads' => $this->downloadRepository->findCombinedByHref($filter),
-            'numberOfVisitorsByDay' => $this->pagevisitsRepository->getNumberOfVisitorsByDay(),
-            'numberOfDownloadsByDay' => $this->downloadRepository->getNumberOfDownloadsByDay(),
+            'news' => $this->newsvisitRepository->findCombinedByNewsIdentifier($filter),
+            'latestPagevisits' => $this->pagevisitsRepository->findLatestPagevisits($filter),
+            'browserData' => ObjectUtility::getObjectManager()->get(BrowserAmountDataProvider::class, $filter),
+            'linkclickData' => ObjectUtility::getObjectManager()->get(LinkclickDataProvider::class, $filter),
+            'languageData' => ObjectUtility::getObjectManager()->get(LanguagesDataProvider::class, $filter),
+            'domainData' => ObjectUtility::getObjectManager()->get(DomainDataProvider::class, $filter)
+        ];
+        $this->view->assignMultiple($values);
+    }
+
+    /**
+     * @return void
+     * @throws InvalidArgumentNameException
+     * @throws NoSuchArgumentException
+     */
+    public function initializeContentAction(): void
+    {
+        $this->setFilterExtended();
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @return void
+     * @throws Exception
+     * @throws InvalidQueryException
+     */
+    public function contentAction(FilterDto $filter): void
+    {
+        $this->view->assignMultiple([
+            'filter' => $filter,
+            'numberOfVisitorsData' => ObjectUtility::getObjectManager()->get(PagevisistsDataProvider::class, $filter),
+            'numberOfDownloadsData' => ObjectUtility::getObjectManager()->get(DownloadsDataProvider::class, $filter),
+            'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
+            'downloads' => $this->downloadRepository->findCombinedByHref($filter),
+            'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
+            'languageData' => ObjectUtility::getObjectManager()->get(LanguagesDataProvider::class, $filter),
+            'domainData' => ObjectUtility::getObjectManager()->get(DomainDataProvider::class, $filter)
         ]);
+    }
+
+    /**
+     * @return void
+     * @throws InvalidArgumentNameException
+     * @throws NoSuchArgumentException
+     */
+    public function initializeLinkClicksAction(): void
+    {
+        $this->setFilterExtended();
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @return void
+     * @throws Exception
+     */
+    public function linkClicksAction(FilterDto $filter): void
+    {
+        $this->view->assignMultiple([
+            'allLinkclickData' => ObjectUtility::getObjectManager()->get(AllLinkclickDataProvider::class, $filter),
+            'linkclickData' => ObjectUtility::getObjectManager()->get(LinkclickDataProvider::class, $filter),
+        ]);
+    }
+
+    /**
+     * @return void
+     */
+    public function newLinkClickAction(): void
+    {
+    }
+
+    /**
+     * @param Linkclick $linkclick
+     * @return void
+     */
+    public function createLinkClickAction(Linkclick $linkclick): void
+    {
+    }
+
+    /**
+     * @return void
+     */
+    public function editLinkClickAction(): void
+    {
+    }
+
+    /**
+     * @param Linkclick $linkclick
+     * @return void
+     */
+    public function updateLinkClickAction(Linkclick $linkclick): void
+    {
     }
 
     /**
      * @param Page $page
      * @return void
+     * @throws Exception
      */
-    public function detailPageAction(Page $page)
+    public function detailPageAction(Page $page): void
     {
+        $filter = ObjectUtility::getFilterDto()->setSearchterm((string)$page->getUid());
         $this->view->assignMultiple([
-            'pagevisits' => $this->pagevisitsRepository->findByPage($page)
+            'pagevisits' => $this->pagevisitsRepository->findByPage($page, 100),
+            'numberOfVisitorsData' => ObjectUtility::getObjectManager()->get(PagevisistsDataProvider::class, $filter)
         ]);
     }
 
     /**
      * @param string $href
      * @return void
-     * @throws UnsupportedMethodException
+     * @throws Exception
+     * @throws InvalidQueryException
      */
-    public function detailDownloadAction(string $href)
+    public function detailDownloadAction(string $href): void
     {
-        /** @noinspection PhpUndefinedMethodInspection */
+        $filter = ObjectUtility::getFilterDto()->setSearchterm(FileUtility::getFilenameFromPathAndFilename($href));
         $this->view->assignMultiple([
-            'downloads' => $this->downloadRepository->findByHref($href)
+            'downloads' => $this->downloadRepository->findByHref($href, 100),
+            'numberOfDownloadsData' => ObjectUtility::getObjectManager()->get(DownloadsDataProvider::class, $filter)
         ]);
     }
 
     /**
-     * Always set a default FilterDto even if there are no filter params
+     * AJAX action to show a detail view
      *
-     * @return void
-     * @throws InvalidArgumentNameException
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     * @throws Exception
+     * @noinspection PhpUnused
+     */
+    public function detailAjaxPage(ServerRequestInterface $request): ResponseInterface
+    {
+        $filter = $this->getFilterFromSessionForAjaxRequests($request->getQueryParams()['page']);
+        /** @var Page $page */
+        $page = $this->pageRepository->findByIdentifier((int)$request->getQueryParams()['page']);
+        $standaloneView = ObjectUtility::getStandaloneView();
+        $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
+            'EXT:lux/Resources/Private/Templates/Analysis/ContentDetailPageAjax.html'
+        ));
+        $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
+        $standaloneView->assignMultiple([
+            'pagevisits' => $this->pagevisitsRepository->findByPage($page, 10),
+            'numberOfVisitorsData' => ObjectUtility::getObjectManager()->get(PagevisistsDataProvider::class, $filter)
+        ]);
+        $response = ObjectUtility::getObjectManager()->get(JsonResponse::class);
+        /** @var StreamInterface $stream */
+        $stream = $response->getBody();
+        $stream->write(json_encode(['html' => $standaloneView->render()]));
+        return $response;
+    }
+
+    /**
+     * AJAX action to show a detail view
+     *
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     * @throws Exception
+     * @throws InvalidQueryException
+     * @noinspection PhpUnused
+     */
+    public function detailAjaxDownload(ServerRequestInterface $request): ResponseInterface
+    {
+        $filter = $this->getFilterFromSessionForAjaxRequests(
+            FileUtility::getFilenameFromPathAndFilename($request->getQueryParams()['download'])
+        );
+        $standaloneView = ObjectUtility::getStandaloneView();
+        $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
+            'EXT:lux/Resources/Private/Templates/Analysis/ContentDetailDownloadAjax.html'
+        ));
+        $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
+        $standaloneView->assignMultiple([
+            'downloads' => $this->downloadRepository->findByHref($request->getQueryParams()['download'], 10),
+            'numberOfDownloadsData' => ObjectUtility::getObjectManager()->get(DownloadsDataProvider::class, $filter)
+        ]);
+        $response = ObjectUtility::getObjectManager()->get(JsonResponse::class);
+        /** @var StreamInterface $stream */
+        $stream = $response->getBody();
+        $stream->write(json_encode(['html' => $standaloneView->render()]));
+        return $response;
+    }
+
+    /**
+     * @param string $searterm
+     * @return FilterDto
      * @throws Exception
      */
-    protected function setFilterDto()
+    protected function getFilterFromSessionForAjaxRequests(string $searterm): FilterDto
     {
-        try {
-            $this->request->getArgument('filter');
-        } catch (\Exception $exception) {
-            unset($exception);
-            $this->request->setArgument('filter', ObjectUtility::getFilterDto(FilterDto::PERIOD_THISYEAR));
+        $filterValues = BackendUtility::getSessionValue('filter', 'content', $this->getControllerName());
+        $filter = ObjectUtility::getFilterDto()->setSearchterm($searterm);
+        if (!empty($filterValues['timeFrom'])) {
+            $filter->setTimeFrom((string)$filterValues['timeFrom']);
         }
-    }
-
-    /**
-     * @param VisitorRepository $visitorRepository
-     * @return void
-     */
-    public function injectVisitorRepository(VisitorRepository $visitorRepository)
-    {
-        $this->visitorRepository = $visitorRepository;
-    }
-
-    /**
-     * @param IpinformationRepository $ipinformationRepository
-     * @return void
-     */
-    public function injectIpinformationRepository(IpinformationRepository $ipinformationRepository)
-    {
-        $this->ipinformationRepository = $ipinformationRepository;
-    }
-
-    /**
-     * @param LogRepository $logRepository
-     * @return void
-     */
-    public function injectLogRepository(LogRepository $logRepository)
-    {
-        $this->logRepository = $logRepository;
-    }
-
-    /**
-     * @param PagevisitRepository $pagevisitRepository
-     * @return void
-     */
-    public function injectPagevisitRepository(PagevisitRepository $pagevisitRepository)
-    {
-        $this->pagevisitsRepository = $pagevisitRepository;
-    }
-
-    /**
-     * @param DownloadRepository $downloadRepository
-     * @return void
-     */
-    public function injectDownloadRepository(DownloadRepository $downloadRepository)
-    {
-        $this->downloadRepository = $downloadRepository;
-    }
-
-    /**
-     * @param CategoryRepository $categoryRepository
-     * @return void
-     */
-    public function injectCategoryRepository(CategoryRepository $categoryRepository)
-    {
-        $this->categoryRepository = $categoryRepository;
+        if (!empty($filterValues['timeTo'])) {
+            $filter->setTimeTo((string)$filterValues['timeTo']);
+        }
+        if (!empty($filterValues['scoring'])) {
+            $filter->setScoring((int)$filterValues['scoring']);
+        }
+        if (!empty($filterValues['categoryscoring'])) {
+            $filter->setCategoryScoring((int)$filterValues['categoryscoring']);
+        }
+        return $filter;
     }
 }

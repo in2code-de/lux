@@ -1,112 +1,31 @@
 <f:layout name="Backend" />
 
 <f:section name="content">
-    <f:alias map="{action:'content'}">
-        <f:render partial="Lead/Filter" arguments="{_all}" />
-    </f:alias>
-
     <div class="row">
-        <div class="col-md-6">
-            <f:render partial="DiagramBoxes/Pagevisits" arguments="{_all}"/>
+        <div class="col-md-8">
 
-            <f:if condition="{pages}">
-                <f:then>
-                    <table class="table table-striped table-hover table-condensed">
-                        <thead>
-                        <tr>
-                            <th>
-                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.content.page">page</f:translate>
-                            </th>
-                            <th>
-                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.content.visits">visits</f:translate>
-                            </th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <f:for each="{pages}" as="page">
-                            <tr>
-                                <td>
-                                    <f:for each="{page}" as="pageItem" iteration="iteration">
-                                        <f:if condition="{iteration.isFirst}">
-                                            <span title="UID{pageItem.page}"><lux:page.getPropertyFromPageIdentifier pageIdentifier="{pageItem.page}" /></span>
-                                        </f:if>
-                                    </f:for>
-                                </td>
-                                <td>{page -> f:count()}</td>
-                                <td>
-                                    <f:for each="{page}" as="pageItem" iteration="iteration">
-                                        <f:if condition="{iteration.isFirst}">
-                                            <f:link.action action="detailPage" arguments="{page:pageItem.page}" class="btn btn-primary">Details</f:link.action>
-                                        </f:if>
-                                    </f:for>
-                                </td>
-                            </tr>
-                        </f:for>
-                        </tbody>
-                    </table>
-                </f:then>
-                <f:else>
-                    <div class="alert alert-warning">
-                        <div class="header-container">
-                            <p class="message-body">
-                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.novalues">No values to show</f:translate>
-                            </p>
-                        </div>
-                    </div>
-                </f:else>
-            </f:if>
+            <f:render partial="Filter/{view.controller}/{view.actionUpper}" arguments="{_all}" />
+
+            <div class="row">
+                <div class="col-md-6">
+                    <f:alias map="{headerPostfix:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.headerpostfix\')}'}">
+                        <f:render partial="Box/Analysis/Pagevisits" arguments="{_all}"/>
+                    </f:alias>
+                    <f:render partial="Box/Analysis/PagevisitsList" arguments="{_all}"/>
+                </div>
+                <div class="col-md-6">
+                    <f:alias map="{headerPostfix:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.headerpostfix\')}'}">
+                        <f:render partial="Box/Analysis/Downloads" arguments="{_all}"/>
+                    </f:alias>
+                    <f:render partial="Box/Analysis/DownloadsList" arguments="{_all}"/>
+                </div>
+            </div>
         </div>
-        <div class="col-md-6">
-            <f:render partial="DiagramBoxes/Downloads" arguments="{_all}"/>
-
-            <f:if condition="{downloads}">
-                <f:then>
-                    <table class="table table-striped table-condensed">
-                        <thead>
-                        <tr>
-                            <th>
-                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.content.asset">asset</f:translate>
-                            </th>
-                            <th>
-                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.content.downloads">downloads</f:translate>
-                            </th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <f:for each="{downloads}" as="download">
-                            <tr>
-                                <td>
-                                    <f:for each="{download}" as="downloadItem" iteration="iteration">
-                                        <f:if condition="{iteration.isFirst}">
-                                            {downloadItem.href}
-                                        </f:if>
-                                    </f:for>
-                                </td>
-                                <td>{download -> f:count()}</td>
-                                <td>
-                                    <f:for each="{download}" as="downloadItem" iteration="iteration">
-                                        <f:if condition="{iteration.isFirst}">
-                                            <f:link.action action="detailDownload" arguments="{href:downloadItem.href}" class="btn btn-primary">Details</f:link.action>
-                                        </f:if>
-                                    </f:for>
-                                </td>
-                            </tr>
-                        </f:for>
-                        </tbody>
-                    </table>
-                </f:then>
-                <f:else>
-                    <div class="alert alert-warning">
-                        <div class="header-container">
-                            <p class="message-body">
-                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.novalues">No values to show</f:translate>
-                            </p>
-                        </div>
-                    </div>
-                </f:else>
-            </f:if>
+        <div class="col-md-4">
+            <div data-lux-container="detail">
+                <f:render partial="Box/Analysis/Domain" arguments="{_all}"/>
+                <f:render partial="Box/Analysis/Language" arguments="{_all}"/>
+            </div>
         </div>
     </div>
 </f:section>

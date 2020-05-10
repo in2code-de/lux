@@ -215,7 +215,6 @@ class AnonymizeService
             $properties = [
                 'email' => $this->getRandomEmail(),
                 'ip_address' => '127.0.0.***',
-                'referrer' => $this->getRandomReferrer(),
                 'description' => $this->getRandomDescription()
             ];
             $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);

@@ -9,6 +9,7 @@ use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
@@ -36,36 +37,44 @@ class PageTracker
 
     /**
      * @param Visitor $visitor
-     * @param int $pageUid
+     * @param array $arguments
      * @return void
+     * @throws Exception
      * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
      * @throws InvalidSlotException
      * @throws InvalidSlotReturnException
+     * @throws UnknownObjectException
+     * @throws \Exception
      */
-    public function trackPage(Visitor $visitor, int $pageUid)
+    public function track(Visitor $visitor, array $arguments): void
     {
+        $pageUid = (int)$arguments['pageUid'];
+        $languageUid = (int)$arguments['languageUid'];
+        $referrer = $arguments['referrer'];
         if ($this->isTrackingActivated($visitor, $pageUid)) {
-            $visitor->addPagevisit($this->getPageVisit($pageUid));
+            $visitor->addPagevisit($this->getPageVisit($pageUid, $languageUid, $referrer));
             $visitor->setVisits($visitor->getNumberOfUniquePagevisits());
             $this->visitorRepository->update($visitor);
             $this->visitorRepository->persistAll();
-            $this->signalDispatch(__CLASS__, 'trackPagevisit', [$visitor]);
+            $this->signalDispatch(__CLASS__, __METHOD__, [$visitor]);
         }
     }
 
     /**
      * @param int $pageUid
+     * @param int $languageUid
+     * @param string $referrer
      * @return Pagevisit
+     * @throws Exception
      */
-    protected function getPageVisit(int $pageUid): Pagevisit
+    protected function getPageVisit(int $pageUid, int $languageUid, string $referrer): Pagevisit
     {
         /** @var Pagevisit $pageVisit */
         $pageVisit = ObjectUtility::getObjectManager()->get(Pagevisit::class);
         $pageRepository = ObjectUtility::getObjectManager()->get(PageRepository::class);
         /** @var Page $page */
         $page = $pageRepository->findByUid($pageUid);
-        $pageVisit->setPage($page);
+        $pageVisit->setPage($page)->setLanguage($languageUid)->setReferrer($referrer)->setDomain();
         return $pageVisit;
     }
 
@@ -73,6 +82,7 @@ class PageTracker
      * @param Visitor $visitor
      * @param int $pageUid
      * @return bool
+     * @throws Exception
      */
     protected function isTrackingActivated(Visitor $visitor, int $pageUid): bool
     {
@@ -83,6 +93,7 @@ class PageTracker
      * Check if tracking of pagevisits is turned on via TypoScript
      *
      * @return bool
+     * @throws Exception
      */
     protected function isTrackingActivatedInSettings(): bool
     {

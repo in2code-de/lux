@@ -20,23 +20,23 @@ return [
             'endtime' => 'endtime',
         ],
         'iconfile' => 'EXT:lux/Resources/Public/Icons/' . Visitor::TABLE_NAME . '.svg',
-        'searchFields' => 'email,id_cookie,referrer',
+        'searchFields' => 'email,id_cookie',
         'rootLevel' => -1
     ],
     'interface' => [
         'showRecordFieldList' =>
             'scoring,categoryscorings,identified,blacklisted,visits,email,fingerprints,crdate,tstamp,attributes,' .
-            'pagevisits,downloads,referrer,ip_address,ipinformations,logs,description',
+            'newsvisits,pagevisits,linkclicks,downloads,ip_address,ipinformations,logs,description',
     ],
     'types' => [
         '1' => [
             'showitem' =>
                 '--palette--;Lead;scoring,categoryscorings,--palette--;Lead;visits,--palette--;Lead;mail,' .
-                '--palette--;Lead;time,frontenduser,attributes,--palette--;Lead;referrer,' .
+                '--palette--;Lead;time,frontenduser,attributes,' .
                 '--div--;LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' .
                 'tx_lux_domain_model_visitor.tab.enrichments,ip_address,ipinformations,' .
                 '--div--;LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' .
-                'tx_lux_domain_model_visitor.tab.pagevisits,pagevisits,' .
+                'tx_lux_domain_model_visitor.tab.pagevisits,pagevisits,newsvisits,linkclicks' .
                 '--div--;LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' .
                 'tx_lux_domain_model_visitor.tab.downloads,downloads,' .
                 '--div--;LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' .
@@ -57,9 +57,6 @@ return [
         ],
         'time' => [
             'showitem' => 'crdate,tstamp'
-        ],
-        'referrer' => [
-            'showitem' => 'referrer'
         ]
     ],
     'columns' => [
@@ -253,6 +250,40 @@ return [
                 ]
             ]
         ],
+        'newsvisits' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Visitor::TABLE_NAME . '.newsvisits',
+            'config' => [
+                'type' => 'inline',
+                'foreign_table' => \In2code\Lux\Domain\Model\Newsvisit::TABLE_NAME,
+                'foreign_field' => 'visitor',
+                'maxitems' => 100000,
+                'appearance' => [
+                    'collapse' => 1,
+                    'levelLinksPosition' => 'top',
+                    'showSynchronizationLink' => 1,
+                    'showPossibleLocalizationRecords' => 1,
+                    'showAllLocalizationLink' => 1
+                ]
+            ]
+        ],
+        'linkclicks' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Visitor::TABLE_NAME . '.linkclicks',
+            'config' => [
+                'type' => 'inline',
+                'foreign_table' => \In2code\Lux\Domain\Model\Linkclick::TABLE_NAME,
+                'foreign_field' => 'visitor',
+                'maxitems' => 100000,
+                'appearance' => [
+                    'collapse' => 1,
+                    'levelLinksPosition' => 'top',
+                    'showSynchronizationLink' => 1,
+                    'showPossibleLocalizationRecords' => 1,
+                    'showAllLocalizationLink' => 1
+                ]
+            ]
+        ],
         'attributes' => [
             'exclude' => true,
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Visitor::TABLE_NAME . '.attributes',
@@ -268,14 +299,6 @@ return [
                     'showPossibleLocalizationRecords' => 1,
                     'showAllLocalizationLink' => 1
                 ]
-            ]
-        ],
-        'referrer' => [
-            'exclude' => true,
-            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Visitor::TABLE_NAME . '.referrer',
-            'config' => [
-                'type' => 'input',
-                'readOnly' => true
             ]
         ],
         'ip_address' => [

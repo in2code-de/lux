@@ -17,6 +17,11 @@ class File extends AbstractEntity
     protected $metadata = null;
 
     /**
+     * @var string
+     */
+    protected $name = '';
+
+    /**
      * @return Metadata
      */
     public function getMetadata(): Metadata
@@ -31,6 +36,24 @@ class File extends AbstractEntity
     public function setMetadata(Metadata $metadata)
     {
         $this->metadata = $metadata;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return File
+     */
+    public function setName(string $name): self
+    {
+        $this->name = $name;
         return $this;
     }
 }

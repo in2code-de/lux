@@ -1,0 +1,48 @@
+<f:if condition="{downloads}">
+    <f:then>
+        <f:widget.paginate
+            objects="{downloads}"
+            as="downloadsItem"
+            configuration="{itemsPerPage:15,insertAbove:0,insertBelow:'{f:if(condition: \'{downloads -> f:count()} > 15\',then:1)}',maximumNumberOfLinks:10}">
+            <table class="table table-striped table-hover table-pointer">
+                <thead>
+                <tr>
+                    <th>
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.content.asset">asset</f:translate>
+                    </th>
+                    <th>
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.content.downloads">downloads</f:translate>
+                    </th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <f:for each="{downloadsItem}" as="download">
+                    <tr data-lux-action-analysiscontentdetaildownload="{download.0.href}">
+                        <td>
+                            <f:for each="{download}" as="downloadItem" iteration="iteration">
+                                <f:if condition="{iteration.isFirst}">
+                                    <span title="{downloadItem.href}">
+                                        <lux:format.getFilenameFromPathAndFilename pathAndFilename="{downloadItem.href}"/>
+                                    </span>
+                                </f:if>
+                            </f:for>
+                        </td>
+                        <td>{download -> f:count()}</td>
+                        <td>
+                            <f:for each="{download}" as="downloadItem" iteration="iteration">
+                                <f:if condition="{iteration.isFirst}">
+                                    <f:link.action action="detailDownload" arguments="{href:downloadItem.href}" class="btn btn-primary pull-right hidden" data="{lux-linkmock-link:'detaildownload{downloadItem.uid}'}">Details</f:link.action>
+                                </f:if>
+                            </f:for>
+                        </td>
+                    </tr>
+                </f:for>
+                </tbody>
+            </table>
+        </f:widget.paginate>
+    </f:then>
+    <f:else>
+        <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+    </f:else>
+</f:if>

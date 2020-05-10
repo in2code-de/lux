@@ -26,21 +26,25 @@ class BackendUtility
 
     /**
      * @param string $key
+     * @param string $action
+     * @param string $controller
      * @param array $data
      * @return void
      */
-    public static function saveValueToSession(string $key, array $data)
+    public static function saveValueToSession(string $key, string $action, string $controller, array $data)
     {
-        self::getBackendUserAuthentication()->setAndSaveSessionData($key . '_lux', $data);
+        self::getBackendUserAuthentication()->setAndSaveSessionData($key . $action . $controller . '_lux', $data);
     }
 
     /**
      * @param string $key
+     * @param string $action
+     * @param string $controller
      * @return array
      */
-    public static function getSessionValue(string $key): array
+    public static function getSessionValue(string $key, string $action, string $controller): array
     {
-        return (array)self::getBackendUserAuthentication()->getSessionData($key . '_lux');
+        return (array)self::getBackendUserAuthentication()->getSessionData($key . $action . $controller . '_lux');
     }
 
     /**

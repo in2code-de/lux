@@ -2,7 +2,11 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
+use In2code\Lux\Domain\Service\ReadableReferrerService;
+use In2code\Lux\Utility\FrontendUtility;
+use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
  * Class Pagevisit
@@ -22,9 +26,24 @@ class Pagevisit extends AbstractEntity
     protected $page = null;
 
     /**
+     * @var int
+     */
+    protected $language = 0;
+
+    /**
      * @var \DateTime
      */
     protected $crdate = null;
+
+    /**
+     * @var string
+     */
+    protected $referrer = '';
+
+    /**
+     * @var string
+     */
+    protected $domain = '';
 
     /**
      * @return Visitor
@@ -63,6 +82,24 @@ class Pagevisit extends AbstractEntity
     }
 
     /**
+     * @return int
+     */
+    public function getLanguage(): int
+    {
+        return $this->language;
+    }
+
+    /**
+     * @param int $language
+     * @return Pagevisit
+     */
+    public function setLanguage(int $language): self
+    {
+        $this->language = $language;
+        return $this;
+    }
+
+    /**
      * @return \DateTime
      * @throws \Exception
      */
@@ -86,9 +123,55 @@ class Pagevisit extends AbstractEntity
     }
 
     /**
+     * @return string
+     */
+    public function getReferrer(): string
+    {
+        return $this->referrer;
+    }
+
+    /**
+     * @return string
+     * @throws Exception
+     */
+    public function getReadableReferrer(): string
+    {
+        $referrerService = ObjectUtility::getObjectManager()->get(ReadableReferrerService::class, $this->getReferrer());
+        return $referrerService->getReadableReferrer();
+    }
+
+    /**
+     * @param string $referrer
+     * @return Pagevisit
+     */
+    public function setReferrer(string $referrer): self
+    {
+        $this->referrer = $referrer;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDomain(): string
+    {
+        return $this->domain;
+    }
+
+    /**
+     * @return Pagevisit
+     */
+    public function setDomain(): self
+    {
+        $this->domain = FrontendUtility::getCurrentDomain();
+        return $this;
+    }
+
+    /**
      * Get all pagevisits of the current visitor
      *
      * @return Pagevisit[]
+     * @throws \Exception
      */
     public function getAllPagevisits()
     {
@@ -97,6 +180,7 @@ class Pagevisit extends AbstractEntity
 
     /**
      * @return Pagevisit|null
+     * @throws \Exception
      */
     public function getNextPagevisit()
     {
@@ -117,6 +201,7 @@ class Pagevisit extends AbstractEntity
 
     /**
      * @return Pagevisit|null
+     * @throws \Exception
      */
     public function getPreviousPagevisit()
     {

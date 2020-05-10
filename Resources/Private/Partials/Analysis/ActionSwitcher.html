@@ -1,6 +1,11 @@
-<f:link.action action="dashboard" controller="Analysis" class="btn{lux:Be.GetClassNameOnAction(actionName:'dashboard')}">
+<f:link.action action="dashboard" controller="Analysis" class="btn{lux:backend.getClassNameOnAction(onAction:'dashboard',view:view)}">
     <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.dashboard">dashboard</f:translate>
 </f:link.action>
-<f:link.action action="content" controller="Analysis" class="btn{lux:Be.GetClassNameOnAction(actionName:'content')}">
+<f:link.action action="content" controller="Analysis" class="btn{lux:backend.getClassNameOnAction(onAction:'content',view:view)}">
     <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.content">content</f:translate>
 </f:link.action>
+<f:comment>
+<f:link.action action="linkClicks" controller="Analysis" class="btn{lux:backend.getClassNameOnAction(onAction:'linkClicks',view:view)}">
+    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.linkListeners">linkClicks</f:translate>
+</f:link.action>
+</f:comment>

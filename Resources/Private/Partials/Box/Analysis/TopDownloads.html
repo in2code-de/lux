@@ -1,0 +1,36 @@
+<div class="panel panel-default flex">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.topdownloads.title">Top
+                10
+            </f:translate>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <f:if condition="{downloads}">
+            <f:then>
+                <table class="table table-striped">
+                    <f:for each="{downloads}" as="download" iteration="iteration">
+                        <f:if condition="{iteration.cycle} < 11">
+                            <tr>
+                                <td>
+                                    <f:for each="{download}" as="downloadItem" iteration="iteration">
+                                        <f:if condition="{iteration.isFirst}">
+                                            <span title="{downloadItem.href}">
+                                                <lux:format.getFilenameFromPathAndFilename pathAndFilename="{downloadItem.href}"/>
+                                            </span>
+                                        </f:if>
+                                    </f:for>
+                                </td>
+                                <td>{download -> f:count()}</td>
+                            </tr>
+                        </f:if>
+                    </f:for>
+                </table>
+            </f:then>
+            <f:else>
+                <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+            </f:else>
+        </f:if>
+    </div>
+</div>

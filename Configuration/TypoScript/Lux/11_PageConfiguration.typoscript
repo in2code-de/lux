@@ -23,8 +23,13 @@ page {
         wrap = <script type="text/javascript" src="|"></script>
     }
     # Add main JavaScript for lux
-    includeJSFooter.luxBasicLightbox = EXT:lux/Resources/Public/JavaScript/Vendor/BasicLightbox.min.js
-    includeJSFooter.lux = EXT:lux/Resources/Public/JavaScript/Lux/Lux.min.js
+    includeJSFooter {
+      luxBasicLightbox = EXT:lux/Resources/Public/JavaScript/Vendor/BasicLightbox.min.js
+      luxBasicLightbox.defer = 1
+
+      lux = EXT:lux/Resources/Public/JavaScript/Lux/Lux.min.js
+      lux.defer = 1
+    }
 
     # Container for informations that will be send via AJAX
     1518815717 = COA
@@ -93,23 +98,38 @@ page {
             data = TSFE:id
         }
 
-        # Activate page tracking
+        # Current language uid
         120 = TEXT
         120 {
+            noTrimWrap = | data-lux-languageuid="|"|
+            data = sitelanguage:languageId
+        }
+
+        # Current news uid (if given)
+        130 = TEXT
+        130 {
+            noTrimWrap = | data-lux-newsuid="|"|
+            data = GP:tx_news_pi1|news
+            intval = 1
+        }
+
+        # Activate page tracking
+        200 = TEXT
+        200 {
             value = data-lux-pagetracking="{$plugin.tx_lux.settings.tracking.page}"
             noTrimWrap = | ||
         }
 
         # Activate download tracking
-        130 = TEXT
-        130 {
+        210 = TEXT
+        210 {
             value = data-lux-downloadtracking="{$plugin.tx_lux.settings.tracking.assetDownloads}"
             noTrimWrap = | ||
         }
 
         # Allowed file extensions for download tracking
-        140 = TEXT
-        140 {
+        220 = TEXT
+        220 {
             value = data-lux-downloadtracking-extensions="{$plugin.tx_lux.settings.tracking.assetDownloads.allowedExtensions}"
             noTrimWrap = | ||
         }
@@ -149,6 +169,7 @@ luxPageRequestAjax {
     typeNum = 1518815717
     config {
         additionalHeaders.10.header = Content-Type: application/json
+        additionalHeaders.10.replace = 1
         no_cache = 1
         disableAllHeaderCode = 1
         disablePrefixComment = 1
@@ -180,6 +201,7 @@ luxPageRequestAjax {
         typeNum = 1517985223
         config {
             additionalHeaders.10.header = Content-Type: text/javascript
+            additionalHeaders.10.replace = 1
             disableAllHeaderCode = 1
             disablePrefixComment = 1
             xhtml_cleaning = 0

@@ -30,6 +30,6 @@ class GetContentHeaderFromContentUidViewHelper extends AbstractViewHelper
             ->from('tt_content')
             ->where('uid=' . (int)$this->arguments['uid'])
             ->execute()
-            ->fetchColumn(0);
+            ->fetchColumn();
     }
 }

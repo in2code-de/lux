@@ -16,5 +16,8 @@ return [
     ],
     \In2code\Lux\Domain\Model\Metadata::class => [
         'tableName' => 'sys_file_metadata'
+    ],
+    \In2code\Lux\Domain\Model\News::class => [
+        'tableName' => 'tx_news_domain_model_news'
     ]
 ];

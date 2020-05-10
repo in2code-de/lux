@@ -1,0 +1,27 @@
+<div class="panel panel-default flex">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.recurring.0')}
+            <span class="badge" style="float: right;" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.recurring.0')}">
+                <f:if condition="{numberOfUniqueSiteVisitors} > 0">
+                    <f:then><f:format.number decimals="1" decimalSeparator="," thousandsSeparator=".">{numberOfRecurringSiteVisitors / numberOfUniqueSiteVisitors * 100}</f:format.number>%</f:then>
+                    <f:else>{numberOfRecurringSiteVisitors}</f:else>
+                </f:if>
+            </span>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <f:if condition="{numberOfUniqueSiteVisitors} || {numberOfRecurringSiteVisitors}">
+            <f:then>
+                <canvas width="750"
+                        height="400"
+                        data-chart="doughnut"
+                        data-chart-data="{numberOfRecurringSiteVisitors},{numberOfUniqueSiteVisitors}"
+                        data-chart-labels="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.recurring.0')},{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.recurring.1')}"></canvas>
+            </f:then>
+            <f:else>
+                <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+            </f:else>
+        </f:if>
+    </div>
+</div>

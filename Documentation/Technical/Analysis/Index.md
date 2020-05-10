@@ -60,7 +60,7 @@ Example page tracking request in browser console:
 #### Dashboard
 
 Now, if lux is up and running, you should see information in the Analysis Backend Module in the dashboard view:
-<img src="../../../Documentation/Images/screenshot_dashboard.png" width="800" />
+<img src="../../../Documentation/Images/screenshot_analysis_dashboard.png" width="800" />
 
 The dashboard view should give you a quick overview about the latest activities and some useful information:
 * How many recurring/unique leads
@@ -106,9 +106,9 @@ in this item.
 ### TYPO3 Dashboard Module
 
 In addition to the build in dashboard, since TYPO3 10 it is possible to install another dashboard for system wide
-diagrams in TYPO3. 
+diagrams in TYPO3.
 You could do this simply with `composer require typo3/cms-dashboard`. Once it is available, you can add some widgets
-from Lux. 
+from Lux.
 
 This is a screenshot fom default values:
 

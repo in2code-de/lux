@@ -22,10 +22,10 @@ return [
         'rootLevel' => -1
     ],
     'interface' => [
-        'showRecordFieldList' => 'page,crdate,visitor',
+        'showRecordFieldList' => 'page,language,crdate,referrer,domain,visitor',
     ],
     'types' => [
-        '1' => ['showitem' => 'page,crdate,visitor'],
+        '1' => ['showitem' => 'page,language,crdate,referrer,domain,visitor'],
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -126,16 +126,43 @@ return [
                 'readOnly' => true
             ],
         ],
+        'language' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Pagevisit::TABLE_NAME . '.language',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'foreign_table' => 'sys_language',
+                'foreign_table_where' => 'ORDER BY sys_language.title',
+                'default' => 0,
+                'readOnly' => true
+            ],
+        ],
+        'referrer' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Pagevisit::TABLE_NAME . '.referrer',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'readOnly' => true
+            ]
+        ],
+        'domain' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Pagevisit::TABLE_NAME . '.domain',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'readOnly' => true
+            ]
+        ],
         'visitor' => [
             'exclude' => true,
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Pagevisit::TABLE_NAME . '.visitor',
             'config' => [
-                'type' => 'group',
-                'internal_type' => 'db',
-                'allowed' => \In2code\Lux\Domain\Model\Visitor::TABLE_NAME,
-                'size' => 1,
-                'maxitems' => 1,
-                'multiple' => 0,
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'foreign_table' => \In2code\Lux\Domain\Model\Visitor::TABLE_NAME,
                 'default' => 0,
                 'readOnly' => true
             ]
