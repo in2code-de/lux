@@ -62,9 +62,11 @@
                             <f:for each="{visitorsPage}" as="visitor">
                                 <tr data-lux-action-leadlistdetail="{visitor.uid}">
                                     <td><span title="UID{visitor.uid}">{visitor.fullName}</span></td>
-                                    <td>{visitor.scoring}</td>
+                                    <td><span class="badge" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.scoring')}">{visitor.scoring}</span></td>
                                     <f:if condition="{filter.categoryScoring}">
-                                        <td><lux:visitor.getCategoryScoringFromCategoryAndVisitor visitor="{visitor}" category="{filter.categoryScoring}" /></td>
+                                        <td>
+                                            <span class="badge badge-primary" title="{visitor.hottestCategoryscoring.category.title}"><lux:visitor.getCategoryScoringFromCategoryAndVisitor visitor="{visitor}" category="{filter.categoryScoring}" /></span>
+                                        </td>
                                     </f:if>
                                     <td>{visitor.email}</td>
                                     <td>{visitor.company}</td>
