@@ -588,7 +588,10 @@
 				<source>Search</source>
 			</trans-unit>
 			<trans-unit id="module.list.filter.header.scoring">
-				<source>Scoring</source>
+				<source>General Scoring of Visitors</source>
+			</trans-unit>
+			<trans-unit id="module.list.filter.header.categoryscoring">
+				<source>Category Scoring of Visitors</source>
 			</trans-unit>
 			<trans-unit id="module.list.filter.header.time">
 				<source>Time</source>

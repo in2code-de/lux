@@ -776,8 +776,12 @@
 				<target state="translated">Suche</target>
 			</trans-unit>
 			<trans-unit id="module.list.filter.header.scoring">
-				<source>Scoring</source>
-				<target state="translated">Scoring</target>
+				<source>General Scoring of Visitors</source>
+				<target state="translated">Allgemeines Scoring des Besuchers</target>
+			</trans-unit>
+			<trans-unit id="module.list.filter.header.categoryscoring">
+				<source>Category Scoring of Visitors</source>
+				<target state="translated">Kategorie-Scoring des Besuchers</target>
 			</trans-unit>
 			<trans-unit id="module.list.filter.header.time">
 				<source>Time</source>
