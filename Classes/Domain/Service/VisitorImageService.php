@@ -6,6 +6,9 @@ use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
+use TYPO3\CMS\Core\Cache\CacheManager;
+use TYPO3\CMS\Core\Cache\Exception\NoSuchCacheException;
+use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -16,6 +19,8 @@ use TYPO3\CMS\Extbase\Service\ImageService;
  */
 class VisitorImageService
 {
+    const CACHE_KEY = 'lux_visitor_imageurl';
+
     /**
      * @var Visitor
      */
@@ -34,18 +39,47 @@ class VisitorImageService
     protected $size = 150;
 
     /**
+     * Default cache live time is 24h
+     *
+     * @var int
+     */
+    protected $cacheLifeTime = 86400;
+
+    /**
+     * @var FrontendInterface
+     */
+    protected $cacheInstance = null;
+
+    /**
      * VisitorImageService constructor.
+     * @param Visitor $visitor
+     * @throws NoSuchCacheException
      */
     public function __construct(Visitor $visitor)
     {
         $this->visitor = $visitor;
+        $this->cacheInstance = GeneralUtility::makeInstance(CacheManager::class)->getCache(self::CACHE_KEY);
     }
 
     /**
      * @return string
      * @throws Exception
      */
-    public function getImageUrl(): string
+    public function getUrl(): string
+    {
+        $url = $this->getUrlFromCache();
+        if ($url === '') {
+            $url = $this->buildImageUrl();
+            $this->cacheUrl($url);
+        }
+        return $url;
+    }
+
+    /**
+     * @return string
+     * @throws Exception
+     */
+    protected function buildImageUrl(): string
     {
         $url = '';
         $url = $this->getImageUrlFromFrontenduser($url);
@@ -106,7 +140,7 @@ class VisitorImageService
             && class_exists(\Buchin\GoogleImageGrabber\GoogleImageGrabber::class)) {
             $images = \Buchin\GoogleImageGrabber\GoogleImageGrabber::grab($this->visitor->getEmail());
             foreach ((array)$images as $image) {
-                if (!empty($image['url']) && FileUtility::isImageFile($image['url'])) {
+                if (!empty($image['url']) && FileUtility::isImageFile($image['url']) && $image['width'] > 25) {
                     $url = $image['url'];
                     break;
                 }
@@ -135,5 +169,42 @@ class VisitorImageService
         return $this->visitor->getFrontenduser() !== null
             && $this->visitor->getFrontenduser()->getImage() !== null
             && $this->visitor->getFrontenduser()->getImage()->count() > 0;
+    }
+
+    /**
+     * @param string $url
+     * @return void
+     */
+    protected function cacheUrl(string $url): void
+    {
+        if ($url !== '') {
+            $this->cacheInstance->set(
+                $this->getCacheIdentifier(),
+                $url,
+                [self::CACHE_KEY],
+                $this->cacheLifeTime
+            );
+        }
+    }
+
+    /**
+     * @return string
+     */
+    protected function getUrlFromCache(): string
+    {
+        $url = '';
+        $urlCache = $this->cacheInstance->get($this->getCacheIdentifier());
+        if (!empty($urlCache)) {
+            $url = $urlCache;
+        }
+        return $url;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getCacheIdentifier(): string
+    {
+        return md5($this->visitor->getEmail() . self::CACHE_KEY);
     }
 }

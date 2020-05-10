@@ -1051,12 +1051,13 @@ class Visitor extends AbstractEntity
     }
 
     /**
-     * Calculated properties
+     * @return string
+     * @throws Exception
      */
     public function getImageUrl(): string
     {
-        $visitorImageService = ObjectUtility::getObjectManager()->get(VisitorImageService::class, $this);
-        return $visitorImageService->getImageUrl();
+        $visitorImageService = GeneralUtility::makeInstance(VisitorImageService::class, $this);
+        return $visitorImageService->getUrl();
     }
 
     /**

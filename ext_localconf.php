@@ -189,5 +189,13 @@ call_user_func(
             = \In2code\Lux\Update\LuxIdCookieToFingerprintUpgradeWizard::class;
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['moveReferrerToPageVisitUpgradeWizard']
             = \In2code\Lux\Update\MoveReferrerToPageVisitUpgradeWizard::class;
+
+        /**
+         * Caching framework
+         */
+        $cacheKey = \In2code\Lux\Domain\Service\VisitorImageService::CACHE_KEY;
+        if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheKey])) {
+            $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheKey] = [];
+        }
     }
 );
