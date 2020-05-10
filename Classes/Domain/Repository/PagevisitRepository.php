@@ -226,6 +226,7 @@ class PagevisitRepository extends AbstractRepository
                 $result[$readableReferrer->getReadableReferrer()] = $record['count'];
             }
         }
+        arsort($result);
         return $result;
     }
 

@@ -28,7 +28,6 @@ class ReferrerAmountDataProvider extends AbstractDataProvider
      *
      * @return void
      * @throws Exception
-     * @throws DBALException
      */
     public function prepareData(): void
     {
