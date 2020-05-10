@@ -279,22 +279,22 @@ class PagevisitRepository extends AbstractRepository
         FilterDto $filter = null
     ): array {
         if ($filter !== null) {
-//            if ($filter->getSearchterm() !== '') {
-//                $logicalOr = [];
-//                foreach ($filter->getSearchterms() as $searchterm) {
-//                    if (MathUtility::canBeInterpretedAsInteger($searchterm)) {
-//                        $logicalOr[] = $query->equals('page.uid', (int)$searchterm);
-//                    } else {
-//                        $logicalOr[] = $query->like('page.title', '%' . $searchterm . '%');
-//                    }
-//                }
-//                $logicalAnd[] = $query->logicalOr($logicalOr);
-//            }
+            if ($filter->getSearchterm() !== '') {
+                $logicalOr = [];
+                foreach ($filter->getSearchterms() as $searchterm) {
+                    if (MathUtility::canBeInterpretedAsInteger($searchterm)) {
+                        $logicalOr[] = $query->equals('page.uid', (int)$searchterm);
+                    } else {
+                        $logicalOr[] = $query->like('page.title', '%' . $searchterm . '%');
+                    }
+                }
+                $logicalAnd[] = $query->logicalOr($logicalOr);
+            }
             if ($filter->getScoring() > 0) {
                 $logicalAnd[] = $query->greaterThanOrEqual('visitor.scoring', $filter->getScoring());
             }
             if ($filter->getCategoryScoring() !== null) {
-                $logicalAnd[] = $query->contains('visitor.categoryscorings', $filter->getCategoryScoring());
+                $logicalAnd[] = $query->equals('visitor.categoryscorings.category', $filter->getCategoryScoring());
             }
         }
         return $logicalAnd;

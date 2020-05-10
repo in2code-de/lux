@@ -145,7 +145,7 @@ class DownloadRepository extends AbstractRepository
                 $logicalAnd[] = $query->greaterThanOrEqual('visitor.scoring', $filter->getScoring());
             }
             if ($filter->getCategoryScoring() !== null) {
-                $logicalAnd[] = $query->contains('visitor.categoryscorings', $filter->getCategoryScoring());
+                $logicalAnd[] = $query->equals('visitor.categoryscorings.category', $filter->getCategoryScoring());
             }
         }
         return $logicalAnd;
