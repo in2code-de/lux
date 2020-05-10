@@ -13,13 +13,7 @@
                         data-chart-labels="{languageData.titlesList}"></canvas>
             </f:then>
             <f:else>
-                <div class="alert alert-lux">
-                    <div class="header-container">
-                        <p class="message-body">
-                            <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
-                        </p>
-                    </div>
-                </div>
+                <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
             </f:else>
         </f:if>
     </div>

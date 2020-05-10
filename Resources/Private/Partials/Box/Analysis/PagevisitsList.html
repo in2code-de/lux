@@ -41,12 +41,6 @@
         </f:widget.paginate>
     </f:then>
     <f:else>
-        <div class="alert alert-warning">
-            <div class="header-container">
-                <p class="message-body">
-                    <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
-                </p>
-            </div>
-        </div>
+        <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
     </f:else>
 </f:if>

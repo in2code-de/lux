@@ -1,38 +1,35 @@
 <div class="panel panel-default flex">
-	<div class="panel-heading">
-		<h3 class="panel-title">
-			<f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.toppages.title">visits</f:translate>
-		</h3>
-	</div>
-	<div class="panel-body">
-		<f:if condition="{pages}">
-			<f:then>
-				<table class="table table-striped table-condensed">
-					<f:for each="{pages}" as="page" iteration="iteration">
-						<f:if condition="{iteration.cycle} < 11">
-							<tr>
-								<td>
-									<f:for each="{page}" as="pageItem" iteration="iteration">
-										<f:if condition="{iteration.isFirst}">
-											<span title="UID{pageItem.page}"><lux:page.getPropertyFromPageIdentifier pageIdentifier="{pageItem.page}" /></span>
-										</f:if>
-									</f:for>
-								</td>
-								<td>{page -> f:count()}</td>
-							</tr>
-						</f:if>
-					</f:for>
-				</table>
-			</f:then>
-			<f:else>
-				<div class="alert alert-warning">
-					<div class="header-container">
-						<p class="message-body">
-                            <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
-						</p>
-					</div>
-				</div>
-			</f:else>
-		</f:if>
-	</div>
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.toppages.title">
+                visits
+            </f:translate>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <f:if condition="{pages}">
+            <f:then>
+                <table class="table table-striped table-condensed">
+                    <f:for each="{pages}" as="page" iteration="iteration">
+                        <f:if condition="{iteration.cycle} < 11">
+                            <tr>
+                                <td>
+                                    <f:for each="{page}" as="pageItem" iteration="iteration">
+                                        <f:if condition="{iteration.isFirst}">
+                                            <span title="UID{pageItem.page}"><lux:page.getPropertyFromPageIdentifier
+                                                pageIdentifier="{pageItem.page}"/></span>
+                                        </f:if>
+                                    </f:for>
+                                </td>
+                                <td>{page -> f:count()}</td>
+                            </tr>
+                        </f:if>
+                    </f:for>
+                </table>
+            </f:then>
+            <f:else>
+                <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+            </f:else>
+        </f:if>
+    </div>
 </div>
