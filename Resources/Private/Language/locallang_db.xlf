@@ -278,20 +278,21 @@
 				<source>Configuration</source>
 			</trans-unit>
 
+
 			<trans-unit id="tx_lux_domain_model_linkclick">
-				<source>Click on a link</source>
+				<source>Link Listener</source>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_linkclick.crdate">
 				<source>Creation date</source>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_linkclick.tag">
-				<source>Tag</source>
+			<trans-unit id="tx_lux_domain_model_linkclick.title">
+				<source>Title</source>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_linkclick.page">
-				<source>Page</source>
+			<trans-unit id="tx_lux_domain_model_linkclick.link">
+				<source>Link</source>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_linkclick.visitor">
-				<source>Lead</source>
+			<trans-unit id="tx_lux_domain_model_linkclick.category">
+				<source>Lux Category</source>
 			</trans-unit>
 
 			<trans-unit id="tx_lux_domain_model_newsvisit">
@@ -353,6 +354,9 @@
 			</trans-unit>
 			<trans-unit id="module.analysis.content">
 				<source>Pagevisits and Downloads</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.linkListeners">
+				<source>Link listeners</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.content.page">
 				<source>Page</source>
@@ -650,6 +654,10 @@
 			</trans-unit>
 			<trans-unit id="module.lead.list">
 				<source>Leads</source>
+			</trans-unit>
+
+			<trans-unit id="module.linkclick.new">
+				<source>Add new Link Listener</source>
 			</trans-unit>
 
 			<trans-unit id="module.box.downloads.title">

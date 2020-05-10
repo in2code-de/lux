@@ -17,10 +17,10 @@ return [
         'rootLevel' => -1
     ],
     'interface' => [
-        'showRecordFieldList' => 'crdate,tag,page,visitor',
+        'showRecordFieldList' => 'crdate,title,link,category',
     ],
     'types' => [
-        '1' => ['showitem' => 'crdate,tag,page,visitor'],
+        '1' => ['showitem' => 'crdate,title,link,category'],
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -70,36 +70,36 @@ return [
                 'readOnly' => true
             ]
         ],
-        'tag' => [
+        'title' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linkclick::TABLE_NAME . '.tag',
+            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linkclick::TABLE_NAME . '.title',
             'config' => [
                 'type' => 'input',
                 'readOnly' => true
             ]
         ],
-        'page' => [
+        'link' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linkclick::TABLE_NAME . '.page',
+            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linkclick::TABLE_NAME . '.link',
+            'config' => [
+                'type' => 'input',
+                'readOnly' => true
+            ]
+        ],
+        'category' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linkclick::TABLE_NAME . '.category',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
-                'foreign_table' => 'pages',
-                'foreign_table_where' => 'ORDER BY pages.title',
+                'items' => [
+                    ['', 0],
+                ],
+                'foreign_table' => 'sys_category',
+                'foreign_table_where' => 'lux_category=1 ORDER BY title ASC',
                 'default' => 0,
                 'readOnly' => true
             ],
         ],
-        'visitor' => [
-            'exclude' => true,
-            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linkclick::TABLE_NAME . '.visitor',
-            'config' => [
-                'type' => 'select',
-                'renderType' => 'selectSingle',
-                'foreign_table' => \In2code\Lux\Domain\Model\Visitor::TABLE_NAME,
-                'default' => 0,
-                'readOnly' => true
-            ]
-        ]
     ]
 ];

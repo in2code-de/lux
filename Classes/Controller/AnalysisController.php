@@ -3,12 +3,14 @@ declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
 use Doctrine\DBAL\DBALException;
+use In2code\Lux\Domain\DataProvider\AllLinkclickDataProvider;
 use In2code\Lux\Domain\DataProvider\BrowserAmountDataProvider;
 use In2code\Lux\Domain\DataProvider\DomainDataProvider;
 use In2code\Lux\Domain\DataProvider\DownloadsDataProvider;
 use In2code\Lux\Domain\DataProvider\LanguagesDataProvider;
 use In2code\Lux\Domain\DataProvider\LinkclickDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
+use In2code\Lux\Domain\Model\Linkclick;
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
@@ -84,6 +86,59 @@ class AnalysisController extends AbstractController
             'languageData' => ObjectUtility::getObjectManager()->get(LanguagesDataProvider::class, $filter),
             'domainData' => ObjectUtility::getObjectManager()->get(DomainDataProvider::class, $filter)
         ]);
+    }
+
+    /**
+     * @return void
+     * @throws InvalidArgumentNameException
+     * @throws NoSuchArgumentException
+     */
+    public function initializeLinkClicksAction(): void
+    {
+        $this->setFilterExtended();
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @return void
+     * @throws Exception
+     */
+    public function linkClicksAction(FilterDto $filter): void
+    {
+        $this->view->assignMultiple([
+            'allLinkclickData' => ObjectUtility::getObjectManager()->get(AllLinkclickDataProvider::class, $filter),
+            'linkclickData' => ObjectUtility::getObjectManager()->get(LinkclickDataProvider::class, $filter),
+        ]);
+    }
+
+    /**
+     * @return void
+     */
+    public function newLinkClickAction(): void
+    {
+    }
+
+    /**
+     * @param Linkclick $linkclick
+     * @return void
+     */
+    public function createLinkClickAction(Linkclick $linkclick): void
+    {
+    }
+
+    /**
+     * @return void
+     */
+    public function editLinkClickAction(): void
+    {
+    }
+
+    /**
+     * @param Linkclick $linkclick
+     * @return void
+     */
+    public function updateLinkClickAction(Linkclick $linkclick): void
+    {
     }
 
     /**
@@ -188,6 +243,7 @@ class AnalysisController extends AbstractController
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      * @throws Exception
+     * @throws InvalidQueryException
      * @noinspection PhpUnused
      */
     public function detailAjaxDownload(ServerRequestInterface $request): ResponseInterface

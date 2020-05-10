@@ -122,7 +122,10 @@ label {
         border-color: $colorMain;
         color: $white;
 
-        &:hover {
+        &:hover,
+        &:active,
+        &:focus,
+        &:hover:active {
             background-color: $colorAlternative;
             border-color: $colorAlternative;
         }

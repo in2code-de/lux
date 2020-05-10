@@ -61,7 +61,8 @@ class LeadController extends AbstractController
             'numberOfUnknownVisitors' => $this->visitorRepository->findUnknown($filter)->count(),
             'identificationMethods' => $identificationMDP,
             'referrerAmountData' => $referrerAmountDP,
-            'whoisonline' => $this->visitorRepository->findOnline(8)
+            'whoisonline' => $this->visitorRepository->findOnline(8),
+            'countries' => $this->ipinformationRepository->findAllCountryCodesGrouped($filter),
         ];
         $this->view->assignMultiple($values);
     }

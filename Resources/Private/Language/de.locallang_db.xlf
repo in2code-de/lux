@@ -367,24 +367,24 @@
 			</trans-unit>
 
 			<trans-unit id="tx_lux_domain_model_linkclick">
-				<source>Click on a link</source>
-				<target state="translated">Klick auf einen Link</target>
+				<source>Link Listener</source>
+				<target state="translated">Link Listener</target>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_linkclick.crdate">
 				<source>Creation date</source>
 				<target state="translated">Erstellungsdatum</target>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_linkclick.tag">
-				<source>Tag</source>
-				<target state="translated">Tag Name</target>
+			<trans-unit id="tx_lux_domain_model_linkclick.title">
+				<source>Title</source>
+				<target state="translated">Bezeichnung</target>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_linkclick.page">
-				<source>Page</source>
-				<target state="translated">Seite</target>
+			<trans-unit id="tx_lux_domain_model_linkclick.link">
+				<source>Link</source>
+				<target state="translated">Link</target>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_linkclick.visitor">
-				<source>Lead</source>
-				<target state="translated">Lead</target>
+			<trans-unit id="tx_lux_domain_model_linkclick.category">
+				<source>Lux Category</source>
+				<target state="translated">Lux Kategorie</target>
 			</trans-unit>
 
 			<trans-unit id="tx_lux_domain_model_newsvisit">
@@ -465,6 +465,10 @@
 			<trans-unit id="module.analysis.content">
 				<source>Pagevisits and Downloads</source>
 				<target state="translated">Seitenaufrufe und Downloads</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.linkListeners">
+				<source>Link listeners</source>
+				<target state="translated">Link Listeners</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.content.page">
 				<source>Page</source>
@@ -860,6 +864,11 @@
 			<trans-unit id="module.lead.list">
 				<source>Leads</source>
 				<target state="translated">Leads</target>
+			</trans-unit>
+
+			<trans-unit id="module.linkclick.new">
+				<source>Add new Link Listener</source>
+				<target state="translated">Neuen Link Listener hinzufügen</target>
 			</trans-unit>
 
 			<trans-unit id="module.box.downloads.title">

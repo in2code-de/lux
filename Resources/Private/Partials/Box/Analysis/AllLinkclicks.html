@@ -1,0 +1,20 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.linkclicks.title">Top link clicks</f:translate>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <f:if condition="{allLinkclickData.dataAvailable}">
+            <f:then>
+                <canvas height="50"
+                        data-chart="line"
+                        data-chart-data="10,12,4,8,20"
+                        data-chart-labels="a,b,c,d,e"></canvas>
+            </f:then>
+            <f:else>
+                <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+            </f:else>
+        </f:if>
+    </div>
+</div>

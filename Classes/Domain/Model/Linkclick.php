@@ -12,11 +12,6 @@ class Linkclick extends AbstractEntity
     const TABLE_NAME = 'tx_lux_domain_model_linkclick';
 
     /**
-     * @var \In2code\Lux\Domain\Model\Visitor
-     */
-    protected $visitor = null;
-
-    /**
      * @var \DateTime|null
      */
     protected $crdate = null;
@@ -24,44 +19,31 @@ class Linkclick extends AbstractEntity
     /**
      * @var string
      */
-    protected $tag = '';
+    protected $title = '';
 
     /**
-     * @var \In2code\Lux\Domain\Model\Page
+     * @var string
      */
-    protected $page = null;
+    protected $link = '';
 
     /**
-     * @return Visitor
+     * @var \In2code\Lux\Domain\Model\Category
      */
-    public function getVisitor()
-    {
-        return $this->visitor;
-    }
+    protected $category = null;
 
     /**
-     * @param Visitor $visitor
-     * @return Linkclick
+     * @return \DateTime|null
      */
-    public function setVisitor(Visitor $visitor): Linkclick
-    {
-        $this->visitor = $visitor;
-        return $this;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getCrdate(): \DateTime
+    public function getCrdate(): ?\DateTime
     {
         return $this->crdate;
     }
 
     /**
-     * @param \DateTime $crdate
+     * @param \DateTime|null $crdate
      * @return Linkclick
      */
-    public function setCrdate(\DateTime $crdate): Linkclick
+    public function setCrdate(?\DateTime $crdate): self
     {
         $this->crdate = $crdate;
         return $this;
@@ -70,36 +52,54 @@ class Linkclick extends AbstractEntity
     /**
      * @return string
      */
-    public function getTag(): string
+    public function getTitle(): string
     {
-        return $this->tag;
+        return $this->title;
     }
 
     /**
-     * @param string $tag
+     * @param string $title
      * @return Linkclick
      */
-    public function setTag(string $tag): self
+    public function setTitle(string $title): self
     {
-        $this->tag = $tag;
+        $this->title = $title;
         return $this;
     }
 
     /**
-     * @return Page
+     * @return string
      */
-    public function getPage(): Page
+    public function getLink(): string
     {
-        return $this->page;
+        return $this->link;
     }
 
     /**
-     * @param Page $page
+     * @param string $link
      * @return Linkclick
      */
-    public function setPage(Page $page): self
+    public function setLink(string $link): self
     {
-        $this->page = $page;
+        $this->link = $link;
+        return $this;
+    }
+
+    /**
+     * @return Category
+     */
+    public function getCategory(): Category
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param Category $category
+     * @return Linkclick
+     */
+    public function setCategory(Category $category): self
+    {
+        $this->category = $category;
         return $this;
     }
 }

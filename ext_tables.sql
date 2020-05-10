@@ -205,10 +205,9 @@ CREATE TABLE tx_lux_domain_model_linkclick (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 
-	visitor int(11) DEFAULT '0' NOT NULL,
-
-	tag varchar(255) DEFAULT '' NOT NULL,
-	page int(11) DEFAULT '0' NOT NULL,
+	title varchar(255) DEFAULT '' NOT NULL,
+	link varchar(255) DEFAULT '' NOT NULL,
+	category int(11) DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

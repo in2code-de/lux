@@ -16,7 +16,10 @@
                     <f:render partial="Box/Leads/Pagevisits" arguments="{_all}"/>
                 </div>
                 <div class="col-md-6 flex">
-                    <f:render partial="Box/Analysis/Linkclicks" arguments="{_all}"/>
+                    <f:render partial="Box/Analysis/Browser" arguments="{_all}"/>
+                    <f:comment>
+                        <f:render partial="Box/Analysis/Linkclicks" arguments="{_all}"/>
+                    </f:comment>
                 </div>
             </div>
         </div>
@@ -34,18 +37,6 @@
         </div>
         <div class="col-md-4 flex">
             <f:render partial="Box/Analysis/TopNews" arguments="{_all}"/>
-        </div>
-    </div>
-
-    <div class="row flex">
-        <div class="col-md-4 flex">
-            <f:render partial="Box/Analysis/Language" arguments="{_all}"/>
-        </div>
-        <div class="col-md-4 flex">
-            <f:render partial="Box/Analysis/Domain" arguments="{_all}"/>
-        </div>
-        <div class="col-md-4 flex">
-            <f:render partial="Box/Analysis/Browser" arguments="{_all}"/>
         </div>
     </div>
 </f:section>
