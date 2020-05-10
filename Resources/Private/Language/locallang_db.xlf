@@ -411,19 +411,19 @@
 				<source>Unknown</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.identifiedemail4link">
-				<source>Identified per Email4Link</source>
+				<source>Email4Link</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.identifiedfieldlistening">
-				<source>Identified per Fieldlistening</source>
+				<source>Form fields</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.identifiedformlistening">
-				<source>Identified per Formlistening</source>
+				<source>Form submits</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.identifiedfrontendlogin">
-				<source>Identified per Frontendlogin</source>
+				<source>Frontendlogin</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.identifiedluxletter">
-				<source>Identified per Luxletter</source>
+				<source>Luxletter</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.luxcategories">
 				<source>Lux categories</source>

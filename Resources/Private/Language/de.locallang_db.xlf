@@ -540,24 +540,24 @@
 				<target state="translated">Unbekannt</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.identifiedemail4link">
-				<source>Identified per Email4Link</source>
-				<target state="translated">Identifiziert mit Email4Link</target>
+				<source>Email4Link</source>
+				<target state="translated">Email4Link</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.identifiedfieldlistening">
-				<source>Identified per Fieldlistening</source>
-				<target state="translated">Identifiziert mit Fieldlistening</target>
+				<source>Form fields</source>
+				<target state="translated">Formularfelder</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.identifiedformlistening">
-				<source>Identified per Formlistening</source>
-				<target state="translated">Identifiziert mit Formlistening</target>
+				<source>Form submits</source>
+				<target state="translated">Formular Submits</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.identifiedfrontendlogin">
-				<source>Identified per Frontendlogin</source>
-				<target state="translated">Identifiziert mit Frontend-Login</target>
+				<source>Frontendlogin</source>
+				<target state="translated">Frontend-Login</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.identifiedluxletter">
-				<source>Identified per Luxletter</source>
-				<target state="translated">Identifiziert mit Luxletter</target>
+				<source>Luxletter</source>
+				<target state="translated">Luxletter</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.luxcategories">
 				<source>Lux categories</source>
