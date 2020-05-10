@@ -480,7 +480,7 @@
 			</trans-unit>
 			<trans-unit id="module.analysis.content.asset">
 				<source>Asset</source>
-				<target state="translated">Asset</target>
+				<target state="translated">Datei</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.content.downloads">
 				<source>Number of downloads</source>
