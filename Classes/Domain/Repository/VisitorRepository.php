@@ -8,7 +8,9 @@ use In2code\Lux\Domain\Model\Categoryscoring;
 use In2code\Lux\Domain\Model\Download;
 use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Domain\Model\Ipinformation;
+use In2code\Lux\Domain\Model\Linkclick;
 use In2code\Lux\Domain\Model\Log;
+use In2code\Lux\Domain\Model\Newsvisit;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
@@ -344,6 +346,7 @@ class VisitorRepository extends AbstractRepository
         $tables = [
             Attribute::TABLE_NAME,
             Pagevisit::TABLE_NAME,
+            Newsvisit::TABLE_NAME,
             Ipinformation::TABLE_NAME,
             Download::TABLE_NAME,
             Categoryscoring::TABLE_NAME,
@@ -362,13 +365,14 @@ class VisitorRepository extends AbstractRepository
     {
         $tables = [
             Attribute::TABLE_NAME,
-            Pagevisit::TABLE_NAME,
-            Ipinformation::TABLE_NAME,
-            Download::TABLE_NAME,
             Categoryscoring::TABLE_NAME,
+            Download::TABLE_NAME,
+            Fingerprint::TABLE_NAME,
+            Ipinformation::TABLE_NAME,
             Log::TABLE_NAME,
+            Newsvisit::TABLE_NAME,
+            Pagevisit::TABLE_NAME,
             Visitor::TABLE_NAME,
-            Fingerprint::TABLE_NAME
         ];
         foreach ($tables as $table) {
             DatabaseUtility::getConnectionForTable($table)->truncate($table);
