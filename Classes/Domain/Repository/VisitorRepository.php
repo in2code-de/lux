@@ -45,6 +45,8 @@ class VisitorRepository extends AbstractRepository
             $query->equals('fingerprints.type', $type)
         ];
         $query->matching($query->logicalAnd($and));
+        $query->setOrderings(['crdate' => QueryInterface::ORDER_ASCENDING]);
+        $query->setLimit(1);
         /** @var Visitor $visitor */
         $visitor = $query->execute()->getFirst();
         return $visitor;

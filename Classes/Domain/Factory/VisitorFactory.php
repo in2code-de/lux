@@ -118,7 +118,6 @@ class VisitorFactory
      * @return Visitor
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
-     * @throws IllegalObjectTypeException
      * @throws InvalidSlotException
      * @throws InvalidSlotReturnException
      * @throws Exception
@@ -137,7 +136,6 @@ class VisitorFactory
      * @return void
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
-     * @throws IllegalObjectTypeException
      * @throws Exception
      */
     protected function enrichNewVisitorWithIpInformation(Visitor $visitor)
