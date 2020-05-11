@@ -179,7 +179,7 @@ class AnalysisController extends AbstractController
      */
     public function detailAjaxPage(ServerRequestInterface $request): ResponseInterface
     {
-        $filter = $this->getFilterFromSessionForAjaxRequests($request->getQueryParams()['page']);
+        $filter = $this->getFilterFromSessionForAjaxRequests((string)$request->getQueryParams()['page']);
         /** @var Page $page */
         $page = $this->pageRepository->findByIdentifier((int)$request->getQueryParams()['page']);
         $standaloneView = ObjectUtility::getStandaloneView();
@@ -188,7 +188,7 @@ class AnalysisController extends AbstractController
         ));
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         $standaloneView->assignMultiple([
-            'pagevisits' => $this->pagevisitsRepository->findByPage($page, 10),
+            'pagevisits' => $page !== null ? $this->pagevisitsRepository->findByPage($page, 10) : null,
             'numberOfVisitorsData' => ObjectUtility::getObjectManager()->get(PagevisistsDataProvider::class, $filter)
         ]);
         $response = ObjectUtility::getObjectManager()->get(JsonResponse::class);
@@ -210,7 +210,7 @@ class AnalysisController extends AbstractController
     public function detailAjaxDownload(ServerRequestInterface $request): ResponseInterface
     {
         $filter = $this->getFilterFromSessionForAjaxRequests(
-            FileUtility::getFilenameFromPathAndFilename($request->getQueryParams()['download'])
+            FileUtility::getFilenameFromPathAndFilename((string)$request->getQueryParams()['download'])
         );
         $standaloneView = ObjectUtility::getStandaloneView();
         $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
@@ -218,7 +218,7 @@ class AnalysisController extends AbstractController
         ));
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         $standaloneView->assignMultiple([
-            'downloads' => $this->downloadRepository->findByHref($request->getQueryParams()['download'], 10),
+            'downloads' => $this->downloadRepository->findByHref((string)$request->getQueryParams()['download'], 10),
             'numberOfDownloadsData' => ObjectUtility::getObjectManager()->get(DownloadsDataProvider::class, $filter)
         ]);
         $response = ObjectUtility::getObjectManager()->get(JsonResponse::class);
@@ -229,14 +229,17 @@ class AnalysisController extends AbstractController
     }
 
     /**
-     * @param string $searterm
+     * @param string $searchterm
      * @return FilterDto
      * @throws Exception
      */
-    protected function getFilterFromSessionForAjaxRequests(string $searterm): FilterDto
+    protected function getFilterFromSessionForAjaxRequests(string $searchterm = ''): FilterDto
     {
         $filterValues = BackendUtility::getSessionValue('filter', 'content', $this->getControllerName());
-        $filter = ObjectUtility::getFilterDto()->setSearchterm($searterm);
+        $filter = ObjectUtility::getFilterDto();
+        if (!empty($searchterm)) {
+            $filter->setSearchterm($searchterm);
+        }
         if (!empty($filterValues['timeFrom'])) {
             $filter->setTimeFrom((string)$filterValues['timeFrom']);
         }
