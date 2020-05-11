@@ -14,7 +14,7 @@ class FileUtility
     public static function getFilenameFromPathAndFilename(string $pathAndFilename): string
     {
         $pathInfo = pathinfo($pathAndFilename);
-        return $pathInfo['basename'];
+        return (string)$pathInfo['basename'];
     }
 
     /**

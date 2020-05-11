@@ -203,7 +203,8 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 8.0.0      | 2020-05-10 | Task       | A basic UX update, store news views, languages and domains now.                                                                                                                            |
+| 8.0.1      | 2020-05-11 | Bugfix     | Fix some typehint exceptions with empty filter in Analysis/Content                                                                                                                         |
+| 8.0.0 !!!  | 2020-05-10 | Task       | A basic UX update, store news views, languages and domains now.                                                                                                                            |
 | 7.3.0      | 2020-04-27 | Task       | Ignore browser version when calculating a fingerprint. Small bugfix with deleting old cookies.                                                                                             |
 | 7.2.3      | 2020-04-22 | Bugfix     | Add css class in backend modules to fix view in TYPO3 10.4.                                                                                                                                |
 | 7.2.2      | 2020-04-21 | Bugfix     | Change mimetypes of dynamically generated Javascript from application/javascript to text/javascript for older browsers.                                                                    |

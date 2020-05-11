@@ -21,7 +21,7 @@
                     <tr>
                         <td>{pagevisit.page.title}</td>
                         <td>
-                            <f:link.action action="detail" controller="Lead" arguments="{visitor:pagevisit.visitor}" title="UID{pagevisit.visitor.uid}">{pagevisit.visitor.fullName}</f:link.action>
+                            <span title="UID{pagevisit.visitor.uid}">{pagevisit.visitor.fullName}</span>
                         </td>
                         <td>{pagevisit.visitor.company}</td>
                         <td>

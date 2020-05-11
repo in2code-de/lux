@@ -24,7 +24,7 @@
                                 <lux:format.getFilenameFromPathAndFilename pathAndFilename="{download.href}"/>
                             </span>
                         </td>
-                        <td><f:link.action action="detail" controller="Lead" arguments="{visitor:download.visitor}">{download.visitor.fullName}</f:link.action></td>
+                        <td><span title="UID{download.visitor.uid}">{download.visitor.fullName}</span></td>
                         <td>{download.visitor.company}</td>
                         <td>
                             <span class="badge" title="{f:format.date(date:download.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">

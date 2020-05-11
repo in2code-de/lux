@@ -37,6 +37,6 @@ class GetFilenameFromPathAndFilenameViewHelper extends AbstractViewHelper
         if (!empty($this->arguments['pathAndFilename'])) {
             $pathAndFilename = $this->arguments['pathAndFilename'];
         }
-        return $pathAndFilename;
+        return (string)$pathAndFilename;
     }
 }
