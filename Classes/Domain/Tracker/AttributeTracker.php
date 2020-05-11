@@ -2,7 +2,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Tracker;
 
-use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Attribute;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\AttributeRepository;
@@ -71,7 +70,6 @@ class AttributeTracker
     /**
      * @param array $properties
      * @return void
-     * @throws DBALException
      * @throws EmailValidationException
      * @throws Exception
      * @throws IllegalObjectTypeException
@@ -92,7 +90,6 @@ class AttributeTracker
      * @param string $key
      * @param string $value
      * @return void
-     * @throws DBALException
      * @throws EmailValidationException
      * @throws Exception
      * @throws IllegalObjectTypeException
@@ -185,18 +182,13 @@ class AttributeTracker
      * @param string $key
      * @param string $value
      * @return void
-     * @throws DBALException
-     * @throws IllegalObjectTypeException
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
-     * @throws UnknownObjectException
      * @throws Exception
      */
     protected function mergeVisitorsOnGivenEmail(string $key, string $value)
     {
         if ($key === Attribute::KEY_NAME) {
-            $mergeService = ObjectUtility::getObjectManager()->get(VisitorMergeService::class, $value);
-            $mergeService->merge();
+            $mergeService = ObjectUtility::getObjectManager()->get(VisitorMergeService::class);
+            $mergeService->mergeByEmail($value);
         }
     }
 

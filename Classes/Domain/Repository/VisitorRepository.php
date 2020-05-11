@@ -140,6 +140,18 @@ class VisitorRepository extends AbstractRepository
     }
 
     /**
+     * @param string $fingerprint
+     * @return QueryResultInterface
+     */
+    public function findDuplicatesByFingerprint(string $fingerprint): QueryResultInterface
+    {
+        $query = $this->createQuery();
+        $query->matching($query->equals('fingerprints.value', $fingerprint));
+        $query->setOrderings(['crdate' => QueryInterface::ORDER_ASCENDING]);
+        return $query->execute();
+    }
+
+    /**
      * Show the last three visitors of a visited page
      *
      * @param int $pageIdentifier

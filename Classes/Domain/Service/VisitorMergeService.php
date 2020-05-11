@@ -6,6 +6,7 @@ use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Attribute;
 use In2code\Lux\Domain\Model\Categoryscoring;
 use In2code\Lux\Domain\Model\Download;
+use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Visitor;
@@ -14,6 +15,7 @@ use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
@@ -21,7 +23,9 @@ use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
 use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
 
 /**
- * If visitor has a new fingerprint but tells the system a known email address, we have to move all attributes and
+ * Merge duplicated visitors to only one visitor. Merge duplicates in these situations:
+ * - If more then only one visitor with the same fingerprint are existing
+ * - If visitor has a new fingerprint but tells the system a known email address, we have to move all attributes and
  * pagevisits to the existing visitor and add the new fingerprint
  *
  * Class VisitorMergeService
@@ -29,11 +33,6 @@ use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
 class VisitorMergeService
 {
     use SignalTrait;
-
-    /**
-     * @var string
-     */
-    protected $email = '';
 
     /**
      * @var Visitor|null
@@ -51,44 +50,85 @@ class VisitorMergeService
     protected $attributeRepository = null;
 
     /**
+     * @var LogService|null
+     */
+    protected $logService = null;
+
+    /**
      * VisitorMergeService constructor.
      *
-     * @param string $email
+     * @throws Exception
      */
-    public function __construct(string $email)
+    public function __construct()
     {
-        $this->email = $email;
         $this->visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
         $this->attributeRepository = ObjectUtility::getObjectManager()->get(AttributeRepository::class);
+        $this->logService = ObjectUtility::getObjectManager()->get(LogService::class);
     }
 
     /**
+     * @param string $fingerprint
      * @return void
      * @throws DBALException
+     * @throws Exception
      * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
      * @throws InvalidSlotException
      * @throws InvalidSlotReturnException
+     * @throws UnknownObjectException
      */
-    public function merge()
+    public function mergeByFingerprint(string $fingerprint): void
     {
-        $visitors = $this->visitorRepository->findDuplicatesByEmail($this->email);
-        /** @var QueryResultInterface $visitors */
+        $visitors = $this->visitorRepository->findDuplicatesByFingerprint($fingerprint);
         if ($visitors->count() > 1) {
-            foreach ($visitors as $visitor) {
-                $this->setFirstVisitor($visitor);
-                if ($visitor !== $this->firstVisitor) {
-                    $this->mergePagevisits($visitor);
-                    $this->mergeLogs($visitor);
-                    $this->mergeCategoryscorings($visitor);
-                    $this->mergeDownloads($visitor);
-                    $this->mergeAttributes($visitor);
-                    $this->updateFingerprints($visitor);
-                    $this->deleteVisitor($visitor);
-                }
-            }
-            $this->signalDispatch(__CLASS__, 'mergeVisitors', [$visitors]);
+            $this->logService->logVisitorMergeByFingerprint($visitors);
+            $this->merge($visitors);
         }
+    }
+
+    /**
+     * @param string $email
+     * @return void
+     * @throws DBALException
+     * @throws Exception
+     * @throws IllegalObjectTypeException
+     * @throws InvalidSlotException
+     * @throws InvalidSlotReturnException
+     * @throws UnknownObjectException
+     */
+    public function mergeByEmail(string $email): void
+    {
+        $visitors = $this->visitorRepository->findDuplicatesByEmail($email);
+        if ($visitors->count() > 1) {
+            $this->logService->logVisitorMergeByEmail($visitors);
+            $this->merge($visitors);
+        }
+    }
+
+    /**
+     * @param QueryResultInterface $visitors
+     * @return void
+     * @throws DBALException
+     * @throws Exception
+     * @throws IllegalObjectTypeException
+     * @throws InvalidSlotException
+     * @throws InvalidSlotReturnException
+     * @throws UnknownObjectException
+     */
+    protected function merge(QueryResultInterface $visitors): void
+    {
+        foreach ($visitors as $visitor) {
+            $this->setFirstVisitor($visitor);
+            if ($visitor !== $this->firstVisitor) {
+                $this->mergePagevisits($visitor);
+                $this->mergeLogs($visitor);
+                $this->mergeCategoryscorings($visitor);
+                $this->mergeDownloads($visitor);
+                $this->mergeAttributes($visitor);
+                $this->updateFingerprints($visitor);
+                $this->deleteVisitor($visitor);
+            }
+        }
+        $this->signalDispatch(__CLASS__, 'mergeVisitors', [$visitors]);
     }
 
     /**
@@ -98,7 +138,7 @@ class VisitorMergeService
      * @return void
      * @throws DBALException
      */
-    protected function mergePagevisits(Visitor $newVisitor)
+    protected function mergePagevisits(Visitor $newVisitor): void
     {
         $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
         $connection->query(
@@ -114,7 +154,7 @@ class VisitorMergeService
      * @return void
      * @throws DBALException
      */
-    protected function mergeLogs(Visitor $newVisitor)
+    protected function mergeLogs(Visitor $newVisitor): void
     {
         $connection = DatabaseUtility::getConnectionForTable(Log::TABLE_NAME);
         $connection->query(
@@ -131,8 +171,9 @@ class VisitorMergeService
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      * @throws DBALException
+     * @throws Exception
      */
-    protected function mergeCategoryscorings(Visitor $newVisitor)
+    protected function mergeCategoryscorings(Visitor $newVisitor): void
     {
         /** @var Categoryscoring $categoryscoring */
         foreach ($newVisitor->getCategoryscorings() as $categoryscoring) {
@@ -161,7 +202,7 @@ class VisitorMergeService
      * @return void
      * @throws DBALException
      */
-    protected function mergeDownloads(Visitor $newVisitor)
+    protected function mergeDownloads(Visitor $newVisitor): void
     {
         $connection = DatabaseUtility::getConnectionForTable(Download::TABLE_NAME);
         $connection->query(
@@ -178,8 +219,9 @@ class VisitorMergeService
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      * @throws DBALException
+     * @throws Exception
      */
-    protected function mergeAttributes(Visitor $newVisitor)
+    protected function mergeAttributes(Visitor $newVisitor): void
     {
         foreach ($newVisitor->getAttributes() as $newAttribute) {
             $attribute = $this->attributeRepository->findByVisitorAndKey($this->firstVisitor, $newAttribute->getName());
@@ -203,12 +245,33 @@ class VisitorMergeService
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws Exception
+     * @throws DBALException
      */
-    protected function updateFingerprints(Visitor $newVisitor)
+    protected function updateFingerprints(Visitor $newVisitor): void
     {
-        $this->firstVisitor->addFingerprints($newVisitor->getFingerprints());
+        foreach ($newVisitor->getFingerprints() as $fingerprint) {
+            if (in_array($fingerprint->getValue(), $this->firstVisitor->getFingerprintValues())) {
+                $newVisitor->removeFingerprint($fingerprint);
+                $this->deleteFingerprint($fingerprint);
+            } else {
+                $this->firstVisitor->addFingerprint($fingerprint);
+            }
+        }
         $this->visitorRepository->update($this->firstVisitor);
         $this->visitorRepository->persistAll();
+    }
+
+    /**
+     * @param Fingerprint $fingerprint
+     * @return void
+     * @throws DBALException
+     */
+    protected function deleteFingerprint(Fingerprint $fingerprint): void
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Fingerprint::TABLE_NAME);
+        $connection
+            ->executeQuery('update ' . Fingerprint::TABLE_NAME . ' set deleted=1 where uid=' . $fingerprint->getUid());
     }
 
     /**
@@ -216,19 +279,18 @@ class VisitorMergeService
      * @return void
      * @throws DBALException
      */
-    protected function deleteVisitor(Visitor $newVisitor)
+    protected function deleteVisitor(Visitor $newVisitor): void
     {
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
         $connection
-            ->query('update ' . Visitor::TABLE_NAME . ' set deleted=1 where uid=' . (int)$newVisitor->getUid())
-            ->execute();
+            ->executeQuery('update ' . Visitor::TABLE_NAME . ' set deleted=1 where uid=' . (int)$newVisitor->getUid());
     }
 
     /**
      * @param Visitor $visitor
      * @return void
      */
-    protected function setFirstVisitor(Visitor $visitor)
+    protected function setFirstVisitor(Visitor $visitor): void
     {
         if ($this->firstVisitor === null) {
             $this->firstVisitor = $visitor;

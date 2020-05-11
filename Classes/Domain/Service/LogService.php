@@ -12,6 +12,8 @@ use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
+use TYPO3\CMS\Extbase\Persistence\Generic\QueryResult;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 /**
  * Class LogService
@@ -141,6 +143,48 @@ class LogService
             Log::STATUS_LINKLISTENER,
             $linkclick->getVisitor(),
             ['tag' => $linkclick->getTag(), 'pageUid' => $linkclick->getPage()->getUid()]
+        );
+    }
+
+    /**
+     * @param QueryResultInterface $visitors
+     * @return void
+     * @throws Exception
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    public function logVisitorMergeByFingerprint(QueryResultInterface $visitors)
+    {
+        $visitor = $visitors->getFirst();
+        $identifiers = [];
+        foreach ($visitors as $visitor) {
+            $identifiers[] = $visitor->getUid();
+        }
+        $this->log(
+            Log::STATUS_MERGE_BYFINGERPRINT,
+            $visitor,
+            ['visitorUidsMergedIntoFirst' => implode(',', $identifiers)]
+        );
+    }
+
+    /**
+     * @param QueryResultInterface $visitors
+     * @return void
+     * @throws Exception
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    public function logVisitorMergeByEmail(QueryResultInterface $visitors)
+    {
+        $visitor = $visitors->getFirst();
+        $identifiers = [];
+        foreach ($visitors as $visitor) {
+            $identifiers[] = $visitor->getUid();
+        }
+        $this->log(
+            Log::STATUS_MERGE_BYEMAIL,
+            $visitor,
+            ['visitorUidsMergedIntoFirst' => implode(',', $identifiers)]
         );
     }
 

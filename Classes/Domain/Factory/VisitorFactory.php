@@ -5,6 +5,7 @@ namespace In2code\Lux\Domain\Factory;
 use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Domain\Service\VisitorMergeService;
 use In2code\Lux\Exception\FingerprintMustNotBeEmptyException;
 use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\ConfigurationUtility;
@@ -91,6 +92,8 @@ class VisitorFactory
         if ($visitor === null && CookieUtility::getLuxId() !== '') {
             $visitor = $this->getVisitorFromDatabaseByLegacyCookie();
         }
+        $mergeService = ObjectUtility::getObjectManager()->get(VisitorMergeService::class);
+        $mergeService->mergeByFingerprint($this->fingerprint->getValue());
         return $visitor;
     }
 
