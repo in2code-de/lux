@@ -5,6 +5,7 @@ namespace In2code\Lux\Domain\Model;
 use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Repository\CategoryscoringRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Domain\Service\GetCompanyFromIpService;
 use In2code\Lux\Domain\Service\ScoringService;
 use In2code\Lux\Domain\Service\VisitorImageService;
 use In2code\Lux\Utility\FileUtility;
@@ -1145,9 +1146,13 @@ class Visitor extends AbstractEntity
     {
         $company = $this->getPropertyFromAttributes('company');
         if (empty($company)) {
-            $company = $this->getPropertyFromIpinformations('isp');
-            if ($this->isTelecomProvider($company)) {
-                $company = '';
+            $companyFromIp = ObjectUtility::getObjectManager()->get(GetCompanyFromIpService::class);
+            $company = $companyFromIp->get($this);
+            if (empty($company)) {
+                $company = $this->getPropertyFromIpinformations('isp');
+                if ($this->isTelecomProvider($company)) {
+                    $company = '';
+                }
             }
         }
         return $company;
