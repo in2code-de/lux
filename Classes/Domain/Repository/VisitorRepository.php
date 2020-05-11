@@ -14,6 +14,7 @@ use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\DateUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
@@ -378,6 +379,9 @@ class VisitorRepository extends AbstractRepository
         if ($filter->getSearchterms() !== []) {
             $logicalOr = [];
             foreach ($filter->getSearchterms() as $searchterm) {
+                if (MathUtility::canBeInterpretedAsInteger($searchterm)) {
+                    $logicalOr[] = $query->equals('uid', $searchterm);
+                }
                 $logicalOr[] = $query->like('email', '%' . $searchterm . '%');
                 $logicalOr[] = $query->like('ipAddress', '%' . $searchterm . '%');
                 $logicalOr[] = $query->like('description', '%' . $searchterm . '%');
