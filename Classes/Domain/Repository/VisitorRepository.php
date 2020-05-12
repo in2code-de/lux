@@ -30,7 +30,7 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 class VisitorRepository extends AbstractRepository
 {
     /**
-     * Find a visitor by it's cookie and deliver also blacklisted visitors
+     * Find a visitor by its fingerprint and deliver also blacklisted visitors
      *
      * @param string $fingerprint
      * @param int $type
@@ -148,7 +148,11 @@ class VisitorRepository extends AbstractRepository
     public function findDuplicatesByFingerprint(string $fingerprint): QueryResultInterface
     {
         $query = $this->createQuery();
-        $query->matching($query->equals('fingerprints.value', $fingerprint));
+        $logicalAnd = [
+            $query->equals('fingerprints.value', $fingerprint),
+            $query->equals('fingerprints.type', Fingerprint::TYPE_FINGERPRINT)
+        ];
+        $query->matching($query->logicalAnd($logicalAnd));
         $query->setOrderings(['crdate' => QueryInterface::ORDER_ASCENDING]);
         return $query->execute();
     }

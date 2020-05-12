@@ -11,6 +11,7 @@ use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\AttributeRepository;
+use In2code\Lux\Domain\Repository\FingerprintRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\DatabaseUtility;
@@ -45,6 +46,11 @@ class VisitorMergeService
     protected $visitorRepository = null;
 
     /**
+     * @var FingerprintRepository|null
+     */
+    protected $fingerprintRepository = null;
+
+    /**
      * @var AttributeRepository|null
      */
     protected $attributeRepository = null;
@@ -62,6 +68,7 @@ class VisitorMergeService
     public function __construct()
     {
         $this->visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
+        $this->fingerprintRepository = ObjectUtility::getObjectManager()->get(FingerprintRepository::class);
         $this->attributeRepository = ObjectUtility::getObjectManager()->get(AttributeRepository::class);
         $this->logService = ObjectUtility::getObjectManager()->get(LogService::class);
     }
@@ -78,10 +85,12 @@ class VisitorMergeService
      */
     public function mergeByFingerprint(string $fingerprint): void
     {
-        $visitors = $this->visitorRepository->findDuplicatesByFingerprint($fingerprint);
-        if ($visitors->count() > 1) {
-            $this->logService->logVisitorMergeByFingerprint($visitors);
-            $this->merge($visitors);
+        if ($this->fingerprintRepository->getFingerprintCountByValue($fingerprint) > 0) {
+            $visitors = $this->visitorRepository->findDuplicatesByFingerprint($fingerprint);
+            if ($visitors->count() > 1) {
+                $this->logService->logVisitorMergeByFingerprint($visitors);
+                $this->merge($visitors);
+            }
         }
     }
 
