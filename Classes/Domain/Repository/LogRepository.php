@@ -11,6 +11,7 @@ use In2code\Lux\Domain\Service\ConfigurationService;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\DateUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
@@ -34,11 +35,11 @@ class LogRepository extends AbstractRepository
     /**
      * @param FilterDto $filter
      * @param int $limit
-     * @return array|QueryResultInterface
+     * @return QueryResultInterface
      * @throws Exception
      * @throws InvalidQueryException
      */
-    public function findInterestingLogs(FilterDto $filter, int $limit = 8)
+    public function findInterestingLogs(FilterDto $filter, int $limit = 8): QueryResultInterface
     {
         $query = $this->createQuery();
         $logicalAnd = $this->interestingLogsLogicalAnd($query);
@@ -120,9 +121,12 @@ class LogRepository extends AbstractRepository
     {
         /** @var ConfigurationService $configurationService */
         $configurationService = ObjectUtility::getConfigurationService();
-        $status = (int)$configurationService->getTypoScriptSettingsByPath(
-            'backendview.analysis.activity.statusGreaterThen'
+        $configString = $configurationService->getTypoScriptSettingsByPath(
+            'backendview.analysis.activity.defineLogStatusForInterestingLogs'
         );
-        return [$query->greaterThan('status', $status)];
+        $status = GeneralUtility::trimExplode(',', $configString, true);
+        return [
+            $query->in('status', $status)
+        ];
     }
 }
