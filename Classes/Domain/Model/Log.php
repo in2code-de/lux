@@ -28,6 +28,8 @@ class Log extends AbstractEntity
     const STATUS_ACTION = 60;
     const STATUS_CONTEXTUAL_CONTENT = 70;
     const STATUS_LINKLISTENER = 80;
+    const STATUS_MERGE_BYFINGERPRINT = 90;
+    const STATUS_MERGE_BYEMAIL = 91;
 
     /**
      * @var \In2code\Lux\Domain\Model\Visitor

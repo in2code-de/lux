@@ -8,12 +8,15 @@ use In2code\Lux\Domain\Model\Categoryscoring;
 use In2code\Lux\Domain\Model\Download;
 use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Domain\Model\Ipinformation;
+use In2code\Lux\Domain\Model\Linkclick;
 use In2code\Lux\Domain\Model\Log;
+use In2code\Lux\Domain\Model\Newsvisit;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\DateUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
@@ -27,7 +30,7 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 class VisitorRepository extends AbstractRepository
 {
     /**
-     * Find a visitor by it's cookie and deliver also blacklisted visitors
+     * Find a visitor by its fingerprint and deliver also blacklisted visitors
      *
      * @param string $fingerprint
      * @param int $type
@@ -44,6 +47,8 @@ class VisitorRepository extends AbstractRepository
             $query->equals('fingerprints.type', $type)
         ];
         $query->matching($query->logicalAnd($and));
+        $query->setOrderings(['crdate' => QueryInterface::ORDER_ASCENDING]);
+        $query->setLimit(1);
         /** @var Visitor $visitor */
         $visitor = $query->execute()->getFirst();
         return $visitor;
@@ -132,6 +137,22 @@ class VisitorRepository extends AbstractRepository
     {
         $query = $this->createQuery();
         $query->matching($query->equals('email', $email));
+        $query->setOrderings(['crdate' => QueryInterface::ORDER_ASCENDING]);
+        return $query->execute();
+    }
+
+    /**
+     * @param string $fingerprint
+     * @return QueryResultInterface
+     */
+    public function findDuplicatesByFingerprint(string $fingerprint): QueryResultInterface
+    {
+        $query = $this->createQuery();
+        $logicalAnd = [
+            $query->equals('fingerprints.value', $fingerprint),
+            $query->equals('fingerprints.type', Fingerprint::TYPE_FINGERPRINT)
+        ];
+        $query->matching($query->logicalAnd($logicalAnd));
         $query->setOrderings(['crdate' => QueryInterface::ORDER_ASCENDING]);
         return $query->execute();
     }
@@ -329,6 +350,7 @@ class VisitorRepository extends AbstractRepository
         $tables = [
             Attribute::TABLE_NAME,
             Pagevisit::TABLE_NAME,
+            Newsvisit::TABLE_NAME,
             Ipinformation::TABLE_NAME,
             Download::TABLE_NAME,
             Categoryscoring::TABLE_NAME,
@@ -347,13 +369,14 @@ class VisitorRepository extends AbstractRepository
     {
         $tables = [
             Attribute::TABLE_NAME,
-            Pagevisit::TABLE_NAME,
-            Ipinformation::TABLE_NAME,
-            Download::TABLE_NAME,
             Categoryscoring::TABLE_NAME,
+            Download::TABLE_NAME,
+            Fingerprint::TABLE_NAME,
+            Ipinformation::TABLE_NAME,
             Log::TABLE_NAME,
+            Newsvisit::TABLE_NAME,
+            Pagevisit::TABLE_NAME,
             Visitor::TABLE_NAME,
-            Fingerprint::TABLE_NAME
         ];
         foreach ($tables as $table) {
             DatabaseUtility::getConnectionForTable($table)->truncate($table);
@@ -378,6 +401,9 @@ class VisitorRepository extends AbstractRepository
         if ($filter->getSearchterms() !== []) {
             $logicalOr = [];
             foreach ($filter->getSearchterms() as $searchterm) {
+                if (MathUtility::canBeInterpretedAsInteger($searchterm)) {
+                    $logicalOr[] = $query->equals('uid', $searchterm);
+                }
                 $logicalOr[] = $query->like('email', '%' . $searchterm . '%');
                 $logicalOr[] = $query->like('ipAddress', '%' . $searchterm . '%');
                 $logicalOr[] = $query->like('description', '%' . $searchterm . '%');

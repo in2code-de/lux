@@ -5,6 +5,7 @@ namespace In2code\Lux\Domain\Model;
 use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Repository\CategoryscoringRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Domain\Service\GetCompanyFromIpService;
 use In2code\Lux\Domain\Service\ScoringService;
 use In2code\Lux\Domain\Service\VisitorImageService;
 use In2code\Lux\Utility\FileUtility;
@@ -321,36 +322,6 @@ class Visitor extends AbstractEntity
     }
 
     /**
-     * @var ObjectStorage $fingerprints
-     * @return Visitor
-     */
-    public function setFingerprints(ObjectStorage $fingerprints)
-    {
-        $this->fingerprints = $fingerprints;
-        return $this;
-    }
-
-    /**
-     * @param Fingerprint $fingerprint
-     * @return $this
-     */
-    public function addFingerprint(Fingerprint $fingerprint)
-    {
-        $this->fingerprints->attach($fingerprint);
-        return $this;
-    }
-
-    /**
-     * @param Fingerprint $fingerprint
-     * @return $this
-     */
-    public function removeFingerprint(Fingerprint $fingerprint)
-    {
-        $this->fingerprints->detach($fingerprint);
-        return $this;
-    }
-
-    /**
      * Get related fingerprints sorted with the latest first
      *
      * @return array
@@ -374,6 +345,38 @@ class Visitor extends AbstractEntity
     }
 
     /**
+     * @return array
+     */
+    public function getFingerprintValues(): array
+    {
+        $values = [];
+        foreach ($this->getFingerprints() as $fingerprint) {
+            $values[] = $fingerprint->getValue();
+        }
+        return $values;
+    }
+
+    /**
+     * @var ObjectStorage $fingerprints
+     * @return Visitor
+     */
+    public function setFingerprints(ObjectStorage $fingerprints)
+    {
+        $this->fingerprints = $fingerprints;
+        return $this;
+    }
+
+    /**
+     * @param Fingerprint $fingerprint
+     * @return $this
+     */
+    public function addFingerprint(Fingerprint $fingerprint)
+    {
+        $this->fingerprints->attach($fingerprint);
+        return $this;
+    }
+
+    /**
      * @param ObjectStorage $fingerprints
      * @return $this
      */
@@ -383,6 +386,16 @@ class Visitor extends AbstractEntity
             /** @var Fingerprint $fingerprint */
             $this->addFingerprint($fingerprint);
         }
+        return $this;
+    }
+
+    /**
+     * @param Fingerprint $fingerprint
+     * @return $this
+     */
+    public function removeFingerprint(Fingerprint $fingerprint)
+    {
+        $this->fingerprints->detach($fingerprint);
         return $this;
     }
 
@@ -1133,9 +1146,13 @@ class Visitor extends AbstractEntity
     {
         $company = $this->getPropertyFromAttributes('company');
         if (empty($company)) {
-            $company = $this->getPropertyFromIpinformations('isp');
-            if ($this->isTelecomProvider($company)) {
-                $company = '';
+            $companyFromIp = ObjectUtility::getObjectManager()->get(GetCompanyFromIpService::class);
+            $company = $companyFromIp->get($this);
+            if (empty($company)) {
+                $company = $this->getPropertyFromIpinformations('isp');
+                if ($this->isTelecomProvider($company)) {
+                    $company = '';
+                }
             }
         }
         return $company;

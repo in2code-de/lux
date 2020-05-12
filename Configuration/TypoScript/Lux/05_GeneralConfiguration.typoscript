@@ -5,6 +5,9 @@ lib.lux.settings {
 
         # Path to a simple csv with disallowed mail providers (don't send them email with email4link)
         disallowedMailProviderList = EXT:lux/Resources/Private/Static/DisallowedMailProviders.txt
+
+        # Path to a simple csv with internal IP addresses and companies
+        ipCompanyList = EXT:lux/Resources/Private/Static/IpCompany.txt
     }
 
     commandControllers {

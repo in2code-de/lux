@@ -27,7 +27,7 @@ class FileUtility
     }
 
     /**
-     * Search for a string in a file case-insensitive. Use linux grep command for best performance.
+     * Check for a string in a file (case-insensitive). Use linux grep command for best performance.
      *
      * @param string $value string to search for in file
      * @param string $filename absolute path and filename
@@ -35,7 +35,19 @@ class FileUtility
      */
     public static function isStringInFile(string $value, string $filename): bool
     {
-        return exec('grep -iw ' . escapeshellarg($value) . ' ' . $filename) !== '';
+        return self::searchForStringInFile($value, $filename) !== '';
+    }
+
+    /**
+     * Search for a string in a file (case-insensitive). Use linux grep command for best performance.
+     *
+     * @param string $value string to search for in file
+     * @param string $filename absolute path and filename
+     * @return string
+     */
+    public static function searchForStringInFile(string $value, string $filename): string
+    {
+        return exec('grep -iw ' . escapeshellarg($value) . ' ' . $filename);
     }
 
     /**

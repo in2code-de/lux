@@ -8,7 +8,7 @@ use In2code\Lux\Exception\ConnectionFailedException;
 use In2code\Lux\Utility\IpUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
@@ -16,10 +16,25 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
  */
 class IpinformationFactory
 {
+    /**
+     * @var array
+     */
+    protected $storeByKey = [
+        'country',
+        'countryCode',
+        'region',
+        'city',
+        'zip',
+        'lat',
+        'lon',
+        'isp',
+        'org'
+    ];
 
     /**
      * @return ObjectStorage
-     * @throws IllegalObjectTypeException
+     * @throws ConnectionFailedException
+     * @throws Exception
      */
     public function getObjectStorageWithIpinformation(): ObjectStorage
     {
@@ -27,10 +42,12 @@ class IpinformationFactory
         $ipinformationRepo = ObjectUtility::getObjectManager()->get(IpinformationRepository::class);
         $information = $this->getInformationFromIp();
         foreach ($information as $key => $value) {
-            $ipinformation = ObjectUtility::getObjectManager()->get(Ipinformation::class);
-            $ipinformation->setName($key)->setValue((string)$value);
-            $ipinformationRepo->add($ipinformation);
-            $objectStorage->attach($ipinformation);
+            if (in_array($key, $this->storeByKey)) {
+                $ipinformation = ObjectUtility::getObjectManager()->get(Ipinformation::class);
+                $ipinformation->setName($key)->setValue((string)$value);
+                $ipinformationRepo->add($ipinformation);
+                $objectStorage->attach($ipinformation);
+            }
         }
         /** @var ObjectStorage $objectStorage */
         return $objectStorage;
