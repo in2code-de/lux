@@ -16,7 +16,6 @@ use In2code\Lux\Utility\StringUtility;
  */
 class AnonymizeService
 {
-
     /**
      * Dummy firstnames
      *
@@ -68,9 +67,11 @@ class AnonymizeService
         'Master Ltd.',
         'Meier Wurstwaren & Co. Kg',
         'Holzverarbeitung Müller',
-        'Friseursalon Hairbert',
-        'Marketing Superhero Agency',
-        'First Agency'
+        'Friseur Hairbert',
+        'Batman - A Marketing Agency',
+        'University Gotham City',
+        'Metropolis College',
+        'Metropolis University'
     ];
 
     /**
@@ -82,7 +83,9 @@ class AnonymizeService
         'com',
         'at',
         'ch',
-        'org'
+        'org',
+        'fr',
+        'co.uk'
     ];
 
     /**
@@ -96,6 +99,7 @@ class AnonymizeService
         'https://www.in2code.de',
         'https://www.bing.com',
         'https://www.forum.net',
+        'https://www.heise.de',
         '',
         '',
         '',
