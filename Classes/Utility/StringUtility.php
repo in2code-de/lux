@@ -130,11 +130,15 @@ class StringUtility
     }
 
     /**
+     * Remove leading zeros from a string but not if string is "0"
      * @param string $string
      * @return string
      */
     public static function removeLeadingZeros(string $string): string
     {
-        return ltrim($string, '0');
+        if ($string !== '0') {
+            return ltrim($string, '0');
+        }
+        return $string;
     }
 }

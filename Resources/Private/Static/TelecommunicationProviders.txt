@@ -1,3 +1,4 @@
+18 originates by AS35244
 1&1 Versatel Deutschland GmbH
 A1 Telekom Austria AG
 ACONET
@@ -7,10 +8,12 @@ AGENDA komunikacijski in informacijski inzeniring
 Aligia GmbH
 Amazon.com
 ANTIK Telecom s.r.o
+AnschlussWerk GmbH
 ARCOR-IP
 Artfiles New Media GmbH
 ARTOS a.s.
 Atria Convergence Technologies Pvt. Ltd.
+Atria Convergence Technologies Pvt. Ltd. Broadband INDIA
 AT&T Mobility LLC
 AT&T U-verse
 Automattic
@@ -20,8 +23,11 @@ Bell Canada
 Bell Teleservices India Pvt Ltd
 BELWUE
 BH Telecom d.d. Sarajevo
+Bharti Airtel
 Bharti Broadband
 Bisping & Bisping GmbH & Co KG
+Bisping & mbH & Co KG
+Company Bisping & mbH & Co KG
 BITel Gesellschaft fuer Telekommunikation mbH
 bn:t Blatzheim Networks Telecom GmbH
 Bredband2 AB
@@ -33,11 +39,14 @@ CAT Telecom public company Ltd
 CHCTI-CCI
 China Mobile Guangdong
 China Telecom
+China Telecom (Group)
 China Telecom Guangdong
 China Unicom Beijing
+China Unicom Henan Province Network
 China Unicom Liaoning
 "Choopa, LLC"
 CLARANET
+Cloudflare
 Cogent Communications
 Colt Technologies
 COLT Technology Services Group Limited
@@ -47,6 +56,7 @@ Company Tata Teleservices ISP
 Cox Communications
 customers with static IP
 Cyber Smart Solutions S.R.L
+cyberways Munich
 Cyberlink AG
 CyrusOne LLC
 D2VODAFONE
@@ -60,15 +70,20 @@ Digital Energy Technologies Chile SpA
 DOKOM Gesellschaft fuer Telekommunikation mbH
 DSI GmbH Daten Service Informationssysteme
 DTAG European region
+DTAC-GPRS
 ecotel communication ag
+Eltrona Interdiffusion S.A.
 Envia Tel GmbH
 EUNET
 Eurofiber Nederland BV
 europroNET Bosnia d.o.o.
+Euroweb Romania
 EWETEL
 EWE-Tel GmbH
 EWE TEL GmbH
+F3 Netze e.V.
 Facebook
+Fastweb SpA
 Fiber Grid Inc
 Free SAS
 Frontier Communications
@@ -93,6 +108,7 @@ Hutchison Drei Austria GmbH
 IBH IT-Service GmbH
 inexio Informationstechnologie und Telekommunikation Gmbh
 Infibeam Avenues Limited
+INFOSTRADA
 Init7 (Switzerland) Ltd.
 Interactive Network Communications GmbH
 ip&more GmbH
@@ -107,6 +123,7 @@ Joyent
 JSC ER-Telecom Holding
 KabelBW
 Kabel BW
+Kabel-TV Lampert
 Kabeldeutschland
 Kabelfernsehen Muenchen ServiCenter GmbH & Co.KG
 kabelplus GmbH
@@ -120,7 +137,9 @@ Komro
 komro GmbH
 Komro GmbH
 Komsa Group Network
+Konverto SPA
 lagis Internet Service Provider GmbH
+lagis Internet Serviceprovider GmbH
 Leaseweb Deutschland GmbH
 LeaseWeb Netherlands B.V.
 Leaseweb USA
@@ -129,6 +148,7 @@ Liberty Global B.V.
 Liberty Global Operations B.V.
 Limestone Networks
 "Linode, LLC"
+Linz Strom Gas Waerme GmbH
 LIWEST Kabelmedien GmbH
 LueneCom Kommunikationsloesungen GmbH
 LWLcom GmbH
@@ -146,8 +166,10 @@ MK Netzdienste GmbH & Co. KG
 MNET
 Mtel
 myLoc managed IT AG
+Nayatel
 NBP
 Neofonie GmbH
+Nessus GmbH
 Netalis SAS
 NetCologne Gesellschaft fur Telekommunikation mbH
 NetCologne GmbH
@@ -164,7 +186,9 @@ NTS workspace AG
 O2 Deutschland
 o2-Germany
 o2-Germany 1-MUN
+OJSC Rostelecom Macroregional Branch South
 OMG.de GmbH
+Online S.A.S.
 ONLINE SAS
 OOO NI
 Optimate-Server
@@ -181,13 +205,17 @@ Play
 Plus.line AG
 Plusnet GmbH
 PlusNet plc.
+PRIMACOM
+PT Comunicacoes
 PT. Core Mediatech
 QITS Quality Information Technology Services GmbH
 QSC AG
 Quickline
 R-KOM GmbH & Co. KG
+R-KOM Regensburger Telekommunikations GmbH & Co. KG
 R-KOM Regensburger Telekommunikationsgesellschaft
 R-KOM Regensburger Telekommunikationsgesellschaft mbH & Co. KG
+R-KOM Regensburger Telekommunikationsverwaltungsgesellschaft mbH trading as R-K
 RelAix Networks GmbH
 REWE Systems GmbH
 RDSNET
@@ -206,8 +234,11 @@ ScanPlus GmbH
 SK Broadband
 Sky Broadband
 Skynet Belgium
+SLOVANET
 Slovak Telecom AS6855
 STNB
+Stadtnetz Bamberg Gesellschaft fuer Telekommunikation mbH
+Stadtwerke Flensburg GmbH
 Starnet Servicii SRL
 Strato AG
 Suedwestfalen IT Network
@@ -224,6 +255,7 @@ T-mobile Polska
 T-Systems Multimedia Solutions GmbH
 T-Systems International GmbH
 Tajik Academician Research and Educational Network
+teutel GmbH
 TDC A/S
 Telcom Networks Limited
 Tele Columbus AG
@@ -236,6 +268,7 @@ Telefonica Deutschland GmbH
 Telefonica Germany GmbH & Co. OHG
 Telefonica Germany GmbH & Co.OHG
 Telefonica International Wholesale Services II
+Telefonica o2 (Germany) GmbH & Co.
 Telefonica O2 Germany
 Telekom Austria
 Telekom Deutschland GmbH
@@ -246,6 +279,7 @@ TeleRadioCompany Studio TV-9 Beregsasom Ltd.
 Telfort B.V.
 Telia Company
 Telmex
+Thuega SmartService GmbH
 TMT GmbH & Co. KG
 TOPNET
 Turksat Uydu-Net Internet
@@ -259,6 +293,7 @@ UPC Schweiz GmbH
 Verizon Deutschland GmbH
 Vectra Broadband
 Versatel Deutschland
+Versatel West GmbH
 VF-Network
 Video-Broadcast GmbH
 VIP mobile
@@ -270,6 +305,8 @@ Vodafone DSL
 Vodafone GmbH
 Vodafone Kabel Deutschland
 Vodafone Ono
+Vodafone Portugal
+Vodafone Portugal - Communicacoes Pessoais S.A.
 Vodafone-Libertel NV
 wilhelm.tel
 wilhelm.tel GmbH
@@ -279,4 +316,5 @@ Xs4all Internet BV
 YANDEX LLC
 ZIT
 Zscaler
+Zscaler Switzerland GmbH
 ZSCALER

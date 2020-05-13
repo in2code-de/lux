@@ -8,6 +8,7 @@ use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
@@ -41,6 +42,21 @@ abstract class AbstractRepository extends Repository
     {
         $persistanceManager = ObjectUtility::getObjectManager()->get(PersistenceManager::class);
         $persistanceManager->persistAll();
+    }
+
+    /**
+     * @param array $identifiers
+     * @param string $tableName
+     * @return array must be array - otherwise pagebrowser seems to be broken (for whatever reason)
+     */
+    protected function convertIdentifiersToObjects(array $identifiers, string $tableName): array
+    {
+        $identifierList = implode(',', $identifiers);
+        $sql = 'select * from ' . $tableName . ' where uid in (' . $identifierList . ')'
+            . 'ORDER BY FIELD(uid, ' . $identifierList . ')';
+        $query = $this->createQuery();
+        $query = $query->statement($sql);
+        return $query->execute()->toArray();
     }
 
     /**
