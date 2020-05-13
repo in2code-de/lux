@@ -488,17 +488,34 @@ class FilterDto
     {
         $start = $this->getStartTimeForFilter(true);
         $end = $this->getEndTimeForFilter();
-        $interval = $start->diff($end);
-        $deltaDays = $interval->format('%a');
-        if ($deltaDays <= 14) { // until 2 weeks
+        $deltaSeconds = $end->getTimestamp() - $start->getTimestamp();
+        if ($deltaSeconds <= 86400) { // until 1 days
+            return ['intervals' => $this->getHourIntervals(), 'frequency' => 'hour'];
+        } elseif ($deltaSeconds <= 1209600) { // until 2 weeks
             return ['intervals' => $this->getDayIntervals(), 'frequency' => 'day'];
-        } elseif ($deltaDays <= 60) { // until 2 month
+        } elseif ($deltaSeconds <= 5184000) { // until 2 month
             return ['intervals' => $this->getWeekIntervals(), 'frequency' => 'week'];
-        } elseif ($deltaDays <= 730) { // until 2 years
+        } elseif ($deltaSeconds <= 63072000) { // until 2 years
             return ['intervals' => $this->getMonthIntervals(), 'frequency' => 'month'];
         } else { // over 2 years
             return ['intervals' => $this->getYearIntervals(), 'frequency' => 'year'];
         }
+    }
+
+    /**
+     * @return \DateTime[]
+     * @throws \Exception
+     */
+    protected function getHourIntervals(): array
+    {
+        $start = $this->getStartTimeForFilter(true);
+        $end = $this->getEndTimeFromTimePeriod();
+        $interval = [];
+        for ($hour = clone $start; $hour < $end; $hour->modify('+1 hour')) {
+            $interval[] = clone $hour;
+        }
+        $interval[] = $end;
+        return $interval;
     }
 
     /**
