@@ -23,7 +23,9 @@ use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
+use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
 /**
@@ -105,39 +107,22 @@ class AnalysisController extends AbstractController
     public function linkClicksAction(FilterDto $filter): void
     {
         $this->view->assignMultiple([
+            'linkClicks' => $this->linkclickRepository->findAll(),
             'allLinkclickData' => ObjectUtility::getObjectManager()->get(AllLinkclickDataProvider::class, $filter),
             'linkclickData' => ObjectUtility::getObjectManager()->get(LinkclickDataProvider::class, $filter),
         ]);
     }
 
     /**
+     * @param Linkclick $linkClick
      * @return void
+     * @throws StopActionException
+     * @throws IllegalObjectTypeException
      */
-    public function newLinkClickAction(): void
+    public function deleteLinkClickAction(Linkclick $linkClick): void
     {
-    }
-
-    /**
-     * @param Linkclick $linkclick
-     * @return void
-     */
-    public function createLinkClickAction(Linkclick $linkclick): void
-    {
-    }
-
-    /**
-     * @return void
-     */
-    public function editLinkClickAction(): void
-    {
-    }
-
-    /**
-     * @param Linkclick $linkclick
-     * @return void
-     */
-    public function updateLinkClickAction(Linkclick $linkclick): void
-    {
+        $this->linkclickRepository->remove($linkClick);
+        $this->redirect('linkClicks');
     }
 
     /**

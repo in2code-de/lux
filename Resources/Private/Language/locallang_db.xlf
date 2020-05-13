@@ -1244,6 +1244,9 @@
 			<trans-unit id="seebelow">
 				<source>See below ...</source>
 			</trans-unit>
+			<trans-unit id="deleteconfirm">
+				<source>Are you sure to delete this record?</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

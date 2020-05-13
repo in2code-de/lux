@@ -54,6 +54,17 @@ class ConfigurationUtility
     }
 
     /**
+     * @return int
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     */
+    public static function getPidLinkClickRedords(): int
+    {
+        $extensionConfig = self::getExtensionConfiguration();
+        return (int)$extensionConfig['pidLinkClickRedords'];
+    }
+
+    /**
      * @return bool
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException

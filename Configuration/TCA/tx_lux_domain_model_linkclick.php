@@ -4,23 +4,28 @@ use In2code\Lux\Domain\Model\Linkclick;
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linkclick::TABLE_NAME,
-        'label' => 'tag',
+        'label' => 'title',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
         'cruser_id' => 'cruser_id',
         'languageField' => 'sys_language_uid',
         'transOrigPointerField' => 'l10n_parent',
         'transOrigDiffSourceField' => 'l10n_diffsource',
-        'default_sortby' => 'ORDER BY crdate DESC',
+        'default_sortby' => 'ORDER BY title ASC',
         'delete' => 'deleted',
         'iconfile' => 'EXT:lux/Resources/Public/Icons/' . Linkclick::TABLE_NAME . '.svg',
         'rootLevel' => -1
     ],
     'interface' => [
-        'showRecordFieldList' => 'crdate,title,link,category',
+        'showRecordFieldList' => 'title,link,category',
     ],
     'types' => [
-        '1' => ['showitem' => 'crdate,title,link,category'],
+        '1' => ['showitem' => 'title,--palette--;Link;palette_link'],
+    ],
+    'palettes' => [
+        'palette_link' => [
+            'showitem' => 'link,category'
+        ]
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -75,7 +80,7 @@ return [
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linkclick::TABLE_NAME . '.title',
             'config' => [
                 'type' => 'input',
-                'readOnly' => true
+                'eval' => 'trim,required'
             ]
         ],
         'link' => [
@@ -83,7 +88,8 @@ return [
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linkclick::TABLE_NAME . '.link',
             'config' => [
                 'type' => 'input',
-                'readOnly' => true
+                'renderType' => 'inputLink',
+                'eval' => 'required'
             ]
         ],
         'category' => [
@@ -93,13 +99,13 @@ return [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['', 0],
+                    ['LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pleaseChoose', ''],
                 ],
                 'foreign_table' => 'sys_category',
                 'foreign_table_where' => 'lux_category=1 ORDER BY title ASC',
-                'default' => 0,
-                'readOnly' => true
-            ],
-        ],
+                'minitems' => 1,
+                'eval' => 'int,required'
+            ]
+        ]
     ]
 ];

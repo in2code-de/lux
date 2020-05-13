@@ -6,12 +6,20 @@ use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Linkclick;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Utility\DatabaseUtility;
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 /**
  * Class LinkclickRepository
  */
 class LinkclickRepository extends AbstractRepository
 {
+    /**
+     * @var array
+     */
+    protected $defaultOrderings = [
+        'title' => QueryInterface::ORDER_ASCENDING
+    ];
+
     /**
      * @return int
      * @throws DBALException

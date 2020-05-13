@@ -1646,6 +1646,10 @@
 				<source>See below ...</source>
 				<target state="translated">Siehe unten ...</target>
 			</trans-unit>
+			<trans-unit id="deleteconfirm">
+				<source>Are you sure to delete this record?</source>
+				<target state="translated">Wollen Sie diesen Datensatz wirklich löschen?</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
