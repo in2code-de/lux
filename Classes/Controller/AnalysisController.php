@@ -144,6 +144,7 @@ class AnalysisController extends AbstractController
      * @param Page $page
      * @return void
      * @throws Exception
+     * @throws DBALException
      */
     public function detailPageAction(Page $page): void
     {
@@ -175,6 +176,7 @@ class AnalysisController extends AbstractController
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      * @throws Exception
+     * @throws DBALException
      * @noinspection PhpUnused
      */
     public function detailAjaxPage(ServerRequestInterface $request): ResponseInterface

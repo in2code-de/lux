@@ -129,27 +129,21 @@ class PagevisitRepository extends AbstractRepository
     }
 
     /**
+     * Get a result with pagevisits grouped by visitor
+     *
      * @param Page $page
      * @param int $limit
      * @return array
+     * @throws DBALException
      */
     public function findByPage(Page $page, int $limit = 100): array
     {
-        $query = $this->createQuery();
-        $query->matching($query->equals('page', $page));
-        $query->setOrderings(['crdate' => QueryInterface::ORDER_DESCENDING]);
-        $query->setLimit($limit * 100);
-        $pagesvisits = $query->execute();
-
-        $result = [];
-        /** @var Pagevisit $pagevisit */
-        foreach ($pagesvisits as $pagevisit) {
-            if (array_key_exists($pagevisit->getVisitor()->getUid(), $result) === false) {
-                $result[$pagevisit->getVisitor()->getUid()] = $pagevisit;
-            }
-        }
-        $result = array_slice($result, 0, $limit);
-        return $result;
+        $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
+        $sql = 'select uid,visitor,crdate from ' . Pagevisit::TABLE_NAME
+            . ' where page=' . $page->getUid()
+            . ' group by visitor order by crdate desc limit ' . $limit;
+        $pagevisitIdentifiers = $connection->executeQuery($sql)->fetchAll(\PDO::FETCH_COLUMN);
+        return $this->convertIdentifiersToObjects($pagevisitIdentifiers, Pagevisit::TABLE_NAME);
     }
 
     /**
