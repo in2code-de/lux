@@ -155,14 +155,16 @@ class Log implements SingletonInterface
     }
 
     /**
+     * @param Visitor $visitor
      * @param Linkclick $linkclick
+     * @param int $pageUid
      * @return void
      * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
-    public function logLinkClick(Linkclick $linkclick)
+    public function logLinkClick(Visitor $visitor, Linkclick $linkclick, int $pageUid)
     {
-        $this->logService->logLinkListener($linkclick);
+        $this->logService->logLinkListener($visitor, $linkclick, $pageUid);
     }
 }

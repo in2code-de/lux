@@ -8,13 +8,13 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * Class ObjectUtility
  */
 class ObjectUtility
 {
-
     /**
      * @return ObjectManager
      */
@@ -34,6 +34,15 @@ class ObjectUtility
         /** @var ConfigurationService $configurationService */
         $configurationService = self::getObjectManager()->get(ConfigurationService::class);
         return $configurationService;
+    }
+
+    /**
+     * @return ContentObjectRenderer
+     * @throws Exception
+     */
+    public static function getContentObject(): ContentObjectRenderer
+    {
+        return self::getObjectManager()->get(ContentObjectRenderer::class);
     }
 
     /**

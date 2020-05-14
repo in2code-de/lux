@@ -28,4 +28,20 @@ class UrlUtility
         $path = StringUtility::removeStringPrefix($path, '/');
         return $path;
     }
+
+    /**
+     * data-anything="foo" => "foo"
+     *
+     * @param string $string
+     * @param string $key
+     * @return string
+     */
+    public static function getAttributeValueFromString(string $string, string $key): string
+    {
+        preg_match('~' . $key . '="([^"]*)"~', $string, $result);
+        if (!empty($result[1])) {
+            return $result[1];
+        }
+        return '';
+    }
 }

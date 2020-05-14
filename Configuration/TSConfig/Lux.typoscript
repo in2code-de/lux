@@ -11,6 +11,19 @@ mod.web_list.table {
     tx_lux_domain_model_linkclick.hideTable = 1
 }
 
+
+# Linkhandler for linkclick records
+TCEMAIN.linkHandler.luxlinkclick {
+  handler = TYPO3\CMS\Recordlist\LinkHandler\RecordLinkHandler
+  label = Lux Link Listener
+  configuration {
+    table = tx_lux_domain_model_linkclick
+    hidePageTree = 1
+  }
+  scanAfter = page
+}
+
+
 # Add wizard icon in backend
 mod.wizards.newContentElement.wizardItems.plugins {
     elements {

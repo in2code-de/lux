@@ -131,18 +131,20 @@ class LogService
     }
 
     /**
+     * @param Visitor $visitor
      * @param Linkclick $linkclick
+     * @param int $pageUid
      * @return void
      * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
-    public function logLinkListener(Linkclick $linkclick)
+    public function logLinkListener(Visitor $visitor, Linkclick $linkclick, int $pageUid)
     {
         $this->log(
             Log::STATUS_LINKLISTENER,
-            $linkclick->getVisitor(),
-            ['tag' => $linkclick->getTag(), 'pageUid' => $linkclick->getPage()->getUid()]
+            $visitor,
+            ['linkclick' => $linkclick->getUid(), 'pageUid' => $pageUid]
         );
     }
 

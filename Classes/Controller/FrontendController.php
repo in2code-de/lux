@@ -206,11 +206,10 @@ class FrontendController extends ActionController
     public function linkListenerRequestAction(string $fingerprint, array $arguments): string
     {
         try {
-            throw new \LogicException('Feature is not yet ready implemented', 1589109478);
-//            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $fingerprint);
-//            $visitor = $visitorFactory->getVisitor();
-//            $linkListenerTracker = $this->objectManager->get(LinkListenerTracker::class, $visitor);
-//            $linkListenerTracker->addLinkClick($arguments['tag'], (int)$arguments['pageUid']);
+            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $fingerprint);
+            $visitor = $visitorFactory->getVisitor();
+            $linkListenerTracker = $this->objectManager->get(LinkListenerTracker::class, $visitor);
+            $linkListenerTracker->addLinkClick((int)$arguments['linkclickIdentifier'], (int)$arguments['pageUid']);
             return json_encode($this->afterAction($visitor));
         } catch (\Exception $exception) {
             return json_encode($this->getError($exception));
