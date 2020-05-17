@@ -203,6 +203,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 8.2.1      | 2020-05-17 | Bugfix     | Broken table definition of the not yet needed table tx_lux_domain_model_linkclick causes some trouble on database compare                                                                  |
 | 8.2.0      | 2020-05-13 | Feature    | Show content diagrams per hour if timeframe is maximum 1 day, Performance update for Analysis/Content/PageDetail view                                                                      |
 | 8.1.1      | 2020-05-13 | Bugfix     | Don't track image views as downloads, Define wich log status should be shown in backend                                                                                                    |
 | 8.1.0      | 2020-05-12 | Feature    | Static CSV with IP2Company list possible, Merge visitors with same fingerprint, Take oldest visitor record on duplicates                                                                   |
