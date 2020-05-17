@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Hooks;
 
-use In2code\Lux\Domain\Model\Linkclick;
+use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\UrlUtility;
@@ -11,7 +11,7 @@ use TYPO3\CMS\Extbase\Object\Exception;
 /**
  * Class LuxLinkClickLinkhandler
  */
-class LuxLinkClickLinkhandler
+class LuxLinkListenerLinkhandler
 {
     /**
      * @param array $parameters
@@ -21,7 +21,7 @@ class LuxLinkClickLinkhandler
      */
     public function postProcessTypoLink(array &$parameters): void
     {
-        if ($this->isLinkclickLink($parameters)) {
+        if ($this->isLinkListenerLink($parameters)) {
             $url = $this->getTargetUri($parameters);
             $parameters['finalTag'] = preg_replace(
                 '~(<a.+href=")[^"]+("[^>]+>)~U',
@@ -38,24 +38,24 @@ class LuxLinkClickLinkhandler
      */
     protected function getTargetUri(array $parameters): string
     {
-        $linkclickIdentifier = $this->getLinkclickIdentifier($parameters);
+        $linkListenerUid = $this->getLinkListenerIdentifier($parameters);
         $configuration = [
-            'parameter' => $this->getLinkTargetFromLinkclickIdentifier($linkclickIdentifier)
+            'parameter' => $this->getLinkTargetFromLinkListenerIdentifier($linkListenerUid)
         ];
         return ObjectUtility::getContentObject()->typoLink_URL($configuration);
     }
 
     /**
-     * @param int $linkclickIdentifier
+     * @param int $linkListenerUid
      * @return string
      */
-    protected function getLinkTargetFromLinkclickIdentifier(int $linkclickIdentifier): string
+    protected function getLinkTargetFromLinkListenerIdentifier(int $linkListenerUid): string
     {
-        $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Linkclick::TABLE_NAME);
+        $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Linklistener::TABLE_NAME);
         return (string)$queryBuilder
             ->select('link')
-            ->from(Linkclick::TABLE_NAME)
-            ->where('uid=' . (int)$linkclickIdentifier)
+            ->from(Linklistener::TABLE_NAME)
+            ->where('uid=' . (int)$linkListenerUid)
             ->execute()
             ->fetchColumn();
     }
@@ -64,11 +64,11 @@ class LuxLinkClickLinkhandler
      * @param array $parameters
      * @return int
      */
-    protected function getLinkclickIdentifier(array $parameters): int
+    protected function getLinkListenerIdentifier(array $parameters): int
     {
         return (int)UrlUtility::getAttributeValueFromString(
             $parameters['finalTagParts']['aTagParams'],
-            'data-lux-linkclick'
+            'data-lux-linklistener'
         );
     }
 
@@ -76,8 +76,8 @@ class LuxLinkClickLinkhandler
      * @param $parameters
      * @return bool
      */
-    protected function isLinkclickLink(&$parameters): bool
+    protected function isLinkListenerLink(&$parameters): bool
     {
-        return stristr($parameters['finalTagParts']['aTagParams'], 'data-lux-linkclick') !== false;
+        return stristr($parameters['finalTagParts']['aTagParams'], 'data-lux-linklistener') !== false;
     }
 }

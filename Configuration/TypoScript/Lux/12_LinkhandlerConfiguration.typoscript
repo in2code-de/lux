@@ -1,9 +1,9 @@
 // Linkhandler configuration
-config.recordLinks.luxlinkclick {
+config.recordLinks.luxlinklistener {
   typolink {
     parameter = /
     ATagParams.stdWrap.cObject = TEXT
     ATagParams.stdWrap.cObject.field = uid
-    ATagParams.stdWrap.cObject.wrap = data-lux-linkclick="|"
+    ATagParams.stdWrap.cObject.wrap = data-lux-linklistener="|"
   }
 }

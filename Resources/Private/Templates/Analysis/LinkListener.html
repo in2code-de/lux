@@ -6,8 +6,8 @@
 
             <f:render partial="Filter/{view.controller}/{view.actionUpper}" arguments="{_all}" />
 
-            <a href="{lux:backend.uriNew(tableName:'tx_lux_domain_model_linkclick',moduleName:'lux_LuxAnalysis')}" class="btn btn-lg btn-primary" title="New Link Listener" style="width: 250px; margin-bottom: 20px;">
-                <f:translate key="module.linkclick.new">Add Link Listener</f:translate>
+            <a href="{lux:backend.uriNew(tableName:'tx_lux_domain_model_linklistener',moduleName:'lux_LuxAnalysis')}" class="btn btn-lg btn-primary" title="New Link Listener" style="width: 250px; margin-bottom: 20px;">
+                <f:translate key="module.linklistener.new">Add Link Listener</f:translate>
             </a>
 
             <table class="table table-striped table-hover table-pointer">
@@ -29,15 +29,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                <f:for each="{linkClicks}" as="linkClick">
+                <f:for each="{linkListeners}" as="linkListener">
                     <tr data-lux-action-analysislinkclickdetail="1">
-                        <td>{linkClick.title}</td>
-                        <td>{linkClick.category.title}</td>
+                        <td>{linkListener.title}</td>
+                        <td>{linkListener.category.title}</td>
                         <td>132</td>
                         <td>0,2%</td>
                         <td>
                             <div class="btn-group">
-                                <a href="{lux:backend.uriEdit(tableName:'tx_lux_domain_model_linkclick',identifier:linkClick.uid,moduleName:'lux_LuxAnalysis')}" class="btn btn-default" title="Edit Link Listener">
+                                <a href="{lux:backend.uriEdit(tableName:'tx_lux_domain_model_linklistener',identifier:linkClick.uid,moduleName:'lux_LuxAnalysis')}" class="btn btn-default" title="Edit Link Listener">
                                     <span class="t3js-icon icon icon-size-small icon-state-default icon-actions-view-page">
                                         <span class="icon-markup">
                                             <span class="t3-icon fa fa-pencil"></span>
@@ -45,7 +45,7 @@
                                     </span>
                                 </a>
 
-                                <f:link.action action="deleteLinkClick" arguments="{linkClick:linkClick}" class="btn btn-default" title="Delete Link Listener" additionalAttributes="{data-lux-confirm:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:deleteconfirm\')}'}">
+                                <f:link.action action="deleteLinkListener" arguments="{linkListener:linkListener}" class="btn btn-default" title="Delete Link Listener" additionalAttributes="{data-lux-confirm:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:deleteconfirm\')}'}">
                                     <span class="t3js-icon icon icon-size-small icon-state-default icon-actions-view-page">
                                         <span class="icon-markup">
                                             <span class="t3-icon fa fa-trash"></span>

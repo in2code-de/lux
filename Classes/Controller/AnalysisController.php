@@ -11,6 +11,7 @@ use In2code\Lux\Domain\DataProvider\LanguagesDataProvider;
 use In2code\Lux\Domain\DataProvider\LinkclickDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
 use In2code\Lux\Domain\Model\Linkclick;
+use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Utility\BackendUtility;
@@ -94,7 +95,7 @@ class AnalysisController extends AbstractController
      * @throws InvalidArgumentNameException
      * @throws NoSuchArgumentException
      */
-    public function initializeLinkClicksAction(): void
+    public function initializeLinkListenerAction(): void
     {
         $this->setFilterExtended();
     }
@@ -104,25 +105,25 @@ class AnalysisController extends AbstractController
      * @return void
      * @throws Exception
      */
-    public function linkClicksAction(FilterDto $filter): void
+    public function linkListenerAction(FilterDto $filter): void
     {
         $this->view->assignMultiple([
-            'linkClicks' => $this->linkclickRepository->findAll(),
+            'linkListeners' => $this->linklistenerRepository->findAll(),
             'allLinkclickData' => ObjectUtility::getObjectManager()->get(AllLinkclickDataProvider::class, $filter),
             'linkclickData' => ObjectUtility::getObjectManager()->get(LinkclickDataProvider::class, $filter),
         ]);
     }
 
     /**
-     * @param Linkclick $linkClick
+     * @param Linklistener $linkListener
      * @return void
-     * @throws StopActionException
      * @throws IllegalObjectTypeException
+     * @throws StopActionException
      */
-    public function deleteLinkClickAction(Linkclick $linkClick): void
+    public function deleteLinkListenerAction(LinkListener $linkListener): void
     {
-        $this->linkclickRepository->remove($linkClick);
-        $this->redirect('linkClicks');
+        $this->linklistenerRepository->remove($linkListener);
+        $this->redirect('linkListener');
     }
 
     /**

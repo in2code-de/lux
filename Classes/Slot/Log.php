@@ -4,7 +4,7 @@ namespace In2code\Lux\Slot;
 
 use In2code\Lux\Domain\Model\Attribute;
 use In2code\Lux\Domain\Model\Download;
-use In2code\Lux\Domain\Model\Linkclick;
+use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Service\LogService;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -156,15 +156,15 @@ class Log implements SingletonInterface
 
     /**
      * @param Visitor $visitor
-     * @param Linkclick $linkclick
+     * @param Linklistener $linklistener
      * @param int $pageUid
      * @return void
      * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
-    public function logLinkClick(Visitor $visitor, Linkclick $linkclick, int $pageUid)
+    public function logLinkClick(Visitor $visitor, Linklistener $linklistener, int $pageUid)
     {
-        $this->logService->logLinkListener($visitor, $linkclick, $pageUid);
+        $this->logService->logLinkListener($visitor, $linklistener, $pageUid);
     }
 }

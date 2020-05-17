@@ -15,19 +15,19 @@ class Linkclick extends AbstractModel
     protected $crdate = null;
 
     /**
-     * @var string
+     * @var \In2code\Lux\Domain\Model\Linklistener
      */
-    protected $title = '';
+    protected $linklistener = null;
 
     /**
-     * @var string
+     * @var \In2code\Lux\Domain\Model\Page
      */
-    protected $link = '';
+    protected $page = null;
 
     /**
-     * @var \In2code\Lux\Domain\Model\Category
+     * @var \In2code\Lux\Domain\Model\Visitor
      */
-    protected $category = null;
+    protected $visitor = null;
 
     /**
      * @return \DateTime|null
@@ -41,63 +41,63 @@ class Linkclick extends AbstractModel
      * @param \DateTime|null $crdate
      * @return Linkclick
      */
-    public function setCrdate(?\DateTime $crdate): self
+    public function setCrdate(\DateTime $crdate): self
     {
         $this->crdate = $crdate;
         return $this;
     }
 
     /**
-     * @return string
+     * @return Linklistener
      */
-    public function getTitle(): string
+    public function getLinklistener(): ?Linklistener
     {
-        return $this->title;
+        return $this->linklistener;
     }
 
     /**
-     * @param string $title
+     * @param Linklistener $linklistener
      * @return Linkclick
      */
-    public function setTitle(string $title): self
+    public function setLinklistener(Linklistener $linklistener): self
     {
-        $this->title = $title;
+        $this->linklistener = $linklistener;
         return $this;
     }
 
     /**
-     * @return string
+     * @return Page
      */
-    public function getLink(): string
+    public function getPage(): ?Page
     {
-        return $this->link;
+        return $this->page;
     }
 
     /**
-     * @param string $link
+     * @param Page $page
      * @return Linkclick
      */
-    public function setLink(string $link): self
+    public function setPage(Page $page): self
     {
-        $this->link = $link;
+        $this->page = $page;
         return $this;
     }
 
     /**
-     * @return Category
+     * @return Visitor
      */
-    public function getCategory(): ?Category
+    public function getVisitor(): ?Visitor
     {
-        return $this->category;
+        return $this->visitor;
     }
 
     /**
-     * @param Category $category
+     * @param Visitor $visitor
      * @return Linkclick
      */
-    public function setCategory(Category $category): self
+    public function setVisitor(Visitor $visitor): self
     {
-        $this->category = $category;
+        $this->visitor = $visitor;
         return $this;
     }
 }

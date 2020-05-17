@@ -242,7 +242,7 @@ function LuxMain() {
       addFieldListeners();
       addFormListeners();
       addDownloadListener();
-      addLinkListener();
+      addLinkListenerListener();
     } else {
       trackIteration++;
       if (trackIteration < 200) {
@@ -408,16 +408,16 @@ function LuxMain() {
   /**
    * @returns {void}
    */
-  var addLinkListener = function() {
-    var links = document.querySelectorAll('[data-lux-linkclick]');
+  var addLinkListenerListener = function() {
+    var links = document.querySelectorAll('[data-lux-linklistener]');
     for (var i = 0; i < links.length; i++) {
       links[i].addEventListener('click', function(event) {
-        var linkclickIdentifier = event.target.getAttribute('data-lux-linkclick');
-        if (linkclickIdentifier !== '') {
+        var linklistenerIdentifier = event.target.getAttribute('data-lux-linklistener');
+        if (linklistenerIdentifier !== '') {
           ajaxConnection({
-            'tx_lux_fe[dispatchAction]': 'linkListenerRequest',
+            'tx_lux_fe[dispatchAction]': 'linkClickRequest',
             'tx_lux_fe[fingerprint]': identification.getFingerprint(),
-            'tx_lux_fe[arguments][linkclickIdentifier]': linkclickIdentifier,
+            'tx_lux_fe[arguments][linklistenerIdentifier]': linklistenerIdentifier,
             'tx_lux_fe[arguments][pageUid]': getPageUid()
           }, getRequestUri(), null, null);
           delayClick(event);
