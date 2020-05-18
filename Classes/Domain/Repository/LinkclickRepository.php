@@ -31,17 +31,17 @@ class LinkclickRepository extends AbstractRepository
     }
 
     /**
-     * @param string $tag
+     * @param int $linklistener
      * @return int
      */
-    public function getFirstCreationDateFromTagName(string $tag): int
+    public function getFirstCreationDateFromLinklistenerIdentifier(int $linklistener): int
     {
         $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Linkclick::TABLE_NAME);
         return (int)$queryBuilder
             ->select('crdate')
             ->from(Linkclick::TABLE_NAME)
             ->where(
-                $queryBuilder->expr()->eq('tag', $queryBuilder->createNamedParameter($tag))
+                $queryBuilder->expr()->eq('linklistener', (int)$linklistener)
             )
             ->orderBy('crdate', 'asc')
             ->setMaxResults(1)
@@ -50,17 +50,17 @@ class LinkclickRepository extends AbstractRepository
     }
 
     /**
-     * @param string $tag
+     * @param int $linklistener
      * @return int
      */
-    public function getLatestCreationDateFromTagName(string $tag): int
+    public function getLatestCreationDateFromLinklistenerIdentifier(int $linklistener): int
     {
         $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Linkclick::TABLE_NAME);
         return (int)$queryBuilder
             ->select('crdate')
             ->from(Linkclick::TABLE_NAME)
             ->where(
-                $queryBuilder->expr()->eq('tag', $queryBuilder->createNamedParameter($tag))
+                $queryBuilder->expr()->eq('linklistener', (int)$linklistener)
             )
             ->orderBy('crdate', 'desc')
             ->setMaxResults(1)
@@ -72,17 +72,17 @@ class LinkclickRepository extends AbstractRepository
      * Example result values:
      *  [
      *      [
-     *          'tag' => 'Tagname Foo',
+     *          'linklistener' => 1,
      *          'count' => 5,
      *          'page' => 123
      *      ],
      *      [
-     *          'tag' => 'Tagname Foo', // same tag as above but with different pageUid
+     *          'linklistener' => 1, // same tag as above but with different pageUid
      *          'count' => 3,
      *          'page' => 222
      *      ],
      *      [
-     *          'tag' => 'Tagname Bar',
+     *          'linklistener' => 2,
      *          'count' => 34,
      *          'page' => 1
      *      ],
@@ -96,8 +96,8 @@ class LinkclickRepository extends AbstractRepository
     {
         $connection = DatabaseUtility::getConnectionForTable(Linkclick::TABLE_NAME);
         return (array)$connection->executeQuery(
-            'select tag, count(tag) count, page from ' . Linkclick::TABLE_NAME
-            . ' where ' . $this->extendWhereClauseWithFilterTime($filter, false) . ' group by tag, page'
+            'select linklistener, count(linklistener) count, page from ' . Linkclick::TABLE_NAME
+            . ' where ' . $this->extendWhereClauseWithFilterTime($filter, false) . ' group by linklistener, page'
         )->fetchAll();
     }
 }
