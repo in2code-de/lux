@@ -2,6 +2,10 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
+use In2code\Lux\Domain\Repository\LinklistenerRepository;
+use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
+
 /**
  * Class Log
  */
@@ -154,11 +158,14 @@ class Log extends AbstractModel
     }
 
     /**
-     * @return string
+     * @return Linklistener|null
+     * @throws Exception
      */
-    public function getTag(): string
+    public function getLinklistener(): ?Linklistener
     {
-        return $this->getPropertyByKey('tag');
+        $linklistenerUid = $this->getPropertyByKey('linklistener');
+        $linklistener = ObjectUtility::getObjectManager()->get(LinklistenerRepository::class);
+        return $linklistener->findByIdentifier($linklistenerUid);
     }
 
     /**
