@@ -74,10 +74,12 @@ class LinkclickDataProvider extends AbstractDataProvider
         foreach ($data as $block) {
             /** @var Linklistener $linklistener */
             $linklistener = $this->linklistenerRepository->findByIdentifier($block['linklistener']);
-            $this->data['titles'][] = $linklistener->getTitle();
-            $this->data['amounts'][] = $block['linkclicks'];
-            $this->data['amounts2'][] = $block['pagevisitswithoutlinkclicks'];
-            $this->data['performance'][] = $block['performance'];
+            if ($linklistener !== null) {
+                $this->data['titles'][] = $linklistener->getTitle();
+                $this->data['amounts'][] = $block['linkclicks'];
+                $this->data['amounts2'][] = $block['pagevisitswithoutlinkclicks'];
+                $this->data['performance'][] = $block['performance'];
+            }
         }
     }
 
