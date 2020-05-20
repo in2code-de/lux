@@ -100,4 +100,19 @@ class LinkclickRepository extends AbstractRepository
             . ' where ' . $this->extendWhereClauseWithFilterTime($filter, false) . ' group by linklistener, page'
         )->fetchAll();
     }
+
+    /**
+     * @param int $linklistener
+     * @return array
+     */
+    public function findByLinklistenerIdentifier(int $linklistener): array
+    {
+        $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Linkclick::TABLE_NAME);
+        return (array)$queryBuilder
+            ->select('*')
+            ->from(Linkclick::TABLE_NAME)
+            ->where('linklistener=' . (int)$linklistener)
+            ->execute()
+            ->fetchAll();
+    }
 }

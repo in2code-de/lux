@@ -2,7 +2,11 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
+use In2code\Lux\Domain\Repository\LinkclickRepository;
+use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 /**
  * Class Linklistener
@@ -101,5 +105,15 @@ class Linklistener extends AbstractEntity
     {
         $this->category = $category;
         return $this;
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function getLinkclicks(): array
+    {
+        $linkclickRepository = ObjectUtility::getObjectManager()->get(LinkclickRepository::class);
+        return $linkclickRepository->findByLinklistenerIdentifier($this->getUid());
     }
 }
