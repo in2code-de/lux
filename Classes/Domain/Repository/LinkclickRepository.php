@@ -6,6 +6,7 @@ use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Linkclick;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Utility\DatabaseUtility;
+use In2code\Lux\Utility\DateUtility;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 /**
@@ -99,6 +100,57 @@ class LinkclickRepository extends AbstractRepository
             'select linklistener, count(linklistener) count, page from ' . Linkclick::TABLE_NAME
             . ' where ' . $this->extendWhereClauseWithFilterTime($filter, false) . ' group by linklistener, page'
         )->fetchAll();
+    }
+
+    /**
+     * Example result values:
+     *  [
+     *      [
+     *          'clickcount' => 5,
+     *          'page' => 123,
+     *          'crdate' => 123456544 // first click on this linklistener on page 123
+     *      ],
+     *      [
+     *          'clickcount' => 3,
+     *          'page' => 222,
+     *          'crdate' => 543224555
+     *      ]
+     *  ]
+     * @param int $linklistener
+     * @return array
+     * @throws DBALException
+     * @throws \Exception
+     */
+    public function getAmountOfLinkclicksByLinklistenerGroupedByPageUid(int $linklistener): array
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Linkclick::TABLE_NAME);
+        return (array)$connection->executeQuery(
+            'select count(linklistener) clickcount, page, crdate from ' . Linkclick::TABLE_NAME
+            . ' where linklistener=' . (int)$linklistener . ' group by page order by crdate asc'
+        )->fetchAll();
+    }
+
+    /**
+     * @param int $linklistener
+     * @param int $page
+     * @return \DateTime
+     * @throws \Exception
+     */
+    public function findLastDateByLinklistenerAndPage(int $linklistener, int $page): \DateTime
+    {
+        $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Linkclick::TABLE_NAME);
+        $date = (int)$queryBuilder
+            ->select('crdate')
+            ->from(Linkclick::TABLE_NAME)
+            ->where('linklistener=' . (int)$linklistener . ' and page=' . (int)$page)
+            ->orderBy('crdate', 'desc')
+            ->setMaxResults(1)
+            ->execute()
+            ->fetchColumn();
+        if ($date > 0) {
+            return DateUtility::convertTimestamp($date);
+        }
+        return new \DateTime();
     }
 
     /**

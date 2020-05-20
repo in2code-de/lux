@@ -34,7 +34,7 @@
                         <td>{linkListener.title}</td>
                         <td>{linkListener.category.title}</td>
                         <td>{linkListener.linkclicks -> f:count()}</td>
-                        <td>0,2%</td>
+                        <td>{linkListener.performance -> f:format.number(decimals:2,decimalSeparator:',')} %</td>
                         <td>
                             <div class="btn-group">
                                 <a href="{lux:backend.uriEdit(tableName:'tx_lux_domain_model_linklistener',identifier:linkListener.uid,moduleName:'lux_LuxAnalysis')}" class="btn btn-default" title="Edit Link Listener">
