@@ -681,6 +681,18 @@
 			<trans-unit id="module.linklistener.new">
 				<source>Add new Link Listener</source>
 			</trans-unit>
+			<trans-unit id="module.linklistener.table.title">
+				<source>Title of Link Listener</source>
+			</trans-unit>
+			<trans-unit id="module.linklistener.table.category">
+				<source>Lux Category</source>
+			</trans-unit>
+			<trans-unit id="module.linklistener.table.clicks">
+				<source>Number of clicks</source>
+			</trans-unit>
+			<trans-unit id="module.linklistener.table.performance">
+				<source>Performance</source>
+			</trans-unit>
 
 			<trans-unit id="module.box.downloads.title">
 				<source>Downloads</source>
@@ -703,8 +715,8 @@
 			<trans-unit id="module.box.linkclicks.labeltop">
 				<source>Further visitors without click on tracked link</source>
 			</trans-unit>
-			<trans-unit id="module.box.linkclicks.note">
-				<source>Tip: Add some data-attributes to your "call to action" links to measure their performance - look at this example:</source>
+			<trans-unit id="module.box.alllinkclicks.title">
+				<source>Absolute clicks on link listeners</source>
 			</trans-unit>
 			<trans-unit id="module.box.browser.title">
 				<source>Top Browser</source>
@@ -1250,6 +1262,12 @@
 			</trans-unit>
 			<trans-unit id="next">
 				<source>Next</source>
+			</trans-unit>
+			<trans-unit id="edit">
+				<source>Edit</source>
+			</trans-unit>
+			<trans-unit id="delete">
+				<source>Delete</source>
 			</trans-unit>
 			<trans-unit id="save">
 				<source>Save</source>

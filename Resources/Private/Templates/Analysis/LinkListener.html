@@ -7,23 +7,23 @@
             <f:render partial="Filter/{view.controller}/{view.actionUpper}" arguments="{_all}" />
 
             <a href="{lux:backend.uriNew(tableName:'tx_lux_domain_model_linklistener',moduleName:'lux_LuxAnalysis')}" class="btn btn-lg btn-primary" title="New Link Listener" style="width: 250px; margin-bottom: 20px;">
-                <f:translate key="module.linklistener.new">Add Link Listener</f:translate>
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.new">Add Link Listener</f:translate>
             </a>
 
             <table class="table table-striped table-hover table-pointer">
                 <thead>
                     <tr>
                         <th>
-                            Title
+                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.title">title</f:translate>
                         </th>
                         <th>
-                            Category
+                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.category">category</f:translate>
                         </th>
                         <th>
-                            Clicks
+                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.clicks">clicks</f:translate>
                         </th>
                         <th>
-                            Performance
+                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.performance">performance</f:translate>
                         </th>
                         <th></th>
                     </tr>
@@ -37,7 +37,7 @@
                         <td>{linkListener.performance -> f:format.number(decimals:2,decimalSeparator:',')} %</td>
                         <td>
                             <div class="btn-group">
-                                <a href="{lux:backend.uriEdit(tableName:'tx_lux_domain_model_linklistener',identifier:linkListener.uid,moduleName:'lux_LuxAnalysis')}" class="btn btn-default" title="Edit Link Listener">
+                                <a href="{lux:backend.uriEdit(tableName:'tx_lux_domain_model_linklistener',identifier:linkListener.uid,moduleName:'lux_LuxAnalysis')}" class="btn btn-default" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:edit')}">
                                     <span class="t3js-icon icon icon-size-small icon-state-default icon-actions-view-page">
                                         <span class="icon-markup">
                                             <span class="t3-icon fa fa-pencil"></span>
@@ -45,7 +45,7 @@
                                     </span>
                                 </a>
 
-                                <f:link.action action="deleteLinkListener" arguments="{linkListener:linkListener}" class="btn btn-default" title="Delete Link Listener" additionalAttributes="{data-lux-confirm:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:deleteconfirm\')}'}">
+                                <f:link.action action="deleteLinkListener" arguments="{linkListener:linkListener}" class="btn btn-default" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:delete')}" additionalAttributes="{data-lux-confirm:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:deleteconfirm\')}'}">
                                     <span class="t3js-icon icon icon-size-small icon-state-default icon-actions-view-page">
                                         <span class="icon-markup">
                                             <span class="t3-icon fa fa-trash"></span>

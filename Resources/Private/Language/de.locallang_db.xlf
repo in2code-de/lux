@@ -899,6 +899,22 @@
 				<source>Add new Link Listener</source>
 				<target state="translated">Neuen Link Listener hinzufügen</target>
 			</trans-unit>
+			<trans-unit id="module.linklistener.table.title">
+				<source>Title of Link Listener</source>
+				<target state="translated">Bezeichnung Link Listener</target>
+			</trans-unit>
+			<trans-unit id="module.linklistener.table.category">
+				<source>Lux Category</source>
+				<target state="translated">Lux Kategorie</target>
+			</trans-unit>
+			<trans-unit id="module.linklistener.table.clicks">
+				<source>Number of clicks</source>
+				<target state="translated">Anzahl Klicks</target>
+			</trans-unit>
+			<trans-unit id="module.linklistener.table.performance">
+				<source>Performance</source>
+				<target state="translated">Performance</target>
+			</trans-unit>
 
 			<trans-unit id="module.box.downloads.title">
 				<source>Downloads</source>
@@ -918,7 +934,7 @@
 			</trans-unit>
 			<trans-unit id="module.box.linkclicks.title">
 				<source>Top 10 link listeners</source>
-				<target state="translated">Top 10 Linktracker</target>
+				<target state="translated">Top 10 Link Listener</target>
 			</trans-unit>
 			<trans-unit id="module.box.linkclicks.labelbottom">
 				<source>Click on tracked link</source>
@@ -928,9 +944,9 @@
 				<source>Further visitors without click on tracked link</source>
 				<target state="translated">Alle Weiteren auf der Seite</target>
 			</trans-unit>
-			<trans-unit id="module.box.linkclicks.note">
-				<source>Tip: Add some data-attributes to your "call to action" links to measure their performance - look at this example:</source>
-				<target state="translated">Tipp: Statten sie ein paar Ihrer "Call to Action" Links mit einem entsprechenden Data-Attribut aus, um die Performance dieser zu überwachen - siehe Beispiel:</target>
+			<trans-unit id="module.box.alllinkclicks.title">
+				<source>Absolute clicks on link listeners</source>
+				<target state="translated">Alle Klicks auf Link Listener</target>
 			</trans-unit>
 			<trans-unit id="module.box.browser.title">
 				<source>Top Browser</source>
@@ -1654,6 +1670,14 @@
 			<trans-unit id="next">
 				<source>Next</source>
 				<target state="translated">Weiter</target>
+			</trans-unit>
+			<trans-unit id="edit">
+				<source>Edit</source>
+				<target state="translated">Bearbeiten</target>
+			</trans-unit>
+			<trans-unit id="delete">
+				<source>Delete</source>
+				<target state="translated">Löschen</target>
 			</trans-unit>
 			<trans-unit id="save">
 				<source>Save</source>
