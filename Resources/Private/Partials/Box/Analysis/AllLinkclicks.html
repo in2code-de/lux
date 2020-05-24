@@ -7,9 +7,12 @@
     <div class="panel-body">
         <f:if condition="{allLinkclickData.dataAvailable}">
             <f:then>
-                <canvas height="50"
+                <canvas height="100"
                         data-chart="line"
                         data-chart-data="{allLinkclickData.amountsList}"
+                        data-chart-label="Clicks"
+                        data-chart-data2="{allLinkclickData.amounts2List}"
+                        data-chart-label2="Page visits"
                         data-chart-labels="{allLinkclickData.titlesList}"></canvas>
             </f:then>
             <f:else>

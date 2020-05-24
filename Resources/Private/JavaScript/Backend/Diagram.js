@@ -160,15 +160,26 @@ define(['jquery', 'TYPO3/CMS/Lux/Vendor/Chart.min'], function($) {
      * @returns {void}
      */
     var diagramLine = function(element) {
+      var datasets = [{
+        label: element.getAttribute('data-chart-label'),
+        data: element.getAttribute('data-chart-data').split(','),
+        borderColor: 'rgb(77, 231, 255)',
+        "lineTension": 0.5
+      }];
+      for (var i = 2; i < 7; i++) {
+        if (element.hasAttribute('data-chart-data' + i) && element.hasAttribute('data-chart-label' + i)) {
+          datasets.push({
+            label: element.getAttribute('data-chart-label' + i),
+            data: element.getAttribute('data-chart-data' + i).split(','),
+            borderColor: '#FFE933'
+          });
+        }
+      }
+
       new Chart(element.getContext('2d'), {
         type: 'line',
         data: {
-          datasets: [{
-            label: element.getAttribute('data-chart-label'),
-            data: element.getAttribute('data-chart-data').split(','),
-            borderColor: 'rgb(77, 231, 255)',
-            "lineTension": 0.5
-          }],
+          datasets: datasets,
           labels: element.getAttribute('data-chart-labels').split(',')
         },
         options: {
