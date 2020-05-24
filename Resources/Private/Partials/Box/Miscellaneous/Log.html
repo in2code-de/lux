@@ -10,7 +10,7 @@
                 <div style="{style}">
                     <nav class="timeline timeline--vertical">
                         <f:for each="{interestingLogs}" as="log">
-                            <div class="timeline__item" title="{lux:format.readableDate(date:log.crdate)} ({f:format.date(date:log.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')})">
+                            <div class="timeline__item" title="{lux:format.readableDate(date:log.crdate)} ({f:format.date(date:log.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')})" data-record="{log.uid}">
                                 <div style="margin-top: 5px;">
                                     <f:render section="status{log.status}" optional="true" arguments="{_all}" />
                                 </div>
@@ -120,4 +120,10 @@
 	<strong><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.log.status.80">Link click tracked</f:translate></strong><br />
 	"{log.tag}" PageUid: {log.pageUid}
 	<span title="UID:{log.visitor.uid}">(<f:link.action action="detail" controller="Lead" arguments="{visitor:log.visitor}">{log.visitor.fullName}</f:link.action>)</span>
+</f:section>
+
+
+
+<f:section name="status90">
+	<strong><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.log.status.90">Visitor merged</f:translate></strong><br />
 </f:section>
