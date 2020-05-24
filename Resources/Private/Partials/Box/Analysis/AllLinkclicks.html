@@ -9,8 +9,8 @@
             <f:then>
                 <canvas height="50"
                         data-chart="line"
-                        data-chart-data="10,12,4,8,20"
-                        data-chart-labels="a,b,c,d,e"></canvas>
+                        data-chart-data="{allLinkclickData.amountsList}"
+                        data-chart-labels="{allLinkclickData.titlesList}"></canvas>
             </f:then>
             <f:else>
                 <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>

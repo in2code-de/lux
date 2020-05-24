@@ -41,9 +41,7 @@ class LinkclickRepository extends AbstractRepository
         return (int)$queryBuilder
             ->select('crdate')
             ->from(Linkclick::TABLE_NAME)
-            ->where(
-                $queryBuilder->expr()->eq('linklistener', (int)$linklistener)
-            )
+            ->where($queryBuilder->expr()->eq('linklistener', (int)$linklistener))
             ->orderBy('crdate', 'asc')
             ->setMaxResults(1)
             ->execute()
@@ -60,9 +58,7 @@ class LinkclickRepository extends AbstractRepository
         return (int)$queryBuilder
             ->select('crdate')
             ->from(Linkclick::TABLE_NAME)
-            ->where(
-                $queryBuilder->expr()->eq('linklistener', (int)$linklistener)
-            )
+            ->where($queryBuilder->expr()->eq('linklistener', (int)$linklistener))
             ->orderBy('crdate', 'desc')
             ->setMaxResults(1)
             ->execute()
@@ -166,5 +162,21 @@ class LinkclickRepository extends AbstractRepository
             ->where('linklistener=' . (int)$linklistener)
             ->execute()
             ->fetchAll();
+    }
+
+    /**
+     * @param \DateTime $start
+     * @param \DateTime $end
+     * @param FilterDto|null $filter
+     * @return int
+     * @throws DBALException
+     */
+    public function findByTimeFrame(\DateTime $start, \DateTime $end, FilterDto $filter = null): int
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Linkclick::TABLE_NAME);
+        return (int)$connection->executeQuery(
+            'select count(*) count from ' . Linkclick::TABLE_NAME
+            . ' where crdate >= ' . $start->getTimestamp() . ' and crdate <= ' . $end->getTimestamp()
+        )->fetchColumn();
     }
 }

@@ -10,7 +10,6 @@ use In2code\Lux\Domain\DataProvider\DownloadsDataProvider;
 use In2code\Lux\Domain\DataProvider\LanguagesDataProvider;
 use In2code\Lux\Domain\DataProvider\LinkclickDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
-use In2code\Lux\Domain\Model\Linkclick;
 use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;

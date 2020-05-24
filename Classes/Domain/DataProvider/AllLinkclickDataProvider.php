@@ -9,7 +9,7 @@ use TYPO3\CMS\Extbase\Object\Exception;
 /**
  * Class AllLinkclickDataProvider
  */
-class AllLinkclickDataProvider extends AbstractDataProvider
+class AllLinkclickDataProvider extends AbstractDynamicFilterDataProvider
 {
     /**
      * @var LinkclickRepository
@@ -30,31 +30,31 @@ class AllLinkclickDataProvider extends AbstractDataProvider
      * Set values like
      *  [
      *      'titles' => [
-     *          'Tagname Bar',
-     *          'Tagname Foo'
+     *          'Mo',
+     *          'Tu',
+     *          'We'
      *      ],
-     *      'amounts' => [ // linkclicks
+     *      'amounts' => [
      *          34,
-     *          8
-     *      ],
-     *      'amounts2' => [ // pagevisitswithoutlinkclicks
-     *          20,
-     *          17,
-     *      ],
-     *      'performance' => [
-     *          170,
-     *          32
+     *          8,
+     *          23
      *      ]
      *  ]
      * @return void
+     * @throws \Exception
      */
     public function prepareData(): void
     {
-        $this->data = [
-            'titles' => [],
-            'amounts' => [],
-            'amounts2' => [],
-            'performance' => [],
-        ];
+        $intervals = $this->filter->getIntervals();
+        $frequency = (string)$intervals['frequency'];
+        foreach ($intervals['intervals'] as $interval) {
+            $this->data['amounts'][] = $this->linkclickRepository->findByTimeFrame(
+                $interval['start'],
+                $interval['end'],
+                $this->filter
+            );
+            $this->data['titles'][] = $this->getLabelForFrequency($frequency, $interval['start']);
+        }
+        $this->overruleLatestTitle($frequency);
     }
 }
