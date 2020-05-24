@@ -4,12 +4,11 @@ namespace In2code\Lux\Domain\Model;
 
 use In2code\Lux\Exception\FingerprintMustNotBeEmptyException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
  * Class Fingerprint
  */
-class Fingerprint extends AbstractEntity
+class Fingerprint extends AbstractModel
 {
     const TABLE_NAME = 'tx_lux_domain_model_fingerprint';
     const TYPE_FINGERPRINT = 0;

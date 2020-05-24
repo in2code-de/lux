@@ -3,12 +3,11 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
 use In2code\Lux\Utility\LocalizationUtility;
-use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
  * Class Attribute
  */
-class Attribute extends AbstractEntity
+class Attribute extends AbstractModel
 {
     const TABLE_NAME = 'tx_lux_domain_model_attribute';
     const KEY_NAME = 'email';

@@ -2,12 +2,10 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
-use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
-
 /**
  * Class Ipinformation
  */
-class Ipinformation extends AbstractEntity
+class Ipinformation extends AbstractModel
 {
     const TABLE_NAME = 'tx_lux_domain_model_ipinformation';
 
