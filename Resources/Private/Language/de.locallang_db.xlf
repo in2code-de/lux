@@ -386,6 +386,10 @@
 				<source>Lux Category</source>
 				<target state="translated">Lux Kategorie</target>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linklistener.linkclicks">
+				<source>Link clicks</source>
+				<target state="translated">Link Klicks</target>
+			</trans-unit>
 
 			<trans-unit id="tx_lux_domain_model_linkclick">
 				<source>Link Listener clicks</source>

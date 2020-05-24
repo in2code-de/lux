@@ -17,10 +17,10 @@ return [
         'rootLevel' => -1
     ],
     'interface' => [
-        'showRecordFieldList' => 'title,link,category',
+        'showRecordFieldList' => 'title,link,category,linkclicks',
     ],
     'types' => [
-        '1' => ['showitem' => 'title,--palette--;Link;palette_link'],
+        '1' => ['showitem' => 'title,--palette--;Link;palette_link,linkclicks'],
     ],
     'palettes' => [
         'palette_link' => [
@@ -108,6 +108,24 @@ return [
                 'minitems' => 1,
                 'eval' => 'int,required'
             ]
-        ]
+        ],
+        'linkclicks' => [
+            'exclude' => true,
+            'label' =>
+                'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linklistener::TABLE_NAME . '.linkclicks',
+            'config' => [
+                'type' => 'inline',
+                'foreign_table' => \In2code\Lux\Domain\Model\Linkclick::TABLE_NAME,
+                'foreign_field' => 'linklistener',
+                'maxitems' => 100000,
+                'appearance' => [
+                    'collapse' => 1,
+                    'levelLinksPosition' => 'top',
+                    'showSynchronizationLink' => 1,
+                    'showPossibleLocalizationRecords' => 1,
+                    'showAllLocalizationLink' => 1
+                ]
+            ]
+        ],
     ]
 ];

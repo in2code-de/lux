@@ -205,6 +205,8 @@ CREATE TABLE tx_lux_domain_model_linklistener (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 
+	linkclicks int(11) DEFAULT '0' NOT NULL,
+
 	title varchar(255) DEFAULT '' NOT NULL,
 	link varchar(255) DEFAULT '' NOT NULL,
 	category int(11) DEFAULT '0' NOT NULL,

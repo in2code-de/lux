@@ -79,11 +79,11 @@ class AnalysisController extends AbstractController
     {
         $this->view->assignMultiple([
             'filter' => $filter,
+            'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
             'numberOfVisitorsData' => ObjectUtility::getObjectManager()->get(PagevisistsDataProvider::class, $filter),
             'numberOfDownloadsData' => ObjectUtility::getObjectManager()->get(DownloadsDataProvider::class, $filter),
             'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
             'downloads' => $this->downloadRepository->findCombinedByHref($filter),
-            'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
             'languageData' => ObjectUtility::getObjectManager()->get(LanguagesDataProvider::class, $filter),
             'domainData' => ObjectUtility::getObjectManager()->get(DomainDataProvider::class, $filter)
         ]);
@@ -103,11 +103,14 @@ class AnalysisController extends AbstractController
      * @param FilterDto $filter
      * @return void
      * @throws Exception
+     * @throws InvalidQueryException
      */
     public function linkListenerAction(FilterDto $filter): void
     {
         $this->view->assignMultiple([
-            'linkListeners' => $this->linklistenerRepository->findAll(),
+            'filter' => $filter,
+            'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
+            'linkListeners' => $this->linklistenerRepository->findByFilter($filter),
             'allLinkclickData' => ObjectUtility::getObjectManager()->get(AllLinkclickDataProvider::class, $filter),
             'linkclickData' => ObjectUtility::getObjectManager()->get(LinkclickDataProvider::class, $filter),
         ]);

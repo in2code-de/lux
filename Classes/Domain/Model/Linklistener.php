@@ -2,7 +2,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
-use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Repository\LinkclickRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Utility\DateUtility;
@@ -36,6 +35,12 @@ class Linklistener extends AbstractEntity
      * @var \In2code\Lux\Domain\Model\Category
      */
     protected $category = null;
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Linkclick>
+     * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
+     */
+    protected $linkclicks = null;
 
     /**
      * @return \DateTime|null
@@ -110,10 +115,32 @@ class Linklistener extends AbstractEntity
     }
 
     /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getLinkclicks(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->linkclicks;
+    }
+
+    /**
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $linkclicks
+     * @return Linklistener
+     */
+    public function setLinkclicks(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $linkclicks): self
+    {
+        $this->linkclicks = $linkclicks;
+        return $this;
+    }
+
+    /**
+     * Calculated properties
+     */
+
+    /**
      * @return array
      * @throws Exception
      */
-    public function getLinkclicks(): array
+    public function getLinkclicksRaw(): array
     {
         $linkclickRepository = ObjectUtility::getObjectManager()->get(LinkclickRepository::class);
         return $linkclickRepository->findByLinklistenerIdentifier($this->getUid());
@@ -125,7 +152,7 @@ class Linklistener extends AbstractEntity
      */
     public function getPerformance(): float
     {
-        if (count($this->getLinkclicks()) === 0) {
+        if (count($this->getLinkclicksRaw()) === 0) {
             return 0.0;
         }
         $linkclickRepository = ObjectUtility::getObjectManager()->get(LinkclickRepository::class);

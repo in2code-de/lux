@@ -294,6 +294,9 @@
 			<trans-unit id="tx_lux_domain_model_linklistener.category">
 				<source>Lux Category</source>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linklistener.linkclicks">
+				<source>Link clicks</source>
+			</trans-unit>
 
 			<trans-unit id="tx_lux_domain_model_linkclick">
 				<source>Link Listener clicks</source>
