@@ -176,6 +176,31 @@ define(['jquery', 'TYPO3/CMS/Lux/Vendor/Chart.min'], function($) {
         }
       }
 
+      var yAxes = [{
+        ticks: {
+          beginAtZero: true
+        }
+      }];
+
+      // Use a logarithmic y-axes (normally only if there is more then only one line with a big difference)
+      if (element.hasAttribute('data-chart-max-y') && element.hasAttribute('data-chart-max-y') > 0) {
+        yAxes = [{
+          type: 'logarithmic',
+          ticks: {
+            min: 0,
+            max: parseInt(element.getAttribute('data-chart-max-y')),
+            callback: function (value, index, values) {
+              // Show only this values in the y-axes
+              var allowed = [1, 3, 5, 10, 20, 50, 60, 100, 500, 1000, 5000, 10000, 100000, 1000000];
+              if (allowed.indexOf(value) !== -1) {
+                return value;
+              }
+              return null;
+            }
+          }
+        }];
+      }
+
       new Chart(element.getContext('2d'), {
         type: 'line',
         data: {
@@ -191,11 +216,7 @@ define(['jquery', 'TYPO3/CMS/Lux/Vendor/Chart.min'], function($) {
             }
           },
           scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: true
-              }
-            }]
+            yAxes: yAxes
           }
         }
       });

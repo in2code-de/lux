@@ -13,7 +13,8 @@
                         data-chart-label="Clicks"
                         data-chart-data2="{allLinkclickData.amounts2List}"
                         data-chart-label2="Page visits"
-                        data-chart-labels="{allLinkclickData.titlesList}"></canvas>
+                        data-chart-labels="{allLinkclickData.titlesList}"
+                        data-chart-max-y="{allLinkclickData.maxY}"></canvas>
             </f:then>
             <f:else>
                 <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>

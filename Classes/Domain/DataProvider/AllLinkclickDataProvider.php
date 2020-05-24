@@ -7,6 +7,7 @@ use In2code\Lux\Domain\Model\Linkclick;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Repository\LinkclickRepository;
 use In2code\Lux\Utility\DatabaseUtility;
+use In2code\Lux\Utility\MathUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 
@@ -47,7 +48,8 @@ class AllLinkclickDataProvider extends AbstractDynamicFilterDataProvider
      *          33%,
      *          98%,
      *          1%
-     *      ]
+     *      ],
+     *      'max-y' => 100 // max value for logarithmic y-axes
      *  ]
      * @return void
      * @throws \Exception
@@ -71,7 +73,17 @@ class AllLinkclickDataProvider extends AbstractDynamicFilterDataProvider
             );
             $this->data['titles'][] = $this->getLabelForFrequency($frequency, $interval['start']);
         }
+        $this->setMaxYValue();
         $this->overruleLatestTitle($frequency);
+    }
+
+    /**
+     * @return void
+     */
+    protected function setMaxYValue(): void
+    {
+        $maxValue = max(max($this->data['amounts']), max($this->data['amounts2']));
+        $this->data['max-y'] = MathUtility::roundUp($maxValue);
     }
 
     /**
