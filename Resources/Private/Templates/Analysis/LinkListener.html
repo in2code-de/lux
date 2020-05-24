@@ -34,7 +34,7 @@
                         <td>{linkListener.title}</td>
                         <td>{linkListener.category.title}</td>
                         <td>{linkListener.linkclicks -> f:count()}</td>
-                        <td>{linkListener.performance -> f:format.number(decimals:2,decimalSeparator:',')} %</td>
+                        <td>{linkListener.performance -> lux:format.percent()}</td>
                         <td>
                             <div class="btn-group">
                                 <a href="{lux:backend.uriEdit(tableName:'tx_lux_domain_model_linklistener',identifier:linkListener.uid,moduleName:'lux_LuxAnalysis')}" class="btn btn-default" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:edit')}">

@@ -134,7 +134,10 @@ class Linklistener extends AbstractEntity
         );
         $groupedLinkclicks = $this->extendGroupedLinkclicksWithDateAndPagevisits($groupedLinkclicks);
         $groupedLinkclicks = $this->combineMultipleGroupedLinkclicks($groupedLinkclicks);
-        return $groupedLinkclicks['pagevisits'] / $groupedLinkclicks['clickcount'];
+        if ($groupedLinkclicks['pagevisits'] === 0) {
+            return 0.0;
+        }
+        return $groupedLinkclicks['clickcount'] / $groupedLinkclicks['pagevisits'];
     }
 
     /**
