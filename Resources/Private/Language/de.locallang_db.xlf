@@ -812,6 +812,10 @@
 				<source>Category Scoring of Visitors</source>
 				<target state="translated">Kategorie-Scoring des Besuchers</target>
 			</trans-unit>
+			<trans-unit id="module.list.filter.header.category">
+				<source>Lux Category</source>
+				<target state="translated">Lux-Kategorie</target>
+			</trans-unit>
 			<trans-unit id="module.list.filter.header.time">
 				<source>Time</source>
 				<target state="translated">Zeitpunkt</target>

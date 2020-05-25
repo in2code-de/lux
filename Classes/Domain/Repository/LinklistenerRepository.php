@@ -55,17 +55,12 @@ class LinklistenerRepository extends AbstractRepository
                 $logicalOr = [];
                 foreach ($filter->getSearchterms() as $searchterm) {
                     $logicalOr[] = $query->like('title', '%' . $searchterm . '%');
+                    $logicalOr[] = $query->like('category.title', '%' . $searchterm . '%');
                 }
                 $logicalAnd[] = $query->logicalOr($logicalOr);
             }
-            if ($filter->getScoring() > 0) {
-                $logicalAnd[] = $query->greaterThanOrEqual('linkclicks.visitor.scoring', $filter->getScoring());
-            }
             if ($filter->getCategoryScoring() !== null) {
-                $logicalAnd[] = $query->equals(
-                    'linkclicks.visitor.categoryscorings.category',
-                    $filter->getCategoryScoring()
-                );
+                $logicalAnd[] = $query->equals('category', $filter->getCategoryScoring());
             }
         }
         return $logicalAnd;
