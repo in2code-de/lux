@@ -671,6 +671,10 @@
 				<source>lux tracked a link click</source>
 				<target state="translated">lux hat einen Klick auf einen Link getrackt</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.log.status.90">
+				<source>lux merged some profiles</source>
+				<target state="translated">lux hat Profile zusammengeführt</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.map">
 				<source>Lead source</source>
 				<target state="translated">Lead Ursprung</target>

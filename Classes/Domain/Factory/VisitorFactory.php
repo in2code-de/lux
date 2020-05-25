@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Factory;
 
+use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
@@ -63,9 +64,11 @@ class VisitorFactory
      * @throws InvalidSlotReturnException
      * @throws Exception
      * @throws UnknownObjectException
+     * @throws DBALException
      */
     public function getVisitor(): Visitor
     {
+        $this->repairVisitorLanguage();
         $visitor = $this->getVisitorFromDatabaseByFingerprint();
         $this->signalDispatch(__CLASS__, __FUNCTION__ . 'beforeCreateNew', [$this->fingerprint]);
         if ($visitor === null) {
@@ -169,5 +172,19 @@ class VisitorFactory
             $ipAddress = implode('.', $parts);
         }
         return $ipAddress;
+    }
+
+    /**
+     * Repair method: Fix default language in some tables and update with sys_language_uid=-1
+     *
+     * @return void
+     * @throws DBALException
+     * Todo: Remove in version 10
+     */
+    protected function repairVisitorLanguage(): void
+    {
+        if ($this->visitorRepository->isVisitorExistingWithDefaultLanguage()) {
+            $this->visitorRepository->updateRecordsWithLanguageAll();
+        }
     }
 }

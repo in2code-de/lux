@@ -13,7 +13,6 @@ use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
-use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
@@ -23,7 +22,7 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 /**
  * Class Visitor
  */
-class Visitor extends AbstractEntity
+class Visitor extends AbstractModel
 {
     const TABLE_NAME = 'tx_lux_domain_model_visitor';
     const IMPORTANT_ATTRIBUTES = [

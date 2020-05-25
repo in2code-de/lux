@@ -294,6 +294,42 @@ class VisitorRepository extends AbstractRepository
     }
 
     /**
+     * @return bool
+     * @throws DBALException
+     */
+    public function isVisitorExistingWithDefaultLanguage(): bool
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
+        return (int)$connection->executeQuery(
+            'select count(*) from ' . Visitor::TABLE_NAME . ' where sys_language_uid > -1'
+        )->fetchColumn() > 0;
+    }
+
+    /**
+     * @return void
+     * @throws DBALException
+     */
+    public function updateRecordsWithLanguageAll(): void
+    {
+        $tables = [
+            Attribute::TABLE_NAME,
+            Categoryscoring::TABLE_NAME,
+            Download::TABLE_NAME,
+            Fingerprint::TABLE_NAME,
+            Ipinformation::TABLE_NAME,
+            Linkclick::TABLE_NAME,
+            Log::TABLE_NAME,
+            Newsvisit::TABLE_NAME,
+            Pagevisit::TABLE_NAME,
+            Visitor::TABLE_NAME
+        ];
+        foreach ($tables as $table) {
+            $connection = DatabaseUtility::getConnectionForTable($table);
+            $connection->executeQuery('update ' . $table . ' set sys_language_uid=-1');
+        }
+    }
+
+    /**
      * @return int
      * @throws DBALException
      */

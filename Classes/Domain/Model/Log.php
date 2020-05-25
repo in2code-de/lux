@@ -2,12 +2,10 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
-use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
-
 /**
  * Class Log
  */
-class Log extends AbstractEntity
+class Log extends AbstractModel
 {
     const TABLE_NAME = 'tx_lux_domain_model_log';
     const STATUS_DEFAULT = 0;

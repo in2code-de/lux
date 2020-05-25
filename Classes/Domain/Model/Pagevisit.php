@@ -5,13 +5,12 @@ namespace In2code\Lux\Domain\Model;
 use In2code\Lux\Domain\Service\ReadableReferrerService;
 use In2code\Lux\Utility\FrontendUtility;
 use In2code\Lux\Utility\ObjectUtility;
-use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
  * Class Pagevisit
  */
-class Pagevisit extends AbstractEntity
+class Pagevisit extends AbstractModel
 {
     const TABLE_NAME = 'tx_lux_domain_model_pagevisit';
 
