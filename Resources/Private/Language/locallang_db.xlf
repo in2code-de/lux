@@ -600,6 +600,24 @@
 			<trans-unit id="module.analysis.detaildownloads.time">
 				<source>Time</source>
 			</trans-unit>
+			<trans-unit id="module.analysis.detaillinklistener">
+				<source>Link Listener clicks</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detaillinklistener.title">
+				<source>Link Listener</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detaillinklistener.title">
+				<source>Link Listener</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detaillinklistener.lead">
+				<source>Lead</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detaillinklistener.company">
+				<source>Company</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detaillinklistener.time">
+				<source>Time</source>
+			</trans-unit>
 			<trans-unit id="module.list.pagevisits">
 				<source>Pagevisits</source>
 			</trans-unit>
