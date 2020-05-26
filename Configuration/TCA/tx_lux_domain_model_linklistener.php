@@ -20,7 +20,7 @@ return [
         'showRecordFieldList' => 'title,link,category,linkclicks',
     ],
     'types' => [
-        '1' => ['showitem' => 'title,--palette--;Link;palette_link,linkclicks'],
+        '1' => ['showitem' => 'title,--palette--;Link;palette_link'],
     ],
     'palettes' => [
         'palette_link' => [
