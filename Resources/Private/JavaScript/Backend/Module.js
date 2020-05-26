@@ -23,6 +23,7 @@ define(['jquery'], function($) {
       addLeadListDetailViewListener();
       addAnalysisContentDetailPageViewListener();
       addAnalysisContentDetailDownloadViewListener();
+      addAnalysisLinkListenerDetailViewListener();
       addDescriptionListener();
       addLinkMockListener();
       addDatePickers();
@@ -87,6 +88,27 @@ define(['jquery'], function($) {
 
           ajaxConnection(TYPO3.settings.ajaxUrls['/lux/analysiscontentdetaildownload'], {
             download: download
+          }, 'generalDetailCallback');
+        });
+      }
+    };
+
+    /**
+     * Add listener for analysis/linklistener detail ajax view
+     *
+     * @returns {void}
+     */
+    var addAnalysisLinkListenerDetailViewListener = function() {
+      var elements = document.querySelectorAll('[data-lux-action-analysislinklistenerdetail]');
+      for (var i = 0; i < elements.length; i++) {
+        var element = elements[i];
+        element.addEventListener('click', function() {
+          removeClassFromElements(elements, 'lux-action-detail');
+          this.classList.add('lux-action-detail');
+          var linkListener = this.getAttribute('data-lux-action-analysislinklistenerdetail');
+
+          ajaxConnection(TYPO3.settings.ajaxUrls['/lux/analysislinklistenerdetail'], {
+            linkListener: linkListener
           }, 'generalDetailCallback');
         });
       }

@@ -4,6 +4,7 @@ namespace In2code\Lux\Domain\Repository;
 
 use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Linkclick;
+use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\DateUtility;
@@ -174,9 +175,12 @@ class LinkclickRepository extends AbstractRepository
     public function findByTimeFrame(\DateTime $start, \DateTime $end, FilterDto $filter = null): int
     {
         $connection = DatabaseUtility::getConnectionForTable(Linkclick::TABLE_NAME);
-        return (int)$connection->executeQuery(
-            'select count(*) count from ' . Linkclick::TABLE_NAME
-            . ' where crdate >= ' . $start->getTimestamp() . ' and crdate <= ' . $end->getTimestamp()
-        )->fetchColumn();
+        $sql = 'select count(*) count'
+            . ' from ' . Linkclick::TABLE_NAME . ' lc'
+            . ' left join ' . Linklistener::TABLE_NAME . ' ll on lc.linklistener = ll.uid'
+            . ' where lc.crdate >= ' . $start->getTimestamp() . ' and lc.crdate <= ' . $end->getTimestamp();
+        $sql .= $this->extendWhereClauseWithFilterSearchterms($filter, 'll');
+        $sql .= $this->extendWhereClauseWithFilterCategoryScoring($filter, 'll');
+        return (int)$connection->executeQuery($sql)->fetchColumn();
     }
 }

@@ -30,7 +30,7 @@
                 </thead>
                 <tbody>
                 <f:for each="{linkListeners}" as="linkListener">
-                    <tr data-lux-action-analysislinkclickdetail="1">
+                    <tr data-lux-action-analysislinklistenerdetail="{linkListener.uid}">
                         <td>{linkListener.title}</td>
                         <td>{linkListener.category.title}</td>
                         <td>{linkListener.linkclicksRaw -> f:count()}</td>

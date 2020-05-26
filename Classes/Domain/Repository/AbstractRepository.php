@@ -4,6 +4,8 @@ namespace In2code\Lux\Domain\Repository;
 
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Utility\ObjectUtility;
+use In2code\Lux\Utility\StringUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
@@ -56,6 +58,34 @@ abstract class AbstractRepository extends Repository
         $query = $this->createQuery();
         $query = $query->statement($sql);
         return $query->execute()->toArray();
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @param string $table
+     * @return string
+     */
+    protected function extendWhereClauseWithFilterSearchterms(FilterDto $filter, string $table = ''): string
+    {
+        $sql = '';
+        if ($filter->getSearchterms() !== []) {
+            foreach ($filter->getSearchterms() as $searchterm) {
+                if ($sql === '') {
+                    $sql .= ' and (';
+                } else {
+                    $sql .= ' or ';
+                }
+
+                if (MathUtility::canBeInterpretedAsInteger($searchterm)) {
+                    $sql .= ($table !== '' ? $table . '.' : '') . 'uid = ' . (int)$searchterm;
+                } else {
+                    $sql .= ($table !== '' ? $table . '.' : '') .  ' title like "%'
+                        . StringUtility::cleanString($searchterm) . '%"';
+                }
+            }
+            $sql .= ')';
+        }
+        return $sql;
     }
 
     /**

@@ -169,7 +169,7 @@ class AnalysisController extends AbstractController
      */
     public function detailAjaxPage(ServerRequestInterface $request): ResponseInterface
     {
-        $filter = $this->getFilterFromSessionForAjaxRequests((string)$request->getQueryParams()['page']);
+        $filter = $this->getFilterFromSessionForAjaxRequests('content', (string)$request->getQueryParams()['page']);
         /** @var Page $page */
         $page = $this->pageRepository->findByIdentifier((int)$request->getQueryParams()['page']);
         $standaloneView = ObjectUtility::getStandaloneView();
@@ -200,6 +200,7 @@ class AnalysisController extends AbstractController
     public function detailAjaxDownload(ServerRequestInterface $request): ResponseInterface
     {
         $filter = $this->getFilterFromSessionForAjaxRequests(
+            'content',
             FileUtility::getFilenameFromPathAndFilename((string)$request->getQueryParams()['download'])
         );
         $standaloneView = ObjectUtility::getStandaloneView();
@@ -219,13 +220,42 @@ class AnalysisController extends AbstractController
     }
 
     /**
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     * @throws Exception
+     * @noinspection PhpUnused
+     */
+    public function detailAjaxLinklistener(ServerRequestInterface $request): ResponseInterface
+    {
+        $linkListener = $this->linklistenerRepository->findByIdentifier(
+            (int)$request->getQueryParams()['linkListener']
+        );
+        $filter = $this->getFilterFromSessionForAjaxRequests('linkListener', (string)$linkListener->getUid());
+        $standaloneView = ObjectUtility::getStandaloneView();
+        $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
+            'EXT:lux/Resources/Private/Templates/Analysis/LinkListenerAjax.html'
+        ));
+        $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
+        $standaloneView->assignMultiple([
+            'linkListener' => $linkListener,
+            'allLinkclickData' => ObjectUtility::getObjectManager()->get(AllLinkclickDataProvider::class, $filter)
+        ]);
+        $response = ObjectUtility::getObjectManager()->get(JsonResponse::class);
+        /** @var StreamInterface $stream */
+        $stream = $response->getBody();
+        $stream->write(json_encode(['html' => $standaloneView->render()]));
+        return $response;
+    }
+
+    /**
+     * @param string $action
      * @param string $searchterm
      * @return FilterDto
      * @throws Exception
      */
-    protected function getFilterFromSessionForAjaxRequests(string $searchterm = ''): FilterDto
+    protected function getFilterFromSessionForAjaxRequests(string $action, string $searchterm = ''): FilterDto
     {
-        $filterValues = BackendUtility::getSessionValue('filter', 'content', $this->getControllerName());
+        $filterValues = BackendUtility::getSessionValue('filter', $action, $this->getControllerName());
         $filter = ObjectUtility::getFilterDto();
         if (!empty($searchterm)) {
             $filter->setSearchterm($searchterm);

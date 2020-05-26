@@ -30,8 +30,8 @@ class LinklistenerRepository extends AbstractRepository
     {
         $query = $this->createQuery();
         $logicalAnd = [
-            $query->greaterThan('crdate', $filter->getStartTimeForFilter()),
-            $query->lessThan('crdate', $filter->getEndTimeForFilter()),
+            $query->greaterThan('linkclicks.crdate', $filter->getStartTimeForFilter()),
+            $query->lessThan('linkclicks.crdate', $filter->getEndTimeForFilter()),
         ];
         $logicalAnd = $this->extendWithExtendedFilterQuery($query, $logicalAnd, $filter);
         $query->matching($query->logicalAnd($logicalAnd));
@@ -54,8 +54,12 @@ class LinklistenerRepository extends AbstractRepository
             if ($filter->getSearchterm() !== '') {
                 $logicalOr = [];
                 foreach ($filter->getSearchterms() as $searchterm) {
-                    $logicalOr[] = $query->like('title', '%' . $searchterm . '%');
-                    $logicalOr[] = $query->like('category.title', '%' . $searchterm . '%');
+                    if (MathUtility::canBeInterpretedAsInteger($searchterm)) {
+                        $logicalOr[] = $query->equals('uid', $searchterm);
+                    } else {
+                        $logicalOr[] = $query->like('title', '%' . $searchterm . '%');
+                        $logicalOr[] = $query->like('category.title', '%' . $searchterm . '%');
+                    }
                 }
                 $logicalAnd[] = $query->logicalOr($logicalOr);
             }
