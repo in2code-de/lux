@@ -9,6 +9,7 @@ use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\DateUtility;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 /**
  * Class LinkclickRepository
@@ -151,10 +152,23 @@ class LinkclickRepository extends AbstractRepository
     }
 
     /**
+     * @param int $linklistenerIdentifier
+     * @param int $limit
+     * @return QueryResultInterface
+     */
+    public function findByLinklistenerIdentifier(int $linklistenerIdentifier, int $limit): QueryResultInterface
+    {
+        $query = $this->createQuery();
+        $query->matching($query->equals('linklistener', $linklistenerIdentifier));
+        $query->setLimit($limit);
+        return $query->execute();
+    }
+
+    /**
      * @param int $linklistener
      * @return array
      */
-    public function findByLinklistenerIdentifier(int $linklistener): array
+    public function findRawByLinklistenerIdentifier(int $linklistener): array
     {
         $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Linkclick::TABLE_NAME);
         return (array)$queryBuilder

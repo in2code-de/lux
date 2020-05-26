@@ -143,7 +143,7 @@ class Linklistener extends AbstractEntity
     public function getLinkclicksRaw(): array
     {
         $linkclickRepository = ObjectUtility::getObjectManager()->get(LinkclickRepository::class);
-        return $linkclickRepository->findByLinklistenerIdentifier($this->getUid());
+        return $linkclickRepository->findRawByLinklistenerIdentifier($this->getUid());
     }
 
     /**

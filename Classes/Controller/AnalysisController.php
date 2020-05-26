@@ -227,6 +227,7 @@ class AnalysisController extends AbstractController
      */
     public function detailAjaxLinklistener(ServerRequestInterface $request): ResponseInterface
     {
+        /** @var Linklistener $linkListener */
         $linkListener = $this->linklistenerRepository->findByIdentifier(
             (int)$request->getQueryParams()['linkListener']
         );
@@ -238,6 +239,7 @@ class AnalysisController extends AbstractController
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         $standaloneView->assignMultiple([
             'linkListener' => $linkListener,
+            'linkclicks' => $this->linkclickRepository->findByLinklistenerIdentifier($linkListener->getUid(), 10),
             'allLinkclickData' => ObjectUtility::getObjectManager()->get(AllLinkclickDataProvider::class, $filter)
         ]);
         $response = ObjectUtility::getObjectManager()->get(JsonResponse::class);
