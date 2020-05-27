@@ -161,6 +161,7 @@ class LinkclickRepository extends AbstractRepository
         $query = $this->createQuery();
         $query->matching($query->equals('linklistener', $linklistenerIdentifier));
         $query->setLimit($limit);
+        $query->setOrderings(['crdate' => QueryInterface::ORDER_DESCENDING]);
         return $query->execute();
     }
 

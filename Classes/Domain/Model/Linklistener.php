@@ -115,11 +115,18 @@ class Linklistener extends AbstractEntity
     }
 
     /**
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     * @return array
      */
-    public function getLinkclicks(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    public function getLinkclicks(): array
     {
-        return $this->linkclicks;
+        $linkclicks = $this->linkclicks;
+        $linkclickArray = [];
+        /** @var Linkclick $linkclick */
+        foreach ($linkclicks as $linkclick) {
+            $linkclickArray[$linkclick->getCrdate()->getTimestamp()] = $linkclick;
+        }
+        krsort($linkclickArray);
+        return $linkclickArray;
     }
 
     /**
