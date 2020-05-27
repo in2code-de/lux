@@ -159,6 +159,20 @@ class AnalysisController extends AbstractController
     }
 
     /**
+     * @param Linklistener $linkListener
+     * @return void
+     * @throws Exception
+     */
+    public function detailLinkListenerAction(Linklistener $linkListener): void
+    {
+        $filter = $this->getFilterFromSessionForAjaxRequests('linkListener', (string)$linkListener->getUid());
+        $this->view->assignMultiple([
+            'linkListener' => $linkListener,
+            'allLinkclickData' => ObjectUtility::getObjectManager()->get(AllLinkclickDataProvider::class, $filter),
+        ]);
+    }
+
+    /**
      * AJAX action to show a detail view
      *
      * @param ServerRequestInterface $request

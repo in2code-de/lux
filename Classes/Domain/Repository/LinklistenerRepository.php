@@ -29,10 +29,11 @@ class LinklistenerRepository extends AbstractRepository
     public function findByFilter(FilterDto $filter): QueryResultInterface
     {
         $query = $this->createQuery();
-        $logicalAnd = [
-            $query->greaterThan('linkclicks.crdate', $filter->getStartTimeForFilter()),
-            $query->lessThan('linkclicks.crdate', $filter->getEndTimeForFilter()),
-        ];
+        $logicalAnd = [$query->greaterThan('uid', 0)];
+        if ($filter->isSet()) {
+            $logicalAnd[] = $query->greaterThan('linkclicks.crdate', $filter->getStartTimeForFilter());
+            $logicalAnd[] = $query->lessThan('linkclicks.crdate', $filter->getEndTimeForFilter());
+        }
         $logicalAnd = $this->extendWithExtendedFilterQuery($query, $logicalAnd, $filter);
         $query->matching($query->logicalAnd($logicalAnd));
         return $query->execute();
