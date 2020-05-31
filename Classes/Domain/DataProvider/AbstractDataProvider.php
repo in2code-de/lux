@@ -95,6 +95,14 @@ abstract class AbstractDataProvider implements DataProviderInterface
     }
 
     /**
+     * @return int
+     */
+    public function getMaxY(): int
+    {
+        return (int)$this->getData()['max-y'];
+    }
+
+    /**
      * @return bool
      */
     public function isDataAvailable(): bool

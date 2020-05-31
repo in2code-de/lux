@@ -68,7 +68,6 @@ class DownloadTracker
     /**
      * @param string $href
      * @return Download
-     * @throws IllegalObjectTypeException
      * @throws Exception
      */
     protected function getAndPersistNewDownload(string $href): Download

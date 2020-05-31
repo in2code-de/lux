@@ -1,16 +1,21 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">
-            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.linkclicks.title">Top link clicks</f:translate>
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.alllinkclicks.title">Absolute clicks on link listeners</f:translate>
+            <f:if condition="{headerPostfix}">{headerPostfix}</f:if>
         </h3>
     </div>
     <div class="panel-body">
         <f:if condition="{allLinkclickData.dataAvailable}">
             <f:then>
-                <canvas height="50"
+                <canvas height="100"
                         data-chart="line"
-                        data-chart-data="10,12,4,8,20"
-                        data-chart-labels="a,b,c,d,e"></canvas>
+                        data-chart-data="{allLinkclickData.amountsList}"
+                        data-chart-label="Clicks"
+                        data-chart-data2="{allLinkclickData.amounts2List}"
+                        data-chart-label2="Page visits"
+                        data-chart-labels="{allLinkclickData.titlesList}"
+                        data-chart-max-y="{allLinkclickData.maxY}"></canvas>
             </f:then>
             <f:else>
                 <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>

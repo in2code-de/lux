@@ -3,7 +3,9 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider;
 
 use Doctrine\DBAL\DBALException;
+use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Repository\LinkclickRepository;
+use In2code\Lux\Domain\Repository\LinklistenerRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Utility\DateUtility;
 use In2code\Lux\Utility\ObjectUtility;
@@ -20,12 +22,18 @@ class LinkclickDataProvider extends AbstractDataProvider
     protected $linkclickRepository = null;
 
     /**
+     * @var LinklistenerRepository
+     */
+    protected $linklistenerRepository = null;
+
+    /**
      * LinkclickDataProvider constructor.
      * @throws Exception
      */
     public function __construct()
     {
         $this->linkclickRepository = ObjectUtility::getObjectManager()->get(LinkclickRepository::class);
+        $this->linklistenerRepository = ObjectUtility::getObjectManager()->get(LinklistenerRepository::class);
         parent::__construct();
     }
 
@@ -64,10 +72,14 @@ class LinkclickDataProvider extends AbstractDataProvider
             'performance' => [],
         ];
         foreach ($data as $block) {
-            $this->data['titles'][] = $block['title'];
-            $this->data['amounts'][] = $block['linkclicks'];
-            $this->data['amounts2'][] = $block['pagevisitswithoutlinkclicks'];
-            $this->data['performance'][] = $block['performance'];
+            /** @var Linklistener $linklistener */
+            $linklistener = $this->linklistenerRepository->findByIdentifier($block['linklistener']);
+            if ($linklistener !== null) {
+                $this->data['titles'][] = $linklistener->getTitle();
+                $this->data['amounts'][] = $block['linkclicks'];
+                $this->data['amounts2'][] = $block['pagevisitswithoutlinkclicks'];
+                $this->data['performance'][] = $block['performance'];
+            }
         }
     }
 
@@ -75,14 +87,14 @@ class LinkclickDataProvider extends AbstractDataProvider
      * Sort previous data (and cut by a limit) like:
      *  [
      *      [
-     *          'title' => 'Tagname Bar',
+     *          'linklistener' => 1,
      *          'linkclicks' => 34,
      *          'pagevisits' => 54,
      *          'pagevisitswithoutlinkclicks' => 20,
      *          'performance' => 170
      *      ],
      *      [
-     *          'title' => 'Tagname Foo',
+     *          'linklistener' => 2,
      *          'linkclicks' => 8,
      *          'pagevisits' => 25,
      *          'pagevisitswithoutlinkclicks' => 17,
@@ -105,14 +117,14 @@ class LinkclickDataProvider extends AbstractDataProvider
      * Group previous values by tag like:
      *  [
      *      [
-     *          'title' => 'Tagname Foo',
+     *          'linklistener' => 1,
      *          'linkclicks' => 8,
      *          'pagevisits' => 25,
      *          'pagevisitswithoutlinkclicks' => 17,
      *          'performance' => 32 // (linkclick / pagevisitswithoutlinkclicks * 100)
      *      ],
      *      [
-     *          'title' => 'Tagname Bar',
+     *          'linklistener' => 2,
      *          'linkclicks' => 34,
      *          'pagevisits' => 54,
      *          'pagevisitswithoutlinkclicks' => 20,
@@ -131,12 +143,12 @@ class LinkclickDataProvider extends AbstractDataProvider
 
         foreach ($ungroupedData as $block) {
             unset($block['page']);
-            if (array_key_exists($block['title'], $data) === false) {
-                $data[$block['title']] = $block;
+            if (array_key_exists($block['linklistener'], $data) === false) {
+                $data[$block['linklistener']] = $block;
             } else {
-                $data[$block['title']]['linkclicks'] += $block['linkclicks'];
-                $data[$block['title']]['pagevisits'] += $block['pagevisits'];
-                $data[$block['title']]['pagevisitswithoutlinkclicks'] += $block['pagevisitswithoutlinkclicks'];
+                $data[$block['linklistener']]['linkclicks'] += $block['linkclicks'];
+                $data[$block['linklistener']]['pagevisits'] += $block['pagevisits'];
+                $data[$block['linklistener']]['pagevisitswithoutlinkclicks'] += $block['pagevisitswithoutlinkclicks'];
             }
         }
 
@@ -155,21 +167,21 @@ class LinkclickDataProvider extends AbstractDataProvider
      * Get values grouped by pageUid like:
      *  [
      *      [
-     *          'title' => 'Tagname Foo',
+     *          'linklistener' => 1,
      *          'page' => 123,
      *          'linkclicks' => 5,
      *          'pagevisits' => 17,
      *          'pagevisitswithoutlinkclicks' => 12
      *      ],
      *      [
-     *          'title' => 'Tagname Foo',
+     *          'linklistener' => 1,
      *          'page' => 222,
      *          'linkclicks' => 3,
      *          'pagevisits' => 8,
      *          'pagevisitswithoutlinkclicks' => 5
      *      ],
      *      [
-     *          'title' => 'Tagname Bar',
+     *          'linklistener' => 2,
      *          'page' => 1,
      *          'linkclicks' => 34,
      *          'pagevisits' => 54,
@@ -186,13 +198,13 @@ class LinkclickDataProvider extends AbstractDataProvider
         $linkclicks = $this->linkclickRepository->getAmountOfLinkclicksGroupedByPageUid($this->filter);
         $data = [];
         foreach ($linkclicks as $linkclick) {
-            $pagevisits = $this->getPagevisitsFromPageByTagTimeframe($linkclick['page'], $linkclick['tag']);
+            $pagevisits = $this->getPagevisitsFromPageByTagTimeframe($linkclick['page'], $linkclick['linklistener']);
             $pvWithoutLinkclicks = $pagevisits - $linkclick['count'];
             if ($pvWithoutLinkclicks < 0) {
                 $pvWithoutLinkclicks = 0;
             }
             $data[] = [
-                'title' => $linkclick['tag'],
+                'linklistener' => $linkclick['linklistener'],
                 'page' => $linkclick['page'],
                 'linkclicks' => $linkclick['count'],
                 'pagevisits' => $pagevisits,
@@ -207,17 +219,20 @@ class LinkclickDataProvider extends AbstractDataProvider
      * the latest linkclick was tracked (midnight) as end and check how many pagevisits exists for a pageUid
      *
      * @param int $pageUid
-     * @param string $tag
+     * @param int $linklistener
      * @return int
-     * @throws DBALException
      * @throws Exception
      * @throws \Exception
      */
-    protected function getPagevisitsFromPageByTagTimeframe(int $pageUid, string $tag): int
+    protected function getPagevisitsFromPageByTagTimeframe(int $pageUid, int $linklistener): int
     {
         $pagevisitRepository = ObjectUtility::getObjectManager()->get(PagevisitRepository::class);
-        $start = DateUtility::convertTimestamp($this->linkclickRepository->getFirstCreationDateFromTagName($tag));
-        $end = DateUtility::convertTimestamp($this->linkclickRepository->getLatestCreationDateFromTagName($tag));
+        $start = DateUtility::convertTimestamp(
+            $this->linkclickRepository->getFirstCreationDateFromLinklistenerIdentifier($linklistener)
+        );
+        $end = DateUtility::convertTimestamp(
+            $this->linkclickRepository->getLatestCreationDateFromLinklistenerIdentifier($linklistener)
+        );
         $start = DateUtility::getDayStart($start);
         $end = DateUtility::getDayEnd($end);
         $filter = ObjectUtility::getFilterDtoFromStartAndEnd($start, $end);

@@ -9,7 +9,7 @@ use In2code\Lux\Domain\Service\SendAssetEmail4LinkService;
 use In2code\Lux\Domain\Tracker\AttributeTracker;
 use In2code\Lux\Domain\Tracker\DownloadTracker;
 use In2code\Lux\Domain\Tracker\FrontenduserAuthenticationTracker;
-use In2code\Lux\Domain\Tracker\LinkListenerTracker;
+use In2code\Lux\Domain\Tracker\LinkClickTracker;
 use In2code\Lux\Domain\Tracker\LuxletterlinkAttributeTracker;
 use In2code\Lux\Domain\Tracker\NewsTracker;
 use In2code\Lux\Domain\Tracker\PageTracker;
@@ -48,7 +48,7 @@ class FrontendController extends ActionController
             'formListeningRequest',
             'email4LinkRequest',
             'downloadRequest',
-            'linkListenerRequest'
+            'linkClickRequest'
         ];
         $action = $this->request->getArgument('dispatchAction');
         if (!in_array($action, $allowedActions)) {
@@ -203,14 +203,13 @@ class FrontendController extends ActionController
      * @throws InvalidSlotReturnException
      * @noinspection PhpUnused
      */
-    public function linkListenerRequestAction(string $fingerprint, array $arguments): string
+    public function linkClickRequestAction(string $fingerprint, array $arguments): string
     {
         try {
-            throw new \LogicException('Feature is not yet ready implemented', 1589109478);
-//            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $fingerprint);
-//            $visitor = $visitorFactory->getVisitor();
-//            $linkListenerTracker = $this->objectManager->get(LinkListenerTracker::class, $visitor);
-//            $linkListenerTracker->addLinkClick($arguments['tag'], (int)$arguments['pageUid']);
+            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $fingerprint);
+            $visitor = $visitorFactory->getVisitor();
+            $linkClickTracker = $this->objectManager->get(LinkClickTracker::class, $visitor);
+            $linkClickTracker->addLinkClick((int)$arguments['linklistenerIdentifier'], (int)$arguments['pageUid']);
             return json_encode($this->afterAction($visitor));
         } catch (\Exception $exception) {
             return json_encode($this->getError($exception));

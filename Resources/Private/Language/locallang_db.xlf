@@ -279,20 +279,39 @@
 			</trans-unit>
 
 
-			<trans-unit id="tx_lux_domain_model_linkclick">
+			<trans-unit id="tx_lux_domain_model_linklistener">
 				<source>Link Listener</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linklistener.crdate">
+				<source>Creation date</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linklistener.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linklistener.link">
+				<source>Link</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linklistener.category">
+				<source>Lux Category</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linklistener.linkclicks">
+				<source>Link clicks</source>
+			</trans-unit>
+
+			<trans-unit id="tx_lux_domain_model_linkclick">
+				<source>Link Listener clicks</source>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_linkclick.crdate">
 				<source>Creation date</source>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_linkclick.title">
-				<source>Title</source>
+			<trans-unit id="tx_lux_domain_model_linkclick.linklistener">
+				<source>Link Listener</source>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_linkclick.link">
-				<source>Link</source>
+			<trans-unit id="tx_lux_domain_model_linkclick.page">
+				<source>Page</source>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_linkclick.category">
-				<source>Lux Category</source>
+			<trans-unit id="tx_lux_domain_model_linkclick.visitor">
+				<source>Lead</source>
 			</trans-unit>
 
 			<trans-unit id="tx_lux_domain_model_newsvisit">
@@ -581,6 +600,24 @@
 			<trans-unit id="module.analysis.detaildownloads.time">
 				<source>Time</source>
 			</trans-unit>
+			<trans-unit id="module.analysis.detaillinklistener">
+				<source>Link Listener clicks</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detaillinklistener.title">
+				<source>Link Listener</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detaillinklistener.title">
+				<source>Link Listener</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detaillinklistener.lead">
+				<source>Lead</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detaillinklistener.company">
+				<source>Company</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detaillinklistener.time">
+				<source>Time</source>
+			</trans-unit>
 			<trans-unit id="module.list.pagevisits">
 				<source>Pagevisits</source>
 			</trans-unit>
@@ -595,6 +632,9 @@
 			</trans-unit>
 			<trans-unit id="module.list.filter.header.categoryscoring">
 				<source>Category Scoring of Visitors</source>
+			</trans-unit>
+			<trans-unit id="module.list.filter.header.category">
+				<source>Lux Category</source>
 			</trans-unit>
 			<trans-unit id="module.list.filter.header.time">
 				<source>Time</source>
@@ -662,8 +702,20 @@
 				<source>Leads</source>
 			</trans-unit>
 
-			<trans-unit id="module.linkclick.new">
+			<trans-unit id="module.linklistener.new">
 				<source>Add new Link Listener</source>
+			</trans-unit>
+			<trans-unit id="module.linklistener.table.title">
+				<source>Title of Link Listener</source>
+			</trans-unit>
+			<trans-unit id="module.linklistener.table.category">
+				<source>Lux Category</source>
+			</trans-unit>
+			<trans-unit id="module.linklistener.table.clicks">
+				<source>Number of clicks</source>
+			</trans-unit>
+			<trans-unit id="module.linklistener.table.performance">
+				<source>Performance</source>
 			</trans-unit>
 
 			<trans-unit id="module.box.downloads.title">
@@ -687,8 +739,8 @@
 			<trans-unit id="module.box.linkclicks.labeltop">
 				<source>Further visitors without click on tracked link</source>
 			</trans-unit>
-			<trans-unit id="module.box.linkclicks.note">
-				<source>Tip: Add some data-attributes to your "call to action" links to measure their performance - look at this example:</source>
+			<trans-unit id="module.box.alllinkclicks.title">
+				<source>Absolute clicks on link listeners</source>
 			</trans-unit>
 			<trans-unit id="module.box.browser.title">
 				<source>Top Browser</source>
@@ -1235,6 +1287,12 @@
 			<trans-unit id="next">
 				<source>Next</source>
 			</trans-unit>
+			<trans-unit id="edit">
+				<source>Edit</source>
+			</trans-unit>
+			<trans-unit id="delete">
+				<source>Delete</source>
+			</trans-unit>
 			<trans-unit id="save">
 				<source>Save</source>
 			</trans-unit>
@@ -1243,6 +1301,9 @@
 			</trans-unit>
 			<trans-unit id="seebelow">
 				<source>See below ...</source>
+			</trans-unit>
+			<trans-unit id="deleteconfirm">
+				<source>Are you sure to delete this record?</source>
 			</trans-unit>
 		</body>
 	</file>

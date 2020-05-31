@@ -390,7 +390,8 @@ class VisitorRepository extends AbstractRepository
             Ipinformation::TABLE_NAME,
             Download::TABLE_NAME,
             Categoryscoring::TABLE_NAME,
-            Log::TABLE_NAME
+            Log::TABLE_NAME,
+            Linkclick::TABLE_NAME
         ];
         foreach ($tables as $table) {
             $connection = DatabaseUtility::getConnectionForTable($table);
@@ -413,6 +414,7 @@ class VisitorRepository extends AbstractRepository
             Newsvisit::TABLE_NAME,
             Pagevisit::TABLE_NAME,
             Visitor::TABLE_NAME,
+            Linkclick::TABLE_NAME
         ];
         foreach ($tables as $table) {
             DatabaseUtility::getConnectionForTable($table)->truncate($table);
