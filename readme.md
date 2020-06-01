@@ -51,6 +51,12 @@ Ask for the visitors email-address when he/she wants to download an asset:\
 
 ## What's new
 
+### in 9.0.0
+
+* Lux introduced Link Listeners with Frontend and Backend functionality
+** Use an additional analyses module for Link Listeners
+** Increase category scoring for visitors when clicking on a "call to action"
+
 ### in 8.0.0
 
 * TYPO3 language will be tracked now
@@ -203,6 +209,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 9.0.0      | 2020-05-31 | Feature    | Introduce Link Listeners                                                                                                                                                                   |
 | 8.2.2      | 2020-05-25 | Bugfix     | Don't create new visitor records when unneeded in additional languages, don't show empty log entry when merging visitors                                                                   |
 | 8.2.1      | 2020-05-17 | Bugfix     | Broken table definition of the not yet needed table tx_lux_domain_model_linkclick causes some trouble on database compare                                                                  |
 | 8.2.0      | 2020-05-13 | Feature    | Show content diagrams per hour if timeframe is maximum 1 day, Performance update for Analysis/Content/PageDetail view                                                                      |

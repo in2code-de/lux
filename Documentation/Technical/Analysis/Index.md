@@ -92,7 +92,7 @@ lib.lux.settings {
 }
 ```
 
-#### Content
+#### Pagevisits and Downloads
 
 If you choose the content view (see top left to switch from dashboard to content), you will see the 100 most interesting
 pages and assets for your leads.
@@ -102,6 +102,28 @@ pages and assets for your leads.
 Clicking on an asset or a page will open a detail page to this item, where you can exactly see which lead was interested
 in this item.
 
+
+#### Link Listeners
+
+Link Listeners are introduced with Lux 9 and give you more powermail over your "call to action" performance on your
+website.
+
+The view starts with a list of Link Listeners and the possibility to manage them (add new, edit existing or delete old
+Link Listeners). A Link Listener contains a title, a category (to increase category scoring - value can be defined in
+the extension configuration and a link target.).
+
+You can use the filter on the top for a perfect analysis in a timeframe or for a special Link Listener. If you click on
+a Link Listener in the table you will see the latest leads in a preview. If you click on "Show details" then, you will
+see all leads that used the defined Link Listener.
+
+<img src="../../../Documentation/Images/screenshot_analysis_linklisteners.png" width="800" />
+
+##### How to change a link to a Link Listener Link?
+
+That's very simple. Just add a new Link listener with a link target. After that, go to your RTE and set a link to your
+new Listener. That's all. Now all clicks on this link are tracked now.
+
+<img src="../../../Documentation/Images/screenshot_linklistener_link.png" />
 
 ### TYPO3 Dashboard Module
 
