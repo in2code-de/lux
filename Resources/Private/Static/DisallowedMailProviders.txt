@@ -790,6 +790,7 @@ privymail.de
 proxymail.eu
 prtnx.com
 prtz.eu
+psk3n.com
 pubmail.io
 punkass.com
 putthisinyourspamdatabase.com
@@ -1174,4 +1175,5 @@ zoemail.org
 zomg.info
 zxcv.com
 zxcvbnm.com
+zzrgg.com
 zzz.com
