@@ -94,10 +94,14 @@ class LinkclickRepository extends AbstractRepository
     public function getAmountOfLinkclicksGroupedByPageUid(FilterDto $filter): array
     {
         $connection = DatabaseUtility::getConnectionForTable(Linkclick::TABLE_NAME);
-        return (array)$connection->executeQuery(
-            'select linklistener, count(linklistener) count, page from ' . Linkclick::TABLE_NAME
-            . ' where ' . $this->extendWhereClauseWithFilterTime($filter, false) . ' group by linklistener, page'
-        )->fetchAll();
+        $sql = 'select lc.linklistener, count(lc.linklistener) count, lc.page'
+            . ' from ' . Linkclick::TABLE_NAME . ' lc'
+            . ' left join ' . Linklistener::TABLE_NAME . ' ll on lc.linklistener=ll.uid'
+            . ' where ' . $this->extendWhereClauseWithFilterTime($filter, false, 'lc');
+        $sql .= $this->extendWhereClauseWithFilterSearchterms($filter, 'll');
+        $sql .= $this->extendWhereClauseWithFilterCategoryScoring($filter, 'll');
+        $sql .= ' group by lc.linklistener, lc.page';
+        return (array)$connection->executeQuery($sql)->fetchAll();
     }
 
     /**
