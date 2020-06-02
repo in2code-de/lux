@@ -4,6 +4,7 @@ namespace In2code\Lux\Domain\DataProvider;
 
 use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Linklistener;
+use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Repository\LinkclickRepository;
 use In2code\Lux\Domain\Repository\LinklistenerRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
@@ -28,13 +29,14 @@ class LinkclickDataProvider extends AbstractDataProvider
 
     /**
      * LinkclickDataProvider constructor.
+     * @param FilterDto|null $filter
      * @throws Exception
      */
-    public function __construct()
+    public function __construct(FilterDto $filter = null)
     {
         $this->linkclickRepository = ObjectUtility::getObjectManager()->get(LinkclickRepository::class);
         $this->linklistenerRepository = ObjectUtility::getObjectManager()->get(LinklistenerRepository::class);
-        parent::__construct();
+        parent::__construct($filter);
     }
 
     /**
