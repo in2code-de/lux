@@ -101,11 +101,13 @@ class AllLinkclickDataProvider extends AbstractDynamicFilterDataProvider
         string $pagelist
     ): int {
         $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
-        return (int)$connection->executeQuery(
-            'select count(*) from ' . Pagevisit::TABLE_NAME
+        $sql = 'select count(*) from ' . Pagevisit::TABLE_NAME
             . ' where crdate >= ' . $start->getTimestamp() . ' and crdate <= ' . $end->getTimestamp()
-            . ' and page in (' . $pagelist . ') and deleted=0'
-        )->fetchColumn();
+            . ' and deleted=0';
+        if ($pagelist !== '') {
+            $sql .= ' and page in (' . $pagelist . ')';
+        }
+        return (int)$connection->executeQuery($sql)->fetchColumn();
     }
 
     /**
