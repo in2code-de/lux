@@ -509,7 +509,7 @@ class FilterDto
     protected function getHourIntervals(): array
     {
         $start = $this->getStartTimeForFilter(true);
-        $end = $this->getEndTimeFromTimePeriod();
+        $end = $this->getEndTimeForFilter();
         $interval = [];
         for ($hour = clone $start; $hour < $end; $hour->modify('+1 hour')) {
             $interval[] = clone $hour;
@@ -525,7 +525,7 @@ class FilterDto
     protected function getDayIntervals(): array
     {
         $start = DateUtility::getDayStart($this->getStartTimeForFilter(true));
-        $end = $this->getEndTimeFromTimePeriod();
+        $end = $this->getEndTimeForFilter();
         $interval = [];
         for ($day = clone $start; $day < $end; $day->modify('+1 day')) {
             $interval[] = clone $day;
@@ -541,7 +541,7 @@ class FilterDto
     protected function getWeekIntervals(): array
     {
         $start = DateUtility::getPreviousMonday($this->getStartTimeForFilter(true));
-        $end = $this->getEndTimeFromTimePeriod();
+        $end = $this->getEndTimeForFilter();
         $interval = [];
         for ($week = clone $start; $week < $end; $week->modify('+1 week')) {
             $interval[] = clone $week;
@@ -557,7 +557,7 @@ class FilterDto
     protected function getMonthIntervals(): array
     {
         $start = DateUtility::getStartOfMonth($this->getStartTimeForFilter(true));
-        $end = $this->getEndTimeFromTimePeriod();
+        $end = $this->getEndTimeForFilter();
         $interval = [];
         for ($month = clone $start; $month < $end; $month->modify('+1 month')) {
             $interval[] = clone $month;
@@ -573,7 +573,7 @@ class FilterDto
     protected function getYearIntervals(): array
     {
         $start = DateUtility::getStartOfYear($this->getStartTimeForFilter(true));
-        $end = $this->getEndTimeFromTimePeriod();
+        $end = $this->getEndTimeForFilter();
         $interval = [];
         for ($year = clone $start; $year < $end; $year->modify('+1 year')) {
             $interval[] = clone $year;
