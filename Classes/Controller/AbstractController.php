@@ -7,6 +7,7 @@ use In2code\Lux\Domain\Repository\DownloadRepository;
 use In2code\Lux\Domain\Repository\FingerprintRepository;
 use In2code\Lux\Domain\Repository\IpinformationRepository;
 use In2code\Lux\Domain\Repository\LinkclickRepository;
+use In2code\Lux\Domain\Repository\LinklistenerRepository;
 use In2code\Lux\Domain\Repository\LogRepository;
 use In2code\Lux\Domain\Repository\NewsvisitRepository;
 use In2code\Lux\Domain\Repository\PageRepository;
@@ -73,6 +74,11 @@ abstract class AbstractController extends ActionController
     protected $linkclickRepository = null;
 
     /**
+     * @var LinklistenerRepository
+     */
+    protected $linklistenerRepository = null;
+
+    /**
      * @var FingerprintRepository
      */
     protected $fingerprintRepository = null;
@@ -88,6 +94,7 @@ abstract class AbstractController extends ActionController
      * @param NewsvisitRepository|null $newsvisitRepository
      * @param CategoryRepository|null $categoryRepository
      * @param LinkclickRepository|null $linkclickRepository
+     * @param LinklistenerRepository|null $linklistenerRepository
      * @param FingerprintRepository|null $fingerprintRepository
      * @throws Exception
      */
@@ -101,6 +108,7 @@ abstract class AbstractController extends ActionController
         NewsvisitRepository $newsvisitRepository = null,
         CategoryRepository $categoryRepository = null,
         LinkclickRepository $linkclickRepository = null,
+        LinklistenerRepository $linklistenerRepository = null,
         FingerprintRepository $fingerprintRepository = null
     ) {
         if ($visitorRepository === null) {
@@ -114,6 +122,7 @@ abstract class AbstractController extends ActionController
             $newsvisitRepository = ObjectUtility::getObjectManager()->get(NewsvisitRepository::class);
             $categoryRepository = ObjectUtility::getObjectManager()->get(CategoryRepository::class);
             $linkclickRepository = ObjectUtility::getObjectManager()->get(LinkclickRepository::class);
+            $linklistenerRepository = ObjectUtility::getObjectManager()->get(LinklistenerRepository::class);
             $fingerprintRepository = ObjectUtility::getObjectManager()->get(FingerprintRepository::class);
         }
         $this->visitorRepository = $visitorRepository;
@@ -125,6 +134,7 @@ abstract class AbstractController extends ActionController
         $this->newsvisitRepository = $newsvisitRepository;
         $this->categoryRepository = $categoryRepository;
         $this->linkclickRepository = $linkclickRepository;
+        $this->linklistenerRepository = $linklistenerRepository;
         $this->fingerprintRepository = $fingerprintRepository;
     }
 

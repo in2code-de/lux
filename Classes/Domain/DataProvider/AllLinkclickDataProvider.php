@@ -3,16 +3,19 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider;
 
 use Doctrine\DBAL\DBALException;
+use In2code\Lux\Domain\Model\Linkclick;
+use In2code\Lux\Domain\Model\Pagevisit;
+use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Repository\LinkclickRepository;
-use In2code\Lux\Domain\Repository\PagevisitRepository;
-use In2code\Lux\Utility\DateUtility;
+use In2code\Lux\Utility\DatabaseUtility;
+use In2code\Lux\Utility\MathUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
  * Class AllLinkclickDataProvider
  */
-class AllLinkclickDataProvider extends AbstractDataProvider
+class AllLinkclickDataProvider extends AbstractDynamicFilterDataProvider
 {
     /**
      * @var LinkclickRepository
@@ -21,217 +24,109 @@ class AllLinkclickDataProvider extends AbstractDataProvider
 
     /**
      * LinkclickDataProvider constructor.
+     * @param FilterDto|null $filter
      * @throws Exception
      */
-    public function __construct()
+    public function __construct(FilterDto $filter = null)
     {
         $this->linkclickRepository = ObjectUtility::getObjectManager()->get(LinkclickRepository::class);
-        parent::__construct();
+        parent::__construct($filter);
     }
 
     /**
      * Set values like
      *  [
      *      'titles' => [
-     *          'Tagname Bar',
-     *          'Tagname Foo'
+     *          'Mo',
+     *          'Tu',
+     *          'We'
      *      ],
-     *      'amounts' => [ // linkclicks
+     *      'amounts' => [ // Link clicks
      *          34,
-     *          8
+     *          8,
+     *          23
      *      ],
-     *      'amounts2' => [ // pagevisitswithoutlinkclicks
-     *          20,
-     *          17,
+     *      'amounts2' => [ // Pagevisits
+     *          33%,
+     *          98%,
+     *          1%
      *      ],
-     *      'performance' => [
-     *          170,
-     *          32
-     *      ]
+     *      'max-y' => 100 // max value for logarithmic y-axes
      *  ]
      * @return void
-     * @throws DBALException
-     * @throws Exception
+     * @throws \Exception
      */
     public function prepareData(): void
     {
-        $data = $this->getGroupedData();
-        $data = $this->sortGroupedDataByPerformanceAndLimitResult($data);
-        $this->data = [
-            'titles' => [],
-            'amounts' => [],
-            'amounts2' => [],
-            'performance' => [],
-        ];
-        foreach ($data as $block) {
-            $this->data['titles'][] = $block['title'];
-            $this->data['amounts'][] = $block['linkclicks'];
-            $this->data['amounts2'][] = $block['pagevisitswithoutlinkclicks'];
-            $this->data['performance'][] = $block['performance'];
+        $intervals = $this->filter->getIntervals();
+        $frequency = (string)$intervals['frequency'];
+        $pageList = $this->getRelatedPageListToLinkclicks($intervals['intervals']);
+        foreach ($intervals['intervals'] as $interval) {
+            $clicks = $this->linkclickRepository->findByTimeFrame(
+                $interval['start'],
+                $interval['end'],
+                $this->filter
+            );
+            $this->data['amounts'][] = $clicks;
+            $this->data['amounts2'][] = $this->getAmountOfPagevisitsInTimeframeAndPagelist(
+                $interval['start'],
+                $interval['end'],
+                $pageList
+            );
+            $this->data['titles'][] = $this->getLabelForFrequency($frequency, $interval['start']);
         }
+        $this->setMaxYValue();
+        $this->overruleLatestTitle($frequency);
     }
 
     /**
-     * Sort previous data (and cut by a limit) like:
-     *  [
-     *      [
-     *          'title' => 'Tagname Bar',
-     *          'linkclicks' => 34,
-     *          'pagevisits' => 54,
-     *          'pagevisitswithoutlinkclicks' => 20,
-     *          'performance' => 170
-     *      ],
-     *      [
-     *          'title' => 'Tagname Foo',
-     *          'linkclicks' => 8,
-     *          'pagevisits' => 25,
-     *          'pagevisitswithoutlinkclicks' => 17,
-     *          'performance' => 32
-     *      ]
-     *  ]
-     *
-     * @param array $data
-     * @param int $limit
-     * @return array
+     * @return void
      */
-    public function sortGroupedDataByPerformanceAndLimitResult(array $data, int $limit = 5): array
+    protected function setMaxYValue(): void
     {
-        usort($data, [$this, 'sortByPerformanceDescCallback']);
-        $data = array_slice($data, 0, $limit);
-        return $data;
+        $maxValue = max(max($this->data['amounts']), max($this->data['amounts2']));
+        $this->data['max-y'] = MathUtility::roundUp($maxValue);
     }
 
     /**
-     * Group previous values by tag like:
-     *  [
-     *      [
-     *          'title' => 'Tagname Foo',
-     *          'linkclicks' => 8,
-     *          'pagevisits' => 25,
-     *          'pagevisitswithoutlinkclicks' => 17,
-     *          'performance' => 32 // (linkclick / pagevisitswithoutlinkclicks * 100)
-     *      ],
-     *      [
-     *          'title' => 'Tagname Bar',
-     *          'linkclicks' => 34,
-     *          'pagevisits' => 54,
-     *          'pagevisitswithoutlinkclicks' => 20,
-     *          'performance' => 170
-     *      ]
-     *  ]
-     *
-     * @return array
-     * @throws DBALException
-     * @throws Exception
-     */
-    public function getGroupedData(): array
-    {
-        $ungroupedData = $this->getUngroupedData();
-        $data = $data2 = [];
-
-        foreach ($ungroupedData as $block) {
-            unset($block['page']);
-            if (array_key_exists($block['title'], $data) === false) {
-                $data[$block['title']] = $block;
-            } else {
-                $data[$block['title']]['linkclicks'] += $block['linkclicks'];
-                $data[$block['title']]['pagevisits'] += $block['pagevisits'];
-                $data[$block['title']]['pagevisitswithoutlinkclicks'] += $block['pagevisitswithoutlinkclicks'];
-            }
-        }
-
-        foreach ($data as $block) {
-            $performance = 0;
-            if ($block['linkclicks'] > 0 && $block['pagevisitswithoutlinkclicks'] > 0) {
-                $performance = $block['linkclicks'] / $block['pagevisitswithoutlinkclicks'] * 100;
-            }
-            $data2[] = $block + ['performance' => (int)$performance];
-        }
-
-        return $data2;
-    }
-
-    /**
-     * Get values grouped by pageUid like:
-     *  [
-     *      [
-     *          'title' => 'Tagname Foo',
-     *          'page' => 123,
-     *          'linkclicks' => 5,
-     *          'pagevisits' => 17,
-     *          'pagevisitswithoutlinkclicks' => 12
-     *      ],
-     *      [
-     *          'title' => 'Tagname Foo',
-     *          'page' => 222,
-     *          'linkclicks' => 3,
-     *          'pagevisits' => 8,
-     *          'pagevisitswithoutlinkclicks' => 5
-     *      ],
-     *      [
-     *          'title' => 'Tagname Bar',
-     *          'page' => 1,
-     *          'linkclicks' => 34,
-     *          'pagevisits' => 54,
-     *          'pagevisitswithoutlinkclicks' => 20
-     *      ]
-     *  ]
-     *
-     * @return array
-     * @throws DBALException
-     * @throws Exception
-     */
-    protected function getUngroupedData(): array
-    {
-        $linkclicks = $this->linkclickRepository->getAmountOfLinkclicksGroupedByPageUid($this->filter);
-        $data = [];
-        foreach ($linkclicks as $linkclick) {
-            $pagevisits = $this->getPagevisitsFromPageByTagTimeframe($linkclick['page'], $linkclick['tag']);
-            $pvWithoutLinkclicks = $pagevisits - $linkclick['count'];
-            if ($pvWithoutLinkclicks < 0) {
-                $pvWithoutLinkclicks = 0;
-            }
-            $data[] = [
-                'title' => $linkclick['tag'],
-                'page' => $linkclick['page'],
-                'linkclicks' => $linkclick['count'],
-                'pagevisits' => $pagevisits,
-                'pagevisitswithoutlinkclicks' => $pvWithoutLinkclicks
-            ];
-        }
-        return $data;
-    }
-
-    /**
-     * Get the beginning of the day where the first linkclick was tracked as start and the day where
-     * the latest linkclick was tracked (midnight) as end and check how many pagevisits exists for a pageUid
-     *
-     * @param int $pageUid
-     * @param string $tag
+     * @param \DateTime $start
+     * @param \DateTime $end
+     * @param string $pagelist
      * @return int
      * @throws DBALException
-     * @throws Exception
-     * @throws \Exception
      */
-    protected function getPagevisitsFromPageByTagTimeframe(int $pageUid, string $tag): int
-    {
-        $pagevisitRepository = ObjectUtility::getObjectManager()->get(PagevisitRepository::class);
-        $start = DateUtility::convertTimestamp($this->linkclickRepository->getFirstCreationDateFromTagName($tag));
-        $end = DateUtility::convertTimestamp($this->linkclickRepository->getLatestCreationDateFromTagName($tag));
-        $start = DateUtility::getDayStart($start);
-        $end = DateUtility::getDayEnd($end);
-        $filter = ObjectUtility::getFilterDtoFromStartAndEnd($start, $end);
-        return $pagevisitRepository->findAmountPerPage($pageUid, $filter);
+    protected function getAmountOfPagevisitsInTimeframeAndPagelist(
+        \DateTime $start,
+        \DateTime $end,
+        string $pagelist
+    ): int {
+        $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
+        $sql = 'select count(*) from ' . Pagevisit::TABLE_NAME
+            . ' where crdate >= ' . $start->getTimestamp() . ' and crdate <= ' . $end->getTimestamp()
+            . ' and deleted=0';
+        if ($pagelist !== '') {
+            $sql .= ' and page in (' . $pagelist . ')';
+        }
+        return (int)$connection->executeQuery($sql)->fetchColumn();
     }
 
     /**
-     * @param array $left
-     * @param array $right
-     * @return int
+     * Get all page identifiers with linkclicks within a timeframe
+     *
+     * @param array $intervals
+     * @return string
+     * @throws DBALException
      */
-    protected function sortByPerformanceDescCallback(array $left, array $right): int
+    protected function getRelatedPageListToLinkclicks(array $intervals): string
     {
-        return ($left['performance'] < $right['performance']) ? 1 : (($left['performance'] > $right['performance'])
-            ? -1 : 0);
+        /** @var \DateTime $start */
+        $start = $intervals[0]['start'];
+        /** @var \DateTime $end */
+        $end = end($intervals)['end'];
+        $connection = DatabaseUtility::getConnectionForTable(Linkclick::TABLE_NAME);
+        return (string)$connection->executeQuery(
+            'select group_concat(distinct page) from ' . Linkclick::TABLE_NAME
+            . ' where crdate >= ' . $start->getTimestamp() . ' and crdate <= ' . $end->getTimestamp() . ' and deleted=0'
+        )->fetchColumn();
     }
 }

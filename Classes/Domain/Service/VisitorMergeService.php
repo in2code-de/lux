@@ -7,6 +7,7 @@ use In2code\Lux\Domain\Model\Attribute;
 use In2code\Lux\Domain\Model\Categoryscoring;
 use In2code\Lux\Domain\Model\Download;
 use In2code\Lux\Domain\Model\Fingerprint;
+use In2code\Lux\Domain\Model\Linkclick;
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Visitor;
@@ -132,6 +133,7 @@ class VisitorMergeService
                 $this->mergeLogs($visitor);
                 $this->mergeCategoryscorings($visitor);
                 $this->mergeDownloads($visitor);
+                $this->mergeLinkclicks($visitor);
                 $this->mergeAttributes($visitor);
                 $this->updateFingerprints($visitor);
                 $this->deleteVisitor($visitor);
@@ -216,6 +218,22 @@ class VisitorMergeService
         $connection = DatabaseUtility::getConnectionForTable(Download::TABLE_NAME);
         $connection->query(
             'update ' . Download::TABLE_NAME . ' set visitor = ' . (int)$this->firstVisitor->getUid() . ' ' .
+            'where visitor = ' . (int)$newVisitor->getUid()
+        )->execute();
+    }
+
+    /**
+     * Update existing linkclicks with another parent visitor uid
+     *
+     * @param Visitor $newVisitor
+     * @return void
+     * @throws DBALException
+     */
+    protected function mergeLinkclicks(Visitor $newVisitor): void
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Linkclick::TABLE_NAME);
+        $connection->query(
+            'update ' . Linkclick::TABLE_NAME . ' set visitor = ' . (int)$this->firstVisitor->getUid() . ' ' .
             'where visitor = ' . (int)$newVisitor->getUid()
         )->execute();
     }

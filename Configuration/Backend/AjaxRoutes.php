@@ -12,6 +12,10 @@ return [
         'path' => '/lux/analysiscontentdetaildownload',
         'target' => \In2code\Lux\Controller\AnalysisController::class . '::detailAjaxDownload',
     ],
+    '/lux/analysislinklistenerdetail' => [
+        'path' => '/lux/analysislinklistenerdetail',
+        'target' => \In2code\Lux\Controller\AnalysisController::class . '::detailAjaxLinklistener',
+    ],
     '/lux/visitordescription' => [
         'path' => '/lux/visitordescription',
         'target' => \In2code\Lux\Controller\LeadController::class . '::detailDescriptionAjax',

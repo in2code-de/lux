@@ -86,7 +86,7 @@ class Download extends AbstractModel
     /**
      * @return File
      */
-    public function getFile(): File
+    public function getFile(): ?File
     {
         return $this->file;
     }

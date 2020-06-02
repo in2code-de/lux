@@ -13,12 +13,10 @@ call_user_func(
             'In2code.lux',
             'Fe',
             [
-                'Frontend' => 'dispatchRequest,pageRequest,fieldListeningRequest,formListeningRequest,' .
-                    'email4LinkRequest,downloadRequest'
+                'Frontend' => 'dispatchRequest'
             ],
             [
-                'Frontend' => 'dispatchRequest,pageRequest,fieldListeningRequest,formListeningRequest,' .
-                    'email4LinkRequest,downloadRequest'
+                'Frontend' => 'dispatchRequest'
             ]
         );
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
@@ -42,10 +40,14 @@ call_user_func(
         /**
          * Hooks
          */
+        // Show leads in page module
         if (\In2code\Lux\Utility\ConfigurationUtility::isLastLeadsBoxInPageDisabled() === false) {
             $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/db_layout.php']['drawHeaderHook'][]
                 = \In2code\Lux\Hooks\PageLayoutHeader::class . '->render';
         }
+        // Linkhandler for Link Listener
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_content.php']['typoLink_PostProc'][]
+            = \In2code\Lux\Hooks\LuxLinkListenerLinkhandler::class . '->postProcessTypoLink';
 
         /**
          * Register Slots
@@ -127,7 +129,7 @@ call_user_func(
         );
         // Log: linklistener click tracking
         $signalSlotDispatcher->connect(
-            \In2code\Lux\Domain\Tracker\LinkListenerTracker::class,
+            \In2code\Lux\Domain\Tracker\LinkClickTracker::class,
             'addLinkClick',
             \In2code\Lux\Slot\Log::class,
             'logLinkClick',

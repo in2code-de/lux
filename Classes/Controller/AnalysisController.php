@@ -10,7 +10,7 @@ use In2code\Lux\Domain\DataProvider\DownloadsDataProvider;
 use In2code\Lux\Domain\DataProvider\LanguagesDataProvider;
 use In2code\Lux\Domain\DataProvider\LinkclickDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
-use In2code\Lux\Domain\Model\Linkclick;
+use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Utility\BackendUtility;
@@ -23,7 +23,9 @@ use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
+use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
 /**
@@ -77,11 +79,11 @@ class AnalysisController extends AbstractController
     {
         $this->view->assignMultiple([
             'filter' => $filter,
+            'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
             'numberOfVisitorsData' => ObjectUtility::getObjectManager()->get(PagevisistsDataProvider::class, $filter),
             'numberOfDownloadsData' => ObjectUtility::getObjectManager()->get(DownloadsDataProvider::class, $filter),
             'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
             'downloads' => $this->downloadRepository->findCombinedByHref($filter),
-            'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
             'languageData' => ObjectUtility::getObjectManager()->get(LanguagesDataProvider::class, $filter),
             'domainData' => ObjectUtility::getObjectManager()->get(DomainDataProvider::class, $filter)
         ]);
@@ -92,7 +94,7 @@ class AnalysisController extends AbstractController
      * @throws InvalidArgumentNameException
      * @throws NoSuchArgumentException
      */
-    public function initializeLinkClicksAction(): void
+    public function initializeLinkListenerAction(): void
     {
         $this->setFilterExtended();
     }
@@ -101,43 +103,29 @@ class AnalysisController extends AbstractController
      * @param FilterDto $filter
      * @return void
      * @throws Exception
+     * @throws InvalidQueryException
      */
-    public function linkClicksAction(FilterDto $filter): void
+    public function linkListenerAction(FilterDto $filter): void
     {
         $this->view->assignMultiple([
+            'filter' => $filter,
+            'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
+            'linkListeners' => $this->linklistenerRepository->findByFilter($filter),
             'allLinkclickData' => ObjectUtility::getObjectManager()->get(AllLinkclickDataProvider::class, $filter),
             'linkclickData' => ObjectUtility::getObjectManager()->get(LinkclickDataProvider::class, $filter),
         ]);
     }
 
     /**
+     * @param Linklistener $linkListener
      * @return void
+     * @throws IllegalObjectTypeException
+     * @throws StopActionException
      */
-    public function newLinkClickAction(): void
+    public function deleteLinkListenerAction(LinkListener $linkListener): void
     {
-    }
-
-    /**
-     * @param Linkclick $linkclick
-     * @return void
-     */
-    public function createLinkClickAction(Linkclick $linkclick): void
-    {
-    }
-
-    /**
-     * @return void
-     */
-    public function editLinkClickAction(): void
-    {
-    }
-
-    /**
-     * @param Linkclick $linkclick
-     * @return void
-     */
-    public function updateLinkClickAction(Linkclick $linkclick): void
-    {
+        $this->linklistenerRepository->remove($linkListener);
+        $this->redirect('linkListener');
     }
 
     /**
@@ -171,6 +159,20 @@ class AnalysisController extends AbstractController
     }
 
     /**
+     * @param Linklistener $linkListener
+     * @return void
+     * @throws Exception
+     */
+    public function detailLinkListenerAction(Linklistener $linkListener): void
+    {
+        $filter = $this->getFilterFromSessionForAjaxRequests('linkListener', (string)$linkListener->getUid());
+        $this->view->assignMultiple([
+            'linkListener' => $linkListener,
+            'allLinkclickData' => ObjectUtility::getObjectManager()->get(AllLinkclickDataProvider::class, $filter),
+        ]);
+    }
+
+    /**
      * AJAX action to show a detail view
      *
      * @param ServerRequestInterface $request
@@ -181,7 +183,7 @@ class AnalysisController extends AbstractController
      */
     public function detailAjaxPage(ServerRequestInterface $request): ResponseInterface
     {
-        $filter = $this->getFilterFromSessionForAjaxRequests((string)$request->getQueryParams()['page']);
+        $filter = $this->getFilterFromSessionForAjaxRequests('content', (string)$request->getQueryParams()['page']);
         /** @var Page $page */
         $page = $this->pageRepository->findByIdentifier((int)$request->getQueryParams()['page']);
         $standaloneView = ObjectUtility::getStandaloneView();
@@ -212,6 +214,7 @@ class AnalysisController extends AbstractController
     public function detailAjaxDownload(ServerRequestInterface $request): ResponseInterface
     {
         $filter = $this->getFilterFromSessionForAjaxRequests(
+            'content',
             FileUtility::getFilenameFromPathAndFilename((string)$request->getQueryParams()['download'])
         );
         $standaloneView = ObjectUtility::getStandaloneView();
@@ -231,13 +234,44 @@ class AnalysisController extends AbstractController
     }
 
     /**
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     * @throws Exception
+     * @noinspection PhpUnused
+     */
+    public function detailAjaxLinklistener(ServerRequestInterface $request): ResponseInterface
+    {
+        /** @var Linklistener $linkListener */
+        $linkListener = $this->linklistenerRepository->findByIdentifier(
+            (int)$request->getQueryParams()['linkListener']
+        );
+        $filter = $this->getFilterFromSessionForAjaxRequests('linkListener', (string)$linkListener->getUid());
+        $standaloneView = ObjectUtility::getStandaloneView();
+        $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
+            'EXT:lux/Resources/Private/Templates/Analysis/LinkListenerAjax.html'
+        ));
+        $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
+        $standaloneView->assignMultiple([
+            'linkListener' => $linkListener,
+            'linkclicks' => $this->linkclickRepository->findByLinklistenerIdentifier($linkListener->getUid(), 10),
+            'allLinkclickData' => ObjectUtility::getObjectManager()->get(AllLinkclickDataProvider::class, $filter)
+        ]);
+        $response = ObjectUtility::getObjectManager()->get(JsonResponse::class);
+        /** @var StreamInterface $stream */
+        $stream = $response->getBody();
+        $stream->write(json_encode(['html' => $standaloneView->render()]));
+        return $response;
+    }
+
+    /**
+     * @param string $action
      * @param string $searchterm
      * @return FilterDto
      * @throws Exception
      */
-    protected function getFilterFromSessionForAjaxRequests(string $searchterm = ''): FilterDto
+    protected function getFilterFromSessionForAjaxRequests(string $action, string $searchterm = ''): FilterDto
     {
-        $filterValues = BackendUtility::getSessionValue('filter', 'content', $this->getControllerName());
+        $filterValues = BackendUtility::getSessionValue('filter', $action, $this->getControllerName());
         $filter = ObjectUtility::getFilterDto();
         if (!empty($searchterm)) {
             $filter->setSearchterm($searchterm);

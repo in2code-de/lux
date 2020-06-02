@@ -12,22 +12,25 @@ simplifies the work with marketing automation tools in general.
 
 | Term                      | Description                                                                                            |
 | ------------------------- | ------------------------------------------------------------------------------------------------------ |
-| Lux                       | Living User eXperience - the Marketing Automation tool for TYPO3                                       |
-| Lead                      | A lead is a potential new customer for your business. No matter if you sell products or services.      |
-| Visitor                   | A visitor is a website-visitor. This could be a lead or just someone who comes to your site and leaves at once because he/she was wrong |
-| Scoring                   | A scoring is a value related to a lead, where we want to see **how hot this lead is**.<br>This means: The more scoring the lead have, the more business-relevant is this lead.<br>So, scoring is just a factor for us to see how interested the lead is - or if the lead wants to do business with us.<br>A scoring can also decrease if the last visit from the lead was some time ago. |
 | Category-Scoring          | While a scoring tells us if a lead is hot, we still don't in which product or service the lead is interested in.<br>Here comes the category scoring. You can have unlimited categories and a scoring related to category with **Product A** will tell us, if the lead is interested in the product.<br>A category-scoring will not decrease, even if the visit was some time ago. |
-| Nurturing                 | Lead-Nurturing means to develop a lead. Tell your leads relevant information and let them know how your business could help them. If you do this step by step, you will develop your leads - you will nurture your leads. |
+| Cookie                    | A cookie is an individual value that is saved in the visitors browser. Since 7.0.0 lux will not use cookies any more. |
+| DoNotTrack                | Browser support a *DoNotTrack* setting. This setting must be turned on from the user (it is not a default setting of the browser). If lux recognize this setting, all tracking functions are disabled. We will respect this privacy setting! |
 | Email4link                | Email4link is a Lux feature where you can ask your leads for their email if they want to download something. |
-| Workflow                  | A workflow is a combination of one or more triggers and one or more actions to nurture your leads.     |
-| Workflow Trigger          | A trigger is a point of action this will cause an action. A known trigger could be e.g. *the second website visit*. |
-| Workflow Action           | An action will be executed if a trigger fits. A known action could be to open a lightbox for the visitor. |
+| Fingerprinting            | We can recognize visitors by their complete hard- and software usage - a values build from all this settings is an unique fingerprint. This is an anonymized hash that allows lux to recognize the visitor by further visits in the future. |
 | Identified Lead           | An identified lead means, that we know his/her email address.                                          |
 | Lead identification       | This is a virtual field of the lead and is used in the lead backend module and on some other places of Lux. Depending on the information that we have, we show the email or the first- and lastname or simply "Anonymous" if the lead is still not identified. |
-| Cookie                    | A cookie is an individual value that is saved in the visitors browser. Since 7.0.0 lux will not use cookies any more. |
-| Fingerprinting            | We can recognize visitors by their complete hard- and software usage - a values build from all this settings is an unique fingerprint. This is an anonymized hash that allows lux to recognize the visitor by further visits in the future. |
-| DoNotTrack                | Browser support a *DoNotTrack* setting. This setting must be turned on from the user (it is not a default setting of the browser). If lux recognize this setting, all tracking functions are disabled. We will respect this privacy setting! |
+| Link Listener             | Since version 9 lux supports Link Listeners. You can listen to clicks on "call to action" buttons for an individual performance analysis. In addition clicks on Link Listeners can increase a category scoring of a visitor |
+| Nurturing                 | Lead-Nurturing means to develop a lead. Tell your leads relevant information and let them know how your business could help them. If you do this step by step, you will develop your leads - you will nurture your leads. |
+| Lead                      | A lead is a potential new customer for your business. No matter if you sell products or services.      |
+| Lux                       | Living User eXperience - the Marketing Automation tool for TYPO3                                       |
+| Opt In                    | Lux is disabled as long as a visitor accept a message (e.g. in a modal) or the privacy statement. |
+| Opt Out                   | Lux is enabled by default and can be disabled from a visitor over the opt out plugin. |
+| Scoring                   | A scoring is a value related to a lead, where we want to see **how hot this lead is**.<br>This means: The more scoring the lead have, the more business-relevant is this lead.<br>So, scoring is just a factor for us to see how interested the lead is - or if the lead wants to do business with us.<br>A scoring can also decrease if the last visit from the lead was some time ago. |
 | Slack                     | Slack is a chat platform. Mainly used for team-communication and loved by developers. There is a *Publish to a slack channel* workflow action available in Lux. |
+| Visitor                   | A visitor is a website-visitor. This could be a lead or just someone who comes to your site and leaves at once because he/she was wrong |
+| Workflow                  | A workflow is a combination of one or more triggers and one or more actions to nurture your leads.     |
+| Workflow Action           | An action will be executed if a trigger fits. A known action could be to open a lightbox for the visitor. |
+| Workflow Trigger          | A trigger is a point of action this will cause an action. A known trigger could be e.g. *the second website visit*. |
 
 
 

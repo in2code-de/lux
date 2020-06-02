@@ -160,15 +160,51 @@ define(['jquery', 'TYPO3/CMS/Lux/Vendor/Chart.min'], function($) {
      * @returns {void}
      */
     var diagramLine = function(element) {
+      var datasets = [{
+        label: element.getAttribute('data-chart-label'),
+        data: element.getAttribute('data-chart-data').split(','),
+        borderColor: 'rgb(77, 231, 255)',
+        "lineTension": 0.5
+      }];
+      for (var i = 2; i < 7; i++) {
+        if (element.hasAttribute('data-chart-data' + i) && element.hasAttribute('data-chart-label' + i)) {
+          datasets.push({
+            label: element.getAttribute('data-chart-label' + i),
+            data: element.getAttribute('data-chart-data' + i).split(','),
+            borderColor: '#FFE933'
+          });
+        }
+      }
+
+      var yAxes = [{
+        ticks: {
+          beginAtZero: true
+        }
+      }];
+
+      // Use a logarithmic y-axes (normally only if there is more then only one line with a big difference)
+      if (element.hasAttribute('data-chart-max-y') && element.hasAttribute('data-chart-max-y') > 0) {
+        yAxes = [{
+          type: 'logarithmic',
+          ticks: {
+            min: 0,
+            max: parseInt(element.getAttribute('data-chart-max-y')),
+            callback: function (value, index, values) {
+              // Show only this values in the y-axes
+              var allowed = [1, 3, 5, 10, 20, 50, 60, 100, 500, 1000, 5000, 10000, 100000, 1000000];
+              if (allowed.indexOf(value) !== -1) {
+                return value;
+              }
+              return null;
+            }
+          }
+        }];
+      }
+
       new Chart(element.getContext('2d'), {
         type: 'line',
         data: {
-          datasets: [{
-            label: element.getAttribute('data-chart-label'),
-            data: element.getAttribute('data-chart-data').split(','),
-            borderColor: 'rgb(77, 231, 255)',
-            "lineTension": 0.5
-          }],
+          datasets: datasets,
           labels: element.getAttribute('data-chart-labels').split(',')
         },
         options: {
@@ -180,11 +216,7 @@ define(['jquery', 'TYPO3/CMS/Lux/Vendor/Chart.min'], function($) {
             }
           },
           scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: true
-              }
-            }]
+            yAxes: yAxes
           }
         }
       });

@@ -3,9 +3,9 @@
         <h3 class="panel-title">Filter</h3>
     </div>
     <div class="panel-body">
-        <f:form name="filter" class="form" action="content" object="{filter}">
-            <div class="row">
-                <div class="col-md-4">
+        <f:form name="filter" class="form" action="linkListener" object="{filter}">
+            <div class="row flex">
+                <div class="col-md-4 flex">
                     <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.header.search">Suche</f:translate></h5>
 
                     <div class="input-group form-group">
@@ -14,7 +14,7 @@
                                 property="searchterm"
                                 id="searchterm"
                                 class="form-control"
-                                placeholder="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.searchtermpagefile')}" />
+                                placeholder="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.searchterm')}" />
                         <label class="input-group-addon fa fa-search" for="searchterm"></label>
                     </div>
 
@@ -31,19 +31,20 @@
                 </div>
 
 
-                <div class="col-md-4">
-                    <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.header.scoring">Scoring</f:translate></h5>
+                <div class="col-md-4 flex">
+                    <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.header.category">Category</f:translate></h5>
 
                     <div class="input-group form-group">
-                        <f:form.textfield
-                                type="range"
-                                property="scoring"
-                                class="form-control"
-                                additionalAttributes="{min:0, max:200, onchange:'document.getElementById(\'scoring_label\').innerHTML = this.value;'}"
-                                id="scoring"/>
-                        <label class="input-group-addon">
-                            Min: <strong id="scoring_label">{filter.scoring}</strong>
-                        </label>
+                        <f:form.select
+                            property="categoryScoring"
+                            options="{luxCategories}"
+                            optionLabelField="title"
+                            optionValueField="uid"
+                            prependOptionValue=""
+                            prependOptionLabel=""
+                            class="form-control"
+                            id="categoryScoring"/>
+                        <label class="input-group-addon fa fa-tag" for="categoryScoring"></label>
                     </div>
 
                     <div class="input-group form-group">
@@ -59,26 +60,8 @@
                 </div>
 
 
-                <div class="col-md-4">
-                    <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.header.categoryscoring">Scoring in Kategorie</f:translate></h5>
-
-                    <div class="input-group form-group">
-                        <f:form.select
-                            property="categoryScoring"
-                            options="{luxCategories}"
-                            optionLabelField="title"
-                            optionValueField="uid"
-                            prependOptionValue=""
-                            prependOptionLabel=""
-                            class="form-control"
-                            id="categoryScoring"/>
-                        <label class="input-group-addon fa fa-tag" for="categoryScoring"></label>
-                    </div>
-
-                    <div class="input-group form-group pull-right" style="display: block">
-                        <f:form.submit class="fa fa-download" name="export" id="download" value="csv" style="visibility:hidden;"/>
-                        <label class="btn btn-default fa fa-download" for="download" style="margin-right: 10px;" title="CSV Download"></label>
-
+                <div class="col-md-4 flex">
+                    <div class="input-group form-group pull-right" style="display: block; position:absolute; bottom: 0;">
                         <f:if condition="{filter.set}">
                             <f:link.action class="btn btn-default" style="margin-right: 10px" action="resetFilter" arguments="{redirectAction:view.action}">
                                 <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.reset">Reset</f:translate>

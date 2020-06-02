@@ -1,7 +1,7 @@
 <div class="panel panel-default flex">
     <div class="panel-heading">
         <h3 class="panel-title">
-            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.linkclicks.title">Top link clicks</f:translate>
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.linkclicks.title">Top 10 link listeners</f:translate>
         </h3>
     </div>
     <div class="panel-body">
@@ -18,17 +18,6 @@
             </f:then>
             <f:else>
                 <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
-
-                <p>
-                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.linkclicks.note">
-                        Tipp: measure your call to action links
-                    </f:translate>
-                </p>
-                <p>
-                    <f:format.htmlentities><a href="/producta" class="btn" data-lux-linklistener="product A">Go to product A</a></f:format.htmlentities>
-                    <br>
-                    <f:format.htmlentities><a href="/productb" class="btn" data-lux-linklistener="product B">Go to product B</a></f:format.htmlentities>
-                </p>
             </f:else>
         </f:if>
     </div>

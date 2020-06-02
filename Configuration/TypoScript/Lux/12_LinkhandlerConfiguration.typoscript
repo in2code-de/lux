@@ -1,0 +1,19 @@
+// Linkhandler configuration
+config.recordLinks.luxlinklistener {
+  typolink {
+    parameter = /
+    title.data = parameters:title
+
+    # Merge existing params with data-attribute
+    ATagParams.stdWrap.cObject = COA
+    ATagParams.stdWrap.cObject {
+      10 = TEXT
+      10 {
+        field = uid
+        wrap = data-lux-linklistener="|"
+      }
+      20 = TEXT
+      20.data = parameters:allParams
+    }
+  }
+}

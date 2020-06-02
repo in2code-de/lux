@@ -4,6 +4,7 @@ namespace In2code\Lux\Domain\Service;
 
 use In2code\Lux\Domain\Model\Download;
 use In2code\Lux\Domain\Model\Linkclick;
+use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\LogRepository;
@@ -131,18 +132,20 @@ class LogService
     }
 
     /**
-     * @param Linkclick $linkclick
+     * @param Visitor $visitor
+     * @param Linklistener $linklistener
+     * @param int $pageUid
      * @return void
      * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
-    public function logLinkListener(Linkclick $linkclick)
+    public function logLinkListener(Visitor $visitor, Linklistener $linklistener, int $pageUid)
     {
         $this->log(
             Log::STATUS_LINKLISTENER,
-            $linkclick->getVisitor(),
-            ['tag' => $linkclick->getTag(), 'pageUid' => $linkclick->getPage()->getUid()]
+            $visitor,
+            ['linklistener' => $linklistener->getUid(), 'pageUid' => $pageUid]
         );
     }
 

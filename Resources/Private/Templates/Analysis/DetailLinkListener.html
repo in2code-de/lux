@@ -1,0 +1,68 @@
+<f:layout name="Backend"/>
+
+<f:section name="content">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Link Listener
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <f:if condition="{linkListener.linkclicks}">
+                        <f:widget.paginate
+                            objects="{linkListener.linkclicks}"
+                            as="linkclickItem"
+                            configuration="{itemsPerPage:25,insertAbove:0,insertBelow:'{f:if(condition: \'{linkListener.linkclicks -> f:count()} > 25\',then:1)}',maximumNumberOfLinks:10}">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.title">title</f:translate></th>
+                                    <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detaildownloads.lead">Lead</f:translate></th>
+                                    <th>Scoring</th>
+                                    <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detaildownloads.company">Company</f:translate></th>
+                                    <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detaildownloads.time">Time</f:translate></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <f:for each="{linkclickItem}" as="linkClick">
+                                    <tr>
+                                        <td>{linkListener.title}</td>
+                                        <td>
+                                            <f:link.action action="detail" controller="Lead" arguments="{visitor:linkClick.visitor}">{linkClick.visitor.fullName}</f:link.action>
+                                        </td>
+                                        <td>
+                                            <span class="badge" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.scoring')}">{linkClick.visitor.scoring}</span>
+                                            <f:if condition="{linkClick.visitor.hottestCategoryscoring}">
+                                                <span class="badge badge-primary" title="{linkClick.visitor.hottestCategoryscoring.category.title}">{linkClick.visitor.hottestCategoryscoring.scoring}</span>
+                                            </f:if>
+                                        </td>
+                                        <td>{linkClick.visitor.company}</td>
+                                        <td>
+                                            <span class="badge" title="{f:format.date(date:linkClick.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
+                                                <lux:format.readableDate>{linkClick.crdate}</lux:format.readableDate>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </f:for>
+                                </tbody>
+                            </table>
+                        </f:widget.paginate>
+                    </f:if>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <f:alias map="{headerPostfix:linkListener.title}">
+                <f:render partial="Box/Analysis/AllLinkclicks" arguments="{_all}"/>
+            </f:alias>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <f:link.action class="btn btn-primary" action="linkListener"><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:back">go back</f:translate></f:link.action>
+        </div>
+    </div>
+</f:section>
