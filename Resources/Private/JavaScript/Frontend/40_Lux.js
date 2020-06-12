@@ -243,6 +243,7 @@ function LuxMain() {
       addFormListeners();
       addDownloadListener();
       addLinkListenerListener();
+      addRedirectListener();
     } else {
       trackIteration++;
       if (trackIteration < 200) {
@@ -423,6 +424,21 @@ function LuxMain() {
           delayClick(event);
         }
       });
+    }
+  };
+
+  /**
+   * @returns {void}
+   */
+  var addRedirectListener = function() {
+    var redirectContainer = document.querySelector('[data-lux-redirect]');
+    if (redirectContainer !== null) {
+      var hash = redirectContainer.getAttribute('data-lux-redirect');
+      ajaxConnection({
+        'tx_lux_fe[dispatchAction]': 'redirectRequest',
+        'tx_lux_fe[fingerprint]': identification.getFingerprint(),
+        'tx_lux_fe[arguments][redirectHash]': hash
+      }, getRequestUri(), 'generalWorkflowActionCallback', null);
     }
   };
 

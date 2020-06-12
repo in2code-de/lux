@@ -44,4 +44,15 @@ class UrlUtility
         }
         return '';
     }
+
+    /**
+     * @param string $string
+     * @return string
+     */
+    public static function removeSlashPrefixAndPostfix(string $string): string
+    {
+        $string = ltrim($string, '/');
+        $string = rtrim($string, '/');
+        return $string;
+    }
 }

@@ -48,6 +48,14 @@ class FrontendUtility
     }
 
     /**
+     * @return bool
+     */
+    public static function isFrontendMode(): bool
+    {
+        return TYPO3_MODE === 'FE';
+    }
+
+    /**
      * @return TypoScriptFrontendController
      * @SuppressWarnings(PHPMD.Superglobals)
      */

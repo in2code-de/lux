@@ -190,7 +190,83 @@ luxPageRequestAjax {
     }
 }
 
+# Redirect: Render a loading page with an animation (loading graphic)
+luxRedirect = PAGE
+luxRedirect {
+    typeNum = 1591948099
 
+    includeJSFooter {
+        lux = EXT:lux/Resources/Public/JavaScript/Lux/Lux.min.js
+        lux.defer = 1
+    }
+
+    # Build a loading graphics via CSS
+    cssInline {
+        10 = TEXT
+        10.value (
+            .lux-loading {
+              display: inline-block;
+              position: fixed;
+              left: 50%;
+              top: 50%;
+              margin-top: -32px;
+              margin-left: -32px;
+              width: 80px;
+              height: 80px;
+            }
+            .lux-loading div {
+              box-sizing: border-box;
+              display: block;
+              position: absolute;
+              width: 64px;
+              height: 64px;
+              margin: 8px;
+              border: 8px solid #444;
+              border-radius: 50%;
+              animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+              border-color: #444 transparent transparent transparent;
+            }
+            .lux-loading div:nth-child(1) {
+              animation-delay: -0.45s;
+            }
+            .lux-loading div:nth-child(2) {
+              animation-delay: -0.3s;
+            }
+            .lux-loading div:nth-child(3) {
+              animation-delay: -0.15s;
+            }
+            @keyframes lds-ring {
+              0% {
+                transform: rotate(0deg);
+              }
+              100% {
+                transform: rotate(360deg);
+              }
+            }
+        )
+    }
+
+    10 = COA
+    10 {
+        10 = TEXT
+        10 {
+            data = GP:hash
+            htmlSpecialChars = 1
+            wrap = <div data-lux-redirect="|" class="lux-loading"><div></div><div></div><div></div><div></div></div>
+            if.isTrue.data = GP:hash
+        }
+        20 = TEXT
+        20 {
+            value = Oooops failure, please try again later
+            if.isFalse.data = GP:hash
+        }
+    }
+
+    # Use same configuration as for normal pages
+    1518815717 < page.1518815717
+    # Disable default page tracking
+    1518815717.200 >
+}
 
 
 
