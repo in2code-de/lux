@@ -43,8 +43,6 @@ class VisitorFactory
      * VisitorFactory constructor.
      *
      * @param string $fingerprint
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
      * @throws Exception
      * @throws FingerprintMustNotBeEmptyException
      */
