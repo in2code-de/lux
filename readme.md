@@ -209,6 +209,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 9.1.0      | 2020-06-19 | Feature    | Don't track some more bots                                                                                                                                                                 |
 | 9.0.0      | 2020-05-31 | Feature    | Introduce Link Listeners                                                                                                                                                                   |
 | 8.2.2      | 2020-05-25 | Bugfix     | Don't create new visitor records when unneeded in additional languages, don't show empty log entry when merging visitors                                                                   |
 | 8.2.1      | 2020-05-17 | Bugfix     | Broken table definition of the not yet needed table tx_lux_domain_model_linkclick causes some trouble on database compare                                                                  |
