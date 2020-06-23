@@ -20,7 +20,7 @@
     "php": ">=7.2.0",
     "ext-json": "*",
     "typo3/cms-core": "^9.5 || ^10.4",
-    "symfony/expression-language": "^5.0",
+    "symfony/expression-language": ">=4.0",
     "whichbrowser/parser": "^2.0",
     "buchin/google-image-grabber": "dev-master as 1.0.x-dev"
   },
