@@ -209,6 +209,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 9.1.2      | 2020-06-24 | Bugfix     | Fix type for linkclick configuration in TCA and Model                                                                                                                                      |
 | 9.1.1      | 2020-06-22 | Task       | Reduce requirements for symfony/expression-language to allow TYPO3 9 and form extension                                                                                                    |
 | 9.1.0      | 2020-06-19 | Feature    | Don't track some more bots                                                                                                                                                                 |
 | 9.0.0      | 2020-05-31 | Feature    | Introduce Link Listeners                                                                                                                                                                   |
