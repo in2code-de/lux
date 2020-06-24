@@ -17,13 +17,6 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 class LinkclickRepository extends AbstractRepository
 {
     /**
-     * @var array
-     */
-    protected $defaultOrderings = [
-        'title' => QueryInterface::ORDER_ASCENDING
-    ];
-
-    /**
      * @return int
      * @throws DBALException
      */
