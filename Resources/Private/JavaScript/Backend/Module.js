@@ -24,6 +24,7 @@ define(['jquery'], function($) {
       addAnalysisContentDetailPageViewListener();
       addAnalysisContentDetailDownloadViewListener();
       addAnalysisLinkListenerDetailViewListener();
+      addWorkflowUrlShortenerDetailViewListener();
       addDescriptionListener();
       addLinkMockListener();
       addDatePickers();
@@ -109,6 +110,27 @@ define(['jquery'], function($) {
 
           ajaxConnection(TYPO3.settings.ajaxUrls['/lux/analysislinklistenerdetail'], {
             linkListener: linkListener
+          }, 'generalDetailCallback');
+        });
+      }
+    };
+
+    /**
+     * Add listener for workflow/urlshortener detail ajax view
+     *
+     * @returns {void}
+     */
+    var addWorkflowUrlShortenerDetailViewListener = function() {
+      var elements = document.querySelectorAll('[data-lux-action-workflowurlshortenerdetail]');
+      for (var i = 0; i < elements.length; i++) {
+        var element = elements[i];
+        element.addEventListener('click', function() {
+          removeClassFromElements(elements, 'lux-action-detail');
+          this.classList.add('lux-action-detail');
+          var urlShortener = this.getAttribute('data-lux-action-workflowurlshortenerdetail');
+
+          ajaxConnection(TYPO3.settings.ajaxUrls['/luxenterprise/workflowurlshortenerdetail'], {
+            urlShortener: urlShortener
           }, 'generalDetailCallback');
         });
       }

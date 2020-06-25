@@ -13,7 +13,6 @@ use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
 use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
-use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
@@ -261,33 +260,5 @@ class AnalysisController extends AbstractController
         $stream = $response->getBody();
         $stream->write(json_encode(['html' => $standaloneView->render()]));
         return $response;
-    }
-
-    /**
-     * @param string $action
-     * @param string $searchterm
-     * @return FilterDto
-     * @throws Exception
-     */
-    protected function getFilterFromSessionForAjaxRequests(string $action, string $searchterm = ''): FilterDto
-    {
-        $filterValues = BackendUtility::getSessionValue('filter', $action, $this->getControllerName());
-        $filter = ObjectUtility::getFilterDto();
-        if (!empty($searchterm)) {
-            $filter->setSearchterm($searchterm);
-        }
-        if (!empty($filterValues['timeFrom'])) {
-            $filter->setTimeFrom((string)$filterValues['timeFrom']);
-        }
-        if (!empty($filterValues['timeTo'])) {
-            $filter->setTimeTo((string)$filterValues['timeTo']);
-        }
-        if (!empty($filterValues['scoring'])) {
-            $filter->setScoring((int)$filterValues['scoring']);
-        }
-        if (!empty($filterValues['categoryscoring'])) {
-            $filter->setCategoryScoring((int)$filterValues['categoryscoring']);
-        }
-        return $filter;
     }
 }

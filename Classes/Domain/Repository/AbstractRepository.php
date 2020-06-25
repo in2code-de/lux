@@ -82,10 +82,14 @@ abstract class AbstractRepository extends Repository
     /**
      * @param FilterDto $filter
      * @param string $table
+     * @param string $titleField
      * @return string
      */
-    protected function extendWhereClauseWithFilterSearchterms(FilterDto $filter, string $table = ''): string
-    {
+    protected function extendWhereClauseWithFilterSearchterms(
+        FilterDto $filter,
+        string $table = '',
+        string $titleField = 'title'
+    ): string {
         $sql = '';
         if ($filter->getSearchterms() !== []) {
             foreach ($filter->getSearchterms() as $searchterm) {
@@ -98,7 +102,7 @@ abstract class AbstractRepository extends Repository
                 if (MathUtility::canBeInterpretedAsInteger($searchterm)) {
                     $sql .= ($table !== '' ? $table . '.' : '') . 'uid = ' . (int)$searchterm;
                 } else {
-                    $sql .= ($table !== '' ? $table . '.' : '') .  ' title like "%'
+                    $sql .= ($table !== '' ? $table . '.' : '') . $titleField . ' like "%'
                         . StringUtility::cleanString($searchterm) . '%"';
                 }
             }
