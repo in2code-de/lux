@@ -48,10 +48,7 @@ class DownloadRepository extends AbstractRepository
     public function findCombinedByHref(FilterDto $filter): array
     {
         $query = $this->createQuery();
-        $logicalAnd = [
-            $query->greaterThan('crdate', $filter->getStartTimeForFilter()),
-            $query->lessThan('crdate', $filter->getEndTimeForFilter())
-        ];
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, []);
         $logicalAnd = $this->extendWithExtendedFilterQuery($query, $logicalAnd, $filter);
         $query->matching($query->logicalAnd($logicalAnd));
         $assets = $query->execute(true);

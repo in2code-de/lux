@@ -35,10 +35,9 @@ class PagevisitRepository extends AbstractRepository
     {
         $query = $this->createQuery();
         $logicalAnd = [
-            $query->greaterThan('crdate', $filter->getStartTimeForFilter()),
-            $query->lessThan('crdate', $filter->getEndTimeForFilter()),
             $query->greaterThan('page.uid', 0),
         ];
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
         $logicalAnd = $this->extendWithExtendedFilterQuery($query, $logicalAnd, $filter);
         $query->matching($query->logicalAnd($logicalAnd));
         $pages = $query->execute(true);
@@ -54,12 +53,12 @@ class PagevisitRepository extends AbstractRepository
     public function findLatestPagevisits(FilterDto $filter): QueryResultInterface
     {
         $query = $this->createQuery();
+        $logicalAnd = [
+            $query->greaterThan('page.uid', 0)
+        ];
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
         $query->matching(
-            $query->logicalAnd([
-                $query->greaterThan('crdate', $filter->getStartTimeForFilter()),
-                $query->lessThan('crdate', $filter->getEndTimeForFilter()),
-                $query->greaterThan('page.uid', 0)
-            ])
+            $query->logicalAnd($logicalAnd)
         );
         $query->setLimit(5);
         return $query->execute();
