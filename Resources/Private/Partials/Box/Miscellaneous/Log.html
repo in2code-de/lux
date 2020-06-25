@@ -127,3 +127,11 @@
 <f:section name="status90">
 	<strong><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.log.status.90">Visitor merged</f:translate></strong><br />
 </f:section>
+
+
+
+<f:section name="status100">
+	<strong><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.log.status.100">Shortener redirect</f:translate></strong><br />
+	"{log.shortenerpath}"
+	<span title="UID:{log.visitor.uid}">(<f:link.action action="detail" controller="Lead" arguments="{visitor:log.visitor}">{log.visitor.fullName}</f:link.action>)</span>
+</f:section>

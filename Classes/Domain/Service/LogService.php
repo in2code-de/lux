@@ -3,7 +3,6 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Service;
 
 use In2code\Lux\Domain\Model\Download;
-use In2code\Lux\Domain\Model\Linkclick;
 use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Visitor;
@@ -11,9 +10,6 @@ use In2code\Lux\Domain\Repository\LogRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
-use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
-use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
-use TYPO3\CMS\Extbase\Persistence\Generic\QueryResult;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 /**
@@ -24,11 +20,9 @@ class LogService
     /**
      * @param Visitor $visitor
      * @return void
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
      * @throws Exception
      */
-    public function logNewVisitor(Visitor $visitor)
+    public function logNewVisitor(Visitor $visitor): void
     {
         $this->log(Log::STATUS_NEW, $visitor);
     }
@@ -36,11 +30,9 @@ class LogService
     /**
      * @param Visitor $visitor
      * @return void
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
      * @throws Exception
      */
-    public function logIdentifiedVisitor(Visitor $visitor)
+    public function logIdentifiedVisitor(Visitor $visitor): void
     {
         $this->log(Log::STATUS_IDENTIFIED, $visitor);
     }
@@ -48,11 +40,9 @@ class LogService
     /**
      * @param Visitor $visitor
      * @return void
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
      * @throws Exception
      */
-    public function logIdentifiedVisitorFormListening(Visitor $visitor)
+    public function logIdentifiedVisitorFormListening(Visitor $visitor): void
     {
         $this->log(Log::STATUS_IDENTIFIED_FORMLISTENING, $visitor);
     }
@@ -60,11 +50,9 @@ class LogService
     /**
      * @param Visitor $visitor
      * @return void
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
      * @throws Exception
      */
-    public function logIdentifiedVisitorByEmail4Link(Visitor $visitor)
+    public function logIdentifiedVisitorByEmail4Link(Visitor $visitor): void
     {
         $this->log(Log::STATUS_IDENTIFIED_EMAIL4LINK, $visitor);
     }
@@ -72,11 +60,9 @@ class LogService
     /**
      * @param Visitor $visitor
      * @return void
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
      * @throws Exception
      */
-    public function logIdentifiedVisitorByLuxletterlink(Visitor $visitor)
+    public function logIdentifiedVisitorByLuxletterlink(Visitor $visitor): void
     {
         $this->log(Log::STATUS_IDENTIFIED_LUXLETTERLINK, $visitor);
     }
@@ -84,11 +70,9 @@ class LogService
     /**
      * @param Visitor $visitor
      * @return void
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
      * @throws Exception
      */
-    public function logIdentifiedVisitorByFrontendauthentication(Visitor $visitor)
+    public function logIdentifiedVisitorByFrontendauthentication(Visitor $visitor): void
     {
         $this->log(Log::STATUS_IDENTIFIED_FRONTENDAUTHENTICATION, $visitor);
     }
@@ -97,11 +81,9 @@ class LogService
      * @param Visitor $visitor
      * @param string $href
      * @return void
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
      * @throws Exception
      */
-    public function logEmail4LinkEmail(Visitor $visitor, string $href)
+    public function logEmail4LinkEmail(Visitor $visitor, string $href): void
     {
         $this->log(Log::STATUS_IDENTIFIED_EMAIL4LINK_SENDEMAIL, $visitor, ['href' => $href]);
     }
@@ -110,11 +92,9 @@ class LogService
      * @param Visitor $visitor
      * @param string $href
      * @return void
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
      * @throws Exception
      */
-    public function logEmail4LinkEmailFailed(Visitor $visitor, string $href)
+    public function logEmail4LinkEmailFailed(Visitor $visitor, string $href): void
     {
         $this->log(Log::STATUS_IDENTIFIED_EMAIL4LINK_SENDEMAILFAILED, $visitor, ['href' => $href]);
     }
@@ -122,11 +102,9 @@ class LogService
     /**
      * @param Download $download
      * @return void
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
      * @throws Exception
      */
-    public function logDownload(Download $download)
+    public function logDownload(Download $download): void
     {
         $this->log(Log::STATUS_DOWNLOAD, $download->getVisitor(), ['href' => $download->getHref()]);
     }
@@ -137,10 +115,8 @@ class LogService
      * @param int $pageUid
      * @return void
      * @throws Exception
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
      */
-    public function logLinkListener(Visitor $visitor, Linklistener $linklistener, int $pageUid)
+    public function logLinkListener(Visitor $visitor, Linklistener $linklistener, int $pageUid): void
     {
         $this->log(
             Log::STATUS_LINKLISTENER,
@@ -153,10 +129,8 @@ class LogService
      * @param QueryResultInterface $visitors
      * @return void
      * @throws Exception
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
      */
-    public function logVisitorMergeByFingerprint(QueryResultInterface $visitors)
+    public function logVisitorMergeByFingerprint(QueryResultInterface $visitors): void
     {
         $visitor = $visitors->getFirst();
         $identifiers = [];
@@ -174,10 +148,8 @@ class LogService
      * @param QueryResultInterface $visitors
      * @return void
      * @throws Exception
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
      */
-    public function logVisitorMergeByEmail(QueryResultInterface $visitors)
+    public function logVisitorMergeByEmail(QueryResultInterface $visitors): void
     {
         $visitor = $visitors->getFirst();
         $identifiers = [];
@@ -196,11 +168,9 @@ class LogService
      * @param int $shownContentUid
      * @param int $containerContentUid
      * @return void
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
      * @throws Exception
      */
-    public function logContextualContent(Visitor $visitor, int $shownContentUid, int $containerContentUid)
+    public function logContextualContent(Visitor $visitor, int $shownContentUid, int $containerContentUid): void
     {
         $this->log(
             Log::STATUS_CONTEXTUAL_CONTENT,
@@ -217,11 +187,9 @@ class LogService
      * @param Visitor $visitor
      * @param array $properties
      * @return void
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
      * @throws Exception
      */
-    protected function log(int $status, Visitor $visitor, array $properties = [])
+    protected function log(int $status, Visitor $visitor, array $properties = []): void
     {
         $logRepository = ObjectUtility::getObjectManager()->get(LogRepository::class);
         $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
