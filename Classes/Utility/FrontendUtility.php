@@ -27,6 +27,14 @@ class FrontendUtility
     }
 
     /**
+     * @return string "https://currentdomain.org"
+     */
+    public static function getCurrentHostAndDomain(): string
+    {
+        return GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST');
+    }
+
+    /**
      * @return bool
      */
     public static function isLoggedInFrontendUser(): bool
