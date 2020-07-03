@@ -75,7 +75,7 @@ define(['jquery', 'TYPO3/CMS/Lux/Vendor/Chart.min'], function($) {
         type: 'bar',
         data: {
           datasets: [{
-            label: 'Leads',
+            label: element.getAttribute('data-chart-label') || 'Leads',
             data: element.getAttribute('data-chart-data').split(','),
             backgroundColor: [
               'rgba(77, 231, 255, 1)',
