@@ -202,7 +202,7 @@ class FrontendController extends ActionController
     }
 
     /**
-     * @param string $fingerprint
+     * @param string $fingerprint empty means no opt-in yet
      * @return string
      * @throws Exception
      */
@@ -212,7 +212,13 @@ class FrontendController extends ActionController
             $visitor = $this->getVisitor($fingerprint);
             return json_encode($this->afterAction($visitor));
         } catch (\Exception $exception) {
-            return json_encode($this->getError($exception));
+            try {
+                // Empty fingerprint, create visitor on the fly
+                $visitor = new Visitor();
+                return json_encode($this->afterAction($visitor));
+            } catch (\Exception $exception) {
+                return json_encode($this->getError($exception));
+            }
         }
     }
 
