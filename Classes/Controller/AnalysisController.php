@@ -10,6 +10,7 @@ use In2code\Lux\Domain\DataProvider\DownloadsDataProvider;
 use In2code\Lux\Domain\DataProvider\LanguagesDataProvider;
 use In2code\Lux\Domain\DataProvider\LinkclickDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
+use In2code\Lux\Domain\DataProvider\SocialMediaDataProvider;
 use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
@@ -53,7 +54,8 @@ class AnalysisController extends AbstractController
             'browserData' => ObjectUtility::getObjectManager()->get(BrowserAmountDataProvider::class, $filter),
             'linkclickData' => ObjectUtility::getObjectManager()->get(LinkclickDataProvider::class, $filter),
             'languageData' => ObjectUtility::getObjectManager()->get(LanguagesDataProvider::class, $filter),
-            'domainData' => ObjectUtility::getObjectManager()->get(DomainDataProvider::class, $filter)
+            'domainData' => ObjectUtility::getObjectManager()->get(DomainDataProvider::class, $filter),
+            'socialMediaData' => ObjectUtility::getObjectManager()->get(SocialMediaDataProvider::class, $filter),
         ];
         $this->view->assignMultiple($values);
     }

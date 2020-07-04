@@ -1284,6 +1284,9 @@
 			<trans-unit id="areYouSure">
 				<source>Are you sure?</source>
 			</trans-unit>
+			<trans-unit id="other">
+				<source>Other</source>
+			</trans-unit>
 			<trans-unit id="back">
 				<source>Back</source>
 			</trans-unit>

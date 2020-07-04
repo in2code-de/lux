@@ -9,9 +9,13 @@ use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Service\Referrer\Readable;
+use In2code\Lux\Domain\Service\Referrer\SocialMedia;
+use In2code\Lux\Utility\ArrayUtility;
 use In2code\Lux\Utility\DatabaseUtility;
+use In2code\Lux\Utility\ExtensionUtility;
 use In2code\Lux\Utility\FrontendUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
@@ -172,21 +176,6 @@ class PagevisitRepository extends AbstractRepository
     }
 
     /**
-     * @param $pages
-     * @return array
-     */
-    protected function combineAndCutPages($pages): array
-    {
-        $result = [];
-        foreach ($pages as $pageProperties) {
-            $result[$pageProperties['page']][] = $pageProperties;
-        }
-        array_multisort(array_map('count', $result), SORT_DESC, $result);
-        $result = array_slice($result, 0, 100);
-        return $result;
-    }
-
-    /**
      * Get an array with sorted values with a limit of 100 (but ignore current domain):
      * [
      *      'twitter.com' => 234,
@@ -217,6 +206,53 @@ class PagevisitRepository extends AbstractRepository
             }
         }
         arsort($result);
+        return $result;
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @return array
+     * @throws Exception
+     * @throws \Exception
+     * @throws DBALException
+     */
+    public function getAmountOfSocialMediaReferrers(FilterDto $filter): array
+    {
+        $socialMedia = GeneralUtility::makeInstance(SocialMedia::class);
+        $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
+        $result = [];
+        foreach ($socialMedia->getDomainsForQuery() as $name => $domains) {
+            $sql = 'select count(*) count from ' . Pagevisit::TABLE_NAME . ' where referrer rlike "' . $domains . '"';
+            $sql .= $this->extendWhereClauseWithFilterTime($filter, true);
+            $count = (int)$connection->executeQuery($sql)->fetchColumn();
+            if ($count > 0) {
+                $result[$name] = $count;
+            }
+        }
+
+        $result = $this->getAmountOfSocialMediaReferrersFromShorteners($result, $filter);
+
+        arsort($result);
+        return $result;
+    }
+
+    /**
+     * Get social media amount of referrers from link shortener (part of luxenterprise)
+     *
+     * @param array $result
+     * @param FilterDto $filter
+     * @return array
+     * @throws Exception
+     */
+    protected function getAmountOfSocialMediaReferrersFromShorteners(array $result, FilterDto $filter): array
+    {
+        if (ExtensionUtility::isLuxenterpriseVersionOrHigherAvailable('7.0.0')) {
+            $shortenerRepository = ObjectUtility::getObjectManager()->get(
+                \In2code\Luxenterprise\Domain\Repository\ShortenerRepository::class
+            );
+            $result2 = $shortenerRepository->findAmountsOfSocialMediaReferrers($filter, false);
+            $result = ArrayUtility::sumAmountArrays($result, $result2);
+        }
         return $result;
     }
 
@@ -255,6 +291,21 @@ class PagevisitRepository extends AbstractRepository
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
             . ' group by pv.language order by count desc ';
         return (array)$connection->executeQuery($sql)->fetchAll();
+    }
+
+    /**
+     * @param $pages
+     * @return array
+     */
+    protected function combineAndCutPages($pages): array
+    {
+        $result = [];
+        foreach ($pages as $pageProperties) {
+            $result[$pageProperties['page']][] = $pageProperties;
+        }
+        array_multisort(array_map('count', $result), SORT_DESC, $result);
+        $result = array_slice($result, 0, 100);
+        return $result;
     }
 
     /**

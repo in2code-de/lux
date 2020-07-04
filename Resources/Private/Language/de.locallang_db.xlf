@@ -1699,6 +1699,10 @@
 				<source>Back</source>
 				<target state="translated">Zurück</target>
 			</trans-unit>
+			<trans-unit id="other">
+				<source>Other</source>
+				<target state="translated">Andere</target>
+			</trans-unit>
 			<trans-unit id="next">
 				<source>Next</source>
 				<target state="translated">Weiter</target>
