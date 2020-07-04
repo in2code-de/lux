@@ -1,13 +1,12 @@
 <?php
 declare(strict_types=1);
-namespace In2code\Lux\Domain\Service;
+namespace In2code\Lux\Domain\Service\Referrer;
 
 /**
- * Class ReadableReferrerService
+ * Class Readable
  */
-class ReadableReferrerService
+class Readable
 {
-
     /**
      * @var string
      */

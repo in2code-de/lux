@@ -8,7 +8,7 @@ use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
-use In2code\Lux\Domain\Service\ReadableReferrerService;
+use In2code\Lux\Domain\Service\Referrer\Readable;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\FrontendUtility;
 use In2code\Lux\Utility\ObjectUtility;
@@ -209,10 +209,7 @@ class PagevisitRepository extends AbstractRepository
         $records = (array)$connection->executeQuery($sql)->fetchAll();
         $result = [];
         foreach ($records as $record) {
-            $readableReferrer = ObjectUtility::getObjectManager()->get(
-                ReadableReferrerService::class,
-                $record['referrer']
-            );
+            $readableReferrer = ObjectUtility::getObjectManager()->get(Readable::class, $record['referrer']);
             if (array_key_exists($readableReferrer->getReadableReferrer(), $result)) {
                 $result[$readableReferrer->getReadableReferrer()] += $record['count'];
             } else {
