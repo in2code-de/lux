@@ -19,8 +19,36 @@ class Readable
      */
     protected $sources = [
         't.co' => 'Twitter',
+        'www.twitter.com' => 'Twitter',
+        'm.twitter.com' => 'Twitter',
+        'l.twitter.com' => 'Twitter',
+        'lm.twitter.com' => 'Twitter',
+        'www.facebook.com' => 'Facebook',
+        'm.facebook.com' => 'Facebook',
+        'l.facebook.com' => 'Facebook',
+        'lm.facebook.com' => 'Facebook',
+        'www.instagram.com' => 'Instagram',
+        'm.instagram.com' => 'Instagram',
+        'l.instagram.com' => 'Instagram',
+        'lm.instagram.com' => 'Instagram',
+        'mobile.instagram.com' => 'Instagram',
+        'web.instagram.com' => 'Instagram',
+        'lnkd.in' => 'LinkedIn',
+        'www.linkedin.com' => 'LinkedIn',
+        'm.linkedin.com' => 'LinkedIn',
+        'l.linkedin.com' => 'LinkedIn',
+        'lm.linkedin.com' => 'LinkedIn',
+        'www.google.at' => 'Google Austria',
         'www.google.com' => 'Google International',
-        'www.google.de' => 'Google Germany'
+        'www.google.ch' => 'Google Switzerland',
+        'www.google.de' => 'Google Germany',
+        'www.google.fr' => 'Google France',
+        'www.google.it' => 'Google Italy',
+        'xing.com' => 'Xing',
+        'www.xing.com' => 'Xing',
+        'www.youtube.com' => 'YouTube',
+        'vimeo.com' => 'Vimeo',
+        'www.vimeo.com' => 'Vimeo',
     ];
 
     /**
