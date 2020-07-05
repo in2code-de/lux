@@ -30,6 +30,15 @@ class UrlUtility
     }
 
     /**
+     * @param string $uri
+     * @return bool
+     */
+    public static function isAbsoluteUri(string $uri): bool
+    {
+        return StringUtility::startsWith($uri, 'http://') || StringUtility::startsWith($uri, 'https://');
+    }
+
+    /**
      * data-anything="foo" => "foo"
      *
      * @param string $string
