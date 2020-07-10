@@ -209,6 +209,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 10.0.0     | 2020-07-10 | Feature    | Social media performance diagram, add internal redirect service, update disallowed provider list, preperations for URL shortener (part of the enterprise version)                          |
 | 9.1.2      | 2020-06-24 | Bugfix     | Fix type for linkclick configuration in TCA and Model                                                                                                                                      |
 | 9.1.1      | 2020-06-22 | Task       | Reduce requirements for symfony/expression-language to allow TYPO3 9 and form extension                                                                                                    |
 | 9.1.0      | 2020-06-19 | Feature    | Don't track some more bots                                                                                                                                                                 |
