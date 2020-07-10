@@ -36,7 +36,7 @@ See more information in the chapters:
 ### [Identification](Identification/Index.md)
 ### [Scoring and Categoryscoring](Categoryscorings/Index.md)
 ### [Leads](Leads/Index.md)
-### [Workflows](Workflows/Index.md)
+### [Workflows and URL shortener](Workflows/Index.md)
 ### [Plugins and Pageoverview](Plugins/Index.md)
 ### [Finisher](Finisher/Index.md)
 ### [Commands & Scheduler Tasks](Commands/Index.md)
