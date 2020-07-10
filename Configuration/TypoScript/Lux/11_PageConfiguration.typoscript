@@ -202,57 +202,59 @@ luxRedirect {
 
     # Build a loading graphics via CSS
     cssInline {
-        10 = TEXT
-        10.value (
-            .lux-loading {
-              display: inline-block;
-              position: fixed;
-              left: 50%;
-              top: 50%;
-              margin-top: -32px;
-              margin-left: -32px;
-              width: 80px;
-              height: 80px;
+        10 = FLUIDTEMPLATE
+        10.file = EXT:lux/Resources/Public/Css/Vendor/Spinkit.min.css
+
+        20 = TEXT
+        20.value (
+            .lux-redirect {
+                position: fixed;
+                left: 50%;
+                top: 50%;
+                margin-top: -32px;
+                margin-left: -150px;
+                width: 300px;
+                height: 80px;
             }
-            .lux-loading div {
-              box-sizing: border-box;
-              display: block;
-              position: absolute;
-              width: 64px;
-              height: 64px;
-              margin: 8px;
-              border: 8px solid #444;
-              border-radius: 50%;
-              animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-              border-color: #444 transparent transparent transparent;
+            .lux-redirect-text {
+                margin-top: 20px;
+                text-align: center;
+                font-family: Arial, sans-serif;
+                font-size: 20px;
+                opacity: 0;
             }
-            .lux-loading div:nth-child(1) {
-              animation-delay: -0.45s;
-            }
-            .lux-loading div:nth-child(2) {
-              animation-delay: -0.3s;
-            }
-            .lux-loading div:nth-child(3) {
-              animation-delay: -0.15s;
-            }
-            @keyframes lds-ring {
-              0% {
-                transform: rotate(0deg);
-              }
-              100% {
-                transform: rotate(360deg);
-              }
+            .fadein {
+              -webkit-transition: opacity 3s ease-in;
+              -moz-transition: opacity 3s ease-in;
+              -ms-transition: opacity 3s ease-in;
+              -o-transition: opacity 3s ease-in;
+              transition: opacity 3s ease-in;
+              opacity: 1;
             }
         )
     }
 
     10 = COA
     10 {
-        10 = TEXT
+        10 = COA
         10 {
-            data = GP:hash
-            htmlSpecialChars = 1
-            wrap = <div data-lux-redirect="|" class="lux-loading"><div></div><div></div><div></div><div></div></div>
+            10 = TEXT
+            10 {
+                data = GP:hash
+                htmlSpecialChars = 1
+                wrap = <div class="sk-bounce sk-center" data-lux-redirect="|"><div class="sk-bounce-dot"></div><div class="sk-bounce-dot"></div></div>
+            }
+            20 = TEXT
+            20 {
+                value = redirecting ...
+                wrap = <div class="lux-redirect-text" data-fade-in="true">|</div>
+            }
+            30 = TEXT
+            30 {
+                value = document.querySelector('[data-fade-in]').classList.add('fadein');
+                wrap = <script>|</script>
+            }
+            wrap = <div class="lux-redirect">|</div>
             if.isTrue.data = GP:hash
         }
         20 = TEXT
