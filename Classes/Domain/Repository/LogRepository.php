@@ -43,7 +43,7 @@ class LogRepository extends AbstractRepository
     {
         $query = $this->createQuery();
         $logicalAnd = $this->interestingLogsLogicalAnd($query);
-        $logicalAnd = $this->extendLogicalAndWithFilterConstraints($filter, $query, $logicalAnd);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
         $query->matching($query->logicalAnd($logicalAnd));
         $query->setLimit($limit);
         return $query->execute();
@@ -90,23 +90,6 @@ class LogRepository extends AbstractRepository
         $query = 'select count(uid) from ' . Log::TABLE_NAME . ' where status=' . (int)$status
             . $this->extendWhereClauseWithFilterTime($filter);
         return (int)$connection->executeQuery($query)->fetchColumn();
-    }
-
-    /**
-     * @param FilterDto $filter
-     * @param QueryInterface $query
-     * @param array $logicalAnd
-     * @return array
-     * @throws InvalidQueryException
-     */
-    protected function extendLogicalAndWithFilterConstraints(
-        FilterDto $filter,
-        QueryInterface $query,
-        array $logicalAnd
-    ): array {
-        $logicalAnd[] = $query->greaterThan('crdate', $filter->getStartTimeForFilter());
-        $logicalAnd[] = $query->lessThan('crdate', $filter->getEndTimeForFilter());
-        return $logicalAnd;
     }
 
     /**

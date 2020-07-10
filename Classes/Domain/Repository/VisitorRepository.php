@@ -62,7 +62,7 @@ class VisitorRepository extends AbstractRepository
     public function findAllWithIdentifiedFirst(FilterDto $filter): QueryResultInterface
     {
         $query = $this->createQuery();
-        $logicalAnd = $this->extendLogicalAndWithFilterConstraints($filter, $query, []);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, []);
         $query->matching($query->logicalAnd($logicalAnd));
         $query->setOrderings($this->getOrderingsArrayByFilterDto($filter));
         return $query->execute();
@@ -119,7 +119,7 @@ class VisitorRepository extends AbstractRepository
     public function findByHottestScorings(FilterDto $filter, int $limit = 10): QueryResultInterface
     {
         $query = $this->createQuery();
-        $logicalAnd = $this->extendLogicalAndWithFilterConstraints($filter, $query, []);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, []);
         $query->matching($query->logicalAnd($logicalAnd));
         $query->setLimit($limit);
         $query->setOrderings([
@@ -181,7 +181,7 @@ class VisitorRepository extends AbstractRepository
     {
         $query = $this->createQuery();
         $logicalAnd = [$query->equals('visits', 1)];
-        $logicalAnd = $this->extendLogicalAndWithFilterConstraints($filter, $query, $logicalAnd);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
         $query->matching($query->logicalAnd($logicalAnd));
         return $query->execute();
     }
@@ -195,7 +195,7 @@ class VisitorRepository extends AbstractRepository
     {
         $query = $this->createQuery();
         $logicalAnd = [$query->greaterThan('visits', 1)];
-        $logicalAnd = $this->extendLogicalAndWithFilterConstraints($filter, $query, $logicalAnd);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
         $query->matching($query->logicalAnd($logicalAnd));
         return $query->execute();
     }
@@ -209,7 +209,7 @@ class VisitorRepository extends AbstractRepository
     {
         $query = $this->createQuery();
         $logicalAnd = [$query->equals('identified', true)];
-        $logicalAnd = $this->extendLogicalAndWithFilterConstraints($filter, $query, $logicalAnd);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
         $query->matching($query->logicalAnd($logicalAnd));
         return $query->execute();
     }
@@ -223,7 +223,7 @@ class VisitorRepository extends AbstractRepository
     {
         $query = $this->createQuery();
         $logicalAnd = [$query->equals('identified', false)];
-        $logicalAnd = $this->extendLogicalAndWithFilterConstraints($filter, $query, $logicalAnd);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
         $query->matching($query->logicalAnd($logicalAnd));
         return $query->execute();
     }
@@ -237,7 +237,7 @@ class VisitorRepository extends AbstractRepository
     {
         $query = $this->createQuery();
         $logicalAnd = [$query->equals('identified', true)];
-        $logicalAnd = $this->extendLogicalAndWithFilterConstraints($filter, $query, $logicalAnd);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
         $query->matching($query->logicalAnd($logicalAnd));
         $query->setLimit(4);
         $query->setOrderings(['visits' => QueryInterface::ORDER_DESCENDING]);
@@ -429,7 +429,7 @@ class VisitorRepository extends AbstractRepository
      * @throws InvalidQueryException
      * @throws \Exception
      */
-    protected function extendLogicalAndWithFilterConstraints(
+    protected function extendLogicalAndWithFilterConstraintsForCrdate(
         FilterDto $filter,
         QueryInterface $query,
         array $logicalAnd

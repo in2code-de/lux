@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
-use In2code\Lux\Domain\Service\ReadableReferrerService;
+use In2code\Lux\Domain\Service\Referrer\Readable;
 use In2code\Lux\Utility\FrontendUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -135,7 +135,7 @@ class Pagevisit extends AbstractModel
      */
     public function getReadableReferrer(): string
     {
-        $referrerService = ObjectUtility::getObjectManager()->get(ReadableReferrerService::class, $this->getReferrer());
+        $referrerService = ObjectUtility::getObjectManager()->get(Readable::class, $this->getReferrer());
         return $referrerService->getReadableReferrer();
     }
 

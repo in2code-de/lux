@@ -21,8 +21,6 @@ use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
-use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
-use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
 
 /**
  * Merge duplicated visitors to only one visitor. Merge duplicates in these situations:
@@ -80,8 +78,6 @@ class VisitorMergeService
      * @throws DBALException
      * @throws Exception
      * @throws IllegalObjectTypeException
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
      * @throws UnknownObjectException
      */
     public function mergeByFingerprint(string $fingerprint): void
@@ -101,8 +97,6 @@ class VisitorMergeService
      * @throws DBALException
      * @throws Exception
      * @throws IllegalObjectTypeException
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
      * @throws UnknownObjectException
      */
     public function mergeByEmail(string $email): void
@@ -120,8 +114,6 @@ class VisitorMergeService
      * @throws DBALException
      * @throws Exception
      * @throws IllegalObjectTypeException
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
      * @throws UnknownObjectException
      */
     protected function merge(QueryResultInterface $visitors): void
@@ -134,6 +126,7 @@ class VisitorMergeService
                 $this->mergeCategoryscorings($visitor);
                 $this->mergeDownloads($visitor);
                 $this->mergeLinkclicks($visitor);
+                $this->mergeShortenervisits($visitor);
                 $this->mergeAttributes($visitor);
                 $this->updateFingerprints($visitor);
                 $this->deleteVisitor($visitor);
@@ -236,6 +229,25 @@ class VisitorMergeService
             'update ' . Linkclick::TABLE_NAME . ' set visitor = ' . (int)$this->firstVisitor->getUid() . ' ' .
             'where visitor = ' . (int)$newVisitor->getUid()
         )->execute();
+    }
+
+    /**
+     * Update existing shortenervisits with another parent visitor uid (if luxenterprise is installed)
+     *
+     * @param Visitor $newVisitor
+     * @return void
+     * @throws DBALException
+     */
+    protected function mergeShortenervisits(Visitor $newVisitor): void
+    {
+        if (DatabaseUtility::isTableExisting('tx_luxenterprise_domain_model_shortenervisit')) {
+            $connection = DatabaseUtility::getConnectionForTable('tx_luxenterprise_domain_model_shortenervisit');
+            $connection->query(
+                'update tx_luxenterprise_domain_model_shortenervisit ' .
+                'set visitor = ' . (int)$this->firstVisitor->getUid() . ' ' .
+                'where visitor = ' . (int)$newVisitor->getUid()
+            )->execute();
+        }
     }
 
     /**
