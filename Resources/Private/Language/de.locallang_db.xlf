@@ -700,6 +700,10 @@
 				<source>lux merged some profiles</source>
 				<target state="translated">lux hat Profile zusammengeführt</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.log.status.100">
+				<source>URL shortener used</source>
+				<target state="translated">URL Shortener wurde benutzt</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.map">
 				<source>Lead source</source>
 				<target state="translated">Lead Ursprung</target>
@@ -1694,6 +1698,10 @@
 			<trans-unit id="back">
 				<source>Back</source>
 				<target state="translated">Zurück</target>
+			</trans-unit>
+			<trans-unit id="other">
+				<source>Other</source>
+				<target state="translated">Andere</target>
 			</trans-unit>
 			<trans-unit id="next">
 				<source>Next</source>

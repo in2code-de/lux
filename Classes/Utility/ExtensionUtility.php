@@ -35,6 +35,16 @@ class ExtensionUtility
     }
 
     /**
+     * @param string $version
+     * @return bool
+     */
+    public static function isLuxenterpriseVersionOrHigherAvailable(string $version): bool
+    {
+        return VersionNumberUtility::convertVersionNumberToInteger($version) <=
+            VersionNumberUtility::convertVersionNumberToInteger(self::getLuxenterpriseVersion());
+    }
+
+    /**
      * @return string
      */
     public static function getLuxletterVersion(): string

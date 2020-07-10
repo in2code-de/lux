@@ -32,6 +32,7 @@ class Log extends AbstractModel
     const STATUS_LINKLISTENER = 80;
     const STATUS_MERGE_BYFINGERPRINT = 90;
     const STATUS_MERGE_BYEMAIL = 91;
+    const STATUS_SHORTENER_VISIT = 100;
 
     /**
      * @var \In2code\Lux\Domain\Model\Visitor
@@ -155,6 +156,14 @@ class Log extends AbstractModel
     public function getPageUid(): string
     {
         return $this->getPropertyByKey('pageUid');
+    }
+
+    /**
+     * @return string
+     */
+    public function getShortenerpath(): string
+    {
+        return $this->getPropertyByKey('path');
     }
 
     /**

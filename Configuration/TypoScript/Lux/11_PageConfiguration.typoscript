@@ -190,7 +190,85 @@ luxPageRequestAjax {
     }
 }
 
+# Redirect: Render a loading page with an animation (loading graphic)
+luxRedirect = PAGE
+luxRedirect {
+    typeNum = 1591948099
 
+    includeJSFooter {
+        lux = EXT:lux/Resources/Public/JavaScript/Lux/Lux.min.js
+        lux.defer = 1
+    }
+
+    # Build a loading graphics via CSS
+    cssInline {
+        10 = FLUIDTEMPLATE
+        10.file = EXT:lux/Resources/Public/Css/Vendor/Spinkit.min.css
+
+        20 = TEXT
+        20.value (
+            .lux-redirect {
+                position: fixed;
+                left: 50%;
+                top: 50%;
+                margin-top: -32px;
+                margin-left: -150px;
+                width: 300px;
+                height: 80px;
+            }
+            .lux-redirect-text {
+                margin-top: 20px;
+                text-align: center;
+                font-family: Arial, sans-serif;
+                font-size: 20px;
+                opacity: 0;
+            }
+            .fadein {
+              -webkit-transition: opacity 3s ease-in;
+              -moz-transition: opacity 3s ease-in;
+              -ms-transition: opacity 3s ease-in;
+              -o-transition: opacity 3s ease-in;
+              transition: opacity 3s ease-in;
+              opacity: 1;
+            }
+        )
+    }
+
+    10 = COA
+    10 {
+        10 = COA
+        10 {
+            10 = TEXT
+            10 {
+                data = GP:hash
+                htmlSpecialChars = 1
+                wrap = <div class="sk-bounce sk-center" data-lux-redirect="|"><div class="sk-bounce-dot"></div><div class="sk-bounce-dot"></div></div>
+            }
+            20 = TEXT
+            20 {
+                value = redirecting ...
+                wrap = <div class="lux-redirect-text" data-fade-in="true">|</div>
+            }
+            30 = TEXT
+            30 {
+                value = document.querySelector('[data-fade-in]').classList.add('fadein');
+                wrap = <script>|</script>
+            }
+            wrap = <div class="lux-redirect">|</div>
+            if.isTrue.data = GP:hash
+        }
+        20 = TEXT
+        20 {
+            value = Oooops failure, please try again later
+            if.isFalse.data = GP:hash
+        }
+    }
+
+    # Use same configuration as for normal pages
+    1518815717 < page.1518815717
+    # Disable default page tracking
+    1518815717.200 >
+}
 
 
 

@@ -43,6 +43,8 @@ function LuxMain() {
     trackingOptInListener();
     if (isLuxActivated()) {
       initializeTracking();
+    } else {
+      addRedirectListener();
     }
     addEmail4LinkListeners();
     doNotTrackListener();
@@ -243,6 +245,7 @@ function LuxMain() {
       addFormListeners();
       addDownloadListener();
       addLinkListenerListener();
+      addRedirectListener();
     } else {
       trackIteration++;
       if (trackIteration < 200) {
@@ -423,6 +426,23 @@ function LuxMain() {
           delayClick(event);
         }
       });
+    }
+  };
+
+  /**
+   * Can be called with opt-in (if no fingerprint, send empty value) and opt-out
+   *
+   * @returns {void}
+   */
+  var addRedirectListener = function() {
+    var redirectContainer = document.querySelector('[data-lux-redirect]');
+    if (redirectContainer !== null) {
+      var hash = redirectContainer.getAttribute('data-lux-redirect');
+      ajaxConnection({
+        'tx_lux_fe[dispatchAction]': 'redirectRequest',
+        'tx_lux_fe[fingerprint]': identification.isFingerprintSet() ? identification.getFingerprint() : '',
+        'tx_lux_fe[arguments][redirectHash]': hash
+      }, getRequestUri(), 'generalWorkflowActionCallback', null);
     }
   };
 

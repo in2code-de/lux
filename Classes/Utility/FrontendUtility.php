@@ -27,6 +27,14 @@ class FrontendUtility
     }
 
     /**
+     * @return string "https://currentdomain.org"
+     */
+    public static function getCurrentHostAndDomain(): string
+    {
+        return GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST');
+    }
+
+    /**
      * @return bool
      */
     public static function isLoggedInFrontendUser(): bool
@@ -45,6 +53,14 @@ class FrontendUtility
             return (string)$tsfe->fe_user->user[$propertyName];
         }
         return '';
+    }
+
+    /**
+     * @return bool
+     */
+    public static function isFrontendMode(): bool
+    {
+        return TYPO3_MODE === 'FE';
     }
 
     /**

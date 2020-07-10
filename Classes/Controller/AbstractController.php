@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
+use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Repository\CategoryRepository;
 use In2code\Lux\Domain\Repository\DownloadRepository;
 use In2code\Lux\Domain\Repository\FingerprintRepository;
@@ -194,6 +195,34 @@ abstract class AbstractController extends ActionController
             $filter['categoryScoring'] = 0;
         }
         $this->request->setArgument('filter', $filter);
+    }
+
+    /**
+     * @param string $action
+     * @param string $searchterm
+     * @return FilterDto
+     * @throws Exception
+     */
+    protected function getFilterFromSessionForAjaxRequests(string $action, string $searchterm = ''): FilterDto
+    {
+        $filterValues = BackendUtility::getSessionValue('filter', $action, $this->getControllerName());
+        $filter = ObjectUtility::getFilterDto();
+        if (!empty($searchterm)) {
+            $filter->setSearchterm($searchterm);
+        }
+        if (!empty($filterValues['timeFrom'])) {
+            $filter->setTimeFrom((string)$filterValues['timeFrom']);
+        }
+        if (!empty($filterValues['timeTo'])) {
+            $filter->setTimeTo((string)$filterValues['timeTo']);
+        }
+        if (!empty($filterValues['scoring'])) {
+            $filter->setScoring((int)$filterValues['scoring']);
+        }
+        if (!empty($filterValues['categoryscoring'])) {
+            $filter->setCategoryScoring((int)$filterValues['categoryscoring']);
+        }
+        return $filter;
     }
 
     /**

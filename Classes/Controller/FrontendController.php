@@ -2,9 +2,9 @@
 declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
-use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Factory\VisitorFactory;
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Domain\Service\RedirectService;
 use In2code\Lux\Domain\Service\SendAssetEmail4LinkService;
 use In2code\Lux\Domain\Tracker\AttributeTracker;
 use In2code\Lux\Domain\Tracker\DownloadTracker;
@@ -14,16 +14,12 @@ use In2code\Lux\Domain\Tracker\LuxletterlinkAttributeTracker;
 use In2code\Lux\Domain\Tracker\NewsTracker;
 use In2code\Lux\Domain\Tracker\PageTracker;
 use In2code\Lux\Exception\ActionNotAllowedException;
-use In2code\Lux\Exception\EmailValidationException;
 use In2code\Lux\Signal\SignalTrait;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Object\Exception;
-use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
-use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
-use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
-use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
 
 /**
  * Class FrontendController
@@ -48,7 +44,8 @@ class FrontendController extends ActionController
             'formListeningRequest',
             'email4LinkRequest',
             'downloadRequest',
-            'linkClickRequest'
+            'linkClickRequest',
+            'redirectRequest'
         ];
         $action = $this->request->getArgument('dispatchAction');
         if (!in_array($action, $allowedActions)) {
@@ -73,15 +70,13 @@ class FrontendController extends ActionController
      * @param string $fingerprint
      * @param array $arguments
      * @return string
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
+     * @throws Exception
      * @noinspection PhpUnused
      */
     public function pageRequestAction(string $fingerprint, array $arguments): string
     {
         try {
-            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $fingerprint);
-            $visitor = $visitorFactory->getVisitor();
+            $visitor = $this->getVisitor($fingerprint);
             $this->callAdditionalTrackers($visitor);
             $pageTracker = $this->objectManager->get(PageTracker::class);
             $pageTracker->track($visitor, $arguments);
@@ -97,15 +92,13 @@ class FrontendController extends ActionController
      * @param string $fingerprint
      * @param array $arguments
      * @return string
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
+     * @throws Exception
      * @noinspection PhpUnused
      */
     public function fieldListeningRequestAction(string $fingerprint, array $arguments): string
     {
         try {
-            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $fingerprint);
-            $visitor = $visitorFactory->getVisitor();
+            $visitor = $this->getVisitor($fingerprint);
             $attributeTracker = $this->objectManager->get(
                 AttributeTracker::class,
                 $visitor,
@@ -122,15 +115,13 @@ class FrontendController extends ActionController
      * @param string $fingerprint
      * @param array $arguments
      * @return string
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
+     * @throws Exception
      * @noinspection PhpUnused
      */
     public function formListeningRequestAction(string $fingerprint, array $arguments): string
     {
         try {
-            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $fingerprint);
-            $visitor = $visitorFactory->getVisitor();
+            $visitor = $this->getVisitor($fingerprint);
             $values = json_decode($arguments['values'], true);
             $attributeTracker = $this->objectManager->get(
                 AttributeTracker::class,
@@ -148,15 +139,13 @@ class FrontendController extends ActionController
      * @param string $fingerprint
      * @param array $arguments
      * @return string
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
+     * @throws Exception
      * @noinspection PhpUnused
      */
     public function email4LinkRequestAction(string $fingerprint, array $arguments): string
     {
         try {
-            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $fingerprint);
-            $visitor = $visitorFactory->getVisitor();
+            $visitor = $this->getVisitor($fingerprint);
             $attributeTracker = $this->objectManager->get(
                 AttributeTracker::class,
                 $visitor,
@@ -178,15 +167,13 @@ class FrontendController extends ActionController
      * @param string $fingerprint
      * @param array $arguments
      * @return string
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
+     * @throws Exception
      * @noinspection PhpUnused
      */
     public function downloadRequestAction(string $fingerprint, array $arguments): string
     {
         try {
-            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $fingerprint);
-            $visitor = $visitorFactory->getVisitor();
+            $visitor = $this->getVisitor($fingerprint);
             $downloadTracker = $this->objectManager->get(DownloadTracker::class, $visitor);
             $downloadTracker->addDownload($arguments['href']);
             return json_encode($this->afterAction($visitor));
@@ -199,20 +186,39 @@ class FrontendController extends ActionController
      * @param string $fingerprint
      * @param array $arguments
      * @return string
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
+     * @throws Exception
      * @noinspection PhpUnused
      */
     public function linkClickRequestAction(string $fingerprint, array $arguments): string
     {
         try {
-            $visitorFactory = $this->objectManager->get(VisitorFactory::class, $fingerprint);
-            $visitor = $visitorFactory->getVisitor();
+            $visitor = $this->getVisitor($fingerprint);
             $linkClickTracker = $this->objectManager->get(LinkClickTracker::class, $visitor);
             $linkClickTracker->addLinkClick((int)$arguments['linklistenerIdentifier'], (int)$arguments['pageUid']);
             return json_encode($this->afterAction($visitor));
         } catch (\Exception $exception) {
             return json_encode($this->getError($exception));
+        }
+    }
+
+    /**
+     * @param string $fingerprint empty means no opt-in yet
+     * @return string
+     * @throws Exception
+     */
+    public function redirectRequestAction(string $fingerprint): string
+    {
+        try {
+            $visitor = $this->getVisitor($fingerprint);
+            return json_encode($this->afterAction($visitor));
+        } catch (\Exception $exception) {
+            try {
+                // Empty fingerprint, create visitor on the fly
+                $visitor = new Visitor();
+                return json_encode($this->afterAction($visitor));
+            } catch (\Exception $exception) {
+                return json_encode($this->getError($exception));
+            }
         }
     }
 
@@ -231,18 +237,11 @@ class FrontendController extends ActionController
      *
      * @param Visitor $visitor
      * @return void
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
-     * @throws DBALException
-     * @throws EmailValidationException
-     * @throws Exception
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
      */
     protected function callAdditionalTrackers(Visitor $visitor): void
     {
-        $authenticationTracker = $this->objectManager->get(FrontenduserAuthenticationTracker::class, $visitor);
-        $authenticationTracker->trackByFrontenduserAuthentication();
+        $authTracker = $this->objectManager->get(FrontenduserAuthenticationTracker::class, $visitor);
+        $authTracker->trackByFrontenduserAuthentication();
         $luxletterTracker = $this->objectManager->get(
             LuxletterlinkAttributeTracker::class,
             $visitor,
@@ -259,8 +258,7 @@ class FrontendController extends ActionController
      *
      * @param Visitor $visitor
      * @return array
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
+     * @throws Exception
      */
     protected function afterAction(Visitor $visitor): array
     {
@@ -271,8 +269,7 @@ class FrontendController extends ActionController
     /**
      * @param \Exception $exception
      * @return array
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
+     * @throws Exception
      */
     protected function getError(\Exception $exception): array
     {
@@ -284,5 +281,15 @@ class FrontendController extends ActionController
                 'message' => $exception->getMessage()
             ]
         ];
+    }
+
+    /**
+     * @param string $fingerprint
+     * @return Visitor
+     */
+    protected function getVisitor(string $fingerprint): Visitor
+    {
+        $visitorFactory = $this->objectManager->get(VisitorFactory::class, $fingerprint);
+        return $visitorFactory->getVisitor();
     }
 }

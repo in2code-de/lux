@@ -7,6 +7,7 @@ use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
@@ -62,11 +63,33 @@ abstract class AbstractRepository extends Repository
 
     /**
      * @param FilterDto $filter
+     * @param QueryInterface $query
+     * @param array $logicalAnd
+     * @return array
+     * @throws InvalidQueryException
+     * @throws \Exception
+     */
+    protected function extendLogicalAndWithFilterConstraintsForCrdate(
+        FilterDto $filter,
+        QueryInterface $query,
+        array $logicalAnd
+    ): array {
+        $logicalAnd[] = $query->greaterThan('crdate', $filter->getStartTimeForFilter());
+        $logicalAnd[] = $query->lessThan('crdate', $filter->getEndTimeForFilter());
+        return $logicalAnd;
+    }
+
+    /**
+     * @param FilterDto $filter
      * @param string $table
+     * @param string $titleField
      * @return string
      */
-    protected function extendWhereClauseWithFilterSearchterms(FilterDto $filter, string $table = ''): string
-    {
+    protected function extendWhereClauseWithFilterSearchterms(
+        FilterDto $filter,
+        string $table = '',
+        string $titleField = 'title'
+    ): string {
         $sql = '';
         if ($filter->getSearchterms() !== []) {
             foreach ($filter->getSearchterms() as $searchterm) {
@@ -79,7 +102,7 @@ abstract class AbstractRepository extends Repository
                 if (MathUtility::canBeInterpretedAsInteger($searchterm)) {
                     $sql .= ($table !== '' ? $table . '.' : '') . 'uid = ' . (int)$searchterm;
                 } else {
-                    $sql .= ($table !== '' ? $table . '.' : '') .  ' title like "%'
+                    $sql .= ($table !== '' ? $table . '.' : '') . $titleField . ' like "%'
                         . StringUtility::cleanString($searchterm) . '%"';
                 }
             }

@@ -1,9 +1,11 @@
 <img align="left" src="../../../Resources/Public/Icons/lux.svg" width="50" />
 
-### Backend Module Workflows
+### Workflows and URL shortener
 
-**NOTE:** This module is only part of the enterprise version. Look at 
+**NOTE:** This module is only part of the enterprise version. Look at
 https://www.in2code.de/produkte/lux-typo3-marketing-automation/ for more information.
+
+#### Workflow view
 
 This part of the manual describes how to manage workflows in lux backend module.
 
@@ -11,7 +13,7 @@ A workflow is a technique to nurture your leads. Let's say a lead that reaches a
 *Product A* should see a special offer in a popup (lightbox)? Or maybe you want to redirect a lead to a different page
 if he/she visits the page the second time? Lux will help you to build your own and individual workflows.
 
-#### List view
+##### List view
 
 If you open the backend module workflows and you have not added any workflows yet, the only interaction possibility for
 you is to add a new workflow. If you have already added one or more workflows, you will see a list of your existing
@@ -23,14 +25,14 @@ Existing workflows can be deleted or edited by clicking the buttons.
 If you edit an existing workflow or if you add a new workflow, you will see a form that is splitted into three
 different steps.
 
-#### 1 Title
+##### 1 Title
 
 Define a title and an internal description for your new workflow:
 <img src="../../../Documentation/Images/documentation_workflow_edit_step1.png" width="800" />
 
 After that you can choose next for step 2.
 
-#### 2 Trigger
+##### 2 Trigger
 
 A trigger is a condition for a possible event or action.
 You can choose one or more triggers (and combine them logical with AND or OR) that
@@ -54,7 +56,7 @@ Possible triggers by default are:
 
 After that you can choose next for step 3 or previous for step 1 again.
 
-#### 3 Action
+##### 3 Action
 
 An action is when lux executes a workflow on given conditions (triggers). You can choose one or more actions.
 If you choose more actions, all actions will be executed.
@@ -80,7 +82,7 @@ Possible actions by default are:
 
 After that you can choose save or previous for step 2 again.
 
-#### TypoScript Configuration
+##### TypoScript Configuration
 
 There is a default TypoScript configuration that will be added if you add the Lux Static Template to your root template.
 Depending on the triggers and actions that you're using, you can enrich some of them with configuration in TypoScript.
@@ -450,7 +452,7 @@ lib.lux.settings {
 }
 ```
 
-#### Extending Triggers and Actions
+##### Extending Triggers and Actions
 
 Of course we wanted to build a very flexible Marketing Automation tool that can be extended to your needs. So we don't
 know all the triggers and actions that you need. But we made it very easy for you to extend the existing list with your
@@ -458,7 +460,7 @@ own triggers and actions.
 
 The following examples would require an additional extension and we call it *luxextension*.
 
-##### Add an individual trigger
+###### Add an individual trigger
 
 Let's say you want to add an individual trigger **If a frontend user adds a page**, you should register it via
 TypoScript first:
@@ -602,7 +604,7 @@ HTML file.
 
 
 
-##### Add an individual action
+###### Add an individual action
 
 Let's say you want to add an individual action **Send lead values via CURL**, you should register it via
 TypoScript first:
@@ -762,7 +764,7 @@ to get helpful information.
 The method initialize() is called before doAction() and the method afterAction() at last.
 While you have to add a boolean method doAction() the others are optional.
 
-**Note:** There are some entry points in lux, that can call actions (e.g. a page visit or if a visitor submits a 
+**Note:** There are some entry points in lux, that can call actions (e.g. a page visit or if a visitor submits a
 email4link form). Per default actions are only called by page visits. But maybe it is useful to also start an action
 if a form was submitted. You can define the starting actions with the variable `$controllerActions` in your Action
 class. Have a look into AbstractAction class for some examples and the default value.
@@ -770,3 +772,23 @@ class. Have a look into AbstractAction class for some examples and the default v
 
 Last but not least, you should add a locallang file with the keys that you've used in TypoScript and in your Trigger
 HTML file.
+
+
+#### URL shortener view
+
+This part of the manual describes how to manage URL shortener with lux.
+
+URL shorteners help you to build individual short URL on your domain for your marketing campaigns. You can track visits
+of short URL usage per lead.
+
+##### List view
+
+If you open the backend module workflows you can switch to "URL shortener" by clicking the button on the top.
+A list view is shown.
+
+<img src="../../../Documentation/Images/screenshot_urlshortener_list.png" width="800" />
+
+This view works basicly like every other view in Lux. You can filter your shorteners per searchterm, category or per
+timeframe. Diagrams are showing you "overall usage", "top shortener" and visits from "socialmedia".
+
+A click on an existing shortener will show you individual information about the leads that used this shortener.

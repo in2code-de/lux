@@ -94,7 +94,9 @@ call_user_func(
                 'workflow',
                 '',
                 [
-                    'Workflow' => 'list,new,create,edit,update,delete,disable,enable'
+                    'Workflow' => 'list,new,create,edit,update,delete,disable,enable',
+                    'Shortener' => 'list,delete,detail,resetFilter',
+                    'General' => 'information'
                 ],
                 [
                     'access' => 'user,group',

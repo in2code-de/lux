@@ -30,6 +30,15 @@ class UrlUtility
     }
 
     /**
+     * @param string $uri
+     * @return bool
+     */
+    public static function isAbsoluteUri(string $uri): bool
+    {
+        return StringUtility::startsWith($uri, 'http://') || StringUtility::startsWith($uri, 'https://');
+    }
+
+    /**
      * data-anything="foo" => "foo"
      *
      * @param string $string
@@ -43,5 +52,16 @@ class UrlUtility
             return $result[1];
         }
         return '';
+    }
+
+    /**
+     * @param string $string
+     * @return string
+     */
+    public static function removeSlashPrefixAndPostfix(string $string): string
+    {
+        $string = ltrim($string, '/');
+        $string = rtrim($string, '/');
+        return $string;
     }
 }
