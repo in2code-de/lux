@@ -194,6 +194,7 @@ luxPageRequestAjax {
 luxRedirect = PAGE
 luxRedirect {
     typeNum = 1591948099
+    config.no_cache = 1
 
     includeJSFooter {
         lux = EXT:lux/Resources/Public/JavaScript/Lux/Lux.min.js
