@@ -131,7 +131,7 @@ page {
 
 
 # Disable analytics in Frontend if Backenduser is logged in (should prevent thousands of page visits while the editor reloads the FE again and again)
-[{$plugin.tx_lux.settings.disableTrackingForBackendUsers} == 1] && [backend.user.isLoggedIn]
+[backend.user.isLoggedIn && {$plugin.tx_lux.settings.disableTrackingForBackendUsers} == 1]
     page.1518815717.10.value = 0
 [end]
 
