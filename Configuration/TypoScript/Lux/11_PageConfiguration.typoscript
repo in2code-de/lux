@@ -2,26 +2,6 @@ page {
     # Add Main CSS for the frontend
     includeCSS.lux = EXT:lux/Resources/Public/Css/Frontend.min.css
 
-    # Add JavaScript for field identification configuration
-    1517985223 = TEXT
-    1517985223 {
-        typolink {
-            parameter.data = TSFE:id
-            additionalParams = &type=1517985223
-            returnLast = url
-        }
-        wrap = <script type="text/javascript" src="|"></script>
-    }
-    # Add JavaScript for form identification configuration
-    1560095529 = TEXT
-    1560095529 {
-        typolink {
-            parameter.data = TSFE:id
-            additionalParams = &type=1560095529
-            returnLast = url
-        }
-        wrap = <script type="text/javascript" src="|"></script>
-    }
     # Add main JavaScript for lux
     includeJSFooter {
       luxBasicLightbox = EXT:lux/Resources/Public/JavaScript/Vendor/BasicLightbox.min.js
@@ -151,7 +131,7 @@ page {
 
 
 # Disable analytics in Frontend if Backenduser is logged in (should prevent thousands of page visits while the editor reloads the FE again and again)
-[{$plugin.tx_lux.settings.disableTrackingForBackendUsers} == 1] && [backend.user.isLoggedIn]
+[backend.user.isLoggedIn && {$plugin.tx_lux.settings.disableTrackingForBackendUsers} == 1]
     page.1518815717.10.value = 0
 [end]
 
@@ -275,6 +255,19 @@ luxRedirect {
 
 # Typenum to get field mapping configuration in a dynamic JS file
 [{$plugin.tx_lux.settings.fieldandformidentification} == 1]
+    # Add JavaScript for field identification configuration
+    page {
+        1517985223 = TEXT
+        1517985223 {
+              typolink {
+              parameter.data = TSFE:id
+              additionalParams = &type=1517985223
+              returnLast = url
+            }
+            wrap = <script type="text/javascript" src="|"></script>
+        }
+    }
+
     luxConfigurationFieldIdentification = PAGE
     luxConfigurationFieldIdentification {
         typeNum = 1517985223
@@ -297,6 +290,18 @@ luxRedirect {
             }
         }
     }
+    # Add JavaScript for form identification configuration
+    page {
+        1560095529 = TEXT
+        1560095529 {
+            typolink {
+                parameter.data = TSFE:id
+                additionalParams = &type=1560095529
+                returnLast = url
+            }
+            wrap = <script type="text/javascript" src="|"></script>
+        }
+    }
 
     luxConfigurationFormIdentification < luxConfigurationFieldIdentification
     luxConfigurationFieldIdentification {
@@ -311,7 +316,4 @@ luxRedirect {
             }
         }
     }
-[else]
-    page.1517985223 >
-    page.1560095529 >
 [end]
