@@ -15,6 +15,12 @@ Basicly there are 5 different ways at the moment:
 see [Identification](../Identification/Index.md) for more information.
 
 
+#### Debugging in JavaScript or why is Lux not working?
+
+If you add the string `ENABLELUXDEBUG` anywhere on your website, the JS-debugging mode is turned on. So you will see
+if Lux is activated or deactivated and why in the browser console. In addition fingerprint values are shown.
+
+
 #### How to enable tracking even if I'm logged in into backend?
 
 With a single line of TypoScript constants:

@@ -13,14 +13,13 @@ use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\CookieUtility;
 use In2code\Lux\Utility\IpUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
-use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
-use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
 
 /**
  * Class VisitorFactory to add a new visitor to database (if not yet stored).
@@ -43,11 +42,15 @@ class VisitorFactory
      * VisitorFactory constructor.
      *
      * @param string $fingerprint
+     * @param bool $tempVisitor If there is no fingerprint (doNotTrack) but we even want to generate a visitor object
      * @throws Exception
      * @throws FingerprintMustNotBeEmptyException
      */
-    public function __construct(string $fingerprint)
+    public function __construct(string $fingerprint, bool $tempVisitor = false)
     {
+        if ($tempVisitor === true) {
+            $fingerprint = StringUtility::getRandomString(32, false);
+        }
         $this->fingerprint = GeneralUtility::makeInstance(Fingerprint::class)->setValue($fingerprint);
         $this->visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
         $this->signalDispatch(__CLASS__, 'stopAnyProcessBeforePersistence', [$this->fingerprint]);
@@ -58,8 +61,6 @@ class VisitorFactory
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws IllegalObjectTypeException
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
      * @throws Exception
      * @throws UnknownObjectException
      * @throws DBALException
@@ -122,8 +123,6 @@ class VisitorFactory
      * @return Visitor
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
      * @throws Exception
      */
     protected function createNewVisitor(): Visitor
