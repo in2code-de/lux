@@ -38,6 +38,7 @@ function LuxMain() {
    */
   this.initialize = function() {
     identification = new LuxIdentification();
+    checkFunctions();
 
     trackingOptOutListener();
     trackingOptInListener();
@@ -601,6 +602,28 @@ function LuxMain() {
   };
 
   /**
+   * Check if lux could work
+   *
+   * @returns {void}
+   */
+  var checkFunctions = function() {
+    if (isDebugMode()) {
+      console.log('Lux: Debug is activated');
+      if (isLuxActivated() === false) {
+        console.log('Lux: Tracking is deactivated');
+      }
+      if (navigator.doNotTrack === '1') {
+        console.log('Do-Not-Track header set in your browser, so tracking is deactivated');
+      }
+      if (getContainer() === null || getContainer().getAttribute('data-lux-enable') !== '1') {
+        console.log(
+          'No tag with data-lux-enable="1" given, so tracking is deactivated (probably logged in into TYPO3 backend?)'
+        );
+      }
+    }
+  };
+
+  /**
    * @param field
    * @returns {boolean}
    */
@@ -962,6 +985,15 @@ function LuxMain() {
     }
     return '';
   };
+
+  /**
+   * Search for text "ENABLELUXDEBUG" anywhere on the website to show some debug information
+   *
+   * @returns {boolean}
+   */
+  var isDebugMode = function () {
+    return document.body.innerHTML.search('ENABLELUXDEBUG') !== -1;
+  }
 }
 
 /**
