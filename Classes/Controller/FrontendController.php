@@ -145,7 +145,7 @@ class FrontendController extends ActionController
     public function email4LinkRequestAction(string $fingerprint, array $arguments): string
     {
         try {
-            $visitor = $this->getVisitor($fingerprint);
+            $visitor = $this->getVisitor($fingerprint, true);
             $attributeTracker = $this->objectManager->get(
                 AttributeTracker::class,
                 $visitor,
@@ -285,11 +285,12 @@ class FrontendController extends ActionController
 
     /**
      * @param string $fingerprint
+     * @param bool $tempVisitor
      * @return Visitor
      */
-    protected function getVisitor(string $fingerprint): Visitor
+    protected function getVisitor(string $fingerprint, bool $tempVisitor = false): Visitor
     {
-        $visitorFactory = $this->objectManager->get(VisitorFactory::class, $fingerprint);
+        $visitorFactory = $this->objectManager->get(VisitorFactory::class, $fingerprint, $tempVisitor);
         return $visitorFactory->getVisitor();
     }
 }
