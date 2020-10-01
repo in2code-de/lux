@@ -209,6 +209,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 10.1.0     | 2020-10-01 | Feature    | Allow email4link without optin or with doNotTrack headers, Show helpful console outputs in debug mode.                                                                                     |
 | 10.0.2     | 2020-08-07 | Bugfix     | Fix else statements in TypoScript conditions                                                                                                                                               |
 | 10.0.1     | 2020-08-07 | Bugfix     | Don't cache redirect view                                                                                                                                                                  |
 | 10.0.0     | 2020-07-10 | Feature    | Social media performance diagram, add internal redirect service, update disallowed provider list, preperations for URL shortener (part of the enterprise version)                          |
