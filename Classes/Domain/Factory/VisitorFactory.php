@@ -48,7 +48,7 @@ class VisitorFactory
      */
     public function __construct(string $fingerprint, bool $tempVisitor = false)
     {
-        if ($tempVisitor === true) {
+        if ($fingerprint === '' && $tempVisitor === true) {
             $fingerprint = StringUtility::getRandomString(32, false);
         }
         $this->fingerprint = GeneralUtility::makeInstance(Fingerprint::class)->setValue($fingerprint);
