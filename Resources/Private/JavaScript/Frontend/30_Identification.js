@@ -146,11 +146,12 @@ function LuxIdentification() {
         return value
       }
     }, function (components) {
-      if (isDebugMode() === true) {
-        console.log('Debug: Fingerprint values', components);
-      }
       var hashValue = getCombinedComponentValue(components);
       that.fingerprint = Fingerprint2.x64hash128(hashValue, 31);
+      if (isDebugMode() === true) {
+        console.log('Debug: Fingerprint values', components);
+        console.log('Debug: Fingerprint is "' + that.fingerprint + '"');
+      }
     });
   };
 
