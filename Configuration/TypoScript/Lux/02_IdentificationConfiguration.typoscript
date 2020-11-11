@@ -121,6 +121,9 @@ lib.lux.settings {
                 # From email for mail to visitor
                 fromEmail = marketing@website.org
 
+                # Send a blind copy to any receivers (can be a commaseparated email list)
+                bccEmail =
+
                 # Allow only files with this extensions
                 allowedFileExtensions = pdf,txt,doc,docx,xls,xlsx,ppt,pptx,jpg,png,zip
 

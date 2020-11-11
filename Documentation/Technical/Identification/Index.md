@@ -114,7 +114,7 @@ Example lead identification in dashboard:
 
 #### FormFieldMapping
 
-Another way for identifications is to listen to complete form submits of any forms on your website. 
+Another way for identifications is to listen to complete form submits of any forms on your website.
 If you want to send all field informations of a form to lux, just add a `data-lux-form-identification="true"` to the
 form-tag itself.
 
@@ -134,7 +134,7 @@ lib.lux.settings {
     identification {
         # En- or Disable field and form identification
         _enable = {$plugin.tx_lux.settings.fieldandformidentification}
-        
+
         # Identify by complete form submits with '<form data-lux-form-identification="true">'
         # If you want to stop the submit process (pagereload or redirect), you can use data-lux-form-identification="preventDefault"
         # Using a * as wildcard will search for a string in a string while using a key without * will search for the exact match.
@@ -307,6 +307,9 @@ lib.lux.settings {
                 # From email for mail to visitor
                 fromEmail = marketing@website.org
 
+                # Send a blind copy to any receivers (can be a commaseparated email list)
+                bccEmail =
+
                 # Allow only files with this extensions
                 allowedFileExtensions = pdf,txt,doc,docx,xls,xlsx,ppt,pptx,jpg,png,zip
 
@@ -342,7 +345,7 @@ to your links.
     data-lux-email4link-title="Receive document via email.">Download our whitepaper</a>
 ```
 
-**Note:** Per default, Lux will not ask twice for the email. But you can configure this via TypoScript constants 
+**Note:** Per default, Lux will not ask twice for the email. But you can configure this via TypoScript constants
 `plugin.tx_lux.settings.disableEmail4DownloadForIdentifiedVisitors=1`
 
 

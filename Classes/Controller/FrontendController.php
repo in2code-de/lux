@@ -155,7 +155,8 @@ class FrontendController extends ActionController
             $downloadTracker = $this->objectManager->get(DownloadTracker::class, $visitor);
             $downloadTracker->addDownload($arguments['href']);
             if ($arguments['sendEmail'] === 'true') {
-                $this->objectManager->get(SendAssetEmail4LinkService::class, $visitor)->sendMail($arguments['href']);
+                $this->objectManager->get(SendAssetEmail4LinkService::class, $visitor, $this->settings)
+                    ->sendMail($arguments['href']);
             }
             return json_encode($this->afterAction($visitor));
         } catch (\Exception $exception) {
