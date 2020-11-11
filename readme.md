@@ -209,6 +209,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 10.3.1     | 2020-11-11 | Bugfix     | Add a missing log status translation                                                                                                                                                       |
 | 10.3.0     | 2020-11-11 | Feature    | Allow a bcc setting for email4link                                                                                                                                                         |
 | 10.2.0     | 2020-11-05 | Feature    | Show complete fingerprint in debug mode in browser console. Fix randomized fingerprints in email4link function.                                                                            |
 | 10.1.0     | 2020-10-01 | Feature    | Allow email4link without optin or with doNotTrack headers, Show helpful console outputs in debug mode.                                                                                     |
