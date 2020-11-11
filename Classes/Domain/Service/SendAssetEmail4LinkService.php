@@ -12,8 +12,6 @@ use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
-use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
-use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
@@ -29,6 +27,13 @@ class SendAssetEmail4LinkService
     protected $visitor = null;
 
     /**
+     * TypoScript settings
+     *
+     * @var array
+     */
+    protected $settings = [];
+
+    /**
      * @var ConfigurationService|null
      */
     protected $configurationService = null;
@@ -37,22 +42,22 @@ class SendAssetEmail4LinkService
      * SendAssetEmail4LinkService constructor.
      *
      * @param Visitor $visitor
+     * @param array $settings
      * @throws Exception
      */
-    public function __construct(Visitor $visitor)
+    public function __construct(Visitor $visitor, array $settings)
     {
         $this->visitor = $visitor;
+        $this->settings = $settings;
         $this->configurationService = ObjectUtility::getConfigurationService();
     }
 
     /**
      * @param string $href
      * @return void
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
      * @throws Exception
      */
-    public function sendMail(string $href)
+    public function sendMail(string $href): void
     {
         if ($this->visitor->isNotBlacklisted()) {
             if ($this->isActivatedAndAllowed($href)) {
@@ -67,11 +72,9 @@ class SendAssetEmail4LinkService
     /**
      * @param string $href
      * @return void
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
      * @throws Exception
      */
-    protected function send(string $href)
+    protected function send(string $href): void
     {
         $message = ObjectUtility::getObjectManager()->get(MailMessage::class);
         if (ConfigurationUtility::isVersionToCompareSameOrLowerThenCurrentTypo3Version('10.0.0')) {
@@ -88,13 +91,36 @@ class SendAssetEmail4LinkService
                 ->setTo([$this->visitor->getEmail() => 'Receiver'])
                 ->setFrom($this->getSender())
                 ->setSubject($this->getSubject())
-                ->attach(
-                    \Swift_Attachment::fromPath(GeneralUtility::getFileAbsFileName(UrlUtility::convertToRelative($href)))
-                )
+                ->attach(\Swift_Attachment::fromPath(
+                    GeneralUtility::getFileAbsFileName(UrlUtility::convertToRelative($href))
+                ))
                 ->setBody($this->getMailTemplate($href), 'text/html');
         }
+        $this->setBcc($message);
         $this->signalDispatch(__CLASS__, 'send', [$message, $this->visitor, $href]);
         $message->send();
+    }
+
+    /**
+     * @param MailMessage $message
+     * @return void
+     */
+    protected function setBcc(MailMessage $message): void
+    {
+        if (!empty($this->settings['identification']['email4link']['mail']['bccEmail'])) {
+            $bcc = [];
+            $emails = GeneralUtility::trimExplode(
+                ',',
+                $this->settings['identification']['email4link']['mail']['bccEmail'],
+                true
+            );
+            foreach ($emails as $email) {
+                if (GeneralUtility::validEmail($email)) {
+                    $bcc = array_merge($bcc, [$email => 'Receiver']);
+                }
+            }
+            $message->setBcc($bcc);
+        }
     }
 
     /**
