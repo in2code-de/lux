@@ -680,6 +680,26 @@
 				<source>"luxletterlink" identified lead</source>
 				<target state="translated">"luxletterlink" hat einen Lead identifiziert</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.log.status.3">
+				<source>lux has added an attribute</source>
+				<target state="translated">Weitere Eigenschaft hinzugefügt</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.40">
+				<source>Second page visit</source>
+				<target state="translated">Zweiter Seitenbesuch</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.41">
+				<source>Third page visit</source>
+				<target state="translated">Dritter Seitenbesuch</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.42">
+				<source>Fourth page visit</source>
+				<target state="translated">Vierter Seitenbesuch</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.43">
+				<source>Fifth page visit</source>
+				<target state="translated">Fünfter Seitenbesuch</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.log.status.50">
 				<source>lux tracked a download</source>
 				<target state="translated">lux hat einen Download aufgezeichnet</target>
@@ -697,8 +717,12 @@
 				<target state="translated">lux hat einen Klick auf einen Link getrackt</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.90">
-				<source>lux merged some profiles</source>
-				<target state="translated">lux hat Profile zusammengeführt</target>
+				<source>Profiles merged by identical fingerprint</source>
+				<target state="translated">Profile zusammengeführt (identische Fingerprints)</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.91">
+				<source>Profiles merged by identical email</source>
+				<target state="translated">Profile zusammengeführt (identische E-Mail)</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.100">
 				<source>URL shortener used</source>

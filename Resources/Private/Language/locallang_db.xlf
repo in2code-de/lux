@@ -516,6 +516,21 @@
 			<trans-unit id="module.analysis.log.status.28">
 				<source>"luxletterlink" identified lead</source>
 			</trans-unit>
+			<trans-unit id="module.analysis.log.status.3">
+				<source>lux has added an attribute</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.40">
+				<source>Second page visit</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.41">
+				<source>Third page visit</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.42">
+				<source>Fourth page visit</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.43">
+				<source>Fifth page visit</source>
+			</trans-unit>
 			<trans-unit id="module.analysis.log.status.50">
 				<source>lux tracked a download</source>
 			</trans-unit>
@@ -529,7 +544,10 @@
 				<source>lux tracked a link click</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.90">
-				<source>lux merged some profiles</source>
+				<source>Profiles merged by identical fingerprint</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.91">
+				<source>Profiles merged by identical email</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.100">
 				<source>URL shortener used</source>
