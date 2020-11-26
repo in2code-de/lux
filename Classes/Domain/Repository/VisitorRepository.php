@@ -434,8 +434,8 @@ class VisitorRepository extends AbstractRepository
         QueryInterface $query,
         array $logicalAnd
     ): array {
-        $logicalAnd[] = $query->greaterThan('tstamp', $filter->getStartTimeForFilter());
-        $logicalAnd[] = $query->lessThan('tstamp', $filter->getEndTimeForFilter());
+        $logicalAnd[] = $query->greaterThan('pagevisits.crdate', $filter->getStartTimeForFilter());
+        $logicalAnd[] = $query->lessThan('pagevisits.crdate', $filter->getEndTimeForFilter());
         if ($filter->getSearchterms() !== []) {
             $logicalOr = [];
             foreach ($filter->getSearchterms() as $searchterm) {

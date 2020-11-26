@@ -179,8 +179,11 @@ class FilterDto
      */
     public function getTimeToDateTime(): \DateTime
     {
-        /** @noinspection PhpUnhandledExceptionInspection */
-        return new \DateTime($this->getTimeTo());
+        $timeTo = $this->getTimeTo();
+        if ($timeTo === '') {
+            return new \DateTime();
+        }
+        return new \DateTime($timeTo);
     }
 
     /**
@@ -343,7 +346,7 @@ class FilterDto
      */
     public function getStartTimeForFilter(bool $shortmode = false): \DateTime
     {
-        if ($this->isTimeFromAndTimeToGiven()) {
+        if ($this->getTimeFrom()) {
             $time = $this->getTimeFromDateTime();
         } else {
             if ($shortmode === false || $this->isShortMode() === false) {
@@ -363,7 +366,7 @@ class FilterDto
      */
     public function getEndTimeForFilter(): \DateTime
     {
-        if ($this->isTimeFromAndTimeToGiven()) {
+        if ($this->getTimeFrom()) {
             $time = $this->getTimeToDateTime();
         } else {
             $time = $this->getEndTimeFromTimePeriod();
@@ -580,13 +583,5 @@ class FilterDto
         }
         $interval[] = $end;
         return $interval;
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isTimeFromAndTimeToGiven(): bool
-    {
-        return $this->getTimeFrom() && $this->getTimeTo();
     }
 }

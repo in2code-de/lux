@@ -116,7 +116,8 @@ class ScoringService
             /** @var PagevisitRepository $pagevisitRepository */
             $pagevisitRepository = ObjectUtility::getObjectManager()->get(PagevisitRepository::class);
             $pagevisits = $pagevisitRepository->findByVisitorAndTime($visitor, $this->time);
-            if ($pagevisits > 0) {
+            if (count($pagevisits) > 0) {
+                $sitevisits = 1;
                 $lastVisit = null;
                 /** @var Pagevisit $pagevisit */
                 foreach ($pagevisits as $pagevisit) {
