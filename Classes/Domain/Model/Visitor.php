@@ -163,7 +163,7 @@ class Visitor extends AbstractModel
      * @param int $scoring
      * @return Visitor
      */
-    public function setScoring(int $scoring)
+    public function setScoring(int $scoring): self
     {
         $this->scoring = $scoring;
         return $this;
@@ -195,7 +195,7 @@ class Visitor extends AbstractModel
      * @var ObjectStorage $categoryscorings
      * @return Visitor
      */
-    public function setCategoryscorings(ObjectStorage $categoryscorings)
+    public function setCategoryscorings(ObjectStorage $categoryscorings): self
     {
         $this->categoryscorings = $categoryscorings;
         return $this;
@@ -205,7 +205,7 @@ class Visitor extends AbstractModel
      * @param Categoryscoring $categoryscoring
      * @return $this
      */
-    public function addCategoryscoring(Categoryscoring $categoryscoring)
+    public function addCategoryscoring(Categoryscoring $categoryscoring): self
     {
         $this->categoryscorings->attach($categoryscoring);
         return $this;
@@ -215,7 +215,7 @@ class Visitor extends AbstractModel
      * @param Categoryscoring $categoryscoring
      * @return $this
      */
-    public function removeCategoryscoring(Categoryscoring $categoryscoring)
+    public function removeCategoryscoring(Categoryscoring $categoryscoring): self
     {
         $this->categoryscorings->detach($categoryscoring);
         return $this;
@@ -240,7 +240,7 @@ class Visitor extends AbstractModel
      * @param Category $category
      * @return Categoryscoring|null
      */
-    public function getCategoryscoringByCategory(Category $category)
+    public function getCategoryscoringByCategory(Category $category): ?Categoryscoring
     {
         $categoryscorings = $this->getCategoryscorings();
         /** @var Categoryscoring $categoryscoring */
@@ -255,7 +255,7 @@ class Visitor extends AbstractModel
     /**
      * @return Categoryscoring|null
      */
-    public function getHottestCategoryscoring()
+    public function getHottestCategoryscoring(): ?Categoryscoring
     {
         $categoryscorings = $this->getCategoryscorings()->toArray();
         uasort($categoryscorings, [$this, 'sortForHottestCategoryscoring']);
@@ -274,7 +274,7 @@ class Visitor extends AbstractModel
      * @throws UnknownObjectException
      * @throws Exception
      */
-    public function setCategoryscoringByCategory(int $scoring, Category $category)
+    public function setCategoryscoringByCategory(int $scoring, Category $category): void
     {
         /** @var CategoryscoringRepository $csRepository */
         $csRepository = ObjectUtility::getObjectManager()->get(CategoryscoringRepository::class);
@@ -302,7 +302,7 @@ class Visitor extends AbstractModel
      * @throws UnknownObjectException
      * @throws Exception
      */
-    public function increaseCategoryscoringByCategory(int $value, Category $category)
+    public function increaseCategoryscoringByCategory(int $value, Category $category): void
     {
         $scoring = 0;
         if ($this->getCategoryscoringByCategory($category) !== null) {
@@ -359,7 +359,7 @@ class Visitor extends AbstractModel
      * @var ObjectStorage $fingerprints
      * @return Visitor
      */
-    public function setFingerprints(ObjectStorage $fingerprints)
+    public function setFingerprints(ObjectStorage $fingerprints): self
     {
         $this->fingerprints = $fingerprints;
         return $this;
@@ -369,7 +369,7 @@ class Visitor extends AbstractModel
      * @param Fingerprint $fingerprint
      * @return $this
      */
-    public function addFingerprint(Fingerprint $fingerprint)
+    public function addFingerprint(Fingerprint $fingerprint): self
     {
         $this->fingerprints->attach($fingerprint);
         return $this;
@@ -379,7 +379,7 @@ class Visitor extends AbstractModel
      * @param ObjectStorage $fingerprints
      * @return $this
      */
-    public function addFingerprints(ObjectStorage $fingerprints)
+    public function addFingerprints(ObjectStorage $fingerprints): self
     {
         foreach ($fingerprints as $fingerprint) {
             /** @var Fingerprint $fingerprint */
@@ -392,7 +392,7 @@ class Visitor extends AbstractModel
      * @param Fingerprint $fingerprint
      * @return $this
      */
-    public function removeFingerprint(Fingerprint $fingerprint)
+    public function removeFingerprint(Fingerprint $fingerprint): self
     {
         $this->fingerprints->detach($fingerprint);
         return $this;
@@ -410,7 +410,7 @@ class Visitor extends AbstractModel
      * @param string $email
      * @return Visitor
      */
-    public function setEmail(string $email)
+    public function setEmail(string $email): self
     {
         $this->email = $email;
         return $this;
@@ -428,7 +428,7 @@ class Visitor extends AbstractModel
      * @param bool $identified
      * @return Visitor
      */
-    public function setIdentified(bool $identified)
+    public function setIdentified(bool $identified): self
     {
         $this->identified = $identified;
         return $this;
@@ -446,7 +446,7 @@ class Visitor extends AbstractModel
      * @param int $visits
      * @return Visitor
      */
-    public function setVisits(int $visits)
+    public function setVisits(int $visits): self
     {
         $this->visits = $visits;
         return $this;
@@ -495,7 +495,7 @@ class Visitor extends AbstractModel
      * @return Pagevisit|null
      * @throws \Exception
      */
-    public function getPagevisitLast()
+    public function getPagevisitLast(): ?Pagevisit
     {
         $pagevisits = $this->getPagevisits();
         foreach ($pagevisits as $pagevisit) {
@@ -510,7 +510,7 @@ class Visitor extends AbstractModel
      * @return Pagevisit|null
      * @throws \Exception
      */
-    public function getPagevisitFirst()
+    public function getPagevisitFirst(): ?Pagevisit
     {
         $pagevisits = $this->getPagevisits();
         ksort($pagevisits);
@@ -524,7 +524,7 @@ class Visitor extends AbstractModel
      * @var ObjectStorage $pagevisits
      * @return Visitor
      */
-    public function setPagevisits(ObjectStorage $pagevisits)
+    public function setPagevisits(ObjectStorage $pagevisits): self
     {
         $this->pagevisits = $pagevisits;
         return $this;
@@ -534,7 +534,7 @@ class Visitor extends AbstractModel
      * @param Pagevisit $pagevisit
      * @return $this
      */
-    public function addPagevisit(Pagevisit $pagevisit)
+    public function addPagevisit(Pagevisit $pagevisit): self
     {
         $this->pagevisits->attach($pagevisit);
         return $this;
@@ -544,7 +544,7 @@ class Visitor extends AbstractModel
      * @param Pagevisit $pagevisit
      * @return $this
      */
-    public function removePagevisit(Pagevisit $pagevisit)
+    public function removePagevisit(Pagevisit $pagevisit): self
     {
         $this->pagevisits->detach($pagevisit);
         return $this;
@@ -554,7 +554,7 @@ class Visitor extends AbstractModel
      * @return Pagevisit|null
      * @throws \Exception
      */
-    public function getLastPagevisit()
+    public function getLastPagevisit(): ?Pagevisit
     {
         $pagevisits = $this->getPagevisits();
         $lastPagevisit = null;
@@ -615,7 +615,7 @@ class Visitor extends AbstractModel
      * @param Newsvisit $newsvisits
      * @return $this
      */
-    public function addNewsvisit(Newsvisit $newsvisits)
+    public function addNewsvisit(Newsvisit $newsvisits): self
     {
         $this->newsvisits->attach($newsvisits);
         return $this;
@@ -625,7 +625,7 @@ class Visitor extends AbstractModel
      * @param Newsvisit $newsvisits
      * @return $this
      */
-    public function removeNewsvisit(Newsvisit $newsvisits)
+    public function removeNewsvisit(Newsvisit $newsvisits): self
     {
         $this->pagevisits->detach($newsvisits);
         return $this;
@@ -653,7 +653,7 @@ class Visitor extends AbstractModel
      * @param Linkclick $linkclick
      * @return $this
      */
-    public function addLinkclick(Linkclick $linkclick)
+    public function addLinkclick(Linkclick $linkclick): self
     {
         $this->linkclicks->attach($linkclick);
         return $this;
@@ -663,7 +663,7 @@ class Visitor extends AbstractModel
      * @param Linkclick $linkclick
      * @return $this
      */
-    public function removeLinkclick(Linkclick $linkclick)
+    public function removeLinkclick(Linkclick $linkclick): self
     {
         $this->linkclicks->detach($linkclick);
         return $this;
@@ -681,7 +681,7 @@ class Visitor extends AbstractModel
      * @var ObjectStorage $attributes
      * @return Visitor
      */
-    public function setAttributes(ObjectStorage $attributes)
+    public function setAttributes(ObjectStorage $attributes): self
     {
         $this->attributes = $attributes;
         return $this;
@@ -691,7 +691,7 @@ class Visitor extends AbstractModel
      * @param Attribute $attribute
      * @return $this
      */
-    public function addAttribute(Attribute $attribute)
+    public function addAttribute(Attribute $attribute): self
     {
         $this->attributes->attach($attribute);
         return $this;
@@ -701,7 +701,7 @@ class Visitor extends AbstractModel
      * @param Attribute $attribute
      * @return $this
      */
-    public function removeAttribute(Attribute $attribute)
+    public function removeAttribute(Attribute $attribute): self
     {
         $this->attributes->detach($attribute);
         return $this;
@@ -773,7 +773,7 @@ class Visitor extends AbstractModel
      * @param string $ipAddress
      * @return Visitor
      */
-    public function setIpAddress(string $ipAddress)
+    public function setIpAddress(string $ipAddress): self
     {
         $this->ipAddress = $ipAddress;
         return $this;
@@ -812,7 +812,7 @@ class Visitor extends AbstractModel
      * @var ObjectStorage $ipinformations
      * @return Visitor
      */
-    public function setIpinformations(ObjectStorage $ipinformations)
+    public function setIpinformations(ObjectStorage $ipinformations): self
     {
         $this->ipinformations = $ipinformations;
         return $this;
@@ -822,7 +822,7 @@ class Visitor extends AbstractModel
      * @param Ipinformation $ipinformation
      * @return $this
      */
-    public function addIpinformation(Ipinformation $ipinformation)
+    public function addIpinformation(Ipinformation $ipinformation): self
     {
         $this->ipinformations->attach($ipinformation);
         return $this;
@@ -832,7 +832,7 @@ class Visitor extends AbstractModel
      * @param Ipinformation $ipinformation
      * @return $this
      */
-    public function removeIpinformation(Ipinformation $ipinformation)
+    public function removeIpinformation(Ipinformation $ipinformation): self
     {
         $this->ipinformations->detach($ipinformation);
         return $this;
@@ -850,7 +850,7 @@ class Visitor extends AbstractModel
      * @param ObjectStorage $downloads
      * @return Visitor
      */
-    public function setDownloads(ObjectStorage $downloads)
+    public function setDownloads(ObjectStorage $downloads): self
     {
         $this->downloads = $downloads;
         return $this;
@@ -860,7 +860,7 @@ class Visitor extends AbstractModel
      * @param Download $download
      * @return Visitor
      */
-    public function addDownload(Download $download): Visitor
+    public function addDownload(Download $download): self
     {
         $this->downloads->attach($download);
         return $this;
@@ -870,7 +870,7 @@ class Visitor extends AbstractModel
      * @param Download $download
      * @return Visitor
      */
-    public function removeDownload(Download $download): Visitor
+    public function removeDownload(Download $download): self
     {
         $this->downloads->detach($download);
         return $this;
@@ -879,7 +879,7 @@ class Visitor extends AbstractModel
     /**
      * @return Download|null
      */
-    public function getLastDownload()
+    public function getLastDownload(): ?Download
     {
         $downloads = $this->getDownloads();
         $download = null;
@@ -904,7 +904,7 @@ class Visitor extends AbstractModel
      * @var ObjectStorage $logs
      * @return Visitor
      */
-    public function setLogs(ObjectStorage $logs)
+    public function setLogs(ObjectStorage $logs): self
     {
         $this->logs = $logs;
         return $this;
@@ -914,7 +914,7 @@ class Visitor extends AbstractModel
      * @param Log $log
      * @return $this
      */
-    public function addLog(Log $log)
+    public function addLog(Log $log): self
     {
         if ($this->logs !== null) {
             $this->logs->attach($log);
@@ -926,7 +926,7 @@ class Visitor extends AbstractModel
      * @param Log $log
      * @return $this
      */
-    public function removeLog(Log $log)
+    public function removeLog(Log $log): self
     {
         $this->logs->detach($log);
         return $this;
@@ -944,7 +944,7 @@ class Visitor extends AbstractModel
      * @param \DateTime $crdate
      * @return Visitor
      */
-    public function setCrdate(\DateTime $crdate)
+    public function setCrdate(\DateTime $crdate): self
     {
         $this->crdate = $crdate;
         return $this;
@@ -962,7 +962,7 @@ class Visitor extends AbstractModel
      * @param \DateTime $tstamp
      * @return Visitor
      */
-    public function setTstamp(\DateTime $tstamp)
+    public function setTstamp(\DateTime $tstamp): self
     {
         $this->tstamp = $tstamp;
         return $this;
@@ -980,7 +980,7 @@ class Visitor extends AbstractModel
      * @param string $description
      * @return Visitor
      */
-    public function setDescription(string $description)
+    public function setDescription(string $description): self
     {
         $this->description = $description;
         return $this;
@@ -1006,7 +1006,7 @@ class Visitor extends AbstractModel
      * @param bool $blacklisted
      * @return Visitor
      */
-    public function setBlacklisted(bool $blacklisted)
+    public function setBlacklisted(bool $blacklisted): self
     {
         $this->blacklisted = $blacklisted;
         return $this;
@@ -1021,7 +1021,7 @@ class Visitor extends AbstractModel
      * @throws Exception
      * @noinspection PhpUnhandledExceptionInspection
      */
-    public function setBlacklistedStatus()
+    public function setBlacklistedStatus(): void
     {
         $this->setScoring(0);
         $this->setEmail('');
@@ -1047,7 +1047,7 @@ class Visitor extends AbstractModel
     /**
      * @return FrontendUser
      */
-    public function getFrontenduser()
+    public function getFrontenduser(): ?FrontendUser
     {
         return $this->frontenduser;
     }
