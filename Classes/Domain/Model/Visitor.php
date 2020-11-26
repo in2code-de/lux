@@ -901,6 +901,19 @@ class Visitor extends AbstractModel
     }
 
     /**
+     * @return Log|null
+     */
+    public function getLatestLog(): ?Log
+    {
+        $logs = $this->getLogs();
+        $values = array_values($logs);
+        if (array_key_exists(0, $values)) {
+            return $values[0];
+        }
+        return null;
+    }
+
+    /**
      * @var ObjectStorage $logs
      * @return Visitor
      */
@@ -956,6 +969,21 @@ class Visitor extends AbstractModel
     public function getTstamp(): \DateTime
     {
         return $this->tstamp;
+    }
+
+    /**
+     * You should not use "tstamp" to get the latest page visit because there could be some tasks that update visitor
+     * records but this does not mean that the visitor was on your page at this time
+     *
+     * @return \DateTime|null
+     */
+    public function getDateOfLastVisit(): ?\DateTime
+    {
+        $log = $this->getLatestLog();
+        if ($log !== null) {
+            return $log->getCrdate();
+        }
+        return null;
     }
 
     /**
