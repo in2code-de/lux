@@ -304,7 +304,7 @@ luxRedirect {
     }
 
     luxConfigurationFormIdentification < luxConfigurationFieldIdentification
-    luxConfigurationFieldIdentification {
+    luxConfigurationFormIdentification {
         typeNum = 1560095529
 
         10 = FLUIDTEMPLATE
