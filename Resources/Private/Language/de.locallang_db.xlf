@@ -1009,6 +1009,10 @@
 				<source>Top 10 most visited news</source>
 				<target state="translated">Top 10 meist gesehene News</target>
 			</trans-unit>
+			<trans-unit id="module.box.topsearch.title">
+				<source>Top 10 most used searchterms</source>
+				<target state="translated">Top 10 meist genutzte Suchbegriffe</target>
+			</trans-unit>
 			<trans-unit id="module.box.linkclicks.title">
 				<source>Top 10 link listeners</source>
 				<target state="translated">Top 10 Link Listener</target>

@@ -767,6 +767,9 @@
 			<trans-unit id="module.box.topnews.title">
 				<source>Top 10 most visited news</source>
 			</trans-unit>
+			<trans-unit id="module.box.topsearch.title">
+				<source>Top 10 most used searchterms</source>
+			</trans-unit>
 			<trans-unit id="module.box.linkclicks.title">
 				<source>Top 10 link listeners</source>
 			</trans-unit>
