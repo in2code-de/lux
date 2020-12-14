@@ -6,7 +6,7 @@
             </f:translate>
         </h3>
     </div>
-    <div class="panel-body">
+    <div class="panel-body" style="overflow: hidden;">
         <f:if condition="{news}">
             <f:then>
                 <table class="table table-striped">
@@ -14,7 +14,9 @@
                         <f:if condition="{iteration.cycle} < 11">
                             <tr>
                                 <td>
-                                    <span title="UID{newsItem.news.uid}">{newsItem.news.title}</span>
+                                    <span data-news-identifier="{newsItem.news.uid}" title="{newsItem.news.title}">
+                                        <f:format.crop maxCharacters="40" append="...">{newsItem.news.title}</f:format.crop>
+                                    </span>
                                 </td>
                                 <td>{newsItem.count}</td>
                             </tr>

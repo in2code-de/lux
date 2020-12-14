@@ -6,7 +6,7 @@
             </f:translate>
         </h3>
     </div>
-    <div class="panel-body">
+    <div class="panel-body" style="overflow: hidden;">
         <f:if condition="{pages}">
             <f:then>
                 <table class="table table-striped">
@@ -16,8 +16,11 @@
                                 <td>
                                     <f:for each="{page}" as="pageItem" iteration="iteration">
                                         <f:if condition="{iteration.isFirst}">
-                                            <span title="UID{pageItem.page}"><lux:page.getPropertyFromPageIdentifier
-                                                pageIdentifier="{pageItem.page}"/></span>
+                                            <f:alias map="{title:'{lux:page.getPropertyFromPageIdentifier(pageIdentifier:pageItem.page)}'}">
+                                                <span data-page-identifier="UID{pageItem.page}" title="{title}">
+                                                    <f:format.crop maxCharacters="40" append="...">{title}</f:format.crop>
+                                                </span>
+                                            </f:alias>
                                         </f:if>
                                     </f:for>
                                 </td>
