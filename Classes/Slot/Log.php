@@ -136,6 +136,18 @@ class Log implements SingletonInterface
 
     /**
      * @param Visitor $visitor
+     * @param int $searchIdentifier
+     * @return void
+     * @throws Exception
+     * @noinspection PhpUnusedParameterInspection
+     */
+    public function logSearch(Visitor $visitor, int $searchIdentifier)
+    {
+        $this->logService->logSearch($visitor, $searchIdentifier);
+    }
+
+    /**
+     * @param Visitor $visitor
      * @param Linklistener $linklistener
      * @param int $pageUid
      * @return void

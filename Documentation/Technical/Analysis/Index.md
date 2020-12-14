@@ -32,6 +32,13 @@ lib.lux.settings {
             # Allow only files with this extensions
             allowedFileExtensions = {$plugin.tx_lux.settings.tracking.assetDownloads.allowedExtensions}
         }
+        search {
+            # Toggle tracking of searchterms (on/off)
+            _enable = {$plugin.tx_lux.settings.tracking.search}
+
+            # Define where the searchterm is given (e.g. "tx_solr[q]")
+            getParameters = tx_solr[q],tx_indexedsearch[sword]
+        }
     }
 }
 ```
@@ -47,6 +54,9 @@ plugin.tx_lux.settings {
 
     # cat=lux//0020; type=text; label= Activate download tracking: (De)Activate tracking if the user downloads an asset.
     tracking.assetDownloads.allowedExtensions = pdf,txt,doc,docx,xls,xlsx,ppt,pptx,jpg,png,zip
+
+    # cat=lux//0050; type=boolean; label= Activate searchterm tracking: (De)Activate tracking searchterms if user searched for someone on your website.
+    tracking.search = 1
 }
 ```
 

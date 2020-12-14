@@ -249,6 +249,23 @@
 				<target state="translated">Lead</target>
 			</trans-unit>
 
+			<trans-unit id="tx_lux_domain_model_search">
+				<source>Terms used in search</source>
+				<target state="translated">Benutzte Suchbegriffe</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_search.crdate">
+				<source>Date</source>
+				<target state="translated">Zeitpunkt</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_search.searchterm">
+				<source>Searchterm</source>
+				<target state="translated">Suchbegriff</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_download.visitor">
+				<source>Lead</source>
+				<target state="translated">Lead</target>
+			</trans-unit>
+
 			<trans-unit id="tx_lux_domain_model_categoryscoring">
 				<source>Categoryscoring</source>
 				<target state="translated">Kategorie-Scoring</target>
@@ -704,6 +721,10 @@
 				<source>lux tracked a download</source>
 				<target state="translated">lux hat einen Download aufgezeichnet</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.log.status.55">
+				<source>lux tracked a web search</source>
+				<target state="translated">lux hat eine Suche aufgezeichnet</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.log.status.60">
 				<source>"lux started a workflow</source>
 				<target state="translated">lux hat einen Workflow ausgeführt</target>
@@ -987,6 +1008,10 @@
 			<trans-unit id="module.box.topnews.title">
 				<source>Top 10 most visited news</source>
 				<target state="translated">Top 10 meist gesehene News</target>
+			</trans-unit>
+			<trans-unit id="module.box.topsearch.title">
+				<source>Top 10 most used searchterms</source>
+				<target state="translated">Top 10 meist genutzte Suchbegriffe</target>
 			</trans-unit>
 			<trans-unit id="module.box.linkclicks.title">
 				<source>Top 10 link listeners</source>

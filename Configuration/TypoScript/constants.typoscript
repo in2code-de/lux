@@ -11,6 +11,9 @@ plugin.tx_lux.settings {
     # cat=lux//0040; type=text; label= Activate download tracking: (De)Activate tracking if the user downloads an asset.
     tracking.assetDownloads.allowedExtensions = pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip
 
+    # cat=lux//0050; type=boolean; label= Activate searchterm tracking: (De)Activate tracking searchterms if user searched for someone on your website.
+    tracking.search = 1
+
     # cat=lux//0100; type=boolean; label= Activate field and form identification: (De)Activate identification by filling out web forms.
     fieldandformidentification = 1
 
