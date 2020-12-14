@@ -127,6 +127,14 @@ call_user_func(
             'logDownload',
             false
         );
+        // Log: search tracking
+        $signalSlotDispatcher->connect(
+            \In2code\Lux\Domain\Tracker\SearchTracker::class,
+            'track',
+            \In2code\Lux\Slot\Log::class,
+            'logSearch',
+            false
+        );
         // Log: linklistener click tracking
         $signalSlotDispatcher->connect(
             \In2code\Lux\Domain\Tracker\LinkClickTracker::class,

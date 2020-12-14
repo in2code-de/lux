@@ -13,6 +13,7 @@ use In2code\Lux\Domain\Repository\LogRepository;
 use In2code\Lux\Domain\Repository\NewsvisitRepository;
 use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
+use In2code\Lux\Domain\Repository\SearchRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ObjectUtility;
@@ -85,6 +86,11 @@ abstract class AbstractController extends ActionController
     protected $fingerprintRepository = null;
 
     /**
+     * @var SearchRepository
+     */
+    protected $searchRepository = null;
+
+    /**
      * AbstractController constructor.
      * @param VisitorRepository|null $visitorRepository
      * @param IpinformationRepository|null $ipinformationRepository
@@ -97,6 +103,7 @@ abstract class AbstractController extends ActionController
      * @param LinkclickRepository|null $linkclickRepository
      * @param LinklistenerRepository|null $linklistenerRepository
      * @param FingerprintRepository|null $fingerprintRepository
+     * @param SearchRepository|null $searchRepository
      * @throws Exception
      */
     public function __construct(
@@ -110,7 +117,8 @@ abstract class AbstractController extends ActionController
         CategoryRepository $categoryRepository = null,
         LinkclickRepository $linkclickRepository = null,
         LinklistenerRepository $linklistenerRepository = null,
-        FingerprintRepository $fingerprintRepository = null
+        FingerprintRepository $fingerprintRepository = null,
+        SearchRepository $searchRepository = null
     ) {
         if ($visitorRepository === null) {
             // Todo: Fallback for TYPO3 9 without symfony DI
@@ -125,6 +133,7 @@ abstract class AbstractController extends ActionController
             $linkclickRepository = ObjectUtility::getObjectManager()->get(LinkclickRepository::class);
             $linklistenerRepository = ObjectUtility::getObjectManager()->get(LinklistenerRepository::class);
             $fingerprintRepository = ObjectUtility::getObjectManager()->get(FingerprintRepository::class);
+            $searchRepository = ObjectUtility::getObjectManager()->get(SearchRepository::class);
         }
         $this->visitorRepository = $visitorRepository;
         $this->ipinformationRepository = $ipinformationRepository;
@@ -137,6 +146,7 @@ abstract class AbstractController extends ActionController
         $this->linkclickRepository = $linkclickRepository;
         $this->linklistenerRepository = $linklistenerRepository;
         $this->fingerprintRepository = $fingerprintRepository;
+        $this->searchRepository = $searchRepository;
     }
 
     /**

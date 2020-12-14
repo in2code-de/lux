@@ -50,6 +50,7 @@ class AnalysisController extends AbstractController
             'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
             'downloads' => $this->downloadRepository->findCombinedByHref($filter),
             'news' => $this->newsvisitRepository->findCombinedByNewsIdentifier($filter),
+            'searchterms' => $this->searchRepository->findCombinedBySearchIdentifier($filter),
             'latestPagevisits' => $this->pagevisitsRepository->findLatestPagevisits($filter),
             'browserData' => ObjectUtility::getObjectManager()->get(BrowserAmountDataProvider::class, $filter),
             'linkclickData' => ObjectUtility::getObjectManager()->get(LinkclickDataProvider::class, $filter),

@@ -111,6 +111,17 @@ class LogService
 
     /**
      * @param Visitor $visitor
+     * @param int $searchIdentifier
+     * @return void
+     * @throws Exception
+     */
+    public function logSearch(Visitor $visitor, int $searchIdentifier): void
+    {
+        $this->log(Log::STATUS_SEARCH, $visitor, ['search' => $searchIdentifier]);
+    }
+
+    /**
+     * @param Visitor $visitor
      * @param Linklistener $linklistener
      * @param int $pageUid
      * @return void

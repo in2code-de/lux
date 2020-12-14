@@ -4,7 +4,6 @@ namespace In2code\Lux\Controller;
 
 use In2code\Lux\Domain\Factory\VisitorFactory;
 use In2code\Lux\Domain\Model\Visitor;
-use In2code\Lux\Domain\Service\RedirectService;
 use In2code\Lux\Domain\Service\SendAssetEmail4LinkService;
 use In2code\Lux\Domain\Tracker\AttributeTracker;
 use In2code\Lux\Domain\Tracker\DownloadTracker;
@@ -13,9 +12,9 @@ use In2code\Lux\Domain\Tracker\LinkClickTracker;
 use In2code\Lux\Domain\Tracker\LuxletterlinkAttributeTracker;
 use In2code\Lux\Domain\Tracker\NewsTracker;
 use In2code\Lux\Domain\Tracker\PageTracker;
+use In2code\Lux\Domain\Tracker\SearchTracker;
 use In2code\Lux\Exception\ActionNotAllowedException;
 use In2code\Lux\Signal\SignalTrait;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
@@ -82,6 +81,8 @@ class FrontendController extends ActionController
             $pageTracker->track($visitor, $arguments);
             $newsTracker = $this->objectManager->get(NewsTracker::class);
             $newsTracker->track($visitor, $arguments);
+            $searchTracker = $this->objectManager->get(SearchTracker::class);
+            $searchTracker->track($visitor, $arguments);
             return json_encode($this->afterAction($visitor));
         } catch (\Exception $exception) {
             return json_encode($this->getError($exception));
@@ -99,6 +100,7 @@ class FrontendController extends ActionController
     {
         try {
             $visitor = $this->getVisitor($fingerprint);
+            /** @noinspection PhpParamsInspection */
             $attributeTracker = $this->objectManager->get(
                 AttributeTracker::class,
                 $visitor,
@@ -123,6 +125,7 @@ class FrontendController extends ActionController
         try {
             $visitor = $this->getVisitor($fingerprint);
             $values = json_decode($arguments['values'], true);
+            /** @noinspection PhpParamsInspection */
             $attributeTracker = $this->objectManager->get(
                 AttributeTracker::class,
                 $visitor,
@@ -146,15 +149,18 @@ class FrontendController extends ActionController
     {
         try {
             $visitor = $this->getVisitor($fingerprint, true);
+            /** @noinspection PhpParamsInspection */
             $attributeTracker = $this->objectManager->get(
                 AttributeTracker::class,
                 $visitor,
                 AttributeTracker::CONTEXT_EMAIL4LINK
             );
             $attributeTracker->addAttribute('email', $arguments['email']);
+            /** @noinspection PhpParamsInspection */
             $downloadTracker = $this->objectManager->get(DownloadTracker::class, $visitor);
             $downloadTracker->addDownload($arguments['href']);
             if ($arguments['sendEmail'] === 'true') {
+                /** @noinspection PhpParamsInspection */
                 $this->objectManager->get(SendAssetEmail4LinkService::class, $visitor, $this->settings)
                     ->sendMail($arguments['href']);
             }
@@ -175,6 +181,7 @@ class FrontendController extends ActionController
     {
         try {
             $visitor = $this->getVisitor($fingerprint);
+            /** @noinspection PhpParamsInspection */
             $downloadTracker = $this->objectManager->get(DownloadTracker::class, $visitor);
             $downloadTracker->addDownload($arguments['href']);
             return json_encode($this->afterAction($visitor));
@@ -194,6 +201,7 @@ class FrontendController extends ActionController
     {
         try {
             $visitor = $this->getVisitor($fingerprint);
+            /** @noinspection PhpParamsInspection */
             $linkClickTracker = $this->objectManager->get(LinkClickTracker::class, $visitor);
             $linkClickTracker->addLinkClick((int)$arguments['linklistenerIdentifier'], (int)$arguments['pageUid']);
             return json_encode($this->afterAction($visitor));
@@ -241,8 +249,10 @@ class FrontendController extends ActionController
      */
     protected function callAdditionalTrackers(Visitor $visitor): void
     {
+        /** @noinspection PhpParamsInspection */
         $authTracker = $this->objectManager->get(FrontenduserAuthenticationTracker::class, $visitor);
         $authTracker->trackByFrontenduserAuthentication();
+        /** @noinspection PhpParamsInspection */
         $luxletterTracker = $this->objectManager->get(
             LuxletterlinkAttributeTracker::class,
             $visitor,
@@ -291,6 +301,7 @@ class FrontendController extends ActionController
      */
     protected function getVisitor(string $fingerprint, bool $tempVisitor = false): Visitor
     {
+        /** @noinspection PhpParamsInspection */
         $visitorFactory = $this->objectManager->get(VisitorFactory::class, $fingerprint, $tempVisitor);
         return $visitorFactory->getVisitor();
     }
