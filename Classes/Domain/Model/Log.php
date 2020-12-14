@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
 use In2code\Lux\Domain\Repository\LinklistenerRepository;
+use In2code\Lux\Domain\Repository\SearchRepository;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 
@@ -27,6 +28,7 @@ class Log extends AbstractModel
     const STATUS_PAGEVISIT4 = 42;
     const STATUS_PAGEVISIT5 = 43;
     const STATUS_DOWNLOAD = 50;
+    const STATUS_SEARCH = 55;
     const STATUS_ACTION = 60;
     const STATUS_CONTEXTUAL_CONTENT = 70;
     const STATUS_LINKLISTENER = 80;
@@ -167,12 +169,23 @@ class Log extends AbstractModel
     }
 
     /**
+     * @return Search|null
+     * @throws Exception
+     */
+    public function getSearch(): ?Search
+    {
+        $searchUid = (int)$this->getPropertyByKey('search');
+        $searchRepository = ObjectUtility::getObjectManager()->get(SearchRepository::class);
+        return $searchRepository->findByIdentifier($searchUid);
+    }
+
+    /**
      * @return Linklistener|null
      * @throws Exception
      */
     public function getLinklistener(): ?Linklistener
     {
-        $linklistenerUid = $this->getPropertyByKey('linklistener');
+        $linklistenerUid = (int)$this->getPropertyByKey('linklistener');
         $linklistener = ObjectUtility::getObjectManager()->get(LinklistenerRepository::class);
         return $linklistener->findByIdentifier($linklistenerUid);
     }

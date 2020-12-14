@@ -249,6 +249,23 @@
 				<target state="translated">Lead</target>
 			</trans-unit>
 
+			<trans-unit id="tx_lux_domain_model_search">
+				<source>Terms used in search</source>
+				<target state="translated">Benutzte Suchbegriffe</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_search.crdate">
+				<source>Date</source>
+				<target state="translated">Zeitpunkt</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_search.searchterm">
+				<source>Searchterm</source>
+				<target state="translated">Suchbegriff</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_download.visitor">
+				<source>Lead</source>
+				<target state="translated">Lead</target>
+			</trans-unit>
+
 			<trans-unit id="tx_lux_domain_model_categoryscoring">
 				<source>Categoryscoring</source>
 				<target state="translated">Kategorie-Scoring</target>
@@ -703,6 +720,10 @@
 			<trans-unit id="module.analysis.log.status.50">
 				<source>lux tracked a download</source>
 				<target state="translated">lux hat einen Download aufgezeichnet</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.55">
+				<source>lux tracked a web search</source>
+				<target state="translated">lux hat eine Suche aufgezeichnet</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.60">
 				<source>"lux started a workflow</source>

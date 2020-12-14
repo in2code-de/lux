@@ -92,6 +92,13 @@
 
 
 
+<f:section name="status55">
+    Searchterm "{log.search.searchterm}"
+    <span title="UID:{log.visitor.uid}">(<f:link.action action="detail" controller="Lead" arguments="{visitor:log.visitor}">{log.visitor.fullName}</f:link.action>)</span>
+</f:section>
+
+
+
 <f:section name="status60">
     {log.workflowTitle}
     <span title="UID:{log.visitor.uid}">(<f:link.action action="detail" controller="Lead" arguments="{visitor:log.visitor}">{log.visitor.fullName}</f:link.action>)</span>

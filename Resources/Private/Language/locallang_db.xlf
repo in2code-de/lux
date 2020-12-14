@@ -189,6 +189,19 @@
 				<source>Lead</source>
 			</trans-unit>
 
+			<trans-unit id="tx_lux_domain_model_search">
+				<source>Terms used in search</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_search.crdate">
+				<source>Date</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_search.searchterm">
+				<source>Searchterm</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_download.visitor">
+				<source>Lead</source>
+			</trans-unit>
+
 			<trans-unit id="tx_lux_domain_model_categoryscoring">
 				<source>Categoryscoring</source>
 			</trans-unit>
@@ -533,6 +546,9 @@
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.50">
 				<source>lux tracked a download</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.55">
+				<source>lux tracked a web search</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.60">
 				<source>"lux started a workflow</source>
