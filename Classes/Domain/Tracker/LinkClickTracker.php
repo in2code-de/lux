@@ -14,8 +14,6 @@ use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
-use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
-use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
 
 /**
  * Class LinkClickTracker logs link clicks with data-lux-linklistener="tagname"
@@ -62,8 +60,6 @@ class LinkClickTracker
      * @param int $pageUid
      * @return void
      * @throws Exception
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
      * @throws IllegalObjectTypeException
      */
     public function addLinkClick(int $linkclickIdentifier, int $pageUid): void
@@ -72,11 +68,13 @@ class LinkClickTracker
         $linklistener = $this->linklistenerRepository->findByIdentifier($linkclickIdentifier);
         /** @var Page $page */
         $page = $this->pageRepository->findByIdentifier($pageUid);
-        $linkclick = GeneralUtility::makeInstance(Linkclick::class);
-        $linkclick->setPage($page)->setVisitor($this->visitor)->setLinklistener($linklistener);
-        $this->linkclickRepository->add($linkclick);
-        $this->linkclickRepository->persistAll();
+        if ($linklistener !== null && $page !== null) {
+            $linkclick = GeneralUtility::makeInstance(Linkclick::class);
+            $linkclick->setPage($page)->setVisitor($this->visitor)->setLinklistener($linklistener);
+            $this->linkclickRepository->add($linkclick);
+            $this->linkclickRepository->persistAll();
 
-        $this->signalDispatch(__CLASS__, 'addLinkClick', [$this->visitor, $linklistener, $pageUid]);
+            $this->signalDispatch(__CLASS__, 'addLinkClick', [$this->visitor, $linklistener, $pageUid]);
+        }
     }
 }
