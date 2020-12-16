@@ -67,11 +67,12 @@ class LuxDownloadsDataProvider implements ChartDataProviderInterface
         $titles = $amounts = [];
         $counter = 0;
         foreach ($downloads as $filename => $combinedDownloads) {
-            $titles[] = FileUtility::getFilenameFromPathAndFilename($filename);
-            $amounts[] = count($combinedDownloads);
-            if ($counter >= 5) {
+            if ($counter > 5) {
                 break;
             }
+            $counter++;
+            $titles[] = FileUtility::getFilenameFromPathAndFilename($filename);
+            $amounts[] = count($combinedDownloads);
         }
         return ['amounts' => $amounts, 'titles' => $titles];
     }
