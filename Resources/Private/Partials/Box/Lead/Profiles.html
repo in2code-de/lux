@@ -57,7 +57,7 @@
                         </tr>
                         </thead>
                         <f:for each="{visitor.fingerprintsSorted}" as="fingerprint">
-                            <tr>
+                            <tr data-fingerprint-uid="{fingerprint.uid}">
                                 <td>{fingerprint.domain}</td>
                                 <td>{fingerprint.propertiesFromUserAgent.browser}
                                     {fingerprint.propertiesFromUserAgent.browserversion}
