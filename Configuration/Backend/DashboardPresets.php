@@ -8,6 +8,8 @@ return [
         'defaultWidgets' => [
             'luxPageVisits',
             'luxDownloads',
+            'luxNews',
+            'luxSearchterms',
             'luxRecurring',
             'luxIdentified',
             'luxReferrer',

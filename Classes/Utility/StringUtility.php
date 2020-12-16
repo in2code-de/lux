@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace In2code\Lux\Utility;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
  * Class StringUtility
@@ -140,5 +141,18 @@ class StringUtility
             return ltrim($string, '0');
         }
         return $string;
+    }
+
+    /**
+     * @param string $string
+     * @param int $length
+     * @param string $append
+     * @return string
+     * @throws Exception
+     */
+    public static function cropString(string $string, int $length = 20, string $append = '...'): string
+    {
+        $contentObject = ObjectUtility::getContentObject();
+        return $contentObject->cropHTML($string, $length . '|' . $append . '|1');
     }
 }

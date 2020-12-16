@@ -40,6 +40,36 @@ services:
         height: 'medium'
         width: 'medium'
 
+  dashboard.widgets.LuxNewsWidget:
+    class: 'TYPO3\CMS\Dashboard\Widgets\BarChartWidget'
+    arguments:
+      $view: '@dashboard.views.widget'
+      $dataProvider: '@In2code\Lux\Widgets\DataProvider\LuxNewsDataProvider'
+    tags:
+      - name: dashboard.widget
+        identifier: 'luxNews'
+        groupNames: 'luxgroup'
+        title: 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxnews.title'
+        description: 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxnews.description'
+        iconIdentifier: 'extension-lux-turquoise'
+        height: 'medium'
+        width: 'medium'
+
+  dashboard.widgets.LuxSearchtermsWidget:
+    class: 'TYPO3\CMS\Dashboard\Widgets\BarChartWidget'
+    arguments:
+      $view: '@dashboard.views.widget'
+      $dataProvider: '@In2code\Lux\Widgets\DataProvider\LuxSearchtermsDataProvider'
+    tags:
+      - name: dashboard.widget
+        identifier: 'luxSearchterms'
+        groupNames: 'luxgroup'
+        title: 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxsearchterms.title'
+        description: 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxsearchterms.description'
+        iconIdentifier: 'extension-lux-turquoise'
+        height: 'medium'
+        width: 'medium'
+
   dashboard.widgets.LuxIdentifiedWidget:
     class: 'TYPO3\CMS\Dashboard\Widgets\BarChartWidget'
     arguments:

@@ -905,7 +905,7 @@
 				<source>Lux</source>
 			</trans-unit>
 			<trans-unit id="module.dashboard.widget.luxpagevisits.title">
-				<source>Page visits of this year</source>
+				<source>Top page visits of this year</source>
 			</trans-unit>
 			<trans-unit id="module.dashboard.widget.luxpagevisits.description">
 				<source>Show 6 best visited pages</source>
@@ -914,13 +914,31 @@
 				<source>Page visits</source>
 			</trans-unit>
 			<trans-unit id="module.dashboard.widget.luxdownloads.title">
-				<source>File downloads of this year</source>
+				<source>Top file downloads of this year</source>
 			</trans-unit>
 			<trans-unit id="module.dashboard.widget.luxdownloads.description">
 				<source>Show 6 best downloaded files</source>
 			</trans-unit>
 			<trans-unit id="module.dashboard.widget.luxdownloads.label">
 				<source>Downloads</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxnews.title">
+				<source>Top news of this year</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxnews.description">
+				<source>Show 6 best news</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxnews.label">
+				<source>News visits</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxsearchterms.title">
+				<source>Top searchterms of this year</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxsearchterms.description">
+				<source>Show 6 best searchterms</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxsearchterms.label">
+				<source>Searchterms</source>
 			</trans-unit>
 			<trans-unit id="module.dashboard.widget.luxidentified.title">
 				<source>Identified visitors</source>
