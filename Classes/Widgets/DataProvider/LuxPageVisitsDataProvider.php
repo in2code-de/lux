@@ -8,6 +8,7 @@ use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Dashboard\WidgetApi;
 use TYPO3\CMS\Dashboard\Widgets\ChartDataProviderInterface;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -73,7 +74,7 @@ class LuxPageVisitsDataProvider implements ChartDataProviderInterface
             if (!empty($pageVisits[$i][0]['page'])) {
                 /** @var Page $page */
                 $page = $pageRepository->findByIdentifier($pageVisits[$i][0]['page']);
-                $titles[] = $page->getTitle() . ' (id=' . $page->getUid() . ')';
+                $titles[] = StringUtility::cropString($page->getTitle(), 40) . ' (id=' . $page->getUid() . ')';
                 $amounts[] = count($pageVisits[$i]);
             }
         }

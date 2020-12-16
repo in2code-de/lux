@@ -2,33 +2,32 @@
 declare(strict_types=1);
 namespace In2code\Lux\Widgets\DataProvider;
 
+use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
-use In2code\Lux\Domain\Repository\DownloadRepository;
-use In2code\Lux\Utility\FileUtility;
+use In2code\Lux\Domain\Repository\NewsvisitRepository;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Dashboard\WidgetApi;
 use TYPO3\CMS\Dashboard\Widgets\ChartDataProviderInterface;
 use TYPO3\CMS\Extbase\Object\Exception;
-use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
 /**
- * Class LuxDownloadsDataProvider
+ * Class LuxNewsDataProvider
  * @noinspection PhpUnused
  */
-class LuxDownloadsDataProvider implements ChartDataProviderInterface
+class LuxNewsDataProvider implements ChartDataProviderInterface
 {
     /**
      * @return array
      * @throws Exception
-     * @throws InvalidQueryException
+     * @throws DBALException
      */
     public function getChartData(): array
     {
-        $data = $this->getDownloadData();
+        $data = $this->getNewsData();
         $label = LocalizationUtility::getLanguageService()->sL(
-            'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxpagevisits.label'
+            'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.widget.luxnews.label'
         );
         return [
             'labels' => $data['titles'],
@@ -50,34 +49,31 @@ class LuxDownloadsDataProvider implements ChartDataProviderInterface
      *          88
      *      ],
      *      'titles' => [
-     *          '/fileadmin/user_upload/whitepaper.pdf',
-     *          '/fileadmin/whitepaperProductX.pdf',
+     *          'Hot stuff is going on with TYPO3',
+     *          'News February 2022: New car...',
      *      ]
      *  ]
      *
      * @return array
      * @throws Exception
-     * @throws InvalidQueryException
+     * @throws DBALException
      */
-    protected function getDownloadData(): array
+    protected function getNewsData(): array
     {
-        $downloadRepository = ObjectUtility::getObjectManager()->get(DownloadRepository::class);
-        $downloads = $downloadRepository->findCombinedByHref(
+        $newsvisitRepository = ObjectUtility::getObjectManager()->get(NewsvisitRepository::class);
+        $news = $newsvisitRepository->findCombinedByNewsIdentifier(
             ObjectUtility::getFilterDto(FilterDto::PERIOD_THISYEAR)
         );
         $titles = $amounts = [];
         $counter = 0;
-        foreach ($downloads as $filename => $combinedDownloads) {
+        foreach ($news as $newsItem) {
             if ($counter > 5) {
                 break;
             }
             $counter++;
-            $title = StringUtility::cropString(FileUtility::getFilenameFromPathAndFilename($filename), 40);
-            if ((int)$combinedDownloads[0]['file'] > 0) {
-                $title .= ' (id=' . $combinedDownloads[0]['file'] . ')';
-            }
-            $titles[] = $title;
-            $amounts[] = count($combinedDownloads);
+            $titles[] = StringUtility::cropString($newsItem['news']->getTitle(), 40)
+                . ' (id=' . $newsItem['news']->getUid() . ')';
+            $amounts[] = $newsItem['count'];
         }
         return ['amounts' => $amounts, 'titles' => $titles];
     }

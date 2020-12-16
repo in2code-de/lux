@@ -1192,8 +1192,8 @@
 				<target state="translated">Lux</target>
 			</trans-unit>
 			<trans-unit id="module.dashboard.widget.luxpagevisits.title">
-				<source>Page visits of this year</source>
-				<target state="translated">Seitenbesuche des aktuellen Jahres</target>
+				<source>Top page visits of this year</source>
+				<target state="translated">Top Seitenbesuche des aktuellen Jahres</target>
 			</trans-unit>
 			<trans-unit id="module.dashboard.widget.luxpagevisits.description">
 				<source>Show 6 best visited pages</source>
@@ -1204,8 +1204,8 @@
 				<target state="translated">Seitenaufrufe</target>
 			</trans-unit>
 			<trans-unit id="module.dashboard.widget.luxdownloads.title">
-				<source>File downloads of this year</source>
-				<target state="translated">Datei-Downloads des aktuellen Jahres</target>
+				<source>Top file downloads of this year</source>
+				<target state="translated">Top Datei-Downloads des aktuellen Jahres</target>
 			</trans-unit>
 			<trans-unit id="module.dashboard.widget.luxdownloads.description">
 				<source>Show 6 best downloaded files</source>
@@ -1214,6 +1214,30 @@
 			<trans-unit id="module.dashboard.widget.luxdownloads.label">
 				<source>Downloads</source>
 				<target state="translated">Downloads</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxnews.title">
+				<source>Top news of this year</source>
+				<target state="translated">Top News des aktuellen Jahres</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxnews.description">
+				<source>Show 6 best news</source>
+				<target state="translated">Zeige die 6 meist gelesenen News</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxnews.label">
+				<source>News visits</source>
+				<target state="translated">News Besucher</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxsearchterms.title">
+				<source>Top searchterms of this year</source>
+				<target state="translated">Top Suchbegriffe des aktuellen Jahres</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxsearchterms.description">
+				<source>Show 6 best searchterms</source>
+				<target state="translated">Zeige die 6 meist benutzten Suchbegriffe</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxsearchterms.label">
+				<source>Searchterms</source>
+				<target state="translated">Suchbegriffe</target>
 			</trans-unit>
 			<trans-unit id="module.dashboard.widget.luxidentified.title">
 				<source>Identified visitors</source>
