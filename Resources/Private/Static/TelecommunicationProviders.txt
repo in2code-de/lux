@@ -5,6 +5,7 @@ ACONET
 ADDIX Internet Services GmbH
 Afrihost
 AGENDA komunikacijski in informacijski inzeniring
+AIS-Fibre
 Aligia GmbH
 Amazon.com
 ANTIK Telecom s.r.o
@@ -17,6 +18,7 @@ Atria Convergence Technologies Pvt. Ltd. Broadband INDIA
 AT&T Mobility LLC
 AT&T U-verse
 Automattic
+Balaji Infra Ray Private Limited
 Beijing Baidu Netcom Science and Technology Co.
 Beijing Qihu Technology Company Limited
 Bell Canada
@@ -32,19 +34,26 @@ BITel Gesellschaft fuer Telekommunikation mbH
 bn:t Blatzheim Networks Telecom GmbH
 Bredband2 AB
 Bremen Briteline GmbH
+British Telecom
 BT
 BT UK
 Cable Onda
+Cablenet
 CAT Telecom public company Ltd
 CHCTI-CCI
+China Mobile communications corporation
 China Mobile Guangdong
 China Telecom
 China Telecom (Group)
 China Telecom Guangdong
 China Unicom Beijing
+China Unicom Beijing Province Network
+China Unicom CHINA169 Guangdong Province network
 China Unicom Henan Province Network
 China Unicom Liaoning
+Chinanet
 "Choopa, LLC"
+Citycable
 CLARANET
 Cloudflare
 Cogent Communications
@@ -61,18 +70,23 @@ Cyberlink AG
 CyrusOne LLC
 D2VODAFONE
 Daten- und Telekommunikations GmbH Dessau
+DELTA Fiber Nederland B.V.
 Deutsche Glasfaser Business GmbH
 Deutsche Glasfaser Wholesale
 Deutsche Telekom AG
 Deutsche Telekom Business
 DFN
 Digital Energy Technologies Chile SpA
+Digital Energy Technologies Ltd.
+DigitalOcean
 DOKOM Gesellschaft fuer Telekommunikation mbH
 DSI GmbH Daten Service Informationssysteme
 DTAG European region
 DTAC-GPRS
 ecotel communication ag
 Eltrona Interdiffusion S.A.
+EliteWork LLC
+Energie AG Oberoesterreich Telekom GmbH
 Envia Tel GmbH
 EUNET
 Eurofiber Nederland BV
@@ -97,6 +111,7 @@ Google Proxy
 Gujarat Telelink Pvt Ltd
 H3G-AUSTRIA Customer dynamic
 HANSENET
+HeLi NET Telekommunication GmbH & Co.
 HeLi NET Telekommunikation GmbH & Co. KG
 Herzo Media GmbH & Co. KG
 HETZNER
@@ -117,6 +132,7 @@ IPVanish
 ISAR
 Ishan's Network
 IT.NRW
+ITANDTEL
 ITERGO
 JimmyNet s.r.o.
 Joyent
@@ -138,8 +154,10 @@ komro GmbH
 Komro GmbH
 Komsa Group Network
 Konverto SPA
+KPN B.V.
 lagis Internet Service Provider GmbH
 lagis Internet Serviceprovider GmbH
+LDCOM
 Leaseweb Deutschland GmbH
 LeaseWeb Netherlands B.V.
 Leaseweb USA
@@ -158,6 +176,7 @@ M-net Telekommunikations GmbH
 M247 Ltd
 Madnet d.o.o.
 Mannesmann Arcor Telecommunications AG & Co
+MCI Communications Services
 MDlink online service center GmbH
 Medianet Group Srl
 mhs internet AG
@@ -205,6 +224,7 @@ Play
 Plus.line AG
 Plusnet GmbH
 PlusNet plc.
+PP-iT GmbH
 PRIMACOM
 PT Comunicacoes
 PT. Core Mediatech
@@ -251,6 +271,7 @@ SWITCH
 SWU TeleNet GmbH
 SysEleven GmbH
 T-Mobile Austria GmbH
+T-Mobile Deutschland GmbH
 T-mobile Polska
 T-Systems Multimedia Solutions GmbH
 T-Systems International GmbH
@@ -304,12 +325,14 @@ Vodafone D2 GmbH
 Vodafone DSL
 Vodafone GmbH
 Vodafone Kabel Deutschland
+Vodafone Kabel Deutschland GmbH
 Vodafone Ono
 Vodafone Portugal
 Vodafone Portugal - Communicacoes Pessoais S.A.
 Vodafone-Libertel NV
 wilhelm.tel
 wilhelm.tel GmbH
+WITCOM Wiesbadener Informations- und Telekommunikations GmbH
 Wojciech Jerzy Winkel trading as Tempus Telecom
 WVNET Information und Kommunikation GmbH
 Xs4all Internet BV
