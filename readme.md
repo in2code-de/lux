@@ -209,7 +209,8 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 11.2.0     | 2020-01-04 | Feature    | Add a configuration for auto-publishing new tags to TER, updated telecommunication provider list                                                                                           |
+| 11.2.1     | 2021-01-15 | Bugfis     | Prevent exception when filtering in backend                                                                                                                                                |
+| 11.2.0     | 2021-01-04 | Feature    | Add a configuration for auto-publishing new tags to TER, updated telecommunication provider list                                                                                           |
 | 11.1.0     | 2020-12-16 | Feature    | Add wizards for top news and top search terms to TYPO3 dashboard, better bot detection (to stop tracking)                                                                                  |
 | 11.0.0     | 2020-12-14 | Feature    | Track and show searchterms on your website now (solr or indexed search)                                                                                                                    |
 | 10.3.3     | 2020-12-03 | Bugfix     | Fix a copy and paste failure in TS configuration for formMapping settings                                                                                                                  |
