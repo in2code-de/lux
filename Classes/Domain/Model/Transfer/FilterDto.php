@@ -458,7 +458,7 @@ class FilterDto
      */
     public function getIntervals(): array
     {
-        $intervals = ['frequency' => $this->getStartIntervals()['frequency']];
+        $intervals = ['frequency' => $this->getStartIntervals()['frequency'], 'intervals' => []];
         $startIntervals = $this->getStartIntervals()['intervals'];
         foreach ($startIntervals as $dateTime) {
             if ($next = next($startIntervals)) {
