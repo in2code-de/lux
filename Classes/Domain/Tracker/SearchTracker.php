@@ -111,7 +111,7 @@ class SearchTracker
                 $searchKey = str_replace(['[', ']'], ['\[', '\]'], $searchKey);
                 preg_match('~' . $searchKey . '=([^\&\?]+)~', urldecode($parsed['query']), $result);
                 if (!empty($result[1])) {
-                    return $result[1];
+                    return strtolower($result[1]);
                 }
             }
         }
