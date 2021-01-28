@@ -204,6 +204,9 @@ abstract class AbstractController extends ActionController
             && (is_array($filter['categoryScoring']) || $filter['categoryScoring'] === '')) {
             $filter['categoryScoring'] = 0;
         }
+        if (isset($filter['identified']) && $filter['identified'] === '') {
+            $filter['identified'] = FilterDto::IDENTIFIED_ALL;
+        }
         $this->request->setArgument('filter', $filter);
     }
 

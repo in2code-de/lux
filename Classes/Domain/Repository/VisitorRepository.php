@@ -450,7 +450,7 @@ class VisitorRepository extends AbstractRepository
             $logicalAnd[] = $query->logicalOr($logicalOr);
         }
         if ($filter->getIdentified() > FilterDto::IDENTIFIED_ALL) {
-            $query->equals('identified', $filter->getIdentified() === FilterDto::IDENTIFIED_IDENTIFIED);
+            $logicalAnd[] = $query->equals('identified', $filter->getIdentified() === FilterDto::IDENTIFIED_IDENTIFIED);
         }
         if ($filter->getPid() !== '') {
             $logicalAnd[] = $query->equals('pagevisits.page.uid', (int)$filter->getPid());

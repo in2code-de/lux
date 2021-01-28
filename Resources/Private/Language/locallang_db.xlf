@@ -676,6 +676,9 @@
 			<trans-unit id="module.list.filter.header.time">
 				<source>Time</source>
 			</trans-unit>
+			<trans-unit id="module.list.filter.label.identifiedonly">
+				<source>Identified only</source>
+			</trans-unit>
 			<trans-unit id="module.list.filter.timeFrom">
 				<source>From</source>
 			</trans-unit>
