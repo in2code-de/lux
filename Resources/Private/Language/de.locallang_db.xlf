@@ -889,6 +889,10 @@
 				<source>Time</source>
 				<target state="translated">Zeitpunkt</target>
 			</trans-unit>
+			<trans-unit id="module.list.filter.label.identifiedonly">
+				<source>Identified only</source>
+				<target state="translated">Nur Identifizierte</target>
+			</trans-unit>
 			<trans-unit id="module.list.filter.timeFrom">
 				<source>From</source>
 				<target state="translated">Von</target>

@@ -334,7 +334,8 @@ class FilterDto
     public function isSet(): bool
     {
         return $this->searchterm !== '' || $this->pid !== '' || $this->scoring > 0 || $this->categoryScoring !== null
-            || $this->timeFrom !== '' || $this->timeTo !== '' || $this->timePeriod !== self::PERIOD_DEFAULT;
+            || $this->timeFrom !== '' || $this->timeTo !== '' || $this->timePeriod !== self::PERIOD_DEFAULT
+            || $this->identified !== self::IDENTIFIED_ALL;
     }
 
     /**
