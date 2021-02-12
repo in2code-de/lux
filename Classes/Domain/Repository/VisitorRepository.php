@@ -12,6 +12,7 @@ use In2code\Lux\Domain\Model\Linkclick;
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Newsvisit;
 use In2code\Lux\Domain\Model\Pagevisit;
+use In2code\Lux\Domain\Model\Search;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\DatabaseUtility;
@@ -391,7 +392,8 @@ class VisitorRepository extends AbstractRepository
             Download::TABLE_NAME,
             Categoryscoring::TABLE_NAME,
             Log::TABLE_NAME,
-            Linkclick::TABLE_NAME
+            Linkclick::TABLE_NAME,
+            Search::TABLE_NAME
         ];
         foreach ($tables as $table) {
             $connection = DatabaseUtility::getConnectionForTable($table);
@@ -414,7 +416,8 @@ class VisitorRepository extends AbstractRepository
             Newsvisit::TABLE_NAME,
             Pagevisit::TABLE_NAME,
             Visitor::TABLE_NAME,
-            Linkclick::TABLE_NAME
+            Linkclick::TABLE_NAME,
+            Search::TABLE_NAME
         ];
         foreach ($tables as $table) {
             DatabaseUtility::getConnectionForTable($table)->truncate($table);
