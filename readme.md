@@ -209,6 +209,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 11.3.2     | 2021-02-16 | Task       | Updated telecommunication provider list                                                                                                                                                    |
 | 11.3.1     | 2021-02-12 | Bugfix     | Remove also related search words if a visitor gets removed                                                                                                                                 |
 | 11.3.0     | 2021-01-28 | Feature    | Add "identified only" checkbox to lead list, add number of results to lead list, save searchterms only lowercase (for better comparing)                                                    |
 | 11.2.1     | 2021-01-15 | Bugfix     | Prevent exception when filtering in backend                                                                                                                                                |
