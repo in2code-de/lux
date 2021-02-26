@@ -341,7 +341,7 @@ function LuxMain() {
    * @returns {void}
    */
   var addFieldListeners = function() {
-    var query = 'form:not([data-lux-form-identification]) input:not([data-lux-disable]), ';
+    var query = 'form:not([data-lux-form-identification]) input:not([data-lux-disable]):not([type="hidden"]):not([type="submit"]), ';
     query += 'form:not([data-lux-form-identification]) textarea:not([data-lux-disable]), ';
     query += 'form:not([data-lux-form-identification]) select:not([data-lux-disable]), ';
     query += 'form:not([data-lux-form-identification]) radio:not([data-lux-disable]), ';

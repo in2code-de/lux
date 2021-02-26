@@ -263,6 +263,8 @@ lib.lux.settings {
 }
 ```
 
+**Note:** Take care that your lib.lux configuration is recognized by lux (see FAQ section how to copy it to plugin.tx_lux_fe)
+
 Actions:
 ```
 lib.lux.settings {
@@ -451,6 +453,8 @@ lib.lux.settings {
     }
 }
 ```
+
+**Note:** Take care that your lib.lux configuration is recognized by lux (see FAQ section how to copy it to plugin.tx_lux_fe)
 
 ##### Extending Triggers and Actions
 

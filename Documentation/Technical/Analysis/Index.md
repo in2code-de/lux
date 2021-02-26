@@ -43,6 +43,8 @@ lib.lux.settings {
 }
 ```
 
+**Note:** Take care that your lib.lux configuration is recognized by lux (see FAQ section how to copy it to plugin.tx_lux_fe)
+
 Constants to this TypoScript part:
 ```
 plugin.tx_lux.settings {
@@ -101,6 +103,8 @@ lib.lux.settings {
     }
 }
 ```
+
+**Note:** Take care that your lib.lux configuration is recognized by lux (see FAQ section how to copy it to plugin.tx_lux_fe)
 
 #### Pagevisits and Downloads
 
