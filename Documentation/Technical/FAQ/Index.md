@@ -29,16 +29,52 @@ With a single line of TypoScript constants:
 
 #### I change lib.lux.settings but nothing happens?
 
-If you change/overwrite lib.lux, take care that you tell the plugin and the module that this changed.
+If you change/overwrite lib.lux, it is maybe not recognized in lux itself. This is caused by building a lib object in
+lux and copying to plugin.tx_lux_fe and other parts before your sitepackage is included. If you want to change also
+plugin.tx_lux_fe and other parts, you also have to copy your settings like described below.
 
-Example TypoScript setup:
+Example TypoScript setup in your sitepackage:
 
 ```
-# Add Slack webhookUrl
-lib.lux.settings.workflow.actions.4.configuration.webhookUrl = https://hooks.slack.com/services/mywebhookcode
-lib.lux.settings.workflow.actions.4.configuration.emoji =
+lib.lux.settings {
+    identification {
+        # Define your own fieldmapping configuration
+        _enable = 1
+        fieldMapping {
+            email {
+                0 = *[email]
+                1 = *[e-mail]
+            }
+        }
+
+        # Define your own email4link configuration
+        email4link.mail {
+            _enable = 1
+            mailTemplate = EXT:sitepackage/Resources/Private/Templates/Extensions/Lux/Mail/Email4LinkMail.html
+            subject = Email from your company
+            fromName = Service
+            fromEmail = service@yourcompany.com
+            bccEmail = bcc@yourcompany.com
+        }
+    }
+
+    # Define your own workflow configuration (part of luxenterprise)
+    workflow.actions.6.configuration.1 {
+        name = Slack Channel "_leads"
+        webhookUrl = https://hooks.slack.com/services/X0287F3BJ/A9JJE587Y/rKIXTPbVEVnIPPNUQxFb98RO
+        emoji =
+    }
+}
+
+# Frontend functionality
 plugin.tx_lux_fe.settings < lib.lux.settings
+
+# Backend module
 module.tx_lux.settings < lib.lux.settings
+
+# Take care of your fieldMapping and formFieldMapping configuration
+luxConfigurationFieldIdentification.10.settings < lib.lux.settings
+luxConfigurationFormIdentification.10.settings < lib.lux.settings
 ```
 
 

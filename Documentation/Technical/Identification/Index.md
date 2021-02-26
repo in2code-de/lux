@@ -99,6 +99,8 @@ lib.lux.settings {
 
 ```
 
+**Note:** Take care that your lib.lux configuration is recognized by lux (see FAQ section how to copy it to plugin.tx_lux_fe)
+
 You can test the field mapping by adding a simple form to your frontend. Open a second browser and fill out the form.
 As soon as you enter an email and leave the field (on blur), the values are sent asynchronical to Lux. You don't have to
 submit the form. Just go into the backend and check if the lead gets identified.
@@ -191,6 +193,8 @@ lib.lux.settings {
 }
 
 ```
+
+**Note:** Take care that your lib.lux configuration is recognized by lux (see FAQ section how to copy it to plugin.tx_lux_fe)
 
 **Note:** If you want to stop the submit process, because lux had a workflow for the submit action (show text on form
 submit, etc..), you can use `data-lux-form-identification="preventDefault"`
@@ -320,6 +324,8 @@ lib.lux.settings {
     }
 }
 ```
+
+**Note:** Take care that your lib.lux configuration is recognized by lux (see FAQ section how to copy it to plugin.tx_lux_fe)
 
 After that, you can change every link in the CK editor:
 <img src="../../../Documentation/Images/screenshot_email4link_ckeditor_plugin.png" width="800" />

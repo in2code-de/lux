@@ -33,6 +33,9 @@ lib.lux.settings {
 }
 ```
 
+**Note:** Take care that your lib.lux configuration is recognized by lux (see FAQ section how to copy it to plugin.tx_lux_fe)
+
+
 A small PHP file will do the trick for you:
 
 ```
@@ -79,7 +82,7 @@ class SendNotificationEmailFinisher extends AbstractFinisher implements Finisher
 Your PHP finisher class must implement FinisherInterface and should extend the AbstractFinisher. Last class offers you
 useful methods like getVisitor(), getConfigurationByKey() or getControllerAction() to get helpful information.
 
-Your class must have a start() function where your logic is implemented. The method shouldFinisherRun() is optional 
+Your class must have a start() function where your logic is implemented. The method shouldFinisherRun() is optional
 and if you don't add this to your finisher, it will return true by default.
 
 Because there are some actions that are called in lux, you can decide which of this action should start your finisher
