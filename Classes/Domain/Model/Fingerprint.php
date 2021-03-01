@@ -88,6 +88,81 @@ class Fingerprint extends AbstractModel
     }
 
     /**
+     * @return array
+     */
+    public function getPropertiesFromUserAgent(): array
+    {
+        $properties = [
+            'browser' => '',
+            'browserversion' => '',
+            'os' => '',
+            'osversion' => '',
+            'manufacturer' => '',
+            'type' => ''
+        ];
+        if (class_exists(\WhichBrowser\Parser::class)) {
+            $parser = new \WhichBrowser\Parser($this->getUserAgent());
+            $properties = [
+                'browser' => $parser->browser->getName(),
+                'browserversion' => $parser->browser->version->value,
+                'os' => $parser->os->getName(),
+                'osversion' => $parser->os->getVersion(),
+                'manufacturer' => $parser->device->getManufacturer(),
+                'type' => $parser->device->type
+            ];
+        }
+        return $properties;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserAgentBrowser(): string
+    {
+        return $this->getPropertiesFromUserAgent()['browser'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserAgentBrowserversion(): string
+    {
+        return $this->getPropertiesFromUserAgent()['browserversion'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserAgentOs(): string
+    {
+        return $this->getPropertiesFromUserAgent()['os'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserAgentOsversion(): string
+    {
+        return $this->getPropertiesFromUserAgent()['osversion'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserAgentManufacturer(): string
+    {
+        return $this->getPropertiesFromUserAgent()['manufacturer'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserAgentType(): string
+    {
+        return $this->getPropertiesFromUserAgent()['type'];
+    }
+
+    /**
      * @param string $userAgent
      * @return Fingerprint
      */
@@ -125,32 +200,5 @@ class Fingerprint extends AbstractModel
         } else {
             return 'Fingerprint';
         }
-    }
-
-    /**
-     * @return array
-     */
-    public function getPropertiesFromUserAgent(): array
-    {
-        $properties = [
-            'browser' => '',
-            'browserversion' => '',
-            'os' => '',
-            'osversion' => '',
-            'manufacturer' => '',
-            'type' => ''
-        ];
-        if (class_exists(\WhichBrowser\Parser::class)) {
-            $parser = new \WhichBrowser\Parser($this->getUserAgent());
-            $properties = [
-                'browser' => $parser->browser->getName(),
-                'browserversion' => $parser->browser->version->value,
-                'os' => $parser->os->getName(),
-                'osversion' => $parser->os->getVersion(),
-                'manufacturer' => $parser->device->getManufacturer(),
-                'type' => $parser->device->type
-            ];
-        }
-        return $properties;
     }
 }

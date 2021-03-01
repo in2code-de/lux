@@ -209,6 +209,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 11.5.0     | 2021-03-01 | Feature    | Add new getters in fingerprint model for specific user agent properties (that can be used in workflow fluid templates)                                                                     |
 | 11.4.0     | 2021-02-26 | Feature    | Don't add fieldlistener events to uninteresting fields (hidden, submit), update documentation FAQ                                                                                          |
 | 11.3.2     | 2021-02-16 | Task       | Updated telecommunication provider list                                                                                                                                                    |
 | 11.3.1     | 2021-02-12 | Bugfix     | Remove also related search words if a visitor gets removed                                                                                                                                 |
