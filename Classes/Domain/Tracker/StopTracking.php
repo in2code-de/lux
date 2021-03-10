@@ -41,7 +41,8 @@ class StopTracking
         'yandexbot',
         'sistrix',
         'lighthouse',
-        'sistrix'
+        'sistrix',
+        'cookieradar'
     ];
 
     /**
