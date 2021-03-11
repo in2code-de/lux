@@ -209,6 +209,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 11.7.0     | 2021-03-11 | Feature    | Show full userAgent on hover, ignore "HeadlessChrome" visits, small improvements of stopTacking function, small documentation update, bugfix on page detail view for ajax links            |
 | 11.6.0     | 2021-03-10 | Feature    | Ignore browsers with user agent "cookieradar" - so our product (see https://www.in2code.de/produkte/cookie-managment-suite/) is not tracked any more                                       |
 | 11.5.0     | 2021-03-01 | Feature    | Add new getters in fingerprint model for specific user agent properties (that can be used in workflow fluid templates)                                                                     |
 | 11.4.0     | 2021-02-26 | Feature    | Don't add fieldlistener events to uninteresting fields (hidden, submit), update documentation FAQ                                                                                          |
