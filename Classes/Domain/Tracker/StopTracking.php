@@ -42,7 +42,8 @@ class StopTracking
         'sistrix',
         'lighthouse',
         'sistrix',
-        'cookieradar'
+        'cookieradar',
+        'HeadlessChrome'
     ];
 
     /**
