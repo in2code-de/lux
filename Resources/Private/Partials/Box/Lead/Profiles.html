@@ -59,13 +59,13 @@
                         <f:for each="{visitor.fingerprintsSorted}" as="fingerprint">
                             <tr data-fingerprint-uid="{fingerprint.uid}">
                                 <td>{fingerprint.domain}</td>
-                                <td>{fingerprint.propertiesFromUserAgent.browser}
+                                <td title="{fingerprint.userAgent}">{fingerprint.propertiesFromUserAgent.browser}
                                     {fingerprint.propertiesFromUserAgent.browserversion}
                                 </td>
-                                <td>{fingerprint.propertiesFromUserAgent.os}
+                                <td title="{fingerprint.userAgent}">{fingerprint.propertiesFromUserAgent.os}
                                     {fingerprint.propertiesFromUserAgent.osversion}
                                 </td>
-                                <td>{fingerprint.propertiesFromUserAgent.manufacturer}
+                                <td title="{fingerprint.userAgent}">{fingerprint.propertiesFromUserAgent.manufacturer}
                                     {fingerprint.propertiesFromUserAgent.type}
                                 </td>
                                 <td>{fingerprint.typeString}</td>

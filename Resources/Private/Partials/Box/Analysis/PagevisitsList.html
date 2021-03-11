@@ -19,20 +19,11 @@
                 <f:for each="{pagesItem}" as="page">
                     <tr data-lux-action-analysiscontentdetailpage="{page.0.page}">
                         <td>
-                            <f:for each="{page}" as="pageItem" iteration="iteration">
-                                <f:if condition="{iteration.isFirst}">
-                                    <span title="UID{pageItem.page}"><lux:page.getPropertyFromPageIdentifier pageIdentifier="{pageItem.page}" /></span>
-                                </f:if>
-                            </f:for>
+                            <span title="UID{page.0.page}"><lux:page.getPropertyFromPageIdentifier pageIdentifier="{page.0.page}" /></span>
                         </td>
                         <td>
                             {page -> f:count()}
-
-                            <f:for each="{page}" as="pageItem" iteration="iteration">
-                                <f:if condition="{iteration.isFirst}">
-                                    <f:link.action action="detailPage" arguments="{page:pageItem.page}" class="btn btn-primary pull-right hidden" data="{lux-linkmock-link:'detailpage{pageItem.uid}'}">Details</f:link.action>
-                                </f:if>
-                            </f:for>
+                            <f:link.action action="detailPage" arguments="{page:page.0.page}" class="btn btn-primary pull-right hidden" data="{lux-linkmock-link:'detailpage{page.0.page}'}">Details</f:link.action>
                         </td>
                     </tr>
                 </f:for>

@@ -10,9 +10,9 @@ use In2code\Lux\Domain\Model\Fingerprint;
  *
  * to stop the initial tracking for some reasons:
  * - If useragent is empty (seems to be not a normal visitor)
- * - If useragent turns out to be a bot (via WhichBrowser\Parser)
- * - If useragent turns out to be a blacklisted browser (e.g. "Googlebot")
  * - If useragent contains stop words (e.g. lighthouse, sistrix)
+ * - If useragent turns out to be a blacklisted browser (e.g. "Googlebot")
+ * - If useragent turns out to be a bot (via WhichBrowser\Parser)
  */
 class StopTracking
 {
@@ -42,7 +42,8 @@ class StopTracking
         'sistrix',
         'lighthouse',
         'sistrix',
-        'cookieradar'
+        'cookieradar',
+        'HeadlessChrome'
     ];
 
     /**
@@ -58,9 +59,9 @@ class StopTracking
     public function stop(Fingerprint $fingerprint)
     {
         $this->checkForEmptyUserAgent($fingerprint);
-        $this->checkForBotUserAgent($fingerprint);
-        $this->checkForBlacklistedParsedUserAgent($fingerprint);
         $this->checkForBlacklistedUserAgentStrings($fingerprint);
+        $this->checkForBlacklistedParsedUserAgent($fingerprint);
+        $this->checkForBotUserAgent($fingerprint);
     }
 
     /**
@@ -80,10 +81,12 @@ class StopTracking
      * @return void
      * @throws DisallowedUserAgentException
      */
-    protected function checkForBotUserAgent(Fingerprint $fingerprint): void
+    protected function checkForBlacklistedUserAgentStrings(Fingerprint $fingerprint): void
     {
-        if ($fingerprint->getPropertiesFromUserAgent()['type'] === 'bot') {
-            throw new DisallowedUserAgentException('Stop tracking because of bot', 1608109683);
+        foreach ($this->blacklistedUa as $userAgentPart) {
+            if (stristr($fingerprint->getUserAgent(), $userAgentPart) !== false) {
+                throw new DisallowedUserAgentException('Stop tracking because of blacklisted user agent', 1592581260);
+            }
         }
     }
 
@@ -105,12 +108,10 @@ class StopTracking
      * @return void
      * @throws DisallowedUserAgentException
      */
-    protected function checkForBlacklistedUserAgentStrings(Fingerprint $fingerprint): void
+    protected function checkForBotUserAgent(Fingerprint $fingerprint): void
     {
-        foreach ($this->blacklistedUa as $userAgentPart) {
-            if (stristr($fingerprint->getUserAgent(), $userAgentPart) !== false) {
-                throw new DisallowedUserAgentException('Stop tracking because of blacklisted user agent', 1592581260);
-            }
+        if ($fingerprint->getPropertiesFromUserAgent()['type'] === 'bot') {
+            throw new DisallowedUserAgentException('Stop tracking because of bot', 1608109683);
         }
     }
 }
