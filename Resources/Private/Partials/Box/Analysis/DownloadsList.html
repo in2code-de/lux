@@ -20,21 +20,13 @@
                 <f:for each="{downloadsItem}" as="download">
                     <tr data-lux-action-analysiscontentdetaildownload="{download.0.href}">
                         <td>
-                            <f:for each="{download}" as="downloadItem" iteration="iteration">
-                                <f:if condition="{iteration.isFirst}">
-                                    <span title="{downloadItem.href}">
-                                        <lux:format.getFilenameFromPathAndFilename pathAndFilename="{downloadItem.href}"/>
-                                    </span>
-                                </f:if>
-                            </f:for>
+                            <span title="{download.0.href}">
+                                <lux:format.getFilenameFromPathAndFilename pathAndFilename="{download.0.href}"/>
+                            </span>
                         </td>
                         <td>{download -> f:count()}</td>
                         <td>
-                            <f:for each="{download}" as="downloadItem" iteration="iteration">
-                                <f:if condition="{iteration.isFirst}">
-                                    <f:link.action action="detailDownload" arguments="{href:downloadItem.href}" class="btn btn-primary pull-right hidden" data="{lux-linkmock-link:'detaildownload{downloadItem.uid}'}">Details</f:link.action>
-                                </f:if>
-                            </f:for>
+                            <f:link.action action="detailDownload" arguments="{href:download.0.href}" class="btn btn-primary pull-right hidden" data="{lux-linkmock-link:'detaildownload{download.0.uid}'}">Details</f:link.action>
                         </td>
                     </tr>
                 </f:for>
