@@ -96,13 +96,13 @@ Could be used to remove e.g. bots from your system from time to time.
 Example usage:
 
 ```
-# Remove visitor by email address
+# Remove visitor by email address (1 = exact match)
 ./vendor/bin/typo3 lux:cleanupVisitorsByProperty email name@mail.org 1
 
-# Remove visitors with userAgents "Googlebot"
+# Remove visitors with userAgents "Googlebot" (0 = like)
 ./vendor/bin/typo3 lux:cleanupVisitorsByProperty fingerprints.userAgent Googlebot 0
 
-# Remove visitors with referrer from a testdomain
+# Remove visitors with referrer from a testdomain (0 = like)
 ./vendor/bin/typo3 lux:cleanupVisitorsByProperty pagevisits.referrer "test.in2code.de" 0
 ```
 
