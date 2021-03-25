@@ -29,8 +29,8 @@
                                 </thead>
                                 <tbody>
                                 <f:for each="{pagevisitsItem}" as="pagevisit">
-                                    <tr>
-                                        <td>{pagevisit.page.title}</td>
+                                    <tr data-identifier-pagevisit="{pagevisit.uid}">
+                                        <td>{pagevisit.pageTitleWithLanguage}</td>
                                         <td>
                                             <f:link.action action="detail" controller="Lead" arguments="{visitor:pagevisit.visitor}" title="UID{pagevisit.visitor.uid}">{pagevisit.visitor.fullName}</f:link.action>
                                         </td>

@@ -13,7 +13,7 @@
                         <f:for each="{visitor.pagevisits}" as="pagevisit" iteration="iteration">
                             <div class="timeline__item" title="PID{pagevisit.page.uid}" data-identifier-pagevisit="{pagevisit.uid}">
                                 <div style="margin-top: 5px;">
-                                    {pagevisit.page.title}
+                                    {pagevisit.pageTitleWithLanguage}
                                     <span class="badge pull-right" title="{f:format.date(date:pagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">{lux:format.readableDate(date:pagevisit.crdate)}</span>
                                 </div>
                             </div>

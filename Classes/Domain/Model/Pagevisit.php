@@ -3,8 +3,12 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
 use In2code\Lux\Domain\Service\Referrer\Readable;
+use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Utility\FrontendUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use In2code\Lux\Utility\SiteUtility;
+use TYPO3\CMS\Core\Exception\SiteNotFoundException;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
@@ -68,6 +72,31 @@ class Pagevisit extends AbstractModel
     public function getPage()
     {
         return $this->page;
+    }
+
+    /**
+     * Get the related pagetitle with a language code as postfix (if additional language) like "Management (en)"
+     *
+     * @return string
+     * @throws SiteNotFoundException
+     */
+    public function getPageTitleWithLanguage(): string
+    {
+        $title = '';
+        $page = $this->getPage();
+        if ($page !== null) {
+            $title = $page->getTitle();
+            if ($this->getLanguage() > 0) {
+                /** @var SiteService $siteService */
+                $siteService = GeneralUtility::makeInstance(SiteService::class);
+                $code = $siteService->getLanguageCodeFromLanguageAndPageIdentifier(
+                    $this->getLanguage(),
+                    $this->getPage()->getUid()
+                );
+                $title .= ' (' . $code . ')';
+            }
+        }
+        return $title;
     }
 
     /**
