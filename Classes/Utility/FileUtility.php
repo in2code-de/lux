@@ -54,7 +54,7 @@ class FileUtility
      * @param string $filename
      * @return string
      */
-    protected static function getFileExtensionFromFilename(string $filename): string
+    public static function getFileExtensionFromFilename(string $filename): string
     {
         $info = pathinfo($filename);
         if (!empty($info['extension'])) {

@@ -8,12 +8,12 @@ use In2code\Lux\Domain\Repository\DownloadRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\FileService;
 use In2code\Lux\Signal\SignalTrait;
+use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
-use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
-use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
 
 /**
  * Class DownloadTracker add a download record to a visitor
@@ -49,8 +49,6 @@ class DownloadTracker
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
      * @throws Exception
      */
     public function addDownload(string $href)
@@ -88,13 +86,41 @@ class DownloadTracker
     }
 
     /**
+     * Check if
+     * - href is not empty
+     * - file extension is allowed to be tracked
+     * - visitor ist not blacklisted
+     * - is download tracking enabled in general
+     *
      * @param string $href
      * @return bool
      * @throws Exception
      */
     protected function isDownloadAddingEnabled(string $href): bool
     {
-        return !empty($href) && $this->visitor->isNotBlacklisted() && $this->isEnabledDownloadTrackingInSettings();
+        return !empty($href) && $this->isFileExtensionAllowedToBeTracked($href)
+            && $this->visitor->isNotBlacklisted() && $this->isEnabledDownloadTrackingInSettings();
+    }
+
+    /**
+     * @param string $href
+     * @return bool
+     * @throws Exception
+     */
+    protected function isFileExtensionAllowedToBeTracked(string $href): bool
+    {
+        $fileExtension = FileUtility::getFileExtensionFromFilename($href);
+        $configurationService = ObjectUtility::getConfigurationService();
+        $settings = $configurationService->getTypoScriptSettings();
+        if (!empty($settings['tracking']['assetDownloads']['allowedFileExtensions'])) {
+            $allowed = GeneralUtility::trimExplode(
+                ',',
+                strtolower($settings['tracking']['assetDownloads']['allowedFileExtensions']),
+                true
+            );
+            return in_array(strtolower($fileExtension), $allowed);
+        }
+        return false;
     }
 
     /**

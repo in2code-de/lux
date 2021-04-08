@@ -477,6 +477,11 @@ function LuxMain() {
   var email4LinkListener = function(link, event) {
     if (identification.isDisableForLinkStorageEntrySet()) {
       // track as normal asset download
+      ajaxConnection({
+        'tx_lux_fe[dispatchAction]': 'downloadRequest',
+        'tx_lux_fe[fingerprint]': identification.getFingerprint(),
+        'tx_lux_fe[arguments][href]': link.getAttribute('href')
+      }, getRequestUri(), null, null);
       delayClick(event, 'Email4Link');
     } else {
       // show popup
