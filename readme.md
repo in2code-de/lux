@@ -209,6 +209,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 12.0.0     | 2021-04-08 | Feature    | Filter by domain in analysis module now, more debugging information in browser console                                                                                                     |
 | 11.8.0     | 2021-03-25 | Feature    | Show language after page title in all diagrams in backend                                                                                                                                  |
 | 11.7.1     | 2021-03-17 | Task       | Add extension name to composer.json                                                                                                                                                        |
 | 11.7.0     | 2021-03-11 | Feature    | Show full userAgent on hover, ignore "HeadlessChrome" visits, small improvements of stopTacking function, small documentation update, bugfix on page detail view for ajax links            |
