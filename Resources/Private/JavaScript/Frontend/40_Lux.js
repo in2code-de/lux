@@ -402,7 +402,7 @@ function LuxMain() {
               'tx_lux_fe[fingerprint]': identification.getFingerprint(),
               'tx_lux_fe[arguments][href]': this.getAttribute('href')
             }, getRequestUri(), null, null);
-            delayClick(event);
+            delayClick(event, 'DownlaodListener');
           });
         }
       }
@@ -424,7 +424,7 @@ function LuxMain() {
             'tx_lux_fe[arguments][linklistenerIdentifier]': linklistenerIdentifier,
             'tx_lux_fe[arguments][pageUid]': getPageUid()
           }, getRequestUri(), null, null);
-          delayClick(event);
+          delayClick(event, 'LinkListener');
         }
       });
     }
@@ -452,14 +452,19 @@ function LuxMain() {
    *
    * @returns {void}
    */
-  var delayClick = function(event) {
+  var delayClick = function(event, status) {
     var href = event.target.getAttribute('href');
+    var delay = 400;
+    if (isDebugMode()) {
+      console.log(status + ' triggered. Redirect in some seconds to ' + href);
+      delay = 5000;
+    }
     if (href !== null) {
       event.preventDefault();
       setTimeout(
         function() {
           window.location = href;
-        }, 400
+        }, delay
       );
     }
   };
@@ -470,7 +475,11 @@ function LuxMain() {
    * @returns {void}
    */
   var email4LinkListener = function(link, event) {
-    if (identification.isDisableForLinkStorageEntrySet() === false) {
+    if (identification.isDisableForLinkStorageEntrySet()) {
+      // track as normal asset download
+      delayClick(event, 'Email4Link');
+    } else {
+      // show popup
       event.preventDefault();
 
       var title = link.getAttribute('data-lux-email4link-title') || '';
