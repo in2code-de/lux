@@ -46,7 +46,7 @@ class DomainDataProvider extends AbstractDataProvider
     protected function getDomains(): array
     {
         $pagevisitRepository = ObjectUtility::getObjectManager()->get(PagevisitRepository::class);
-        $rows = $pagevisitRepository->getAllDomains($this->filter);
+        $rows = $pagevisitRepository->getDomainsWithAmountOfVisits($this->filter);
 
         foreach ($rows as &$row) {
             $row['label'] = LocalizationUtility::translateByKey('dataprovider.domain.label', [$row['domain']]);

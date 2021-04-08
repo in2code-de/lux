@@ -76,6 +76,7 @@ class AnalysisController extends AbstractController
      * @return void
      * @throws Exception
      * @throws InvalidQueryException
+     * @throws DBALException
      */
     public function contentAction(FilterDto $filter): void
     {
@@ -87,7 +88,8 @@ class AnalysisController extends AbstractController
             'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
             'downloads' => $this->downloadRepository->findCombinedByHref($filter),
             'languageData' => ObjectUtility::getObjectManager()->get(LanguagesDataProvider::class, $filter),
-            'domainData' => ObjectUtility::getObjectManager()->get(DomainDataProvider::class, $filter)
+            'domainData' => ObjectUtility::getObjectManager()->get(DomainDataProvider::class, $filter),
+            'domains' => $this->pagevisitsRepository->getAllDomains($filter)
         ]);
     }
 

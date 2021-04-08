@@ -58,7 +58,8 @@ class DownloadRepository extends AbstractRepository
         foreach ($assets as $asset) {
             $result[$asset['href']][] = $asset;
         }
-        array_multisort(array_map('count', $result), SORT_DESC, $result);
+        $array = array_map('count', $result);
+        array_multisort($array, SORT_DESC, $result);
         $result = array_slice($result, 0, 100);
         return $result;
     }
@@ -115,7 +116,7 @@ class DownloadRepository extends AbstractRepository
     }
 
     /**
-     * @param FilterDto $filter
+     * @param FilterDto|null $filter
      * @param QueryInterface $query
      * @param array $logicalAnd
      * @return array
@@ -143,6 +144,9 @@ class DownloadRepository extends AbstractRepository
             }
             if ($filter->getCategoryScoring() !== null) {
                 $logicalAnd[] = $query->equals('visitor.categoryscorings.category', $filter->getCategoryScoring());
+            }
+            if ($filter->getDomain() !== '') {
+                $logicalAnd[] = $query->equals('domain', $filter->getDomain());
             }
         }
         return $logicalAnd;

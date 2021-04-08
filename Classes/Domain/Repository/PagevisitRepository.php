@@ -260,14 +260,16 @@ class PagevisitRepository extends AbstractRepository
      * @param FilterDto $filter
      * @return array
      * @throws DBALException
+     * @throws \Exception
      */
-    public function getAllDomains(FilterDto $filter): array
+    public function getDomainsWithAmountOfVisits(FilterDto $filter): array
     {
         $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
         $sql = 'SELECT count(*) as count, pv.domain FROM ' . Pagevisit::TABLE_NAME . ' pv'
             . ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = pv.visitor'
             . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
             . ' where pv.domain!="" ' . $this->extendWhereClauseWithFilterTime($filter, true, 'pv')
+            . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
             . ' group by domain order by count desc';
@@ -275,9 +277,34 @@ class PagevisitRepository extends AbstractRepository
     }
 
     /**
+     *  [
+     *      'domain1.org',
+     *      'www.domain2.org'
+     *  ]
+     *
      * @param FilterDto $filter
      * @return array
      * @throws DBALException
+     * @throws \Exception
+     */
+    public function getAllDomains(FilterDto $filter): array
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
+        $sql = 'SELECT pv.domain FROM ' . Pagevisit::TABLE_NAME . ' pv'
+            . ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = pv.visitor'
+            . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
+            . ' where pv.domain!="" ' . $this->extendWhereClauseWithFilterTime($filter, true, 'pv')
+            . $this->extendWhereClauseWithFilterScoring($filter, 'v')
+            . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
+            . ' group by domain order by domain asc';
+        return (array)$connection->executeQuery($sql)->fetchAll(\PDO::FETCH_COLUMN);
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @return array
+     * @throws DBALException
+     * @throws \Exception
      */
     public function getAllLanguages(FilterDto $filter): array
     {
@@ -287,6 +314,7 @@ class PagevisitRepository extends AbstractRepository
             . ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = pv.visitor'
             . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
             . ' where ' . $this->extendWhereClauseWithFilterTime($filter, false, 'pv')
+            . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
             . ' group by pv.language order by count desc ';
@@ -303,15 +331,16 @@ class PagevisitRepository extends AbstractRepository
         foreach ($pages as $pageProperties) {
             $result[$pageProperties['page']][] = $pageProperties;
         }
-        array_multisort(array_map('count', $result), SORT_DESC, $result);
+        $array = array_map('count', $result);
+        array_multisort($array, SORT_DESC, $result);
         $result = array_slice($result, 0, 100);
         return $result;
     }
 
     /**
-     * @param FilterDto $filter
      * @param QueryInterface $query
      * @param array $logicalAnd
+     * @param FilterDto|null $filter
      * @return array
      * @throws InvalidQueryException
      */
@@ -337,6 +366,9 @@ class PagevisitRepository extends AbstractRepository
             }
             if ($filter->getCategoryScoring() !== null) {
                 $logicalAnd[] = $query->equals('visitor.categoryscorings.category', $filter->getCategoryScoring());
+            }
+            if ($filter->getDomain() !== '') {
+                $logicalAnd[] = $query->equals('domain', $filter->getDomain());
             }
         }
         return $logicalAnd;
