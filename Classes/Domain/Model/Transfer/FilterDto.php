@@ -81,6 +81,13 @@ class FilterDto
     protected $shortMode = true;
 
     /**
+     * Filter for a specific domain
+     *
+     * @var string
+     */
+    protected $domain = '';
+
+    /**
      * FilterDto constructor.
      *
      * @param int $timePeriod
@@ -325,6 +332,24 @@ class FilterDto
     }
 
     /**
+     * @return string
+     */
+    public function getDomain(): string
+    {
+        return $this->domain;
+    }
+
+    /**
+     * @param string $domain
+     * @return FilterDto
+     */
+    public function setDomain(string $domain): self
+    {
+        $this->domain = $domain;
+        return $this;
+    }
+
+    /**
      * Calculated values
      */
 
@@ -335,7 +360,7 @@ class FilterDto
     {
         return $this->searchterm !== '' || $this->pid !== '' || $this->scoring > 0 || $this->categoryScoring !== null
             || $this->timeFrom !== '' || $this->timeTo !== '' || $this->timePeriod !== self::PERIOD_DEFAULT
-            || $this->identified !== self::IDENTIFIED_ALL;
+            || $this->identified !== self::IDENTIFIED_ALL || $this->domain !== '';
     }
 
     /**

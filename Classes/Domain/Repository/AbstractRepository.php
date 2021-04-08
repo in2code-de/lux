@@ -141,6 +141,30 @@ abstract class AbstractRepository extends Repository
 
     /**
      * Returns part of a where clause like
+     *      ' and domain="in2code.de"'
+     *
+     * @param FilterDto $filter
+     * @param string $table table with crdate (normally the main table)
+     * @return string
+     * @throws \Exception
+     */
+    protected function extendWhereClauseWithFilterDomain(
+        FilterDto $filter,
+        string $table = ''
+    ): string {
+        $sql = '';
+        if ($filter->getDomain() !== '') {
+            $field = 'domain';
+            if ($table !== '') {
+                $field = $table . '.' . $field;
+            }
+            $sql .= ' and ' . $field . '="' . $filter->getDomain() . '"';
+        }
+        return $sql;
+    }
+
+    /**
+     * Returns part of a where clause like
      *      " and v.scoring >= 90"
      *
      * @param FilterDto $filter

@@ -75,6 +75,25 @@
                         <label class="input-group-addon fa fa-tag" for="categoryScoring"></label>
                     </div>
 
+                    <f:if condition="{domains -> f:count()} > 0">
+                        <div class="input-group form-group">
+                            <f:form.select property="domain" class="form-control" id="domain">
+                                <f:form.select.option value="">
+                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.firstoption.domain">Domain</f:translate>
+                                </f:form.select.option>
+                                <f:for each="{domains}" as="domain">
+                                    <f:form.select.option value="{domain}">{domain}</f:form.select.option>
+                                </f:for>
+                            </f:form.select>
+                            <label class="input-group-addon fa fa-globe" for="categoryScoring"></label>
+                        </div>
+                    </f:if>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
                     <div class="input-group form-group pull-right" style="display: block">
                         <f:comment>Clear filter</f:comment>
                         <f:if condition="{filter.set}">

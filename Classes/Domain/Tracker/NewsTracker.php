@@ -68,7 +68,7 @@ class NewsTracker
         $newsRepository = ObjectUtility::getObjectManager()->get(NewsRepository::class);
         /** @var News $news */
         $news = $newsRepository->findByUid($newsUid);
-        $newsvisit->setNews($news)->setLanguage($languageUid);
+        $newsvisit->setNews($news)->setLanguage($languageUid)->setDomain();
         return $newsvisit;
     }
 

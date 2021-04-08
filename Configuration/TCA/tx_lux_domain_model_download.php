@@ -17,10 +17,10 @@ return [
         'rootLevel' => -1
     ],
     'interface' => [
-        'showRecordFieldList' => 'crdate,href,file,properties,visitor',
+        'showRecordFieldList' => 'crdate,href,file,properties,domain,visitor',
     ],
     'types' => [
-        '1' => ['showitem' => 'crdate,href,file,properties,visitor'],
+        '1' => ['showitem' => 'crdate,href,file,properties,domain,visitor'],
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -88,6 +88,15 @@ return [
                 'size' => 1,
                 'maxitems' => 1,
                 'default' => 0,
+                'readOnly' => true
+            ]
+        ],
+        'domain' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Download::TABLE_NAME . '.domain',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
                 'readOnly' => true
             ]
         ],

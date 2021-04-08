@@ -881,6 +881,10 @@
 				<source>Category Scoring of Visitors</source>
 				<target state="translated">Kategorie-Scoring des Besuchers</target>
 			</trans-unit>
+			<trans-unit id="module.list.filter.firstoption.domain">
+				<source>Filter for domain...</source>
+				<target state="translated">Nach Domain filtern...</target>
+			</trans-unit>
 			<trans-unit id="module.list.filter.header.category">
 				<source>Lux Category</source>
 				<target state="translated">Lux-Kategorie</target>

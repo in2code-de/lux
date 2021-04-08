@@ -670,6 +670,9 @@
 			<trans-unit id="module.list.filter.header.categoryscoring">
 				<source>Category Scoring of Visitors</source>
 			</trans-unit>
+			<trans-unit id="module.list.filter.firstoption.domain">
+				<source>Filter for domain...</source>
+			</trans-unit>
 			<trans-unit id="module.list.filter.header.category">
 				<source>Lux Category</source>
 			</trans-unit>
