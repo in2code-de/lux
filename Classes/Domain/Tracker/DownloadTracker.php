@@ -67,6 +67,7 @@ class DownloadTracker
      * @param string $href
      * @return Download
      * @throws Exception
+     * @throws IllegalObjectTypeException
      */
     protected function getAndPersistNewDownload(string $href): Download
     {
@@ -76,7 +77,7 @@ class DownloadTracker
         $downloadRepository = ObjectUtility::getObjectManager()->get(DownloadRepository::class);
         /** @var Download $download */
         $download = ObjectUtility::getObjectManager()->get(Download::class)
-            ->setHref($href);
+            ->setHref($href)->setDomain();
         if ($file !== null) {
             $download->setFile($file);
         }

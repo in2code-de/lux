@@ -2,6 +2,8 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
+use In2code\Lux\Utility\FrontendUtility;
+
 /**
  * Class Newsvisit
  */
@@ -28,6 +30,11 @@ class Newsvisit extends AbstractModel
      * @var \DateTime
      */
     protected $crdate = null;
+
+    /**
+     * @var string
+     */
+    protected $domain = '';
 
     /**
      * @return Visitor
@@ -103,6 +110,23 @@ class Newsvisit extends AbstractModel
     public function setCrdate(\DateTime $crdate)
     {
         $this->crdate = $crdate;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDomain(): string
+    {
+        return $this->domain;
+    }
+
+    /**
+     * @return Newsvisit
+     */
+    public function setDomain(): self
+    {
+        $this->domain = FrontendUtility::getCurrentDomain();
         return $this;
     }
 }

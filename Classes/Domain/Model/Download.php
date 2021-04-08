@@ -2,6 +2,8 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
+use In2code\Lux\Utility\FrontendUtility;
+
 /**
  * Class Download
  */
@@ -28,6 +30,11 @@ class Download extends AbstractModel
      * @var \In2code\Lux\Domain\Model\File
      */
     protected $file = null;
+
+    /**
+     * @var string
+     */
+    protected $domain = '';
 
     /**
      * @return Visitor
@@ -98,6 +105,23 @@ class Download extends AbstractModel
     public function setFile(File $file)
     {
         $this->file = $file;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDomain(): string
+    {
+        return $this->domain;
+    }
+
+    /**
+     * @return Download
+     */
+    public function setDomain(): self
+    {
+        $this->domain = FrontendUtility::getCurrentDomain();
         return $this;
     }
 }
