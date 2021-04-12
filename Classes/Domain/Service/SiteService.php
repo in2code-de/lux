@@ -21,6 +21,30 @@ class SiteService
     public function getLanguageCodeFromLanguageAndPageIdentifier(int $languageId, int $pageIdentifier): string
     {
         $site = $this->getSiteFromPageIdentifier($pageIdentifier);
+        return $this->getTwoLetterIsoCodeFromLanguageId($languageId, $site);
+    }
+
+    /**
+     * @param int $languageId
+     * @param string $domain
+     * @return string
+     */
+    public function getLanguageCodeFromLanguageAndDomain(int $languageId, string $domain): string
+    {
+        $site = $this->getSiteFromDomain($domain);
+        if ($site !== null) {
+            return $this->getTwoLetterIsoCodeFromLanguageId($languageId, $site);
+        }
+        return '';
+    }
+
+    /**
+     * @param int $languageId
+     * @param Site $site
+     * @return string
+     */
+    protected function getTwoLetterIsoCodeFromLanguageId(int $languageId, Site $site): string
+    {
         foreach ($site->getLanguages() as $language) {
             if ($language->getLanguageId() === $languageId) {
                 return $language->getTwoLetterIsoCode();
@@ -38,5 +62,22 @@ class SiteService
     {
         $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
         return $siteFinder->getSiteByPageId($pageIdentifier);
+    }
+
+    /**
+     * @param string $domain
+     * @return Site|null
+     */
+    protected function getSiteFromDomain(string $domain): ?Site
+    {
+        $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
+        $sites = $siteFinder->getAllSites();
+        /** @var Site $site */
+        foreach ($sites as $site) {
+            if ($domain === $site->getBase()->getHost()) {
+                return $site;
+            }
+        }
+        return null;
     }
 }

@@ -10,6 +10,7 @@ use In2code\Lux\Domain\Repository\IpinformationRepository;
 use In2code\Lux\Domain\Repository\LinkclickRepository;
 use In2code\Lux\Domain\Repository\LinklistenerRepository;
 use In2code\Lux\Domain\Repository\LogRepository;
+use In2code\Lux\Domain\Repository\NewsRepository;
 use In2code\Lux\Domain\Repository\NewsvisitRepository;
 use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
@@ -66,6 +67,11 @@ abstract class AbstractController extends ActionController
     protected $newsvisitRepository = null;
 
     /**
+     * @var NewsRepository
+     */
+    protected $newsRepository = null;
+
+    /**
      * @var CategoryRepository
      */
     protected $categoryRepository = null;
@@ -99,6 +105,7 @@ abstract class AbstractController extends ActionController
      * @param PageRepository|null $pageRepository
      * @param DownloadRepository|null $downloadRepository
      * @param NewsvisitRepository|null $newsvisitRepository
+     * @param NewsRepository|null $newsRepository
      * @param CategoryRepository|null $categoryRepository
      * @param LinkclickRepository|null $linkclickRepository
      * @param LinklistenerRepository|null $linklistenerRepository
@@ -114,6 +121,7 @@ abstract class AbstractController extends ActionController
         PageRepository $pageRepository = null,
         DownloadRepository $downloadRepository = null,
         NewsvisitRepository $newsvisitRepository = null,
+        NewsRepository $newsRepository = null,
         CategoryRepository $categoryRepository = null,
         LinkclickRepository $linkclickRepository = null,
         LinklistenerRepository $linklistenerRepository = null,
@@ -129,6 +137,7 @@ abstract class AbstractController extends ActionController
             $pageRepository = ObjectUtility::getObjectManager()->get(PageRepository::class);
             $downloadRepository = ObjectUtility::getObjectManager()->get(DownloadRepository::class);
             $newsvisitRepository = ObjectUtility::getObjectManager()->get(NewsvisitRepository::class);
+            $newsRepository = ObjectUtility::getObjectManager()->get(NewsRepository::class);
             $categoryRepository = ObjectUtility::getObjectManager()->get(CategoryRepository::class);
             $linkclickRepository = ObjectUtility::getObjectManager()->get(LinkclickRepository::class);
             $linklistenerRepository = ObjectUtility::getObjectManager()->get(LinklistenerRepository::class);
@@ -142,6 +151,7 @@ abstract class AbstractController extends ActionController
         $this->pageRepository = $pageRepository;
         $this->downloadRepository = $downloadRepository;
         $this->newsvisitRepository = $newsvisitRepository;
+        $this->newsRepository = $newsRepository;
         $this->categoryRepository = $categoryRepository;
         $this->linkclickRepository = $linkclickRepository;
         $this->linklistenerRepository = $linklistenerRepository;

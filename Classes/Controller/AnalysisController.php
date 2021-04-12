@@ -6,12 +6,16 @@ use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\DataProvider\AllLinkclickDataProvider;
 use In2code\Lux\Domain\DataProvider\BrowserAmountDataProvider;
 use In2code\Lux\Domain\DataProvider\DomainDataProvider;
+use In2code\Lux\Domain\DataProvider\DomainNewsDataProvider;
 use In2code\Lux\Domain\DataProvider\DownloadsDataProvider;
 use In2code\Lux\Domain\DataProvider\LanguagesDataProvider;
+use In2code\Lux\Domain\DataProvider\LanguagesNewsDataProvider;
 use In2code\Lux\Domain\DataProvider\LinkclickDataProvider;
+use In2code\Lux\Domain\DataProvider\NewsvisistsDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
 use In2code\Lux\Domain\DataProvider\SocialMediaDataProvider;
 use In2code\Lux\Domain\Model\Linklistener;
+use In2code\Lux\Domain\Model\News;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Utility\FileUtility;
@@ -98,6 +102,35 @@ class AnalysisController extends AbstractController
      * @throws InvalidArgumentNameException
      * @throws NoSuchArgumentException
      */
+    public function initializeNewsAction(): void
+    {
+        $this->setFilterExtended();
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @return void
+     * @throws DBALException
+     * @throws Exception
+     */
+    public function newsAction(FilterDto $filter): void
+    {
+        $this->view->assignMultiple([
+            'filter' => $filter,
+            'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
+            'newsvisitsData' => ObjectUtility::getObjectManager()->get(NewsvisistsDataProvider::class, $filter),
+            'news' => $this->newsvisitRepository->findCombinedByNewsIdentifier($filter),
+            'languageData' => ObjectUtility::getObjectManager()->get(LanguagesNewsDataProvider::class, $filter),
+            'domainData' => ObjectUtility::getObjectManager()->get(DomainNewsDataProvider::class, $filter),
+            'domains' => $this->newsvisitRepository->getAllDomains($filter)
+        ]);
+    }
+
+    /**
+     * @return void
+     * @throws InvalidArgumentNameException
+     * @throws NoSuchArgumentException
+     */
     public function initializeLinkListenerAction(): void
     {
         $this->setFilterExtended();
@@ -144,6 +177,22 @@ class AnalysisController extends AbstractController
         $this->view->assignMultiple([
             'pagevisits' => $this->pagevisitsRepository->findByPage($page, 100),
             'numberOfVisitorsData' => ObjectUtility::getObjectManager()->get(PagevisistsDataProvider::class, $filter)
+        ]);
+    }
+
+    /**
+     * @param News $news
+     * @return void
+     * @throws Exception
+     * @throws DBALException
+     */
+    public function detailNewsAction(News $news): void
+    {
+        $filter = ObjectUtility::getFilterDto()->setSearchterm((string)$news->getUid());
+        $this->view->assignMultiple([
+            'news' => $news,
+            'newsvisits' => $this->newsvisitRepository->findByNews($news, 100),
+            'newsvisitsData' => ObjectUtility::getObjectManager()->get(NewsvisistsDataProvider::class, $filter)
         ]);
     }
 
@@ -198,6 +247,37 @@ class AnalysisController extends AbstractController
         $standaloneView->assignMultiple([
             'pagevisits' => $page !== null ? $this->pagevisitsRepository->findByPage($page, 10) : null,
             'numberOfVisitorsData' => ObjectUtility::getObjectManager()->get(PagevisistsDataProvider::class, $filter)
+        ]);
+        $response = ObjectUtility::getObjectManager()->get(JsonResponse::class);
+        /** @var StreamInterface $stream */
+        $stream = $response->getBody();
+        $stream->write(json_encode(['html' => $standaloneView->render()]));
+        return $response;
+    }
+
+    /**
+     * AJAX action to show a detail view for news
+     *
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     * @throws Exception
+     * @throws DBALException
+     * @noinspection PhpUnused
+     */
+    public function detailNewsAjaxPage(ServerRequestInterface $request): ResponseInterface
+    {
+        $filter = $this->getFilterFromSessionForAjaxRequests('news', (string)$request->getQueryParams()['news']);
+        /** @var News $news */
+        $news = $this->newsRepository->findByIdentifier((int)$request->getQueryParams()['news']);
+        $standaloneView = ObjectUtility::getStandaloneView();
+        $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
+            'EXT:lux/Resources/Private/Templates/Analysis/NewsDetailPageAjax.html'
+        ));
+        $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
+        $standaloneView->assignMultiple([
+            'news' => $news,
+            'newsvisits' => $news !== null ? $this->newsvisitRepository->findByNews($news, 10) : null,
+            'newsvisitsData' => ObjectUtility::getObjectManager()->get(NewsvisistsDataProvider::class, $filter)
         ]);
         $response = ObjectUtility::getObjectManager()->get(JsonResponse::class);
         /** @var StreamInterface $stream */

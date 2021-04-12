@@ -2,7 +2,10 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
+use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Utility\FrontendUtility;
+use TYPO3\CMS\Core\Exception\SiteNotFoundException;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class Newsvisit
@@ -60,6 +63,30 @@ class Newsvisit extends AbstractModel
     public function getNews(): News
     {
         return $this->news;
+    }
+
+    /**
+     * Get the related newstitle with a language code as postfix (if additional language) like "Management (en)"
+     *
+     * @return string
+     * @throws SiteNotFoundException
+     */
+    public function getNewsTitleWithLanguage(): string
+    {
+        $title = '';
+        $news = $this->getNews();
+        if ($news !== null) {
+            $title = $news->getTitle();
+            if ($this->getLanguage() > 0) {
+                /** @var SiteService $siteService */
+                $siteService = GeneralUtility::makeInstance(SiteService::class);
+                $code = $siteService->getLanguageCodeFromLanguageAndDomain($this->getLanguage(), $this->getDomain());
+                if ($code !== '') {
+                    $title .= ' (' . $code . ')';
+                }
+            }
+        }
+        return $title;
     }
 
     /**
