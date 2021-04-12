@@ -116,6 +116,14 @@ pages and assets for your leads.
 Clicking on an asset or a page will open a detail page to this item, where you can exactly see which lead was interested
 in this item.
 
+#### News
+
+If you have installed the great news extension (georgringer/news), then you can also choose this view.
+You will see the 100 most interesting news to your leads.
+
+Clicking on a news will open a detail page to this item, where you can exactly see which lead was interested
+in this item.
+
 
 #### Link Listeners
 

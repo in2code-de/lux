@@ -1,0 +1,73 @@
+<f:layout name="Backend"/>
+
+<f:section name="content">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.news.visits">news visits</f:translate>
+                    </h3>
+                </div>
+                <div class="panel-body">
+
+                    <f:if condition="{newsvisits}">
+                        <f:widget.paginate
+                            objects="{newsvisits}"
+                            as="newsvisitsItem"
+                            configuration="{itemsPerPage:25,insertAbove:0,insertBelow:'{f:if(condition: \'{newsvisits -> f:count()} > 25\',then:1)}',maximumNumberOfLinks:10}">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.title">Title</f:translate></th>
+                                    <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.lead">Lead</f:translate></th>
+                                    <th>Scoring</th>
+                                    <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.company">Company</f:translate></th>
+                                    <th>Fingerprint</th>
+                                    <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.time">Time</f:translate></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <f:for each="{newsvisitsItem}" as="newsvisit">
+                                    <tr data-identifier-newsvisit="{newsvisit.uid}">
+                                        <td>{newsvisit.newsTitleWithLanguage}</td>
+                                        <td>
+                                            <f:link.action action="detail" controller="Lead" arguments="{visitor:newsvisit.visitor}" title="UID{newsvisit.visitor.uid}">{newsvisit.visitor.fullName}</f:link.action>
+                                        </td>
+                                        <td>
+                                            <span class="badge" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.scoring')}">{newsvisit.visitor.scoring}</span>
+                                            <f:if condition="{newsvisit.visitor.hottestCategoryscoring}">
+                                                <span class="badge badge-primary" title="{newsvisit.visitor.hottestCategoryscoring.category.title}">{newsvisit.visitor.hottestCategoryscoring.scoring}</span>
+                                            </f:if>
+                                        </td>
+                                        <td>{newsvisit.visitor.company}</td>
+                                        <td>
+                                            {newsvisit.visitor.latestFingerprint.value}
+                                        </td>
+                                        <td>
+                                            <span class="badge" title="{f:format.date(date:newsvisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
+                                                <lux:format.readableDate>{newsvisit.crdate}</lux:format.readableDate>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </f:for>
+                                </tbody>
+                            </table>
+                        </f:widget.paginate>
+                    </f:if>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <f:alias map="{headerPostfix: newsvisits.0.news.title}">
+                <f:render partial="Box/Analysis/Newsvisits" arguments="{_all}"/>
+            </f:alias>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <f:link.action class="btn btn-primary" action="content"><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:back">go back</f:translate></f:link.action>
+        </div>
+    </div>
+</f:section>

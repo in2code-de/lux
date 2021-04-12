@@ -387,6 +387,9 @@
 			<trans-unit id="module.analysis.content">
 				<source>Pagevisits and Downloads</source>
 			</trans-unit>
+			<trans-unit id="module.analysis.news">
+				<source>News</source>
+			</trans-unit>
 			<trans-unit id="module.analysis.linkListeners">
 				<source>Link listeners</source>
 			</trans-unit>
@@ -401,6 +404,12 @@
 			</trans-unit>
 			<trans-unit id="module.analysis.content.downloads">
 				<source>Number of downloads</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.news.categories">
+				<source>Categories</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.news.visits">
+				<source>News views</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.information">
 				<source>About Lux</source>
@@ -657,6 +666,9 @@
 			</trans-unit>
 			<trans-unit id="module.list.pagevisits">
 				<source>Pagevisits</source>
+			</trans-unit>
+			<trans-unit id="module.list.newsvisits">
+				<source>Newsvisits</source>
 			</trans-unit>
 			<trans-unit id="module.list.filter">
 				<source>Filter Leads</source>

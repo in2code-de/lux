@@ -1,0 +1,45 @@
+<f:if condition="{news}">
+    <f:then>
+        <f:widget.paginate
+            objects="{news}"
+            as="newsItem"
+            configuration="{itemsPerPage:30,insertAbove:0,insertBelow:'{f:if(condition: \'{news -> f:count()} > 30\',then:1)}',maximumNumberOfLinks:10}">
+            <table class="table table-striped table-hover table-pointer">
+                <thead>
+                <tr>
+                    <th style="width:50%">
+                        News
+                    </th>
+                    <th style="width:40%">
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.news.categories">categories</f:translate>
+                    </th>
+                    <th style="width:10%">
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.news.visits">visits</f:translate>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <f:for each="{newsItem}" as="item">
+                    <tr data-lux-action-analysisnewsdetailpage="{item.news.uid}">
+                        <td>
+                            <span title="UID{item.news.uid}">{item.news.title}</span>
+                        </td>
+                        <td>
+                            <f:for each="{item.news.categories}" as="category" iteration="iteration">
+                                {category.title}<f:if condition="!{iteration.isLast}">,</f:if>
+                            </f:for>
+                        </td>
+                        <td>
+                            {item.count}
+                            <f:link.action action="detailNews" arguments="{news:item.news}" class="btn btn-primary pull-right hidden" data="{lux-linkmock-link:'detailnews{item.news.uid}'}">Details</f:link.action>
+                        </td>
+                    </tr>
+                </f:for>
+                </tbody>
+            </table>
+        </f:widget.paginate>
+    </f:then>
+    <f:else>
+        <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+    </f:else>
+</f:if>

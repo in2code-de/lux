@@ -2,15 +2,16 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider;
 
+use In2code\Lux\Domain\Repository\NewsvisitRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
- * Class LanguagesDataProvider
+ * Class LanguagesNewsDataProvider
  */
-class LanguagesDataProvider extends AbstractDataProvider
+class LanguagesNewsDataProvider extends AbstractDataProvider
 {
     /**
      * Set values like:
@@ -45,8 +46,9 @@ class LanguagesDataProvider extends AbstractDataProvider
      */
     protected function getLanguagesFromSystem(): array
     {
-        $pagevisitRepository = ObjectUtility::getObjectManager()->get(PagevisitRepository::class);
-        $rows = $pagevisitRepository->getAllLanguages($this->filter);
+        /** @var NewsvisitRepository $newsvisitRepository */
+        $newsvisitRepository = ObjectUtility::getObjectManager()->get(NewsvisitRepository::class);
+        $rows = $newsvisitRepository->getAllLanguages($this->filter);
 
         foreach ($rows as &$row) {
             $row['label'] = $row['title'] ?: 'Standard';

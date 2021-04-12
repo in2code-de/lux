@@ -1,0 +1,114 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Filter</h3>
+    </div>
+    <div class="panel-body">
+        <f:form name="filter" class="form" action="news" object="{filter}">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.header.search">Suche</f:translate></h5>
+
+                    <div class="input-group form-group">
+                        <f:form.textfield
+                                type="text"
+                                property="searchterm"
+                                id="searchterm"
+                                class="form-control"
+                                placeholder="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.searchtermpagefile')}" />
+                        <label class="input-group-addon fa fa-search" for="searchterm"></label>
+                    </div>
+
+                    <div class="input-group form-group">
+                        <f:form.textfield
+                            type="datetime"
+                            property="timeFrom"
+                            id="timeFrom"
+                            class="form-control t3js-datetimepicker t3js-clearable"
+                            placeholder="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeFrom')}"
+                            data="{date-type:'datetime',date-offset:'0'}" />
+                        <label class="input-group-addon fa fa-calendar" for="timeFrom"></label>
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.header.scoring">Scoring</f:translate></h5>
+
+                    <div class="input-group form-group">
+                        <f:form.textfield
+                                type="range"
+                                property="scoring"
+                                class="form-control"
+                                additionalAttributes="{min:0, max:200, onchange:'document.getElementById(\'scoring_label\').innerHTML = this.value;'}"
+                                id="scoring"/>
+                        <label class="input-group-addon">
+                            Min: <strong id="scoring_label">{filter.scoring}</strong>
+                        </label>
+                    </div>
+
+                    <div class="input-group form-group">
+                        <f:form.textfield
+                            type="datetime"
+                            property="timeTo"
+                            id="timeTo"
+                            class="form-control t3js-datetimepicker t3js-clearable"
+                            placeholder="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeTo')}"
+                            data="{date-type:'datetime',date-offset:'0'}" />
+                        <label class="input-group-addon fa fa-calendar" for="timeTo"></label>
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.header.categoryscoring">Category</f:translate></h5>
+
+                    <div class="input-group form-group">
+                        <f:form.select
+                            property="categoryScoring"
+                            options="{luxCategories}"
+                            optionLabelField="title"
+                            optionValueField="uid"
+                            prependOptionValue=""
+                            prependOptionLabel=""
+                            class="form-control"
+                            id="categoryScoring"/>
+                        <label class="input-group-addon fa fa-tag" for="categoryScoring"></label>
+                    </div>
+
+                    <f:if condition="{domains -> f:count()} > 0">
+                        <div class="input-group form-group">
+                            <f:form.select property="domain" class="form-control" id="domain">
+                                <f:form.select.option value="">
+                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.firstoption.domain">Domain</f:translate>
+                                </f:form.select.option>
+                                <f:for each="{domains}" as="domain">
+                                    <f:form.select.option value="{domain}">{domain}</f:form.select.option>
+                                </f:for>
+                            </f:form.select>
+                            <label class="input-group-addon fa fa-globe" for="categoryScoring"></label>
+                        </div>
+                    </f:if>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="input-group form-group pull-right" style="display: block">
+                        <f:comment>Clear filter</f:comment>
+                        <f:if condition="{filter.set}">
+                            <f:link.action class="btn btn-default" style="margin-right: 10px" action="resetFilter" arguments="{redirectAction:view.action}">
+                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.reset">Reset</f:translate>
+                            </f:link.action>
+                        </f:if>
+
+                        <f:comment>Submit filter</f:comment>
+                        <f:form.submit
+                            class="btn btn-primary"
+                            value="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.submit')}" />
+                    </div>
+                </div>
+            </div>
+        </f:form>
+    </div>
+</div>
