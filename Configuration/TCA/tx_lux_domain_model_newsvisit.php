@@ -22,10 +22,10 @@ return [
         'rootLevel' => -1
     ],
     'interface' => [
-        'showRecordFieldList' => 'page,language,crdate,referrer,domain,domain,visitor',
+        'showRecordFieldList' => 'page,language,crdate,referrer,domain,domain,pagevisit,visitor',
     ],
     'types' => [
-        '1' => ['showitem' => 'page,language,crdate,referrer,domain,domain,visitor'],
+        '1' => ['showitem' => 'page,language,crdate,referrer,domain,domain,pagevisit,visitor'],
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -144,6 +144,18 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
+                'readOnly' => true
+            ]
+        ],
+        'pagevisit' => [
+            'exclude' => true,
+            'label' =>
+                'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Newsvisit::TABLE_NAME . '.pagevisit',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'foreign_table' => \In2code\Lux\Domain\Model\Pagevisit::TABLE_NAME,
+                'default' => 0,
                 'readOnly' => true
             ]
         ],

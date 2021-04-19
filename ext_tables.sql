@@ -130,6 +130,7 @@ CREATE TABLE tx_lux_domain_model_newsvisit (
 	visitor int(11) DEFAULT '0' NOT NULL,
 
 	news int(11) DEFAULT '0' NOT NULL,
+	pagevisit int(11) DEFAULT '0' NOT NULL,
 	language int(11) DEFAULT '0' NOT NULL,
 	domain varchar(255) DEFAULT '' NOT NULL,
 

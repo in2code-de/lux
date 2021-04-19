@@ -4,7 +4,6 @@ namespace In2code\Lux\Domain\Model;
 
 use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Utility\FrontendUtility;
-use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -40,6 +39,11 @@ class Newsvisit extends AbstractModel
     protected $domain = '';
 
     /**
+     * @var \In2code\Lux\Domain\Model\Pagevisit
+     */
+    protected $pagevisit = null;
+
+    /**
      * @return Visitor
      */
     public function getVisitor()
@@ -69,7 +73,6 @@ class Newsvisit extends AbstractModel
      * Get the related newstitle with a language code as postfix (if additional language) like "Management (en)"
      *
      * @return string
-     * @throws SiteNotFoundException
      */
     public function getNewsTitleWithLanguage(): string
     {
@@ -154,6 +157,24 @@ class Newsvisit extends AbstractModel
     public function setDomain(): self
     {
         $this->domain = FrontendUtility::getCurrentDomain();
+        return $this;
+    }
+
+    /**
+     * @return Pagevisit
+     */
+    public function getPagevisit(): Pagevisit
+    {
+        return $this->pagevisit;
+    }
+
+    /**
+     * @param Pagevisit|null $pagevisit
+     * @return Newsvisit
+     */
+    public function setPagevisit(Pagevisit $pagevisit = null): self
+    {
+        $this->pagevisit = $pagevisit;
         return $this;
     }
 }

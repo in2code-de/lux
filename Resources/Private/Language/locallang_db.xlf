@@ -339,6 +339,12 @@
 			<trans-unit id="tx_lux_domain_model_newsvisit.crdate">
 				<source>News visit</source>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_newsvisit.domain">
+				<source>Domain</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_newsvisit.pagevisit">
+				<source>Page visit</source>
+			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_newsvisit.visitor">
 				<source>Lead</source>
 			</trans-unit>
