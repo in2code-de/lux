@@ -6,6 +6,7 @@ use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Categoryscoring;
 use In2code\Lux\Domain\Model\News;
 use In2code\Lux\Domain\Model\Newsvisit;
+use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\DatabaseUtility;
@@ -36,14 +37,15 @@ class NewsvisitRepository extends AbstractRepository
     public function findCombinedByNewsIdentifier(FilterDto $filter): array
     {
         $connection = DatabaseUtility::getConnectionForTable(Newsvisit::TABLE_NAME);
-        $sql = 'select count(nv.uid) count, nv.news from ' . Newsvisit::TABLE_NAME . ' nv'
+        $sql = 'select count(distinct nv.uid) count, nv.uid, nv.news from ' . Newsvisit::TABLE_NAME . ' nv'
             . ' left join ' . News::TABLE_NAME . ' n on nv.news = n.uid'
             . ' left join ' . Visitor::TABLE_NAME . ' v on nv.visitor = v.uid'
             . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on cs.visitor = v.uid'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.uid = nv.pagevisit'
             . ' where '
             . $this->extendWhereClauseWithFilterTime($filter, false, 'nv')
             . $this->extendWhereClauseWithFilterSearchterms($filter, 'n')
-            . $this->extendWhereClauseWithFilterDomain($filter, 'nv')
+            . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
             . ' group by nv.news order by count desc';
@@ -100,11 +102,13 @@ class NewsvisitRepository extends AbstractRepository
     public function getDomainsWithAmountOfVisits(FilterDto $filter): array
     {
         $connection = DatabaseUtility::getConnectionForTable(Newsvisit::TABLE_NAME);
-        $sql = 'SELECT count(*) as count, nv.domain FROM ' . Newsvisit::TABLE_NAME . ' nv'
+        $sql = 'SELECT count(distinct nv.uid) as count, pv.domain FROM ' . Newsvisit::TABLE_NAME . ' nv'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.uid = nv.pagevisit'
             . ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = nv.visitor'
             . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
-            . ' where nv.domain!="" ' . $this->extendWhereClauseWithFilterTime($filter, true, 'nv')
-            . $this->extendWhereClauseWithFilterDomain($filter, 'nv')
+            . ' where '
+            . $this->extendWhereClauseWithFilterTime($filter, false, 'nv')
+            . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
             . ' group by domain order by count desc';
@@ -143,10 +147,12 @@ class NewsvisitRepository extends AbstractRepository
     public function getAllDomains(FilterDto $filter): array
     {
         $connection = DatabaseUtility::getConnectionForTable(Newsvisit::TABLE_NAME);
-        $sql = 'SELECT nv.domain FROM ' . Newsvisit::TABLE_NAME . ' nv'
+        $sql = 'SELECT pv.domain FROM ' . Newsvisit::TABLE_NAME . ' nv'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.uid = nv.pagevisit'
             . ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = nv.visitor'
             . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
-            . ' where nv.domain!="" ' . $this->extendWhereClauseWithFilterTime($filter, true, 'nv')
+            . ' where pv.domain!="" '
+            . $this->extendWhereClauseWithFilterTime($filter, true, 'nv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
             . ' group by domain order by domain asc';
@@ -162,12 +168,14 @@ class NewsvisitRepository extends AbstractRepository
     public function getAllLanguages(FilterDto $filter): array
     {
         $connection = DatabaseUtility::getConnectionForTable('sys_language');
-        $sql = 'SELECT count(*) as count, nv.language, l.title FROM ' . Newsvisit::TABLE_NAME . ' nv'
+        $sql = 'SELECT count(distinct nv.uid) as count, nv.language, l.title FROM ' . Newsvisit::TABLE_NAME . ' nv'
             . ' left join sys_language l on l.uid = nv.language'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.uid = nv.pagevisit'
             . ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = nv.visitor'
             . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
-            . ' where ' . $this->extendWhereClauseWithFilterTime($filter, false, 'nv')
-            . $this->extendWhereClauseWithFilterDomain($filter, 'nv')
+            . ' where '
+            . $this->extendWhereClauseWithFilterTime($filter, false, 'nv')
+            . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
             . ' group by nv.language order by count desc ';
@@ -205,7 +213,7 @@ class NewsvisitRepository extends AbstractRepository
                 $logicalAnd[] = $query->equals('visitor.categoryscorings.category', $filter->getCategoryScoring());
             }
             if ($filter->getDomain() !== '') {
-                $logicalAnd[] = $query->equals('domain', $filter->getDomain());
+                $logicalAnd[] = $query->equals('pagevisit.domain', $filter->getDomain());
             }
         }
         return $logicalAnd;
