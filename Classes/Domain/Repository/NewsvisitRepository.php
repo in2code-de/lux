@@ -134,6 +134,21 @@ class NewsvisitRepository extends AbstractRepository
     }
 
     /**
+     * @param Pagevisit $pagevisit
+     * @return Newsvisit|null
+     */
+    public function findByPagevisit(Pagevisit $pagevisit): ?Newsvisit
+    {
+        $query = $this->createQuery();
+        $query->matching($query->equals('pagevisit', $pagevisit->getUid()));
+        $query->setLimit(1);
+        $query->setOrderings(['uid' => QueryInterface::ORDER_DESCENDING]);
+        /** @var Newsvisit $newsvisit */
+        $newsvisit = $query->execute()->getFirst();
+        return $newsvisit;
+    }
+
+    /**
      *  [
      *      'domain1.org',
      *      'www.domain2.org'
