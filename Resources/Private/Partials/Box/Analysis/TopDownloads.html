@@ -17,7 +17,7 @@
                                     <f:for each="{download}" as="downloadItem" iteration="iteration">
                                         <f:if condition="{iteration.isFirst}">
                                             <span data-download-uid="{downloadItem.uid}" title="{downloadItem.href}">
-                                                <f:format.crop maxCharacters="40" append="..."><lux:format.getFilenameFromPathAndFilename pathAndFilename="{downloadItem.href}"/></f:format.crop>
+                                                <f:format.crop maxCharacters="25" append="..." respectWordBoundaries="0"><lux:format.getFilenameFromPathAndFilename pathAndFilename="{downloadItem.href}"/></f:format.crop>
                                             </span>
                                         </f:if>
                                     </f:for>
