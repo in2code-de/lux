@@ -14,7 +14,7 @@
                                 <span class="badge" title="{f:format.date(date:pagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
                                     <lux:format.readableDate>{pagevisit.crdate}</lux:format.readableDate>
                                 </span>
-                                Page <strong title="UID{pagevisit.page.uid}">{pagevisit.pageTitleWithLanguage}</strong> visited from<br />
+                                Page <strong title="PID{pagevisit.page.uid}: {pagevisit.pageTitleWithLanguage}"><f:format.crop maxCharacters="50" append="..." respectWordBoundaries="0">{pagevisit.pageTitleWithLanguage}</f:format.crop></strong> visited from<br />
                                 <span title="UID{pagevisit.visitor.uid}"><f:link.action action="detail" controller="Lead" arguments="{visitor:pagevisit.visitor}">{pagevisit.visitor.fullName}</f:link.action></span>
                                 <f:if condition="{pagevisit.visitor.company}">({pagevisit.visitor.company})</f:if>
                             </li>
