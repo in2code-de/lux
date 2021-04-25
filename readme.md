@@ -209,6 +209,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 13.1.0     | 2021-04-25 | Feature    | Show news title beside page title (if news), add relation between news- and pagevisit to save to store domain in newsvisit, small bugfix in backlink                                       |
 | 13.0.0     | 2021-04-12 | Feature    | Add a complete new view to analyse news visitors (if extension news is installed)                                                                                                          |
 | 12.0.0     | 2021-04-08 | Feature    | Filter by domain in analysis module now, more debugging information in browser console                                                                                                     |
 | 11.8.0     | 2021-03-25 | Feature    | Show language after page title in all diagrams in backend                                                                                                                                  |
