@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
+use In2code\Lux\Domain\Repository\NewsvisitRepository;
 use In2code\Lux\Domain\Service\Referrer\Readable;
 use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Utility\FrontendUtility;
@@ -94,6 +95,9 @@ class Pagevisit extends AbstractModel
                     $this->getPage()->getUid()
                 );
                 $title .= ' (' . $code . ')';
+            }
+            if ($this->getNewsvisit() !== null) {
+                $title .= ' "' . $this->getNewsvisit()->getNews()->getTitle() . '"';
             }
         }
         return $title;
@@ -242,5 +246,16 @@ class Pagevisit extends AbstractModel
             $lastPagevisit = $pagevisit;
         }
         return $previousPagevisit;
+    }
+
+    /**
+     * @return Newsvisit|null
+     * @throws Exception
+     */
+    public function getNewsvisit(): ?Newsvisit
+    {
+        /** @var NewsvisitRepository $newsvisitRepository */
+        $newsvisitRepository = ObjectUtility::getObjectManager()->get(NewsvisitRepository::class);
+        return $newsvisitRepository->findByPagevisit($this);
     }
 }

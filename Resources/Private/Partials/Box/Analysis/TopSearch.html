@@ -15,7 +15,7 @@
                             <tr>
                                 <td>
                                     <span title="{searchterm.searchterm}">
-                                        <f:format.crop maxCharacters="40" append="...">{searchterm.searchterm}</f:format.crop>
+                                        <f:format.crop maxCharacters="25" append="..." respectWordBoundaries="0">{searchterm.searchterm}</f:format.crop>
                                     </span>
                                 </td>
                                 <td>{searchterm.count}</td>

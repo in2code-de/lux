@@ -445,6 +445,14 @@
 				<source>News visit</source>
 				<target state="translated">Öffnen einer News</target>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_newsvisit.domain">
+				<source>Domain</source>
+				<target state="translated">Domain</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_newsvisit.pagevisit">
+				<source>Page visit</source>
+				<target state="translated">Seitenbesuch</target>
+			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_newsvisit.visitor">
 				<source>Lead</source>
 				<target state="translated">Lead</target>

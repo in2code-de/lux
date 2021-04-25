@@ -12,8 +12,6 @@ use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
-use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
-use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
 
 /**
  * Class PageTracker
@@ -38,26 +36,26 @@ class PageTracker
     /**
      * @param Visitor $visitor
      * @param array $arguments
-     * @return void
+     * @return Pagevisit
      * @throws Exception
      * @throws IllegalObjectTypeException
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
      * @throws UnknownObjectException
-     * @throws \Exception
      */
-    public function track(Visitor $visitor, array $arguments): void
+    public function track(Visitor $visitor, array $arguments): ?Pagevisit
     {
         $pageUid = (int)$arguments['pageUid'];
         $languageUid = (int)$arguments['languageUid'];
         $referrer = $arguments['referrer'];
         if ($this->isTrackingActivated($visitor, $pageUid)) {
-            $visitor->addPagevisit($this->getPageVisit($pageUid, $languageUid, $referrer));
+            $pagevisit = $this->getPageVisit($pageUid, $languageUid, $referrer);
+            $visitor->addPagevisit($pagevisit);
             $visitor->setVisits($visitor->getNumberOfUniquePagevisits());
             $this->visitorRepository->update($visitor);
             $this->visitorRepository->persistAll();
             $this->signalDispatch(__CLASS__, __METHOD__, [$visitor]);
+            return $pagevisit;
         }
+        return null;
     }
 
     /**

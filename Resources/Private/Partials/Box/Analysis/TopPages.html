@@ -18,7 +18,7 @@
                                         <f:if condition="{iteration.isFirst}">
                                             <f:alias map="{title:'{lux:page.getPropertyFromPageIdentifier(pageIdentifier:pageItem.page)}'}">
                                                 <span data-page-identifier="UID{pageItem.page}" title="{title}">
-                                                    <f:format.crop maxCharacters="40" append="...">{title}</f:format.crop>
+                                                    <f:format.crop maxCharacters="25" append="..." respectWordBoundaries="0">{title}</f:format.crop>
                                                 </span>
                                             </f:alias>
                                         </f:if>

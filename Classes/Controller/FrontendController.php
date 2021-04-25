@@ -78,9 +78,9 @@ class FrontendController extends ActionController
             $visitor = $this->getVisitor($fingerprint);
             $this->callAdditionalTrackers($visitor);
             $pageTracker = $this->objectManager->get(PageTracker::class);
-            $pageTracker->track($visitor, $arguments);
+            $pagevisit = $pageTracker->track($visitor, $arguments);
             $newsTracker = $this->objectManager->get(NewsTracker::class);
-            $newsTracker->track($visitor, $arguments);
+            $newsTracker->track($visitor, $arguments, $pagevisit);
             $searchTracker = $this->objectManager->get(SearchTracker::class);
             $searchTracker->track($visitor, $arguments);
             return json_encode($this->afterAction($visitor));

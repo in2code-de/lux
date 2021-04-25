@@ -15,7 +15,7 @@
                             <tr>
                                 <td>
                                     <span data-news-identifier="{newsItem.news.uid}" title="{newsItem.news.title}">
-                                        <f:format.crop maxCharacters="40" append="...">{newsItem.news.title}</f:format.crop>
+                                        <f:format.crop maxCharacters="25" append="..." respectWordBoundaries="0">{newsItem.news.title}</f:format.crop>
                                     </span>
                                 </td>
                                 <td>{newsItem.count}</td>
