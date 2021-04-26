@@ -113,6 +113,7 @@ class AttributeTracker
                 }
                 $this->visitor->setIdentified(true);
                 $this->visitor->setEmail($value);
+                $this->visitor->setFrontenduserAutomatically();
             }
             $this->visitorRepository->update($this->visitor);
             $this->visitorRepository->persistAll();

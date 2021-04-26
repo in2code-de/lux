@@ -13,10 +13,12 @@ use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
+use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
+use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
@@ -1088,6 +1090,36 @@ class Visitor extends AbstractModel
     {
         $this->frontenduser = $frontenduser;
         return $this;
+    }
+
+    /**
+     * Search in database for a fe_users record with the same email and add a relation to it
+     *
+     * @return bool
+     * @throws Exception
+     */
+    public function setFrontenduserAutomatically(): bool
+    {
+        if ($this->isIdentified() && $this->frontenduser === null) {
+            $configurationService = ObjectUtility::getConfigurationService();
+            $enabled = $configurationService->getTypoScriptSettingsByPath(
+                'tracking.pagevisits.autoconnectToFeUsers'
+            ) === '1';
+            if ($enabled) {
+                /** @var FrontendUserRepository $feuRepository */
+                $feuRepository = ObjectUtility::getObjectManager()->get(FrontendUserRepository::class);
+                $querySettings = ObjectUtility::getObjectManager()->get(Typo3QuerySettings::class);
+                $querySettings->setRespectStoragePage(false);
+                $feuRepository->setDefaultQuerySettings($querySettings);
+                /** @var FrontendUser|null $feuser */
+                $feuser = $feuRepository->findOneByEmail($this->getEmail());
+                if ($feuser !== null) {
+                    $this->setFrontenduser($feuser);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
