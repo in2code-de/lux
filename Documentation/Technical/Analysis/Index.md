@@ -24,6 +24,9 @@ lib.lux.settings {
             # Toggle pagevisit tracking (on/off).
             # Switching this feature on will flood table tx_lux_domain_model_pagevisit but allow you to see a full pagefunnel of all of your visitors. Your decision :)
             _enable = {$plugin.tx_lux.settings.tracking.page}
+
+            # Try to find a fe_user record when an email is given in visitor and build a relation to it
+            autoconnectToFeUsers = 1
         }
         assetDownloads {
             # Toogle asset download tracking (on/off)

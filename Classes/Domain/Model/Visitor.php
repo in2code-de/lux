@@ -13,10 +13,12 @@ use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
+use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
+use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
@@ -1091,6 +1093,36 @@ class Visitor extends AbstractModel
     }
 
     /**
+     * Search in database for a fe_users record with the same email and add a relation to it
+     *
+     * @return bool
+     * @throws Exception
+     */
+    public function setFrontenduserAutomatically(): bool
+    {
+        if ($this->isIdentified() && $this->frontenduser === null) {
+            $configurationService = ObjectUtility::getConfigurationService();
+            $enabled = $configurationService->getTypoScriptSettingsByPath(
+                'tracking.pagevisits.autoconnectToFeUsers'
+            ) === '1';
+            if ($enabled) {
+                /** @var FrontendUserRepository $feuRepository */
+                $feuRepository = ObjectUtility::getObjectManager()->get(FrontendUserRepository::class);
+                $querySettings = ObjectUtility::getObjectManager()->get(Typo3QuerySettings::class);
+                $querySettings->setRespectStoragePage(false);
+                $feuRepository->setDefaultQuerySettings($querySettings);
+                /** @var FrontendUser|null $feuser */
+                $feuser = $feuRepository->findOneByEmail($this->getEmail());
+                if ($feuser !== null) {
+                    $this->setFrontenduser($feuser);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
      * @return string
      * @throws Exception
      */
@@ -1231,6 +1263,32 @@ class Visitor extends AbstractModel
                     return $ipinformation->getValue();
                 }
             }
+        }
+        return '';
+    }
+
+    /**
+     * Try to find any property by name. First look into direct getters of this model, then search in attributes and
+     * then search in ipinformations.
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public function getAnyPropertyByName(string $key)
+    {
+        if (method_exists($this, 'get' . ucfirst($key))) {
+            return $this->{'get' . ucfirst($key)};
+        }
+        if (method_exists($this, 'is' . ucfirst($key))) {
+            return $this->{'is' . ucfirst($key)};
+        }
+        $fromAttributes = $this->getPropertyFromAttributes($key);
+        if ($fromAttributes !== '') {
+            return $fromAttributes;
+        }
+        $fromIpinformations = $this->getPropertyFromIpinformations($key);
+        if ($fromIpinformations !== '') {
+            return $fromIpinformations;
         }
         return '';
     }

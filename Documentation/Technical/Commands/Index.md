@@ -167,3 +167,14 @@ Example usage:
 ```
 ./vendor/bin/typo3 lux:serviceRecalculateScoring
 ```
+
+
+##### \In2code\Lux\Command\LuxAutorelateToFrontendUsersCommand
+
+If you have frontenduser records with email addresses, you can create relations between visitor and fe_users records
+
+Example usage:
+
+```
+./vendor/bin/typo3 lux:autorelateToFrontendUsers
+```

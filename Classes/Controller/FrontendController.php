@@ -15,6 +15,7 @@ use In2code\Lux\Domain\Tracker\PageTracker;
 use In2code\Lux\Domain\Tracker\SearchTracker;
 use In2code\Lux\Exception\ActionNotAllowedException;
 use In2code\Lux\Signal\SignalTrait;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
@@ -155,7 +156,14 @@ class FrontendController extends ActionController
                 $visitor,
                 AttributeTracker::CONTEXT_EMAIL4LINK
             );
-            $attributeTracker->addAttribute('email', $arguments['email']);
+            $values = json_decode($arguments['values'], true);
+            $allowedFields = GeneralUtility::trimExplode(
+                ',',
+                $this->settings['identification']['email4link']['form']['fields']['enabled'],
+                true
+            );
+            $attributeTracker->addAttributes($values, $allowedFields);
+
             /** @noinspection PhpParamsInspection */
             $downloadTracker = $this->objectManager->get(DownloadTracker::class, $visitor);
             $downloadTracker->addDownload($arguments['href']);
