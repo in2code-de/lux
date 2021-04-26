@@ -51,6 +51,7 @@ Possible triggers by default are:
 * On a defined time
 * If a lead gets identified
 * If lead company given
+* If any property value is given
 * Use your own expressions for doing even mor individual stuff (with Symfony Expression Language)
 * Limit to a start action (page visit, download, form submit, etc...)
 
@@ -77,6 +78,7 @@ Possible actions by default are:
 * Redirect visitor to another page
 * Sends an email
 * Publish a message to a slack channel
+* Sets a value for a visitor
 * Add a visitor to a blacklist
 * Send lead information to any interface (e.g. a CRM)
 
@@ -101,7 +103,7 @@ lib.lux.settings {
         triggers {
 
             # Trigger if visitor enters a page
-            1 {
+            10 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.pagevisit
 
@@ -118,7 +120,7 @@ lib.lux.settings {
             }
 
             # Trigger for reached scoring
-            2 {
+            20 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.scoring
 
@@ -135,7 +137,7 @@ lib.lux.settings {
             }
 
             # Trigger for reached categoryscoring
-            3 {
+            30 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.categoryscoring
 
@@ -152,7 +154,7 @@ lib.lux.settings {
             }
 
             # If lead enters a page or downloads an asset with a relation to a lux category
-            4 {
+            40 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.category
 
@@ -169,7 +171,7 @@ lib.lux.settings {
             }
 
             # Trigger for a defined time (start to stop)
-            5 {
+            50 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.timeframe
 
@@ -186,7 +188,7 @@ lib.lux.settings {
             }
 
             # Trigger lead gets identified
-            6 {
+            60 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.identified
 
@@ -203,7 +205,7 @@ lib.lux.settings {
             }
 
             # Trigger if company is known from lead (e.g. from IP-Information)
-            7 {
+            70 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.company
 
@@ -219,8 +221,25 @@ lib.lux.settings {
                 }
             }
 
+            # If field of visitor matches with a string
+            80 {
+                # Title to show in workflow backend module
+                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.property
+
+                # Classname for implementation of the trigger itself
+                className = In2code\Luxenterprise\Domain\Trigger\PropertyTrigger
+
+                # Templatefile for implementation of the form in workflow module
+                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Property.html
+
+                # Additional configuration
+                configuration {
+                  # Any configuration - available as array in Template File and Trigger class for some own magic
+                }
+            }
+
             # Symfony Expression Trigger for doing individual magic stuff (compare with GET params, check if visitor country is in a list, etc...)
-            8 {
+            90 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.symfonyExpression
 
@@ -237,7 +256,7 @@ lib.lux.settings {
             }
 
             # Define the initial action for triggering (page visit or download or form submit, etc...)
-            9 {
+            100 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.startaction
 
@@ -255,6 +274,29 @@ lib.lux.settings {
                         2 = formListeningRequestAction
                         3 = email4LinkRequestAction
                         4 = downloadRequestAction
+                        5 = linkListenerRequestAction
+                        6 = error
+                    }
+                }
+            }
+
+            # Define TYPO3 context (e.g. to use workflows only on production)
+            110 {
+                # Title to show in workflow backend module
+                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.context
+
+                # Classname for implementation of the trigger itself
+                className = In2code\Luxenterprise\Domain\Trigger\ContextTrigger
+
+                # Templatefile for implementation of the form in workflow module
+                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Context.html
+
+                # Additional configuration
+                configuration {
+                    contexts {
+                        0 = Production
+                        1 = Development
+                        2 = Testing
                     }
                 }
             }
@@ -277,8 +319,9 @@ lib.lux.settings {
         ###########################
         actions {
 
+            # 100-199 CONTENT MANIPULATION
             # Action for showing an individual content element in a lightbox to the lead
-            1 {
+            100 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.popupcontentelement
 
@@ -295,7 +338,7 @@ lib.lux.settings {
             }
 
             # Action for loading an individual content element into the current HTML page
-            2 {
+            120 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.ajaxcontent
 
@@ -312,7 +355,7 @@ lib.lux.settings {
             }
 
             # Show or hide any element on a HTML page
-            3 {
+            130 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.showOrHide
 
@@ -329,7 +372,7 @@ lib.lux.settings {
             }
 
             # Action for doing a redirect to another URI
-            4 {
+            140 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.redirect
 
@@ -347,8 +390,11 @@ lib.lux.settings {
                 }
             }
 
+
+
+            # 200-299 SEND MESSAGES
             # Action for sending a notification email
-            5 {
+            200 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.email
 
@@ -369,7 +415,7 @@ lib.lux.settings {
             }
 
             # Action for publishing to a slackchannel
-            6 {
+            210 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.slack
 
@@ -399,8 +445,28 @@ lib.lux.settings {
                 }
             }
 
+
+
+            # 300-399 MANIPULATION OF VALUES
+            # Set a value for a visitor
+            300 {
+                # Title to show in workflow backend module
+                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.property
+
+                # Classname for implementation of the action itself
+                className = In2code\Luxenterprise\Domain\Action\PropertyAction
+
+                # Templatefile for implementation of the form in workflow module
+                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Property.html
+
+                # Additional configuration
+                configuration {
+                    # Any configuration - available as array in Template File and Action class for some own magic
+                }
+            }
+
             # Set a blacklisted status
-            7 {
+            310 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.blacklist
 
@@ -416,8 +482,11 @@ lib.lux.settings {
                 }
             }
 
+
+
+            # 400-499 CONNECTION TO THIRD PARTY STUFF
             # Send to interface action for any kind of exports to a CRM
-            8 {
+            400 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.sendtointerface
 
@@ -478,7 +547,7 @@ lib.lux.settings {
        triggers {
 
            # Trigger if a frontend user enters a page
-           100 {
+           900 {
                # Title to show in workflow backend module
                title = LLL:EXT:luxextension/Resources/Private/Language/locallang_db.xlf:trigger.frontenduser
 
@@ -622,7 +691,7 @@ lib.lux.settings {
         actions {
 
             # Action to send some details via CURL to a thirdparty software
-            100 {
+            900 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxextension/Resources/Private/Language/locallang_db.xlf:action.curl
 
@@ -719,7 +788,6 @@ use \In2code\Lux\Domain\Action\ActionInterface;
  */
 class CurlAction extends AbstractAction implements ActionInterface
 {
-
     /**
      * @return bool
      */
