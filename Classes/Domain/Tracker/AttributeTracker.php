@@ -8,6 +8,7 @@ use In2code\Lux\Domain\Repository\AttributeRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\AllowedMailProvidersService;
 use In2code\Lux\Domain\Service\VisitorMergeService;
+use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\EmailValidationException;
 use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\ObjectUtility;
@@ -69,6 +70,7 @@ class AttributeTracker
 
     /**
      * @param array $properties
+     * @param array $allowedProperties
      * @return void
      * @throws EmailValidationException
      * @throws Exception
@@ -76,9 +78,18 @@ class AttributeTracker
      * @throws InvalidSlotException
      * @throws InvalidSlotReturnException
      * @throws UnknownObjectException
+     * @throws ConfigurationException
      */
-    public function addAttributes(array $properties)
+    public function addAttributes(array $properties, array $allowedProperties = [])
     {
+        if ($allowedProperties !== []) {
+            foreach (array_keys($properties) as $key) {
+                if (in_array($key, $allowedProperties) === false) {
+                    throw new ConfigurationException('Not allowed key given', 1619458671);
+                }
+            }
+        }
+
         foreach ($properties as $key => $value) {
             $this->addAttribute($key, $value);
         }

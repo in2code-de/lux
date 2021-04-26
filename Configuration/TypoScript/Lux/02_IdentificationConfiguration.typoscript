@@ -105,6 +105,12 @@ lib.lux.settings {
 
         # Email4Link configuration if visitor wants to receive a mail
         email4link {
+            form {
+                fields {
+                    # Enable individual fields in email4link functionality (if you want to add your own fields in HTML template, you also have to enable it here)
+                    enabled = email, newsletter, privacyChecked
+                }
+            }
             mail {
                 # Enable/Disable
                 _enable = 1

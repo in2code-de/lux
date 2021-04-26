@@ -518,15 +518,28 @@ function LuxMain() {
     event.preventDefault();
     var href = link.getAttribute('href');
     var sendEmail = link.getAttribute('data-lux-email4link-sendemail') || 'false';
-    var email = that.lightboxInstance.element().querySelector('[data-lux-email4link="email"]').value;
-    if (isEmailAddress(email)) {
+
+    var formArguments = {};
+    var form = that.lightboxInstance.element().querySelector('[data-lux-email4link="form"]');
+    for (var i = 0; i < form.elements.length; i++) {
+      var field = form.elements[i];
+      var name = field.getAttribute('name');
+      if (name !== null && name.indexOf('email4link[') !== -1) {
+        var value = field.value;
+        var nameParts = name.split('[');
+        name = nameParts[1].substring(0, nameParts[1].length - 1);
+        formArguments[name] = value;
+      }
+    }
+
+    if (isEmailAddress(formArguments['email'])) {
       addWaitClassToBodyTag();
       ajaxConnection({
         'tx_lux_fe[dispatchAction]': 'email4LinkRequest',
         'tx_lux_fe[fingerprint]': identification.getFingerprint(),
-        'tx_lux_fe[arguments][email]': email,
         'tx_lux_fe[arguments][sendEmail]': sendEmail === 'true',
-        'tx_lux_fe[arguments][href]': href
+        'tx_lux_fe[arguments][href]': href,
+        'tx_lux_fe[arguments][values]': JSON.stringify(formArguments)
       }, getRequestUri(), 'email4LinkLightboxSubmitCallback', {sendEmail: (sendEmail === 'true'), href: href});
     } else {
       showElement(that.lightboxInstance.element().querySelector('[data-lux-email4link="errorEmailAddress"]'));
