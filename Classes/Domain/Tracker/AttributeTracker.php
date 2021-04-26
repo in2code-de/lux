@@ -30,6 +30,7 @@ class AttributeTracker
     const CONTEXT_EMAIL4LINK = 'Email4link';
     const CONTEXT_LUXLETTERLINK = 'Luxletterlink';
     const CONTEXT_FRONTENDUSER = 'Frontendauthentication';
+    const CONTEXT_WORKFLOW = 'Workflow';
 
     /**
      * @var Visitor|null
