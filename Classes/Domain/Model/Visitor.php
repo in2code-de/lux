@@ -1236,6 +1236,32 @@ class Visitor extends AbstractModel
     }
 
     /**
+     * Try to find any property by name. First look into direct getters of this model, then search in attributes and
+     * then search in ipinformations.
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public function getAnyPropertyByName(string $key)
+    {
+        if (method_exists($this, 'get' . ucfirst($key))) {
+            return $this->{'get' . ucfirst($key)};
+        }
+        if (method_exists($this, 'is' . ucfirst($key))) {
+            return $this->{'is' . ucfirst($key)};
+        }
+        $fromAttributes = $this->getPropertyFromAttributes($key);
+        if ($fromAttributes !== '') {
+            return $fromAttributes;
+        }
+        $fromIpinformations = $this->getPropertyFromIpinformations($key);
+        if ($fromIpinformations !== '') {
+            return $fromIpinformations;
+        }
+        return '';
+    }
+
+    /**
      * @return string
      */
     public function getLatitude(): string
