@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use In2code\Lux\Command\LuxAnonymizeCommand;
+use In2code\Lux\Command\LuxAutorelateToFrontendUsersCommand;
 use In2code\Lux\Command\LuxCleanupAllVisitorsCommand;
 use In2code\Lux\Command\LuxCleanupUnknownVisitorsByAgeCommand;
 use In2code\Lux\Command\LuxCleanupVisitorByUidCommand;
@@ -39,6 +40,10 @@ return [
     ],
     'lux:serviceRecalculateScoring' => [
         'class' => LuxServiceRecalculateScoringCommand::class,
+        'schedulable' => true
+    ],
+    'lux:autorelateToFrontendUsers' => [
+        'class' => LuxAutorelateToFrontendUsersCommand::class,
         'schedulable' => true
     ],
     'lux:leadSendSummary' => [

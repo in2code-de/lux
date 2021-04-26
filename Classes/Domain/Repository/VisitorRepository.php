@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Attribute;
 use In2code\Lux\Domain\Model\Categoryscoring;
 use In2code\Lux\Domain\Model\Download;
@@ -295,6 +296,28 @@ class VisitorRepository extends AbstractRepository
     }
 
     /**
+     * @param string $email
+     * @return array like [1,3,5]
+     */
+    public function findByEmailAndEmptyFrontenduser(string $email): array
+    {
+        $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Visitor::TABLE_NAME);
+        $result = $queryBuilder
+            ->select('uid')
+            ->from(Visitor::TABLE_NAME)
+            ->where(
+                $queryBuilder->expr()->eq('email', $queryBuilder->createNamedParameter($email)),
+                $queryBuilder->expr()->eq('frontenduser', 0)
+            )
+            ->execute()
+            ->fetchAll(\PDO::FETCH_COLUMN);
+        if ($result !== false) {
+            return $result;
+        }
+        return [];
+    }
+
+    /**
      * @return bool
      * @throws DBALException
      */
@@ -304,30 +327,6 @@ class VisitorRepository extends AbstractRepository
         return (int)$connection->executeQuery(
             'select count(*) from ' . Visitor::TABLE_NAME . ' where sys_language_uid > -1'
         )->fetchColumn() > 0;
-    }
-
-    /**
-     * @return void
-     * @throws DBALException
-     */
-    public function updateRecordsWithLanguageAll(): void
-    {
-        $tables = [
-            Attribute::TABLE_NAME,
-            Categoryscoring::TABLE_NAME,
-            Download::TABLE_NAME,
-            Fingerprint::TABLE_NAME,
-            Ipinformation::TABLE_NAME,
-            Linkclick::TABLE_NAME,
-            Log::TABLE_NAME,
-            Newsvisit::TABLE_NAME,
-            Pagevisit::TABLE_NAME,
-            Visitor::TABLE_NAME
-        ];
-        foreach ($tables as $table) {
-            $connection = DatabaseUtility::getConnectionForTable($table);
-            $connection->executeQuery('update ' . $table . ' set sys_language_uid=-1');
-        }
     }
 
     /**
@@ -360,6 +359,45 @@ class VisitorRepository extends AbstractRepository
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
         return (int)$connection->executeQuery('select count(uid) from ' . Visitor::TABLE_NAME . ' where identified = 0')
             ->fetchColumn();
+    }
+
+    /**
+     * @param int $visitorIdentifier
+     * @param int $frontenduserIdentifier
+     * @return void
+     * @throws ExceptionDbal
+     */
+    public function updateVisitorWithFrontendUserRelation(int $visitorIdentifier, int $frontenduserIdentifier): void
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
+        $connection->executeQuery(
+            'update ' . Visitor::TABLE_NAME . ' set frontenduser=' . (int)$frontenduserIdentifier
+            . ' where uid=' . (int)$visitorIdentifier
+        );
+    }
+
+    /**
+     * @return void
+     * @throws DBALException
+     */
+    public function updateRecordsWithLanguageAll(): void
+    {
+        $tables = [
+            Attribute::TABLE_NAME,
+            Categoryscoring::TABLE_NAME,
+            Download::TABLE_NAME,
+            Fingerprint::TABLE_NAME,
+            Ipinformation::TABLE_NAME,
+            Linkclick::TABLE_NAME,
+            Log::TABLE_NAME,
+            Newsvisit::TABLE_NAME,
+            Pagevisit::TABLE_NAME,
+            Visitor::TABLE_NAME
+        ];
+        foreach ($tables as $table) {
+            $connection = DatabaseUtility::getConnectionForTable($table);
+            $connection->executeQuery('update ' . $table . ' set sys_language_uid=-1');
+        }
     }
 
     /**
