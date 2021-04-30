@@ -23,6 +23,7 @@
                                     <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.lead">Lead</f:translate></th>
                                     <th>Scoring</th>
                                     <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.company">Company</f:translate></th>
+                                    <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.location">Location</f:translate></th>
                                     <th>Fingerprint</th>
                                     <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.time">Time</f:translate></th>
                                 </tr>
@@ -30,7 +31,7 @@
                                 <tbody>
                                 <f:for each="{pagevisitsItem}" as="pagevisit">
                                     <tr data-identifier-pagevisit="{pagevisit.uid}">
-                                        <td>{pagevisit.pageTitleWithLanguage}</td>
+                                        <td><span title="{pagevisit.pageTitleWithLanguage}"><f:format.crop maxCharacters="50" append=" ...">{pagevisit.pageTitleWithLanguage}</f:format.crop></span></td>
                                         <td>
                                             <f:link.action action="detail" controller="Lead" arguments="{visitor:pagevisit.visitor}" title="UID{pagevisit.visitor.uid}">{pagevisit.visitor.fullName}</f:link.action>
                                         </td>
@@ -41,6 +42,7 @@
                                             </f:if>
                                         </td>
                                         <td>{pagevisit.visitor.company}</td>
+                                        <td>{pagevisit.visitor.location}</td>
                                         <td>
                                             {pagevisit.visitor.latestFingerprint.value}
                                         </td>

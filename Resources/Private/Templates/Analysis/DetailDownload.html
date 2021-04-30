@@ -22,13 +22,15 @@
                                     <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detaildownloads.lead">Lead</f:translate></th>
                                     <th>Scoring</th>
                                     <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detaildownloads.company">Company</f:translate></th>
+                                    <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.location">Location</f:translate></th>
+                                    <th>Fingerprint</th>
                                     <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detaildownloads.time">Time</f:translate></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <f:for each="{downloadsItem}" as="download">
                                     <tr>
-                                        <td>{download.href}</td>
+                                        <td><span title="{download.href}"><lux:format.cropBeginn length="50">{download.href}</lux:format.cropBeginn></span></td>
                                         <td>
                                             <f:link.action action="detail" controller="Lead" arguments="{visitor:download.visitor}">{download.visitor.fullName}</f:link.action>
                                         </td>
@@ -39,6 +41,10 @@
                                             </f:if>
                                         </td>
                                         <td>{download.visitor.company}</td>
+                                        <td>{download.visitor.location}</td>
+                                        <td>
+                                            {download.visitor.latestFingerprint.value}
+                                        </td>
                                         <td>
                                             <span class="badge" title="{f:format.date(date:download.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
                                                 <lux:format.readableDate>{download.crdate}</lux:format.readableDate>

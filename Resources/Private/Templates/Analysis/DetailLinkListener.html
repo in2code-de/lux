@@ -22,6 +22,8 @@
                                     <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detaildownloads.lead">Lead</f:translate></th>
                                     <th>Scoring</th>
                                     <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detaildownloads.company">Company</f:translate></th>
+                                    <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.location">Location</f:translate></th>
+                                    <th>Fingerprint</th>
                                     <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detaildownloads.time">Time</f:translate></th>
                                 </tr>
                                 </thead>
@@ -39,6 +41,10 @@
                                             </f:if>
                                         </td>
                                         <td>{linkClick.visitor.company}</td>
+                                        <td>{linkClick.visitor.location}</td>
+                                        <td>
+                                            {linkClick.visitor.latestFingerprint.value}
+                                        </td>
                                         <td>
                                             <span class="badge" title="{f:format.date(date:linkClick.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
                                                 <lux:format.readableDate>{linkClick.crdate}</lux:format.readableDate>
