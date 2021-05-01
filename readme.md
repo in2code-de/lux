@@ -209,6 +209,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 13.4.0     | 2021-05-01 | Feature    | Add two news viewhelpers that can be used now, update documentation                                                                                                                        |
 | 13.3.0     | 2021-04-30 | Feature    | Unify all analysis detail views now with cropped titles and with fingerprint and location values                                                                                           |
 | 13.2.0     | 2021-04-26 | Feature    | New getter for any property, Add relation to fe_users automatically, Fe_users relation command, Email4Link more general with any fields, Documentation update                              |
 | 13.1.0     | 2021-04-25 | Feature    | Show news title beside page title (if news), add relation between news- and pagevisit to save to store domain in newsvisit, small bugfix in backlink                                       |

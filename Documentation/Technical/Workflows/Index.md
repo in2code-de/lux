@@ -72,15 +72,16 @@ and we can add a text for publishing to a slack channel.
 <img src="../../../Documentation/Images/documentation_workflow_edit_step3.png" width="800" />
 
 Possible actions by default are:
-* Open a popup (lightbox) with a content element
-* Load a content element and show it on the current page
-* Hide or show an element of the current page
-* Redirect visitor to another page
-* Sends an email
-* Publish a message to a slack channel
-* Sets a value for a visitor
-* Add a visitor to a blacklist
-* Send lead information to any interface (e.g. a CRM)
+* Content manipulation: Open a popup (lightbox) with a content element
+* Content manipulation: Load a content element and show it on the current page
+* Content manipulation: Hide or show an element of the current page
+* Content manipulation: Redirect visitor to another page
+* Notification: Sends an email
+* Notification: Publish a message to a slack channel
+* Lead management: Sets a value for a visitor
+* Lead management: Add a visitor to a blacklist
+* Data handling: Save values to any table in database
+* Data handling: Send lead information to any interface (e.g. a CRM)
 
 After that you can choose save or previous for step 2 again.
 
@@ -484,9 +485,51 @@ lib.lux.settings {
 
 
 
-            # 400-499 CONNECTION TO THIRD PARTY STUFF
-            # Send to interface action for any kind of exports to a CRM
+            # 400-499 WORKING WITH LEAD VALUES (THIRD PARTY API AND TABLES)
+            # Save values to a local table
             400 {
+                # Title to show in workflow backend module
+                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.saveToTable
+
+                # Classname for implementation of the action itself
+                className = In2code\Luxenterprise\Domain\Action\SaveToTableAction
+
+                # Templatefile for implementation of the form in workflow module
+                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/SaveToTable.html
+
+                # Additional configuration
+                configuration {
+                    1 {
+                        # Any title for this table save action
+                        name = Save as Frontend User
+
+                        # Table name to save in
+                        table = fe_users
+
+                        # If identifierField is filled and there is already a record with the same value, it will be updated instead of inserted (twice). NOTE: This fieldname must be defined in mapping!
+                        identifierField = email
+
+                        # Map: fe_users.fieldname = value
+                        mapping {
+                            pid = 190
+                            tstamp = {f:format.date(date:'now',format:'U')}
+                            crdate = {f:format.date(date:'now',format:'U')}
+                            username = {visitor.email}
+                            password = {lux:string.getRandomValue()}
+                            usergroup = 1,2
+                            name = {visitor.fullName}
+                            first_name = {lux:visitor.getAnyProperty(visitor:visitor,property:'firstname')}
+                            last_name = {lux:visitor.getAnyProperty(visitor:visitor,property:'lastname')}
+                            telephone = {lux:visitor.getAnyProperty(visitor:visitor,property:'telephone')}
+                            email = {visitor.email}
+                            company = {visitor.company}
+                        }
+                    }
+                }
+            }
+
+            # Send to interface action for any kind of exports to a CRM
+            410 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.sendtointerface
 
