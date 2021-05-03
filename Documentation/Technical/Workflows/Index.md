@@ -79,6 +79,7 @@ Possible actions by default are:
 * Notification: Sends an email
 * Notification: Publish a message to a slack channel
 * Lead management: Sets a value for a visitor
+* Lead management: Sets a value after a double opt in confirmation for a visitor
 * Lead management: Add a visitor to a blacklist
 * Data handling: Save values to any table in database
 * Data handling: Send lead information to any interface (e.g. a CRM)
@@ -466,8 +467,29 @@ lib.lux.settings {
                 }
             }
 
-            # Set a blacklisted status
+            # Double Opt-In for visitors
             310 {
+                # Title to show in workflow backend module
+                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.doubleoptin
+
+                # Classname for implementation of the action itself
+                className = In2code\Luxenterprise\Domain\Action\DoubleOptInAction
+
+                # Templatefile for implementation of the form in workflow module
+                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/DoubleOptIn.html
+
+                # Additional configuration
+                configuration {
+                  emailOverrides {
+                    # Override sender settings for SPF-defiance settings (affected only the sender settings - not the reply to settings)
+                    senderName = Marketing
+                    senderEmail = service@domain.org
+                  }
+                }
+            }
+
+            # Set a blacklisted status
+            320 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.blacklist
 
