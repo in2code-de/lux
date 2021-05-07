@@ -1,47 +1,64 @@
 <f:if condition="{visitors}">
     <link rel="stylesheet" type="text/css" href="{f:uri.resource(path:'Css/PageOverview.min.css',extensionName:'lux')}" media="all">
+
     <h4 class="callout-title">
         <img src="{f:uri.resource(path:'Icons/lux.svg?hash=123',extensionName:'lux')}" height="30" />
         <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview">Last visitors</f:translate>
     </h4>
 
-    <div class="callout-body">
-        <div class="row">
-            <f:for each="{visitors}" as="visitor">
-                <div class="col-md-4">
-                    <f:link.action action="detail" controller="Lead" extensionName="lux" pluginName="lux_luxleads" additionalParams="{M:'lux_LuxLeads'}" arguments="{visitor:visitor}">
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <img src="{visitor.imageUrl}" alt="{visitor.fullName}" width="80" style="object-fit: cover; border-radius: 50%; width: 80px; height: 80px;" class="img-responsive" />
-                                    </div>
-                                    <div class="col-md-9">
-                                        <p>
-                                            <strong title="UID{visitor.uid}">{visitor.fullName}</strong>
-                                            <span class="badge" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.scoring')}">{visitor.scoring}</span>
-                                            <f:if condition="{visitor.identified}">({visitor.email})</f:if>
-                                        </p>
-                                        <p>
-                                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview.visit">visit</f:translate>:
-                                            <f:alias map="{pagevisit:'{lux:page.getLastVisitedPageByPageIdentifier(visitor:visitor,pageIdentifier:pageIdentifier)}'}">
-                                                <span title="{f:format.date(date:pagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
-                                                    <lux:format.readableDate>{pagevisit.crdate}</lux:format.readableDate>
-                                                </span>
-                                            </f:alias>
-                                            <f:if condition="{visitor.pagevisitFirst.referrer}">
-                                                <br />
-                                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.referrer">source</f:translate>:
-                                                {visitor.pagevisitFirst.readableReferrer}
-                                            </f:if>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+    <div class="row">
+        <f:for each="{visitors}" as="visitor">
+            <div class="col-md-4">
+                <f:link.action
+                    action="detail"
+                    controller="Lead"
+                    extensionName="lux"
+                    pluginName="lux_luxleads"
+                    additionalParams="{M:'lux_LuxLeads'}"
+                    title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview.link',arguments:'{0:visitor.fullName}')}"
+                    arguments="{visitor:visitor}">
+
+                    <div class="lux-pageoverview-box">
+                        <div class="lux-pageoverview-box-left">
+                            <img
+                                src="{visitor.imageUrl}"
+                                alt="{visitor.fullName}"
+                                width="150"
+                                class="img-responsive lux-pageoverview-box-image" />
                         </div>
-                    </f:link.action>
-                </div>
-            </f:for>
-        </div>
+                        <div class="lux-pageoverview-box-right">
+                            <div class="badgearea">
+                                <span class="badge" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.scoring')}">{visitor.scoring}</span>
+                                <f:if condition="{visitor.hottestCategoryscoring}">
+                                    <span class="badge badge-primary" title="{visitor.hottestCategoryscoring.category.title}">{visitor.hottestCategoryscoring.scoring}</span>
+                                </f:if>
+                            </div>
+
+                            <p>
+                                <h3 style="margin: 0; padding: 0;">
+                                    <strong title="UID{visitor.uid}">{visitor.fullName}</strong>
+                                </h3>
+                                <f:if condition="{visitor.identified}">{visitor.email}</f:if>
+                            </p>
+                            <p>
+                                {visitor.company}<br>
+                                {visitor.location}
+                            </p>
+                            <p>
+                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview.visitedpages">Visited pages:</f:translate>
+                                <strong><f:count>{visitor.pagevisits}</f:count></strong><br>
+
+                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview.thispage">This page:</f:translate>
+                                <f:alias map="{pagevisit:'{lux:page.getLastVisitedPageByPageIdentifier(visitor:visitor,pageIdentifier:pageIdentifier)}'}">
+                                    <strong title="{f:format.date(date:pagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
+                                        <lux:format.readableDate>{pagevisit.crdate}</lux:format.readableDate>
+                                    </strong>
+                                </f:alias>
+                            </p>
+                        </div>
+                    </div>
+                </f:link.action>
+            </div>
+        </f:for>
     </div>
 </f:if>

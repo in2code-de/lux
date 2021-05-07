@@ -1,6 +1,42 @@
 @import "Settings";
 @import "Timeline";
 
-.badge {
-  float: right;
+.lux-pageoverview-box {
+    width: 100%;
+    height: 200px;
+    background: #eee;
+    display: flex;
+    margin-bottom: 20px;
+    overflow: hidden;
+
+    -moz-transition: all .1s ease-in;
+    -o-transition: all .1s ease-in;
+    -webkit-transition: all .1s ease-in;
+    transition: all .1s ease-in;
+}
+.lux-pageoverview-box:hover {
+    background: #4DE7FF;
+}
+.lux-pageoverview-box-left {
+    flex: 0 0 200px;
+}
+.lux-pageoverview-box-right {
+    position: relative;
+    padding: 30px 20px;
+    flex: 1;
+}
+.lux-pageoverview-box-right > .badgearea {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+.lux-pageoverview-box-image {
+    object-fit: cover;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    margin: 25px auto;
+}
+.badge-primary {
+    background: #4DE7FF;
 }
