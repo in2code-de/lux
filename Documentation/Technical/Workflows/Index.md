@@ -44,16 +44,17 @@ identified* trigger - no values to add here:
 <img src="../../../Documentation/Images/documentation_workflow_edit_step2.png" width="800" />
 
 Possible triggers by default are:
-* On entering a page
-* When lead reaches a scoring
-* When lead reaches a categoryscoring
-* When lead enters a page of a given category
-* On a defined time
-* If a lead gets identified
-* If lead company given
-* If any property value is given
-* Use your own expressions for doing even mor individual stuff (with Symfony Expression Language)
-* Limit to a start action (page visit, download, form submit, etc...)
+* Lead properties: If a lead gets identified
+* Lead properties: When lead reaches a scoring
+* Lead properties: When lead reaches a categoryscoring
+* Lead properties: If lead company given
+* Lead properties: If any property value is given
+* Lead properties: Use your own expressions for doing even mor individual stuff (with Symfony Expression Language)
+* Lead action: On entering a page
+* Lead action: When lead enters a page of a given category
+* Miscellaneous: On a defined time
+* Miscellaneous: Limit to a start action (page visit, download, form submit, etc...)
+* Miscellaneous: TYPO3 context
 
 After that you can choose next for step 3 or previous for step 1 again.
 
@@ -104,93 +105,9 @@ lib.lux.settings {
         ############################
         triggers {
 
-            # Trigger if visitor enters a page
-            10 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.pagevisit
-
-                # Classname for implementation of the trigger itself
-                className = In2code\Luxenterprise\Domain\Trigger\PageVisitTrigger
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/PageVisit.html
-
-                # Additional configuration
-                configuration {
-                    # Any configuration - available as array in Template File and Trigger class for some own magic
-                }
-            }
-
-            # Trigger for reached scoring
-            20 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.scoring
-
-                # Classname for implementation of the trigger itself
-                className = In2code\Luxenterprise\Domain\Trigger\ScoringTrigger
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Scoring.html
-
-                # Additional configuration
-                configuration {
-                    # Any configuration - available as array in Template File and Trigger class for some own magic
-                }
-            }
-
-            # Trigger for reached categoryscoring
-            30 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.categoryscoring
-
-                # Classname for implementation of the trigger itself
-                className = In2code\Luxenterprise\Domain\Trigger\CategoryScoringTrigger
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/CategoryScoring.html
-
-                # Additional configuration
-                configuration {
-                    # Any configuration - available as array in Template File and Trigger class for some own magic
-                }
-            }
-
-            # If lead enters a page or downloads an asset with a relation to a lux category
-            40 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.category
-
-                # Classname for implementation of the trigger itself
-                className = In2code\Luxenterprise\Domain\Trigger\CategoryTrigger
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Category.html
-
-                # Additional configuration
-                configuration {
-                    # Any configuration - available as array in Template File and Trigger class for some own magic
-                }
-            }
-
-            # Trigger for a defined time (start to stop)
-            50 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.timeframe
-
-                # Classname for implementation of the trigger itself
-                className = In2code\Luxenterprise\Domain\Trigger\TimeFrameTrigger
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/TimeFrame.html
-
-                # Additional configuration
-                configuration {
-                    # Any configuration - available as array in Template File and Trigger class for some own magic
-                }
-            }
-
-            # Trigger lead gets identified
-            60 {
+            # 100-399 LEAD PROPERTIES
+            # If lead gets identified
+            100 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.identified
 
@@ -202,12 +119,46 @@ lib.lux.settings {
 
                 # Additional configuration
                 configuration {
-                    # Any configuration - available as array in Template File and Trigger class for some own magic
+                  # Any configuration - available as array in Template File and Trigger class for some own magic
                 }
             }
 
-            # Trigger if company is known from lead (e.g. from IP-Information)
-            70 {
+            # If lead reaches a scoring
+            110 {
+                # Title to show in workflow backend module
+                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.scoring
+
+                # Classname for implementation of the trigger itself
+                className = In2code\Luxenterprise\Domain\Trigger\ScoringTrigger
+
+                # Templatefile for implementation of the form in workflow module
+                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Scoring.html
+
+                # Additional configuration
+                configuration {
+                  # Any configuration - available as array in Template File and Trigger class for some own magic
+                }
+            }
+
+            # If lead reaches a categoryscoring
+            120 {
+                # Title to show in workflow backend module
+                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.categoryscoring
+
+                # Classname for implementation of the trigger itself
+                className = In2code\Luxenterprise\Domain\Trigger\CategoryScoringTrigger
+
+                # Templatefile for implementation of the form in workflow module
+                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/CategoryScoring.html
+
+                # Additional configuration
+                configuration {
+                  # Any configuration - available as array in Template File and Trigger class for some own magic
+                }
+            }
+
+            # If company of a lead is known (e.g. from IP-Information)
+            130 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.company
 
@@ -219,12 +170,12 @@ lib.lux.settings {
 
                 # Additional configuration
                 configuration {
-                    # Any configuration - available as array in Template File and Trigger class for some own magic
+                  # Any configuration - available as array in Template File and Trigger class for some own magic
                 }
             }
 
-            # If field of visitor matches with a string
-            80 {
+            # If property of a lead matches with a given string
+            140 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.property
 
@@ -240,8 +191,8 @@ lib.lux.settings {
                 }
             }
 
-            # Symfony Expression Trigger for doing individual magic stuff (compare with GET params, check if visitor country is in a list, etc...)
-            90 {
+            # Symfony Expression Trigger for doing individual magic stuff with lead properties (compare with GET params, check if visitor country is in a list, etc...)
+            150 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.symfonyExpression
 
@@ -253,12 +204,67 @@ lib.lux.settings {
 
                 # Additional configuration
                 configuration {
+                  # Any configuration - available as array in Template File and Trigger class for some own magic
+                }
+            }
+
+
+            # 400-699 LEAD ACTION
+            # If lead visits a defined page
+            400 {
+                # Title to show in workflow backend module
+                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.pagevisit
+
+                # Classname for implementation of the trigger itself
+                className = In2code\Luxenterprise\Domain\Trigger\PageVisitTrigger
+
+                # Templatefile for implementation of the form in workflow module
+                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/PageVisit.html
+
+                # Additional configuration
+                configuration {
                     # Any configuration - available as array in Template File and Trigger class for some own magic
                 }
             }
 
+            # If lead enters a page or downloads an asset with a relation to a lux category
+            410 {
+                # Title to show in workflow backend module
+                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.category
+
+                # Classname for implementation of the trigger itself
+                className = In2code\Luxenterprise\Domain\Trigger\CategoryTrigger
+
+                # Templatefile for implementation of the form in workflow module
+                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Category.html
+
+                # Additional configuration
+                configuration {
+                  # Any configuration - available as array in Template File and Trigger class for some own magic
+                }
+            }
+
+
+            # 700-999 MISCELLANEOUS
+            # At a defined time (start to stop)
+            700 {
+                # Title to show in workflow backend module
+                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.timeframe
+
+                # Classname for implementation of the trigger itself
+                className = In2code\Luxenterprise\Domain\Trigger\TimeFrameTrigger
+
+                # Templatefile for implementation of the form in workflow module
+                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/TimeFrame.html
+
+                # Additional configuration
+                configuration {
+                  # Any configuration - available as array in Template File and Trigger class for some own magic
+                }
+            }
+
             # Define the initial action for triggering (page visit or download or form submit, etc...)
-            100 {
+            710 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.startaction
 
@@ -283,7 +289,7 @@ lib.lux.settings {
             }
 
             # Define TYPO3 context (e.g. to use workflows only on production)
-            110 {
+            720 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.context
 
@@ -612,7 +618,7 @@ lib.lux.settings {
        triggers {
 
            # Trigger if a frontend user enters a page
-           900 {
+           1000 {
                # Title to show in workflow backend module
                title = LLL:EXT:luxextension/Resources/Private/Language/locallang_db.xlf:trigger.frontenduser
 
@@ -653,6 +659,8 @@ EXT:luxextension/Resources/Private/Templates/Workflow/Trigger/FrontendUser.html:
 
 
     <div class="row form-group lux-trigger lux-trigger-conjunction{trigger.conjunction}">
+        <button data-lux-action-trigger="delete" class="close" type="button">delete</button>
+
         <div class="col-md-12">
             <label for="trigger_{index}_page" class="lb-lg">
                 <f:translate key="LLL:EXT:luxextension/Resources/Private/Language/locallang_db.xlf:trigger.frontenduser.page">PID</f:translate>
@@ -665,10 +673,10 @@ EXT:luxextension/Resources/Private/Templates/Workflow/Trigger/FrontendUser.html:
                placeholder="123"
                value="{configuration.page}" />
         </div>
-    </div>
 
-    <input type="hidden" name="tx_lux_lux_luxworkflow[trigger][{index}][className]" value="{triggerSettings.className}" />
-    <input type="hidden" name="tx_lux_lux_luxworkflow[trigger][{index}][conjunction]" value="{trigger.conjunction}" />
+        <input type="hidden" name="tx_lux_lux_luxworkflow[trigger][{index}][className]" value="{triggerSettings.className}" />
+        <input type="hidden" name="tx_lux_lux_luxworkflow[trigger][{index}][conjunction]" value="{trigger.conjunction}" />
+    </div>
 </f:spaceless>
 ```
 
@@ -756,7 +764,7 @@ lib.lux.settings {
         actions {
 
             # Action to send some details via CURL to a thirdparty software
-            900 {
+            1000 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxextension/Resources/Private/Language/locallang_db.xlf:action.curl
 
@@ -796,6 +804,8 @@ EXT:luxextension/Resources/Private/Templates/Workflow/Action/Curl.html:
     </f:comment>
 
     <div class="lux-action">
+        <button data-lux-action-trigger="delete" class="close" type="button">delete</button>
+
         <h1><f:translate key="LLL:EXT:luxextension/Resources/Private/Language/locallang_db.xlf:action.curl" /></h1>
 
         <div class="row form-group">
@@ -829,9 +839,9 @@ EXT:luxextension/Resources/Private/Templates/Workflow/Action/Curl.html:
                 </span>
             </div>
         </div>
-    </div>
 
-    <input type="hidden" name="tx_lux_lux_luxworkflow[actions][{index}][className]" value="{actionSettings.className}" />
+        <input type="hidden" name="tx_lux_lux_luxworkflow[actions][{index}][className]" value="{actionSettings.className}" />
+    </div>
 </f:spaceless>
 ```
 
