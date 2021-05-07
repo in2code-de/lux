@@ -9,14 +9,10 @@
     <div class="row">
         <f:for each="{visitors}" as="visitor">
             <div class="col-md-4">
-                <f:link.action
-                    action="detail"
-                    controller="Lead"
-                    extensionName="lux"
-                    pluginName="lux_luxleads"
-                    additionalParams="{M:'lux_LuxLeads'}"
+                <f:be.link
+                    route="lux_LuxLeads"
                     title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview.link',arguments:'{0:visitor.fullName}')}"
-                    arguments="{visitor:visitor}">
+                    parameters="{tx_lux_lux_luxleads:'{visitor:visitor.uid,action:\'detail\',controller:\'Lead\'}'}">
 
                     <div class="lux-pageoverview-box">
                         <div class="lux-pageoverview-box-left">
@@ -57,7 +53,7 @@
                             </p>
                         </div>
                     </div>
-                </f:link.action>
+                </f:be.link>
             </div>
         </f:for>
     </div>
