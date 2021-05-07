@@ -209,7 +209,8 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 13.4.1     | 2021-05-04 | Feature    | Add a css class for closing icons in backend context                                                                                                                                       |
+| 13.4.2     | 2021-05-07 | Bugfix     | Fix TCA for linkclick records                                                                                                                                                              |
+| 13.4.1     | 2021-05-04 | Task       | Add a css class for closing icons in backend context                                                                                                                                       |
 | 13.4.0     | 2021-05-01 | Feature    | Add two news viewhelpers that can be used now, update documentation                                                                                                                        |
 | 13.3.0     | 2021-04-30 | Feature    | Unify all analysis detail views now with cropped titles and with fingerprint and location values                                                                                           |
 | 13.2.0     | 2021-04-26 | Feature    | New getter for any property, Add relation to fe_users automatically, Fe_users relation command, Email4Link more general with any fields, Documentation update                              |
