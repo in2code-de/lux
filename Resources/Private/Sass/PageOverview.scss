@@ -3,7 +3,7 @@
 
 .lux-pageoverview-box {
     width: 100%;
-    height: 200px;
+    height: 180px;
     background: #eee;
     display: flex;
     margin-bottom: 20px;
@@ -17,12 +17,15 @@
 .lux-pageoverview-box:hover {
     background: #4DE7FF;
 }
+.lux-pageoverview-box p {
+    margin: 0 0 5px;
+}
 .lux-pageoverview-box-left {
-    flex: 0 0 200px;
+    flex: 0 0 180px;
 }
 .lux-pageoverview-box-right {
     position: relative;
-    padding: 30px 20px;
+    padding: 30px 10px 30px 0;
     flex: 1;
 }
 .lux-pageoverview-box-right > .badgearea {
@@ -33,10 +36,26 @@
 .lux-pageoverview-box-image {
     object-fit: cover;
     border-radius: 50%;
-    width: 150px;
-    height: 150px;
+    width: 130px;
+    height: 130px;
     margin: 25px auto;
 }
 .badge-primary {
     background: #4DE7FF;
+}
+.lux-arrow-up {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+
+    border-bottom: 5px solid black;
+}
+.lux-arrow-down {
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+
+    border-top: 20px solid #f00;
 }

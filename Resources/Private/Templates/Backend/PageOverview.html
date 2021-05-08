@@ -1,12 +1,11 @@
 <f:if condition="{visitors}">
-    <link rel="stylesheet" type="text/css" href="{f:uri.resource(path:'Css/PageOverview.min.css',extensionName:'lux')}" media="all">
-
     <h4 class="callout-title">
         <img src="{f:uri.resource(path:'Icons/lux.svg?hash=123',extensionName:'lux')}" height="30" />
         <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview">Last visitors</f:translate>
+        <i class="fa fa-chevron-down" style="cursor: pointer; margin-left: 5px;" data-lux-toggle="target"></i>
     </h4>
 
-    <div class="row">
+    <div class="row" data-lux-toggle-target="target">
         <f:for each="{visitors}" as="visitor">
             <div class="col-md-4">
                 <f:be.link
@@ -57,4 +56,7 @@
             </div>
         </f:for>
     </div>
+
+    <link rel="stylesheet" type="text/css" href="{f:uri.resource(path:'Css/PageOverview.min.css',extensionName:'lux')}" media="all">
+    <script src="{f:uri.resource(path:'JavaScript/Lux/PageOverview.min.js',extensionName:'lux')}"></script>
 </f:if>
