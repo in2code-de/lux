@@ -8,6 +8,9 @@ This part of the documentation describes all lux plugins and the pageoverview vi
 
 If you have activated pageoverview in Extension Manager settings of extension lux, you will see the last three
 leads (Identified and Anonymous) of a page in page module.
+By clicking on "Latest Leads" you can show or hide this information for the current backend user. Of course this
+status is saved if you change the page.
+
 <img src="../../../Documentation/Images/documentation_pageoverview.png" width="800" />
 
 
@@ -31,7 +34,7 @@ You can simply add a Plugin Pi1 *trackingOptOut* to a page and add some content 
 
 <img src="../../../Documentation/Images/documentation_plugin_optout_backend.png" width="800" />
 
-*Note*: If you want to use opt-in instead of opt-out functionality, there is a possibility for this 
+*Note*: If you want to use opt-in instead of opt-out functionality, there is a possibility for this
 (see [Privacy](../../Privacy/Index.md)).
 
 
@@ -39,7 +42,7 @@ You can simply add a Plugin Pi1 *trackingOptOut* to a page and add some content 
 
 ##### Plugin 2: Contextual content
 
-**NOTE:** This plugin is only part of the enterprise version. Look at 
+**NOTE:** This plugin is only part of the enterprise version. Look at
 https://www.in2code.de/produkte/lux-typo3-marketing-automation/ for more information.
 
 Another possibility beside workflow actions to nurture leads is to use a contextual content plugin. If you add

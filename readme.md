@@ -209,6 +209,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 14.0.0     | 2021-05-08 | Feature    | Rework of the pageoverview layout. Now it can be shown or hidden by each editor.                                                                                                           |
 | 13.4.2     | 2021-05-07 | Bugfix     | Fix TCA for linkclick records                                                                                                                                                              |
 | 13.4.1     | 2021-05-04 | Task       | Add a css class for closing icons in backend context                                                                                                                                       |
 | 13.4.0     | 2021-05-01 | Feature    | Add two news viewhelpers that can be used now, update documentation                                                                                                                        |

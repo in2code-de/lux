@@ -2,10 +2,12 @@
 namespace In2code\Lux\Hooks;
 
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Backend\Controller\PageLayoutController;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Backend\Utility\BackendUtility as BackendUtilityCore;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
@@ -23,6 +25,7 @@ class PageLayoutHeader
      * @param array $parameters
      * @param PageLayoutController $plController
      * @return string
+     * @throws Exception
      */
     public function render(array $parameters, PageLayoutController $plController): string
     {
@@ -30,13 +33,15 @@ class PageLayoutHeader
         $content = '';
         if ($this->isPageEnabled($plController)) {
             $pageIdentifier = $plController->id;
+            $session = BackendUtility::getSessionValue('toggle', 'PageOverview', 'General');
             $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
             $visitors = $visitorRepository->findByVisitedPageIdentifier($pageIdentifier);
             $standaloneView = ObjectUtility::getObjectManager()->get(StandaloneView::class);
             $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($this->templatePathAndFile));
             $standaloneView->assignMultiple([
                 'visitors' => $visitors,
-                'pageIdentifier' => $pageIdentifier
+                'pageIdentifier' => $pageIdentifier,
+                'status' => $session['status'] ?: 'show'
             ]);
             $content = $standaloneView->render();
         }
@@ -49,7 +54,7 @@ class PageLayoutHeader
      */
     protected function isPageEnabled(PageLayoutController $plController): bool
     {
-        $row = BackendUtility::getRecord('pages', $plController->id, 'hidden');
+        $row = BackendUtilityCore::getRecord('pages', $plController->id, 'hidden');
         return $row['hidden'] !== 1;
     }
 }

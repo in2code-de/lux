@@ -503,6 +503,18 @@
 				<source>Visit</source>
 				<target state="translated">Besuch</target>
 			</trans-unit>
+			<trans-unit id="pageoverview.link">
+				<source>See lead details to %s</source>
+				<target state="translated">Lead Details zu %s</target>
+			</trans-unit>
+			<trans-unit id="pageoverview.visitedpages">
+				<source>Visited pages:</source>
+				<target state="translated">Besuchte Seiten:</target>
+			</trans-unit>
+			<trans-unit id="pageoverview.thispage">
+				<source>This page:</source>
+				<target state="translated">Diese Seite:</target>
+			</trans-unit>
 
 			<trans-unit id="module.analysis.dashboard">
 				<source>Dashboard</source>

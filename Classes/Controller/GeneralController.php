@@ -5,12 +5,17 @@ namespace In2code\Lux\Controller;
 use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
+use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ExtensionUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
  * Class GeneralController
+ * to show general information by clicking on the help icon
  */
 class GeneralController extends AbstractController
 {
@@ -49,5 +54,18 @@ class GeneralController extends AbstractController
             ]
         ];
         $this->view->assignMultiple($values);
+    }
+
+    /**
+     * Save if pageOverview layout should be shown or hidden
+     *
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     * @throws Exception
+     */
+    public function showOrHidePageOverviewAjax(ServerRequestInterface $request): ResponseInterface
+    {
+        BackendUtility::saveValueToSession('toggle', 'PageOverview', 'General', $request->getQueryParams());
+        return ObjectUtility::getObjectManager()->get(JsonResponse::class);
     }
 }
