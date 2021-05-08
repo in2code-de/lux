@@ -23,5 +23,9 @@ return [
     '/lux/visitordescription' => [
         'path' => '/lux/visitordescription',
         'target' => \In2code\Lux\Controller\LeadController::class . '::detailDescriptionAjax',
+    ],
+    '/lux/pageoverview' => [
+        'path' => '/lux/pageoverview',
+        'target' => \In2code\Lux\Controller\GeneralController::class . '::showOrHidePageOverviewAjax',
     ]
 ];

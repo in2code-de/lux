@@ -1,11 +1,13 @@
 <f:if condition="{visitors}">
     <h4 class="callout-title">
         <img src="{f:uri.resource(path:'Icons/lux.svg?hash=123',extensionName:'lux')}" height="30" />
-        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview">Last visitors</f:translate>
-        <i class="fa fa-chevron-down" style="cursor: pointer; margin-left: 5px;" data-lux-toggle="target"></i>
+        <span title="{lux:string.implodeOnObjectsProperty(objects:visitors,property:'fullName')}" style="cursor:pointer;" data-lux-toggle="target">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview">Last visitors</f:translate>
+            <i class="fa {f:if(condition:'{status} == "open"',then:'fa-chevron-down', else:'fa-chevron-up')}" style="cursor: pointer; margin-left: 5px;"></i>
+        </span>
     </h4>
 
-    <div class="row" data-lux-toggle-target="target">
+    <div class="row{f:if(condition:'{status} == "open"',else:' hide')}" data-lux-toggle-target="target">
         <f:for each="{visitors}" as="visitor">
             <div class="col-md-4">
                 <f:be.link
