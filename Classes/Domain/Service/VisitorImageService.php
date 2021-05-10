@@ -138,12 +138,16 @@ class VisitorImageService
     {
         if (empty($url) && $this->visitor->isIdentified()
             && class_exists(\Buchin\GoogleImageGrabber\GoogleImageGrabber::class)) {
-            $images = \Buchin\GoogleImageGrabber\GoogleImageGrabber::grab($this->visitor->getEmail());
-            foreach ((array)$images as $image) {
-                if (!empty($image['url']) && FileUtility::isImageFile($image['url']) && $image['width'] > 25) {
-                    $url = $image['url'];
-                    break;
+            try {
+                $images = \Buchin\GoogleImageGrabber\GoogleImageGrabber::grab($this->visitor->getEmail());
+                foreach ((array)$images as $image) {
+                    if (!empty($image['url']) && FileUtility::isImageFile($image['url']) && $image['width'] > 25) {
+                        $url = $image['url'];
+                        break;
+                    }
                 }
+            } catch (\Exception $exception) {
+                // Catch exceptions from third party package like allow_url_fopen=0 on server
             }
         }
         return $url;
