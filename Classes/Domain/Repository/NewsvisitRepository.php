@@ -11,6 +11,7 @@ use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
@@ -36,6 +37,10 @@ class NewsvisitRepository extends AbstractRepository
      */
     public function findCombinedByNewsIdentifier(FilterDto $filter): array
     {
+        if (ExtensionManagementUtility::isLoaded('news') === false) {
+            return [];
+        }
+
         $connection = DatabaseUtility::getConnectionForTable(Newsvisit::TABLE_NAME);
         $sql = 'select count(distinct nv.uid) count, nv.uid, nv.news from ' . Newsvisit::TABLE_NAME . ' nv'
             . ' left join ' . News::TABLE_NAME . ' n on nv.news = n.uid'
