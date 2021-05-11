@@ -7,8 +7,8 @@ use In2code\Lux\Domain\Service\Referrer\Readable;
 use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Utility\FrontendUtility;
 use In2code\Lux\Utility\ObjectUtility;
-use In2code\Lux\Utility\SiteUtility;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 
@@ -254,6 +254,10 @@ class Pagevisit extends AbstractModel
      */
     public function getNewsvisit(): ?Newsvisit
     {
+        if (ExtensionManagementUtility::isLoaded('news') === false) {
+            return null;
+        }
+
         /** @var NewsvisitRepository $newsvisitRepository */
         $newsvisitRepository = ObjectUtility::getObjectManager()->get(NewsvisitRepository::class);
         return $newsvisitRepository->findByPagevisit($this);
