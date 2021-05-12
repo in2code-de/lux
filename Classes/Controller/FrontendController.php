@@ -156,7 +156,7 @@ class FrontendController extends ActionController
                 $visitor,
                 AttributeTracker::CONTEXT_EMAIL4LINK
             );
-            $values = json_decode($arguments['values'], true);
+            $values = json_decode((string)$arguments['values'], true);
             $allowedFields = GeneralUtility::trimExplode(
                 ',',
                 $this->settings['identification']['email4link']['form']['fields']['enabled'],

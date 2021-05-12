@@ -10,7 +10,6 @@ use TYPO3\CMS\Extbase\Object\Exception;
  */
 class StringUtility
 {
-
     /**
      * @param string $pathAndFilename
      * @return string
@@ -18,7 +17,10 @@ class StringUtility
     public static function getExtensionFromPathAndFilename(string $pathAndFilename): string
     {
         $path = parse_url($pathAndFilename, PHP_URL_PATH);
-        return pathinfo($path, PATHINFO_EXTENSION);
+        if (is_string($path)) {
+            return pathinfo($path, PATHINFO_EXTENSION);
+        }
+        return '';
     }
 
     /**
