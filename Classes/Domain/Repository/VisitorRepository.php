@@ -170,7 +170,7 @@ class VisitorRepository extends AbstractRepository
         $query = $this->createQuery();
         $query->matching($query->equals('pagevisits.page', $pageIdentifier));
         $query->setLimit(3);
-        $query->setOrderings(['tstamp' => QueryInterface::ORDER_DESCENDING]);
+        $query->setOrderings(['pagevisits.tstamp' => QueryInterface::ORDER_DESCENDING]);
         return $query->execute();
     }
 

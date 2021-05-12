@@ -12,10 +12,10 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * Class PageLayoutHeader
+ * to show leads in the page module in backend
  */
-class PageLayoutHeader
+class PageOverview
 {
-
     /**
      * @var string
      */
