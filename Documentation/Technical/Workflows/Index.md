@@ -8,8 +8,8 @@ https://www.in2code.de/produkte/lux-typo3-marketing-automation/ for more informa
 What can be done with workflows? Look into our blog for some inspiration
 
 * [Tip 1: Lead notification workflow](https://www.in2code.de/en/recent/marketing-automation-tip-1-lead-notification-workflow/)
-* [Tio 2: How to quickly build landing pages](https://www.in2code.de/en/recent/marketing-automation-tip-2-create-landing-pages-quickly/)
-* [Tio 3: Newsletter registration in email4link](https://www.in2code.de/en/recent/marketing-automation-tip-3-newsletter-registrierung-mit-downloads-verbinden/)
+* [Tip 2: How to quickly build landing pages](https://www.in2code.de/en/recent/marketing-automation-tip-2-create-landing-pages-quickly/)
+* [Tip 3: Newsletter registration in email4link](https://www.in2code.de/en/recent/marketing-automation-tip-3-newsletter-registrierung-mit-downloads-verbinden/)
 
 #### Workflow view
 
