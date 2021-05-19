@@ -40,8 +40,8 @@ call_user_func(
         /**
          * Hooks
          */
-        // Show leads in page module
-        if (\In2code\Lux\Utility\ConfigurationUtility::isLastLeadsBoxInPageDisabled() === false) {
+        // Show page overview (leads or analysis) in page module
+        if (\In2code\Lux\Utility\ConfigurationUtility::isPageOverviewDisabled() === false) {
             $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/db_layout.php']['drawHeaderHook'][]
                 = \In2code\Lux\Hooks\PageOverview::class . '->render';
         }
