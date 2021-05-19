@@ -31,8 +31,11 @@ disableWorkflowModule = 0
 
 
 
-# cat=advanced/enable/210; type=boolean; label= Disable box with latest leads: If you don't want to show the latest leads box in a page view, choose this settings.
-disableLastLeadsBoxInPage = 0
+# cat=advanced/enable/200; type=boolean; label= Disable box with latest leads: If you don't want to show the latest leads box in a page view, choose this settings.
+disablePageOverview = 0
+
+# cat=advanced/enable/210; type=options[analysis,leads]; label= Pageoverview mode: If not disabled, choose between classic leads view or the new analysis view
+pageOverviewView = analysis
 
 # cat=advanced/enable/220; type=boolean; label= Disable ckeditor configuraiton: Lux adds an own ckeditor configuration file to enable email4link feature. If you don't want this, you can turn this off.
 disableCkEditorConfiguration = 0
