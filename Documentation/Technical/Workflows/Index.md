@@ -10,6 +10,7 @@ What can be done with workflows? Look into our blog for some inspiration
 * [Tip 1: Lead notification workflow](https://www.in2code.de/en/recent/marketing-automation-tip-1-lead-notification-workflow/)
 * [Tip 2: How to quickly build landing pages](https://www.in2code.de/en/recent/marketing-automation-tip-2-create-landing-pages-quickly/)
 * [Tip 3: Newsletter registration in email4link](https://www.in2code.de/en/recent/marketing-automation-tip-3-newsletter-registrierung-mit-downloads-verbinden/)
+* [Tip 4: Show relevant content](https://www.in2code.de/en/recent/marketing-automation-tip-4-show-relevant-content/)
 
 #### Workflow view
 
