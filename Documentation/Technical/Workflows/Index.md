@@ -86,6 +86,7 @@ Possible actions by default are:
 * Content manipulation: Redirect visitor to another page
 * Notification: Sends an email
 * Notification: Publish a message to a slack channel
+* Notification: Show a push message
 * Lead management: Sets a value for a visitor
 * Lead management: Sets a value after a double opt in confirmation for a visitor
 * Lead management: Add a visitor to a blacklist
@@ -457,6 +458,24 @@ lib.lux.settings {
                         # Set an emoji for all this publishings (can be empty, if you already set an image to your webhook in slack)
                         emoji = :fire:
                     }
+                }
+            }
+
+            # Sending push notifications
+            220 {
+                # Title to show in workflow backend module
+                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.push
+
+                # Classname for implementation of the action itself
+                className = In2code\Luxenterprise\Domain\Action\PushAction
+
+                # Templatefile for implementation of the form in workflow module
+                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Push.html
+
+                # Additional configuration
+                configuration {
+                    # Icon for push notification
+                    icon = /typo3conf/ext/lux/Resources/Public/Icons/lux.svg
                 }
             }
 
