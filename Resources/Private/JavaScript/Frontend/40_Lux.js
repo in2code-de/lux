@@ -197,6 +197,42 @@ function LuxMain() {
   };
 
   /**
+   * Callback for workflow action "push" (part of the Enterprise Edition)
+   *
+   * @param response
+   */
+  this.pushWorkflowAction = function(response) {
+    if ('Notification' in window && response['configuration']['title'] && response['configuration']['message']) {
+      if (Notification.permission === "granted") {
+        pushMessage(response);
+      } else if (Notification.permission !== "denied") {
+        Notification.requestPermission().then(function (permission) {
+          if (permission === "granted") {
+            pushMessage(response);
+          }
+        });
+      }
+    }
+  };
+
+  /**
+   * @param response
+   */
+  var pushMessage = function(response) {
+    setTimeout(function() {
+      var notification = new Notification(response['configuration']['title'], {
+        icon: response['configuration']['icon'],
+        body: response['configuration']['message'],
+      });
+      if (response['configuration']['uri']) {
+        notification.onclick = function() {
+          window.open(response['configuration']['uri']);
+        };
+      }
+    }, parseInt(response['configuration']['delay']));
+  }
+
+  /**
    * Not a real workflowAction but more a finisher action to stop asking for email addresses on email4link clicks if
    * the visitor is already known (only with a cookie "luxDisableEmail4Link"
    *
