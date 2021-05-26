@@ -165,7 +165,8 @@ class VisitorFactory
         $ipAddress = IpUtility::getIpAddress();
         if (ConfigurationUtility::isAnonymizeIpEnabled()) {
             $parts = explode('.', $ipAddress);
-            $parts[end(array_keys($parts))] = '***';
+            $keys = array_keys($parts);
+            $parts[end($keys)] = '***';
             $ipAddress = implode('.', $parts);
         }
         return $ipAddress;

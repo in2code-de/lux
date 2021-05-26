@@ -14,17 +14,11 @@
                         <f:if condition="{iteration.cycle} < 11">
                             <tr>
                                 <td>
-                                    <f:for each="{page}" as="pageItem" iteration="iteration">
-                                        <f:if condition="{iteration.isFirst}">
-                                            <f:alias map="{title:'{lux:page.getPropertyFromPageIdentifier(pageIdentifier:pageItem.page)}'}">
-                                                <span data-page-identifier="UID{pageItem.page}" title="{title}">
-                                                    <f:format.crop maxCharacters="25" append="..." respectWordBoundaries="0">{title}</f:format.crop>
-                                                </span>
-                                            </f:alias>
-                                        </f:if>
-                                    </f:for>
+                                    <span data-page-identifier="UID{page.page.uid}" title="{page.page.title}">
+                                        <f:format.crop maxCharacters="25" append="..." respectWordBoundaries="0">{page.page.title}</f:format.crop>
+                                    </span>
                                 </td>
-                                <td>{page -> f:count()}</td>
+                                <td>{page.count}</td>
                             </tr>
                         </f:if>
                     </f:for>
