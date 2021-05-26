@@ -2,9 +2,9 @@
 declare(strict_types=1);
 namespace In2code\Lux\Widgets\DataProvider;
 
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
-use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
@@ -12,7 +12,6 @@ use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Dashboard\WidgetApi;
 use TYPO3\CMS\Dashboard\Widgets\ChartDataProviderInterface;
 use TYPO3\CMS\Extbase\Object\Exception;
-use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
 /**
  * Class LuxPageVisitsDataProvider
@@ -23,7 +22,7 @@ class LuxPageVisitsDataProvider implements ChartDataProviderInterface
     /**
      * @return array
      * @throws Exception
-     * @throws InvalidQueryException
+     * @throws ExceptionDbal
      */
     public function getChartData(): array
     {
@@ -60,22 +59,23 @@ class LuxPageVisitsDataProvider implements ChartDataProviderInterface
      *
      * @return array
      * @throws Exception
-     * @throws InvalidQueryException
+     * @throws ExceptionDbal
      */
     protected function getPageData(): array
     {
+        /** @var PagevisitRepository $pagevisitRepository */
         $pagevisitRepository = ObjectUtility::getObjectManager()->get(PagevisitRepository::class);
-        $pageRepository = ObjectUtility::getObjectManager()->get(PageRepository::class);
         $pageVisits = $pagevisitRepository->findCombinedByPageIdentifier(
             ObjectUtility::getFilterDto(FilterDto::PERIOD_THISYEAR)
         );
         $titles = $amounts = [];
         for ($i = 0; $i < 6; $i++) {
-            if (!empty($pageVisits[$i][0]['page'])) {
+            if (!empty($pageVisits[$i])) {
                 /** @var Page $page */
-                $page = $pageRepository->findByIdentifier($pageVisits[$i][0]['page']);
-                $titles[] = StringUtility::cropString($page->getTitle(), 40) . ' (id=' . $page->getUid() . ')';
-                $amounts[] = count($pageVisits[$i]);
+                $title = StringUtility::cropString($pageVisits[$i]['page']['title'], 40)
+                    . ' (id=' . $pageVisits[$i]['page']['uid'] . ')';
+                $titles[] = $title;
+                $amounts[] = $pageVisits[$i]['count'];
             }
         }
         return ['amounts' => $amounts, 'titles' => $titles];

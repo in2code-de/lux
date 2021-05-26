@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Categoryscoring;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Pagevisit;
@@ -28,24 +29,51 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 class PagevisitRepository extends AbstractRepository
 {
     /**
-     * Find by single page entries with all pagevisits ordered by number of pagevisits with a limit of 100
+     * Example result:
+     *  [
+     *      [
+     *          'page' => Poge::class,
+     *          'count' => 123
+     *      ],
+     *      [
+     *          'page' => Poge::class,
+     *          'count' => 124
+     *      ]
+     *  ]
      *
      * @param FilterDto $filter
+     * @param int $limit
      * @return array
-     * @throws InvalidQueryException
+     * @throws ExceptionDbal
+     * @throws Exception
      * @throws \Exception
      */
-    public function findCombinedByPageIdentifier(FilterDto $filter): array
+    public function findCombinedByPageIdentifier(FilterDto $filter, int $limit = 100): array
     {
-        $query = $this->createQuery();
-        $logicalAnd = [
-            $query->greaterThan('page.uid', 0),
-        ];
-        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
-        $logicalAnd = $this->extendWithExtendedFilterQuery($query, $logicalAnd, $filter);
-        $query->matching($query->logicalAnd($logicalAnd));
-        $pages = $query->execute(true);
-        return $this->combineAndCutPages($pages);
+        $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
+        $sql = 'select pv.page, count(pv.page) count, pv.domain from ' . Pagevisit::TABLE_NAME . ' pv'
+            . ' left join ' . Page::TABLE_NAME . ' p on p.uid = pv.page'
+            . ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = pv.visitor'
+            . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
+            . ' where 1 '
+            . $this->extendWhereClauseWithFilterSearchterms($filter, 'p')
+            . $this->extendWhereClauseWithFilterTime($filter, true, 'pv')
+            . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
+            . $this->extendWhereClauseWithFilterScoring($filter, 'v')
+            . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
+            . ' group by page order by count desc limit ' . (int)$limit;
+        $results = $connection->executeQuery($sql)->fetchAll();
+        foreach ($results as &$result) {
+            if ($result['page'] > 0) {
+                /** @var PageRepository $pageRepository */
+                $pageRepository = ObjectUtility::getObjectManager()->get(PageRepository::class);
+                $page = $pageRepository->findRawByIdentifier($result['page']);
+                if ($page !== []) {
+                    $result['page'] = $page;
+                }
+            }
+        }
+        return $results;
     }
 
     /**
@@ -71,7 +99,7 @@ class PagevisitRepository extends AbstractRepository
     /**
      * @param \DateTime $start
      * @param \DateTime $end
-     * @param FilterDto $filter
+     * @param FilterDto|null $filter
      * @return int
      * @throws InvalidQueryException
      */
@@ -183,18 +211,18 @@ class PagevisitRepository extends AbstractRepository
      * ]
      *
      * @param FilterDto $filter
+     * @param int $limit
      * @return array
-     * @throws DBALException
      * @throws Exception
-     * @throws \Exception
+     * @throws ExceptionDbal
      */
-    public function getAmountOfReferrers(FilterDto $filter): array
+    public function getAmountOfReferrers(FilterDto $filter, int $limit = 100): array
     {
         $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
         $sql = 'select referrer, count(referrer) count from ' . Pagevisit::TABLE_NAME
             . ' where referrer != "" and referrer not like "%' . FrontendUtility::getCurrentDomain() . '%"'
             . $this->extendWhereClauseWithFilterTime($filter)
-            . ' group by referrer having (count > 1) order by count desc limit 100';
+            . ' group by referrer having (count > 1) order by count desc limit ' . $limit;
         $records = (array)$connection->executeQuery($sql)->fetchAll();
         $result = [];
         foreach ($records as $record) {
@@ -319,22 +347,6 @@ class PagevisitRepository extends AbstractRepository
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
             . ' group by pv.language order by count desc ';
         return (array)$connection->executeQuery($sql)->fetchAll();
-    }
-
-    /**
-     * @param $pages
-     * @return array
-     */
-    protected function combineAndCutPages($pages): array
-    {
-        $result = [];
-        foreach ($pages as $pageProperties) {
-            $result[$pageProperties['page']][] = $pageProperties;
-        }
-        $array = array_map('count', $result);
-        array_multisort($array, SORT_DESC, $result);
-        $result = array_slice($result, 0, 100);
-        return $result;
     }
 
     /**

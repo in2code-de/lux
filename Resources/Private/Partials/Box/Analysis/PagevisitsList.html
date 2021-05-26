@@ -2,7 +2,7 @@
     <f:then>
         <f:widget.paginate
             objects="{pages}"
-            as="pagesItem"
+            as="pagesPage"
             configuration="{itemsPerPage:15,insertAbove:0,insertBelow:'{f:if(condition: \'{pages -> f:count()} > 15\',then:1)}',maximumNumberOfLinks:10}">
             <table class="table table-striped table-hover table-pointer">
                 <thead>
@@ -16,14 +16,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                <f:for each="{pagesItem}" as="page">
-                    <tr data-lux-action-analysiscontentdetailpage="{page.0.page}">
+                <f:for each="{pagesPage}" as="page">
+                    <tr data-lux-action-analysiscontentdetailpage="{page.page.uid}">
                         <td>
-                            <span title="UID{page.0.page}"><lux:page.getPropertyFromPageIdentifier pageIdentifier="{page.0.page}" /></span>
+                            <span title="UID{page.page.uid}">{page.page.title}</span>
                         </td>
                         <td>
-                            {page -> f:count()}
-                            <f:link.action action="detailPage" arguments="{page:page.0.page}" class="btn btn-primary pull-right hidden" data="{lux-linkmock-link:'detailpage{page.0.page}'}">Details</f:link.action>
+                            {page.count}
+                            <f:link.action action="detailPage" arguments="{page:page.page.uid}" class="btn btn-primary pull-right hidden" data="{lux-linkmock-link:'detailpage{page.page.uid}'}">Details</f:link.action>
                         </td>
                     </tr>
                 </f:for>
