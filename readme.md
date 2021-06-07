@@ -209,6 +209,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 14.3.0     | 2021-06-07 | Feature    | Performance update for lead list in backend                                                                                                                                                |
 | 14.2.0     | 2021-05-26 | Feature    | Preperation for push messages in frontend                                                                                                                                                  |
 | 14.1.0     | 2021-05-26 | Feature    | Performance update: To allow handling of more pagevisits data (in all three dashboards)                                                                                                    |
 | 14.0.3     | 2021-05-12 | Bugfix     | Don't minify already minified JS (to prevent errors - e.g. with EXT:min), Really show the latest visitors in PageOverview                                                                  |
