@@ -155,6 +155,7 @@ $GLOBALS['TYPO3_CONF_VARS']['DB']['TableMapping'] = [
 ];
 ```
 
+
 ##### 2. Clean outdated data from time to time
 
 Remove all visitor data that is older then three years:
@@ -166,7 +167,16 @@ Remove only unknown visitors and their data that is older then one year:
 `./vendor/bin/typo3 lux:cleanupUnknownVisitorsByAge 31536000`
 
 
-##### 3. Help from in2code
+##### 3. memory_limit and max_execution_time in Apache settings
+
+Depending on the settings of your server it could happen that some backend modules are crashing when open it.
+While it is best practice to keep Apache settings for `memory_limit` and `max_execution_time` quite small to prevent
+unneeded load in frontend, it would be nice to have some higher settings for all backend requests.
+A possible solution for such a scenario would be to use **PHP FPM** and different domains for backend and frontend.
+So `https://backend.yourdomain.org` could have a (e.g.) `memory_limit` of `512M` and a `max_execution_time` of `120`.
+
+
+##### 4. Help from in2code
 
 We offer help for users with in2code/luxenterprise. Just call us.
 

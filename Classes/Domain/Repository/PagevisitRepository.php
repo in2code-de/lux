@@ -178,6 +178,43 @@ class PagevisitRepository extends AbstractRepository
     }
 
     /**
+     * @param Visitor $visitor
+     * @return \DateTime|null
+     * @throws ExceptionDbal
+     */
+    public function findLatestDateByVisitor(Visitor $visitor): ?\DateTime
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
+        $sql = 'select crdate from ' . Pagevisit::TABLE_NAME
+            . ' where visitor=' . $visitor->getUid()
+            . ' order by crdate desc limit 1';
+        $timestamp = (int)$connection->executeQuery($sql)->fetchColumn();
+        if ($timestamp > 0) {
+            return \DateTime::createFromFormat('U', (string)$timestamp);
+        }
+        return null;
+    }
+
+    /**
+     * @param Visitor $visitor
+     * @param int $pageIdentifier
+     * @return \DateTime|null
+     * @throws ExceptionDbal
+     */
+    public function findLatestDateByVisitorAndPageIdentifier(Visitor $visitor, int $pageIdentifier): ?\DateTime
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
+        $sql = 'select crdate from ' . Pagevisit::TABLE_NAME
+            . ' where visitor=' . $visitor->getUid() . ' and page=' . (int)$pageIdentifier
+            . ' order by crdate desc limit 1';
+        $timestamp = (int)$connection->executeQuery($sql)->fetchColumn();
+        if ($timestamp > 0) {
+            return \DateTime::createFromFormat('U', (string)$timestamp);
+        }
+        return null;
+    }
+
+    /**
      * @return int
      * @throws DBALException
      */
@@ -200,6 +237,21 @@ class PagevisitRepository extends AbstractRepository
         return (int)$connection->executeQuery(
             'select count(*) from ' . Pagevisit::TABLE_NAME . ' where page=' . $pageIdentifier
             . $this->extendWhereClauseWithFilterTime($filter)
+        )->fetchColumn();
+    }
+
+    /**
+     * @param int $pageIdentifier
+     * @param Visitor $visitor
+     * @return int
+     * @throws ExceptionDbal
+     */
+    public function findAmountPerPageAndVisitor(int $pageIdentifier, Visitor $visitor): int
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
+        return (int)$connection->executeQuery(
+            'select count(*) from ' . Pagevisit::TABLE_NAME
+            . ' where page=' . $pageIdentifier . ' and visitor=' . $visitor->getUid()
         )->fetchColumn();
     }
 

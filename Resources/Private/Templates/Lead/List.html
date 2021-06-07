@@ -74,14 +74,22 @@
                                     <td>
                                         <f:if condition="{filter.pid}">
                                             <f:else>
-                                                <span title="{f:format.date(date:visitor.pagevisitLast.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
-                                                    <lux:format.readableDate>{visitor.pagevisitLast.crdate}</lux:format.readableDate>
-                                                </span>
+                                                <f:comment>
+                                                    Use a ViewHelper instead of visitor.pagevisits relation for performance reasons
+                                                </f:comment>
+                                                <f:alias map="{time:'{lux:lead.getDateOfLatestPageVisit(visitor:visitor)}'}">
+                                                    <span title="{f:format.date(date:time,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
+                                                        <lux:format.readableDate>{time}</lux:format.readableDate>
+                                                    </span>
+                                                </f:alias>
                                             </f:else>
                                             <f:then>
-                                                <f:alias map="{pagevisit:'{lux:page.getLastVisitedPageByPageIdentifier(visitor:visitor,pageIdentifier:filter.pid)}'}">
-                                                    <span title="{f:format.date(date:pagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
-                                                        <lux:format.readableDate>{pagevisit.crdate}</lux:format.readableDate>
+                                                <f:comment>
+                                                    Use a ViewHelper instead of visitor.pagevisits relation for performance reasons
+                                                </f:comment>
+                                                <f:alias map="{time:'{lux:lead.getDateOfLatestPageVisitAndPage(visitor:visitor,pageIdentifier:filter.pid)}'}">
+                                                    <span title="{f:format.date(date:time,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
+                                                        <lux:format.readableDate>{time}</lux:format.readableDate>
                                                     </span>
                                                 </f:alias>
                                             </f:then>
@@ -91,9 +99,7 @@
                                         <f:if condition="{filter.pid}">
                                             <f:else>{visitor.visits}</f:else>
                                             <f:then>
-                                                <f:alias map="{pagevisits:'{lux:page.getVisitedPageByPageIdentifier(visitor:visitor,pageIdentifier:filter.pid)}'}">
-                                                    {pagevisits -> f:count()}
-                                                </f:alias>
+                                                <lux:page.getVisitedPageAmountByPageIdentifierAndVisitor pageIdentifier="{filter.pid}" visitor="{visitor}"/>
                                             </f:then>
                                         </f:if>
 
