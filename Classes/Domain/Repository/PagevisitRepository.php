@@ -61,7 +61,7 @@ class PagevisitRepository extends AbstractRepository
             . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
-            . ' group by page order by count desc limit ' . (int)$limit;
+            . ' group by pv.page, pv.domain order by count desc limit ' . (int)$limit;
         $results = $connection->executeQuery($sql)->fetchAll();
         foreach ($results as &$result) {
             if ($result['page'] > 0) {
@@ -172,7 +172,7 @@ class PagevisitRepository extends AbstractRepository
         $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
         $sql = 'select uid,visitor,crdate from ' . Pagevisit::TABLE_NAME
             . ' where page=' . $page->getUid()
-            . ' group by visitor order by crdate desc limit ' . $limit;
+            . ' group by visitor,uid,crdate order by crdate desc limit ' . $limit;
         $pagevisitIdentifiers = $connection->executeQuery($sql)->fetchAll(\PDO::FETCH_COLUMN);
         return $this->convertIdentifiersToObjects($pagevisitIdentifiers, Pagevisit::TABLE_NAME);
     }
@@ -397,7 +397,7 @@ class PagevisitRepository extends AbstractRepository
             . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
-            . ' group by pv.language order by count desc ';
+            . ' group by pv.language, l.title order by count desc ';
         return (array)$connection->executeQuery($sql)->fetchAll();
     }
 
