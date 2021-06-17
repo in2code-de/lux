@@ -121,7 +121,7 @@ class LinkclickRepository extends AbstractRepository
         $connection = DatabaseUtility::getConnectionForTable(Linkclick::TABLE_NAME);
         return (array)$connection->executeQuery(
             'select count(linklistener) clickcount, page, crdate from ' . Linkclick::TABLE_NAME
-            . ' where linklistener=' . (int)$linklistener . ' group by page order by crdate asc'
+            . ' where linklistener=' . (int)$linklistener . ' group by page, crdate order by crdate asc'
         )->fetchAll();
     }
 
