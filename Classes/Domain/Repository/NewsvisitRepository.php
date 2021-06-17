@@ -53,7 +53,7 @@ class NewsvisitRepository extends AbstractRepository
             . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
-            . ' group by nv.news order by count desc';
+            . ' group by nv.news, nv.uid order by count desc';
         $rows = (array)$connection->executeQuery($sql)->fetchAll();
         return $this->combineAndCutNews($rows);
     }
@@ -133,7 +133,7 @@ class NewsvisitRepository extends AbstractRepository
         $connection = DatabaseUtility::getConnectionForTable(Newsvisit::TABLE_NAME);
         $sql = 'select uid,visitor,crdate from ' . Newsvisit::TABLE_NAME
             . ' where news=' . $news->getUid()
-            . ' group by visitor order by crdate desc limit ' . $limit;
+            . ' group by visitor,uid,crdate order by crdate desc limit ' . $limit;
         $newsvisitIdentifiers = $connection->executeQuery($sql)->fetchAll(\PDO::FETCH_COLUMN);
         return $this->convertIdentifiersToObjects($newsvisitIdentifiers, Newsvisit::TABLE_NAME);
     }
@@ -198,7 +198,7 @@ class NewsvisitRepository extends AbstractRepository
             . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
-            . ' group by nv.language order by count desc ';
+            . ' group by nv.language, l.title order by count desc ';
         return (array)$connection->executeQuery($sql)->fetchAll();
     }
 
