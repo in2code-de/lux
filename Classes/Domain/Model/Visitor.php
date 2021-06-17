@@ -1059,12 +1059,12 @@ class Visitor extends AbstractModel
         $this->setVisits(0);
         $this->setIpAddress('');
 
-        $this->categoryscorings = null;
-        $this->pagevisits = null;
-        $this->attributes = null;
-        $this->ipinformations = null;
-        $this->downloads = null;
-        $this->logs = null;
+        $this->categoryscorings = new ObjectStorage();
+        $this->pagevisits = new ObjectStorage();
+        $this->attributes = new ObjectStorage();
+        $this->ipinformations = new ObjectStorage();
+        $this->downloads = new ObjectStorage();
+        $this->logs = new ObjectStorage();
 
         $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
         $visitorRepository->removeRelatedTableRowsByVisitor($this);
