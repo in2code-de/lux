@@ -35,6 +35,7 @@ class Log extends AbstractModel
     const STATUS_MERGE_BYFINGERPRINT = 90;
     const STATUS_MERGE_BYEMAIL = 91;
     const STATUS_SHORTENER_VISIT = 100;
+    const STATUS_ERROR = 900;
 
     /**
      * @var \In2code\Lux\Domain\Model\Visitor

@@ -4,7 +4,7 @@ namespace In2code\Lux\Command;
 
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Repository\VisitorRepository;
-use In2code\Lux\Domain\Service\SendSummaryService;
+use In2code\Lux\Domain\Service\Email\SendSummaryService;
 use In2code\Lux\Utility\ObjectUtility;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

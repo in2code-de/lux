@@ -1,7 +1,8 @@
 <?php
 declare(strict_types=1);
-namespace In2code\Lux\Domain\Service;
+namespace In2code\Lux\Domain\Service\Email;
 
+use In2code\Lux\Domain\Service\ConfigurationService;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\EmailValidationException;
 use In2code\Lux\Utility\ConfigurationUtility;

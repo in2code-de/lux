@@ -11,5 +11,20 @@ lib.lux.settings {
                 enable = {$plugin.tx_lux.settings.disableEmail4DownloadForIdentifiedVisitors}
             }
         }
+
+        # Error/Exception logging into tx_lux_domain_model_log
+        10 {
+            class = In2code\Lux\Domain\Finisher\ErrorLoggingFinisher
+
+            # Additional configuration
+            configuration {
+                enable = 0
+
+                notification {
+                    # Also send error to this email addresses (split on comma)
+                    emails =
+                }
+            }
+        }
     }
 }

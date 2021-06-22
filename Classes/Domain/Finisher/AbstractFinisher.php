@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Finisher;
 
 use In2code\Lux\Domain\Model\Visitor;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 
 /**
  * Class AbstractFinisher
@@ -147,5 +148,20 @@ abstract class AbstractFinisher implements FinisherInterface
             $value = $this->getConfiguration()[$key];
         }
         return $value;
+    }
+
+    /**
+     * @param string $path
+     * @return mixed
+     */
+    final protected function getConfigurationByPath(string $path)
+    {
+        $configuration = $this->getConfiguration();
+        try {
+            return ArrayUtility::getValueByPath($configuration, $path, '.');
+        } catch (\Exception $exception) {
+            unset($exception);
+        }
+        return '';
     }
 }

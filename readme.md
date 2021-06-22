@@ -209,7 +209,8 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 14.3.2     | 2021-06-17 | Bugfix     | Fix possible sql exception in additional modules (news and linkclick analysis) together with SQL strict mode                                                                                                                        |
+| 14.4.0     | 2021-06-22 | Feature    | Add exception/error logging for frontend requests                                                                                                                                          |
+| 14.3.2     | 2021-06-17 | Bugfix     | Fix possible sql exception in additional modules (news and linkclick analysis) together with SQL strict mode                                                                               |
 | 14.3.1     | 2021-06-15 | Bugfix     | Fix possible sql exception in modules together with SQL strict mode                                                                                                                        |
 | 14.3.0     | 2021-06-07 | Feature    | Performance update for lead list in backend                                                                                                                                                |
 | 14.2.0     | 2021-05-26 | Feature    | Preperation for push messages in frontend                                                                                                                                                  |
