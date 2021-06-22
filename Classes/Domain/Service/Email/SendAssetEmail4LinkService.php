@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
-namespace In2code\Lux\Domain\Service;
+namespace In2code\Lux\Domain\Service\Email;
 
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Domain\Service\ConfigurationService;
 use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\ObjectUtility;

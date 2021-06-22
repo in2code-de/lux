@@ -4,7 +4,7 @@ namespace In2code\Lux\Controller;
 
 use In2code\Lux\Domain\Factory\VisitorFactory;
 use In2code\Lux\Domain\Model\Visitor;
-use In2code\Lux\Domain\Service\SendAssetEmail4LinkService;
+use In2code\Lux\Domain\Service\Email\SendAssetEmail4LinkService;
 use In2code\Lux\Domain\Tracker\AttributeTracker;
 use In2code\Lux\Domain\Tracker\DownloadTracker;
 use In2code\Lux\Domain\Tracker\FrontenduserAuthenticationTracker;
