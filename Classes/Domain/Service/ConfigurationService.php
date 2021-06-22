@@ -21,7 +21,7 @@ class ConfigurationService implements SingletonInterface
     protected $settings = [];
 
     /**
-     * @param string $path
+     * @param string $path like "general.disallowedMailProviderList"
      * @param string $pluginName
      * @return mixed
      */
