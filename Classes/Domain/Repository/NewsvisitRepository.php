@@ -42,7 +42,7 @@ class NewsvisitRepository extends AbstractRepository
         }
 
         $connection = DatabaseUtility::getConnectionForTable(Newsvisit::TABLE_NAME);
-        $sql = 'select count(distinct nv.uid) count, nv.uid, nv.news from ' . Newsvisit::TABLE_NAME . ' nv'
+        $sql = 'select count(distinct nv.uid) count, nv.news from ' . Newsvisit::TABLE_NAME . ' nv'
             . ' left join ' . News::TABLE_NAME . ' n on nv.news = n.uid'
             . ' left join ' . Visitor::TABLE_NAME . ' v on nv.visitor = v.uid'
             . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on cs.visitor = v.uid'
@@ -53,7 +53,7 @@ class NewsvisitRepository extends AbstractRepository
             . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
-            . ' group by nv.news, nv.uid order by count desc';
+            . ' group by nv.news order by count desc';
         $rows = (array)$connection->executeQuery($sql)->fetchAll();
         return $this->combineAndCutNews($rows);
     }
