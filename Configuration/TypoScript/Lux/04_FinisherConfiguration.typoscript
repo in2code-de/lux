@@ -18,7 +18,11 @@ lib.lux.settings {
 
             # Additional configuration
             configuration {
+                # Turn on/off
                 enable = 0
+
+                # Don't log this errors (split on comma). Per default bot recognition or blacklisted visitors should not lead to a log entry.
+                disabledExceptions = \In2code\Lux\Exception\DisallowedUserAgentException
 
                 notification {
                     # Also send error to this email addresses (split on comma)

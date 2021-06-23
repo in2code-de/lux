@@ -2,11 +2,12 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Finisher;
 
+use Exception;
 use In2code\Lux\Domain\Service\Email\ErrorService;
 use In2code\Lux\Domain\Service\LogService;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Extbase\Object\Exception as ExtbaseException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 
@@ -29,19 +30,20 @@ class ErrorLoggingFinisher extends AbstractFinisher
     {
         return $this->getConfigurationByKey('enable') === '1'
             && isset($this->parameters['error'])
-            && is_a($this->parameters['error'], \Exception::class);
+            && is_a($this->parameters['error'], Exception::class)
+            && $this->isExceptionAllowed($this->parameters['error']);
     }
 
     /**
      * @return array
-     * @throws Exception
+     * @throws ExtbaseException
      * @throws IllegalObjectTypeException
      * @throws TransportExceptionInterface
      * @throws UnknownObjectException
      */
     public function start(): array
     {
-        /** @var \Exception $exception */
+        /** @var Exception $exception */
         $exception = $this->parameters['error'];
         $this->log($exception);
         $this->sendEmail($exception);
@@ -49,13 +51,13 @@ class ErrorLoggingFinisher extends AbstractFinisher
     }
 
     /**
-     * @param \Exception $exception
+     * @param Exception $exception
      * @return void
-     * @throws Exception
+     * @throws ExtbaseException
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
-    protected function log(\Exception $exception): void
+    protected function log(Exception $exception): void
     {
         /** @var LogService $logService */
         $logService = GeneralUtility::makeInstance(LogService::class);
@@ -68,15 +70,34 @@ class ErrorLoggingFinisher extends AbstractFinisher
     }
 
     /**
-     * @param \Exception $exception
+     * @param Exception $exception
      * @return void
      * @throws TransportExceptionInterface
      */
-    protected function sendEmail(\Exception $exception): void
+    protected function sendEmail(Exception $exception): void
     {
         $emails = $this->getConfigurationByPath('notification.emails');
-        /** @var ErrorService $errorService */
-        $errorService = GeneralUtility::makeInstance(ErrorService::class);
-        $errorService->send($emails, $exception, $this->visitor);
+        if (!empty($emails)) {
+            /** @var ErrorService $errorService */
+            $errorService = GeneralUtility::makeInstance(ErrorService::class);
+            $errorService->send($emails, $exception, $this->visitor);
+        }
+    }
+
+    /**
+     * Filter not allowed exceptions
+     *
+     * @param Exception $exception
+     * @return bool
+     */
+    protected function isExceptionAllowed(Exception $exception): bool
+    {
+        $disabledList = $this->getConfigurationByPath('disabledExceptions');
+        foreach (GeneralUtility::trimExplode(',', $disabledList, true) as $disabled) {
+            if (is_a($exception, $disabled)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
