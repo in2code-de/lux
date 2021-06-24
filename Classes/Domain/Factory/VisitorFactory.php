@@ -7,6 +7,7 @@ use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\VisitorMergeService;
+use In2code\Lux\Exception\ConnectionFailedException;
 use In2code\Lux\Exception\FingerprintMustNotBeEmptyException;
 use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\ConfigurationUtility;
@@ -41,17 +42,17 @@ class VisitorFactory
     /**
      * VisitorFactory constructor.
      *
-     * @param string $fingerprint
+     * @param string $identificator
      * @param bool $tempVisitor If there is no fingerprint (doNotTrack) but we even want to generate a visitor object
      * @throws Exception
      * @throws FingerprintMustNotBeEmptyException
      */
-    public function __construct(string $fingerprint, bool $tempVisitor = false)
+    public function __construct(string $identificator, bool $tempVisitor = false)
     {
-        if ($fingerprint === '' && $tempVisitor === true) {
-            $fingerprint = StringUtility::getRandomString(32, false);
+        if ($identificator === '' && $tempVisitor === true) {
+            $identificator = StringUtility::getRandomString(32, false);
         }
-        $this->fingerprint = GeneralUtility::makeInstance(Fingerprint::class)->setValue($fingerprint);
+        $this->fingerprint = GeneralUtility::makeInstance(Fingerprint::class)->setValue($identificator);
         $this->visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
         $this->signalDispatch(__CLASS__, 'stopAnyProcessBeforePersistence', [$this->fingerprint]);
     }
@@ -64,6 +65,7 @@ class VisitorFactory
      * @throws Exception
      * @throws UnknownObjectException
      * @throws DBALException
+     * @throws ConnectionFailedException
      */
     public function getVisitor(): Visitor
     {
@@ -87,10 +89,14 @@ class VisitorFactory
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      * @throws Exception
+     * @throws DBALException
      */
     protected function getVisitorFromDatabaseByFingerprint(): ?Visitor
     {
-        $visitor = $this->visitorRepository->findOneAndAlsoBlacklistedByFingerprint($this->fingerprint->getValue());
+        $visitor = $this->visitorRepository->findOneAndAlsoBlacklistedByFingerprint(
+            $this->fingerprint->getValue(),
+            $this->fingerprint->getType()
+        );
         if ($visitor === null && CookieUtility::getLuxId() !== '') {
             $visitor = $this->getVisitorFromDatabaseByLegacyCookie();
         }
@@ -124,6 +130,7 @@ class VisitorFactory
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws Exception
+     * @throws ConnectionFailedException
      */
     protected function createNewVisitor(): Visitor
     {
@@ -140,6 +147,7 @@ class VisitorFactory
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws Exception
+     * @throws ConnectionFailedException
      */
     protected function enrichNewVisitorWithIpInformation(Visitor $visitor)
     {

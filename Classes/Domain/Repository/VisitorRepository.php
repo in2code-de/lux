@@ -34,18 +34,18 @@ class VisitorRepository extends AbstractRepository
     /**
      * Find a visitor by its fingerprint and deliver also blacklisted visitors
      *
-     * @param string $fingerprint
+     * @param string $identificator
      * @param int $type
      * @return Visitor|null
      */
     public function findOneAndAlsoBlacklistedByFingerprint(
-        string $fingerprint,
-        int $type = Fingerprint::TYPE_FINGERPRINT
+        string $identificator,
+        int $type
     ): ?Visitor {
         $query = $this->createQuery();
         $query->getQuerySettings()->setIgnoreEnableFields(true)->setEnableFieldsToBeIgnored(['blacklisted']);
         $and = [
-            $query->equals('fingerprints.value', $fingerprint),
+            $query->equals('fingerprints.value', $identificator),
             $query->equals('fingerprints.type', $type)
         ];
         $query->matching($query->logicalAnd($and));

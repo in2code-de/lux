@@ -7,11 +7,11 @@ function LuxIdentification() {
   'use strict';
 
   /**
-   * Fingerprint Id
+   * Fingerprint (32 characters) or Local Storage Id (33 characters)
    *
    * @type {string}
    */
-  this.fingerprint = '';
+  this.identificator = '';
 
   /**
    * @type {LuxMain}
@@ -21,18 +21,18 @@ function LuxIdentification() {
   /**
    * @returns {string}
    */
-  this.getFingerprint = function () {
-    if (this.isFingerprintSet() === false) {
-      console.log('Fingerprint not yet calculated!');
+  this.getIdentificator = function () {
+    if (this.isIdentificatorSet() === false) {
+      console.log('Identificator (Fingerprint?) not yet calculated!');
     }
-    return this.fingerprint;
+    return this.identificator;
   };
 
   /**
    * @returns {boolean}
    */
-  this.isFingerprintSet = function () {
-    return this.fingerprint !== '';
+  this.isIdentificatorSet = function () {
+    return this.identificator !== '';
   };
 
   /**
@@ -109,11 +109,35 @@ function LuxIdentification() {
   };
 
   /**
+   * @param type 0=fingerprint, 2=localstorage
+   * @returns {void}
+   */
+  this.setIdentificator = function(type) {
+    if (type === 2) {
+      setLocalStorageIdentificator();
+    } else {
+      setFingerprintIdentificator();
+    }
+  };
+
+  /**
+   * @returns {void}
+   */
+  var setLocalStorageIdentificator = function () {
+    var identificator = getLocalStorageEntryByName('luxId');
+    if (identificator === null) {
+      identificator = getRandomString(33);
+      addLocalStorageEntry('luxId', identificator);
+    }
+    that.identificator = identificator;
+  }
+
+  /**
    * Preflight for setting fingerprint from calculated hash after a timeout
    *
    * @returns {void}
    */
-  this.setFingerprint = function () {
+  var setFingerprintIdentificator = function () {
     var overruleFingerprint = getOverruleFingerprint();
     if (overruleFingerprint === '') {
       if (window.requestIdleCallback) {
@@ -126,7 +150,7 @@ function LuxIdentification() {
         }, 500)
       }
     } else {
-      this.fingerprint = overruleFingerprint;
+      this.identificator = overruleFingerprint;
     }
   };
 
@@ -147,10 +171,10 @@ function LuxIdentification() {
       }
     }, function (components) {
       var hashValue = getCombinedComponentValue(components);
-      that.fingerprint = Fingerprint2.x64hash128(hashValue, 31);
+      that.identificator = Fingerprint2.x64hash128(hashValue, 31);
       if (isDebugMode() === true) {
         console.log('Debug: Fingerprint values', components);
-        console.log('Debug: Fingerprint is "' + that.fingerprint + '"');
+        console.log('Debug: Fingerprint is "' + that.identificator + '"');
       }
     });
   };
@@ -229,6 +253,19 @@ function LuxIdentification() {
       }
     }
     return '';
+  };
+
+  /**
+   * @param {int} length
+   * @returns {string}
+   */
+  var getRandomString = function(length) {
+    var text = '';
+    var possible = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    for (var i = 0; i < length; i++) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
   };
 
   /**

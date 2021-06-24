@@ -55,28 +55,28 @@ class FrontendController extends ActionController
 
     /**
      * @param string $dispatchAction
-     * @param string $fingerprint
+     * @param string $identificator Fingerprint or Local storage hash
      * @param array $arguments
      * @return void
      * @throws StopActionException
      * @noinspection PhpUnused
      */
-    public function dispatchRequestAction(string $dispatchAction, string $fingerprint, array $arguments): void
+    public function dispatchRequestAction(string $dispatchAction, string $identificator, array $arguments): void
     {
-        $this->forward($dispatchAction, null, null, ['fingerprint' => $fingerprint, 'arguments' => $arguments]);
+        $this->forward($dispatchAction, null, null, ['identificator' => $identificator, 'arguments' => $arguments]);
     }
 
     /**
-     * @param string $fingerprint
+     * @param string $identificator
      * @param array $arguments
      * @return string
      * @throws Exception
      * @noinspection PhpUnused
      */
-    public function pageRequestAction(string $fingerprint, array $arguments): string
+    public function pageRequestAction(string $identificator, array $arguments): string
     {
         try {
-            $visitor = $this->getVisitor($fingerprint);
+            $visitor = $this->getVisitor($identificator);
             $this->callAdditionalTrackers($visitor);
             $pageTracker = $this->objectManager->get(PageTracker::class);
             $pagevisit = $pageTracker->track($visitor, $arguments);
@@ -91,16 +91,16 @@ class FrontendController extends ActionController
     }
 
     /**
-     * @param string $fingerprint
+     * @param string $identificator
      * @param array $arguments
      * @return string
      * @throws Exception
      * @noinspection PhpUnused
      */
-    public function fieldListeningRequestAction(string $fingerprint, array $arguments): string
+    public function fieldListeningRequestAction(string $identificator, array $arguments): string
     {
         try {
-            $visitor = $this->getVisitor($fingerprint);
+            $visitor = $this->getVisitor($identificator);
             /** @noinspection PhpParamsInspection */
             $attributeTracker = $this->objectManager->get(
                 AttributeTracker::class,
@@ -115,16 +115,16 @@ class FrontendController extends ActionController
     }
 
     /**
-     * @param string $fingerprint
+     * @param string $identificator
      * @param array $arguments
      * @return string
      * @throws Exception
      * @noinspection PhpUnused
      */
-    public function formListeningRequestAction(string $fingerprint, array $arguments): string
+    public function formListeningRequestAction(string $identificator, array $arguments): string
     {
         try {
-            $visitor = $this->getVisitor($fingerprint);
+            $visitor = $this->getVisitor($identificator);
             $values = json_decode($arguments['values'], true);
             /** @noinspection PhpParamsInspection */
             $attributeTracker = $this->objectManager->get(
@@ -140,16 +140,16 @@ class FrontendController extends ActionController
     }
 
     /**
-     * @param string $fingerprint
+     * @param string $identificator
      * @param array $arguments
      * @return string
      * @throws Exception
      * @noinspection PhpUnused
      */
-    public function email4LinkRequestAction(string $fingerprint, array $arguments): string
+    public function email4LinkRequestAction(string $identificator, array $arguments): string
     {
         try {
-            $visitor = $this->getVisitor($fingerprint, true);
+            $visitor = $this->getVisitor($identificator, true);
             /** @noinspection PhpParamsInspection */
             $attributeTracker = $this->objectManager->get(
                 AttributeTracker::class,
@@ -179,16 +179,16 @@ class FrontendController extends ActionController
     }
 
     /**
-     * @param string $fingerprint
+     * @param string $identificator
      * @param array $arguments
      * @return string
      * @throws Exception
      * @noinspection PhpUnused
      */
-    public function downloadRequestAction(string $fingerprint, array $arguments): string
+    public function downloadRequestAction(string $identificator, array $arguments): string
     {
         try {
-            $visitor = $this->getVisitor($fingerprint);
+            $visitor = $this->getVisitor($identificator);
             /** @noinspection PhpParamsInspection */
             $downloadTracker = $this->objectManager->get(DownloadTracker::class, $visitor);
             $downloadTracker->addDownload($arguments['href']);
@@ -199,16 +199,16 @@ class FrontendController extends ActionController
     }
 
     /**
-     * @param string $fingerprint
+     * @param string $identificator
      * @param array $arguments
      * @return string
      * @throws Exception
      * @noinspection PhpUnused
      */
-    public function linkClickRequestAction(string $fingerprint, array $arguments): string
+    public function linkClickRequestAction(string $identificator, array $arguments): string
     {
         try {
-            $visitor = $this->getVisitor($fingerprint);
+            $visitor = $this->getVisitor($identificator);
             /** @noinspection PhpParamsInspection */
             $linkClickTracker = $this->objectManager->get(LinkClickTracker::class, $visitor);
             $linkClickTracker->addLinkClick((int)$arguments['linklistenerIdentifier'], (int)$arguments['pageUid']);
@@ -219,14 +219,14 @@ class FrontendController extends ActionController
     }
 
     /**
-     * @param string $fingerprint empty means no opt-in yet
+     * @param string $identificator empty means no opt-in yet
      * @return string
      * @throws Exception
      */
-    public function redirectRequestAction(string $fingerprint): string
+    public function redirectRequestAction(string $identificator): string
     {
         try {
-            $visitor = $this->getVisitor($fingerprint);
+            $visitor = $this->getVisitor($identificator);
             return json_encode($this->afterAction($visitor));
         } catch (\Exception $exception) {
             try {
@@ -303,14 +303,14 @@ class FrontendController extends ActionController
     }
 
     /**
-     * @param string $fingerprint
+     * @param string $identificator
      * @param bool $tempVisitor
      * @return Visitor
      */
-    protected function getVisitor(string $fingerprint, bool $tempVisitor = false): Visitor
+    protected function getVisitor(string $identificator, bool $tempVisitor = false): Visitor
     {
         /** @noinspection PhpParamsInspection */
-        $visitorFactory = $this->objectManager->get(VisitorFactory::class, $fingerprint, $tempVisitor);
+        $visitorFactory = $this->objectManager->get(VisitorFactory::class, $identificator, $tempVisitor);
         return $visitorFactory->getVisitor();
     }
 }
