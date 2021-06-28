@@ -67,7 +67,76 @@ If you click on the settings symbol for extension lux, you can change some basic
 If you have already activated lux in your TYPO3 instance, you can add the static TypoScript file *Main TypoScript (lux)*
 in your root template. Most of the TypoScript configuration is used for frontend and for backend configuration.
 
-If you want to see what kind of TypoScript will be included and how to overwrite some parts, look at
+##### 3a Constants
+
+Look at the default settings of your lux in TypoScript constants:
+
+```
+plugin.tx_lux.settings {
+    # cat=lux//0010; type=boolean; label= Activate autoenable: Decide if user tracking is turned on by default (no opt-in needed here). If you turn autoenable off, you have to build an opt-in.
+    autoenable = 1
+
+    # cat=lux//0020; type=options[0,2]; label= Identification method: Decide if fingerprinting or local storage method should be used for tracking your leads. Both methods have their ups and downs (see documentation for details).
+    identificationMethod = 0
+
+    # cat=lux//0030; type=boolean; label= Activate page tracking: (De)Activate tracking of the users pagefunnel.
+    tracking.page = 1
+
+    # cat=lux//0040; type=boolean; label= Activate download tracking: (De)Activate tracking if the user downloads an asset.
+    tracking.assetDownloads = 1
+
+    # cat=lux//0050; type=text; label= Activate download tracking: (De)Activate tracking if the user downloads an asset.
+    tracking.assetDownloads.allowedExtensions = pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip
+
+    # cat=lux//0060; type=boolean; label= Activate searchterm tracking: (De)Activate tracking searchterms if user searched for someone on your website.
+    tracking.search = 1
+
+    # cat=lux//0100; type=boolean; label= Activate field and form identification: (De)Activate identification by filling out web forms.
+    fieldandformidentification = 1
+
+    # cat=lux//0200; type=boolean; label= Disable for identified: Disable email4link lightbox in frontend if the visitor is already identified.
+    disableEmail4DownloadForIdentifiedVisitors = 1
+
+    # cat=lux//0300; type=boolean; label= Disable for backend users: Disable lux tracking in frontend if you are also logged in into backend.
+    disableTrackingForBackendUsers = 1
+
+    # cat=lux//0400; type=int+; label= PID privacy page: Set the pid of the privacy page for links in lux forms.
+    pidPrivacyPage = 11
+}
+```
+
+##### 3b Fingerprint or LocalStorage
+
+With the constant `identificationMethod` (see above) you can decide if lux should work in fingerprint or in
+localstorage mode. While a fingerprint can be calculated by hardware details automatically, a localstorage mode is
+similar to a cookie. We would also don't use `autoenable` if you want to go for local storage and ask your visitors
+for an opt-in.
+
+###### Fingerprint for b2b
+
+**Upside:** Fingerprint is calculated automatically and does not need to be stored anywhere on the device
+(cookie or local storage). A tracking between different domains and page branches is possible
+within the same TYPO3 instance.
+
+**Downside:** To calculate a fingerprint 200-400ms is needed. Beside that multiple visitors with same hard- and software
+are recognized as only one visitor. This is especially true for iPhones of the same version and generation.
+
+###### LocalStorage for b2c
+
+**Upside:** If you have a lot of iPhone visitors on your website (e.g. if you own a b2c shop for a younger target
+group), you may want to differ between your visitors. So you could go for LocalStorage.
+A random string is generated where fast and saved on the visitors device. You can also differ between multiple iPhone
+visitors.
+
+**Downside:** You have to ask your visitor if you are allowed to store a random string the local storage of the device,
+to identify your visitor. To meet GDPR rules, we would suggest you to set up a cookie banner.
+In addition a visitor of domain A is not automatically merged if he also visits domain B on the same TYPO3 instance
+(every domain has its own local storage area. Of course if the user is identified on both domains, the profile will be
+merged to only one).
+
+####
+
+If you want to see in detail what kind of TypoScript will be included and how to overwrite some parts, look at
 [the Lux folder](../../../Configuration/TypoScript/Lux)
 
 #### 4. Ready to go
