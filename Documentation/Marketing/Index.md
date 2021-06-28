@@ -14,6 +14,7 @@ simplifies the work with marketing automation tools in general.
 | ------------------------- | ------------------------------------------------------------------------------------------------------ |
 | Category-Scoring          | While a scoring tells us if a lead is hot, we still don't in which product or service the lead is interested in.<br>Here comes the category scoring. You can have unlimited categories and a scoring related to category with **Product A** will tell us, if the lead is interested in the product.<br>A category-scoring will not decrease, even if the visit was some time ago. |
 | Cookie                    | A cookie is an individual value that is saved in the visitors browser. Since 7.0.0 lux will not use cookies any more. |
+| LocalStorage              | A local storage is similar to a cookie but a bit of a newer technology. |
 | DoNotTrack                | Browser support a *DoNotTrack* setting. This setting must be turned on from the user (it is not a default setting of the browser). If lux recognize this setting, all tracking functions are disabled. We will respect this privacy setting! |
 | Email4link                | Email4link is a Lux feature where you can ask your leads for their email if they want to download something. |
 | Fingerprinting            | We can recognize visitors by their complete hard- and software usage - a values build from all this settings is an unique fingerprint. This is an anonymized hash that allows lux to recognize the visitor by further visits in the future. |

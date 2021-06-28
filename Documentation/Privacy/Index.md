@@ -84,10 +84,11 @@ How to work with this possibilities? You can add a cookie banner or a cookie lig
 ask your visitor, if it's ok to set a cookie for e.g. usability reasons. Place the data-attribute on the ok-button and
 close the banner.
 
-You could also call the JavaScript function directly for Opt-In or Opt-Out:
+You could also call the JavaScript function directly for Opt-In or Opt-Out (if JS is already added from
+EXT:lux/Resources/Public/JavaScript/Lux/Lux.min.js):
 
 ```
-var Lux = new window.LuxMain(); // already added from EXT:lux/Resources/Public/JavaScript/Lux/Lux.min.js
+var Lux = new window.LuxMain();
 Lux.initialize();
 Lux.optIn();
 

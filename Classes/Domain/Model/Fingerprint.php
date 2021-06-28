@@ -13,6 +13,7 @@ class Fingerprint extends AbstractModel
     const TABLE_NAME = 'tx_lux_domain_model_fingerprint';
     const TYPE_FINGERPRINT = 0;
     const TYPE_COOKIE = 1;
+    const TYPE_STORAGE = 2;
 
     /**
      * @var string
@@ -65,7 +66,10 @@ class Fingerprint extends AbstractModel
     public function setValue(string $value): self
     {
         if ($value === '') {
-            throw new FingerprintMustNotBeEmptyException('Fingerprint is empty', 1585901797);
+            throw new FingerprintMustNotBeEmptyException('Value is empty', 1585901797);
+        }
+        if (strlen($value) === 33) {
+            $this->setType(self::TYPE_STORAGE);
         }
         $this->value = $value;
         return $this;
@@ -195,10 +199,13 @@ class Fingerprint extends AbstractModel
      */
     public function getTypeString(): string
     {
-        if ($this->getType() === self::TYPE_COOKIE) {
-            return 'Cookie';
-        } else {
+        if ($this->getType() === self::TYPE_FINGERPRINT) {
             return 'Fingerprint';
+        } elseif ($this->getType() === self::TYPE_COOKIE) {
+            return 'Cookie';
+        } elseif ($this->getType() === self::TYPE_STORAGE) {
+            return 'LocalStorage';
         }
+        return 'Unknown';
     }
 }
