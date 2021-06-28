@@ -265,7 +265,7 @@ function LuxMain() {
    * @returns {void}
    */
   var initializeTracking = function() {
-    identification.setFingerprint();
+    identification.setIdentificator(getIdentificationType());
     track();
   };
 
@@ -275,7 +275,7 @@ function LuxMain() {
    * @returns {void}
    */
   var track = function() {
-    if (identification.isFingerprintSet()) {
+    if (identification.isIdentificatorSet()) {
       executeRegisteredFunctions();
       pageRequest();
       addFieldListeners();
@@ -360,7 +360,7 @@ function LuxMain() {
     if (isPageTrackingEnabled()) {
       var parameters = {
         'tx_lux_fe[dispatchAction]': 'pageRequest',
-        'tx_lux_fe[fingerprint]': identification.getFingerprint(),
+        'tx_lux_fe[identificator]': identification.getIdentificator(),
         'tx_lux_fe[arguments][pageUid]': getPageUid(),
         'tx_lux_fe[arguments][languageUid]': getLanguageUid(),
         'tx_lux_fe[arguments][referrer]': getReferrer(),
@@ -435,7 +435,7 @@ function LuxMain() {
           links[i].addEventListener('click', function(event) {
             ajaxConnection({
               'tx_lux_fe[dispatchAction]': 'downloadRequest',
-              'tx_lux_fe[fingerprint]': identification.getFingerprint(),
+              'tx_lux_fe[identificator]': identification.getIdentificator(),
               'tx_lux_fe[arguments][href]': this.getAttribute('href')
             }, getRequestUri(), null, null);
             delayClick(event, 'DownlaodListener');
@@ -456,7 +456,7 @@ function LuxMain() {
         if (linklistenerIdentifier !== '') {
           ajaxConnection({
             'tx_lux_fe[dispatchAction]': 'linkClickRequest',
-            'tx_lux_fe[fingerprint]': identification.getFingerprint(),
+            'tx_lux_fe[identificator]': identification.getIdentificator(),
             'tx_lux_fe[arguments][linklistenerIdentifier]': linklistenerIdentifier,
             'tx_lux_fe[arguments][pageUid]': getPageUid()
           }, getRequestUri(), null, null);
@@ -477,7 +477,7 @@ function LuxMain() {
       var hash = redirectContainer.getAttribute('data-lux-redirect');
       ajaxConnection({
         'tx_lux_fe[dispatchAction]': 'redirectRequest',
-        'tx_lux_fe[fingerprint]': identification.isFingerprintSet() ? identification.getFingerprint() : '',
+        'tx_lux_fe[identificator]': identification.isIdentificatorSet() ? identification.getIdentificator() : '',
         'tx_lux_fe[arguments][redirectHash]': hash
       }, getRequestUri(), 'generalWorkflowActionCallback', null);
     }
@@ -515,7 +515,7 @@ function LuxMain() {
       // track as normal asset download
       ajaxConnection({
         'tx_lux_fe[dispatchAction]': 'downloadRequest',
-        'tx_lux_fe[fingerprint]': identification.getFingerprint(),
+        'tx_lux_fe[identificator]': identification.getIdentificator(),
         'tx_lux_fe[arguments][href]': link.getAttribute('href')
       }, getRequestUri(), null, null);
       delayClick(event, 'Email4Link');
@@ -572,7 +572,7 @@ function LuxMain() {
       addWaitClassToBodyTag();
       ajaxConnection({
         'tx_lux_fe[dispatchAction]': 'email4LinkRequest',
-        'tx_lux_fe[fingerprint]': identification.getFingerprint(),
+        'tx_lux_fe[identificator]': identification.getIdentificator(),
         'tx_lux_fe[arguments][sendEmail]': sendEmail === 'true',
         'tx_lux_fe[arguments][href]': href,
         'tx_lux_fe[arguments][values]': JSON.stringify(formArguments)
@@ -621,7 +621,7 @@ function LuxMain() {
     var value = field.value;
     ajaxConnection({
       'tx_lux_fe[dispatchAction]': 'fieldListeningRequest',
-      'tx_lux_fe[fingerprint]': identification.getFingerprint(),
+      'tx_lux_fe[identificator]': identification.getIdentificator(),
       'tx_lux_fe[arguments][key]': key,
       'tx_lux_fe[arguments][value]': value
     }, getRequestUri(), 'generalWorkflowActionCallback', null);
@@ -643,7 +643,7 @@ function LuxMain() {
 
     ajaxConnection({
       'tx_lux_fe[dispatchAction]': 'formListeningRequest',
-      'tx_lux_fe[fingerprint]': identification.getFingerprint(),
+      'tx_lux_fe[identificator]': identification.getIdentificator(),
       'tx_lux_fe[arguments][values]': JSON.stringify(formArguments)
     }, getRequestUri(), 'generalWorkflowActionCallback', null);
   };
@@ -672,6 +672,7 @@ function LuxMain() {
   var checkFunctions = function() {
     if (isDebugMode()) {
       console.log('Lux: Debug is activated');
+      console.log('Lux: runs in mode: ' + getIdentificationType() + ' (0=fingerprint, 2=localstorage)');
       if (isLuxActivated() === false) {
         console.log('Lux: Tracking is deactivated');
       }
@@ -954,6 +955,16 @@ function LuxMain() {
    */
   var getContainer = function() {
     return document.getElementById('lux_container');
+  };
+
+  /**
+   * Get identification type (0=fingerprint, 2=localstorage)
+   *
+   * @returns {number}
+   */
+  var getIdentificationType = function() {
+    var type = getContainer().getAttribute('data-lux-identificationMethod') || 0;
+    return parseInt(type);
   };
 
   /**

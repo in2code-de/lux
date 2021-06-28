@@ -12,7 +12,7 @@ page {
       lux.disableCompression = 1
     }
 
-    # Container for informations that will be send via AJAX
+    # Container for information that will be send via AJAX
     1518815717 = COA
     1518815717 {
         wrap = <script id="lux_container"|></script>
@@ -29,6 +29,13 @@ page {
         15 {
             noTrimWrap = | data-lux-autoenable="|"|
             value = {$plugin.tx_lux.settings.autoenable}
+        }
+
+        # Fingerprint (0) vs. Local Storage (2)
+        18 = TEXT
+        18 {
+            noTrimWrap = | data-lux-identificationMethod="|"|
+            value = {$plugin.tx_lux.settings.identificationMethod}
         }
 
         # Uri to send tracking requests to

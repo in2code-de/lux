@@ -73,17 +73,17 @@ class VisitorMergeService
     }
 
     /**
-     * @param string $fingerprint
+     * @param string $identificator
      * @return void
      * @throws DBALException
      * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
-    public function mergeByFingerprint(string $fingerprint): void
+    public function mergeByFingerprint(string $identificator): void
     {
-        if ($this->fingerprintRepository->getFingerprintCountByValue($fingerprint) > 0) {
-            $visitors = $this->visitorRepository->findDuplicatesByFingerprint($fingerprint);
+        if ($this->fingerprintRepository->getFingerprintCountByValue($identificator) > 0) {
+            $visitors = $this->visitorRepository->findDuplicatesByFingerprint($identificator);
             if ($visitors->count() > 1) {
                 $this->logService->logVisitorMergeByFingerprint($visitors);
                 $this->merge($visitors);
