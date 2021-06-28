@@ -209,7 +209,8 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 14.4.2     | 2021-06-24 | Bufix      | Show correct number of newsvisits in dashboard and news module                                                                                                                             |
+| 15.0.0     | 2021-06-28 | Feature    | Decide if you want to use fingerprint or localstorage as basic tracking method now. Localstorage is interesting for b2c while fingerprint is more for b2b (see installation documenation). |
+| 14.4.2     | 2021-06-24 | Bugfix     | Show correct number of newsvisits in dashboard and news module                                                                                                                             |
 | 14.4.1     | 2021-06-23 | Task       | Define which error should not be logged now. Per default a bot recognition (e.g.) should not be logged.                                                                                    |
 | 14.4.0     | 2021-06-22 | Feature    | Add exception/error logging for frontend requests                                                                                                                                          |
 | 14.3.2     | 2021-06-17 | Bugfix     | Fix possible sql exception in additional modules (news and linkclick analysis) together with SQL strict mode                                                                               |
