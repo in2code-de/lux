@@ -76,7 +76,7 @@ plugin.tx_lux.settings {
     # cat=lux//0010; type=boolean; label= Activate autoenable: Decide if user tracking is turned on by default (no opt-in needed here). If you turn autoenable off, you have to build an opt-in.
     autoenable = 1
 
-    # cat=lux//0020; type=options[0,2]; label= Identification method: Decide if fingerprinting or local storage method should be used for tracking your leads. Both methods have their ups and downs (see documentation for details).
+    # cat=lux//0020; type=options[0,2]; label= Identification method: Decide if fingerprinting (0) or local storage (2) method should be used for tracking your leads. Both methods have their ups and downs (see documentation for details).
     identificationMethod = 0
 
     # cat=lux//0030; type=boolean; label= Activate page tracking: (De)Activate tracking of the users pagefunnel.

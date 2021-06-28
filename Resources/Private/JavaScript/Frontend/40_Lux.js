@@ -265,8 +265,7 @@ function LuxMain() {
    * @returns {void}
    */
   var initializeTracking = function() {
-    var type = getContainer().getAttribute('data-lux-identificationMethod') || 0;
-    identification.setIdentificator(parseInt(type));
+    identification.setIdentificator(getIdentificationType());
     track();
   };
 
@@ -673,6 +672,7 @@ function LuxMain() {
   var checkFunctions = function() {
     if (isDebugMode()) {
       console.log('Lux: Debug is activated');
+      console.log('Lux: runs in mode: ' + getIdentificationType() + ' (0=fingerprint, 2=localstorage)');
       if (isLuxActivated() === false) {
         console.log('Lux: Tracking is deactivated');
       }
@@ -955,6 +955,16 @@ function LuxMain() {
    */
   var getContainer = function() {
     return document.getElementById('lux_container');
+  };
+
+  /**
+   * Get identification type (0=fingerprint, 2=localstorage)
+   *
+   * @returns {number}
+   */
+  var getIdentificationType = function() {
+    var type = getContainer().getAttribute('data-lux-identificationMethod') || 0;
+    return parseInt(type);
   };
 
   /**
