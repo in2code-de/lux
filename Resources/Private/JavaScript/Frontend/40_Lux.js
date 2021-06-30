@@ -7,14 +7,22 @@ function LuxMain() {
   'use strict';
 
   /**
-   * @type {null}
-   */
-  this.lightboxInstance = null;
-
-  /**
    * @type {LuxMain}
    */
   var that = this;
+
+  /**
+   * Status if tracking is already initialized. That allows to call initialize() or optIn() more then once without
+   * problems.
+   *
+   * @type {boolean}
+   */
+  var initialized = false;
+
+  /**
+   * @type {null}
+   */
+  this.lightboxInstance = null;
 
   /**
    * @type {LuxIdentification}
@@ -37,18 +45,20 @@ function LuxMain() {
    * @returns {void}
    */
   this.initialize = function() {
-    identification = new LuxIdentification();
-    checkFunctions();
+    if (initialized === false) {
+      identification = new LuxIdentification();
+      checkFunctions();
 
-    trackingOptOutListener();
-    trackingOptInListener();
-    if (isLuxActivated()) {
-      initializeTracking();
-    } else {
-      addRedirectListener();
+      trackingOptOutListener();
+      trackingOptInListener();
+      if (isLuxActivated()) {
+        initializeTracking();
+      } else {
+        addRedirectListener();
+      }
+      addEmail4LinkListeners();
+      doNotTrackListener();
     }
-    addEmail4LinkListeners();
-    doNotTrackListener();
   };
 
   /**
@@ -265,8 +275,11 @@ function LuxMain() {
    * @returns {void}
    */
   var initializeTracking = function() {
-    identification.setIdentificator(getIdentificationType());
-    track();
+    if (initialized === false) {
+      identification.setIdentificator(getIdentificationType());
+      track();
+      initialized = true;
+    }
   };
 
   /**
