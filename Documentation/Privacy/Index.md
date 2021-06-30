@@ -85,10 +85,10 @@ ask your visitor, if it's ok to set a cookie for e.g. usability reasons. Place t
 close the banner.
 
 You could also call the JavaScript function directly for Opt-In or Opt-Out (if JS is already added from
-EXT:lux/Resources/Public/JavaScript/Lux/Lux.min.js):
+EXT:lux/Resources/Public/JavaScript/Lux/Lux.min.js before):
 
 ```
-var Lux = new window.LuxMain();
+var Lux = LuxSingleton.getInstance();
 Lux.initialize();
 Lux.optIn();
 
