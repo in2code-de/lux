@@ -209,6 +209,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 15.0.1     | 2021-06-30 | Task       | Manual OptIn hardened. Now it can be called multiple times (if called twice from cookie banner). See privacy documentation for a manual OptIn (with fingerprint or with localstorage).     |
 | 15.0.0     | 2021-06-28 | Feature    | Decide if you want to use fingerprint or localstorage as basic tracking method now. Localstorage is interesting for b2c while fingerprint is more for b2b (see installation documenation). |
 | 14.4.2     | 2021-06-24 | Bugfix     | Show correct number of newsvisits in dashboard and news module                                                                                                                             |
 | 14.4.1     | 2021-06-23 | Task       | Define which error should not be logged now. Per default a bot recognition (e.g.) should not be logged.                                                                                    |
