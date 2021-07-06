@@ -108,7 +108,7 @@ class Fingerprint extends AbstractModel
             $parser = new \WhichBrowser\Parser($this->getUserAgent());
             $properties = [
                 'browser' => $parser->browser->getName(),
-                'browserversion' => $parser->browser->version->value,
+                'browserversion' => (string)$parser->browser->version->value,
                 'os' => $parser->os->getName(),
                 'osversion' => $parser->os->getVersion(),
                 'manufacturer' => $parser->device->getManufacturer(),

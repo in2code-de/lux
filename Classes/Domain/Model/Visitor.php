@@ -1277,7 +1277,7 @@ class Visitor extends AbstractModel
     public function getAnyPropertyByName(string $key)
     {
         if (method_exists($this, 'get' . ucfirst($key))) {
-            return $this->{'get' . ucfirst($key)};
+            return $this->{'get' . ucfirst($key)}();
         }
         if (method_exists($this, 'is' . ucfirst($key))) {
             return $this->{'is' . ucfirst($key)};
