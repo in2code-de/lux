@@ -35,13 +35,6 @@ function LuxMain() {
   var trackIteration = 0;
 
   /**
-   * Here objects and functions can be registered that are be called when fingerprint is ready
-   *
-   * @type {*[]}
-   */
-  this.registeredFunctions = [];
-
-  /**
    * @returns {void}
    */
   this.initialize = function() {
@@ -253,16 +246,6 @@ function LuxMain() {
   };
 
   /**
-   * Add objects and functions to a register. They are called as soon as the fingerprint is ready calculated.
-   *
-   * @param object
-   * @param functionName
-   */
-  this.addFunctionToRegister = function(object, functionName) {
-    this.registeredFunctions.push([object, functionName]);
-  };
-
-  /**
    * Get LuxIdentification object in luxenterprise
    *
    * @returns {LuxIdentification}
@@ -289,7 +272,6 @@ function LuxMain() {
    */
   var track = function() {
     if (identification.isIdentificatorSet()) {
-      executeRegisteredFunctions();
       pageRequest();
       addFieldListeners();
       addFormListeners();
@@ -303,20 +285,6 @@ function LuxMain() {
       } else {
         console.log('Fingerprint could not be calculated within 20s');
       }
-    }
-  };
-
-  /**
-   * Registered functions are called when fingerprint is ready
-   *
-   * @returns {void}
-   */
-  var executeRegisteredFunctions = function() {
-    for (var i = 0; i < that.registeredFunctions.length; i++) {
-      var configuration = that.registeredFunctions[i];
-      var object = configuration[0];
-      var functionName = configuration[1];
-      object[functionName]();
     }
   };
 
