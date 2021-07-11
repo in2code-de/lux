@@ -39,6 +39,8 @@ class TestingHelper
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLog'] = 'error_log';
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLogInit'] = '';
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLog'] = '';
+        $GLOBALS['TYPO3_CONF_VARS']['BE']['lockIP'] = 0;
+        $GLOBALS['TYPO3_CONF_VARS']['BE']['lockIPv6'] = 0;
         // @extensionScannerIgnoreLine
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['enable_DLOG'] = false;
         if (!defined('TYPO3_OS')) {

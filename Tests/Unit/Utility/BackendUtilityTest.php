@@ -12,7 +12,6 @@ use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
  */
 class BackendUtilityTest extends UnitTestCase
 {
-
     /**
      * @var array
      */

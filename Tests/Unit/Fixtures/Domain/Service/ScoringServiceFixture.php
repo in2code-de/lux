@@ -9,7 +9,6 @@ use In2code\Lux\Domain\Service\ScoringService;
  */
 class ScoringServiceFixture extends ScoringService
 {
-
     /**
      * @var int
      */
@@ -64,5 +63,13 @@ class ScoringServiceFixture extends ScoringService
     protected function getNumberOfDownloads(Visitor $visitor): int
     {
         return $this->numberOfDownloads;
+    }
+
+    /**
+     * @return void
+     */
+    public function setCalculation()
+    {
+        $this->calculation = '(10 * numberOfSiteVisits) + (1 * numberOfPageVisits) + (20 * downloads) - (1 * lastVisitDaysAgo)';
     }
 }
