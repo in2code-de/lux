@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 namespace In2code\Lux\Signal;
 
 use In2code\Lux\Utility\ObjectUtility;
@@ -35,7 +35,7 @@ trait SignalTrait
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     protected function isSignalEnabled(): bool
     {

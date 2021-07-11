@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 
 use In2code\Lux\Command\LuxAnonymizeCommand;
 use In2code\Lux\Command\LuxAutorelateToFrontendUsersCommand;

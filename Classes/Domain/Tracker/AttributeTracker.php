@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 namespace In2code\Lux\Domain\Tracker;
 
 use In2code\Lux\Domain\Model\Attribute;
@@ -156,7 +156,7 @@ class AttributeTracker
      *
      * @param string $key
      * @param string $value
-     * @return Attribute|null|object
+     * @return Attribute|object|null
      * @throws IllegalObjectTypeException
      * @throws InvalidSlotException
      * @throws InvalidSlotReturnException

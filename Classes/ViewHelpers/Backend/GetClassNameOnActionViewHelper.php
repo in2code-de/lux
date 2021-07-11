@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 namespace In2code\Lux\ViewHelpers\Backend;
 
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;

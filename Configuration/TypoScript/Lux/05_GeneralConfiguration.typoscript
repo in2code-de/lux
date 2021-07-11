@@ -1,31 +1,31 @@
 lib.lux.settings {
-    general {
-        # Path to a simple csv with general telecom providers (to not show them as company in lead list)
-        telecommunicationProviderList = EXT:lux/Resources/Private/Static/TelecommunicationProviders.txt
+  general {
+    # Path to a simple csv with general telecom providers (to not show them as company in lead list)
+    telecommunicationProviderList = EXT:lux/Resources/Private/Static/TelecommunicationProviders.txt
 
-        # Path to a simple csv with disallowed mail providers (don't send them email with email4link)
-        disallowedMailProviderList = EXT:lux/Resources/Private/Static/DisallowedMailProviders.txt
+    # Path to a simple csv with disallowed mail providers (don't send them email with email4link)
+    disallowedMailProviderList = EXT:lux/Resources/Private/Static/DisallowedMailProviders.txt
 
-        # Path to a simple csv with internal IP addresses and companies
-        ipCompanyList = EXT:lux/Resources/Private/Static/IpCompany.txt
+    # Path to a simple csv with internal IP addresses and companies
+    ipCompanyList = EXT:lux/Resources/Private/Static/IpCompany.txt
+  }
+
+  commandControllers {
+
+    # Configuration for summary mail
+    summaryMail {
+
+      # Template file for mail
+      mailTemplate = EXT:lux/Resources/Private/Templates/Mail/SummaryMail.html
+
+      # Mail subject
+      subject = Your personal lead summary from lux - TYPO3 Marketing Automation
+
+      # From name for mail to visitor
+      fromName = Website
+
+      # From email for mail to visitor
+      fromEmail = marketing@website.org
     }
-
-    commandControllers {
-
-        # Configuration for summary mail
-        summaryMail {
-
-            # Template file for mail
-            mailTemplate = EXT:lux/Resources/Private/Templates/Mail/SummaryMail.html
-
-            # Mail subject
-            subject = Your personal lead summary from lux - TYPO3 Marketing Automation
-
-            # From name for mail to visitor
-            fromName = Website
-
-            # From email for mail to visitor
-            fromEmail = marketing@website.org
-        }
-    }
+  }
 }

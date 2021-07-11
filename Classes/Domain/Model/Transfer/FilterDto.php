@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 namespace In2code\Lux\Domain\Model\Transfer;
 
 use In2code\Lux\Domain\Model\Category;
@@ -526,9 +526,9 @@ class FilterDto
             return ['intervals' => $this->getWeekIntervals(), 'frequency' => 'week'];
         } elseif ($deltaSeconds <= 63072000) { // until 2 years
             return ['intervals' => $this->getMonthIntervals(), 'frequency' => 'month'];
-        } else { // over 2 years
-            return ['intervals' => $this->getYearIntervals(), 'frequency' => 'year'];
         }
+        // over 2 years
+        return ['intervals' => $this->getYearIntervals(), 'frequency' => 'year'];
     }
 
     /**

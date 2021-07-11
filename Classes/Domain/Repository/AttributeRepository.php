@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 namespace In2code\Lux\Domain\Repository;
 
 use In2code\Lux\Domain\Model\Attribute;
@@ -14,7 +14,7 @@ class AttributeRepository extends AbstractRepository
     /**
      * @param Visitor $visitor
      * @param string $key
-     * @return Attribute|null|object
+     * @return Attribute|object|null
      */
     public function findByVisitorAndKey(Visitor $visitor, string $key)
     {
