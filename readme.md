@@ -209,7 +209,8 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 15.0.2     | 2021-07-06 | Task       | Remove outdated JS function for registering third party functions that can be called after fingerprint is ready calculated.                                                                |
+| 15.1.0     | 2021-07-11 | Feature    | Continous integration update: Test for code quality and run unit tests on every push and pull request now.                                                                                 |
+| 15.0.3     | 2021-07-06 | Task       | Remove outdated JS function for registering third party functions that can be called after fingerprint is ready calculated.                                                                |
 | 15.0.2     | 2021-07-06 | Bugfix     | Fix possible exception if browser version is not readable. Fix getAnyPropertyByName() function in visitor model.                                                                           |
 | 15.0.1     | 2021-06-30 | Task       | Manual OptIn hardened. Now it can be called multiple times (if called twice from cookie banner). See privacy documentation for a manual OptIn (with fingerprint or with localstorage).     |
 | 15.0.0     | 2021-06-28 | Feature    | Decide if you want to use fingerprint or localstorage as basic tracking method now. Localstorage is interesting for b2c while fingerprint is more for b2b (see installation documenation). |
