@@ -1,9 +1,9 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 namespace In2code\Lux\Domain\Tracker;
 
-use In2code\Lux\Exception\DisallowedUserAgentException;
 use In2code\Lux\Domain\Model\Fingerprint;
+use In2code\Lux\Exception\DisallowedUserAgentException;
 
 /**
  * Class StopTracking

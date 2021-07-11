@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 namespace In2code\Lux\Domain\Service;
 
 use In2code\Lux\Domain\Model\File;
@@ -37,7 +37,6 @@ class FileService
         }
         return $file;
     }
-
 
     /**
      * Try to convert fileadmin/abc.pdf to 1:/abc.pdf

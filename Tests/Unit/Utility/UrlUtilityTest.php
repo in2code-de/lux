@@ -1,7 +1,6 @@
 <?php
 namespace In2code\Lux\Tests\Unit\Utility;
 
-use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\UrlUtility;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
 

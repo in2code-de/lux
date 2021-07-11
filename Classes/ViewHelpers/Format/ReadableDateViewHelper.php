@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 namespace In2code\Lux\ViewHelpers\Format;
 
 use In2code\Lux\Utility\LocalizationUtility;
@@ -36,9 +36,8 @@ class ReadableDateViewHelper extends AbstractViewHelper
             return $this->renderHours($delta);
         } elseif ($deltaTimestamp < 604800) {
             return $this->renderDays($delta);
-        } else {
-            return $this->renderDate($date);
         }
+        return $this->renderDate($date);
     }
 
     /**

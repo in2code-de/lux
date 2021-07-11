@@ -1,12 +1,11 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 namespace In2code\Lux\Domain\Service;
 
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
-use TYPO3\CMS\Extbase\Service\TypoScriptService;
 
 /**
  * Class ConfigurationService to get the typoscript configuration from extension and cache it for multiple calls
