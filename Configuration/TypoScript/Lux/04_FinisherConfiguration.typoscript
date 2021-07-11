@@ -1,34 +1,34 @@
 lib.lux.settings {
-    # Add finishers classes for your own actions (e.g. pass values to a third party tool like a crm)
-    finisher {
+  # Add finishers classes for your own actions (e.g. pass values to a third party tool like a crm)
+  finisher {
 
-        # Disable email4link if visitor is already identified
-        1 {
-            class = In2code\Lux\Domain\Finisher\DisableEmail4LinkFinisher
+    # Disable email4link if visitor is already identified
+    1 {
+      class = In2code\Lux\Domain\Finisher\DisableEmail4LinkFinisher
 
-            # Additional configuration
-            configuration {
-                enable = {$plugin.tx_lux.settings.disableEmail4DownloadForIdentifiedVisitors}
-            }
-        }
-
-        # Error/Exception logging into tx_lux_domain_model_log
-        10 {
-            class = In2code\Lux\Domain\Finisher\ErrorLoggingFinisher
-
-            # Additional configuration
-            configuration {
-                # Turn on/off
-                enable = 0
-
-                # Don't log this errors (split on comma). Per default bot recognition or blacklisted visitors should not lead to a log entry.
-                disabledExceptions = \In2code\Lux\Exception\DisallowedUserAgentException
-
-                notification {
-                    # Also send error to this email addresses (split on comma)
-                    emails =
-                }
-            }
-        }
+      # Additional configuration
+      configuration {
+        enable = {$plugin.tx_lux.settings.disableEmail4DownloadForIdentifiedVisitors}
+      }
     }
+
+    # Error/Exception logging into tx_lux_domain_model_log
+    10 {
+      class = In2code\Lux\Domain\Finisher\ErrorLoggingFinisher
+
+      # Additional configuration
+      configuration {
+        # Turn on/off
+        enable = 0
+
+        # Don't log this errors (split on comma). Per default bot recognition or blacklisted visitors should not lead to a log entry.
+        disabledExceptions = \In2code\Lux\Exception\DisallowedUserAgentException
+
+        notification {
+          # Also send error to this email addresses (split on comma)
+          emails =
+        }
+      }
+    }
+  }
 }

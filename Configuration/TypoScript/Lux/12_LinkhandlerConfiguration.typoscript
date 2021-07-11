@@ -12,6 +12,7 @@ config.recordLinks.luxlinklistener {
         field = uid
         wrap = data-lux-linklistener="|"
       }
+
       20 = TEXT
       20.data = parameters:allParams
     }
