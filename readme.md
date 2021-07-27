@@ -209,6 +209,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 15.2.0     | 2021-07-27 | Feature    | Add GET param configuration for a search with extension ke_search by default in addition to solr and indexed_search                                                                        |
 | 15.1.0     | 2021-07-11 | Feature    | Continous integration update: Test for code quality and run unit tests on every push and pull request now.                                                                                 |
 | 15.0.3     | 2021-07-06 | Task       | Remove outdated JS function for registering third party functions that can be called after fingerprint is ready calculated.                                                                |
 | 15.0.2     | 2021-07-06 | Bugfix     | Fix possible exception if browser version is not readable. Fix getAnyPropertyByName() function in visitor model.                                                                           |
