@@ -11,6 +11,7 @@ mod {
     tx_lux_domain_model_fingerprint.hideTable = 1
     tx_lux_domain_model_linklistener.hideTable = 1
     tx_lux_domain_model_linkclick.hideTable = 1
+    tx_lux_domain_model_search.hideTable = 1
   }
 
   # Add wizard icon in backend
