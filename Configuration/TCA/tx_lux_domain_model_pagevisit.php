@@ -144,7 +144,8 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'readOnly' => true
+                'readOnly' => true,
+                'default' => ''
             ]
         ],
         'domain' => [
