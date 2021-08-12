@@ -1,4 +1,13 @@
 <f:if condition="{visitors}">
+    <lux:condition.isLuxenterpriseExtensionActivated>
+        <f:else>
+            <a href="https://www.in2code.de/produkte/lux-typo3-marketing-automation/" class="lux_poweredby" style="position:absolute;right:38px;font-weight:bold;">
+                <f:image src="{f:uri.resource(path:'Icons/star.svg',extensionName:'lux')}" alt="Lux enterprise" width="20" height="20" style="vertical-align:bottom;" />
+                Go enterprise
+            </a>
+        </f:else>
+    </lux:condition.isLuxenterpriseExtensionActivated>
+
     <h4 class="callout-title">
         <img src="{f:uri.resource(path:'Icons/lux.svg?hash=123',extensionName:'lux')}" height="30" />
         <span title="{lux:string.implodeOnObjectsProperty(objects:visitors,property:'fullName')}" style="cursor:pointer;" data-lux-toggle="target">
