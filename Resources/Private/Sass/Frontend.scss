@@ -2,26 +2,38 @@
 @import "BasicLightbox";
 
 .lux_waiting {
-  cursor: progress;
+    cursor: progress;
 }
 
 .lux_container_email4link {
-  display: none;
+    display: none;
 }
 
 .lux_lightbox_container {
-  background: white;
-  padding: 60px;
-  max-width: 800px;
+    background: white;
+    padding: 60px;
+    max-width: 800px;
 }
 
 .lux_smalltext {
-  font-size: 0.8em;
-  padding-top: 10px;
+    font-size: 0.8em;
+    padding-top: 10px;
+}
+
+.lux_poweredby {
+    font-size: 0.8em;
+    position: absolute;
+    right: 50px;
+    bottom: 30px;
+    text-decoration: none;
+
+    > img {
+        vertical-align: middle;
+    }
 }
 
 .basicLightbox {
-  iframe {
-    background-color: $white;
-  }
+    iframe {
+        background-color: $white;
+    }
 }

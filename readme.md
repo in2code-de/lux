@@ -209,6 +209,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 15.3.0     | 2021-08-12 | Task       | Show a "powered by Lux" in email4link if luxenterprise is not installed. Also show a "go enterprise" in page module.                                                                       |
 | 15.2.2     | 2021-08-10 | Bugfix     | Allow more then 255 characters for pagevisit.referrer now, simplify start/endtime TCA configuration, hide searchterm table in list view                                                    |
 | 15.2.1     | 2021-08-06 | Bugfix     | Add dashboard resources only if typo3/cms-dashboard is installed                                                                                                                           |
 | 15.2.0     | 2021-07-27 | Feature    | Add GET param configuration for a search with extension ke_search by default in addition to solr and indexed_search                                                                        |
