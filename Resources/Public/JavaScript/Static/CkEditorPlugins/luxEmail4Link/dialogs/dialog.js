@@ -56,6 +56,10 @@ CKEDITOR.dialog.add('luxEmail4LinkDialog', function(editor)
 					{
 						type: 'html',
 						html : '<p>' + editor.lang.luxEmail4Link.dialogExplanation + '</p>'
+					},
+					{
+						type: 'html',
+						html : '<p><a href="https://www.in2code.de/produkte/lux-typo3-marketing-automation/" target="_blank" rel="noopener" style="font-weight:bold;text-decoration:underline;cursor:pointer;">' + editor.lang.luxEmail4Link.dialogPoweredBy + '</a></p>'
 					}
 				]
 			}
