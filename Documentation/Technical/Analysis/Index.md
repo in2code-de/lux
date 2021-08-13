@@ -130,7 +130,7 @@ in this item.
 
 #### Link Listeners
 
-Link Listeners are introduced with Lux 9 and give you more powermail over your "call to action" performance on your
+Link Listeners are introduced with Lux 9 and give you more power over your "call to action" performance on your
 website.
 
 The view starts with a list of Link Listeners and the possibility to manage them (add new, edit existing or delete old
@@ -149,6 +149,25 @@ That's very simple. Just add a new Link listener with a link target. After that,
 new Listener. That's all. Now all clicks on this link are tracked now.
 
 <img src="../../../Documentation/Images/screenshot_linklistener_link.png" />
+
+
+#### Search
+
+With lux 16 we started to introduce a own search view.
+
+If there are entries in the search table, editors can see and click the search view button in analysis backend module.
+The view starts with a list of used searchterms of your websearch.
+
+You can use the filter on the top for a perfect analysis in a timeframe or for a special term. If you click on
+a row in the table you will see the latest leads in a preview. If you click on "Show details" then, you will
+see all leads that used the search term.
+
+**Note:** Websearch tracking is activated by default for solr, indexed_search and ke_search but can be extended or
+modified in TypoScript configuration.
+
+<img src="../../../Documentation/Images/screenshot_analysis_search.png" width="800" />
+
+
 
 ### TYPO3 Dashboard Module
 
