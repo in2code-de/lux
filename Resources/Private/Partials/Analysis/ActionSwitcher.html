@@ -12,3 +12,8 @@
 <f:link.action action="linkListener" controller="Analysis" class="btn{lux:backend.getClassNameOnAction(onAction:'linkListener',view:view)}">
     <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.linkListeners">Linklisteners</f:translate>
 </f:link.action>
+<lux:condition.isSearchAvailable>
+    <f:link.action action="search" controller="Analysis" class="btn{lux:backend.getClassNameOnAction(onAction:'search',view:view)}">
+        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.search">Search</f:translate>
+    </f:link.action>
+</lux:condition.isSearchAvailable>

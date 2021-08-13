@@ -2,13 +2,13 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\DataProvider;
 
-use In2code\Lux\Domain\Repository\NewsvisitRepository;
+use In2code\Lux\Domain\Repository\SearchRepository;
 use In2code\Lux\Utility\ObjectUtility;
 
 /**
- * Class NewsvisistsDataProvider
+ * SearchDataProvider
  */
-class NewsvisistsDataProvider extends AbstractDynamicFilterDataProvider
+class SearchDataProvider extends AbstractDynamicFilterDataProvider
 {
     /**
      * Set values like:
@@ -19,9 +19,9 @@ class NewsvisistsDataProvider extends AbstractDynamicFilterDataProvider
      *          33
      *      ],
      *      'titles' => [
-     *          'Th',
-     *          'Fr',
-     *          'Now'
+     *          'TYPO3',
+     *          'Marketing',
+     *          'Automation'
      *      ]
      *  ]
      *
@@ -30,12 +30,12 @@ class NewsvisistsDataProvider extends AbstractDynamicFilterDataProvider
      */
     public function prepareData(): void
     {
-        /** @var NewsvisitRepository $newsvisitRepository */
-        $newsvisitRepository = ObjectUtility::getObjectManager()->get(NewsvisitRepository::class);
+        /** @var SearchRepository $searchRepository */
+        $searchRepository = ObjectUtility::getObjectManager()->get(SearchRepository::class);
         $intervals = $this->filter->getIntervals();
         $frequency = (string)$intervals['frequency'];
         foreach ($intervals['intervals'] as $interval) {
-            $this->data['amounts'][] = $newsvisitRepository->getNumberOfVisitorsInTimeFrame(
+            $this->data['amounts'][] = $searchRepository->getNumberOfSearchUsersInTimeFrame(
                 $interval['start'],
                 $interval['end'],
                 $this->filter

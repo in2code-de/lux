@@ -408,6 +408,9 @@
 			<trans-unit id="module.analysis.linkListeners">
 				<source>Link listeners</source>
 			</trans-unit>
+			<trans-unit id="module.analysis.search">
+				<source>Search</source>
+			</trans-unit>
 			<trans-unit id="module.analysis.content.page">
 				<source>Page</source>
 			</trans-unit>
@@ -684,6 +687,18 @@
 			</trans-unit>
 			<trans-unit id="module.list.newsvisits">
 				<source>Newsvisits</source>
+			</trans-unit>
+			<trans-unit id="module.list.search">
+				<source>Search</source>
+			</trans-unit>
+			<trans-unit id="module.list.search.label">
+				<source>Search used</source>
+			</trans-unit>
+			<trans-unit id="module.list.search.term">
+				<source>Searchterm</source>
+			</trans-unit>
+			<trans-unit id="module.list.search.amount">
+				<source>Amount</source>
 			</trans-unit>
 			<trans-unit id="module.list.filter">
 				<source>Filter Leads</source>

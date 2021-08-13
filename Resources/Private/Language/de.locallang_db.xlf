@@ -536,6 +536,10 @@
 				<source>Link listeners</source>
 				<target state="translated">Link Listeners</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.search">
+				<source>Search</source>
+				<target state="translated">Suche</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.content.page">
 				<source>Page</source>
 				<target state="translated">Seite</target>
@@ -900,6 +904,22 @@
 			<trans-unit id="module.list.newsvisits">
 				<source>Newsvisits</source>
 				<target state="translated">Newsaufrufe</target>
+			</trans-unit>
+			<trans-unit id="module.list.search">
+				<source>Search</source>
+				<target state="translated">Suche</target>
+			</trans-unit>
+			<trans-unit id="module.list.search.label">
+				<source>Search used</source>
+				<target state="translated">Suche benutzt</target>
+			</trans-unit>
+			<trans-unit id="module.list.search.term">
+				<source>Searchterm</source>
+				<target state="translated">Suchbegriff</target>
+			</trans-unit>
+			<trans-unit id="module.list.search.amount">
+				<source>Amount</source>
+				<target state="translated">Anzahl</target>
 			</trans-unit>
 			<trans-unit id="module.list.filter">
 				<source>Filter Leads</source>
