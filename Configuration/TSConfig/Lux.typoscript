@@ -42,3 +42,9 @@ TCEMAIN.linkHandler.luxlinklistener {
 
   scanAfter = page
 }
+
+
+# RTE configuration (allow email4link and linklistener data attributes to be set via ckeditor)
+RTE.default.proc.entryHTMLparser_db.tags {
+  a.allowedAttribs := addToList(data-lux-email4link-sendemail,data-lux-email4link-text,data-lux-email4link-title,data-lux-linklistener)
+}

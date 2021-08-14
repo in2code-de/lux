@@ -9,8 +9,7 @@ editor:
       resource: 'EXT:lux/Resources/Public/JavaScript/Static/CkEditorPlugins/luxEmail4Link/plugin.js'
 
   config:
-
-    allowedContent: true
+    extraAllowedContent: 'a[data-*];'
     contentsCss: ['EXT:lux/Resources/Public/Css/Modules.min.css']
 
     toolbarGroups:
