@@ -167,11 +167,19 @@ class VisitorRepository extends AbstractRepository
      */
     public function findByVisitedPageIdentifier(int $pageIdentifier): QueryResultInterface
     {
+        /**
+         * Normal extbase query building failed on some db server because of extbase bug:
+         * https://forge.typo3.org/issues/94899
+         */
         $query = $this->createQuery();
-        $query->matching($query->equals('pagevisits.page', $pageIdentifier));
-        $query->setLimit(3);
-        $query->setOrderings(['pagevisits.tstamp' => QueryInterface::ORDER_DESCENDING]);
-        return $query->execute();
+//        $query->matching($query->equals('pagevisits.page', $pageIdentifier));
+//        $query->setLimit(3);
+//        $query->setOrderings(['pagevisits.tstamp' => QueryInterface::ORDER_DESCENDING]);
+        $sql = 'select v.*, pv.tstamp';
+        $sql .= ' from ' . Visitor::TABLE_NAME . ' v left join ' . Pagevisit::TABLE_NAME . ' pv on v.uid=pv.visitor';
+        $sql .= ' where pv.page=' . (int)$pageIdentifier . ' and v.deleted=0 and pv.deleted=0';
+        $sql .= ' order by pv.tstamp DESC limit 3';
+        return $query->statement($sql)->execute();
     }
 
     /**
