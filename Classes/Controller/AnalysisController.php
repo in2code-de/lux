@@ -3,6 +3,7 @@ declare(strict_types = 1);
 namespace In2code\Lux\Controller;
 
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\DataProvider\AllLinkclickDataProvider;
 use In2code\Lux\Domain\DataProvider\BrowserAmountDataProvider;
 use In2code\Lux\Domain\DataProvider\DomainDataProvider;
@@ -13,6 +14,7 @@ use In2code\Lux\Domain\DataProvider\LanguagesNewsDataProvider;
 use In2code\Lux\Domain\DataProvider\LinkclickDataProvider;
 use In2code\Lux\Domain\DataProvider\NewsvisistsDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
+use In2code\Lux\Domain\DataProvider\SearchDataProvider;
 use In2code\Lux\Domain\DataProvider\SocialMediaDataProvider;
 use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\News;
@@ -154,6 +156,31 @@ class AnalysisController extends AbstractController
     }
 
     /**
+     * @return void
+     * @throws InvalidArgumentNameException
+     * @throws NoSuchArgumentException
+     */
+    public function initializeSearchAction(): void
+    {
+        $this->setFilterExtended();
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @return void
+     * @throws Exception|ExceptionDbal
+     */
+    public function searchAction(FilterDto $filter): void
+    {
+        $this->view->assignMultiple([
+            'filter' => $filter,
+            'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
+            'searchData' => ObjectUtility::getObjectManager()->get(SearchDataProvider::class, $filter),
+            'search' => $this->searchRepository->findCombinedBySearchIdentifier($filter),
+        ]);
+    }
+
+    /**
      * @param Linklistener $linkListener
      * @return void
      * @throws IllegalObjectTypeException
@@ -226,6 +253,21 @@ class AnalysisController extends AbstractController
     }
 
     /**
+     * @param string $searchterm
+     * @return void
+     * @throws Exception
+     */
+    public function detailSearchAction(string $searchterm): void
+    {
+        $filter = ObjectUtility::getFilterDto()->setSearchterm($searchterm);
+        $this->view->assignMultiple([
+            'searchterm' => $searchterm,
+            'searchData' => ObjectUtility::getObjectManager()->get(SearchDataProvider::class, $filter),
+            'searches' => $this->searchRepository->findBySearchterm(urldecode($searchterm))
+        ]);
+    }
+
+    /**
      * AJAX action to show a detail view
      *
      * @param ServerRequestInterface $request
@@ -278,6 +320,34 @@ class AnalysisController extends AbstractController
             'news' => $news,
             'newsvisits' => $news !== null ? $this->newsvisitRepository->findByNews($news, 10) : null,
             'newsvisitsData' => ObjectUtility::getObjectManager()->get(NewsvisistsDataProvider::class, $filter)
+        ]);
+        $response = ObjectUtility::getObjectManager()->get(JsonResponse::class);
+        /** @var StreamInterface $stream */
+        $stream = $response->getBody();
+        $stream->write(json_encode(['html' => $standaloneView->render()]));
+        return $response;
+    }
+
+    /**
+     * AJAX action to show a detail view for news
+     *
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     * @throws Exception
+     * @noinspection PhpUnused
+     */
+    public function detailSearchAjaxPage(ServerRequestInterface $request): ResponseInterface
+    {
+        $standaloneView = ObjectUtility::getStandaloneView();
+        $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
+            'EXT:lux/Resources/Private/Templates/Analysis/SearchDetailPageAjax.html'
+        ));
+        $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
+        $standaloneView->assignMultiple([
+            'searches' => $this->searchRepository->findBySearchterm(
+                urldecode($request->getQueryParams()['searchterm'])
+            ),
+            'searchterm' => $request->getQueryParams()['searchterm']
         ]);
         $response = ObjectUtility::getObjectManager()->get(JsonResponse::class);
         /** @var StreamInterface $stream */

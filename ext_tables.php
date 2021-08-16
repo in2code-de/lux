@@ -55,8 +55,8 @@ call_user_func(
                 'analysis',
                 '',
                 [
-                    'Analysis' => 'dashboard,content,news,linkListener,deleteLinkListener,detailPage,detailNews' .
-                        ',detailDownload,detailLinkListener,resetFilter',
+                    'Analysis' => 'dashboard,content,news,linkListener,search,deleteLinkListener,detailPage' .
+                        ',detailNews,detailSearch,detailDownload,detailLinkListener,resetFilter',
                     'Lead' => 'dashboard,list,detail,downloadCsv,remove,deactivate,resetFilter',
                     'General' => 'information'
                 ],
