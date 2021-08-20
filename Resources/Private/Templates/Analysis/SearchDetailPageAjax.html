@@ -18,7 +18,7 @@
                 </thead>
                 <tbody>
                 <f:for each="{searches}" as="search">
-                    <tr>
+                    <tr data-identifier-search="{search.uid}">
                         <td><span title="{search.searchterm}"><f:format.crop maxCharacters="35" append="...">{search.searchterm}</f:format.crop></span></td>
                         <td>
                             <span title="UID{search.visitor.uid}">{search.visitor.fullName}</span>
