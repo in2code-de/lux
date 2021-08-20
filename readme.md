@@ -209,6 +209,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 16.0.1     | 2021-08-20 | Task       | Adjust lux icon size in frontend for email4link lightbox to a smaller variant.                                                                                                             |
 | 16.0.0     | 2021-08-16 | Feature    | Add a search view for a websearch analysis. Harden RTE default configuration.                                                                                                              |
 | 15.3.1     | 2021-08-16 | Bugfix     | Fix SQL error "Expression #1 of ORDER BY clause is not in SELECT list" on some circumstances.                                                                                              |
 | 15.3.0     | 2021-08-12 | Task       | Show a "powered by Lux" in email4link if luxenterprise is not installed. Also show a "go enterprise" in page module.                                                                       |
