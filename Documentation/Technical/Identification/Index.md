@@ -275,7 +275,7 @@ editor:
 
   config:
 
-    allowedContent: true
+    extraAllowedContent: 'a[data-*];'
     contentsCss: ['EXT:lux/Resources/Public/Css/Modules.min.css']
 
     toolbarGroups:
