@@ -12,7 +12,7 @@
         <f:render section="{view}Title" arguments="{_all}"/>
     </h4>
 
-    <div data-lux-toggle-target="target" class="row{f:if(condition:'{status} == \'close\'',then:' hide')}">
+    <div data-lux-toggle-target="target" class="{f:if(condition:'{status} == \'close\'',then:' hide')}">
         <f:render section="{view}" arguments="{_all}"/>
     </div>
 
@@ -25,9 +25,17 @@
 
 <f:section name="analysisTitle">
     <img src="{f:uri.resource(path:'Icons/lux.svg?hash=123',extensionName:'lux')}" height="30" />
-    <span title="250 Seitenbesuche in den letzten 7 Tagen" style="cursor:pointer;" data-lux-toggle="target">
-        250 Seitenbesuche / 44 Abbrüche
-        <img src="{f:uri.resource(path:'Icons/increase.svg',extensionName:'lux')}" height="15" title="12 Seitenbesuche mehr als in Vorwoche" />
+    <span title="{visits} Seitenbesuche in den letzten 7 Tagen" style="cursor:pointer;" data-lux-toggle="target">
+        {visits} Seitenbesuche / {abandons} Abbrüche
+
+        <f:if condition="{delta} >= 0">
+            <f:then>
+                <img src="{f:uri.resource(path:'Icons/increase.svg',extensionName:'lux')}" height="15" title="{delta} Seitenbesuche mehr als in Vorwoche" />
+            </f:then>
+            <f:else>
+                <img src="{f:uri.resource(path:'Icons/decrease.svg',extensionName:'lux')}" height="15" title="{delta} Seitenbesuche weniger als in Vorwoche" />
+            </f:else>
+        </f:if>
         <i class="fa {f:if(condition:'{status} == "close"',then:'fa-chevron-up', else:'fa-chevron-down')}" style="cursor: pointer; margin-left: 5px;"></i>
     </span>
 </f:section>
@@ -35,147 +43,140 @@
 
 
 <f:section name="analysis">
-    <div class="col-md-4">
-        <h4>Einstieg</h4>
-        <div class="row">
-            <div class="col-md-6">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <td colspan="2"><strong>von intern</strong></td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Start</td>
-                        <td style="width:5%;">12</td>
-                    </tr>
-                    <tr>
-                        <td>Lux</td>
-                        <td>12</td>
-                    </tr>
-                    <tr>
-                        <td>Kontakt</td>
-                        <td>12</td>
-                    </tr>
-                    <tr>
-                        <td>Content Publisher</td>
-                        <td>12</td>
-                    </tr>
-                    <tr>
-                        <td>Impressum</td>
-                        <td>12</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-md-6">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <td colspan="2"><strong>von extern</strong></td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Google International</td>
-                        <td style="width:5%;">12</td>
-                    </tr>
-                    <tr>
-                        <td>Twitter</td>
-                        <td>12</td>
-                    </tr>
-                    <tr>
-                        <td>Facebook</td>
-                        <td>12</td>
-                    </tr>
-                    <tr>
-                        <td>Instagram</td>
-                        <td>12</td>
-                    </tr>
-                    <tr>
-                        <td>www.blogpost.com</td>
-                        <td>12</td>
-                    </tr>
-                    </tbody>
-                </table>
+    <div class="row" style="background-color: #fafafa; border-top: 1px solid #cdcdcd; border-bottom: 1px solid #cdcdcd; padding: 5px; margin: 5px;">
+        <div class="col-md-4">
+            <h4>Einstieg</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <td colspan="2"><strong>von intern</strong></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <f:for each="{gotin}" as="data">
+                            <tr>
+                                <td title="{data.title}"><f:format.crop maxCharacters="30" append="...">{data.title}</f:format.crop></td>
+                                <td style="width:5%;">{data.amount}</td>
+                            </tr>
+                        </f:for>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <td colspan="2"><strong>von extern</strong></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Google International</td>
+                            <td style="width:5%;">12</td>
+                        </tr>
+                        <tr>
+                            <td>Twitter</td>
+                            <td>12</td>
+                        </tr>
+                        <tr>
+                            <td>Facebook</td>
+                            <td>12</td>
+                        </tr>
+                        <tr>
+                            <td>Instagram</td>
+                            <td>12</td>
+                        </tr>
+                        <tr>
+                            <td>www.blogpost.com</td>
+                            <td>12</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-4">
-        <h4>Ausstieg</h4>
-        <div class="row">
-            <div class="col-md-6">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <td colspan="2"><strong>nach intern</strong></td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Start</td>
-                        <td style="width:5%;">12</td>
-                    </tr>
-                    <tr>
-                        <td>Lux</td>
-                        <td>12</td>
-                    </tr>
-                    <tr>
-                        <td>Kontakt</td>
-                        <td>12</td>
-                    </tr>
-                    <tr>
-                        <td>Content Publisher</td>
-                        <td>12</td>
-                    </tr>
-                    <tr>
-                        <td>Impressum</td>
-                        <td>12</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-md-6">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <td colspan="2"><strong>Weiteres</strong></td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Downloads</td>
-                        <td style="width:5%;">12</td>
-                    </tr>
-                    <tr>
-                        <td>Conversions</td>
-                        <td>2</td>
-                    </tr>
-                    <tr>
-                        <td>Besucher aktuell</td>
-                        <td>250</td>
-                    </tr>
-                    <tr>
-                        <td>Besucher Vorwoche</td>
-                        <td>222</td>
-                    </tr>
-                    <tr>
-                        <td>Linklistener Klicks</td>
-                        <td>13</td>
-                    </tr>
-                    </tbody>
-                </table>
+        <div class="col-md-4">
+            <h4>Ausstieg</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <td colspan="2"><strong>nach intern</strong></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Start</td>
+                            <td style="width:5%;">12</td>
+                        </tr>
+                        <tr>
+                            <td>Lux</td>
+                            <td>12</td>
+                        </tr>
+                        <tr>
+                            <td>Kontakt</td>
+                            <td>12</td>
+                        </tr>
+                        <tr>
+                            <td>Content Publisher</td>
+                            <td>12</td>
+                        </tr>
+                        <tr>
+                            <td>Impressum</td>
+                            <td>12</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <td colspan="2"><strong>Weiteres</strong></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Downloads</td>
+                            <td style="width:5%;">12</td>
+                        </tr>
+                        <tr>
+                            <td>Conversions</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>Besucher aktuell</td>
+                            <td>250</td>
+                        </tr>
+                        <tr>
+                            <td>Besucher Vorwoche</td>
+                            <td>222</td>
+                        </tr>
+                        <tr>
+                            <td>Linklistener Klicks</td>
+                            <td>13</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-4">
-        <h4>Seitenaufrufe</h4>
-        <canvas width="550"
-                height="220"
-                data-chart="line"
-                data-chart-data="12,120,100,98,153,99,55"
-                data-chart-labels="Mo,Di,Mi,Do,Fr,Sa,So"></canvas>
+        <div class="col-md-4">
+            <f:if condition="{numberOfVisitorsData.dataAvailable}">
+                <h4>
+                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.pagevisits">Page visits</f:translate>
+                </h4>
+                <canvas width="550"
+                        height="220"
+                        data-chart="line"
+                        data-chart-data="{numberOfVisitorsData.amountsList}"
+                        data-chart-label="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.pagevisits.label')}"
+                        data-chart-labels="{numberOfVisitorsData.titlesList}"></canvas>
+            </f:if>
+        </div>
     </div>
 </f:section>
 
@@ -192,53 +193,55 @@
 
 
 <f:section name="leads">
-    <f:for each="{visitors}" as="visitor">
-        <div class="col-md-4">
-            <f:be.link
-                route="lux_LuxLeads"
-                title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview.link',arguments:'{0:visitor.fullName}')}"
-                parameters="{tx_lux_lux_luxleads:'{visitor:visitor.uid,action:\'detail\',controller:\'Lead\'}'}">
+    <div class="row">
+        <f:for each="{visitors}" as="visitor">
+            <div class="col-md-4">
+                <f:be.link
+                    route="lux_LuxLeads"
+                    title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview.link',arguments:'{0:visitor.fullName}')}"
+                    parameters="{tx_lux_lux_luxleads:'{visitor:visitor.uid,action:\'detail\',controller:\'Lead\'}'}">
 
-                <div class="lux-pageoverview-box">
-                    <div class="lux-pageoverview-box-left">
-                        <img
-                            src="{visitor.imageUrl}"
-                            alt="{visitor.fullName}"
-                            width="150"
-                            class="img-responsive lux-pageoverview-box-image" />
-                    </div>
-                    <div class="lux-pageoverview-box-right">
-                        <div class="badgearea">
-                            <span class="badge" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.scoring')}">{visitor.scoring}</span>
-                            <f:if condition="{visitor.hottestCategoryscoring}">
-                                <span class="badge badge-primary" title="{visitor.hottestCategoryscoring.category.title}">{visitor.hottestCategoryscoring.scoring}</span>
-                            </f:if>
+                    <div class="lux-pageoverview-box">
+                        <div class="lux-pageoverview-box-left">
+                            <img
+                                src="{visitor.imageUrl}"
+                                alt="{visitor.fullName}"
+                                width="150"
+                                class="img-responsive lux-pageoverview-box-image" />
                         </div>
+                        <div class="lux-pageoverview-box-right">
+                            <div class="badgearea">
+                                <span class="badge" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.scoring')}">{visitor.scoring}</span>
+                                <f:if condition="{visitor.hottestCategoryscoring}">
+                                    <span class="badge badge-primary" title="{visitor.hottestCategoryscoring.category.title}">{visitor.hottestCategoryscoring.scoring}</span>
+                                </f:if>
+                            </div>
 
-                        <p>
-                        <h3 style="margin: 0; padding: 0;">
-                            <strong title="UID{visitor.uid}">{visitor.fullName}</strong>
-                        </h3>
-                        <f:if condition="{visitor.identified}">{visitor.email}</f:if>
-                        </p>
-                        <p>
-                            {visitor.company}<br>
-                            {visitor.location}
-                        </p>
-                        <p>
-                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview.visitedpages">Visited pages:</f:translate>
-                            <strong><f:count>{visitor.pagevisits}</f:count></strong><br>
+                            <p>
+                            <h3 style="margin: 0; padding: 0;">
+                                <strong title="UID{visitor.uid}">{visitor.fullName}</strong>
+                            </h3>
+                            <f:if condition="{visitor.identified}">{visitor.email}</f:if>
+                            </p>
+                            <p>
+                                {visitor.company}<br>
+                                {visitor.location}
+                            </p>
+                            <p>
+                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview.visitedpages">Visited pages:</f:translate>
+                                <strong><f:count>{visitor.pagevisits}</f:count></strong><br>
 
-                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview.thispage">This page:</f:translate>
-                            <f:alias map="{pagevisit:'{lux:page.getLastVisitedPageByPageIdentifier(visitor:visitor,pageIdentifier:pageIdentifier)}'}">
-                                <strong title="{f:format.date(date:pagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
-                                    <lux:format.readableDate>{pagevisit.crdate}</lux:format.readableDate>
-                                </strong>
-                            </f:alias>
-                        </p>
+                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview.thispage">This page:</f:translate>
+                                <f:alias map="{pagevisit:'{lux:page.getLastVisitedPageByPageIdentifier(visitor:visitor,pageIdentifier:pageIdentifier)}'}">
+                                    <strong title="{f:format.date(date:pagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
+                                        <lux:format.readableDate>{pagevisit.crdate}</lux:format.readableDate>
+                                    </strong>
+                                </f:alias>
+                            </p>
+                        </div>
                     </div>
-                </div>
-            </f:be.link>
-        </div>
-    </f:for>
+                </f:be.link>
+            </div>
+        </f:for>
+    </div>
 </f:section>
