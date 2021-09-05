@@ -144,6 +144,11 @@ class PageOverview
             ];
             if ($view === 'analysis') {
                 $filter = ObjectUtility::getFilterDto(FilterDto::PERIOD_LAST7DAYS)->setSearchterm($pageIdentifier);
+                $delta = $this->pagevisitRepository->compareAmountPerPage(
+                    $pageIdentifier,
+                    $filter,
+                    ObjectUtility::getFilterDto(FilterDto::PERIOD_7DAYSBEFORELAST7DAYS)
+                );
                 $arguments += [
                     'visits' => $this->pagevisitRepository->findAmountPerPage($pageIdentifier, $filter),
                     'visitsLastWeek' => $this->pagevisitRepository->findAmountPerPage(
@@ -151,11 +156,8 @@ class PageOverview
                         ObjectUtility::getFilterDto(FilterDto::PERIOD_7DAYSBEFORELAST7DAYS)
                     ),
                     'abandons' => $this->pagevisitRepository->findAbandonsForPage($pageIdentifier, $filter),
-                    'delta' => $this->pagevisitRepository->compareAmountPerPage(
-                        $pageIdentifier,
-                        $filter,
-                        ObjectUtility::getFilterDto(FilterDto::PERIOD_7DAYSBEFORELAST7DAYS)
-                    ),
+                    'delta' => $delta,
+                    'deltaIconPath' => $delta >= 0 ? 'Icons/increase.svg' : 'Icons/decrease.svg',
                     'gotinInternal' => ObjectUtility::getObjectManager()->get(
                         GotinInternalDataProvider::class,
                         $filter

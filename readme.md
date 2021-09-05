@@ -208,9 +208,10 @@ At the moment it's not possible to use lux without **composer mode**!
 ## Todos 17.0
 
 * Localize
-* Cache
-* Downloads with page identifier
-* Identification with page identifier
+* Documentation
+* Cache done
+* Downloads with page identifier done
+* Identification with page identifier done
 
 ## Changelog
 

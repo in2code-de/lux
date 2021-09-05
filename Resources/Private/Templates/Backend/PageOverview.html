@@ -24,19 +24,17 @@
 
 
 <f:section name="analysisTitle">
-    <img src="{f:uri.resource(path:'Icons/lux.svg?hash=123',extensionName:'lux')}" height="30" />
-    <span title="{visits} Seitenbesuche in den letzten 7 Tagen" style="cursor:pointer;" data-lux-toggle="target">
-        {visits} Seitenbesuche / {abandons} Abbrüche
+    <img src="{f:uri.resource(path:'Icons/lux.svg?hash=123',extensionName:'lux')}" height="30" alt="Lux - Marketing Automation for TYPO3" title="Lux - Marketing Automation for TYPO3" />
 
-        <f:if condition="{delta} >= 0">
-            <f:then>
-                <img src="{f:uri.resource(path:'Icons/increase.svg',extensionName:'lux')}" height="15" title="{delta} Seitenbesuche mehr als in Vorwoche" />
-            </f:then>
-            <f:else>
-                <img src="{f:uri.resource(path:'Icons/decrease.svg',extensionName:'lux')}" height="15" title="{delta} Seitenbesuche im Vergleich zur Vorwoche" />
-            </f:else>
-        </f:if>
-        <i class="fa {f:if(condition:'{status} == "close"',then:'fa-chevron-up', else:'fa-chevron-down')}" style="cursor: pointer; margin-left: 5px;"></i>
+    <span title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.title',arguments:'{0:visits}')}" style="cursor:pointer;padding-left:10px;" data-lux-toggle="target">
+        {visits} {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.visits')}
+        <f:variable name="deltaWithPrefix" value="{f:if(condition:'{delta} >= 0',then:'+{delta}',else:delta)}"/>
+        <img src="{f:uri.resource(path:deltaIconPath,extensionName:'lux')}" height="15" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.visitsdelta',arguments:'{0:deltaWithPrefix}')}" />
+
+        <span style="padding:0 15px;">/</span>
+
+        {abandons} {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.abandons')}
+        <i class="fa {f:if(condition:'{status} == \'close\'',then:'fa-chevron-up', else:'fa-chevron-down')}" style="cursor: pointer; margin-left: 5px;"></i>
     </span>
 </f:section>
 
@@ -45,13 +43,15 @@
 <f:section name="analysis">
     <div class="row" style="background-color: #fafafa; border-top: 1px solid #cdcdcd; border-bottom: 1px solid #cdcdcd; padding: 5px; margin: 5px;">
         <div class="col-md-4">
-            <h4>Einstieg</h4>
+            <h4><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.enter">enter</f:translate></h4>
             <div class="row">
                 <div class="col-md-6">
                     <table class="table">
                         <thead>
                         <tr>
-                            <td colspan="2"><strong>von intern</strong></td>
+                            <td colspan="2">
+                                <strong><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.frominternal">from internal</f:translate></strong>
+                            </td>
                         </tr>
                         </thead>
                         <tbody>
@@ -79,7 +79,9 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <td colspan="2"><strong>von extern</strong></td>
+                            <td colspan="2">
+                                <strong><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.fromexternal">from external</f:translate></strong>
+                            </td>
                         </tr>
                         </thead>
                         <tbody>
@@ -106,13 +108,15 @@
             </div>
         </div>
         <div class="col-md-4">
-            <h4>Ausstieg</h4>
+            <h4><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.leave">leave</f:translate></h4>
             <div class="row">
                 <div class="col-md-6">
                     <table class="table">
                         <thead>
                         <tr>
-                            <td colspan="2"><strong>nach intern</strong></td>
+                            <td colspan="2">
+                                <strong><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.tointernal">to internal</f:translate></strong>
+                            </td>
                         </tr>
                         </thead>
                         <tbody>
@@ -140,7 +144,9 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <td colspan="2"><strong>Weiteres</strong></td>
+                            <td colspan="2">
+                                <strong><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.further">further</f:translate></strong>
+                            </td>
                         </tr>
                         </thead>
                         <tbody>
@@ -153,15 +159,15 @@
                             <td>{conversionAmount}</td>
                         </tr>
                         <tr>
-                            <td>Besucher aktuell</td>
+                            <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.visitorsnow">visitorsnow</f:translate></td>
                             <td>{visits}</td>
                         </tr>
                         <tr>
-                            <td>Besucher Vorwoche</td>
+                            <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.visitorsbefore">visitorsbefore</f:translate></td>
                             <td>{visitsLastWeek}</td>
                         </tr>
                         <tr>
-                            <td>Linklistener Klicks</td>
+                            <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.linklistenerclicks">linklistenerclicks</f:translate></td>
                             <td>{linkclickAmount}</td>
                         </tr>
                         </tbody>
@@ -188,7 +194,7 @@
 
 
 <f:section name="leadsTitle">
-    <img src="{f:uri.resource(path:'Icons/lux.svg?hash=123',extensionName:'lux')}" height="30" />
+    <img src="{f:uri.resource(path:'Icons/lux.svg?hash=123',extensionName:'lux')}" height="30" alt="Lux - Marketing Automation for TYPO3" title="Lux - Marketing Automation for TYPO3" />
     <span title="{lux:string.implodeOnObjectsProperty(objects:visitors,property:'fullName')}" style="cursor:pointer;" data-lux-toggle="target">
         <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview">Last visitors</f:translate>
         <i class="fa {f:if(condition:'{status} == "close"',then:'fa-chevron-up', else:'fa-chevron-down')}" style="cursor: pointer; margin-left: 5px;"></i>
