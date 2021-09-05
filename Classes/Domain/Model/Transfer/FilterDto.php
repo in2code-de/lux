@@ -21,6 +21,8 @@ class FilterDto
     const PERIOD_LASTMONTH = 3;
     const PERIOD_LASTYEAR = 4;
     const PERIOD_LAST12MONTH = 10;
+    const PERIOD_LAST7DAYS = 20;
+    const PERIOD_7DAYSBEFORELAST7DAYS = 21;
     const PERIOD_ALL = 100;
     const IDENTIFIED_ALL = -1;
     const IDENTIFIED_UNKNOWN = 0;
@@ -424,6 +426,10 @@ class FilterDto
         } elseif ($this->getTimePeriod() === self::PERIOD_LAST12MONTH) {
             $time = new \DateTime();
             $time->modify('-12 months')->setTime(0, 0, 0);
+        } elseif ($this->getTimePeriod() === self::PERIOD_LAST7DAYS) {
+            $time = new \DateTime('7 days ago midnight');
+        } elseif ($this->getTimePeriod() === self::PERIOD_7DAYSBEFORELAST7DAYS) {
+            $time = new \DateTime('14 days ago midnight');
         } else {
             $time = new \DateTime();
         }
@@ -441,6 +447,8 @@ class FilterDto
         } elseif ($this->getTimePeriod() === self::PERIOD_LASTMONTH) {
             $time = new \DateTime('last day of last month');
             $time->setTime(23, 59, 59);
+        } elseif ($this->getTimePeriod() === self::PERIOD_7DAYSBEFORELAST7DAYS) {
+            $time = new \DateTime('7 days ago midnight');
         } else {
             $time = new \DateTime();
         }

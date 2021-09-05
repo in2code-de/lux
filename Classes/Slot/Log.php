@@ -9,6 +9,8 @@ use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Service\LogService;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
+use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 
 /**
  * Class Log
@@ -34,6 +36,8 @@ class Log implements SingletonInterface
      * @param Visitor $visitor
      * @return void
      * @throws Exception
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
     public function logNewVisitor(Visitor $visitor)
     {
@@ -43,13 +47,57 @@ class Log implements SingletonInterface
     /**
      * @param Attribute $attribute
      * @param Visitor $visitor
+     * @param int $pageIdentifier
      * @return void
      * @throws Exception
-     * @noinspection PhpUnusedParameterInspection
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
-    public function logIdentifiedVisitor(Attribute $attribute, Visitor $visitor)
+    public function logIdentifiedVisitor(Attribute $attribute, Visitor $visitor, int $pageIdentifier)
     {
-        $this->logService->logIdentifiedVisitor($visitor);
+        $this->logService->logIdentifiedVisitor($visitor, $pageIdentifier);
+    }
+
+    /**
+     * @param Attribute $attribute
+     * @param Visitor $visitor
+     * @param int $pageIdentifier
+     * @return void
+     * @throws Exception
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    public function logIdentifiedVisitorByFormListening(Attribute $attribute, Visitor $visitor, int $pageIdentifier)
+    {
+        $this->logService->logIdentifiedVisitorFormListening($visitor, $pageIdentifier);
+    }
+
+    /**
+     * @param Attribute $attribute
+     * @param Visitor $visitor
+     * @param int $pageIdentifier
+     * @return void
+     * @throws Exception
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    public function logIdentifiedVisitorByEmail4Link(Attribute $attribute, Visitor $visitor, int $pageIdentifier)
+    {
+        $this->logService->logIdentifiedVisitorByEmail4Link($visitor, $pageIdentifier);
+    }
+
+    /**
+     * @param Attribute $attribute
+     * @param Visitor $visitor
+     * @param int $pageIdentifier
+     * @return void
+     * @throws Exception
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    public function logIdentifiedVisitorByLuxletterlink(Attribute $attribute, Visitor $visitor, int $pageIdentifier)
+    {
+        $this->logService->logIdentifiedVisitorByLuxletterlink($visitor, $pageIdentifier);
     }
 
     /**
@@ -59,45 +107,12 @@ class Log implements SingletonInterface
      * @throws Exception
      * @noinspection PhpUnusedParameterInspection
      */
-    public function logIdentifiedVisitorByFormListening(Attribute $attribute, Visitor $visitor)
-    {
-        $this->logService->logIdentifiedVisitorFormListening($visitor);
-    }
-
-    /**
-     * @param Attribute $attribute
-     * @param Visitor $visitor
-     * @return void
-     * @throws Exception
-     * @noinspection PhpUnusedParameterInspection
-     */
-    public function logIdentifiedVisitorByEmail4Link(Attribute $attribute, Visitor $visitor)
-    {
-        $this->logService->logIdentifiedVisitorByEmail4Link($visitor);
-    }
-
-    /**
-     * @param Attribute $attribute
-     * @param Visitor $visitor
-     * @return void
-     * @throws Exception
-     * @noinspection PhpUnusedParameterInspection
-     */
-    public function logIdentifiedVisitorByLuxletterlink(Attribute $attribute, Visitor $visitor)
-    {
-        $this->logService->logIdentifiedVisitorByLuxletterlink($visitor);
-    }
-
-    /**
-     * @param Attribute $attribute
-     * @param Visitor $visitor
-     * @return void
-     * @throws Exception
-     * @noinspection PhpUnusedParameterInspection
-     */
-    public function logIdentifiedVisitorByFrontendauthentication(Attribute $attribute, Visitor $visitor)
-    {
-        $this->logService->logIdentifiedVisitorByFrontendauthentication($visitor);
+    public function logIdentifiedVisitorByFrontendauthentication(
+        Attribute $attribute,
+        Visitor $visitor,
+        int $pageIdentifier
+    ) {
+        $this->logService->logIdentifiedVisitorByFrontendauthentication($visitor, $pageIdentifier);
     }
 
     /**

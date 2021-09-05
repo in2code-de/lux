@@ -9,14 +9,202 @@
     </lux:condition.isLuxenterpriseExtensionActivated>
 
     <h4 class="callout-title">
-        <img src="{f:uri.resource(path:'Icons/lux.svg?hash=123',extensionName:'lux')}" height="30" />
-        <span title="{lux:string.implodeOnObjectsProperty(objects:visitors,property:'fullName')}" style="cursor:pointer;" data-lux-toggle="target">
-            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview">Last visitors</f:translate>
-            <i class="fa {f:if(condition:'{status} == "close"',then:'fa-chevron-up', else:'fa-chevron-down')}" style="cursor: pointer; margin-left: 5px;"></i>
-        </span>
+        <f:render section="{view}Title" arguments="{_all}"/>
     </h4>
 
-    <div class="row{f:if(condition:'{status} == "close"',then:' hide')}" data-lux-toggle-target="target">
+    <div data-lux-toggle-target="target" class="{f:if(condition:'{status} == \'close\'',then:' hide')}">
+        <f:render section="{view}" arguments="{_all}"/>
+    </div>
+
+    <link rel="stylesheet" type="text/css" href="{f:uri.resource(path:'Css/PageOverview.min.css',extensionName:'lux')}" media="all">
+    <lux:backend.addRequireJsModule moduleName="TYPO3/CMS/Lux/Lux/Diagram.min" />
+    <script src="{f:uri.resource(path:'JavaScript/Lux/PageOverview.min.js',extensionName:'lux')}"></script>
+</f:if>
+
+
+
+<f:section name="analysisTitle">
+    <img src="{f:uri.resource(path:'Icons/lux.svg?hash=123',extensionName:'lux')}" height="30" alt="Lux - Marketing Automation for TYPO3" title="Lux - Marketing Automation for TYPO3" />
+
+    <span title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.title',arguments:'{0:visits}')}" style="cursor:pointer;padding-left:10px;" data-lux-toggle="target">
+        {visits} {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.visits')}
+        <f:variable name="deltaWithPrefix" value="{f:if(condition:'{delta} >= 0',then:'+{delta}',else:delta)}"/>
+        <img src="{f:uri.resource(path:deltaIconPath,extensionName:'lux')}" height="15" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.visitsdelta',arguments:'{0:deltaWithPrefix}')}" />
+
+        <span style="padding:0 15px;">/</span>
+
+        {abandons} {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.abandons')}
+        <i class="fa {f:if(condition:'{status} == \'close\'',then:'fa-chevron-up', else:'fa-chevron-down')}" style="cursor: pointer; margin-left: 5px;"></i>
+    </span>
+</f:section>
+
+
+
+<f:section name="analysis">
+    <div class="row" style="background-color: #fafafa; border-top: 1px solid #cdcdcd; border-bottom: 1px solid #cdcdcd; padding: 5px; margin: 5px;">
+        <div class="col-md-4">
+            <h4><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.enter">enter</f:translate></h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <td colspan="2">
+                                <strong><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.frominternal">from internal</f:translate></strong>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <f:if condition="{gotinInternal}">
+                            <f:then>
+                                <f:for each="{gotinInternal}" as="data">
+                                    <tr>
+                                        <td title="{data.title}"><f:format.crop maxCharacters="30" append="...">{data.title}</f:format.crop></td>
+                                        <td style="width:5%;">{data.amount}</td>
+                                    </tr>
+                                </f:for>
+                            </f:then>
+                            <f:else>
+                                <tr>
+                                    <td colspan="2">
+                                        <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+                                    </td>
+                                </tr>
+                            </f:else>
+                        </f:if>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <td colspan="2">
+                                <strong><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.fromexternal">from external</f:translate></strong>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <f:if condition="{gotinExternal}">
+                            <f:then>
+                                <f:for each="{gotinExternal}" as="amount" key="name">
+                                    <tr>
+                                        <td title="{name}"><f:format.crop maxCharacters="30" append="...">{name}</f:format.crop></td>
+                                        <td style="width:5%;">{amount}</td>
+                                    </tr>
+                                </f:for>
+                            </f:then>
+                            <f:else>
+                                <tr>
+                                    <td colspan="2">
+                                        <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+                                    </td>
+                                </tr>
+                            </f:else>
+                        </f:if>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h4><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.leave">leave</f:translate></h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <td colspan="2">
+                                <strong><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.tointernal">to internal</f:translate></strong>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <f:if condition="{gotoutInternal}">
+                            <f:then>
+                                <f:for each="{gotoutInternal}" as="data">
+                                    <tr>
+                                        <td title="{data.title}"><f:format.crop maxCharacters="30" append="...">{data.title}</f:format.crop></td>
+                                        <td style="width:5%;">{data.amount}</td>
+                                    </tr>
+                                </f:for>
+                            </f:then>
+                            <f:else>
+                                <tr>
+                                    <td colspan="2">
+                                        <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+                                    </td>
+                                </tr>
+                            </f:else>
+                        </f:if>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <td colspan="2">
+                                <strong><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.further">further</f:translate></strong>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Downloads</td>
+                            <td style="width:5%;">{downloadAmount}</td>
+                        </tr>
+                        <tr>
+                            <td>Conversions</td>
+                            <td>{conversionAmount}</td>
+                        </tr>
+                        <tr>
+                            <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.visitorsnow">visitorsnow</f:translate></td>
+                            <td>{visits}</td>
+                        </tr>
+                        <tr>
+                            <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.visitorsbefore">visitorsbefore</f:translate></td>
+                            <td>{visitsLastWeek}</td>
+                        </tr>
+                        <tr>
+                            <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.linklistenerclicks">linklistenerclicks</f:translate></td>
+                            <td>{linkclickAmount}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <f:if condition="{numberOfVisitorsData.dataAvailable}">
+                <h4>
+                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.pagevisits">Page visits</f:translate>
+                </h4>
+                <canvas width="550"
+                        height="220"
+                        data-chart="line"
+                        data-chart-data="{numberOfVisitorsData.amountsList}"
+                        data-chart-label="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.pagevisits.label')}"
+                        data-chart-labels="{numberOfVisitorsData.titlesList}"></canvas>
+            </f:if>
+        </div>
+    </div>
+</f:section>
+
+
+
+<f:section name="leadsTitle">
+    <img src="{f:uri.resource(path:'Icons/lux.svg?hash=123',extensionName:'lux')}" height="30" alt="Lux - Marketing Automation for TYPO3" title="Lux - Marketing Automation for TYPO3" />
+    <span title="{lux:string.implodeOnObjectsProperty(objects:visitors,property:'fullName')}" style="cursor:pointer;" data-lux-toggle="target">
+        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview">Last visitors</f:translate>
+        <i class="fa {f:if(condition:'{status} == "close"',then:'fa-chevron-up', else:'fa-chevron-down')}" style="cursor: pointer; margin-left: 5px;"></i>
+    </span>
+</f:section>
+
+
+
+<f:section name="leads">
+    <div class="row">
         <f:for each="{visitors}" as="visitor">
             <div class="col-md-4">
                 <f:be.link
@@ -41,10 +229,10 @@
                             </div>
 
                             <p>
-                                <h3 style="margin: 0; padding: 0;">
-                                    <strong title="UID{visitor.uid}">{visitor.fullName}</strong>
-                                </h3>
-                                <f:if condition="{visitor.identified}">{visitor.email}</f:if>
+                            <h3 style="margin: 0; padding: 0;">
+                                <strong title="UID{visitor.uid}">{visitor.fullName}</strong>
+                            </h3>
+                            <f:if condition="{visitor.identified}">{visitor.email}</f:if>
                             </p>
                             <p>
                                 {visitor.company}<br>
@@ -67,7 +255,4 @@
             </div>
         </f:for>
     </div>
-
-    <link rel="stylesheet" type="text/css" href="{f:uri.resource(path:'Css/PageOverview.min.css',extensionName:'lux')}" media="all">
-    <script src="{f:uri.resource(path:'JavaScript/Lux/PageOverview.min.js',extensionName:'lux')}"></script>
-</f:if>
+</f:section>

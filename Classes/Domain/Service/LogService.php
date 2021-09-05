@@ -33,62 +33,67 @@ class LogService
 
     /**
      * @param Visitor $visitor
+     * @param int $pageIdentifier
      * @return void
      * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
-    public function logIdentifiedVisitor(Visitor $visitor): void
+    public function logIdentifiedVisitor(Visitor $visitor, int $pageIdentifier): void
     {
-        $this->log(Log::STATUS_IDENTIFIED, $visitor);
+        $this->log(Log::STATUS_IDENTIFIED, $visitor, ['pageUid' => $pageIdentifier]);
     }
 
     /**
      * @param Visitor $visitor
+     * @param int $pageIdentifier
      * @return void
      * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
-    public function logIdentifiedVisitorFormListening(Visitor $visitor): void
+    public function logIdentifiedVisitorFormListening(Visitor $visitor, int $pageIdentifier): void
     {
-        $this->log(Log::STATUS_IDENTIFIED_FORMLISTENING, $visitor);
+        $this->log(Log::STATUS_IDENTIFIED_FORMLISTENING, $visitor, ['pageUid' => $pageIdentifier]);
     }
 
     /**
      * @param Visitor $visitor
+     * @param int $pageIdentifier
      * @return void
      * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
-    public function logIdentifiedVisitorByEmail4Link(Visitor $visitor): void
+    public function logIdentifiedVisitorByEmail4Link(Visitor $visitor, int $pageIdentifier): void
     {
-        $this->log(Log::STATUS_IDENTIFIED_EMAIL4LINK, $visitor);
+        $this->log(Log::STATUS_IDENTIFIED_EMAIL4LINK, $visitor, ['pageUid' => $pageIdentifier]);
     }
 
     /**
      * @param Visitor $visitor
+     * @param int $pageIdentifier
      * @return void
      * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
-    public function logIdentifiedVisitorByLuxletterlink(Visitor $visitor): void
+    public function logIdentifiedVisitorByLuxletterlink(Visitor $visitor, int $pageIdentifier): void
     {
-        $this->log(Log::STATUS_IDENTIFIED_LUXLETTERLINK, $visitor);
+        $this->log(Log::STATUS_IDENTIFIED_LUXLETTERLINK, $visitor, ['pageUid' => $pageIdentifier]);
     }
 
     /**
      * @param Visitor $visitor
+     * @param int $pageIdentifier
      * @return void
      * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
-    public function logIdentifiedVisitorByFrontendauthentication(Visitor $visitor): void
+    public function logIdentifiedVisitorByFrontendauthentication(Visitor $visitor, int $pageIdentifier): void
     {
-        $this->log(Log::STATUS_IDENTIFIED_FRONTENDAUTHENTICATION, $visitor);
+        $this->log(Log::STATUS_IDENTIFIED_FRONTENDAUTHENTICATION, $visitor, ['pageUid' => $pageIdentifier]);
     }
 
     /**

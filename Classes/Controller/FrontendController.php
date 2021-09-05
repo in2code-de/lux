@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Controller;
 
+use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Factory\VisitorFactory;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Service\Email\SendAssetEmail4LinkService;
@@ -14,12 +15,17 @@ use In2code\Lux\Domain\Tracker\NewsTracker;
 use In2code\Lux\Domain\Tracker\PageTracker;
 use In2code\Lux\Domain\Tracker\SearchTracker;
 use In2code\Lux\Exception\ActionNotAllowedException;
+use In2code\Lux\Exception\EmailValidationException;
 use In2code\Lux\Signal\SignalTrait;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
+use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
+use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
+use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
 
 /**
  * Class FrontendController
@@ -77,7 +83,7 @@ class FrontendController extends ActionController
     {
         try {
             $visitor = $this->getVisitor($identificator);
-            $this->callAdditionalTrackers($visitor);
+            $this->callAdditionalTrackers($visitor, $arguments);
             $pageTracker = $this->objectManager->get(PageTracker::class);
             $pagevisit = $pageTracker->track($visitor, $arguments);
             $newsTracker = $this->objectManager->get(NewsTracker::class);
@@ -105,7 +111,8 @@ class FrontendController extends ActionController
             $attributeTracker = $this->objectManager->get(
                 AttributeTracker::class,
                 $visitor,
-                AttributeTracker::CONTEXT_FIELDLISTENING
+                AttributeTracker::CONTEXT_FIELDLISTENING,
+                (int)$arguments['pageUid']
             );
             $attributeTracker->addAttribute($arguments['key'], $arguments['value']);
             return json_encode($this->afterAction($visitor));
@@ -130,7 +137,8 @@ class FrontendController extends ActionController
             $attributeTracker = $this->objectManager->get(
                 AttributeTracker::class,
                 $visitor,
-                AttributeTracker::CONTEXT_FORMLISTENING
+                AttributeTracker::CONTEXT_FORMLISTENING,
+                (int)$arguments['pageUid']
             );
             $attributeTracker->addAttributes($values);
             return json_encode($this->afterAction($visitor));
@@ -154,7 +162,8 @@ class FrontendController extends ActionController
             $attributeTracker = $this->objectManager->get(
                 AttributeTracker::class,
                 $visitor,
-                AttributeTracker::CONTEXT_EMAIL4LINK
+                AttributeTracker::CONTEXT_EMAIL4LINK,
+                (int)$arguments['pageUid']
             );
             $values = json_decode((string)$arguments['values'], true);
             $allowedFields = GeneralUtility::trimExplode(
@@ -166,7 +175,7 @@ class FrontendController extends ActionController
 
             /** @noinspection PhpParamsInspection */
             $downloadTracker = $this->objectManager->get(DownloadTracker::class, $visitor);
-            $downloadTracker->addDownload($arguments['href']);
+            $downloadTracker->addDownload($arguments['href'], (int)$arguments['pageUid']);
             if ($arguments['sendEmail'] === 'true') {
                 /** @noinspection PhpParamsInspection */
                 $this->objectManager->get(SendAssetEmail4LinkService::class, $visitor, $this->settings)
@@ -191,7 +200,7 @@ class FrontendController extends ActionController
             $visitor = $this->getVisitor($identificator);
             /** @noinspection PhpParamsInspection */
             $downloadTracker = $this->objectManager->get(DownloadTracker::class, $visitor);
-            $downloadTracker->addDownload($arguments['href']);
+            $downloadTracker->addDownload($arguments['href'], (int)$arguments['pageUid']);
             return json_encode($this->afterAction($visitor));
         } catch (\Exception $exception) {
             return json_encode($this->getError($exception));
@@ -253,18 +262,32 @@ class FrontendController extends ActionController
      * - luxletter-link
      *
      * @param Visitor $visitor
+     * @param array $arguments
      * @return void
+     * @throws Exception
+     * @throws DBALException
+     * @throws EmailValidationException
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     * @throws InvalidSlotException
+     * @throws InvalidSlotReturnException
      */
-    protected function callAdditionalTrackers(Visitor $visitor): void
+    protected function callAdditionalTrackers(Visitor $visitor, array $arguments): void
     {
         /** @noinspection PhpParamsInspection */
-        $authTracker = $this->objectManager->get(FrontenduserAuthenticationTracker::class, $visitor);
+        $authTracker = $this->objectManager->get(
+            FrontenduserAuthenticationTracker::class,
+            $visitor,
+            (int)$arguments['pageUid']
+        );
         $authTracker->trackByFrontenduserAuthentication();
+
         /** @noinspection PhpParamsInspection */
         $luxletterTracker = $this->objectManager->get(
             LuxletterlinkAttributeTracker::class,
             $visitor,
-            AttributeTracker::CONTEXT_LUXLETTERLINK
+            AttributeTracker::CONTEXT_LUXLETTERLINK,
+            (int)$arguments['pageUid']
         );
         $luxletterTracker->trackFromLuxletterLink();
     }

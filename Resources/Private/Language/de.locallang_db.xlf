@@ -515,6 +515,62 @@
 				<source>This page:</source>
 				<target state="translated">Diese Seite:</target>
 			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis">
+				<source>Analysis of this page</source>
+				<target state="translated">Analyse dieser Seite</target>
+			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis.title">
+				<source>%d page visits within the last 7 days</source>
+				<target state="translated">%d Seitenbesuche in den letzten 7 Tage</target>
+			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis.visits">
+				<source>Page visits</source>
+				<target state="translated">Seitenbesuche</target>
+			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis.abandons">
+				<source>Abandons</source>
+				<target state="translated">Abbrüche</target>
+			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis.visitsdelta">
+				<source>%d page visits compared to the last week</source>
+				<target state="translated">%d Seitenbesuche im Vergleich zur Vorwoche</target>
+			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis.enter">
+				<source>Enter</source>
+				<target state="translated">Einstieg</target>
+			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis.leave">
+				<source>Leave</source>
+				<target state="translated">Ausstieg</target>
+			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis.frominternal">
+				<source>from internal</source>
+				<target state="translated">Von intern</target>
+			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis.fromexternal">
+				<source>from external</source>
+				<target state="translated">Von extern</target>
+			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis.tointernal">
+				<source>to internal</source>
+				<target state="translated">Nach intern</target>
+			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis.further">
+				<source>more</source>
+				<target state="translated">Weiteres</target>
+			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis.visitorsnow">
+				<source>Current visitors</source>
+				<target state="translated">Besucher aktuell</target>
+			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis.visitorsbefore">
+				<source>Visitors last week</source>
+				<target state="translated">Besucher Vorwoche</target>
+			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis.linklistenerclicks">
+				<source>Linklistener clicks</source>
+				<target state="translated">Linklistener Klicks</target>
+			</trans-unit>
 
 			<trans-unit id="module.analysis.dashboard">
 				<source>Dashboard</source>

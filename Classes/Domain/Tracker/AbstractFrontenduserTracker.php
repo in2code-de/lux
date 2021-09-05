@@ -30,16 +30,26 @@ abstract class AbstractFrontenduserTracker
     protected $context = AttributeTracker::CONTEXT_FRONTENDUSER;
 
     /**
+     * @var int
+     */
+    protected $pageIdentifier = 0;
+
+    /**
      * AbstractFrontenduserTracker constructor.
      * @param Visitor $visitor
      * @param string $context
+     * @param int $pageIdentifier
      */
-    public function __construct(Visitor $visitor, string $context = '')
-    {
+    public function __construct(
+        Visitor $visitor,
+        string $context = '',
+        int $pageIdentifier = 0
+    ) {
         $this->visitor = $visitor;
         if ($context !== '') {
             $this->context = $context;
         }
+        $this->pageIdentifier = $pageIdentifier;
     }
 
     /**
@@ -72,7 +82,8 @@ abstract class AbstractFrontenduserTracker
         $attributeTracker = ObjectUtility::getObjectManager()->get(
             AttributeTracker::class,
             $this->visitor,
-            $this->context
+            $this->context,
+            $this->pageIdentifier
         );
         $attributeTracker->addAttribute('email', $user->getEmail());
     }

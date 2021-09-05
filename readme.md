@@ -49,33 +49,6 @@ Ask for the visitors email-address when he/she wants to download an asset:\
 \
 ![Email for Link with CKEditor](Documentation/Images/screenshot_email4link_ckeditor_plugin.png "with CKeditor")
 
-## What's new
-
-### in 9.0.0
-
-* Lux introduced Link Listeners with Frontend and Backend functionality
-** Use an additional analyses module for Link Listeners
-** Increase category scoring for visitors when clicking on a "call to action"
-
-### in 8.0.0
-
-* TYPO3 language will be tracked now
-* News (tx_news) visits will be tracked now
-* Domains will be saved now (for multi-domain usage)
-* Full dynamical diagrams in all views with filters
-* A general UX update for nearly all views
-* Multiple referrers can be stored now (see upgrade wizard)
-* Images from leads are now cached for better performance
-
-### in 7.0.0
-
-* TYPO3 10 general support (with new TypoScript conditions, symfony Commands, MailMessage class for 9 and 10)
-* Replace cookieID with fingerprinting method (no more cookies for identification) - multi domain and platform identification
-* Replace functional cookies with local storage records (no more functional cookies)
-* Add a lot of dashboard widgets
-* Performance feature
-* Update documentation with new stuff
-
 ## Documentation
 
 See the full [documentation](Documentation/Index.md) (technical, marketing and privacy)
@@ -209,6 +182,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 17.0.0     | 2021-09-05 | Feature    | Add a complete new page overview layout with important information to improve content.                                                                                                     |
 | 16.0.2     | 2021-08-20 | Task       | Update disallowed mail providers, update documentation.                                                                                                                                    |
 | 16.0.1     | 2021-08-20 | Task       | Adjust lux icon size in frontend for email4link lightbox to a smaller variant.                                                                                                             |
 | 16.0.0     | 2021-08-16 | Feature    | Add a search view for a websearch analysis. Harden RTE default configuration.                                                                                                              |

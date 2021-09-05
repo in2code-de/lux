@@ -87,9 +87,36 @@ class LogRepository extends AbstractRepository
     public function findByStatusAmount(int $status, FilterDto $filter): int
     {
         $connection = DatabaseUtility::getConnectionForTable(Log::TABLE_NAME);
-        $query = 'select count(uid) from ' . Log::TABLE_NAME . ' where status=' . (int)$status
+        $query = 'select count(*) from ' . Log::TABLE_NAME . ' where status=' . (int)$status
             . $this->extendWhereClauseWithFilterTime($filter);
         return (int)$connection->executeQuery($query)->fetchColumn();
+    }
+
+    /**
+     * @param int $pageIdentifier
+     * @param FilterDto $filter
+     * @return int
+     */
+    public function findAmountOfIdentifiedLogsByPageIdentifierAndTimeFrame(int $pageIdentifier, FilterDto $filter): int
+    {
+        $identifiedStatus = [
+            Log::STATUS_IDENTIFIED,
+            Log::STATUS_IDENTIFIED_EMAIL4LINK,
+            Log::STATUS_IDENTIFIED_FORMLISTENING,
+            Log::STATUS_IDENTIFIED_FRONTENDAUTHENTICATION,
+            Log::STATUS_IDENTIFIED_LUXLETTERLINK
+        ];
+        try {
+            $connection = DatabaseUtility::getConnectionForTable(Log::TABLE_NAME);
+            $query = 'select count(*) from ' . Log::TABLE_NAME
+                . ' where status in (' . implode(',', $identifiedStatus) . ')'
+                . ' and JSON_EXTRACT(properties, "$.pageUid") = ' . (int)$pageIdentifier
+                . $this->extendWhereClauseWithFilterTime($filter);
+            return (int)$connection->executeQuery($query)->fetchColumn();
+        } catch (\Exception $exception) {
+            // Catch if JSON_EXTRACT() is not possible as database operation
+            return 0;
+        }
     }
 
     /**

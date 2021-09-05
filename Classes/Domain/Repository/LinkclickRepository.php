@@ -2,7 +2,10 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\Repository;
 
+use DateTime;
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception as ExceptionDbal;
+use Exception;
 use In2code\Lux\Domain\Model\Linkclick;
 use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
@@ -82,7 +85,7 @@ class LinkclickRepository extends AbstractRepository
      * @param FilterDto $filter
      * @return array
      * @throws DBALException
-     * @throws \Exception
+     * @throws Exception
      */
     public function getAmountOfLinkclicksGroupedByPageUid(FilterDto $filter): array
     {
@@ -114,7 +117,7 @@ class LinkclickRepository extends AbstractRepository
      * @param int $linklistener
      * @return array
      * @throws DBALException
-     * @throws \Exception
+     * @throws Exception
      */
     public function getAmountOfLinkclicksByLinklistenerGroupedByPageUid(int $linklistener): array
     {
@@ -126,12 +129,29 @@ class LinkclickRepository extends AbstractRepository
     }
 
     /**
+     * @param int $pageIdentifier
+     * @param FilterDto $filter
+     * @return int
+     * @throws ExceptionDbal
+     * @throws Exception
+     */
+    public function getAmountOfLinkclicksByPageIdentifierAndTimeframe(int $pageIdentifier, FilterDto $filter): int
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Linkclick::TABLE_NAME);
+        $sql = 'select count(*) count'
+            . ' from ' . Linkclick::TABLE_NAME
+            . ' where page=' . (int)$pageIdentifier
+            . $this->extendWhereClauseWithFilterTime($filter);
+        return (int)$connection->executeQuery($sql)->fetchColumn();
+    }
+
+    /**
      * @param int $linklistener
      * @param int $page
-     * @return \DateTime
-     * @throws \Exception
+     * @return DateTime
+     * @throws Exception
      */
-    public function findLastDateByLinklistenerAndPage(int $linklistener, int $page): \DateTime
+    public function findLastDateByLinklistenerAndPage(int $linklistener, int $page): DateTime
     {
         $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Linkclick::TABLE_NAME);
         $date = (int)$queryBuilder
@@ -145,7 +165,7 @@ class LinkclickRepository extends AbstractRepository
         if ($date > 0) {
             return DateUtility::convertTimestamp($date);
         }
-        return new \DateTime();
+        return new DateTime();
     }
 
     /**
@@ -178,13 +198,13 @@ class LinkclickRepository extends AbstractRepository
     }
 
     /**
-     * @param \DateTime $start
-     * @param \DateTime $end
+     * @param DateTime $start
+     * @param DateTime $end
      * @param FilterDto|null $filter
      * @return int
      * @throws DBALException
      */
-    public function findByTimeFrame(\DateTime $start, \DateTime $end, FilterDto $filter = null): int
+    public function findByTimeFrame(DateTime $start, DateTime $end, FilterDto $filter = null): int
     {
         $connection = DatabaseUtility::getConnectionForTable(Linkclick::TABLE_NAME);
         $sql = 'select count(*) count'
