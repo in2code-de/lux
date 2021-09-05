@@ -402,6 +402,51 @@ class PagevisitRepository extends AbstractRepository
     }
 
     /**
+     * @param int $pageIdentifier
+     * @param FilterDto $filter
+     * @return int
+     * @throws DBALException
+     * @throws \Exception
+     */
+    public function findAbandonsForPage(int $pageIdentifier, FilterDto $filter): int
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
+        $records = $connection->executeQuery(
+            'select uid,visitor,crdate from ' . Pagevisit::TABLE_NAME . ' where page=' . $pageIdentifier
+            . $this->extendWhereClauseWithFilterTime($filter)
+        )->fetchAll();
+
+        $abondons = 0;
+        if ($records !== false) {
+            foreach ($records as $record) {
+                $result = $connection->executeQuery(
+                    'select * from ' . Pagevisit::TABLE_NAME
+                    . ' where visitor=' . (int)$record['visitor'] . ' and crdate>' . (int)$record['crdate']
+                    . ' and crdate<' . ((int)$record['crdate'] + 300)
+                )->fetchColumn();
+                if ($result === false) {
+                    $abondons++;
+                }
+            }
+        }
+        return $abondons;
+    }
+
+    /**
+     * @param int $pageIdentifier
+     * @param FilterDto $filter1
+     * @param FilterDto $filter2
+     * @return int positive if more visitors in filter1 period then in filter2, negative for the opposite situation
+     * @throws DBALException
+     */
+    public function compareAmountPerPage(int $pageIdentifier, FilterDto $filter1, FilterDto $filter2): int
+    {
+        $amount1 = $this->findAmountPerPage($pageIdentifier, $filter1);
+        $amount2 = $this->findAmountPerPage($pageIdentifier, $filter2);
+        return $amount1 - $amount2;
+    }
+
+    /**
      * @param QueryInterface $query
      * @param array $logicalAnd
      * @param FilterDto|null $filter

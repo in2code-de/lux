@@ -417,7 +417,8 @@ function LuxMain() {
             ajaxConnection({
               'tx_lux_fe[dispatchAction]': 'downloadRequest',
               'tx_lux_fe[identificator]': identification.getIdentificator(),
-              'tx_lux_fe[arguments][href]': this.getAttribute('href')
+              'tx_lux_fe[arguments][href]': this.getAttribute('href'),
+              'tx_lux_fe[arguments][pageUid]': getPageUid()
             }, getRequestUri(), null, null);
             delayClick(event, 'DownlaodListener');
           });
@@ -497,7 +498,8 @@ function LuxMain() {
       ajaxConnection({
         'tx_lux_fe[dispatchAction]': 'downloadRequest',
         'tx_lux_fe[identificator]': identification.getIdentificator(),
-        'tx_lux_fe[arguments][href]': link.getAttribute('href')
+        'tx_lux_fe[arguments][href]': link.getAttribute('href'),
+        'tx_lux_fe[arguments][pageUid]': getPageUid()
       }, getRequestUri(), null, null);
       delayClick(event, 'Email4Link');
     } else {
@@ -556,6 +558,7 @@ function LuxMain() {
         'tx_lux_fe[identificator]': identification.getIdentificator(),
         'tx_lux_fe[arguments][sendEmail]': sendEmail === 'true',
         'tx_lux_fe[arguments][href]': href,
+        'tx_lux_fe[arguments][pageUid]': getPageUid(),
         'tx_lux_fe[arguments][values]': JSON.stringify(formArguments)
       }, getRequestUri(), 'email4LinkLightboxSubmitCallback', {sendEmail: (sendEmail === 'true'), href: href});
     } else {
@@ -604,7 +607,8 @@ function LuxMain() {
       'tx_lux_fe[dispatchAction]': 'fieldListeningRequest',
       'tx_lux_fe[identificator]': identification.getIdentificator(),
       'tx_lux_fe[arguments][key]': key,
-      'tx_lux_fe[arguments][value]': value
+      'tx_lux_fe[arguments][value]': value,
+      'tx_lux_fe[arguments][pageUid]': getPageUid()
     }, getRequestUri(), 'generalWorkflowActionCallback', null);
   };
 
@@ -625,7 +629,8 @@ function LuxMain() {
     ajaxConnection({
       'tx_lux_fe[dispatchAction]': 'formListeningRequest',
       'tx_lux_fe[identificator]': identification.getIdentificator(),
-      'tx_lux_fe[arguments][values]': JSON.stringify(formArguments)
+      'tx_lux_fe[arguments][values]': JSON.stringify(formArguments),
+      'tx_lux_fe[arguments][pageUid]': getPageUid()
     }, getRequestUri(), 'generalWorkflowActionCallback', null);
   };
 

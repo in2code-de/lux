@@ -392,6 +392,48 @@
 			<trans-unit id="pageoverview.thispage">
 				<source>This page:</source>
 			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis">
+				<source>Analysis of this page</source>
+			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis.title">
+				<source>%d page visits within the last 7 days</source>
+			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis.visits">
+				<source>Page visits</source>
+			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis.abandons">
+				<source>Abandons</source>
+			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis.visitsdelta">
+				<source>%d page visits compared to the last week</source>
+			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis.enter">
+				<source>Enter</source>
+			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis.leave">
+				<source>Leave</source>
+			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis.frominternal">
+				<source>from internal</source>
+			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis.fromexternal">
+				<source>from external</source>
+			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis.tointernal">
+				<source>to internal</source>
+			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis.further">
+				<source>more</source>
+			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis.visitorsnow">
+				<source>Current visitors</source>
+			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis.visitorsbefore">
+				<source>Visitors last week</source>
+			</trans-unit>
+			<trans-unit id="pageoverviewAnalysis.linklistenerclicks">
+				<source>Linklistener clicks</source>
+			</trans-unit>
 
 			<trans-unit id="module.analysis.dashboard">
 				<source>Dashboard</source>

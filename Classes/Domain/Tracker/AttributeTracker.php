@@ -45,6 +45,11 @@ class AttributeTracker
     protected $context = '';
 
     /**
+     * @var int
+     */
+    protected $pageIdentifier = 0;
+
+    /**
      * @var VisitorRepository|null
      */
     protected $visitorRepository = null;
@@ -59,12 +64,17 @@ class AttributeTracker
      *
      * @param Visitor $visitor
      * @param string $context
+     * @param int $pageIdentifier
      * @throws Exception
      */
-    public function __construct(Visitor $visitor, string $context = self::CONTEXT_FIELDLISTENING)
-    {
+    public function __construct(
+        Visitor $visitor,
+        string $context = self::CONTEXT_FIELDLISTENING,
+        int $pageIdentifier = 0
+    ) {
         $this->visitor = $visitor;
         $this->context = $context;
+        $this->pageIdentifier = $pageIdentifier;
         $this->visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
         $this->attributeRepository = ObjectUtility::getObjectManager()->get(AttributeRepository::class);
     }
@@ -121,7 +131,11 @@ class AttributeTracker
             }
             if ($attribute->isEmail()) {
                 if ($this->visitor->isIdentified() === false) {
-                    $this->signalDispatch(__CLASS__, 'isIdentifiedBy' . $this->context, [$attribute, $this->visitor]);
+                    $this->signalDispatch(
+                        __CLASS__,
+                        'isIdentifiedBy' . $this->context,
+                        [$attribute, $this->visitor, $this->pageIdentifier]
+                    );
                 }
                 $this->visitor->setIdentified(true);
                 $this->visitor->setEmail($value);

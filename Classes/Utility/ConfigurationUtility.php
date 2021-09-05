@@ -80,10 +80,39 @@ class ConfigurationUtility
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      */
-    public static function isLastLeadsBoxInPageDisabled(): bool
+    public static function isPageOverviewDisabled(): bool
     {
         $extensionConfig = self::getExtensionConfiguration();
-        return $extensionConfig['disableLastLeadsBoxInPage'] === '1';
+        return $extensionConfig['disablePageOverview'] === '1';
+    }
+
+    /**
+     * @return string
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     */
+    public static function getPageOverviewView(): string
+    {
+        $extensionConfig = self::getExtensionConfiguration();
+        $allowed = [
+            'analysis',
+            'leads'
+        ];
+        if (in_array((string)$extensionConfig['pageOverviewView'], $allowed)) {
+            return $extensionConfig['pageOverviewView'];
+        }
+        return $allowed[0];
+    }
+
+    /**
+     * @return int
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     */
+    public static function getPageOverviewCacheLifeTime(): int
+    {
+        $extensionConfig = self::getExtensionConfiguration();
+        return (int)$extensionConfig['pageOverviewCacheLifeTime'];
     }
 
     /**

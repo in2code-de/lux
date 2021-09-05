@@ -12,6 +12,19 @@ class PageRepository extends AbstractRepository
 {
     /**
      * @param int $identifier
+     * @return string
+     */
+    public function findTitleByIdentifier(int $identifier): string
+    {
+        $properties = self::findRawByIdentifier($identifier);
+        if (!empty($properties['title'])) {
+            return $properties['title'];
+        }
+        return '';
+    }
+
+    /**
+     * @param int $identifier
      * @return array
      */
     public function findRawByIdentifier(int $identifier): array

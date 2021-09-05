@@ -4,6 +4,7 @@ namespace In2code\Lux\Domain\Service\Referrer;
 
 /**
  * Class Readable
+ * converts referrers like m.twitter.com to a readable referrer like "Twitter"
  */
 class Readable
 {
@@ -49,6 +50,12 @@ class Readable
         'www.youtube.com' => 'YouTube',
         'vimeo.com' => 'Vimeo',
         'www.vimeo.com' => 'Vimeo',
+        'www.in2code.de' => 'in2code GmbH',
+        'cermat.de' => 'Cermat',
+        'typo3.org' => 'TYPO3',
+        'typo3.com' => 'TYPO3',
+        'com.slack' => 'Slack',
+        'slack.com' => 'Slack'
     ];
 
     /**

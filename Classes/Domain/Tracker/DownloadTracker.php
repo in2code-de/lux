@@ -5,6 +5,7 @@ namespace In2code\Lux\Domain\Tracker;
 use In2code\Lux\Domain\Model\Download;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\DownloadRepository;
+use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\FileService;
 use In2code\Lux\Signal\SignalTrait;
@@ -46,15 +47,16 @@ class DownloadTracker
 
     /**
      * @param string $href
+     * @param int $pageIdentifier
      * @return void
+     * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
-     * @throws Exception
      */
-    public function addDownload(string $href)
+    public function addDownload(string $href, int $pageIdentifier)
     {
         if ($this->isDownloadAddingEnabled($href)) {
-            $download = $this->getAndPersistNewDownload($href);
+            $download = $this->getAndPersistNewDownload($href, $pageIdentifier);
             $this->visitor->addDownload($download);
             $download->setVisitor($this->visitor);
             $this->visitorRepository->update($this->visitor);
@@ -65,19 +67,22 @@ class DownloadTracker
 
     /**
      * @param string $href
+     * @param int $pageIdentifier
      * @return Download
      * @throws Exception
      * @throws IllegalObjectTypeException
      */
-    protected function getAndPersistNewDownload(string $href): Download
+    protected function getAndPersistNewDownload(string $href, int $pageIdentifier): Download
     {
-        /** @var FileService $fileService */
         $fileService = ObjectUtility::getObjectManager()->get(FileService::class);
         $file = $fileService->getFileFromHref($href);
         $downloadRepository = ObjectUtility::getObjectManager()->get(DownloadRepository::class);
-        /** @var Download $download */
+        $pageRepository = ObjectUtility::getObjectManager()->get(PageRepository::class);
+        $page = $pageRepository->findByIdentifier($pageIdentifier);
         $download = ObjectUtility::getObjectManager()->get(Download::class)
-            ->setHref($href)->setDomain();
+            ->setHref($href)
+            ->setPage($page)
+            ->setDomain();
         if ($file !== null) {
             $download->setFile($file);
         }

@@ -27,6 +27,11 @@ class Download extends AbstractModel
     protected $href = '';
 
     /**
+     * @var \In2code\Lux\Domain\Model\Page
+     */
+    protected $page = null;
+
+    /**
      * @var \In2code\Lux\Domain\Model\File
      */
     protected $file = null;
@@ -87,6 +92,24 @@ class Download extends AbstractModel
     public function setHref(string $href): Download
     {
         $this->href = $href;
+        return $this;
+    }
+
+    /**
+     * @return Page
+     */
+    public function getPage(): ?Page
+    {
+        return $this->page;
+    }
+
+    /**
+     * @param Page $page
+     * @return Download
+     */
+    public function setPage(?Page $page): Download
+    {
+        $this->page = $page;
         return $this;
     }
 
