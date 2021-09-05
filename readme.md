@@ -182,6 +182,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 17.0.0     | 2021-09-05 | Feature    | Add a complete new page overview layout with important information to improve content.                                                                                                     |
 | 16.0.2     | 2021-08-20 | Task       | Update disallowed mail providers, update documentation.                                                                                                                                    |
 | 16.0.1     | 2021-08-20 | Task       | Adjust lux icon size in frontend for email4link lightbox to a smaller variant.                                                                                                             |
 | 16.0.0     | 2021-08-16 | Feature    | Add a search view for a websearch analysis. Harden RTE default configuration.                                                                                                              |
