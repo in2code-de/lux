@@ -203,9 +203,14 @@ call_user_func(
         /**
          * Caching framework
          */
-        $cacheKey = \In2code\Lux\Domain\Service\VisitorImageService::CACHE_KEY;
-        if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheKey])) {
-            $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheKey] = [];
+        $cacheKeys = [
+            \In2code\Lux\Domain\Service\VisitorImageService::CACHE_KEY,
+            \In2code\Lux\Hooks\PageOverview::CACHE_KEY
+        ];
+        foreach ($cacheKeys as $cacheKey) {
+            if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheKey])) {
+                $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheKey] = [];
+            }
         }
     }
 );

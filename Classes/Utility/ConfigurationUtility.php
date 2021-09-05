@@ -105,6 +105,17 @@ class ConfigurationUtility
     }
 
     /**
+     * @return int
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     */
+    public static function getPageOverviewCacheLifeTime(): int
+    {
+        $extensionConfig = self::getExtensionConfiguration();
+        return (int)$extensionConfig['pageOverviewCacheLifeTime'];
+    }
+
+    /**
      * @return bool
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
