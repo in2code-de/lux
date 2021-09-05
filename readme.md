@@ -205,6 +205,13 @@ At the moment it's not possible to use lux without **composer mode**!
 | From former versions to 7.x | Cookie-Table was replaced with a Fingerprint-Table  | Call your TYPO3 upgrade wizard. There will be one more step that will copy values from _idcookie to _fingerprint table. Note that CommandControllers are replaced by Symfony Commands!    |
 | From former versions to 3.x | The visitor object can handle more cookies now      | After updating use the update button in extension manager of if you have a lot of data stored, you can also use the LuxUpdateCommandController to prevent timeouts                        |
 
+## Todos 17.0
+
+* Localize
+* Cache
+* Downloads with page identifier
+* Identification with page identifier
+
 ## Changelog
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |

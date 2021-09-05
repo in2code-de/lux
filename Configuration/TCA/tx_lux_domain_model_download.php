@@ -1,5 +1,6 @@
 <?php
 use In2code\Lux\Domain\Model\Download;
+use In2code\Lux\Domain\Model\Pagevisit;
 
 return [
     'ctrl' => [
@@ -17,10 +18,10 @@ return [
         'rootLevel' => -1
     ],
     'interface' => [
-        'showRecordFieldList' => 'crdate,href,file,properties,domain,visitor',
+        'showRecordFieldList' => 'crdate,href,page,file,properties,domain,visitor',
     ],
     'types' => [
-        '1' => ['showitem' => 'crdate,href,file,properties,domain,visitor'],
+        '1' => ['showitem' => 'crdate,href,page,file,properties,domain,visitor'],
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -77,6 +78,18 @@ return [
                 'type' => 'input',
                 'readOnly' => true
             ]
+        ],
+        'page' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Pagevisit::TABLE_NAME . '.page',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'foreign_table' => 'pages',
+                'foreign_table_where' => 'ORDER BY pages.title',
+                'default' => 0,
+                'readOnly' => true
+            ],
         ],
         'file' => [
             'exclude' => true,
