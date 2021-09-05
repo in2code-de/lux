@@ -4,6 +4,7 @@ namespace In2code\Lux\Domain\Service\Referrer;
 
 /**
  * Class SocialMedia
+ * get social media sources by domains. This is needed because some SM platforms are using more then simply one domain
  */
 class SocialMedia
 {

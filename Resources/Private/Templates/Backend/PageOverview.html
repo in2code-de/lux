@@ -55,12 +55,23 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <f:for each="{gotin}" as="data">
-                            <tr>
-                                <td title="{data.title}"><f:format.crop maxCharacters="30" append="...">{data.title}</f:format.crop></td>
-                                <td style="width:5%;">{data.amount}</td>
-                            </tr>
-                        </f:for>
+                        <f:if condition="{gotinInternal}">
+                            <f:then>
+                                <f:for each="{gotinInternal}" as="data">
+                                    <tr>
+                                        <td title="{data.title}"><f:format.crop maxCharacters="30" append="...">{data.title}</f:format.crop></td>
+                                        <td style="width:5%;">{data.amount}</td>
+                                    </tr>
+                                </f:for>
+                            </f:then>
+                            <f:else>
+                                <tr>
+                                    <td colspan="2">
+                                        <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+                                    </td>
+                                </tr>
+                            </f:else>
+                        </f:if>
                         </tbody>
                     </table>
                 </div>
@@ -72,26 +83,23 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>Google International</td>
-                            <td style="width:5%;">12</td>
-                        </tr>
-                        <tr>
-                            <td>Twitter</td>
-                            <td>12</td>
-                        </tr>
-                        <tr>
-                            <td>Facebook</td>
-                            <td>12</td>
-                        </tr>
-                        <tr>
-                            <td>Instagram</td>
-                            <td>12</td>
-                        </tr>
-                        <tr>
-                            <td>www.blogpost.com</td>
-                            <td>12</td>
-                        </tr>
+                        <f:if condition="{gotinExternal}">
+                            <f:then>
+                                <f:for each="{gotinExternal}" as="amount" key="name">
+                                    <tr>
+                                        <td title="{name}"><f:format.crop maxCharacters="30" append="...">{name}</f:format.crop></td>
+                                        <td style="width:5%;">{amount}</td>
+                                    </tr>
+                                </f:for>
+                            </f:then>
+                            <f:else>
+                                <tr>
+                                    <td colspan="2">
+                                        <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+                                    </td>
+                                </tr>
+                            </f:else>
+                        </f:if>
                         </tbody>
                     </table>
                 </div>

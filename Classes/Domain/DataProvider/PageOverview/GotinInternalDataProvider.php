@@ -12,10 +12,10 @@ use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
- * GotinDataProvider
- * to show 5 gotin visits to a given page identifier
+ * GotinInternalDataProvider
+ * to show 5 gotin visits from internal sources to a given page identifier
  */
-class GotinDataProvider
+class GotinInternalDataProvider extends AbstractDataProvider
 {
     /**
      * @var FilterDto|null
@@ -76,7 +76,7 @@ class GotinDataProvider
         }
 
         usort($result, [$this, 'sortByAmount']);
-        $result = array_slice($result, 0, 5);
+        $result = array_slice($result, 0, $this->limit);
         return $result;
     }
 

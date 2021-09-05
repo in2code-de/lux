@@ -1,7 +1,8 @@
 <?php
 namespace In2code\Lux\Hooks;
 
-use In2code\Lux\Domain\DataProvider\PageOverview\GotinDataProvider;
+use In2code\Lux\Domain\DataProvider\PageOverview\GotinExternalDataProvider;
+use In2code\Lux\Domain\DataProvider\PageOverview\GotinInternalDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
@@ -92,7 +93,8 @@ class PageOverview
                 $filter,
                 ObjectUtility::getFilterDto(FilterDto::PERIOD_7DAYSBEFORELAST7DAYS)
             ),
-            'gotin' => ObjectUtility::getObjectManager()->get(GotinDataProvider::class, $filter)->get(),
+            'gotinInternal' => ObjectUtility::getObjectManager()->get(GotinInternalDataProvider::class, $filter)->get(),
+            'gotinExternal' => ObjectUtility::getObjectManager()->get(GotinExternalDataProvider::class, $filter)->get(),
             'gotout' => '',
             'numberOfVisitorsData' => ObjectUtility::getObjectManager()->get(
                 PagevisistsDataProvider::class,
@@ -132,6 +134,7 @@ class PageOverview
     {
         $standaloneView = ObjectUtility::getObjectManager()->get(StandaloneView::class);
         $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($this->templatePathAndFile));
+        $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         $standaloneView->assignMultiple($arguments);
         return $standaloneView->render();
     }
