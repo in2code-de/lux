@@ -6,12 +6,30 @@ This part of the documentation describes all lux plugins and the pageoverview vi
 
 #### Pageoverview
 
-If you have activated pageoverview in Extension Manager settings of extension lux, you will see the last three
-leads (Identified and Anonymous) of a page in page module.
-By clicking on "Latest Leads" you can show or hide this information for the current backend user. Of course this
-status is saved if you change the page.
+If you have activated pageoverview in Extension Manager settings of extension lux, you and your editors will get
+important information about your visitor and leads.
+
+You can decide what view should be rendered via Extension Manager settings.
+
+##### Analysis
+
+If your installation is configured to show a analysis overview, you will see how this page is performing in this week
+compared to the week before.
+
+<img src="../../../Documentation/Images/screenshot_pageoverview.png" width="800" />
+
+By clicking on the title you can show or hide (toggle) this information for the current backend user.
+Of course this status is saved if you change the page or logout and login later again.
+
+##### Leads
+
+If your installation is configured to show the latest leads, you will see visitors of the current page (Identified and
+Anonymous) in page module.
 
 <img src="../../../Documentation/Images/documentation_pageoverview.png" width="800" />
+
+By clicking on "Latest Leads" you can show or hide (toggle) this information for the current backend user.
+Of course this status is saved if you change the page or logout and login later again.
 
 
 

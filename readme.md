@@ -49,33 +49,6 @@ Ask for the visitors email-address when he/she wants to download an asset:\
 \
 ![Email for Link with CKEditor](Documentation/Images/screenshot_email4link_ckeditor_plugin.png "with CKeditor")
 
-## What's new
-
-### in 9.0.0
-
-* Lux introduced Link Listeners with Frontend and Backend functionality
-** Use an additional analyses module for Link Listeners
-** Increase category scoring for visitors when clicking on a "call to action"
-
-### in 8.0.0
-
-* TYPO3 language will be tracked now
-* News (tx_news) visits will be tracked now
-* Domains will be saved now (for multi-domain usage)
-* Full dynamical diagrams in all views with filters
-* A general UX update for nearly all views
-* Multiple referrers can be stored now (see upgrade wizard)
-* Images from leads are now cached for better performance
-
-### in 7.0.0
-
-* TYPO3 10 general support (with new TypoScript conditions, symfony Commands, MailMessage class for 9 and 10)
-* Replace cookieID with fingerprinting method (no more cookies for identification) - multi domain and platform identification
-* Replace functional cookies with local storage records (no more functional cookies)
-* Add a lot of dashboard widgets
-* Performance feature
-* Update documentation with new stuff
-
 ## Documentation
 
 See the full [documentation](Documentation/Index.md) (technical, marketing and privacy)
@@ -204,14 +177,6 @@ At the moment it's not possible to use lux without **composer mode**!
 | From former versions to 8.x | Referrers are stored on a different place now       | Call your TYPO3 upgrade wizard. There will be one more step that will copy values from _visitor.referrer to _pagevisit.referrer table.                                                    |
 | From former versions to 7.x | Cookie-Table was replaced with a Fingerprint-Table  | Call your TYPO3 upgrade wizard. There will be one more step that will copy values from _idcookie to _fingerprint table. Note that CommandControllers are replaced by Symfony Commands!    |
 | From former versions to 3.x | The visitor object can handle more cookies now      | After updating use the update button in extension manager of if you have a lot of data stored, you can also use the LuxUpdateCommandController to prevent timeouts                        |
-
-## Todos 17.0
-
-* Localize
-* Documentation
-* Cache done
-* Downloads with page identifier done
-* Identification with page identifier done
 
 ## Changelog
 
