@@ -33,7 +33,7 @@
                 <img src="{f:uri.resource(path:'Icons/increase.svg',extensionName:'lux')}" height="15" title="{delta} Seitenbesuche mehr als in Vorwoche" />
             </f:then>
             <f:else>
-                <img src="{f:uri.resource(path:'Icons/decrease.svg',extensionName:'lux')}" height="15" title="{delta} Seitenbesuche weniger als in Vorwoche" />
+                <img src="{f:uri.resource(path:'Icons/decrease.svg',extensionName:'lux')}" height="15" title="{delta} Seitenbesuche im Vergleich zur Vorwoche" />
             </f:else>
         </f:if>
         <i class="fa {f:if(condition:'{status} == "close"',then:'fa-chevron-up', else:'fa-chevron-down')}" style="cursor: pointer; margin-left: 5px;"></i>
@@ -146,23 +146,23 @@
                         <tbody>
                         <tr>
                             <td>Downloads</td>
-                            <td style="width:5%;">12</td>
+                            <td style="width:5%;">Todo</td>
                         </tr>
                         <tr>
                             <td>Conversions</td>
-                            <td>2</td>
+                            <td>Todo</td>
                         </tr>
                         <tr>
                             <td>Besucher aktuell</td>
-                            <td>250</td>
+                            <td>{visits}</td>
                         </tr>
                         <tr>
                             <td>Besucher Vorwoche</td>
-                            <td>222</td>
+                            <td>{visitsLastWeek}</td>
                         </tr>
                         <tr>
                             <td>Linklistener Klicks</td>
-                            <td>13</td>
+                            <td>{linkclickAmount}</td>
                         </tr>
                         </tbody>
                     </table>

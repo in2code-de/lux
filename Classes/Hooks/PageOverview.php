@@ -6,6 +6,7 @@ use In2code\Lux\Domain\DataProvider\PageOverview\GotinInternalDataProvider;
 use In2code\Lux\Domain\DataProvider\PageOverview\GotoutInternalDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
+use In2code\Lux\Domain\Repository\LinkclickRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Utility\BackendUtility;
@@ -31,26 +32,34 @@ class PageOverview
     protected $templatePathAndFile = 'EXT:lux/Resources/Private/Templates/Backend/PageOverview.html';
 
     /**
-     * @var null
+     * @var VisitorRepository|null
      */
     protected $visitorRepository = null;
 
     /**
-     * @var null
+     * @var PagevisitRepository|null
      */
     protected $pagevisitRepository = null;
+
+    /**
+     * @var LinkclickRepository|null
+     */
+    protected $linkclickRepository = null;
 
     /**
      * PageOverview constructor.
      * @param VisitorRepository|null $visitorRepository
      * @param PagevisitRepository|null $pagevisitRepository
+     * @param LinkclickRepository|null $linkclickRepository
      */
     public function __construct(
         VisitorRepository $visitorRepository = null,
-        PagevisitRepository $pagevisitRepository = null
+        PagevisitRepository $pagevisitRepository = null,
+        LinkclickRepository $linkclickRepository = null
     ) {
         $this->visitorRepository = $visitorRepository ?: GeneralUtility::makeInstance(VisitorRepository::class);
         $this->pagevisitRepository = $pagevisitRepository ?: GeneralUtility::makeInstance(PagevisitRepository::class);
+        $this->linkclickRepository = $linkclickRepository ?: GeneralUtility::makeInstance(LinkclickRepository::class);
     }
 
     /**
@@ -88,6 +97,10 @@ class PageOverview
         $arguments = [
             'visitors' => $this->visitorRepository->findByVisitedPageIdentifier($pageIdentifier),
             'visits' => $this->pagevisitRepository->findAmountPerPage($pageIdentifier, $filter),
+            'visitsLastWeek' => $this->pagevisitRepository->findAmountPerPage(
+                $pageIdentifier,
+                ObjectUtility::getFilterDto(FilterDto::PERIOD_7DAYSBEFORELAST7DAYS)
+            ),
             'abandons' => $this->pagevisitRepository->findAbandonsForPage($pageIdentifier, $filter),
             'delta' => $this->pagevisitRepository->compareAmountPerPage(
                 $pageIdentifier,
@@ -102,6 +115,10 @@ class PageOverview
             'numberOfVisitorsData' => ObjectUtility::getObjectManager()->get(
                 PagevisistsDataProvider::class,
                 ObjectUtility::getFilterDto()->setSearchterm((string)$pageIdentifier)
+            ),
+            'linkclickAmount' => $this->linkclickRepository->getAmountOfLinkclicksByPageIdentifierAndTimeframe(
+                $pageIdentifier,
+                $filter
             ),
             'pageIdentifier' => $pageIdentifier,
             'view' => 'analysis',
