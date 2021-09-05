@@ -10,7 +10,13 @@ class DateUtility
     /**
      * Define a timeframe in minutes to check how long is somebody online
      */
-    const IS_ONLINE_TIME = '5';
+    const IS_ONLINE_TIME = 5;
+
+    /**
+     * Define a timeframe in minutes to check if the visitor is still in the same page funnel. Means that when a
+     * visitor opens another page within this timerange, we use this opening as a follow up opening of the page before.
+     */
+    const IS_INSAMEPAGEFUNNEL_TIME = 15;
 
     /**
      * Convert timestamp into DateTime object

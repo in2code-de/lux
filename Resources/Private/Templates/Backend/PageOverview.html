@@ -116,26 +116,23 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>Start</td>
-                            <td style="width:5%;">12</td>
-                        </tr>
-                        <tr>
-                            <td>Lux</td>
-                            <td>12</td>
-                        </tr>
-                        <tr>
-                            <td>Kontakt</td>
-                            <td>12</td>
-                        </tr>
-                        <tr>
-                            <td>Content Publisher</td>
-                            <td>12</td>
-                        </tr>
-                        <tr>
-                            <td>Impressum</td>
-                            <td>12</td>
-                        </tr>
+                        <f:if condition="{gotoutInternal}">
+                            <f:then>
+                                <f:for each="{gotoutInternal}" as="data">
+                                    <tr>
+                                        <td title="{data.title}"><f:format.crop maxCharacters="30" append="...">{data.title}</f:format.crop></td>
+                                        <td style="width:5%;">{data.amount}</td>
+                                    </tr>
+                                </f:for>
+                            </f:then>
+                            <f:else>
+                                <tr>
+                                    <td colspan="2">
+                                        <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+                                    </td>
+                                </tr>
+                            </f:else>
+                        </f:if>
                         </tbody>
                     </table>
                 </div>

@@ -12,10 +12,10 @@ use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
- * GotinInternalDataProvider
- * to show 5 gotin visits from internal sources to a given page identifier
+ * GotoutInternalDataProvider
+ * to show 5 gotout visits to internal sources to a given page identifier
  */
-class GotinInternalDataProvider extends AbstractDataProvider
+class GotoutInternalDataProvider extends AbstractDataProvider
 {
     /**
      * @var FilterDto|null
@@ -61,7 +61,7 @@ class GotinInternalDataProvider extends AbstractDataProvider
         $visits = $this->getPagevisitsOfGivenPage();
         $results = [];
         foreach ($visits as $visit) {
-            $page = $this->getGotinToPagevisit($visit['visitor'], $visit['crdate']);
+            $page = $this->getGotoutToPagevisit($visit['visitor'], $visit['crdate']);
             if ($page > 0) {
                 if (array_key_exists($page, $results) === false) {
                     $results[$page] = [
@@ -76,6 +76,7 @@ class GotinInternalDataProvider extends AbstractDataProvider
         }
 
         usort($results, [$this, 'sortByAmount']);
+        $results = array_slice($results, 0, $this->limit);
         $results = $this->cutResults($results);
         return $results;
     }
@@ -86,14 +87,14 @@ class GotinInternalDataProvider extends AbstractDataProvider
      * @return int
      * @throws ExceptionDbal
      */
-    protected function getGotinToPagevisit(int $visitor, int $crdate): int
+    protected function getGotoutToPagevisit(int $visitor, int $crdate): int
     {
         $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
         $pageIdentifier = $connection->executeQuery(
             'select page from ' . Pagevisit::TABLE_NAME
             . ' where visitor=' . (int)$visitor
             . ' and page != ' . (int)$this->filter->getSearchterm()
-            . ' and crdate < ' . $crdate
+            . ' and crdate > ' . $crdate
             . ' and crdate <= ' . ($crdate + $this->getTimelimit())
             . ' order by crdate desc limit 1'
         )->fetchColumn();

@@ -64,6 +64,7 @@ class GotinExternalDataProvider extends AbstractDataProvider
                 $result[$domainName] = 1;
             }
         }
+        arsort($result);
         $result = array_slice($result, 0, $this->limit);
         return $result;
     }

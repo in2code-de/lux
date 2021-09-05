@@ -53,7 +53,9 @@ class Readable
         'www.in2code.de' => 'in2code GmbH',
         'cermat.de' => 'Cermat',
         'typo3.org' => 'TYPO3',
-        'typo3.com' => 'TYPO3'
+        'typo3.com' => 'TYPO3',
+        'com.slack' => 'Slack',
+        'slack.com' => 'Slack'
     ];
 
     /**

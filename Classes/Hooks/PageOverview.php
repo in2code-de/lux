@@ -3,6 +3,7 @@ namespace In2code\Lux\Hooks;
 
 use In2code\Lux\Domain\DataProvider\PageOverview\GotinExternalDataProvider;
 use In2code\Lux\Domain\DataProvider\PageOverview\GotinInternalDataProvider;
+use In2code\Lux\Domain\DataProvider\PageOverview\GotoutInternalDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
@@ -95,6 +96,8 @@ class PageOverview
             ),
             'gotinInternal' => ObjectUtility::getObjectManager()->get(GotinInternalDataProvider::class, $filter)->get(),
             'gotinExternal' => ObjectUtility::getObjectManager()->get(GotinExternalDataProvider::class, $filter)->get(),
+            'gotoutInternal'
+                => ObjectUtility::getObjectManager()->get(GotoutInternalDataProvider::class, $filter)->get(),
             'gotout' => '',
             'numberOfVisitorsData' => ObjectUtility::getObjectManager()->get(
                 PagevisistsDataProvider::class,
