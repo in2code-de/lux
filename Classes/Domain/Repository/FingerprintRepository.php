@@ -53,7 +53,12 @@ class FingerprintRepository extends AbstractRepository
                     $result[$osBrowser] = $record['count'];
                 }
             } else {
-                throw new ClassDoesNotExistException('\WhichBrowser\Parser class is missing', 1588337756);
+                throw new ClassDoesNotExistException(
+                    '\WhichBrowser\Parser class is missing. ' .
+                    'Maybe your TYPO3 is running in classic mode instead of composer mode. ' .
+                    'Please install this extension via composer only.',
+                    1588337756
+                );
             }
         }
         arsort($result);
