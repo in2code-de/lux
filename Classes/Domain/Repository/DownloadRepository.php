@@ -4,7 +4,10 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\Repository;
 
+use DateTime;
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception as ExceptionDbal;
+use Exception;
 use In2code\Lux\Domain\Model\Download;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
@@ -43,7 +46,7 @@ class DownloadRepository extends AbstractRepository
      * @param FilterDto $filter
      * @return array
      * @throws InvalidQueryException
-     * @throws \Exception
+     * @throws Exception
      */
     public function findCombinedByHref(FilterDto $filter): array
     {
@@ -70,11 +73,11 @@ class DownloadRepository extends AbstractRepository
      * today.
      *
      * @param Visitor $visitor
-     * @param \DateTime $time
+     * @param DateTime $time
      * @return QueryResultInterface
      * @throws InvalidQueryException
      */
-    public function findByVisitorAndTime(Visitor $visitor, \DateTime $time): QueryResultInterface
+    public function findByVisitorAndTime(Visitor $visitor, DateTime $time): QueryResultInterface
     {
         $query = $this->createQuery();
         $logicalAnd = [
@@ -87,13 +90,13 @@ class DownloadRepository extends AbstractRepository
     }
 
     /**
-     * @param \DateTime $start
-     * @param \DateTime $end
+     * @param DateTime $start
+     * @param DateTime $end
      * @param FilterDto|null $filter
      * @return int
      * @throws InvalidQueryException
      */
-    public function getNumberOfDownloadsInTimeFrame(\DateTime $start, \DateTime $end, FilterDto $filter = null): int
+    public function getNumberOfDownloadsInTimeFrame(DateTime $start, DateTime $end, FilterDto $filter = null): int
     {
         $query = $this->createQuery();
         $logicalAnd = [
@@ -112,7 +115,24 @@ class DownloadRepository extends AbstractRepository
     public function findAllAmount(): int
     {
         $connection = DatabaseUtility::getConnectionForTable(Download::TABLE_NAME);
-        return (int)$connection->executeQuery('select count(uid) from ' . Download::TABLE_NAME)->fetchColumn();
+        return (int)$connection->executeQuery('select count(*) from ' . Download::TABLE_NAME)->fetchColumn();
+    }
+
+    /**
+     * @param int $pageIdentifier
+     * @param FilterDto $filter
+     * @return int
+     * @throws ExceptionDbal
+     * @throws Exception
+     */
+    public function findAmountByPageIdentifierAndTimeFrame(int $pageIdentifier, FilterDto $filter): int
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Download::TABLE_NAME);
+        return (int)$connection->executeQuery(
+            'select count(*) from ' . Download::TABLE_NAME
+            . ' where page=' . (int)$pageIdentifier
+            . $this->extendWhereClauseWithFilterTime($filter)
+        )->fetchColumn();
     }
 
     /**

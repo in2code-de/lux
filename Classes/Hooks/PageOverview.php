@@ -1,12 +1,17 @@
 <?php
 namespace In2code\Lux\Hooks;
 
+use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\DataProvider\PageOverview\GotinExternalDataProvider;
 use In2code\Lux\Domain\DataProvider\PageOverview\GotinInternalDataProvider;
 use In2code\Lux\Domain\DataProvider\PageOverview\GotoutInternalDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
+use In2code\Lux\Domain\Repository\DownloadRepository;
 use In2code\Lux\Domain\Repository\LinkclickRepository;
+use In2code\Lux\Domain\Repository\LogRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Utility\BackendUtility;
@@ -47,6 +52,16 @@ class PageOverview
     protected $linkclickRepository = null;
 
     /**
+     * @var DownloadRepository|null
+     */
+    protected $downloadRepository = null;
+
+    /**
+     * @var LogRepository|null
+     */
+    protected $logRepository = null;
+
+    /**
      * PageOverview constructor.
      * @param VisitorRepository|null $visitorRepository
      * @param PagevisitRepository|null $pagevisitRepository
@@ -55,11 +70,15 @@ class PageOverview
     public function __construct(
         VisitorRepository $visitorRepository = null,
         PagevisitRepository $pagevisitRepository = null,
-        LinkclickRepository $linkclickRepository = null
+        LinkclickRepository $linkclickRepository = null,
+        DownloadRepository $downloadRepository = null,
+        LogRepository $logRepository = null
     ) {
         $this->visitorRepository = $visitorRepository ?: GeneralUtility::makeInstance(VisitorRepository::class);
         $this->pagevisitRepository = $pagevisitRepository ?: GeneralUtility::makeInstance(PagevisitRepository::class);
         $this->linkclickRepository = $linkclickRepository ?: GeneralUtility::makeInstance(LinkclickRepository::class);
+        $this->downloadRepository = $downloadRepository ?: GeneralUtility::makeInstance(DownloadRepository::class);
+        $this->logRepository = $logRepository ?: GeneralUtility::makeInstance(LogRepository::class);
     }
 
     /**
@@ -89,7 +108,9 @@ class PageOverview
      * @param array $session
      * @return string
      * @throws Exception
-     * @noinspection PhpUnused
+     * @throws DBALException
+     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     protected function renderAnalysisView(int $pageIdentifier, array $session): string
     {
@@ -115,6 +136,14 @@ class PageOverview
             'numberOfVisitorsData' => ObjectUtility::getObjectManager()->get(
                 PagevisistsDataProvider::class,
                 ObjectUtility::getFilterDto()->setSearchterm((string)$pageIdentifier)
+            ),
+            'downloadAmount' => $this->downloadRepository->findAmountByPageIdentifierAndTimeFrame(
+                $pageIdentifier,
+                $filter
+            ),
+            'conversionAmount' => $this->logRepository->findAmountOfIdentifiedLogsByPageIdentifierAndTimeFrame(
+                $pageIdentifier,
+                $filter
             ),
             'linkclickAmount' => $this->linkclickRepository->getAmountOfLinkclicksByPageIdentifierAndTimeframe(
                 $pageIdentifier,

@@ -3,7 +3,6 @@ declare(strict_types = 1);
 namespace In2code\Lux\Domain\Tracker;
 
 use In2code\Lux\Domain\Model\Download;
-use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\DownloadRepository;
 use In2code\Lux\Domain\Repository\PageRepository;
