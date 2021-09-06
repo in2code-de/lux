@@ -2,7 +2,6 @@
 namespace In2code\Lux\Hooks;
 
 use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\DataProvider\PageOverview\GotinExternalDataProvider;
 use In2code\Lux\Domain\DataProvider\PageOverview\GotinInternalDataProvider;
@@ -76,6 +75,9 @@ class PageOverview
      * @param VisitorRepository|null $visitorRepository
      * @param PagevisitRepository|null $pagevisitRepository
      * @param LinkclickRepository|null $linkclickRepository
+     * @param DownloadRepository|null $downloadRepository
+     * @param LogRepository|null $logRepository
+     * @throws Exception
      * @throws NoSuchCacheException
      */
     public function __construct(
@@ -85,11 +87,15 @@ class PageOverview
         DownloadRepository $downloadRepository = null,
         LogRepository $logRepository = null
     ) {
-        $this->visitorRepository = $visitorRepository ?: GeneralUtility::makeInstance(VisitorRepository::class);
-        $this->pagevisitRepository = $pagevisitRepository ?: GeneralUtility::makeInstance(PagevisitRepository::class);
-        $this->linkclickRepository = $linkclickRepository ?: GeneralUtility::makeInstance(LinkclickRepository::class);
-        $this->downloadRepository = $downloadRepository ?: GeneralUtility::makeInstance(DownloadRepository::class);
-        $this->logRepository = $logRepository ?: GeneralUtility::makeInstance(LogRepository::class);
+        $this->visitorRepository
+            = $visitorRepository ?: ObjectUtility::getObjectManager()->get(VisitorRepository::class);
+        $this->pagevisitRepository
+            = $pagevisitRepository ?: ObjectUtility::getObjectManager()->get(PagevisitRepository::class);
+        $this->linkclickRepository
+            = $linkclickRepository ?: ObjectUtility::getObjectManager()->get(LinkclickRepository::class);
+        $this->downloadRepository
+            = $downloadRepository ?: ObjectUtility::getObjectManager()->get(DownloadRepository::class);
+        $this->logRepository = $logRepository ?: ObjectUtility::getObjectManager()->get(LogRepository::class);
         $this->cacheInstance = GeneralUtility::makeInstance(CacheManager::class)->getCache(self::CACHE_KEY);
     }
 
@@ -100,7 +106,6 @@ class PageOverview
      * @throws DBALException
      * @throws Exception
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      */
@@ -125,7 +130,6 @@ class PageOverview
      * @throws DBALException
      * @throws Exception
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      */
