@@ -2,7 +2,6 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\DataProvider\PageOverview;
 
-use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
@@ -11,6 +10,7 @@ use In2code\Lux\Domain\Service\Referrer\Readable;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\FrontendUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use PDO;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -50,7 +50,6 @@ class GotinExternalDataProvider extends AbstractDataProvider
      *  ]
      * @return array
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     public function get(): array
     {
@@ -72,7 +71,6 @@ class GotinExternalDataProvider extends AbstractDataProvider
     /**
      * @return array
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     protected function getExternalGotinToPagevisit(): array
     {
@@ -84,7 +82,7 @@ class GotinExternalDataProvider extends AbstractDataProvider
             . ' and page=' . (int)$this->filter->getSearchterm()
             . ' and crdate > ' . $this->filter->getStartTimeForFilter()->format('U')
             . ' and crdate < ' . $this->filter->getEndTimeForFilter()->format('U')
-        )->fetchAllAssociative();
+        )->fetchAll(PDO::FETCH_ASSOC);
         if ($referrers === false) {
             return [];
         }

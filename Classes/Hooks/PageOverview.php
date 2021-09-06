@@ -2,7 +2,6 @@
 namespace In2code\Lux\Hooks;
 
 use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\DataProvider\PageOverview\GotinExternalDataProvider;
 use In2code\Lux\Domain\DataProvider\PageOverview\GotinInternalDataProvider;
@@ -76,6 +75,9 @@ class PageOverview
      * @param VisitorRepository|null $visitorRepository
      * @param PagevisitRepository|null $pagevisitRepository
      * @param LinkclickRepository|null $linkclickRepository
+     * @param DownloadRepository|null $downloadRepository
+     * @param LogRepository|null $logRepository
+     * @throws Exception
      * @throws NoSuchCacheException
      */
     public function __construct(
@@ -104,7 +106,6 @@ class PageOverview
      * @throws DBALException
      * @throws Exception
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      */
@@ -129,7 +130,6 @@ class PageOverview
      * @throws DBALException
      * @throws Exception
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      */
