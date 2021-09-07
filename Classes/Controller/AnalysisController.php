@@ -78,6 +78,8 @@ class AnalysisController extends AbstractController
     }
 
     /**
+     * Page visits and downloads
+     *
      * @param FilterDto $filter
      * @return void
      * @throws Exception

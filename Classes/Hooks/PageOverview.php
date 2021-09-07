@@ -29,7 +29,7 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * Class PageLayoutHeader
- * to show leads in the page module in backend
+ * to show analysis or leads in the page module in backend
  */
 class PageOverview
 {
@@ -143,8 +143,7 @@ class PageOverview
             $arguments = [
                 'visitors' => $this->visitorRepository->findByVisitedPageIdentifier($pageIdentifier),
                 'pageIdentifier' => $pageIdentifier,
-                'view' => $view,
-                'status' => $session['status'] ?: 'show'
+                'view' => $view
             ];
             if ($view === 'analysis') {
                 $filter = ObjectUtility::getFilterDto(FilterDto::PERIOD_LAST7DAYS)->setSearchterm($pageIdentifier);
@@ -200,7 +199,7 @@ class PageOverview
                 );
             }
         }
-
+        $arguments['status'] = $session['status'] ?: 'show';
         return $arguments;
     }
 
