@@ -17,6 +17,11 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 class IpinformationFactory
 {
     /**
+     * @var string
+     */
+    protected $serviceUrl = 'http://ip-api.com/json/';
+
+    /**
      * @var array
      */
     protected $storeByKey = [
@@ -63,9 +68,9 @@ class IpinformationFactory
     {
         $ipAddress = IpUtility::getIpAddress();
         $properties = [];
-        $json = GeneralUtility::getUrl('http://ip-api.com/json/' . $ipAddress);
+        $json = GeneralUtility::getUrl($this->serviceUrl . $ipAddress);
         if ($json === false) {
-            throw new ConnectionFailedException('Could not connect to http://ip-api.com', 1518208369);
+            throw new ConnectionFailedException('Could not connect to ' . $this->serviceUrl, 1518208369);
         }
         if (!empty($json)) {
             $properties = json_decode($json, true);

@@ -153,7 +153,7 @@ class VisitorFactory
     {
         if (ConfigurationUtility::isIpLoggingDisabled() === false) {
             if (ConfigurationUtility::isIpInformationDisabled() === false) {
-                $ipInformationFactory = ObjectUtility::getObjectManager()->get(IpinformationFactory::class);
+                $ipInformationFactory = GeneralUtility::makeInstance(IpinformationFactory::class);
                 $objectStorage = $ipInformationFactory->getObjectStorageWithIpinformation();
                 $visitor->setIpinformations($objectStorage);
             }
