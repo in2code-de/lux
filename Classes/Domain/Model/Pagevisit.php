@@ -96,7 +96,7 @@ class Pagevisit extends AbstractModel
                 );
                 $title .= ' (' . $code . ')';
             }
-            if ($this->getNewsvisit() !== null) {
+            if ($this->getNewsvisit() !== null && $this->getNewsvisit()->getNews() !== null) {
                 $title .= ' "' . $this->getNewsvisit()->getNews()->getTitle() . '"';
             }
         }
