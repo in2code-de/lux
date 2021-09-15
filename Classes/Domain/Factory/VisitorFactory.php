@@ -3,11 +3,12 @@ declare(strict_types = 1);
 namespace In2code\Lux\Domain\Factory;
 
 use Doctrine\DBAL\DBALException;
+use In2code\Lux\Domain\Factory\Ipinformation\Handler;
 use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\VisitorMergeService;
-use In2code\Lux\Exception\ConnectionFailedException;
+use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\FingerprintMustNotBeEmptyException;
 use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\ConfigurationUtility;
@@ -59,13 +60,13 @@ class VisitorFactory
 
     /**
      * @return Visitor
+     * @throws ConfigurationException
+     * @throws DBALException
+     * @throws Exception
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws IllegalObjectTypeException
-     * @throws Exception
      * @throws UnknownObjectException
-     * @throws DBALException
-     * @throws ConnectionFailedException
      */
     public function getVisitor(): Visitor
     {
@@ -127,10 +128,11 @@ class VisitorFactory
 
     /**
      * @return Visitor
+     * @throws ConfigurationException
+     * @throws Exception
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
-     * @throws Exception
-     * @throws ConnectionFailedException
+     * @throws IllegalObjectTypeException
      */
     protected function createNewVisitor(): Visitor
     {
@@ -144,19 +146,17 @@ class VisitorFactory
     /**
      * @param Visitor $visitor
      * @return void
+     * @throws Exception
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
-     * @throws Exception
-     * @throws ConnectionFailedException
+     * @throws IllegalObjectTypeException
+     * @throws ConfigurationException
      */
     protected function enrichNewVisitorWithIpInformation(Visitor $visitor)
     {
         if (ConfigurationUtility::isIpLoggingDisabled() === false) {
-            if (ConfigurationUtility::isIpInformationDisabled() === false) {
-                $ipInformationFactory = GeneralUtility::makeInstance(IpinformationFactory::class);
-                $objectStorage = $ipInformationFactory->getObjectStorageWithIpinformation();
-                $visitor->setIpinformations($objectStorage);
-            }
+            $handler = GeneralUtility::makeInstance(Handler::class);
+            $visitor->setIpinformations($handler->getObjectStorage());
             $visitor->setIpAddress($this->getIpAddress());
         }
     }

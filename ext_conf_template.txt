@@ -48,6 +48,3 @@ disableIpLogging = 0
 
 # cat=advanced/enable/250; type=boolean; label= Anonymize IP: As an alternative to disableIpLogging, you can anonymize the visitors IP-address when saving. The last part of the IP will be anonymized with "***".
 anonymizeIp = 1
-
-# cat=advanced/enable/260; type=boolean; label= Disable ip-api.com information: You can use or disable ip-api.com to get more information about your visitors by their IP-address. Note - if you set disableIpLogging - this service will not work.
-disableIpInformation = 0

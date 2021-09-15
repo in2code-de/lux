@@ -1,0 +1,29 @@
+lib.lux.settings {
+  # Layer to use own ip information service (convert IP address to visitor name)
+  # More then one service can be registered. The first that deliver a result, will be used.
+  ipinformation {
+    # Main switch for using external IP services
+    _enable = 1
+
+    # Ip-API.com
+    # detailed information (company information mostly better then other services)
+    # with company details, geo coordinates, zip and region
+    # but connection is limited to 45 requests/minute + to http only for free usage (see ip-api.com for premium access)
+    1 {
+      class = In2code\Lux\Domain\Factory\Ipinformation\IpApi
+      configuration {
+        url = http://ip-api.com/json/{ip}
+      }
+    }
+
+    # iplist.cc
+    # as a complete free provider service with https connection but information depth is worse then others
+    # no company details, no geo coordinates, no zip and region
+    2 {
+      class = In2code\Lux\Domain\Factory\Ipinformation\Iplist
+      configuration {
+        url = https://iplist.cc/api/{ip}
+      }
+    }
+  }
+}

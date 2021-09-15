@@ -164,17 +164,6 @@ class ConfigurationUtility
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      */
-    public static function isIpInformationDisabled(): bool
-    {
-        $extensionConfig = self::getExtensionConfiguration();
-        return $extensionConfig['disableIpInformation'] === '1';
-    }
-
-    /**
-     * @return bool
-     * @throws ExtensionConfigurationExtensionNotConfiguredException
-     * @throws ExtensionConfigurationPathDoesNotExistException
-     */
     public static function isLeadModuleDisabled(): bool
     {
         $extensionConfig = self::getExtensionConfiguration();
