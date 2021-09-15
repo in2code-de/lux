@@ -105,14 +105,5 @@ call_user_func(
                 ]
             );
         }
-
-        /**
-         * Add TypoScript Static Template
-         */
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
-            'lux',
-            'Configuration/TypoScript/',
-            'Main TypoScript'
-        );
     }
 );

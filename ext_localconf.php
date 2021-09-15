@@ -34,7 +34,7 @@ call_user_func(
          * Add page TSConfig
          */
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-            '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:lux/Configuration/TSConfig/Lux.typoscript">'
+            '@import \'EXT:lux/Configuration/TSConfig/Lux.typoscript\''
         );
 
         /**
