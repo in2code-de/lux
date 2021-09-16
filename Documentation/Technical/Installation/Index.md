@@ -62,7 +62,6 @@ If you click on the settings symbol for extension lux, you can change some basic
 | Advanced: Disable ckeditor configuration         | Toggle if an automatic ckeditor configuration should be added or not (for email4link feature)           |
 | Advanced: Disable ip logging                     | Disable the logging of the visitors IP address                                                          |
 | Advanced: Anonymize IP                           | As an alternative to disableIpLogging, you can anonymize the visitors IP-address when saving. The last part of the IP will be anonymized with "***" |
-| Advanced: Disable ip-api.com information         | Toggle information enrichment based on the visitors IP by ip-api.com                                    |
 
 #### 3. Add TypoScript
 
@@ -75,35 +74,37 @@ Look at the default settings of your lux in TypoScript constants:
 
 ```
 plugin.tx_lux.settings {
-    # cat=lux//0010; type=boolean; label= Activate autoenable: Decide if user tracking is turned on by default (no opt-in needed here). If you turn autoenable off, you have to build an opt-in.
-    autoenable = 1
+  # cat=lux//0010; type=boolean; label= Activate autoenable: Decide if user tracking is turned on by default (no opt-in needed here). If you turn autoenable off, you have to build an opt-in.
+  autoenable = 1
 
-    # cat=lux//0020; type=options[0,2]; label= Identification method: Decide if fingerprinting (0) or local storage (2) method should be used for tracking your leads. Both methods have their ups and downs (see documentation for details).
-    identificationMethod = 0
+  # cat=lux//0020; type=options[0,2]; label= Identification method: Decide if fingerprinting (0) or local storage (2) method should be used for tracking your leads. Both methods have their ups and downs (see documentation for details).
+  identificationMethod = 0
 
+  tracking {
     # cat=lux//0030; type=boolean; label= Activate page tracking: (De)Activate tracking of the users pagefunnel.
-    tracking.page = 1
+    page = 1
 
     # cat=lux//0040; type=boolean; label= Activate download tracking: (De)Activate tracking if the user downloads an asset.
-    tracking.assetDownloads = 1
+    assetDownloads = 1
 
     # cat=lux//0050; type=text; label= Activate download tracking: (De)Activate tracking if the user downloads an asset.
-    tracking.assetDownloads.allowedExtensions = pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip
+    assetDownloads.allowedExtensions = pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip
 
     # cat=lux//0060; type=boolean; label= Activate searchterm tracking: (De)Activate tracking searchterms if user searched for someone on your website.
-    tracking.search = 1
+    search = 1
+  }
 
-    # cat=lux//0100; type=boolean; label= Activate field and form identification: (De)Activate identification by filling out web forms.
-    fieldandformidentification = 1
+  # cat=lux//0100; type=boolean; label= Activate field and form identification: (De)Activate identification by filling out web forms.
+  fieldandformidentification = 1
 
-    # cat=lux//0200; type=boolean; label= Disable for identified: Disable email4link lightbox in frontend if the visitor is already identified.
-    disableEmail4DownloadForIdentifiedVisitors = 1
+  # cat=lux//0200; type=boolean; label= Disable for identified: Disable email4link lightbox in frontend if the visitor is already identified.
+  disableEmail4DownloadForIdentifiedVisitors = 1
 
-    # cat=lux//0300; type=boolean; label= Disable for backend users: Disable lux tracking in frontend if you are also logged in into backend.
-    disableTrackingForBackendUsers = 1
+  # cat=lux//0300; type=boolean; label= Disable for backend users: Disable lux tracking in frontend if you are also logged in into backend.
+  disableTrackingForBackendUsers = 1
 
-    # cat=lux//0400; type=int+; label= PID privacy page: Set the pid of the privacy page for links in lux forms.
-    pidPrivacyPage = 11
+  # cat=lux//0400; type=int+; label= PID privacy page: Set the pid of the privacy page for links in lux forms.
+  pidPrivacyPage = 11
 }
 ```
 

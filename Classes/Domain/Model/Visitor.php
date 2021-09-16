@@ -1208,7 +1208,7 @@ class Visitor extends AbstractModel
             $companyFromIp = ObjectUtility::getObjectManager()->get(GetCompanyFromIpService::class);
             $company = $companyFromIp->get($this);
             if (empty($company)) {
-                $company = $this->getPropertyFromIpinformations('isp');
+                $company = $this->getPropertyFromIpinformations('org');
                 if ($this->isTelecomProvider($company)) {
                     $company = '';
                 }

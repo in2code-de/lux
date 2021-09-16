@@ -62,9 +62,9 @@ class Newsvisit extends AbstractModel
     }
 
     /**
-     * @return News
+     * @return News|null
      */
-    public function getNews(): News
+    public function getNews(): ?News
     {
         return $this->news;
     }
