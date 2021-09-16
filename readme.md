@@ -172,16 +172,18 @@ At the moment it's not possible to use lux without **composer mode**!
 
 ## Breaking changes !!!
 
-| Version                     | Situation                                           | Upgrade instructions                                                                                                                                                                      |
-| --------------------------- | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| From former versions to 8.x | Referrers are stored on a different place now       | Call your TYPO3 upgrade wizard. There will be one more step that will copy values from _visitor.referrer to _pagevisit.referrer table.                                                    |
-| From former versions to 7.x | Cookie-Table was replaced with a Fingerprint-Table  | Call your TYPO3 upgrade wizard. There will be one more step that will copy values from _idcookie to _fingerprint table. Note that CommandControllers are replaced by Symfony Commands!    |
-| From former versions to 3.x | The visitor object can handle more cookies now      | After updating use the update button in extension manager of if you have a lot of data stored, you can also use the LuxUpdateCommandController to prevent timeouts                        |
+| Version                        | Situation                                                    | Upgrade instructions                                                                                                                                                                      |
+| ------------------------------ | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| From former versions to 17.1.0 | Small change: Disable IP-API.com via Typoscript now          | If you turned off connection to IP-API.com via extension manager settings, you have to do this now via TypoScript - see [documentation](Documentation/Privacy/IpAddresses.md)             |
+| From former versions to 8.x    | Referrers are stored on a different place now                | Call your TYPO3 upgrade wizard. There will be one more step that will copy values from _visitor.referrer to _pagevisit.referrer table.                                                    |
+| From former versions to 7.x    | Cookie-Table was replaced with a Fingerprint-Table           | Call your TYPO3 upgrade wizard. There will be one more step that will copy values from _idcookie to _fingerprint table. Note that CommandControllers are replaced by Symfony Commands!    |
+| From former versions to 3.x    | The visitor object can handle more cookies now               | After updating use the update button in extension manager of if you have a lot of data stored, you can also use the LuxUpdateCommandController to prevent timeouts                        |
 
 ## Changelog
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 17.1.0 !!! | 2021-09-16 | Feature    | Interface added to register own IP service API, harden pagevisit model against exceptions                                                                                                  |
 | 17.0.2     | 2021-09-07 | Bugfix     | Remember toggle status in page overview                                                                                                                                                    |
 | 17.0.1     | 2021-09-06 | Bugfix     | Fix queries for TYPO3 9 in page module                                                                                                                                                     |
 | 17.0.0     | 2021-09-05 | Feature    | Add a complete new page overview layout with important information to improve content.                                                                                                     |
