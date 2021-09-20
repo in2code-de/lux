@@ -155,7 +155,7 @@ class VisitorFactory
     protected function enrichNewVisitorWithIpInformation(Visitor $visitor)
     {
         if (ConfigurationUtility::isIpLoggingDisabled() === false) {
-            $handler = GeneralUtility::makeInstance(Handler::class);
+            $handler = ObjectUtility::getObjectManager()->get(Handler::class);
             $visitor->setIpinformations($handler->getObjectStorage());
             $visitor->setIpAddress($this->getIpAddress());
         }

@@ -34,6 +34,7 @@ final class Handler
      *
      * @param ConfigurationService|null $configurationService
      * @param IpinformationRepository|null $ipinformationRepository
+     * @throws Exception
      */
     public function __construct(
         ConfigurationService $configurationService = null,
@@ -42,7 +43,7 @@ final class Handler
         $this->configurationService
             = $configurationService ?: GeneralUtility::makeInstance(ConfigurationService::class);
         $this->ipinformationRepository
-            = $ipinformationRepository ?: GeneralUtility::makeInstance(IpinformationRepository::class);
+            = $ipinformationRepository ?: ObjectUtility::getObjectManager()->get(IpinformationRepository::class);
     }
 
     /**
