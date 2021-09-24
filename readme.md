@@ -183,6 +183,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 17.1.2     | 2021-09-24 | Bugfix     | Make lightbox responsive (Workflow action content in lightbox)                                                                                                                             |
 | 17.1.1     | 2021-09-20 | Bugfix     | TYPO3 9 bugfix for new handler                                                                                                                                                             |
 | 17.1.0 !!! | 2021-09-16 | Feature    | Interface added to register own IP service API, harden pagevisit model against exceptions                                                                                                  |
 | 17.0.2     | 2021-09-07 | Bugfix     | Remember toggle status in page overview                                                                                                                                                    |
