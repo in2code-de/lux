@@ -4,7 +4,7 @@ use In2code\Lux\Domain\Model\Newsvisit;
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Newsvisit::TABLE_NAME,
-        'label' => 'page',
+        'label' => 'news',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
         'cruser_id' => 'cruser_id',
