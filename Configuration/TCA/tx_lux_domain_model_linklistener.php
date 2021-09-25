@@ -17,15 +17,26 @@ return [
         'rootLevel' => -1
     ],
     'interface' => [
-        'showRecordFieldList' => 'title,link,category,linkclicks',
+        'showRecordFieldList' => 'title,description,link,category,linkclicks',
     ],
     'types' => [
-        '1' => ['showitem' => 'title,--palette--;Link;palette_link'],
+        '1' => [
+            'showitem' =>
+                '--palette--;LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linklistener::TABLE_NAME . '.palette.title;palette_title,' .
+                '--palette--;LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linklistener::TABLE_NAME . '.palette.link;palette_link,' .
+                '--palette--;LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linklistener::TABLE_NAME . '.palette.creation;palette_creation,'
+        ],
     ],
     'palettes' => [
+        'palette_title' => [
+            'showitem' => 'title,description'
+        ],
         'palette_link' => [
             'showitem' => 'link,category'
-        ]
+        ],
+        'palette_creation' => [
+            'showitem' => 'crdate,cruser_id'
+        ],
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -76,12 +87,39 @@ return [
                 'readOnly' => true
             ]
         ],
+        'cruser_id' => [
+            'exclude' => true,
+            'label' =>
+                'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linklistener::TABLE_NAME . '.cruser_id',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'items' => [
+                    ['', ''],
+                ],
+                'foreign_table' => 'be_users',
+                'readOnly' => true
+            ]
+        ],
         'title' => [
             'exclude' => true,
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linklistener::TABLE_NAME . '.title',
             'config' => [
                 'type' => 'input',
-                'eval' => 'trim,required'
+                'eval' => 'trim,required',
+                'placeholder' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:'
+                    . Linklistener::TABLE_NAME . '.title.placeholder',
+            ]
+        ],
+        'description' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:'
+                . Linklistener::TABLE_NAME . '.description',
+            'config' => [
+                'type' => 'text',
+                'default' => '',
+                'placeholder' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:'
+                    . Linklistener::TABLE_NAME . '.description.placeholder',
             ]
         ],
         'link' => [

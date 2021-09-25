@@ -59,6 +59,7 @@ class LinklistenerRepository extends AbstractRepository
                         $logicalOr[] = $query->equals('uid', $searchterm);
                     } else {
                         $logicalOr[] = $query->like('title', '%' . $searchterm . '%');
+                        $logicalOr[] = $query->like('description', '%' . $searchterm . '%');
                         $logicalOr[] = $query->like('category.title', '%' . $searchterm . '%');
                     }
                 }

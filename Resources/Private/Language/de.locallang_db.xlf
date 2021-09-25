@@ -387,13 +387,41 @@
 				<source>Link Listener</source>
 				<target state="translated">Link Listener</target>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linklistener.palette.title">
+				<source>Description</source>
+				<target state="translated">Beschreibung</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linklistener.palette.link">
+				<source>Link</source>
+				<target state="translated">Link</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linklistener.palette.creation">
+				<source>Creation information</source>
+				<target state="translated">Informationen zur Erstellung</target>
+			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_linklistener.crdate">
 				<source>Creation date</source>
 				<target state="translated">Erstellungsdatum</target>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linklistener.cruser_id">
+				<source>Creator</source>
+				<target state="translated">Ersteller</target>
+			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_linklistener.title">
 				<source>Title</source>
 				<target state="translated">Bezeichnung</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linklistener.title.placeholder">
+				<source>Button click on stage</source>
+				<target state="translated">Klick auf call to action button in Bühne</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linklistener.description">
+				<source>Description</source>
+				<target state="translated">Beschreibung</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linklistener.description.placeholder">
+				<source>Where is this link located on your website? Which marketing campaign?</source>
+				<target state="translated">Wo ist der Link auf der Website? Zu welcher Marketingkampagne gehört dieser Listener?</target>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_linklistener.link">
 				<source>Link</source>
@@ -1097,12 +1125,24 @@
 				<target state="translated">Neuen Link Listener hinzufügen</target>
 			</trans-unit>
 			<trans-unit id="module.linklistener.table.title">
-				<source>Title of Link Listener</source>
-				<target state="translated">Bezeichnung Link Listener</target>
+				<source>Title</source>
+				<target state="translated">Bezeichnung</target>
+			</trans-unit>
+			<trans-unit id="module.linklistener.table.description">
+				<source>Description</source>
+				<target state="translated">Beschreibung</target>
 			</trans-unit>
 			<trans-unit id="module.linklistener.table.category">
 				<source>Lux Category</source>
 				<target state="translated">Lux Kategorie</target>
+			</trans-unit>
+			<trans-unit id="module.linklistener.table.created">
+				<source>Created</source>
+				<target state="translated">Erstellt</target>
+			</trans-unit>
+			<trans-unit id="module.linklistener.table.author">
+				<source>Author</source>
+				<target state="translated">Autor</target>
 			</trans-unit>
 			<trans-unit id="module.linklistener.table.clicks">
 				<source>Number of clicks</source>

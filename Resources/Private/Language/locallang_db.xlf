@@ -295,11 +295,32 @@
 			<trans-unit id="tx_lux_domain_model_linklistener">
 				<source>Link Listener</source>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linklistener.palette.title">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linklistener.palette.link">
+				<source>Link</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linklistener.palette.creation">
+				<source>Creation information</source>
+			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_linklistener.crdate">
 				<source>Creation date</source>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linklistener.cruser_id">
+				<source>Creator</source>
+			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_linklistener.title">
 				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linklistener.title.placeholder">
+				<source>Button click on stage</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linklistener.description">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linklistener.description.placeholder">
+				<source>Where is this link located on your website? Which marketing campaign?</source>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_linklistener.link">
 				<source>Link</source>
@@ -833,10 +854,19 @@
 				<source>Add new Link Listener</source>
 			</trans-unit>
 			<trans-unit id="module.linklistener.table.title">
-				<source>Title of Link Listener</source>
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="module.linklistener.table.description">
+				<source>Description</source>
 			</trans-unit>
 			<trans-unit id="module.linklistener.table.category">
 				<source>Lux Category</source>
+			</trans-unit>
+			<trans-unit id="module.linklistener.table.created">
+				<source>Created</source>
+			</trans-unit>
+			<trans-unit id="module.linklistener.table.author">
+				<source>Author</source>
 			</trans-unit>
 			<trans-unit id="module.linklistener.table.clicks">
 				<source>Number of clicks</source>

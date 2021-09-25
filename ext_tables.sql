@@ -235,6 +235,7 @@ CREATE TABLE tx_lux_domain_model_linklistener (
 	linkclicks int(11) DEFAULT '0' NOT NULL,
 
 	title varchar(255) DEFAULT '' NOT NULL,
+	description text NOT NULL,
 	link varchar(255) DEFAULT '' NOT NULL,
 	category int(11) DEFAULT '0' NOT NULL,
 
