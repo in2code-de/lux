@@ -43,7 +43,11 @@
                         <td><span title="UID{linkListener.uid}">{linkListener.title}</span></td>
                         <td><f:format.nl2br>{linkListener.description}</f:format.nl2br></td>
                         <td>{linkListener.category.title}</td>
-                        <td>{f:format.date(date:linkListener.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}</td>
+                        <td>
+                            <span class="badge" title="{f:format.date(date:linkListener.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
+                                <lux:format.readableDate>{linkListener.crdate}</lux:format.readableDate>
+                            </span>
+                        </td>
                         <td>
                             {linkListener.cruserId.username}
                             <f:if condition="{linkListener.cruserId.name}">({linkListener.cruserId.username})</f:if>
