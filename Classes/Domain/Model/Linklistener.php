@@ -22,9 +22,19 @@ class Linklistener extends AbstractEntity
     protected $crdate = null;
 
     /**
+     * @var \In2code\Lux\Domain\Model\User|null
+     */
+    protected $cruserId = null;
+
+    /**
      * @var string
      */
     protected $title = '';
+
+    /**
+     * @var string
+     */
+    protected $description = '';
 
     /**
      * @var string
@@ -61,6 +71,24 @@ class Linklistener extends AbstractEntity
     }
 
     /**
+     * @return User|null
+     */
+    public function getCruserId(): ?User
+    {
+        return $this->cruserId;
+    }
+
+    /**
+     * @param User|null $cruserId
+     * @return Linklistener
+     */
+    public function setCruserId(?User $cruserId): Linklistener
+    {
+        $this->cruserId = $cruserId;
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getTitle(): string
@@ -75,6 +103,24 @@ class Linklistener extends AbstractEntity
     public function setTitle(string $title): self
     {
         $this->title = $title;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     * @return Linklistener
+     */
+    public function setDescription(string $description): Linklistener
+    {
+        $this->description = $description;
         return $this;
     }
 

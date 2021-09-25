@@ -17,7 +17,16 @@
                             <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.title">title</f:translate>
                         </th>
                         <th>
+                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.description">description</f:translate>
+                        </th>
+                        <th>
                             <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.category">category</f:translate>
+                        </th>
+                        <th>
+                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.created">created</f:translate>
+                        </th>
+                        <th>
+                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.author">author</f:translate>
                         </th>
                         <th>
                             <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.clicks">clicks</f:translate>
@@ -31,8 +40,22 @@
                 <tbody>
                 <f:for each="{linkListeners}" as="linkListener">
                     <tr data-lux-action-analysislinklistenerdetail="{linkListener.uid}">
-                        <td>{linkListener.title}</td>
+                        <td><span title="UID{linkListener.uid}">{linkListener.title}</span></td>
+                        <td>
+                            <span title="{linkListener.description}">
+                                <f:format.nl2br><f:format.crop maxCharacters="50" append="..." respectWordBoundaries="0">{linkListener.description}</f:format.crop></f:format.nl2br>
+                            </span>
+                        </td>
                         <td>{linkListener.category.title}</td>
+                        <td>
+                            <span class="badge" title="{f:format.date(date:linkListener.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
+                                <lux:format.readableDate>{linkListener.crdate}</lux:format.readableDate>
+                            </span>
+                        </td>
+                        <td>
+                            {linkListener.cruserId.username}
+                            <f:if condition="{linkListener.cruserId.name}">({linkListener.cruserId.username})</f:if>
+                        </td>
                         <td>{linkListener.linkclicksRaw -> f:count()}</td>
                         <td>{linkListener.performance -> lux:format.percent()}</td>
                         <td>
