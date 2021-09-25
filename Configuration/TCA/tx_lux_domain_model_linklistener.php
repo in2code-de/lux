@@ -82,6 +82,7 @@ return [
                 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linklistener::TABLE_NAME . '.crdate',
             'config' => [
                 'type' => 'input',
+                'renderType' => 'inputDateTime',
                 'size' => 30,
                 'eval' => 'datetime',
                 'readOnly' => true
