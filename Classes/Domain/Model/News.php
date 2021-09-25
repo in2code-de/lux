@@ -13,6 +13,16 @@ class News extends AbstractEntity
     const TABLE_NAME = 'tx_news_domain_model_news';
 
     /**
+     * @var \DateTime|null
+     */
+    protected $crdate = null;
+
+    /**
+     * @var \In2code\Lux\Domain\Model\User|null
+     */
+    protected $cruserId = null;
+
+    /**
      * @var string
      */
     protected $title = '';
@@ -28,6 +38,42 @@ class News extends AbstractEntity
     public function __construct()
     {
         $this->categories = new ObjectStorage();
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getCrdate(): ?\DateTime
+    {
+        return $this->crdate;
+    }
+
+    /**
+     * @param \DateTime|null $crdate
+     * @return News
+     */
+    public function setCrdate(?\DateTime $crdate): News
+    {
+        $this->crdate = $crdate;
+        return $this;
+    }
+
+    /**
+     * @return User|null
+     */
+    public function getCruserId(): ?User
+    {
+        return $this->cruserId;
+    }
+
+    /**
+     * @param User|null $cruserId
+     * @return News
+     */
+    public function setCruserId(?User $cruserId): News
+    {
+        $this->cruserId = $cruserId;
+        return $this;
     }
 
     /**

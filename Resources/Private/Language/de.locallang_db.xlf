@@ -644,6 +644,14 @@
 				<source>Categories</source>
 				<target state="translated">Kategorien</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.news.created">
+				<source>Created</source>
+				<target state="translated">Erstellt</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.news.author">
+				<source>Author</source>
+				<target state="translated">Autor</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.news.visits">
 				<source>News views</source>
 				<target state="translated">Newsaufrufe</target>
