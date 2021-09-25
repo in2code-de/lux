@@ -22,7 +22,7 @@ class Linklistener extends AbstractEntity
     protected $crdate = null;
 
     /**
-     * @var User|null
+     * @var \In2code\Lux\Domain\Model\User|null
      */
     protected $cruserId = null;
 
