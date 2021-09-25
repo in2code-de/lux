@@ -22,9 +22,12 @@ return [
     'types' => [
         '1' => [
             'showitem' =>
-                '--palette--;LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linklistener::TABLE_NAME . '.palette.title;palette_title,' .
-                '--palette--;LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linklistener::TABLE_NAME . '.palette.link;palette_link,' .
-                '--palette--;LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linklistener::TABLE_NAME . '.palette.creation;palette_creation,'
+                '--palette--;LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:'
+                . Linklistener::TABLE_NAME . '.palette.title;palette_title,' .
+                '--palette--;LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:'
+                . Linklistener::TABLE_NAME . '.palette.link;palette_link,' .
+                '--palette--;LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:'
+                . Linklistener::TABLE_NAME . '.palette.creation;palette_creation,'
         ],
     ],
     'palettes' => [
