@@ -55,10 +55,12 @@ call_user_func(
                 'analysis',
                 '',
                 [
-                    'Analysis' => 'dashboard,content,news,linkListener,search,deleteLinkListener,detailPage' .
+                    \In2code\Lux\Controller\AnalysisController::class =>
+                        'dashboard,content,news,linkListener,search,deleteLinkListener,detailPage' .
                         ',detailNews,detailSearch,detailDownload,detailLinkListener,resetFilter',
-                    'Lead' => 'dashboard,list,detail,downloadCsv,remove,deactivate,resetFilter',
-                    'General' => 'information'
+                    \In2code\Lux\Controller\LeadController::class =>
+                        'dashboard,list,detail,downloadCsv,remove,deactivate,resetFilter',
+                    \In2code\Lux\Controller\GeneralController::class => 'information'
                 ],
                 [
                     'access' => 'user,group',
@@ -75,9 +77,11 @@ call_user_func(
                 'leads',
                 '',
                 [
-                    'Lead' => 'dashboard,list,detail,downloadCsv,remove,deactivate,resetFilter',
-                    'Analysis' => 'dashboard,content,linkClicks,detailPage,detailDownload,resetFilter',
-                    'General' => 'information'
+                    \In2code\Lux\Controller\LeadController::class =>
+                        'dashboard,list,detail,downloadCsv,remove,deactivate,resetFilter',
+                    \In2code\Lux\Controller\AnalysisController::class =>
+                        'dashboard,content,linkClicks,detailPage,detailDownload,resetFilter',
+                    \In2code\Lux\Controller\GeneralController::class => 'information'
                 ],
                 [
                     'access' => 'user,group',
@@ -94,9 +98,11 @@ call_user_func(
                 'workflow',
                 '',
                 [
-                    'Workflow' => 'list,new,create,edit,update,delete,disable,enable',
-                    'Shortener' => 'list,delete,detail,resetFilter',
-                    'General' => 'information'
+                    \In2code\Lux\Controller\WorkflowController::class =>
+                        'list,new,create,edit,update,delete,disable,enable',
+                    \In2code\Lux\Controller\ShortenerController::class =>
+                        'list,delete,detail,resetFilter',
+                    \In2code\Lux\Controller\GeneralController::class => 'information'
                 ],
                 [
                     'access' => 'user,group',

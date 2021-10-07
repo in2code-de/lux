@@ -13,20 +13,20 @@ call_user_func(
             'In2code.lux',
             'Fe',
             [
-                'Frontend' => 'dispatchRequest'
+                \In2code\Lux\Controller\FrontendController::class => 'dispatchRequest'
             ],
             [
-                'Frontend' => 'dispatchRequest'
+                \In2code\Lux\Controller\FrontendController::class => 'dispatchRequest'
             ]
         );
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
             'In2code.lux',
             'Pi1',
             [
-                'Frontend' => 'trackingOptOut'
+                \In2code\Lux\Controller\FrontendController::class => 'trackingOptOut'
             ],
             [
-                'Frontend' => ''
+                \In2code\Lux\Controller\FrontendController::class => ''
             ]
         );
 
@@ -208,7 +208,7 @@ call_user_func(
             \In2code\Lux\Hooks\PageOverview::CACHE_KEY
         ];
         foreach ($cacheKeys as $cacheKey) {
-            if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheKey])) {
+            if (!isset($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheKey])) {
                 $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheKey] = [];
             }
         }

@@ -137,7 +137,7 @@ class PageOverview
     {
         $arguments = [];
         if ($this->getCacheLifeTime() > 0) {
-            $arguments = $this->cacheInstance->get($this->getCacheIdentifier($pageIdentifier));
+            $arguments = json_decode($this->cacheInstance->get($this->getCacheIdentifier($pageIdentifier)), true);
         }
         if (empty($arguments)) {
             $arguments = [
@@ -193,13 +193,13 @@ class PageOverview
             if ($this->getCacheLifeTime() > 0) {
                 $this->cacheInstance->set(
                     $this->getCacheIdentifier($pageIdentifier),
-                    $arguments,
+                    json_encode($arguments),
                     [self::CACHE_KEY],
                     $this->getCacheLifeTime()
                 );
             }
         }
-        $arguments['status'] = $session['status'] ?: 'show';
+        $arguments['status'] = $session['status'] ?? 'show';
         return $arguments;
     }
 
