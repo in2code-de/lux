@@ -70,7 +70,6 @@ class VisitorFactory
      */
     public function getVisitor(): Visitor
     {
-        $this->repairVisitorLanguage();
         $visitor = $this->getVisitorFromDatabaseByFingerprint();
         $this->signalDispatch(__CLASS__, __FUNCTION__ . 'beforeCreateNew', [$this->fingerprint]);
         if ($visitor === null) {
@@ -178,19 +177,5 @@ class VisitorFactory
             $ipAddress = implode('.', $parts);
         }
         return $ipAddress;
-    }
-
-    /**
-     * Repair method: Fix default language in some tables and update with sys_language_uid=-1
-     *
-     * @return void
-     * @throws DBALException
-     * Todo: Remove in version 10
-     */
-    protected function repairVisitorLanguage(): void
-    {
-        if ($this->visitorRepository->isVisitorExistingWithDefaultLanguage()) {
-            $this->visitorRepository->updateRecordsWithLanguageAll();
-        }
     }
 }

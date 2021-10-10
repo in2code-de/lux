@@ -20,7 +20,6 @@ use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
@@ -128,22 +127,6 @@ abstract class AbstractController extends ActionController
         FingerprintRepository $fingerprintRepository = null,
         SearchRepository $searchRepository = null
     ) {
-        if ($visitorRepository === null) {
-            // Todo: Fallback for TYPO3 9 without symfony DI
-            $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
-            $ipinformationRepository = ObjectUtility::getObjectManager()->get(IpinformationRepository::class);
-            $logRepository = ObjectUtility::getObjectManager()->get(LogRepository::class);
-            $pagevisitsRepository = ObjectUtility::getObjectManager()->get(PagevisitRepository::class);
-            $pageRepository = ObjectUtility::getObjectManager()->get(PageRepository::class);
-            $downloadRepository = ObjectUtility::getObjectManager()->get(DownloadRepository::class);
-            $newsvisitRepository = ObjectUtility::getObjectManager()->get(NewsvisitRepository::class);
-            $newsRepository = ObjectUtility::getObjectManager()->get(NewsRepository::class);
-            $categoryRepository = ObjectUtility::getObjectManager()->get(CategoryRepository::class);
-            $linkclickRepository = ObjectUtility::getObjectManager()->get(LinkclickRepository::class);
-            $linklistenerRepository = ObjectUtility::getObjectManager()->get(LinklistenerRepository::class);
-            $fingerprintRepository = ObjectUtility::getObjectManager()->get(FingerprintRepository::class);
-            $searchRepository = ObjectUtility::getObjectManager()->get(SearchRepository::class);
-        }
         $this->visitorRepository = $visitorRepository;
         $this->ipinformationRepository = $ipinformationRepository;
         $this->logRepository = $logRepository;
@@ -181,7 +164,6 @@ abstract class AbstractController extends ActionController
      * Set a filter for the last 12 month
      *
      * @return void
-     * @throws InvalidArgumentNameException
      * @throws Exception
      */
     protected function setFilter(): void
@@ -194,7 +176,6 @@ abstract class AbstractController extends ActionController
      * avoid propertymapping exceptions
      *
      * @return void
-     * @throws InvalidArgumentNameException
      * @throws NoSuchArgumentException
      */
     protected function setFilterExtended(): void
@@ -264,7 +245,8 @@ abstract class AbstractController extends ActionController
      */
     protected function getControllerName(): string
     {
-        $name = end(explode('\\', get_called_class()));
+        $classParts = explode('\\', get_called_class());
+        $name = end($classParts);
         return StringUtility::removeStringPostfix($name, 'Controller');
     }
 

@@ -159,7 +159,7 @@ class LeadController extends AbstractController
      * AJAX action to show a detail view
      *
      * @param ServerRequestInterface $request
-     * @return ResponseInterface Todo: Second parameter is removed in TYPO3 10
+     * @return ResponseInterface
      * @throws Exception
      * @noinspection PhpUnused
      */

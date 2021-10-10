@@ -5,7 +5,6 @@ namespace In2code\Lux\Domain\Service\Email;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Service\ConfigurationService;
 use In2code\Lux\Signal\SignalTrait;
-use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use In2code\Lux\Utility\UrlUtility;
@@ -78,25 +77,12 @@ class SendAssetEmail4LinkService
     protected function send(string $href): void
     {
         $message = ObjectUtility::getObjectManager()->get(MailMessage::class);
-        if (ConfigurationUtility::isVersionToCompareSameOrLowerThenCurrentTypo3Version('10.0.0')) {
-            // TYPO3 10
-            $message
-                ->setTo([$this->visitor->getEmail() => 'Receiver'])
-                ->setFrom($this->getSender())
-                ->setSubject($this->getSubject())
-                ->attachFromPath(GeneralUtility::getFileAbsFileName(UrlUtility::convertToRelative($href)))
-                ->html($this->getMailTemplate($href));
-        } else {
-            // Todo: Remove when TYPO3 9.5 support will be dropped
-            $message
-                ->setTo([$this->visitor->getEmail() => 'Receiver'])
-                ->setFrom($this->getSender())
-                ->setSubject($this->getSubject())
-                ->attach(\Swift_Attachment::fromPath(
-                    GeneralUtility::getFileAbsFileName(UrlUtility::convertToRelative($href))
-                ))
-                ->setBody($this->getMailTemplate($href), 'text/html');
-        }
+        $message
+            ->setTo([$this->visitor->getEmail() => 'Receiver'])
+            ->setFrom($this->getSender())
+            ->setSubject($this->getSubject())
+            ->attachFromPath(GeneralUtility::getFileAbsFileName(UrlUtility::convertToRelative($href)))
+            ->html($this->getMailTemplate($href));
         $this->setBcc($message);
         $this->signalDispatch(__CLASS__, 'send', [$message, $this->visitor, $href]);
         $message->send();
