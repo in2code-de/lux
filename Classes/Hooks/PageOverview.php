@@ -72,30 +72,25 @@ class PageOverview
 
     /**
      * PageOverview constructor.
-     * @param VisitorRepository|null $visitorRepository
-     * @param PagevisitRepository|null $pagevisitRepository
-     * @param LinkclickRepository|null $linkclickRepository
-     * @param DownloadRepository|null $downloadRepository
-     * @param LogRepository|null $logRepository
-     * @throws Exception
+     * @param VisitorRepository $visitorRepository
+     * @param PagevisitRepository $pagevisitRepository
+     * @param LinkclickRepository $linkclickRepository
+     * @param DownloadRepository $downloadRepository
+     * @param LogRepository $logRepository
      * @throws NoSuchCacheException
      */
     public function __construct(
-        VisitorRepository $visitorRepository = null,
-        PagevisitRepository $pagevisitRepository = null,
-        LinkclickRepository $linkclickRepository = null,
-        DownloadRepository $downloadRepository = null,
-        LogRepository $logRepository = null
+        VisitorRepository $visitorRepository,
+        PagevisitRepository $pagevisitRepository,
+        LinkclickRepository $linkclickRepository,
+        DownloadRepository $downloadRepository,
+        LogRepository $logRepository
     ) {
-        $this->visitorRepository
-            = $visitorRepository ?: ObjectUtility::getObjectManager()->get(VisitorRepository::class);
-        $this->pagevisitRepository
-            = $pagevisitRepository ?: ObjectUtility::getObjectManager()->get(PagevisitRepository::class);
-        $this->linkclickRepository
-            = $linkclickRepository ?: ObjectUtility::getObjectManager()->get(LinkclickRepository::class);
-        $this->downloadRepository
-            = $downloadRepository ?: ObjectUtility::getObjectManager()->get(DownloadRepository::class);
-        $this->logRepository = $logRepository ?: ObjectUtility::getObjectManager()->get(LogRepository::class);
+        $this->visitorRepository = $visitorRepository;
+        $this->pagevisitRepository = $pagevisitRepository;
+        $this->linkclickRepository = $linkclickRepository;
+        $this->downloadRepository = $downloadRepository;
+        $this->logRepository = $logRepository;
         $this->cacheInstance = GeneralUtility::makeInstance(CacheManager::class)->getCache(self::CACHE_KEY);
     }
 

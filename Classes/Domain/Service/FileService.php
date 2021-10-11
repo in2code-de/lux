@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\Service;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use In2code\Lux\Domain\Model\File;
 use In2code\Lux\Domain\Repository\FileRepository;
 use In2code\Lux\Utility\ObjectUtility;
@@ -21,7 +22,7 @@ class FileService
      */
     public function getFileFromHref(string $href)
     {
-        $resourceFactory = ResourceFactory::getInstance();
+        $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
         try {
             $file = $resourceFactory->getFileObjectFromCombinedIdentifier(
                 $this->convertHrefToStorageAndFilePath($href)

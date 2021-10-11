@@ -9,6 +9,7 @@ use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use In2code\Lux\Utility\UrlUtility;
 use TYPO3\CMS\Core\Mail\MailMessage;
+use TYPO3\CMS\Core\Resource\Security\FileNameValidator;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -216,7 +217,7 @@ class SendAssetEmail4LinkService
      */
     protected function isNotMalicious(string $href): bool
     {
-        return GeneralUtility::verifyFilenameAgainstDenyPattern($href)
+        return GeneralUtility::makeInstance(FileNameValidator::class)->isValid($href)
             && GeneralUtility::validPathStr($href);
     }
 

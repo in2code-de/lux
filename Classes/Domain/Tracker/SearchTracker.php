@@ -19,9 +19,9 @@ class SearchTracker
     use SignalTrait;
 
     /**
-     * @var VisitorRepository|null
+     * @var VisitorRepository
      */
-    protected $visitorRepository = null;
+    protected $visitorRepository;
 
     /**
      * @var array
@@ -29,11 +29,14 @@ class SearchTracker
     protected $settings = [];
 
     /**
-     * PageTracker constructor.
+     * Constructor
+     *
+     * @param VisitorRepository $visitorRepository
+     * @throws Exception
      */
-    public function __construct()
+    public function __construct(VisitorRepository $visitorRepository)
     {
-        $this->visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
+        $this->visitorRepository = $visitorRepository;
         $configurationService = ObjectUtility::getConfigurationService();
         $this->settings = $configurationService->getTypoScriptSettings();
     }

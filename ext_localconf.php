@@ -1,5 +1,5 @@
 <?php
-if (!defined('TYPO3_MODE')) {
+if (!defined('TYPO3')) {
     die('Access denied.');
 }
 
@@ -10,7 +10,7 @@ call_user_func(
          * Include Frontend Plugins
          */
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-            'In2code.lux',
+            'Lux',
             'Fe',
             [
                 \In2code\Lux\Controller\FrontendController::class => 'dispatchRequest'
@@ -20,7 +20,7 @@ call_user_func(
             ]
         );
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-            'In2code.lux',
+            'Lux',
             'Pi1',
             [
                 \In2code\Lux\Controller\FrontendController::class => 'trackingOptOut'

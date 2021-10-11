@@ -110,22 +110,21 @@ abstract class AbstractController extends ActionController
      * @param LinklistenerRepository|null $linklistenerRepository
      * @param FingerprintRepository|null $fingerprintRepository
      * @param SearchRepository|null $searchRepository
-     * @throws Exception
      */
     public function __construct(
-        VisitorRepository $visitorRepository = null,
-        IpinformationRepository $ipinformationRepository = null,
-        LogRepository $logRepository = null,
-        PagevisitRepository $pagevisitsRepository = null,
-        PageRepository $pageRepository = null,
-        DownloadRepository $downloadRepository = null,
-        NewsvisitRepository $newsvisitRepository = null,
-        NewsRepository $newsRepository = null,
-        CategoryRepository $categoryRepository = null,
-        LinkclickRepository $linkclickRepository = null,
-        LinklistenerRepository $linklistenerRepository = null,
-        FingerprintRepository $fingerprintRepository = null,
-        SearchRepository $searchRepository = null
+        VisitorRepository $visitorRepository,
+        IpinformationRepository $ipinformationRepository,
+        LogRepository $logRepository,
+        PagevisitRepository $pagevisitsRepository,
+        PageRepository $pageRepository,
+        DownloadRepository $downloadRepository,
+        NewsvisitRepository $newsvisitRepository,
+        NewsRepository $newsRepository,
+        CategoryRepository $categoryRepository,
+        LinkclickRepository $linkclickRepository,
+        LinklistenerRepository $linklistenerRepository,
+        FingerprintRepository $fingerprintRepository,
+        SearchRepository $searchRepository
     ) {
         $this->visitorRepository = $visitorRepository;
         $this->ipinformationRepository = $ipinformationRepository;

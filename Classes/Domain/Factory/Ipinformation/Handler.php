@@ -32,18 +32,15 @@ final class Handler
     /**
      * Constructor
      *
-     * @param ConfigurationService|null $configurationService
-     * @param IpinformationRepository|null $ipinformationRepository
-     * @throws Exception
+     * @param ConfigurationService $configurationService
+     * @param IpinformationRepository $ipinformationRepository
      */
     public function __construct(
-        ConfigurationService $configurationService = null,
-        IpinformationRepository $ipinformationRepository = null
+        ConfigurationService $configurationService,
+        IpinformationRepository $ipinformationRepository
     ) {
-        $this->configurationService
-            = $configurationService ?: GeneralUtility::makeInstance(ConfigurationService::class);
-        $this->ipinformationRepository
-            = $ipinformationRepository ?: ObjectUtility::getObjectManager()->get(IpinformationRepository::class);
+        $this->configurationService = $configurationService;
+        $this->ipinformationRepository = $ipinformationRepository;
     }
 
     /**

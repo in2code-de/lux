@@ -2,6 +2,8 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\Model;
 
+use Doctrine\DBAL\DBALException;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use In2code\Lux\Domain\Repository\LinkclickRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Utility\DateUtility;
@@ -22,7 +24,7 @@ class Linklistener extends AbstractEntity
     protected $crdate = null;
 
     /**
-     * @var \In2code\Lux\Domain\Model\User|null
+     * @var User|null
      */
     protected $cruserId = null;
 
@@ -42,7 +44,7 @@ class Linklistener extends AbstractEntity
     protected $link = '';
 
     /**
-     * @var \In2code\Lux\Domain\Model\Category
+     * @var Category
      */
     protected $category = null;
 
@@ -176,10 +178,10 @@ class Linklistener extends AbstractEntity
     }
 
     /**
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $linkclicks
+     * @param ObjectStorage $linkclicks
      * @return Linklistener
      */
-    public function setLinkclicks(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $linkclicks): self
+    public function setLinkclicks(ObjectStorage $linkclicks): self
     {
         $this->linkclicks = $linkclicks;
         return $this;
@@ -202,6 +204,7 @@ class Linklistener extends AbstractEntity
     /**
      * @return float
      * @throws Exception
+     * @throws DBALException
      */
     public function getPerformance(): float
     {
@@ -224,6 +227,7 @@ class Linklistener extends AbstractEntity
      * @param array $groupedLinkclicks
      * @return array
      * @throws Exception
+     * @throws DBALException
      */
     protected function extendGroupedLinkclicksWithDateAndPagevisits(array $groupedLinkclicks): array
     {

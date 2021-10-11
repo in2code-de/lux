@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\Service;
 
+use Buchin\GoogleImageGrabber\GoogleImageGrabber;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\ObjectUtility;
@@ -136,10 +137,9 @@ class VisitorImageService
      */
     protected function getImageFromGoogle(string $url): string
     {
-        if (empty($url) && $this->visitor->isIdentified()
-            && class_exists(\Buchin\GoogleImageGrabber\GoogleImageGrabber::class)) {
+        if (empty($url) && $this->visitor->isIdentified() && class_exists(GoogleImageGrabber::class)) {
             try {
-                $images = \Buchin\GoogleImageGrabber\GoogleImageGrabber::grab($this->visitor->getEmail());
+                $images = GoogleImageGrabber::grab($this->visitor->getEmail());
                 foreach ((array)$images as $image) {
                     if (!empty($image['url']) && FileUtility::isImageFile($image['url']) && $image['width'] > 25) {
                         $url = $image['url'];

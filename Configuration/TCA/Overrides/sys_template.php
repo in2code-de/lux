@@ -1,11 +1,13 @@
 <?php
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 call_user_func(
     static function () {
         /**
          * Add TypoScript Static Template
          */
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
+        ExtensionManagementUtility::addStaticFile(
             'lux',
             'Configuration/TypoScript/',
             'Main TypoScript'

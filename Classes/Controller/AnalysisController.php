@@ -27,7 +27,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -36,6 +35,8 @@ use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
 /**
  * Class AnalysisController
+ * Todo: Return type ": ResponseInterface" and "return $this->htmlResponse();" when TYPO3 10 support is dropped
+ *       for all actions
  */
 class AnalysisController extends AbstractController
 {
@@ -69,7 +70,6 @@ class AnalysisController extends AbstractController
 
     /**
      * @return void
-     * @throws InvalidArgumentNameException
      * @throws NoSuchArgumentException
      */
     public function initializeContentAction(): void
@@ -103,7 +103,6 @@ class AnalysisController extends AbstractController
 
     /**
      * @return void
-     * @throws InvalidArgumentNameException
      * @throws NoSuchArgumentException
      */
     public function initializeNewsAction(): void
@@ -132,7 +131,6 @@ class AnalysisController extends AbstractController
 
     /**
      * @return void
-     * @throws InvalidArgumentNameException
      * @throws NoSuchArgumentException
      */
     public function initializeLinkListenerAction(): void
@@ -159,7 +157,6 @@ class AnalysisController extends AbstractController
 
     /**
      * @return void
-     * @throws InvalidArgumentNameException
      * @throws NoSuchArgumentException
      */
     public function initializeSearchAction(): void

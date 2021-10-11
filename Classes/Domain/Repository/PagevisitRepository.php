@@ -16,6 +16,7 @@ use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\ExtensionUtility;
 use In2code\Lux\Utility\FrontendUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use In2code\Luxenterprise\Domain\Repository\ShortenerRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -327,9 +328,7 @@ class PagevisitRepository extends AbstractRepository
     protected function getAmountOfSocialMediaReferrersFromShorteners(array $result, FilterDto $filter): array
     {
         if (ExtensionUtility::isLuxenterpriseVersionOrHigherAvailable('7.0.0')) {
-            $shortenerRepository = ObjectUtility::getObjectManager()->get(
-                \In2code\Luxenterprise\Domain\Repository\ShortenerRepository::class
-            );
+            $shortenerRepository = ObjectUtility::getObjectManager()->get(ShortenerRepository::class);
             $result2 = $shortenerRepository->findAmountsOfSocialMediaReferrers($filter, false);
             $result = ArrayUtility::sumAmountArrays($result, $result2);
         }

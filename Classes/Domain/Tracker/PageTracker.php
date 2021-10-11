@@ -21,16 +21,18 @@ class PageTracker
     use SignalTrait;
 
     /**
-     * @var VisitorRepository|null
+     * @var VisitorRepository
      */
-    protected $visitorRepository = null;
+    protected $visitorRepository;
 
     /**
-     * PageTracker constructor.
+     * Constructor
+     *
+     * @param VisitorRepository $visitorRepository
      */
-    public function __construct()
+    public function __construct(VisitorRepository $visitorRepository)
     {
-        $this->visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
+        $this->visitorRepository = $visitorRepository;
     }
 
     /**

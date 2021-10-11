@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Controller;
 
+use In2code\Lux\Exception\ConfigurationException;
 use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Factory\VisitorFactory;
 use In2code\Lux\Domain\Model\Visitor;
@@ -17,6 +18,8 @@ use In2code\Lux\Domain\Tracker\SearchTracker;
 use In2code\Lux\Exception\ActionNotAllowedException;
 use In2code\Lux\Exception\EmailValidationException;
 use In2code\Lux\Signal\SignalTrait;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
@@ -29,6 +32,8 @@ use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
 
 /**
  * Class FrontendController
+ * Todo: Return type ": ResponseInterface" and "return $this->htmlResponse();" when TYPO3 10 support is dropped
+ *       for all actions
  */
 class FrontendController extends ActionController
 {
@@ -329,6 +334,13 @@ class FrontendController extends ActionController
      * @param string $identificator
      * @param bool $tempVisitor
      * @return Visitor
+     * @throws DBALException
+     * @throws Exception
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     * @throws ConfigurationException
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     protected function getVisitor(string $identificator, bool $tempVisitor = false): Visitor
     {

@@ -1,10 +1,10 @@
 <?php
 namespace In2code\Lux\Tests\Domain\Model;
 
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Tests\Helper\TestingHelper;
 use In2code\Lux\Tests\Unit\Fixtures\Domain\Service\ScoringServiceFixture;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;

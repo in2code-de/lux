@@ -16,6 +16,8 @@ use TYPO3\CMS\Extbase\Object\Exception;
 /**
  * Class GeneralController
  * to show general information by clicking on the help icon
+ * Todo: Return type ": ResponseInterface" and "return $this->htmlResponse();" when TYPO3 10 support is dropped
+ *       for all actions
  */
 class GeneralController extends AbstractController
 {

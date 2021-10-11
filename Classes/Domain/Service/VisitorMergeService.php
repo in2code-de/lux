@@ -40,36 +40,43 @@ class VisitorMergeService
     protected $firstVisitor = null;
 
     /**
-     * @var VisitorRepository|null
+     * @var VisitorRepository
      */
-    protected $visitorRepository = null;
+    protected $visitorRepository;
 
     /**
-     * @var FingerprintRepository|null
+     * @var FingerprintRepository
      */
-    protected $fingerprintRepository = null;
+    protected $fingerprintRepository;
 
     /**
-     * @var AttributeRepository|null
+     * @var AttributeRepository
      */
-    protected $attributeRepository = null;
+    protected $attributeRepository;
 
     /**
-     * @var LogService|null
+     * @var LogService
      */
-    protected $logService = null;
+    protected $logService;
 
     /**
-     * VisitorMergeService constructor.
+     * Constructor
      *
-     * @throws Exception
+     * @param VisitorRepository $visitorRepository
+     * @param FingerprintRepository $fingerprintRepository
+     * @param AttributeRepository $attributeRepository
+     * @param LogService $logService
      */
-    public function __construct()
-    {
-        $this->visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
-        $this->fingerprintRepository = ObjectUtility::getObjectManager()->get(FingerprintRepository::class);
-        $this->attributeRepository = ObjectUtility::getObjectManager()->get(AttributeRepository::class);
-        $this->logService = ObjectUtility::getObjectManager()->get(LogService::class);
+    public function __construct(
+        VisitorRepository $visitorRepository,
+        FingerprintRepository $fingerprintRepository,
+        AttributeRepository $attributeRepository,
+        LogService $logService
+    ) {
+        $this->visitorRepository = $visitorRepository;
+        $this->fingerprintRepository = $fingerprintRepository;
+        $this->attributeRepository = $attributeRepository;
+        $this->logService = $logService;
     }
 
     /**

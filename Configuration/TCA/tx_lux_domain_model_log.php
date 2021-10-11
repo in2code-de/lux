@@ -1,4 +1,6 @@
 <?php
+use In2code\Lux\TCA\GetStatusForLogSelection;
+use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Model\Log;
 
 return [
@@ -15,9 +17,6 @@ return [
         'delete' => 'deleted',
         'iconfile' => 'EXT:lux/Resources/Public/Icons/' . Log::TABLE_NAME . '.svg',
         'rootLevel' => -1
-    ],
-    'interface' => [
-        'showRecordFieldList' => 'crdate,status,properties,visitor',
     ],
     'types' => [
         '1' => ['showitem' => 'crdate,status,properties,visitor'],
@@ -40,7 +39,6 @@ return [
         ],
         'l10n_parent' => [
             'displayCond' => 'FIELD:sys_language_uid:>:0',
-            'exclude' => true,
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:LGL.l18n_parent',
             'config' => [
                 'type' => 'select',
@@ -84,7 +82,7 @@ return [
                 'maxitems' => 1,
                 'readOnly' => true,
                 'default' => 0,
-                'itemsProcFunc' => \In2code\Lux\TCA\GetStatusForLogSelection::class . '->addOptions'
+                'itemsProcFunc' => GetStatusForLogSelection::class . '->addOptions'
             ]
         ],
         'properties' => [
@@ -103,7 +101,7 @@ return [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
-                'foreign_table' => \In2code\Lux\Domain\Model\Visitor::TABLE_NAME,
+                'foreign_table' => Visitor::TABLE_NAME,
                 'default' => 0,
                 'readOnly' => true
             ]

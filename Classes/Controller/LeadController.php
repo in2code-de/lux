@@ -15,7 +15,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -26,6 +25,8 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * Class LeadController
+ * Todo: Return type ": ResponseInterface" and "return $this->htmlResponse();" when TYPO3 10 support is dropped
+ *       for all actions
  */
 class LeadController extends AbstractController
 {
@@ -63,7 +64,6 @@ class LeadController extends AbstractController
 
     /**
      * @return void
-     * @throws InvalidArgumentNameException
      * @throws NoSuchArgumentException
      */
     public function initializeListAction(): void
@@ -75,7 +75,6 @@ class LeadController extends AbstractController
      * @param FilterDto $filter
      * @param string $export
      * @return void
-     * @throws StopActionException
      * @throws InvalidQueryException
      * @throws Exception
      */
@@ -185,6 +184,8 @@ class LeadController extends AbstractController
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      * @throws Exception
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      * @noinspection PhpUnused
      */
     public function detailDescriptionAjax(ServerRequestInterface $request): ResponseInterface

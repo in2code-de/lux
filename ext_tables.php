@@ -1,5 +1,5 @@
 <?php
-if (!defined('TYPO3_MODE')) {
+if (!defined('TYPO3')) {
     die('Access denied.');
 }
 
@@ -50,7 +50,7 @@ call_user_func(
         // Add module for analysis
         if (\In2code\Lux\Utility\ConfigurationUtility::isAnalysisModuleDisabled() === false) {
             \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-                'In2code.lux',
+                'Lux',
                 'lux',
                 'analysis',
                 '',
@@ -72,7 +72,7 @@ call_user_func(
         // Add module for leads
         if (\In2code\Lux\Utility\ConfigurationUtility::isLeadModuleDisabled() === false) {
             \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-                'In2code.lux',
+                'Lux',
                 'lux',
                 'leads',
                 '',
@@ -93,7 +93,7 @@ call_user_func(
         // Add module for workflow
         if (\In2code\Lux\Utility\ConfigurationUtility::isWorkflowModuleDisabled() === false) {
             \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-                'In2code.lux',
+                'Lux',
                 'lux',
                 'workflow',
                 '',
