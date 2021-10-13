@@ -11,10 +11,7 @@
                 </div>
                 <div class="panel-body">
                     <f:if condition="{downloads}">
-                        <f:widget.paginate
-                            objects="{downloads}"
-                            as="downloadsItem"
-                            configuration="{itemsPerPage:25,insertAbove:0,insertBelow:'{f:if(condition: \'{downloads -> f:count()} > 25\',then:1)}',maximumNumberOfLinks:10}">
+                        <lux:pagination.paginate objects="{downloads}" as="downloadsPaginator" itemsPerPage="25">
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
@@ -28,7 +25,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <f:for each="{downloadsItem}" as="download">
+                                <f:for each="{downloadsPaginator.paginator.paginatedItems}" as="download">
                                     <tr>
                                         <td><span title="{download.href}"><lux:format.cropBeginn length="50">{download.href}</lux:format.cropBeginn></span></td>
                                         <td>
@@ -54,7 +51,11 @@
                                 </f:for>
                                 </tbody>
                             </table>
-                        </f:widget.paginate>
+
+                            <f:alias map="{pagination:downloadsPaginator.pagination, paginator:downloadsPaginator.paginator, name:downloadsPaginator.name}">
+                                <f:render partial="Miscellaneous/Pagination" arguments="{_all}" />
+                            </f:alias>
+                        </lux:pagination.paginate>
                     </f:if>
                 </div>
             </div>

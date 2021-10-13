@@ -77,6 +77,7 @@ class LeadController extends AbstractController
      * @return void
      * @throws InvalidQueryException
      * @throws Exception
+     * @throws StopActionException
      */
     public function listAction(FilterDto $filter, string $export = ''): void
     {

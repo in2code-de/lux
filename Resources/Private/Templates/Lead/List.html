@@ -7,10 +7,7 @@
 
             <f:if condition="{allVisitors}">
                 <f:then>
-                    <f:widget.paginate
-                        objects="{allVisitors}"
-                        as="visitorsPage"
-                        configuration="{itemsPerPage:25,insertAbove:0,insertBelow:'{f:if(condition: \'{allVisitors -> f:count()} > 25\',then:1)}',maximumNumberOfLinks:10}">
+                    <lux:pagination.paginate objects="{allVisitors}" as="visitorsPaginator" itemsPerPage="25">
                         <table class="table table-striped table-hover table-pointer">
                             <thead>
                             <tr>
@@ -60,7 +57,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <f:for each="{visitorsPage}" as="visitor">
+                            <f:for each="{visitorsPaginator.paginator.paginatedItems}" as="visitor">
                                 <tr data-lux-action-leadlistdetail="{visitor.uid}">
                                     <td><span title="UID{visitor.uid}">{visitor.fullName}</span></td>
                                     <td><span class="badge" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.scoring')}">{visitor.scoring}</span></td>
@@ -113,7 +110,11 @@
                             </f:for>
                             </tbody>
                         </table>
-                    </f:widget.paginate>
+
+                        <f:alias map="{pagination:visitorsPaginator.pagination, paginator:visitorsPaginator.paginator, name:visitorsPaginator.name}">
+                            <f:render partial="Miscellaneous/Pagination" arguments="{_all}" />
+                        </f:alias>
+                    </lux:pagination.paginate>
                 </f:then>
                 <f:else>
                     <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>

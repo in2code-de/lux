@@ -12,10 +12,7 @@
                 <div class="panel-body">
 
                     <f:if condition="{searches}">
-                        <f:widget.paginate
-                            objects="{searches}"
-                            as="searchesPage"
-                            configuration="{itemsPerPage:25,insertAbove:0,insertBelow:'{f:if(condition: \'{searches -> f:count()} > 25\',then:1)}',maximumNumberOfLinks:10}">
+                        <lux:pagination.paginate objects="{pages}" as="pagesPaginator" itemsPerPage="25">
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
@@ -29,7 +26,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <f:for each="{searchesPage}" as="search">
+                                <f:for each="{pagesPaginator.paginator.paginatedItems}" as="search">
                                     <tr data-identifier-search="{search.uid}">
                                         <td><span title="{search.searchterm}"><f:format.crop maxCharacters="50" append=" ...">{search.searchterm}</f:format.crop></span></td>
                                         <td>
@@ -55,7 +52,11 @@
                                 </f:for>
                                 </tbody>
                             </table>
-                        </f:widget.paginate>
+
+                            <f:alias map="{pagination:pagesPaginator.pagination, paginator:pagesPaginator.paginator, name:pagesPaginator.name}">
+                                <f:render partial="Miscellaneous/Pagination" arguments="{_all}" />
+                            </f:alias>
+                        </lux:pagination.paginate>
                     </f:if>
                 </div>
             </div>

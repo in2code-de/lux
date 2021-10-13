@@ -1,9 +1,6 @@
 <f:if condition="{news}">
     <f:then>
-        <f:widget.paginate
-            objects="{news}"
-            as="newsItem"
-            configuration="{itemsPerPage:30,insertAbove:0,insertBelow:'{f:if(condition: \'{news -> f:count()} > 30\',then:1)}',maximumNumberOfLinks:10}">
+        <lux:pagination.paginate objects="{news}" as="newsPaginator" itemsPerPage="30">
             <table class="table table-striped table-hover table-pointer">
                 <thead>
                 <tr>
@@ -26,7 +23,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <f:for each="{newsItem}" as="item" iteration="iteration">
+                <f:for each="{newsPaginator.paginator.paginatedItems}" as="item" iteration="iteration">
                     <tr data-lux-action-analysisnewsdetailpage="{item.news.uid}">
                         <td>
                             <span title="UID{item.news.uid}/PID{item.news.pid}">
@@ -60,7 +57,11 @@
                 </f:for>
                 </tbody>
             </table>
-        </f:widget.paginate>
+
+            <f:alias map="{pagination:newsPaginator.pagination, paginator:newsPaginator.paginator, name:newsPaginator.name}">
+                <f:render partial="Miscellaneous/Pagination" arguments="{_all}" />
+            </f:alias>
+        </lux:pagination.paginate>
     </f:then>
     <f:else>
         <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
