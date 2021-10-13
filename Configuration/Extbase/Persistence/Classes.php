@@ -1,12 +1,12 @@
 <?php
 declare(strict_types = 1);
 
-use In2code\Lux\Domain\Model\Page;
-use In2code\Lux\Domain\Model\User;
 use In2code\Lux\Domain\Model\Category;
 use In2code\Lux\Domain\Model\File;
 use In2code\Lux\Domain\Model\Metadata;
 use In2code\Lux\Domain\Model\News;
+use In2code\Lux\Domain\Model\Page;
+use In2code\Lux\Domain\Model\User;
 
 return [
     Page::class => [

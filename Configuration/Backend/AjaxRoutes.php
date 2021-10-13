@@ -1,8 +1,8 @@
 <?php
 
-use In2code\Lux\Controller\LeadController;
 use In2code\Lux\Controller\AnalysisController;
 use In2code\Lux\Controller\GeneralController;
+use In2code\Lux\Controller\LeadController;
 
 return [
     '/lux/leadlistdetail' => [

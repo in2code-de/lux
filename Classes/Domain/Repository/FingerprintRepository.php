@@ -2,12 +2,12 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\Repository;
 
-use WhichBrowser\Parser;
 use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Exception\ClassDoesNotExistException;
 use In2code\Lux\Utility\DatabaseUtility;
+use WhichBrowser\Parser;
 
 /**
  * Class FingerprintRepository

@@ -1,15 +1,15 @@
 <?php
-use In2code\Lux\TCA\VisitorTitle;
-use In2code\Lux\Domain\Model\Categoryscoring;
-use In2code\Lux\Domain\Model\Fingerprint;
-use In2code\Lux\Domain\Model\Pagevisit;
-use In2code\Lux\Domain\Model\Newsvisit;
-use In2code\Lux\Domain\Model\Linkclick;
 use In2code\Lux\Domain\Model\Attribute;
-use In2code\Lux\Domain\Model\Ipinformation;
+use In2code\Lux\Domain\Model\Categoryscoring;
 use In2code\Lux\Domain\Model\Download;
+use In2code\Lux\Domain\Model\Fingerprint;
+use In2code\Lux\Domain\Model\Ipinformation;
+use In2code\Lux\Domain\Model\Linkclick;
 use In2code\Lux\Domain\Model\Log;
+use In2code\Lux\Domain\Model\Newsvisit;
+use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\TCA\VisitorTitle;
 
 return [
     'ctrl' => [

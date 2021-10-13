@@ -1,7 +1,7 @@
 <?php
 
-use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Model\Attribute;
+use In2code\Lux\Domain\Model\Visitor;
 
 return [
     'ctrl' => [

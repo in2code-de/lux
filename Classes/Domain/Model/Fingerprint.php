@@ -2,9 +2,9 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\Model;
 
-use WhichBrowser\Parser;
 use In2code\Lux\Exception\FingerprintMustNotBeEmptyException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use WhichBrowser\Parser;
 
 /**
  * Class Fingerprint

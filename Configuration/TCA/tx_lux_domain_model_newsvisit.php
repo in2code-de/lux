@@ -1,7 +1,7 @@
 <?php
+use In2code\Lux\Domain\Model\Newsvisit;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Visitor;
-use In2code\Lux\Domain\Model\Newsvisit;
 
 return [
     'ctrl' => [

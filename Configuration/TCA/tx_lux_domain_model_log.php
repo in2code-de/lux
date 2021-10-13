@@ -1,7 +1,7 @@
 <?php
-use In2code\Lux\TCA\GetStatusForLogSelection;
-use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Model\Log;
+use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\TCA\GetStatusForLogSelection;
 
 return [
     'ctrl' => [

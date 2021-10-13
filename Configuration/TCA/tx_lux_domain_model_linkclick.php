@@ -1,7 +1,7 @@
 <?php
+use In2code\Lux\Domain\Model\Linkclick;
 use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\Visitor;
-use In2code\Lux\Domain\Model\Linkclick;
 
 return [
     'ctrl' => [

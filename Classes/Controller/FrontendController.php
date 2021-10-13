@@ -2,7 +2,6 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Controller;
 
-use In2code\Lux\Exception\ConfigurationException;
 use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Factory\VisitorFactory;
 use In2code\Lux\Domain\Model\Visitor;
@@ -16,6 +15,7 @@ use In2code\Lux\Domain\Tracker\NewsTracker;
 use In2code\Lux\Domain\Tracker\PageTracker;
 use In2code\Lux\Domain\Tracker\SearchTracker;
 use In2code\Lux\Exception\ActionNotAllowedException;
+use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\EmailValidationException;
 use In2code\Lux\Signal\SignalTrait;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;

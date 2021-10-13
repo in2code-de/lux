@@ -2,13 +2,13 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\Service;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use In2code\Lux\Domain\Model\File;
 use In2code\Lux\Domain\Repository\FileRepository;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\StorageRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class FileService

@@ -1,8 +1,8 @@
 <?php
-use In2code\Lux\Domain\Model\File;
-use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Model\Download;
+use In2code\Lux\Domain\Model\File;
 use In2code\Lux\Domain\Model\Pagevisit;
+use In2code\Lux\Domain\Model\Visitor;
 
 return [
     'ctrl' => [

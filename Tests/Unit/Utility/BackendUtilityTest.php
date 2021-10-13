@@ -1,10 +1,10 @@
 <?php
 namespace In2code\Lux\Tests\Unit\Utility;
 
-use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 use In2code\Lux\Tests\Helper\TestingHelper;
 use In2code\Lux\Tests\Unit\Fixtures\Utility\BackendUtilityFixture;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Class BackendUserUtilityTest

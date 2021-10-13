@@ -1,8 +1,8 @@
 <?php
 namespace In2code\Lux\Tests\Unit\Utility;
 
-use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 use In2code\Lux\Utility\UrlUtility;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Class FileUtilityTest

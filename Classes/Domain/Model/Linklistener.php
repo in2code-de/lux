@@ -3,13 +3,13 @@ declare(strict_types = 1);
 namespace In2code\Lux\Domain\Model;
 
 use Doctrine\DBAL\DBALException;
-use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use In2code\Lux\Domain\Repository\LinkclickRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Utility\DateUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
  * Class Linklistener
