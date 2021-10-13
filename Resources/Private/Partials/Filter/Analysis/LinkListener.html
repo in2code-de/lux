@@ -15,7 +15,16 @@
                                 id="searchterm"
                                 class="form-control"
                                 placeholder="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.searchterm')}" />
-                        <label class="input-group-addon fa fa-search" for="searchterm"></label>
+                        <lux:condition.isTypo3Eleven>
+                            <f:then>
+                                <label class="btn btn-default" for="searchterm">
+                                    <span class="fa fa-search"></span>
+                                </label>
+                            </f:then>
+                            <f:else>
+                                <label class="input-group-addon fa fa-search" for="searchterm"></label>
+                            </f:else>
+                        </lux:condition.isTypo3Eleven>
                     </div>
 
                     <div class="input-group form-group">
@@ -26,7 +35,16 @@
                             class="form-control t3js-datetimepicker t3js-clearable"
                             placeholder="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeFrom')}"
                             data="{date-type:'datetime',date-offset:'0'}" />
-                        <label class="input-group-addon fa fa-calendar" for="timeFrom"></label>
+                        <lux:condition.isTypo3Eleven>
+                            <f:then>
+                                <label class="btn btn-default" for="timeFrom">
+                                    <span class="fa fa-calendar"></span>
+                                </label>
+                            </f:then>
+                            <f:else>
+                                <label class="input-group-addon fa fa-calendar" for="timeFrom"></label>
+                            </f:else>
+                        </lux:condition.isTypo3Eleven>
                     </div>
                 </div>
 
@@ -44,7 +62,16 @@
                             prependOptionLabel=""
                             class="form-control"
                             id="categoryScoring"/>
-                        <label class="input-group-addon fa fa-tag" for="categoryScoring"></label>
+                        <lux:condition.isTypo3Eleven>
+                            <f:then>
+                                <label class="btn btn-default" for="categoryScoring">
+                                    <span class="fa fa-tag"></span>
+                                </label>
+                            </f:then>
+                            <f:else>
+                                <label class="input-group-addon fa fa-tag" for="categoryScoring"></label>
+                            </f:else>
+                        </lux:condition.isTypo3Eleven>
                     </div>
 
                     <div class="input-group form-group">
@@ -55,7 +82,16 @@
                             class="form-control t3js-datetimepicker t3js-clearable"
                             placeholder="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeTo')}"
                             data="{date-type:'datetime',date-offset:'0'}" />
-                        <label class="input-group-addon fa fa-calendar" for="timeTo"></label>
+                        <lux:condition.isTypo3Eleven>
+                            <f:then>
+                                <label class="btn btn-default" for="timeTo">
+                                    <span class="fa fa-calendar"></span>
+                                </label>
+                            </f:then>
+                            <f:else>
+                                <label class="input-group-addon fa fa-calendar" for="timeTo"></label>
+                            </f:else>
+                        </lux:condition.isTypo3Eleven>
                     </div>
                 </div>
 
