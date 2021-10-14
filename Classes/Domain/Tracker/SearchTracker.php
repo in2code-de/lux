@@ -60,7 +60,7 @@ class SearchTracker
             ];
             $queryBuilder->insert(Search::TABLE_NAME)->values($properties)->execute();
             $searchUid = $queryBuilder->getConnection()->lastInsertId();
-            $this->signalDispatch(__CLASS__, __FUNCTION__, [$visitor, $searchUid]);
+            $this->signalDispatch(__CLASS__, __FUNCTION__, [$visitor, (int)$searchUid]);
         }
     }
 
