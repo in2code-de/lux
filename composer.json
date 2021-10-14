@@ -28,7 +28,7 @@
     "php": ">=7.2.0",
     "ext-json": "*",
     "ext-pdo": "*",
-    "typo3/cms-core": "^11.0",
+    "typo3/cms-core": "^10.4 || ^11.0",
     "symfony/expression-language": ">=4.0",
     "whichbrowser/parser": "^2.0",
     "buchin/google-image-grabber": "dev-master as 1.0.x-dev"
@@ -37,7 +37,7 @@
     "typo3-ter/lux": "self.version"
   },
   "require-dev": {
-    "typo3/cms-core": "^10.4 || ^11.5",
+    "typo3/cms-core": "^10.4",
     "nimut/testing-framework": "^5.0",
     "mikey179/vfsstream": "^1.6",
     "phpunit/phpunit": "^6.0",
