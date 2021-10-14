@@ -131,7 +131,7 @@
                                 value="1"
                                 style="position: absolute; top: 4px;"
                                 checked="{f:if(condition:'{filter.identified} == 1',then:'checked')}"/>
-                            <label style="padding: 8px 0 0 20px;" class="form-check-label" for="identified">
+                            <label style="{lux:condition.isTypo3Eleven(then:'padding: 5px 0 0 5px;',else:'padding: 8px 0 0 20px;')}" class="form-check-label" for="identified">
                                 <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.label.identifiedonly">Identified only</f:translate>
                             </label>
                         </div>
@@ -145,7 +145,16 @@
 
                             <f:comment>CSV Download</f:comment>
                             <f:form.submit class="fa fa-download" name="export" id="download" value="csv" style="visibility:hidden;width:1px;padding:0;margin:0;"/>
-                            <label class="btn btn-default fa fa-download" for="download" style="margin-right: 10px;" title="CSV Download"></label>
+                            <lux:condition.isTypo3Eleven>
+                                <f:then>
+                                    <label class="btn btn-default" for="download" style="margin-right: 10px;">
+                                        <span class="fa fa-download" title="CSV Download"></span>
+                                    </label>
+                                </f:then>
+                                <f:else>
+                                    <label class="btn btn-default fa fa-download" for="download" style="margin-right: 10px;" title="CSV Download"></label>
+                                </f:else>
+                            </lux:condition.isTypo3Eleven>
 
                             <f:comment>Clear filter</f:comment>
                             <f:if condition="{filter.set}">

@@ -45,6 +45,10 @@ label {
         font-weight: bold;
     }
 
+    .row + .row {
+        margin-top: .5rem;
+    }
+
     .row.flex {
         @media screen and (min-width: 992px) {
             display: -webkit-box;
@@ -227,9 +231,11 @@ label {
         font-size: 0;
         z-index: 2;
     }
+
     .close:hover {
         opacity: 1;
     }
+
     .close:before, .close:after {
         position: absolute;
         top: 0;
@@ -238,11 +244,22 @@ label {
         width: 2px;
         background-color: #333;
     }
+
     .close:before {
         transform: rotate(45deg);
     }
+
     .close:after {
         transform: rotate(-45deg);
+    }
+
+    .list-group-item > .badge {
+        float: right;
+        font-size: 11px;
+    }
+
+    .table > :not(caption) > * > * {
+        background: transparent;
     }
 }
 
