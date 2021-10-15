@@ -6,7 +6,8 @@ use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Exception\ClassDoesNotExistException;
 use In2code\Lux\Exception\InterfaceIsMissingException;
 use In2code\Lux\Utility\ObjectUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 
 /**
  * Class FinisherHandler
@@ -20,8 +21,8 @@ class FinisherHandler
      * @param array $parameters
      * @return array
      * @throws ClassDoesNotExistException
-     * @throws Exception
      * @throws InterfaceIsMissingException
+     * @throws InvalidConfigurationTypeException
      */
     public function startFinisher(
         Visitor $visitor,
@@ -31,7 +32,7 @@ class FinisherHandler
     ): array {
         foreach ($this->getFinisherClassConfiguration() as $fConfiguration) {
             /** @var AbstractFinisher $instance */
-            $instance = ObjectUtility::getObjectManager()->get(
+            $instance = GeneralUtility::makeInstance(
                 $fConfiguration['class'],
                 $visitor,
                 $controllerAction,
@@ -48,7 +49,7 @@ class FinisherHandler
      * @return array
      * @throws ClassDoesNotExistException
      * @throws InterfaceIsMissingException
-     * @throws Exception
+     * @throws InvalidConfigurationTypeException
      */
     protected function getFinisherClassConfiguration(): array
     {

@@ -9,6 +9,7 @@ use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
@@ -32,7 +33,7 @@ class SearchTracker
      * Constructor
      *
      * @param VisitorRepository $visitorRepository
-     * @throws Exception
+     * @throws InvalidConfigurationTypeException
      */
     public function __construct(VisitorRepository $visitorRepository)
     {

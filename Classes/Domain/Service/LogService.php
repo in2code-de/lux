@@ -8,8 +8,7 @@ use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\LogRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
-use In2code\Lux\Utility\ObjectUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
@@ -22,7 +21,6 @@ class LogService
     /**
      * @param Visitor $visitor
      * @return void
-     * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
@@ -35,7 +33,6 @@ class LogService
      * @param Visitor $visitor
      * @param int $pageIdentifier
      * @return void
-     * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
@@ -48,7 +45,6 @@ class LogService
      * @param Visitor $visitor
      * @param int $pageIdentifier
      * @return void
-     * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
@@ -61,7 +57,6 @@ class LogService
      * @param Visitor $visitor
      * @param int $pageIdentifier
      * @return void
-     * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
@@ -74,7 +69,6 @@ class LogService
      * @param Visitor $visitor
      * @param int $pageIdentifier
      * @return void
-     * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
@@ -87,7 +81,6 @@ class LogService
      * @param Visitor $visitor
      * @param int $pageIdentifier
      * @return void
-     * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
@@ -100,7 +93,6 @@ class LogService
      * @param Visitor $visitor
      * @param string $href
      * @return void
-     * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
@@ -113,7 +105,6 @@ class LogService
      * @param Visitor $visitor
      * @param string $href
      * @return void
-     * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
@@ -125,7 +116,6 @@ class LogService
     /**
      * @param Download $download
      * @return void
-     * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
@@ -138,7 +128,6 @@ class LogService
      * @param Visitor $visitor
      * @param int $searchIdentifier
      * @return void
-     * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
@@ -152,7 +141,6 @@ class LogService
      * @param Linklistener $linklistener
      * @param int $pageUid
      * @return void
-     * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
@@ -168,7 +156,6 @@ class LogService
     /**
      * @param QueryResultInterface $visitors
      * @return void
-     * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
@@ -189,7 +176,6 @@ class LogService
     /**
      * @param QueryResultInterface $visitors
      * @return void
-     * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
@@ -212,7 +198,6 @@ class LogService
      * @param int $shownContentUid
      * @param int $containerContentUid
      * @return void
-     * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
@@ -234,7 +219,6 @@ class LogService
      * @param int $code an exception timestamp
      * @param string $source path + file and line of error - like /var/www/file.php:123
      * @return void
-     * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
@@ -256,16 +240,15 @@ class LogService
      * @param Visitor $visitor
      * @param array $properties
      * @return void
-     * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
     protected function log(int $status, Visitor $visitor, array $properties = []): void
     {
-        $logRepository = ObjectUtility::getObjectManager()->get(LogRepository::class);
-        $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
+        $logRepository = GeneralUtility::makeInstance(LogRepository::class);
+        $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
 
-        $log = ObjectUtility::getObjectManager()->get(Log::class)->setStatus($status)->setProperties($properties);
+        $log = GeneralUtility::makeInstance(Log::class)->setStatus($status)->setProperties($properties);
         $logRepository->add($log);
         $visitor->addLog($log);
         if ($visitor->getUid() > 0) {

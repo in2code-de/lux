@@ -1,8 +1,8 @@
 <?php
 namespace In2code\Lux\DataProcessing;
 
-use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
@@ -39,7 +39,7 @@ class FormFieldMappingProcessor implements DataProcessorInterface
     protected function getFieldMappingSettings(array $contentObjectConfiguration): array
     {
         $fieldMapping = [];
-        $typoscriptService = ObjectUtility::getObjectManager()->get(TypoScriptService::class);
+        $typoscriptService = GeneralUtility::makeInstance(TypoScriptService::class);
         $settings = $typoscriptService->convertTypoScriptArrayToPlainArray(
             (array)$contentObjectConfiguration['settings.']
         );

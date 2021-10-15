@@ -45,14 +45,13 @@ class LinkClickTracker
     /**
      * LinkListenerTracker constructor.
      * @param Visitor $visitor
-     * @throws Exception
      */
     public function __construct(Visitor $visitor)
     {
         $this->visitor = $visitor;
-        $this->linkclickRepository = ObjectUtility::getObjectManager()->get(LinkclickRepository::class);
-        $this->linklistenerRepository = ObjectUtility::getObjectManager()->get(LinklistenerRepository::class);
-        $this->pageRepository = ObjectUtility::getObjectManager()->get(PageRepository::class);
+        $this->linkclickRepository = GeneralUtility::makeInstance(LinkclickRepository::class);
+        $this->linklistenerRepository = GeneralUtility::makeInstance(LinklistenerRepository::class);
+        $this->pageRepository = GeneralUtility::makeInstance(PageRepository::class);
     }
 
     /**

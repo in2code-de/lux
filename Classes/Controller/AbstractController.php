@@ -24,7 +24,6 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
-use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
  * Class AbstractController
@@ -164,7 +163,6 @@ abstract class AbstractController extends ActionController
      * Set a filter for the last 12 month
      *
      * @return void
-     * @throws Exception
      */
     protected function setFilter(): void
     {
@@ -205,7 +203,6 @@ abstract class AbstractController extends ActionController
      * @param string $action
      * @param string $searchterm
      * @return FilterDto
-     * @throws Exception
      */
     protected function getFilterFromSessionForAjaxRequests(string $action, string $searchterm = ''): FilterDto
     {

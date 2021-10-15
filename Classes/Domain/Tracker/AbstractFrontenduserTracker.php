@@ -2,11 +2,10 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\Tracker;
 
-use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Exception\EmailValidationException;
-use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
@@ -55,21 +54,19 @@ abstract class AbstractFrontenduserTracker
     /**
      * @param FrontendUser $user
      * @return void
-     * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
     protected function addOrUpdateRelation(FrontendUser $user): void
     {
         $this->visitor->setFrontenduser($user);
-        $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
+        $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $visitorRepository->update($this->visitor);
     }
 
     /**
      * @param FrontendUser $user
      * @return void
-     * @throws DBALException
      * @throws EmailValidationException
      * @throws Exception
      * @throws IllegalObjectTypeException
@@ -79,7 +76,7 @@ abstract class AbstractFrontenduserTracker
      */
     protected function addOrUpdateEmail(FrontendUser $user): void
     {
-        $attributeTracker = ObjectUtility::getObjectManager()->get(
+        $attributeTracker = GeneralUtility::makeInstance(
             AttributeTracker::class,
             $this->visitor,
             $this->context,

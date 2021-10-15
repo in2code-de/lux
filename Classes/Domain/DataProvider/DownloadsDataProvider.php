@@ -3,7 +3,7 @@ declare(strict_types = 1);
 namespace In2code\Lux\Domain\DataProvider;
 
 use In2code\Lux\Domain\Repository\DownloadRepository;
-use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class DownloadsDataProvider
@@ -30,7 +30,7 @@ class DownloadsDataProvider extends AbstractDynamicFilterDataProvider
      */
     public function prepareData(): void
     {
-        $downloadRepository = ObjectUtility::getObjectManager()->get(DownloadRepository::class);
+        $downloadRepository = GeneralUtility::makeInstance(DownloadRepository::class);
         $intervals = $this->filter->getIntervals();
         $frequency = (string)$intervals['frequency'];
         foreach ($intervals['intervals'] as $interval) {

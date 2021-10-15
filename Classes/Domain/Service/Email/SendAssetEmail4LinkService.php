@@ -40,11 +40,10 @@ class SendAssetEmail4LinkService
     protected $configurationService = null;
 
     /**
-     * SendAssetEmail4LinkService constructor.
+     * Constructor
      *
      * @param Visitor $visitor
      * @param array $settings
-     * @throws Exception
      */
     public function __construct(Visitor $visitor, array $settings)
     {
@@ -77,7 +76,7 @@ class SendAssetEmail4LinkService
      */
     protected function send(string $href): void
     {
-        $message = ObjectUtility::getObjectManager()->get(MailMessage::class);
+        $message = GeneralUtility::makeInstance(MailMessage::class);
         $message
             ->setTo([$this->visitor->getEmail() => 'Receiver'])
             ->setFrom($this->getSender())
@@ -114,14 +113,13 @@ class SendAssetEmail4LinkService
     /**
      * @param string $href
      * @return string
-     * @throws Exception
      */
     protected function getMailTemplate(string $href): string
     {
         $mailTemplatePath = $this->configurationService->getTypoScriptSettingsByPath(
             'identification.email4link.mail.mailTemplate'
         );
-        $standaloneView = ObjectUtility::getObjectManager()->get(StandaloneView::class);
+        $standaloneView = GeneralUtility::makeInstance(StandaloneView::class);
         $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($mailTemplatePath));
         $standaloneView->assignMultiple([
             'href' => $href,
@@ -150,7 +148,6 @@ class SendAssetEmail4LinkService
     /**
      * @param string $href
      * @return bool
-     * @throws Exception
      */
     protected function isActivatedAndAllowed(string $href): bool
     {
@@ -191,12 +188,11 @@ class SendAssetEmail4LinkService
     /**
      * @param string $href
      * @return bool
-     * @throws Exception
      */
     protected function isAllowedStorage(string $href): bool
     {
         $allowed = false;
-        $storageRepository = ObjectUtility::getObjectManager()->get(StorageRepository::class);
+        $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
         $storages = $storageRepository->findAll();
         foreach ($storages as $storage) {
             if ($storage->isOnline()) {

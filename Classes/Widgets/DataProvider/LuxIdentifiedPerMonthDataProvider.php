@@ -2,13 +2,14 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Widgets\DataProvider;
 
+use DateTime;
 use Doctrine\DBAL\DBALException;
+use Exception;
 use In2code\Lux\Domain\Repository\LogRepository;
 use In2code\Lux\Utility\LocalizationUtility;
-use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Dashboard\WidgetApi;
 use TYPO3\CMS\Dashboard\Widgets\ChartDataProviderInterface;
-use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
  * Class LuxIdentifiedPerMonthDataProvider
@@ -20,7 +21,6 @@ class LuxIdentifiedPerMonthDataProvider implements ChartDataProviderInterface
      * @return array
      * @throws DBALException
      * @throws Exception
-     * @throws \Exception
      */
     public function getChartData(): array
     {
@@ -51,11 +51,10 @@ class LuxIdentifiedPerMonthDataProvider implements ChartDataProviderInterface
     /**
      * @return array
      * @throws DBALException
-     * @throws Exception
      */
     protected function getData(): array
     {
-        $logRepository = ObjectUtility::getObjectManager()->get(LogRepository::class);
+        $logRepository = GeneralUtility::makeInstance(LogRepository::class);
         $logs = $logRepository->findIdentifiedLogsFromMonths(6);
         $amount = [];
         foreach ($logs as $logsCombined) {
@@ -66,11 +65,11 @@ class LuxIdentifiedPerMonthDataProvider implements ChartDataProviderInterface
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getMonthNames(): array
     {
-        $now = new \DateTime();
+        $now = new DateTime();
         $monthNames = [
             LocalizationUtility::translateByKey('datetime.month.' . $now->format('n'))
         ];

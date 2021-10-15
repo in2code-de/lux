@@ -51,7 +51,7 @@ final class Handler
      */
     public function getObjectStorage(): ObjectStorage
     {
-        $objectStorage = ObjectUtility::getObjectManager()->get(ObjectStorage::class);
+        $objectStorage = GeneralUtility::makeInstance(ObjectStorage::class);
         /** @var IpinformationInterface $object */
         foreach ($this->getServiceObjects() as $object) {
             try {
@@ -59,7 +59,7 @@ final class Handler
                 if ($result !== []) {
                     foreach ($result as $key => $value) {
                         if (!empty($value)) {
-                            $ipinformation = ObjectUtility::getObjectManager()->get(Ipinformation::class);
+                            $ipinformation = GeneralUtility::makeInstance(Ipinformation::class);
                             $ipinformation->setName($key)->setValue((string)$value);
                             $this->ipinformationRepository->add($ipinformation);
                             $objectStorage->attach($ipinformation);

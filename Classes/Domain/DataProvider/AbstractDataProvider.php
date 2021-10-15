@@ -4,7 +4,6 @@ namespace In2code\Lux\Domain\DataProvider;
 
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Utility\ObjectUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
  * Class AbstractDataProvider to prepare data for diagrams and statistics in own or TYPO3 dashboards
@@ -24,7 +23,6 @@ abstract class AbstractDataProvider implements DataProviderInterface
     /**
      * AbstractDataProvider constructor.
      * @param FilterDto|null $filter
-     * @throws Exception
      */
     public function __construct(FilterDto $filter = null)
     {

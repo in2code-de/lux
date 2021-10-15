@@ -16,6 +16,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -33,9 +34,9 @@ class LeadController extends AbstractController
 {
     /**
      * @return void
-     * @throws Exception
      * @throws InvalidQueryException
      * @throws DBALException
+     * @throws InvalidConfigurationTypeException
      */
     public function dashboardAction(): void
     {

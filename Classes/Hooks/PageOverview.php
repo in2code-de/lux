@@ -24,7 +24,6 @@ use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
@@ -99,7 +98,6 @@ class PageOverview
      * @param PageLayoutController $plController
      * @return string
      * @throws DBALException
-     * @throws Exception
      * @throws ExceptionDbal
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
@@ -123,7 +121,6 @@ class PageOverview
      * @param array $session
      * @return array
      * @throws DBALException
-     * @throws Exception
      * @throws ExceptionDbal
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
@@ -156,18 +153,17 @@ class PageOverview
                     'abandons' => $this->pagevisitRepository->findAbandonsForPage($pageIdentifier, $filter),
                     'delta' => $delta,
                     'deltaIconPath' => $delta >= 0 ? 'Icons/increase.svg' : 'Icons/decrease.svg',
-                    'gotinInternal' => ObjectUtility::getObjectManager()->get(
+                    'gotinInternal' => GeneralUtility::makeInstance(
                         GotinInternalDataProvider::class,
                         $filter
                     )->get(),
-                    'gotinExternal' => ObjectUtility::getObjectManager()->get(
+                    'gotinExternal' => GeneralUtility::makeInstance(
                         GotinExternalDataProvider::class,
                         $filter
                     )->get(),
-                    'gotoutInternal'
-                    => ObjectUtility::getObjectManager()->get(GotoutInternalDataProvider::class, $filter)->get(),
+                    'gotoutInternal' => GeneralUtility::makeInstance(GotoutInternalDataProvider::class, $filter)->get(),
                     'gotout' => '',
-                    'numberOfVisitorsData' => ObjectUtility::getObjectManager()->get(
+                    'numberOfVisitorsData' => GeneralUtility::makeInstance(
                         PagevisistsDataProvider::class,
                         ObjectUtility::getFilterDto()->setSearchterm((string)$pageIdentifier)
                     ),
@@ -211,11 +207,10 @@ class PageOverview
     /**
      * @param array $arguments
      * @return string
-     * @throws Exception
      */
     protected function getContent(array $arguments): string
     {
-        $standaloneView = ObjectUtility::getObjectManager()->get(StandaloneView::class);
+        $standaloneView = GeneralUtility::makeInstance(StandaloneView::class);
         $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($this->templatePathAndFile));
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         $standaloneView->assignMultiple($arguments);

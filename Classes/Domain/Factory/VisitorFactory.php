@@ -54,7 +54,7 @@ class VisitorFactory
             $identificator = StringUtility::getRandomString(32, false);
         }
         $this->fingerprint = GeneralUtility::makeInstance(Fingerprint::class)->setValue($identificator);
-        $this->visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
+        $this->visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $this->signalDispatch(__CLASS__, 'stopAnyProcessBeforePersistence', [$this->fingerprint]);
     }
 
@@ -100,7 +100,7 @@ class VisitorFactory
         if ($visitor === null && CookieUtility::getLuxId() !== '') {
             $visitor = $this->getVisitorFromDatabaseByLegacyCookie();
         }
-        $mergeService = ObjectUtility::getObjectManager()->get(VisitorMergeService::class);
+        $mergeService = GeneralUtility::makeInstance(VisitorMergeService::class);
         $mergeService->mergeByFingerprint($this->fingerprint->getValue());
         return $visitor;
     }
