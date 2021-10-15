@@ -49,6 +49,9 @@ class PaginateViewHelper extends AbstractViewHelper
         Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
     ) {
+        if ($arguments['objects'] === null) {
+            return $renderChildrenClosure();
+        }
         $templateVariableContainer = $renderingContext->getVariableProvider();
         $templateVariableContainer->add($arguments['as'], [
             'pagination' => self::getPagination($arguments, $renderingContext),
