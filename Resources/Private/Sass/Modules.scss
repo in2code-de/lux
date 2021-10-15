@@ -45,7 +45,7 @@ label {
         font-weight: bold;
     }
 
-    .row + .row {
+    .row + .row:not(.lux-trigger) {
         margin-top: .5rem;
     }
 
