@@ -129,7 +129,7 @@ class PageOverview
     {
         $arguments = [];
         if ($this->getCacheLifeTime() > 0) {
-            $arguments = json_decode($this->cacheInstance->get($this->getCacheIdentifier($pageIdentifier)), true);
+            $arguments = $this->cacheInstance->get($this->getCacheIdentifier($pageIdentifier));
         }
         if (empty($arguments)) {
             $arguments = [
@@ -182,12 +182,16 @@ class PageOverview
                 ];
             }
             if ($this->getCacheLifeTime() > 0) {
-                $this->cacheInstance->set(
-                    $this->getCacheIdentifier($pageIdentifier),
-                    json_encode($arguments),
-                    [self::CACHE_KEY],
-                    $this->getCacheLifeTime()
-                );
+                try {
+                    $this->cacheInstance->set(
+                        $this->getCacheIdentifier($pageIdentifier),
+                        $arguments,
+                        [self::CACHE_KEY],
+                        $this->getCacheLifeTime()
+                    );
+                } catch (\Exception $exception) {
+                    // QueryResult in {visitors} can't be cached in PHP 8.0: "Serialization of 'Closure' is not allowed"
+                }
             }
         }
         $arguments['status'] = $session['status'] ?? 'show';
