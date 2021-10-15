@@ -14,7 +14,6 @@ use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\CookieUtility;
 use In2code\Lux\Utility\IpUtility;
-use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;

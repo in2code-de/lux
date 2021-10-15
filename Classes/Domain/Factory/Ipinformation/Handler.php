@@ -7,7 +7,6 @@ use In2code\Lux\Domain\Repository\IpinformationRepository;
 use In2code\Lux\Domain\Service\ConfigurationService;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\IpinformationServiceConnectionFailureException;
-use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Object\Exception;

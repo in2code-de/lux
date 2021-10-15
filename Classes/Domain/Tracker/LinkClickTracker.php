@@ -10,7 +10,6 @@ use In2code\Lux\Domain\Repository\LinkclickRepository;
 use In2code\Lux\Domain\Repository\LinklistenerRepository;
 use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Signal\SignalTrait;
-use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;

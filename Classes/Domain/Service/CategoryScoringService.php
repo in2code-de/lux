@@ -8,7 +8,6 @@ use In2code\Lux\Domain\Repository\LinklistenerRepository;
 use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\FrontendUtility;
-use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

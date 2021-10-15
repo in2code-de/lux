@@ -65,7 +65,11 @@ abstract class AbstractDataProvider implements DataProviderInterface
      */
     public function getAmountsFromData(): array
     {
-        return (array)$this->getData()['amounts'];
+        $amouts = [];
+        if (isset($this->getData()['amounts'])) {
+            $amouts = $this->getData()['amounts'];
+        }
+        return (array)$amouts;
     }
 
     /**
