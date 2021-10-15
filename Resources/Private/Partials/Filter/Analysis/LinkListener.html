@@ -10,7 +10,7 @@
 
                     <div class="input-group form-group">
                         <f:form.textfield
-                                type="datetime"
+                                type="text"
                                 property="searchterm"
                                 id="searchterm"
                                 class="form-control"
@@ -29,20 +29,20 @@
 
                     <div class="input-group form-group">
                         <f:form.textfield
-                            type="datetime"
+                            type="datetime-local"
                             property="timeFrom"
                             id="timeFrom"
-                            class="form-control t3js-datetimepicker t3js-clearable"
-                            placeholder="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeFrom')}"
-                            data="{date-type:'datetime',date-offset:'0'}" />
+                            class="form-control"  />
                         <lux:condition.isTypo3Eleven>
                             <f:then>
                                 <label class="btn btn-default" for="timeFrom">
-                                    <span class="fa fa-calendar"></span>
+                                    {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeFrom')}
                                 </label>
                             </f:then>
                             <f:else>
-                                <label class="input-group-addon fa fa-calendar" for="timeFrom"></label>
+                                <label class="input-group-addon" for="timeFrom">
+                                    {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeFrom')}
+                                </label>
                             </f:else>
                         </lux:condition.isTypo3Eleven>
                     </div>
@@ -76,20 +76,20 @@
 
                     <div class="input-group form-group">
                         <f:form.textfield
-                            type="datetime"
+                            type="datetime-local"
                             property="timeTo"
                             id="timeTo"
-                            class="form-control t3js-datetimepicker t3js-clearable"
-                            placeholder="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeTo')}"
-                            data="{date-type:'datetime',date-offset:'0'}" />
+                            class="form-control"  />
                         <lux:condition.isTypo3Eleven>
                             <f:then>
                                 <label class="btn btn-default" for="timeTo">
-                                    <span class="fa fa-calendar"></span>
+                                    {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeTo')}
                                 </label>
                             </f:then>
                             <f:else>
-                                <label class="input-group-addon fa fa-calendar" for="timeTo"></label>
+                                <label class="input-group-addon" for="timeTo">
+                                    {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeTo')}
+                                </label>
                             </f:else>
                         </lux:condition.isTypo3Eleven>
                     </div>
