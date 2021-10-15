@@ -19,6 +19,7 @@ use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
+use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
@@ -255,5 +256,18 @@ abstract class AbstractController extends ActionController
     protected function getActionName(): string
     {
         return StringUtility::removeStringPostfix($this->actionMethodName, 'Action');
+    }
+
+    /**
+     * @param string|null $csv
+     * @return ResponseInterface
+     */
+    protected function csvResponse(string $csv = null): ResponseInterface
+    {
+        return $this->responseFactory->createResponse()
+            ->withHeader('Content-Type', 'text/x-csv; charset=utf-8')
+            ->withHeader('Content-Disposition', 'attachment; filename="Leads.csv"')
+            ->withHeader('Pragma', 'no-cache')
+            ->withBody($this->streamFactory->createStream($csv ?? $this->view->render()));
     }
 }
