@@ -68,6 +68,10 @@ label {
         }
     }
 
+    .panel-body {
+        overflow: hidden;
+    }
+
     .panel.flex {
         height: 100%;
     }
