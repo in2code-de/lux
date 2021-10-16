@@ -11,9 +11,9 @@ LUX will not set any cookies.
 
 ## Screenshots
 
-TYPO3 dashboard (for TYPO3 10 with package "typo3/cms-dashboard"):\
+TYPO3 dashboard (for TYPO3 with package "typo3/cms-dashboard"):\
 \
-![Example dashboard of TYPO3 10](Documentation/Images/screenshot_typo3dashboard.png "TYPO3 Dashboard")
+![Example TYPO3 dashboard](Documentation/Images/screenshot_typo3dashboard.png "TYPO3 Dashboard")
 
 Example dashboards:\
 \
