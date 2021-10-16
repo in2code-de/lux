@@ -2,12 +2,12 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\Tracker;
 
-use Doctrine\DBAL\DBALException;
 use In2code\Lux\Exception\EmailValidationException;
 use In2code\Lux\Utility\CookieUtility;
 use In2code\Lux\Utility\ExtensionUtility;
-use In2code\Lux\Utility\ObjectUtility;
 use In2code\Luxletter\Domain\Model\Link;
+use In2code\Luxletter\Domain\Repository\LinkRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
@@ -27,7 +27,6 @@ class LuxletterlinkAttributeTracker extends AbstractFrontenduserTracker
     /**
      * @return void
      * @throws Exception
-     * @throws DBALException
      * @throws EmailValidationException
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
@@ -38,9 +37,7 @@ class LuxletterlinkAttributeTracker extends AbstractFrontenduserTracker
     {
         if (ExtensionUtility::isLuxletterVersionOrHigherAvailable('2.0.0')) {
             if (CookieUtility::getCookieByName('luxletterlinkhash') !== '') {
-                $linkRepository = ObjectUtility::getObjectManager()->get(
-                    \In2code\Luxletter\Domain\Repository\LinkRepository::class
-                );
+                $linkRepository = GeneralUtility::makeInstance(LinkRepository::class);
                 /** @var Link $link */
                 $link = $linkRepository->findOneByHash(CookieUtility::getCookieByName($this->cookieName));
                 if ($link->getUser() !== null) {

@@ -4,6 +4,7 @@ namespace In2code\Lux\Domain\Model;
 
 use In2code\Lux\Exception\FingerprintMustNotBeEmptyException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use WhichBrowser\Parser;
 
 /**
  * Class Fingerprint
@@ -104,8 +105,8 @@ class Fingerprint extends AbstractModel
             'manufacturer' => '',
             'type' => ''
         ];
-        if (class_exists(\WhichBrowser\Parser::class)) {
-            $parser = new \WhichBrowser\Parser($this->getUserAgent());
+        if (class_exists(Parser::class)) {
+            $parser = new Parser($this->getUserAgent());
             $properties = [
                 'browser' => $parser->browser->getName(),
                 'browserversion' => (string)$parser->browser->version->value,

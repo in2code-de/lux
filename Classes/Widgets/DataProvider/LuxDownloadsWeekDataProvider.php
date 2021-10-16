@@ -2,13 +2,13 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Widgets\DataProvider;
 
+use Exception;
 use In2code\Lux\Domain\DataProvider\DownloadsDataProvider;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Dashboard\WidgetApi;
 use TYPO3\CMS\Dashboard\Widgets\ChartDataProviderInterface;
-use TYPO3\CMS\Extbase\Object\Exception;
-use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
 /**
  * Class LuxDownloadsWeekDataProvider
@@ -19,15 +19,10 @@ class LuxDownloadsWeekDataProvider implements ChartDataProviderInterface
     /**
      * @return array
      * @throws Exception
-     * @throws InvalidQueryException
-     * @throws \Exception
      */
     public function getChartData(): array
     {
-        $downloadsData = ObjectUtility::getObjectManager()->get(
-            DownloadsDataProvider::class,
-            ObjectUtility::getFilterDto()
-        );
+        $downloadsData = GeneralUtility::makeInstance(DownloadsDataProvider::class, ObjectUtility::getFilterDto());
         return [
             'labels' => $downloadsData->getTitlesFromData(),
             'datasets' => [

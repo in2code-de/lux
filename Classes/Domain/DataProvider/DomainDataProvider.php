@@ -2,10 +2,10 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\DataProvider;
 
+use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Utility\LocalizationUtility;
-use In2code\Lux\Utility\ObjectUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class DomainDataProvider
@@ -28,7 +28,7 @@ class DomainDataProvider extends AbstractDataProvider
      *  ]
      *
      * @return void
-     * @throws Exception
+     * @throws DBALException
      */
     public function prepareData(): void
     {
@@ -41,11 +41,11 @@ class DomainDataProvider extends AbstractDataProvider
 
     /**
      * @return array
-     * @throws Exception
+     * @throws DBALException
      */
     protected function getDomains(): array
     {
-        $pagevisitRepository = ObjectUtility::getObjectManager()->get(PagevisitRepository::class);
+        $pagevisitRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
         $rows = $pagevisitRepository->getDomainsWithAmountOfVisits($this->filter);
 
         foreach ($rows as &$row) {

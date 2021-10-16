@@ -9,7 +9,7 @@ use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Repository\LinkclickRepository;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\MathUtility;
-use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
@@ -29,7 +29,7 @@ class AllLinkclickDataProvider extends AbstractDynamicFilterDataProvider
      */
     public function __construct(FilterDto $filter = null)
     {
-        $this->linkclickRepository = ObjectUtility::getObjectManager()->get(LinkclickRepository::class);
+        $this->linkclickRepository = GeneralUtility::makeInstance(LinkclickRepository::class);
         parent::__construct($filter);
     }
 

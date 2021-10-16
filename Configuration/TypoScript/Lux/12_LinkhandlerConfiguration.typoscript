@@ -1,7 +1,10 @@
-// Linkhandler configuration
+// Linkhandler configuration for Linklisteners
 config.recordLinks.luxlinklistener {
+  forceLink = 0
+
   typolink {
-    parameter = /
+    # Just a dummy URL that will be overwritten later
+    parameter = https://www.in2code.de
     title.data = parameters:title
 
     # Merge existing params with data-attribute

@@ -11,9 +11,9 @@ LUX will not set any cookies.
 
 ## Screenshots
 
-TYPO3 dashboard (for TYPO3 10 with package "typo3/cms-dashboard"):\
+TYPO3 dashboard (for TYPO3 with package "typo3/cms-dashboard"):\
 \
-![Example dashboard of TYPO3 10](Documentation/Images/screenshot_typo3dashboard.png "TYPO3 Dashboard")
+![Example TYPO3 dashboard](Documentation/Images/screenshot_typo3dashboard.png "TYPO3 Dashboard")
 
 Example dashboards:\
 \
@@ -183,6 +183,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 18.0.0     | 2021-10-16 | TAsk       | Support TYPO3 11 (and 10) and drop support for version 9                                                                                                                                   |
 | 17.2.0     | 2021-09-26 | Feature    | Add description, createdate, author to linklisteners list and edit view for a better organisation, add creationdate and author for news list, small TCA bugfixes                           |
 | 17.1.2     | 2021-09-24 | Bugfix     | Make lightbox responsive (Workflow action content in lightbox)                                                                                                                             |
 | 17.1.1     | 2021-09-20 | Bugfix     | TYPO3 9 bugfix for new handler                                                                                                                                                             |

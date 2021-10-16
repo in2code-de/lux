@@ -6,7 +6,7 @@ use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 
 /**
  * Class AllowedMailProvidersService
@@ -16,7 +16,7 @@ class AllowedMailProvidersService
     /**
      * @param string $email
      * @return bool
-     * @throws Exception
+     * @throws InvalidConfigurationTypeException
      */
     public function isEmailAllowed(string $email): bool
     {

@@ -7,5 +7,87 @@ services:
   In2code\Lux\:
     resource: '../Classes/*'
 
-  In2code\Lux\Domain\Repository:
+  In2code\Lux\Domain\Factory\Ipinformation\Handler:
     public: true
+
+  In2code\Lux\Domain\Service\VisitorImageService:
+    public: true
+
+  In2code\Lux\Domain\Service\VisitorMergeService:
+    public: true
+
+  In2code\Lux\Domain\Tracker\NewsTracker:
+    public: true
+
+  In2code\Lux\Domain\Tracker\PageTracker:
+    public: true
+
+  In2code\Lux\Domain\Tracker\SearchTracker:
+    public: true
+
+  In2code\Lux\Hooks\PageOverview:
+    public: true
+
+  In2code\Lux\ViewHelpers\Lead\GetDateOfLatestPageVisitAndPageViewHelper:
+    public: true
+
+  In2code\Lux\ViewHelpers\Lead\GetDateOfLatestPageVisitViewHelper:
+    public: true
+
+  In2code\Lux\ViewHelpers\Page\GetVisitedPageAmountByPageIdentifierAndVisitorViewHelper:
+    public: true
+
+  In2code\Lux\Command\LuxAnonymizeCommand:
+    tags:
+      - name: 'console.command'
+        command: 'lux:anonymize'
+
+  In2code\Lux\Command\LuxAutorelateToFrontendUsersCommand:
+    tags:
+      - name: 'console.command'
+        command: 'lux:autorelateToFrontendUsers'
+
+  In2code\Lux\Command\LuxCleanupAllVisitorsCommand:
+    tags:
+      - name: 'console.command'
+        command: 'lux:cleanupAllVisitors'
+
+  In2code\Lux\Command\LuxCleanupUnknownVisitorsByAgeCommand:
+    tags:
+      - name: 'console.command'
+        command: 'lux:cleanupUnknownVisitorsByAge'
+
+  In2code\Lux\Command\LuxCleanupVisitorByUidCommand:
+    tags:
+      - name: 'console.command'
+        command: 'lux:cleanupVisitorByUid'
+
+  In2code\Lux\Command\LuxCleanupVisitorsByAgeCommand:
+    tags:
+      - name: 'console.command'
+        command: 'lux:cleanupVisitorsByAge'
+
+  In2code\Lux\Command\LuxCleanupVisitorsByPropertyCommand:
+    tags:
+      - name: 'console.command'
+        command: 'lux:cleanupVisitorsByProperty'
+
+  In2code\Lux\Command\LuxLeadSendSummaryCommand:
+    tags:
+      - name: 'console.command'
+        command: 'lux:leadSendSummary'
+
+  In2code\Lux\Command\LuxLeadSendSummaryOfKnownCompaniesCommand:
+    tags:
+      - name: 'console.command'
+        command: 'lux:leadSendSummaryOfKnownCompaniesCommand'
+
+  In2code\Lux\Command\LuxLeadSendSummaryOfLuxCategoryCommand:
+    tags:
+      - name: 'console.command'
+        command: 'lux:leadSendSummaryOfLuxCategory'
+
+  In2code\Lux\Command\LuxServiceRecalculateScoringCommand:
+    tags:
+      - name: 'console.command'
+        command: 'lux:serviceRecalculateScoring'

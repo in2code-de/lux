@@ -6,7 +6,6 @@ use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\UrlUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
  * Class LuxLinkClickLinkhandler
@@ -16,7 +15,6 @@ class LuxLinkListenerLinkhandler
     /**
      * @param array $parameters
      * @return void
-     * @throws Exception
      * @noinspection PhpUnused
      */
     public function postProcessTypoLink(array &$parameters): void
@@ -34,7 +32,6 @@ class LuxLinkListenerLinkhandler
     /**
      * @param array $parameters
      * @return string
-     * @throws Exception
      */
     protected function getTargetUri(array $parameters): string
     {

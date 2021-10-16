@@ -1,5 +1,5 @@
 <?php
-namespace In2code\Lux\Tests\Domain\Model;
+namespace In2code\Lux\Tests\Unit\Domain\Model;
 
 use In2code\Lux\Domain\Model\Attribute;
 use In2code\Lux\Domain\Model\Visitor;

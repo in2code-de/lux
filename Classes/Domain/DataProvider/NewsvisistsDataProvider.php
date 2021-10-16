@@ -2,8 +2,9 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\DataProvider;
 
+use Exception;
 use In2code\Lux\Domain\Repository\NewsvisitRepository;
-use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class NewsvisistsDataProvider
@@ -26,12 +27,11 @@ class NewsvisistsDataProvider extends AbstractDynamicFilterDataProvider
      *  ]
      *
      * @return void
-     * @throws \Exception
+     * @throws Exception
      */
     public function prepareData(): void
     {
-        /** @var NewsvisitRepository $newsvisitRepository */
-        $newsvisitRepository = ObjectUtility::getObjectManager()->get(NewsvisitRepository::class);
+        $newsvisitRepository = GeneralUtility::makeInstance(NewsvisitRepository::class);
         $intervals = $this->filter->getIntervals();
         $frequency = (string)$intervals['frequency'];
         foreach ($intervals['intervals'] as $interval) {

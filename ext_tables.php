@@ -1,5 +1,5 @@
 <?php
-if (!defined('TYPO3_MODE')) {
+if (!defined('TYPO3')) {
     die('Access denied.');
 }
 
@@ -50,15 +50,17 @@ call_user_func(
         // Add module for analysis
         if (\In2code\Lux\Utility\ConfigurationUtility::isAnalysisModuleDisabled() === false) {
             \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-                'In2code.lux',
+                'Lux',
                 'lux',
                 'analysis',
                 '',
                 [
-                    'Analysis' => 'dashboard,content,news,linkListener,search,deleteLinkListener,detailPage' .
+                    \In2code\Lux\Controller\AnalysisController::class =>
+                        'dashboard,content,news,linkListener,search,deleteLinkListener,detailPage' .
                         ',detailNews,detailSearch,detailDownload,detailLinkListener,resetFilter',
-                    'Lead' => 'dashboard,list,detail,downloadCsv,remove,deactivate,resetFilter',
-                    'General' => 'information'
+                    \In2code\Lux\Controller\LeadController::class =>
+                        'dashboard,list,detail,downloadCsv,remove,deactivate,resetFilter',
+                    \In2code\Lux\Controller\GeneralController::class => 'information'
                 ],
                 [
                     'access' => 'user,group',
@@ -70,14 +72,16 @@ call_user_func(
         // Add module for leads
         if (\In2code\Lux\Utility\ConfigurationUtility::isLeadModuleDisabled() === false) {
             \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-                'In2code.lux',
+                'Lux',
                 'lux',
                 'leads',
                 '',
                 [
-                    'Lead' => 'dashboard,list,detail,downloadCsv,remove,deactivate,resetFilter',
-                    'Analysis' => 'dashboard,content,linkClicks,detailPage,detailDownload,resetFilter',
-                    'General' => 'information'
+                    \In2code\Lux\Controller\LeadController::class =>
+                        'dashboard,list,detail,downloadCsv,remove,deactivate,resetFilter',
+                    \In2code\Lux\Controller\AnalysisController::class =>
+                        'dashboard,content,linkClicks,detailPage,detailDownload,resetFilter',
+                    \In2code\Lux\Controller\GeneralController::class => 'information'
                 ],
                 [
                     'access' => 'user,group',
@@ -89,14 +93,16 @@ call_user_func(
         // Add module for workflow
         if (\In2code\Lux\Utility\ConfigurationUtility::isWorkflowModuleDisabled() === false) {
             \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-                'In2code.lux',
+                'Lux',
                 'lux',
                 'workflow',
                 '',
                 [
-                    'Workflow' => 'list,new,create,edit,update,delete,disable,enable',
-                    'Shortener' => 'list,delete,detail,resetFilter',
-                    'General' => 'information'
+                    \In2code\Lux\Controller\WorkflowController::class =>
+                        'list,new,create,edit,update,delete,disable,enable',
+                    \In2code\Lux\Controller\ShortenerController::class =>
+                        'list,delete,detail,resetFilter',
+                    \In2code\Lux\Controller\GeneralController::class => 'information'
                 ],
                 [
                     'access' => 'user,group',

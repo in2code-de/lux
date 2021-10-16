@@ -2,12 +2,15 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\Model;
 
+use DateTime;
+use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Repository\LinkclickRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Utility\DateUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
-use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
  * Class Linklistener
@@ -17,12 +20,12 @@ class Linklistener extends AbstractEntity
     const TABLE_NAME = 'tx_lux_domain_model_linklistener';
 
     /**
-     * @var \DateTime|null
+     * @var DateTime|null
      */
     protected $crdate = null;
 
     /**
-     * @var \In2code\Lux\Domain\Model\User|null
+     * @var User|null
      */
     protected $cruserId = null;
 
@@ -42,7 +45,7 @@ class Linklistener extends AbstractEntity
     protected $link = '';
 
     /**
-     * @var \In2code\Lux\Domain\Model\Category
+     * @var Category
      */
     protected $category = null;
 
@@ -53,18 +56,18 @@ class Linklistener extends AbstractEntity
     protected $linkclicks = null;
 
     /**
-     * @return \DateTime|null
+     * @return DateTime|null
      */
-    public function getCrdate(): ?\DateTime
+    public function getCrdate(): ?DateTime
     {
         return $this->crdate;
     }
 
     /**
-     * @param \DateTime|null $crdate
+     * @param DateTime|null $crdate
      * @return Linklistener
      */
-    public function setCrdate(?\DateTime $crdate): self
+    public function setCrdate(?DateTime $crdate): self
     {
         $this->crdate = $crdate;
         return $this;
@@ -176,10 +179,10 @@ class Linklistener extends AbstractEntity
     }
 
     /**
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $linkclicks
+     * @param ObjectStorage $linkclicks
      * @return Linklistener
      */
-    public function setLinkclicks(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $linkclicks): self
+    public function setLinkclicks(ObjectStorage $linkclicks): self
     {
         $this->linkclicks = $linkclicks;
         return $this;
@@ -191,24 +194,23 @@ class Linklistener extends AbstractEntity
 
     /**
      * @return array
-     * @throws Exception
      */
     public function getLinkclicksRaw(): array
     {
-        $linkclickRepository = ObjectUtility::getObjectManager()->get(LinkclickRepository::class);
+        $linkclickRepository = GeneralUtility::makeInstance(LinkclickRepository::class);
         return $linkclickRepository->findRawByLinklistenerIdentifier($this->getUid());
     }
 
     /**
      * @return float
-     * @throws Exception
+     * @throws DBALException
      */
     public function getPerformance(): float
     {
         if (count($this->getLinkclicksRaw()) === 0) {
             return 0.0;
         }
-        $linkclickRepository = ObjectUtility::getObjectManager()->get(LinkclickRepository::class);
+        $linkclickRepository = GeneralUtility::makeInstance(LinkclickRepository::class);
         $groupedLinkclicks = $linkclickRepository->getAmountOfLinkclicksByLinklistenerGroupedByPageUid(
             $this->getUid()
         );
@@ -223,12 +225,12 @@ class Linklistener extends AbstractEntity
     /**
      * @param array $groupedLinkclicks
      * @return array
-     * @throws Exception
+     * @throws DBALException
      */
     protected function extendGroupedLinkclicksWithDateAndPagevisits(array $groupedLinkclicks): array
     {
-        $linkclickRepository = ObjectUtility::getObjectManager()->get(LinkclickRepository::class);
-        $pagevisitRepository = ObjectUtility::getObjectManager()->get(PagevisitRepository::class);
+        $linkclickRepository = GeneralUtility::makeInstance(LinkclickRepository::class);
+        $pagevisitRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
         foreach ($groupedLinkclicks as &$groupedLinkclick) {
             $groupedLinkclick['start'] = DateUtility::convertTimestamp($groupedLinkclick['crdate']);
             unset($groupedLinkclick['crdate']);

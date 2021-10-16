@@ -5,14 +5,14 @@ declare(strict_types = 1);
 namespace In2code\Lux\Domain\Repository;
 
 use Doctrine\DBAL\DBALException;
+use Exception;
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
-use In2code\Lux\Domain\Service\ConfigurationService;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\DateUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
@@ -36,8 +36,8 @@ class LogRepository extends AbstractRepository
      * @param FilterDto $filter
      * @param int $limit
      * @return QueryResultInterface
-     * @throws Exception
      * @throws InvalidQueryException
+     * @throws InvalidConfigurationTypeException
      */
     public function findInterestingLogs(FilterDto $filter, int $limit = 8): QueryResultInterface
     {
@@ -82,7 +82,7 @@ class LogRepository extends AbstractRepository
      * @param FilterDto $filter
      * @return int
      * @throws DBALException
-     * @throws \Exception
+     * @throws Exception
      */
     public function findByStatusAmount(int $status, FilterDto $filter): int
     {
@@ -113,7 +113,7 @@ class LogRepository extends AbstractRepository
                 . ' and JSON_EXTRACT(properties, "$.pageUid") = ' . (int)$pageIdentifier
                 . $this->extendWhereClauseWithFilterTime($filter);
             return (int)$connection->executeQuery($query)->fetchColumn();
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             // Catch if JSON_EXTRACT() is not possible as database operation
             return 0;
         }
@@ -125,11 +125,10 @@ class LogRepository extends AbstractRepository
      * @param QueryInterface $query
      * @return array
      * @throws InvalidQueryException
-     * @throws Exception
+     * @throws InvalidConfigurationTypeException
      */
     protected function interestingLogsLogicalAnd(QueryInterface $query): array
     {
-        /** @var ConfigurationService $configurationService */
         $configurationService = ObjectUtility::getConfigurationService();
         $configString = $configurationService->getTypoScriptSettingsByPath(
             'backendview.analysis.activity.defineLogStatusForInterestingLogs'

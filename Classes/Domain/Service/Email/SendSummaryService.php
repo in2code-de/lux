@@ -5,12 +5,10 @@ namespace In2code\Lux\Domain\Service\Email;
 use In2code\Lux\Domain\Service\ConfigurationService;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\EmailValidationException;
-use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\EmailUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
@@ -35,10 +33,9 @@ class SendSummaryService
     protected $configurationService = null;
 
     /**
-     * SendSummaryService constructor.
+     * Constructor
      *
      * @param QueryResultInterface|array $visitors
-     * @throws Exception
      */
     public function __construct($visitors)
     {
@@ -51,29 +48,17 @@ class SendSummaryService
      * @return bool
      * @throws ConfigurationException
      * @throws EmailValidationException
-     * @throws Exception
      */
     public function send(array $emails): bool
     {
         $this->checkProperties($emails);
-        $message = ObjectUtility::getObjectManager()->get(MailMessage::class);
-        if (ConfigurationUtility::isVersionToCompareSameOrLowerThenCurrentTypo3Version('10.0.0')) {
-            // TYPO3 10
-            $message->embedFromPath(GeneralUtility::getFileAbsFileName($this->luxLogoPath), 'luxLogo');
-            $message
-                ->setTo(EmailUtility::extendEmailReceiverArray($emails))
-                ->setFrom($this->getSender())
-                ->setSubject($this->getSubject())
-                ->html($this->getMailTemplate());
-        } else {
-            // Todo: Remove when TYPO3 9.5 support will be dropped
-            $logo = $message->embed(\Swift_Image::fromPath(GeneralUtility::getFileAbsFileName($this->luxLogoPath)));
-            $message
-                ->setTo(EmailUtility::extendEmailReceiverArray($emails))
-                ->setFrom($this->getSender())
-                ->setSubject($this->getSubject())
-                ->setBody($this->getMailTemplate(['luxLogo' => $logo]), 'text/html');
-        }
+        $message = GeneralUtility::makeInstance(MailMessage::class);
+        $message->embedFromPath(GeneralUtility::getFileAbsFileName($this->luxLogoPath), 'luxLogo');
+        $message
+            ->setTo(EmailUtility::extendEmailReceiverArray($emails))
+            ->setFrom($this->getSender())
+            ->setSubject($this->getSubject())
+            ->html($this->getMailTemplate());
         $message->send();
         return $message->isSent();
     }
@@ -98,14 +83,13 @@ class SendSummaryService
     /**
      * @param array $assignment
      * @return string
-     * @throws Exception
      */
     protected function getMailTemplate(array $assignment = []): string
     {
         $mailTemplatePath = $this->configurationService->getTypoScriptSettingsByPath(
             'commandControllers.summaryMail.mailTemplate'
         );
-        $standaloneView = ObjectUtility::getObjectManager()->get(StandaloneView::class);
+        $standaloneView = GeneralUtility::makeInstance(StandaloneView::class);
         $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($mailTemplatePath));
         $standaloneView->assignMultiple([
             'visitors' => $this->visitors

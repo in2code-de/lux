@@ -6,9 +6,9 @@ This part of the documentation describes how to install lux to your TYPO3 instan
 
 #### 1. Requirements
 
-* TYPO3 9.5 or 10.x
+* TYPO3 10.4 or 11.5
 * TYPO3 must run in **composer mode**
-* PHP 7.2 or higher
+* PHP 7.2 or higher (also 8.0)
 
 #### 2. Installation via composer
 
@@ -18,8 +18,8 @@ Example composer.json file:
 {
   "require": {
     "php": "^7.4",
-    "typo3/cms": "^10.4",
-    "in2code/lux": "^9.0",
+    "typo3/cms": "^11.5",
+    "in2code/lux": "^18.0",
   }
 }
 ```

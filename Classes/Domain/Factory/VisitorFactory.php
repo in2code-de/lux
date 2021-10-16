@@ -14,7 +14,6 @@ use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\CookieUtility;
 use In2code\Lux\Utility\IpUtility;
-use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
@@ -54,7 +53,7 @@ class VisitorFactory
             $identificator = StringUtility::getRandomString(32, false);
         }
         $this->fingerprint = GeneralUtility::makeInstance(Fingerprint::class)->setValue($identificator);
-        $this->visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
+        $this->visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $this->signalDispatch(__CLASS__, 'stopAnyProcessBeforePersistence', [$this->fingerprint]);
     }
 
@@ -70,7 +69,6 @@ class VisitorFactory
      */
     public function getVisitor(): Visitor
     {
-        $this->repairVisitorLanguage();
         $visitor = $this->getVisitorFromDatabaseByFingerprint();
         $this->signalDispatch(__CLASS__, __FUNCTION__ . 'beforeCreateNew', [$this->fingerprint]);
         if ($visitor === null) {
@@ -101,7 +99,7 @@ class VisitorFactory
         if ($visitor === null && CookieUtility::getLuxId() !== '') {
             $visitor = $this->getVisitorFromDatabaseByLegacyCookie();
         }
-        $mergeService = ObjectUtility::getObjectManager()->get(VisitorMergeService::class);
+        $mergeService = GeneralUtility::makeInstance(VisitorMergeService::class);
         $mergeService->mergeByFingerprint($this->fingerprint->getValue());
         return $visitor;
     }
@@ -155,7 +153,7 @@ class VisitorFactory
     protected function enrichNewVisitorWithIpInformation(Visitor $visitor)
     {
         if (ConfigurationUtility::isIpLoggingDisabled() === false) {
-            $handler = ObjectUtility::getObjectManager()->get(Handler::class);
+            $handler = GeneralUtility::makeInstance(Handler::class);
             $visitor->setIpinformations($handler->getObjectStorage());
             $visitor->setIpAddress($this->getIpAddress());
         }
@@ -178,19 +176,5 @@ class VisitorFactory
             $ipAddress = implode('.', $parts);
         }
         return $ipAddress;
-    }
-
-    /**
-     * Repair method: Fix default language in some tables and update with sys_language_uid=-1
-     *
-     * @return void
-     * @throws DBALException
-     * Todo: Remove in version 10
-     */
-    protected function repairVisitorLanguage(): void
-    {
-        if ($this->visitorRepository->isVisitorExistingWithDefaultLanguage()) {
-            $this->visitorRepository->updateRecordsWithLanguageAll();
-        }
     }
 }

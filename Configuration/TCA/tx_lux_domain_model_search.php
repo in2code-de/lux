@@ -1,5 +1,6 @@
 <?php
 use In2code\Lux\Domain\Model\Search;
+use In2code\Lux\Domain\Model\Visitor;
 
 return [
     'ctrl' => [
@@ -15,9 +16,6 @@ return [
         'delete' => 'deleted',
         'iconfile' => 'EXT:lux/Resources/Public/Icons/' . Search::TABLE_NAME . '.svg',
         'rootLevel' => -1
-    ],
-    'interface' => [
-        'showRecordFieldList' => 'crdate,searchterm,visitor',
     ],
     'types' => [
         '1' => ['showitem' => 'crdate,searchterm,visitor'],
@@ -40,7 +38,6 @@ return [
         ],
         'l10n_parent' => [
             'displayCond' => 'FIELD:sys_language_uid:>:0',
-            'exclude' => true,
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:LGL.l18n_parent',
             'config' => [
                 'type' => 'select',
@@ -85,7 +82,7 @@ return [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
-                'foreign_table' => \In2code\Lux\Domain\Model\Visitor::TABLE_NAME,
+                'foreign_table' => Visitor::TABLE_NAME,
                 'default' => 0,
                 'readOnly' => true
             ]

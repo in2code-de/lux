@@ -5,9 +5,7 @@ namespace In2code\Lux\Domain\Model\Transfer;
 use In2code\Lux\Domain\Model\Category;
 use In2code\Lux\Domain\Repository\CategoryRepository;
 use In2code\Lux\Utility\DateUtility;
-use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
  * Class FilterDto is a filter class that helps filtering visitors by given parameters. Per default, get visitors
@@ -293,12 +291,11 @@ class FilterDto
     /**
      * @param int $categoryUid
      * @return FilterDto
-     * @throws Exception
      */
     public function setCategoryScoring(int $categoryUid)
     {
         if ($categoryUid > 0) {
-            $categoryRepository = ObjectUtility::getObjectManager()->get(CategoryRepository::class);
+            $categoryRepository = GeneralUtility::makeInstance(CategoryRepository::class);
             $category = $categoryRepository->findByUid((int)$categoryUid);
             if ($category !== null) {
                 $this->categoryScoring = $category;

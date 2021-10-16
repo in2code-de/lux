@@ -5,7 +5,6 @@ namespace In2code\Lux\ViewHelpers\Page;
 use Doctrine\DBAL\Exception;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -14,17 +13,17 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 class GetVisitedPageAmountByPageIdentifierAndVisitorViewHelper extends AbstractViewHelper
 {
     /**
-     * @var PagevisitRepository|null
+     * @var PagevisitRepository
      */
-    protected $pagevisitRepository = null;
+    protected $pagevisitRepository;
 
     /**
      * GetDateOfLatestPageVisitViewHelper constructor.
-     * @param PagevisitRepository|null $pagevisitRepository
+     * @param PagevisitRepository $pagevisitRepository
      */
-    public function __construct(PagevisitRepository $pagevisitRepository = null)
+    public function __construct(PagevisitRepository $pagevisitRepository)
     {
-        $this->pagevisitRepository = $pagevisitRepository ?: GeneralUtility::makeInstance(PagevisitRepository::class);
+        $this->pagevisitRepository = $pagevisitRepository;
     }
 
     /**

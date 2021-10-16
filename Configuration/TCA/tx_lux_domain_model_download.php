@@ -1,6 +1,8 @@
 <?php
 use In2code\Lux\Domain\Model\Download;
+use In2code\Lux\Domain\Model\File;
 use In2code\Lux\Domain\Model\Pagevisit;
+use In2code\Lux\Domain\Model\Visitor;
 
 return [
     'ctrl' => [
@@ -16,9 +18,6 @@ return [
         'delete' => 'deleted',
         'iconfile' => 'EXT:lux/Resources/Public/Icons/' . Download::TABLE_NAME . '.svg',
         'rootLevel' => -1
-    ],
-    'interface' => [
-        'showRecordFieldList' => 'crdate,href,page,file,properties,domain,visitor',
     ],
     'types' => [
         '1' => ['showitem' => 'crdate,href,page,file,properties,domain,visitor'],
@@ -41,7 +40,6 @@ return [
         ],
         'l10n_parent' => [
             'displayCond' => 'FIELD:sys_language_uid:>:0',
-            'exclude' => true,
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:LGL.l18n_parent',
             'config' => [
                 'type' => 'select',
@@ -98,7 +96,7 @@ return [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
-                'foreign_table' => \In2code\Lux\Domain\Model\File::TABLE_NAME,
+                'foreign_table' => File::TABLE_NAME,
                 'size' => 1,
                 'maxitems' => 1,
                 'default' => 0,
@@ -120,7 +118,7 @@ return [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
-                'foreign_table' => \In2code\Lux\Domain\Model\Visitor::TABLE_NAME,
+                'foreign_table' => Visitor::TABLE_NAME,
                 'default' => 0,
                 'readOnly' => true
             ]

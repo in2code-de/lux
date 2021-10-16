@@ -9,7 +9,6 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use TYPO3\CMS\Core\Mail\FluidEmail;
 use TYPO3\CMS\Core\Mail\Mailer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
  * Class ErrorService
@@ -22,8 +21,7 @@ class ErrorService
     protected $configurationService = null;
 
     /**
-     * ErrorService constructor.
-     * @throws Exception
+     * Constructor
      */
     public function __construct()
     {

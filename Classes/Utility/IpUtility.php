@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Utility;
 
+use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -23,7 +24,7 @@ class IpUtility
         if (empty($ipAddress)) {
             $ipAddress = GeneralUtility::getIndpEnv('REMOTE_ADDR');
             if ($ipAddress === '127.0.0.1') {
-                $externalIpAddress = GeneralUtility::getUrl('https://api.ipify.org/');
+                $externalIpAddress = GeneralUtility::makeInstance(RequestFactory::class)->request('https://api.ipify.org/')->getBody()->getContents();
                 if ($externalIpAddress === false) {
                     throw new \UnexpectedValueException('Could not connect to https://api.ipify.org', 1518270238);
                 }

@@ -2,7 +2,7 @@
 declare(strict_types = 1);
 namespace In2code\Lux\ViewHelpers\Rendering;
 
-use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -11,7 +11,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ContentElementViewHelper extends AbstractViewHelper
 {
-
     /**
      * @var bool
      */
@@ -30,9 +29,9 @@ class ContentElementViewHelper extends AbstractViewHelper
      *
      * @return string
      */
-    public function render()
+    public function render(): string
     {
-        $contentObject = ObjectUtility::getObjectManager()->get(ContentObjectRenderer::class);
+        $contentObject = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $configuration = [
             'tables' => 'tt_content',
             'source' => (int)$this->arguments['uid'],

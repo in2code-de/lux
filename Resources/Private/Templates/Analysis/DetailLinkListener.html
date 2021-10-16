@@ -11,10 +11,7 @@
                 </div>
                 <div class="panel-body">
                     <f:if condition="{linkListener.linkclicks}">
-                        <f:widget.paginate
-                            objects="{linkListener.linkclicks}"
-                            as="linkclickItem"
-                            configuration="{itemsPerPage:25,insertAbove:0,insertBelow:'{f:if(condition: \'{linkListener.linkclicks -> f:count()} > 25\',then:1)}',maximumNumberOfLinks:10}">
+                        <lux:pagination.paginate objects="{linkListener.linkclicks}" as="linkclickPaginator" itemsPerPage="25">
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
@@ -28,7 +25,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <f:for each="{linkclickItem}" as="linkClick">
+                                <f:for each="{linkclickPaginator.paginator.paginatedItems}" as="linkClick">
                                     <tr>
                                         <td>{linkListener.title}</td>
                                         <td>
@@ -54,7 +51,11 @@
                                 </f:for>
                                 </tbody>
                             </table>
-                        </f:widget.paginate>
+
+                            <f:alias map="{pagination:linkclickPaginator.pagination, paginator:linkclickPaginator.paginator, name:linkclickPaginator.name}">
+                                <f:render partial="Miscellaneous/Pagination" arguments="{_all}" />
+                            </f:alias>
+                        </lux:pagination.paginate>
                     </f:if>
                 </div>
             </div>

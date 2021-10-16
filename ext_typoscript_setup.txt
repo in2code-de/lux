@@ -1,2 +1,0 @@
-# Todo: still needed in TYPO3 9 - can be removed with TYPO3 10 and newer
-@import 'EXT:lux/Configuration/TypoScript/Lux/21_TableMapping.typoscript'

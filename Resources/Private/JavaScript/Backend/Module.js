@@ -29,7 +29,6 @@ define(['jquery'], function($) {
       addWorkflowUrlShortenerDetailViewListener();
       addDescriptionListener();
       addLinkMockListener();
-      addDatePickers();
       addConfirmListeners();
     };
 
@@ -230,17 +229,6 @@ define(['jquery'], function($) {
     this.generalDetailCallback = function(response) {
       document.querySelector('[data-lux-container="detail"]').innerHTML = response.html;
       window.LuxDiagramObject.initialize();
-    };
-
-    /**
-     * @returns {void}
-     */
-    var addDatePickers = function() {
-      if (document.querySelector('.t3js-datetimepicker') !== null) {
-        require(['TYPO3/CMS/Backend/DateTimePicker'], function(DateTimePicker) {
-          DateTimePicker.initialize();
-        });
-      }
     };
 
     /**

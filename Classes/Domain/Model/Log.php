@@ -4,8 +4,7 @@ namespace In2code\Lux\Domain\Model;
 
 use In2code\Lux\Domain\Repository\LinklistenerRepository;
 use In2code\Lux\Domain\Repository\SearchRepository;
-use In2code\Lux\Utility\ObjectUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class Log
@@ -171,23 +170,21 @@ class Log extends AbstractModel
 
     /**
      * @return Search|null
-     * @throws Exception
      */
     public function getSearch(): ?Search
     {
         $searchUid = (int)$this->getPropertyByKey('search');
-        $searchRepository = ObjectUtility::getObjectManager()->get(SearchRepository::class);
+        $searchRepository = GeneralUtility::makeInstance(SearchRepository::class);
         return $searchRepository->findByIdentifier($searchUid);
     }
 
     /**
      * @return Linklistener|null
-     * @throws Exception
      */
     public function getLinklistener(): ?Linklistener
     {
         $linklistenerUid = (int)$this->getPropertyByKey('linklistener');
-        $linklistener = ObjectUtility::getObjectManager()->get(LinklistenerRepository::class);
+        $linklistener = GeneralUtility::makeInstance(LinklistenerRepository::class);
         return $linklistener->findByIdentifier($linklistenerUid);
     }
 

@@ -6,9 +6,9 @@ use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Dashboard\WidgetApi;
 use TYPO3\CMS\Dashboard\Widgets\ChartDataProviderInterface;
-use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
 /**
@@ -19,7 +19,6 @@ class LuxRecurringDataProvider implements ChartDataProviderInterface
 {
     /**
      * @return array
-     * @throws Exception
      * @throws InvalidQueryException
      */
     public function getChartData(): array
@@ -28,7 +27,7 @@ class LuxRecurringDataProvider implements ChartDataProviderInterface
         $label = LocalizationUtility::getLanguageService()->sL(
             $llPrefix . 'module.dashboard.widget.luxrecurring.label'
         );
-        $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
+        $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $filter = ObjectUtility::getFilterDto(FilterDto::PERIOD_THISYEAR);
         return [
             'labels' => [

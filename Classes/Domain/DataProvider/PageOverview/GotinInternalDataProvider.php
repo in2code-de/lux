@@ -8,8 +8,7 @@ use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Utility\DatabaseUtility;
-use In2code\Lux\Utility\ObjectUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * GotinInternalDataProvider
@@ -36,13 +35,12 @@ class GotinInternalDataProvider extends AbstractDataProvider
      * Constructor
      *
      * @param FilterDto|null $filter contains timeframe and page identifier as searchterm
-     * @throws Exception
      */
     public function __construct(FilterDto $filter = null)
     {
         $this->filter = $filter;
-        $this->pagevisitRepository = ObjectUtility::getObjectManager()->get(PagevisitRepository::class);
-        $this->pageRepository = ObjectUtility::getObjectManager()->get(PageRepository::class);
+        $this->pagevisitRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
+        $this->pageRepository = GeneralUtility::makeInstance(PageRepository::class);
     }
 
     /**

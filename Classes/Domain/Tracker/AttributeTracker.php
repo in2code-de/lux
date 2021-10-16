@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\Tracker;
 
+use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Attribute;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\AttributeRepository;
@@ -12,6 +13,8 @@ use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\EmailValidationException;
 use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
@@ -65,7 +68,6 @@ class AttributeTracker
      * @param Visitor $visitor
      * @param string $context
      * @param int $pageIdentifier
-     * @throws Exception
      */
     public function __construct(
         Visitor $visitor,
@@ -75,8 +77,8 @@ class AttributeTracker
         $this->visitor = $visitor;
         $this->context = $context;
         $this->pageIdentifier = $pageIdentifier;
-        $this->visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
-        $this->attributeRepository = ObjectUtility::getObjectManager()->get(AttributeRepository::class);
+        $this->visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
+        $this->attributeRepository = GeneralUtility::makeInstance(AttributeRepository::class);
     }
 
     /**
@@ -90,6 +92,8 @@ class AttributeTracker
      * @throws InvalidSlotReturnException
      * @throws UnknownObjectException
      * @throws ConfigurationException
+     * @throws DBALException
+     * @throws InvalidConfigurationTypeException
      */
     public function addAttributes(array $properties, array $allowedProperties = [])
     {
@@ -118,6 +122,8 @@ class AttributeTracker
      * @throws InvalidSlotException
      * @throws InvalidSlotReturnException
      * @throws UnknownObjectException
+     * @throws DBALException
+     * @throws InvalidConfigurationTypeException
      */
     public function addAttribute(string $key, string $value)
     {
@@ -153,12 +159,12 @@ class AttributeTracker
      * @param string $value
      * @return void
      * @throws EmailValidationException
-     * @throws Exception
+     * @throws InvalidConfigurationTypeException
      */
     protected function checkDisallowedMailProviders(string $key, string $value)
     {
         if ($key === 'email') {
-            $mailProviderService = ObjectUtility::getObjectManager()->get(AllowedMailProvidersService::class);
+            $mailProviderService = GeneralUtility::makeInstance(AllowedMailProvidersService::class);
             if ($mailProviderService->isEmailAllowed($value) === false) {
                 throw new EmailValidationException('Email is not allowed', 1555427969);
             }
@@ -175,6 +181,7 @@ class AttributeTracker
      * @throws InvalidSlotException
      * @throws InvalidSlotReturnException
      * @throws UnknownObjectException
+     * @throws Exception
      */
     protected function getAndUpdateAttributeFromDatabase(string $key, string $value)
     {
@@ -191,12 +198,10 @@ class AttributeTracker
      * @param string $key
      * @param string $value
      * @return Attribute
-     * @throws Exception
      */
     protected function createNewAttribute(string $key, string $value): Attribute
     {
-        /** @var Attribute $attribute */
-        $attribute = ObjectUtility::getObjectManager()->get(Attribute::class);
+        $attribute = GeneralUtility::makeInstance(Attribute::class);
         $attribute->setName($key);
         $attribute->setValue($value);
         return $attribute;
@@ -210,11 +215,14 @@ class AttributeTracker
      * @param string $value
      * @return void
      * @throws Exception
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     * @throws DBALException
      */
     protected function mergeVisitorsOnGivenEmail(string $key, string $value)
     {
         if ($key === Attribute::KEY_NAME) {
-            $mergeService = ObjectUtility::getObjectManager()->get(VisitorMergeService::class);
+            $mergeService = GeneralUtility::makeInstance(VisitorMergeService::class);
             $mergeService->mergeByEmail($value);
         }
     }
@@ -222,7 +230,7 @@ class AttributeTracker
     /**
      * @param string $value
      * @return bool
-     * @throws Exception
+     * @throws InvalidConfigurationTypeException
      */
     protected function isAttributeAddingEnabled(string $value): bool
     {
@@ -231,7 +239,7 @@ class AttributeTracker
 
     /**
      * @return bool
-     * @throws Exception
+     * @throws InvalidConfigurationTypeException
      */
     protected function isEnabledIdentificationInSettings(): bool
     {

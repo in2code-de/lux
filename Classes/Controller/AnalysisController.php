@@ -27,7 +27,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -36,6 +36,8 @@ use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
 /**
  * Class AnalysisController
+ * Todo: Return type ": ResponseInterface" and "return $this->htmlResponse();" when TYPO3 10 support is dropped
+ *       for all actions
  */
 class AnalysisController extends AbstractController
 {
@@ -44,32 +46,32 @@ class AnalysisController extends AbstractController
      * @throws DBALException
      * @throws Exception
      * @throws InvalidQueryException
+     * @throws InvalidConfigurationTypeException
      */
     public function dashboardAction(): void
     {
         $filter = ObjectUtility::getFilterDto();
         $values = [
             'filter' => $filter,
-            'numberOfVisitorsData' => ObjectUtility::getObjectManager()->get(PagevisistsDataProvider::class, $filter),
-            'numberOfDownloadsData' => ObjectUtility::getObjectManager()->get(DownloadsDataProvider::class, $filter),
+            'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
+            'numberOfDownloadsData' => GeneralUtility::makeInstance(DownloadsDataProvider::class, $filter),
             'interestingLogs' => $this->logRepository->findInterestingLogs($filter),
             'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
             'downloads' => $this->downloadRepository->findCombinedByHref($filter),
             'news' => $this->newsvisitRepository->findCombinedByNewsIdentifier($filter),
             'searchterms' => $this->searchRepository->findCombinedBySearchIdentifier($filter),
             'latestPagevisits' => $this->pagevisitsRepository->findLatestPagevisits($filter),
-            'browserData' => ObjectUtility::getObjectManager()->get(BrowserAmountDataProvider::class, $filter),
-            'linkclickData' => ObjectUtility::getObjectManager()->get(LinkclickDataProvider::class, $filter),
-            'languageData' => ObjectUtility::getObjectManager()->get(LanguagesDataProvider::class, $filter),
-            'domainData' => ObjectUtility::getObjectManager()->get(DomainDataProvider::class, $filter),
-            'socialMediaData' => ObjectUtility::getObjectManager()->get(SocialMediaDataProvider::class, $filter),
+            'browserData' => GeneralUtility::makeInstance(BrowserAmountDataProvider::class, $filter),
+            'linkclickData' => GeneralUtility::makeInstance(LinkclickDataProvider::class, $filter),
+            'languageData' => GeneralUtility::makeInstance(LanguagesDataProvider::class, $filter),
+            'domainData' => GeneralUtility::makeInstance(DomainDataProvider::class, $filter),
+            'socialMediaData' => GeneralUtility::makeInstance(SocialMediaDataProvider::class, $filter),
         ];
         $this->view->assignMultiple($values);
     }
 
     /**
      * @return void
-     * @throws InvalidArgumentNameException
      * @throws NoSuchArgumentException
      */
     public function initializeContentAction(): void
@@ -91,19 +93,18 @@ class AnalysisController extends AbstractController
         $this->view->assignMultiple([
             'filter' => $filter,
             'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
-            'numberOfVisitorsData' => ObjectUtility::getObjectManager()->get(PagevisistsDataProvider::class, $filter),
-            'numberOfDownloadsData' => ObjectUtility::getObjectManager()->get(DownloadsDataProvider::class, $filter),
+            'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
+            'numberOfDownloadsData' => GeneralUtility::makeInstance(DownloadsDataProvider::class, $filter),
             'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
             'downloads' => $this->downloadRepository->findCombinedByHref($filter),
-            'languageData' => ObjectUtility::getObjectManager()->get(LanguagesDataProvider::class, $filter),
-            'domainData' => ObjectUtility::getObjectManager()->get(DomainDataProvider::class, $filter),
+            'languageData' => GeneralUtility::makeInstance(LanguagesDataProvider::class, $filter),
+            'domainData' => GeneralUtility::makeInstance(DomainDataProvider::class, $filter),
             'domains' => $this->pagevisitsRepository->getAllDomains($filter)
         ]);
     }
 
     /**
      * @return void
-     * @throws InvalidArgumentNameException
      * @throws NoSuchArgumentException
      */
     public function initializeNewsAction(): void
@@ -115,24 +116,22 @@ class AnalysisController extends AbstractController
      * @param FilterDto $filter
      * @return void
      * @throws DBALException
-     * @throws Exception
      */
     public function newsAction(FilterDto $filter): void
     {
         $this->view->assignMultiple([
             'filter' => $filter,
             'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
-            'newsvisitsData' => ObjectUtility::getObjectManager()->get(NewsvisistsDataProvider::class, $filter),
+            'newsvisitsData' => GeneralUtility::makeInstance(NewsvisistsDataProvider::class, $filter),
             'news' => $this->newsvisitRepository->findCombinedByNewsIdentifier($filter),
-            'languageData' => ObjectUtility::getObjectManager()->get(LanguagesNewsDataProvider::class, $filter),
-            'domainData' => ObjectUtility::getObjectManager()->get(DomainNewsDataProvider::class, $filter),
+            'languageData' => GeneralUtility::makeInstance(LanguagesNewsDataProvider::class, $filter),
+            'domainData' => GeneralUtility::makeInstance(DomainNewsDataProvider::class, $filter),
             'domains' => $this->newsvisitRepository->getAllDomains($filter)
         ]);
     }
 
     /**
      * @return void
-     * @throws InvalidArgumentNameException
      * @throws NoSuchArgumentException
      */
     public function initializeLinkListenerAction(): void
@@ -143,7 +142,6 @@ class AnalysisController extends AbstractController
     /**
      * @param FilterDto $filter
      * @return void
-     * @throws Exception
      * @throws InvalidQueryException
      */
     public function linkListenerAction(FilterDto $filter): void
@@ -152,14 +150,13 @@ class AnalysisController extends AbstractController
             'filter' => $filter,
             'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
             'linkListeners' => $this->linklistenerRepository->findByFilter($filter),
-            'allLinkclickData' => ObjectUtility::getObjectManager()->get(AllLinkclickDataProvider::class, $filter),
-            'linkclickData' => ObjectUtility::getObjectManager()->get(LinkclickDataProvider::class, $filter),
+            'allLinkclickData' => GeneralUtility::makeInstance(AllLinkclickDataProvider::class, $filter),
+            'linkclickData' => GeneralUtility::makeInstance(LinkclickDataProvider::class, $filter),
         ]);
     }
 
     /**
      * @return void
-     * @throws InvalidArgumentNameException
      * @throws NoSuchArgumentException
      */
     public function initializeSearchAction(): void
@@ -170,14 +167,14 @@ class AnalysisController extends AbstractController
     /**
      * @param FilterDto $filter
      * @return void
-     * @throws Exception|ExceptionDbal
+     * @throws ExceptionDbal
      */
     public function searchAction(FilterDto $filter): void
     {
         $this->view->assignMultiple([
             'filter' => $filter,
             'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
-            'searchData' => ObjectUtility::getObjectManager()->get(SearchDataProvider::class, $filter),
+            'searchData' => GeneralUtility::makeInstance(SearchDataProvider::class, $filter),
             'search' => $this->searchRepository->findCombinedBySearchIdentifier($filter),
         ]);
     }
@@ -197,7 +194,6 @@ class AnalysisController extends AbstractController
     /**
      * @param Page $page
      * @return void
-     * @throws Exception
      * @throws DBALException
      */
     public function detailPageAction(Page $page): void
@@ -205,14 +201,13 @@ class AnalysisController extends AbstractController
         $filter = ObjectUtility::getFilterDto()->setSearchterm((string)$page->getUid());
         $this->view->assignMultiple([
             'pagevisits' => $this->pagevisitsRepository->findByPage($page, 100),
-            'numberOfVisitorsData' => ObjectUtility::getObjectManager()->get(PagevisistsDataProvider::class, $filter)
+            'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter)
         ]);
     }
 
     /**
      * @param News $news
      * @return void
-     * @throws Exception
      * @throws DBALException
      */
     public function detailNewsAction(News $news): void
@@ -221,14 +216,13 @@ class AnalysisController extends AbstractController
         $this->view->assignMultiple([
             'news' => $news,
             'newsvisits' => $this->newsvisitRepository->findByNews($news, 100),
-            'newsvisitsData' => ObjectUtility::getObjectManager()->get(NewsvisistsDataProvider::class, $filter)
+            'newsvisitsData' => GeneralUtility::makeInstance(NewsvisistsDataProvider::class, $filter)
         ]);
     }
 
     /**
      * @param string $href
      * @return void
-     * @throws Exception
      * @throws InvalidQueryException
      */
     public function detailDownloadAction(string $href): void
@@ -236,35 +230,33 @@ class AnalysisController extends AbstractController
         $filter = ObjectUtility::getFilterDto()->setSearchterm(FileUtility::getFilenameFromPathAndFilename($href));
         $this->view->assignMultiple([
             'downloads' => $this->downloadRepository->findByHref($href, 100),
-            'numberOfDownloadsData' => ObjectUtility::getObjectManager()->get(DownloadsDataProvider::class, $filter)
+            'numberOfDownloadsData' => GeneralUtility::makeInstance(DownloadsDataProvider::class, $filter)
         ]);
     }
 
     /**
      * @param Linklistener $linkListener
      * @return void
-     * @throws Exception
      */
     public function detailLinkListenerAction(Linklistener $linkListener): void
     {
         $filter = $this->getFilterFromSessionForAjaxRequests('linkListener', (string)$linkListener->getUid());
         $this->view->assignMultiple([
             'linkListener' => $linkListener,
-            'allLinkclickData' => ObjectUtility::getObjectManager()->get(AllLinkclickDataProvider::class, $filter),
+            'allLinkclickData' => GeneralUtility::makeInstance(AllLinkclickDataProvider::class, $filter),
         ]);
     }
 
     /**
      * @param string $searchterm
      * @return void
-     * @throws Exception
      */
     public function detailSearchAction(string $searchterm): void
     {
         $filter = ObjectUtility::getFilterDto()->setSearchterm($searchterm);
         $this->view->assignMultiple([
             'searchterm' => $searchterm,
-            'searchData' => ObjectUtility::getObjectManager()->get(SearchDataProvider::class, $filter),
+            'searchData' => GeneralUtility::makeInstance(SearchDataProvider::class, $filter),
             'searches' => $this->searchRepository->findBySearchterm(urldecode($searchterm))
         ]);
     }
@@ -274,7 +266,6 @@ class AnalysisController extends AbstractController
      *
      * @param ServerRequestInterface $request
      * @return ResponseInterface
-     * @throws Exception
      * @throws DBALException
      * @noinspection PhpUnused
      */
@@ -290,9 +281,9 @@ class AnalysisController extends AbstractController
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         $standaloneView->assignMultiple([
             'pagevisits' => $page !== null ? $this->pagevisitsRepository->findByPage($page, 10) : null,
-            'numberOfVisitorsData' => ObjectUtility::getObjectManager()->get(PagevisistsDataProvider::class, $filter)
+            'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter)
         ]);
-        $response = ObjectUtility::getObjectManager()->get(JsonResponse::class);
+        $response = GeneralUtility::makeInstance(JsonResponse::class);
         /** @var StreamInterface $stream */
         $stream = $response->getBody();
         $stream->write(json_encode(['html' => $standaloneView->render()]));
@@ -304,7 +295,6 @@ class AnalysisController extends AbstractController
      *
      * @param ServerRequestInterface $request
      * @return ResponseInterface
-     * @throws Exception
      * @throws DBALException
      * @noinspection PhpUnused
      */
@@ -321,9 +311,9 @@ class AnalysisController extends AbstractController
         $standaloneView->assignMultiple([
             'news' => $news,
             'newsvisits' => $news !== null ? $this->newsvisitRepository->findByNews($news, 10) : null,
-            'newsvisitsData' => ObjectUtility::getObjectManager()->get(NewsvisistsDataProvider::class, $filter)
+            'newsvisitsData' => GeneralUtility::makeInstance(NewsvisistsDataProvider::class, $filter)
         ]);
-        $response = ObjectUtility::getObjectManager()->get(JsonResponse::class);
+        $response = GeneralUtility::makeInstance(JsonResponse::class);
         /** @var StreamInterface $stream */
         $stream = $response->getBody();
         $stream->write(json_encode(['html' => $standaloneView->render()]));
@@ -335,7 +325,6 @@ class AnalysisController extends AbstractController
      *
      * @param ServerRequestInterface $request
      * @return ResponseInterface
-     * @throws Exception
      * @noinspection PhpUnused
      */
     public function detailSearchAjaxPage(ServerRequestInterface $request): ResponseInterface
@@ -351,7 +340,7 @@ class AnalysisController extends AbstractController
             ),
             'searchterm' => $request->getQueryParams()['searchterm']
         ]);
-        $response = ObjectUtility::getObjectManager()->get(JsonResponse::class);
+        $response = GeneralUtility::makeInstance(JsonResponse::class);
         /** @var StreamInterface $stream */
         $stream = $response->getBody();
         $stream->write(json_encode(['html' => $standaloneView->render()]));
@@ -363,7 +352,6 @@ class AnalysisController extends AbstractController
      *
      * @param ServerRequestInterface $request
      * @return ResponseInterface
-     * @throws Exception
      * @throws InvalidQueryException
      * @noinspection PhpUnused
      */
@@ -380,9 +368,9 @@ class AnalysisController extends AbstractController
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         $standaloneView->assignMultiple([
             'downloads' => $this->downloadRepository->findByHref((string)$request->getQueryParams()['download'], 10),
-            'numberOfDownloadsData' => ObjectUtility::getObjectManager()->get(DownloadsDataProvider::class, $filter)
+            'numberOfDownloadsData' => GeneralUtility::makeInstance(DownloadsDataProvider::class, $filter)
         ]);
-        $response = ObjectUtility::getObjectManager()->get(JsonResponse::class);
+        $response = GeneralUtility::makeInstance(JsonResponse::class);
         /** @var StreamInterface $stream */
         $stream = $response->getBody();
         $stream->write(json_encode(['html' => $standaloneView->render()]));
@@ -392,7 +380,6 @@ class AnalysisController extends AbstractController
     /**
      * @param ServerRequestInterface $request
      * @return ResponseInterface
-     * @throws Exception
      * @noinspection PhpUnused
      */
     public function detailAjaxLinklistener(ServerRequestInterface $request): ResponseInterface
@@ -410,9 +397,9 @@ class AnalysisController extends AbstractController
         $standaloneView->assignMultiple([
             'linkListener' => $linkListener,
             'linkclicks' => $this->linkclickRepository->findByLinklistenerIdentifier($linkListener->getUid(), 10),
-            'allLinkclickData' => ObjectUtility::getObjectManager()->get(AllLinkclickDataProvider::class, $filter)
+            'allLinkclickData' => GeneralUtility::makeInstance(AllLinkclickDataProvider::class, $filter)
         ]);
-        $response = ObjectUtility::getObjectManager()->get(JsonResponse::class);
+        $response = GeneralUtility::makeInstance(JsonResponse::class);
         /** @var StreamInterface $stream */
         $stream = $response->getBody();
         $stream->write(json_encode(['html' => $standaloneView->render()]));

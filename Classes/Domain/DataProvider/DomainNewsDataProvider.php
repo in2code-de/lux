@@ -5,8 +5,7 @@ namespace In2code\Lux\Domain\DataProvider;
 use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Repository\NewsvisitRepository;
 use In2code\Lux\Utility\LocalizationUtility;
-use In2code\Lux\Utility\ObjectUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class DomainNewsDataProvider
@@ -29,7 +28,6 @@ class DomainNewsDataProvider extends AbstractDataProvider
      *  ]
      *
      * @return void
-     * @throws Exception
      */
     public function prepareData(): void
     {
@@ -42,13 +40,11 @@ class DomainNewsDataProvider extends AbstractDataProvider
 
     /**
      * @return array
-     * @throws Exception
      * @throws DBALException
      */
     protected function getDomains(): array
     {
-        /** @var NewsvisitRepository $newsvisitRepository */
-        $newsvisitRepository = ObjectUtility::getObjectManager()->get(NewsvisitRepository::class);
+        $newsvisitRepository = GeneralUtility::makeInstance(NewsvisitRepository::class);
         $rows = $newsvisitRepository->getDomainsWithAmountOfVisits($this->filter);
 
         foreach ($rows as &$row) {

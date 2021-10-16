@@ -5,11 +5,11 @@ namespace In2code\Lux\Command;
 use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
-use In2code\Lux\Utility\ObjectUtility;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
@@ -42,7 +42,7 @@ class LuxCleanupVisitorByUidCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
+        $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         /** @var Visitor $visitor */
         $visitor = $visitorRepository->findByUid((int)$input->getArgument('visitorUid'));
         $visitorRepository->removeRelatedTableRowsByVisitor($visitor);

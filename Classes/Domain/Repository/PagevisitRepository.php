@@ -15,7 +15,7 @@ use In2code\Lux\Utility\ArrayUtility;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\ExtensionUtility;
 use In2code\Lux\Utility\FrontendUtility;
-use In2code\Lux\Utility\ObjectUtility;
+use In2code\Luxenterprise\Domain\Repository\ShortenerRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -65,8 +65,7 @@ class PagevisitRepository extends AbstractRepository
         $results = $connection->executeQuery($sql)->fetchAll();
         foreach ($results as &$result) {
             if ($result['page'] > 0) {
-                /** @var PageRepository $pageRepository */
-                $pageRepository = ObjectUtility::getObjectManager()->get(PageRepository::class);
+                $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
                 $page = $pageRepository->findRawByIdentifier($result['page']);
                 if ($page !== []) {
                     $result['page'] = $page;
@@ -278,7 +277,7 @@ class PagevisitRepository extends AbstractRepository
         $records = (array)$connection->executeQuery($sql)->fetchAll();
         $result = [];
         foreach ($records as $record) {
-            $readableReferrer = ObjectUtility::getObjectManager()->get(Readable::class, $record['referrer']);
+            $readableReferrer = GeneralUtility::makeInstance(Readable::class, $record['referrer']);
             if (array_key_exists($readableReferrer->getReadableReferrer(), $result)) {
                 $result[$readableReferrer->getReadableReferrer()] += $record['count'];
             } else {
@@ -322,14 +321,11 @@ class PagevisitRepository extends AbstractRepository
      * @param array $result
      * @param FilterDto $filter
      * @return array
-     * @throws Exception
      */
     protected function getAmountOfSocialMediaReferrersFromShorteners(array $result, FilterDto $filter): array
     {
         if (ExtensionUtility::isLuxenterpriseVersionOrHigherAvailable('7.0.0')) {
-            $shortenerRepository = ObjectUtility::getObjectManager()->get(
-                \In2code\Luxenterprise\Domain\Repository\ShortenerRepository::class
-            );
+            $shortenerRepository = GeneralUtility::makeInstance(ShortenerRepository::class);
             $result2 = $shortenerRepository->findAmountsOfSocialMediaReferrers($filter, false);
             $result = ArrayUtility::sumAmountArrays($result, $result2);
         }

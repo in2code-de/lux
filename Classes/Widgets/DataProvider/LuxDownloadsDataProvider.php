@@ -8,9 +8,9 @@ use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Dashboard\WidgetApi;
 use TYPO3\CMS\Dashboard\Widgets\ChartDataProviderInterface;
-use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
 /**
@@ -21,7 +21,6 @@ class LuxDownloadsDataProvider implements ChartDataProviderInterface
 {
     /**
      * @return array
-     * @throws Exception
      * @throws InvalidQueryException
      */
     public function getChartData(): array
@@ -56,12 +55,11 @@ class LuxDownloadsDataProvider implements ChartDataProviderInterface
      *  ]
      *
      * @return array
-     * @throws Exception
      * @throws InvalidQueryException
      */
     protected function getDownloadData(): array
     {
-        $downloadRepository = ObjectUtility::getObjectManager()->get(DownloadRepository::class);
+        $downloadRepository = GeneralUtility::makeInstance(DownloadRepository::class);
         $downloads = $downloadRepository->findCombinedByHref(
             ObjectUtility::getFilterDto(FilterDto::PERIOD_THISYEAR)
         );
