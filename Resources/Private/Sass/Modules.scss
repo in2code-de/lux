@@ -41,6 +41,8 @@ label {
  * Bootstrap
  */
 .lux {
+    --bs-primary-rgb: 165, 231, 255;
+
     h3 {
         font-weight: bold;
     }
@@ -72,6 +74,10 @@ label {
 
     .bg-primary {
         background-color: $colorSoft;
+
+        li {
+            color: white;
+        }
     }
 
     .badge-primary {
@@ -230,6 +236,8 @@ label {
         opacity: 0.3;
         font-size: 0;
         z-index: 2;
+        border: none;
+        background: none;
     }
 
     .close:hover {

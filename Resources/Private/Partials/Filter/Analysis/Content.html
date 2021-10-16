@@ -106,7 +106,7 @@
                             optionValueField="uid"
                             prependOptionValue=""
                             prependOptionLabel=""
-                            class="form-control"
+                            class="form-control form-select"
                             id="categoryScoring"/>
                         <lux:condition.isTypo3Eleven>
                             <f:then>
@@ -122,7 +122,7 @@
 
                     <f:if condition="{domains -> f:count()} > 0">
                         <div class="input-group form-group">
-                            <f:form.select property="domain" class="form-control" id="domain">
+                            <f:form.select property="domain" class="form-control form-select" id="domain">
                                 <f:form.select.option value="">
                                     <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.firstoption.domain">Domain</f:translate>
                                 </f:form.select.option>

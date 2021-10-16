@@ -2,7 +2,7 @@
     <div class="panel-body">
         <f:form name="filter" class="form-inline" action="{action}">
             <div class="form-group">
-                <f:form.select class="form-control" property="timePeriod" options="{lux:form.getOptionsArrayTimePeriodFilter()}" value="{filter.timePeriod}" />
+                <f:form.select class="form-control form-select" property="timePeriod" options="{lux:form.getOptionsArrayTimePeriodFilter()}" value="{filter.timePeriod}" />
             </div>
             <div class="form-group">
                 <f:form.submit class="btn btn-primary" value="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.filter.submit')}" />
