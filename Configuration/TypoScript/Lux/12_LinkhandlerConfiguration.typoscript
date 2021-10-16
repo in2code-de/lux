@@ -1,5 +1,7 @@
 // Linkhandler configuration
 config.recordLinks.luxlinklistener {
+  forceLink = 0
+
   typolink {
     parameter = /
     title.data = parameters:title
