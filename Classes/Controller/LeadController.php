@@ -9,13 +9,14 @@ use In2code\Lux\Domain\DataProvider\ReferrerAmountDataProvider;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -26,14 +27,16 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * Class LeadController
+ * Todo: Return type ": ResponseInterface" and "return $this->htmlResponse();" when TYPO3 10 support is dropped
+ *       for all actions
  */
 class LeadController extends AbstractController
 {
     /**
      * @return void
-     * @throws Exception
      * @throws InvalidQueryException
      * @throws DBALException
+     * @throws InvalidConfigurationTypeException
      */
     public function dashboardAction(): void
     {
@@ -47,14 +50,8 @@ class LeadController extends AbstractController
             'numberOfIdentifiedVisitors' => $this->visitorRepository->findIdentified($filter)->count(),
             'identifiedPerMonth' => $this->logRepository->findIdentifiedLogsFromMonths(6),
             'numberOfUnknownVisitors' => $this->visitorRepository->findUnknown($filter)->count(),
-            'identificationMethods' => ObjectUtility::getObjectManager()->get(
-                IdentificationMethodsDataProvider::class,
-                $filter
-            ),
-            'referrerAmountData' => ObjectUtility::getObjectManager()->get(
-                ReferrerAmountDataProvider::class,
-                $filter
-            ),
+            'identificationMethods' => GeneralUtility::makeInstance(IdentificationMethodsDataProvider::class, $filter),
+            'referrerAmountData' => GeneralUtility::makeInstance(ReferrerAmountDataProvider::class, $filter),
             'whoisonline' => $this->visitorRepository->findOnline(8),
             'countries' => $this->ipinformationRepository->findAllCountryCodesGrouped($filter),
         ];
@@ -63,7 +60,6 @@ class LeadController extends AbstractController
 
     /**
      * @return void
-     * @throws InvalidArgumentNameException
      * @throws NoSuchArgumentException
      */
     public function initializeListAction(): void
@@ -75,9 +71,8 @@ class LeadController extends AbstractController
      * @param FilterDto $filter
      * @param string $export
      * @return void
-     * @throws StopActionException
      * @throws InvalidQueryException
-     * @throws Exception
+     * @throws StopActionException
      */
     public function listAction(FilterDto $filter, string $export = ''): void
     {
@@ -85,7 +80,7 @@ class LeadController extends AbstractController
             $this->forward('downloadCsv', null, null, ['filter' => $filter]);
         }
         $this->view->assignMultiple([
-            'numberOfVisitorsData' => ObjectUtility::getObjectManager()->get(PagevisistsDataProvider::class, $filter),
+            'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
             'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter, 8),
             'filter' => $filter,
             'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter),
@@ -96,15 +91,20 @@ class LeadController extends AbstractController
 
     /**
      * @param FilterDto $filter
-     * @return void
+     * @return void|ResponseInterface
      * @throws InvalidQueryException
      */
-    public function downloadCsvAction(FilterDto $filter): void
+    public function downloadCsvAction(FilterDto $filter)
     {
         $this->view->assignMultiple([
-            'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter),
+            'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter)
         ]);
 
+        if (ConfigurationUtility::isTypo3Version11()) {
+            return $this->csvResponse($this->view->render());
+        }
+
+        // Todo: Remove when TYPO3 10 is dropped
         $this->response->setHeader('Content-Type', 'text/x-csv');
         $this->response->setHeader('Content-Disposition', 'attachment; filename="Leads.csv"');
         $this->response->setHeader('Pragma', 'no-cache');
@@ -159,15 +159,14 @@ class LeadController extends AbstractController
      * AJAX action to show a detail view
      *
      * @param ServerRequestInterface $request
-     * @return ResponseInterface Todo: Second parameter is removed in TYPO3 10
-     * @throws Exception
+     * @return ResponseInterface
      * @noinspection PhpUnused
      */
     public function detailAjax(ServerRequestInterface $request): ResponseInterface
     {
-        $response = ObjectUtility::getObjectManager()->get(JsonResponse::class);
-        $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
-        $standaloneView = ObjectUtility::getObjectManager()->get(StandaloneView::class);
+        $response = GeneralUtility::makeInstance(JsonResponse::class);
+        $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
+        $standaloneView = GeneralUtility::makeInstance(StandaloneView::class);
         $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
             'EXT:lux/Resources/Private/Templates/Lead/ListDetailAjax.html'
         ));
@@ -185,12 +184,14 @@ class LeadController extends AbstractController
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      * @throws Exception
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      * @noinspection PhpUnused
      */
     public function detailDescriptionAjax(ServerRequestInterface $request): ResponseInterface
     {
-        $response = ObjectUtility::getObjectManager()->get(JsonResponse::class);
-        $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
+        $response = GeneralUtility::makeInstance(JsonResponse::class);
+        $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         /** @var Visitor $visitor */
         $visitor = $visitorRepository->findByUid((int)$request->getQueryParams()['visitor']);
         $visitor->setDescription($request->getQueryParams()['value']);

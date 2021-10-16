@@ -24,7 +24,6 @@ use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
@@ -72,30 +71,25 @@ class PageOverview
 
     /**
      * PageOverview constructor.
-     * @param VisitorRepository|null $visitorRepository
-     * @param PagevisitRepository|null $pagevisitRepository
-     * @param LinkclickRepository|null $linkclickRepository
-     * @param DownloadRepository|null $downloadRepository
-     * @param LogRepository|null $logRepository
-     * @throws Exception
+     * @param VisitorRepository $visitorRepository
+     * @param PagevisitRepository $pagevisitRepository
+     * @param LinkclickRepository $linkclickRepository
+     * @param DownloadRepository $downloadRepository
+     * @param LogRepository $logRepository
      * @throws NoSuchCacheException
      */
     public function __construct(
-        VisitorRepository $visitorRepository = null,
-        PagevisitRepository $pagevisitRepository = null,
-        LinkclickRepository $linkclickRepository = null,
-        DownloadRepository $downloadRepository = null,
-        LogRepository $logRepository = null
+        VisitorRepository $visitorRepository,
+        PagevisitRepository $pagevisitRepository,
+        LinkclickRepository $linkclickRepository,
+        DownloadRepository $downloadRepository,
+        LogRepository $logRepository
     ) {
-        $this->visitorRepository
-            = $visitorRepository ?: ObjectUtility::getObjectManager()->get(VisitorRepository::class);
-        $this->pagevisitRepository
-            = $pagevisitRepository ?: ObjectUtility::getObjectManager()->get(PagevisitRepository::class);
-        $this->linkclickRepository
-            = $linkclickRepository ?: ObjectUtility::getObjectManager()->get(LinkclickRepository::class);
-        $this->downloadRepository
-            = $downloadRepository ?: ObjectUtility::getObjectManager()->get(DownloadRepository::class);
-        $this->logRepository = $logRepository ?: ObjectUtility::getObjectManager()->get(LogRepository::class);
+        $this->visitorRepository = $visitorRepository;
+        $this->pagevisitRepository = $pagevisitRepository;
+        $this->linkclickRepository = $linkclickRepository;
+        $this->downloadRepository = $downloadRepository;
+        $this->logRepository = $logRepository;
         $this->cacheInstance = GeneralUtility::makeInstance(CacheManager::class)->getCache(self::CACHE_KEY);
     }
 
@@ -104,7 +98,6 @@ class PageOverview
      * @param PageLayoutController $plController
      * @return string
      * @throws DBALException
-     * @throws Exception
      * @throws ExceptionDbal
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
@@ -128,7 +121,6 @@ class PageOverview
      * @param array $session
      * @return array
      * @throws DBALException
-     * @throws Exception
      * @throws ExceptionDbal
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
@@ -161,18 +153,17 @@ class PageOverview
                     'abandons' => $this->pagevisitRepository->findAbandonsForPage($pageIdentifier, $filter),
                     'delta' => $delta,
                     'deltaIconPath' => $delta >= 0 ? 'Icons/increase.svg' : 'Icons/decrease.svg',
-                    'gotinInternal' => ObjectUtility::getObjectManager()->get(
+                    'gotinInternal' => GeneralUtility::makeInstance(
                         GotinInternalDataProvider::class,
                         $filter
                     )->get(),
-                    'gotinExternal' => ObjectUtility::getObjectManager()->get(
+                    'gotinExternal' => GeneralUtility::makeInstance(
                         GotinExternalDataProvider::class,
                         $filter
                     )->get(),
-                    'gotoutInternal'
-                    => ObjectUtility::getObjectManager()->get(GotoutInternalDataProvider::class, $filter)->get(),
+                    'gotoutInternal' => GeneralUtility::makeInstance(GotoutInternalDataProvider::class, $filter)->get(),
                     'gotout' => '',
-                    'numberOfVisitorsData' => ObjectUtility::getObjectManager()->get(
+                    'numberOfVisitorsData' => GeneralUtility::makeInstance(
                         PagevisistsDataProvider::class,
                         ObjectUtility::getFilterDto()->setSearchterm((string)$pageIdentifier)
                     ),
@@ -191,15 +182,19 @@ class PageOverview
                 ];
             }
             if ($this->getCacheLifeTime() > 0) {
-                $this->cacheInstance->set(
-                    $this->getCacheIdentifier($pageIdentifier),
-                    $arguments,
-                    [self::CACHE_KEY],
-                    $this->getCacheLifeTime()
-                );
+                try {
+                    $this->cacheInstance->set(
+                        $this->getCacheIdentifier($pageIdentifier),
+                        $arguments,
+                        [self::CACHE_KEY],
+                        $this->getCacheLifeTime()
+                    );
+                } catch (\Exception $exception) {
+                    // QueryResult in {visitors} can't be cached in PHP 8.0: "Serialization of 'Closure' is not allowed"
+                }
             }
         }
-        $arguments['status'] = $session['status'] ?: 'show';
+        $arguments['status'] = $session['status'] ?? 'show';
         return $arguments;
     }
 
@@ -216,11 +211,10 @@ class PageOverview
     /**
      * @param array $arguments
      * @return string
-     * @throws Exception
      */
     protected function getContent(array $arguments): string
     {
-        $standaloneView = ObjectUtility::getObjectManager()->get(StandaloneView::class);
+        $standaloneView = GeneralUtility::makeInstance(StandaloneView::class);
         $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($this->templatePathAndFile));
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         $standaloneView->assignMultiple($arguments);

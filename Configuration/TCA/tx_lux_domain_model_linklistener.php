@@ -1,4 +1,5 @@
 <?php
+use In2code\Lux\Domain\Model\Linkclick;
 use In2code\Lux\Domain\Model\Linklistener;
 
 return [
@@ -15,9 +16,6 @@ return [
         'delete' => 'deleted',
         'iconfile' => 'EXT:lux/Resources/Public/Icons/' . Linklistener::TABLE_NAME . '.svg',
         'rootLevel' => -1
-    ],
-    'interface' => [
-        'showRecordFieldList' => 'title,description,link,category,linkclicks',
     ],
     'types' => [
         '1' => [
@@ -59,7 +57,6 @@ return [
         ],
         'l10n_parent' => [
             'displayCond' => 'FIELD:sys_language_uid:>:0',
-            'exclude' => true,
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:LGL.l18n_parent',
             'config' => [
                 'type' => 'select',
@@ -157,7 +154,7 @@ return [
                 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linklistener::TABLE_NAME . '.linkclicks',
             'config' => [
                 'type' => 'inline',
-                'foreign_table' => \In2code\Lux\Domain\Model\Linkclick::TABLE_NAME,
+                'foreign_table' => Linkclick::TABLE_NAME,
                 'foreign_field' => 'linklistener',
                 'maxitems' => 100000,
                 'appearance' => [

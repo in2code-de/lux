@@ -1,11 +1,21 @@
 <?php
+use In2code\Lux\Domain\Model\Attribute;
+use In2code\Lux\Domain\Model\Categoryscoring;
+use In2code\Lux\Domain\Model\Download;
+use In2code\Lux\Domain\Model\Fingerprint;
+use In2code\Lux\Domain\Model\Ipinformation;
+use In2code\Lux\Domain\Model\Linkclick;
+use In2code\Lux\Domain\Model\Log;
+use In2code\Lux\Domain\Model\Newsvisit;
+use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\TCA\VisitorTitle;
 
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Visitor::TABLE_NAME,
         'label' => 'uid',
-        'label_userFunc' => \In2code\Lux\TCA\VisitorTitle::class . '->getContactTitle',
+        'label_userFunc' => VisitorTitle::class . '->getContactTitle',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
         'cruser_id' => 'cruser_id',
@@ -22,11 +32,6 @@ return [
         'iconfile' => 'EXT:lux/Resources/Public/Icons/' . Visitor::TABLE_NAME . '.svg',
         'searchFields' => 'email,id_cookie',
         'rootLevel' => -1
-    ],
-    'interface' => [
-        'showRecordFieldList' =>
-            'scoring,categoryscorings,identified,blacklisted,visits,email,fingerprints,crdate,tstamp,attributes,' .
-            'newsvisits,pagevisits,linkclicks,downloads,ip_address,ipinformations,logs,description',
     ],
     'types' => [
         '1' => [
@@ -77,7 +82,6 @@ return [
         ],
         'l10n_parent' => [
             'displayCond' => 'FIELD:sys_language_uid:>:0',
-            'exclude' => true,
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:LGL.l18n_parent',
             'config' => [
                 'type' => 'select',
@@ -163,7 +167,7 @@ return [
                 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Visitor::TABLE_NAME . '.categoryscorings',
             'config' => [
                 'type' => 'inline',
-                'foreign_table' => \In2code\Lux\Domain\Model\Categoryscoring::TABLE_NAME,
+                'foreign_table' => Categoryscoring::TABLE_NAME,
                 'foreign_field' => 'visitor',
                 'maxitems' => 1000,
                 'appearance' => [
@@ -218,8 +222,8 @@ return [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
-                'foreign_table' => \In2code\Lux\Domain\Model\Fingerprint::TABLE_NAME,
-                'foreign_table_where' => 'ORDER BY ' . \In2code\Lux\Domain\Model\Fingerprint::TABLE_NAME . '.uid DESC',
+                'foreign_table' => Fingerprint::TABLE_NAME,
+                'foreign_table_where' => 'ORDER BY ' . Fingerprint::TABLE_NAME . '.uid DESC',
                 'max_size' => 100,
                 'minitems' => 0,
                 'readOnly' => true
@@ -230,7 +234,7 @@ return [
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Visitor::TABLE_NAME . '.pagevisits',
             'config' => [
                 'type' => 'inline',
-                'foreign_table' => \In2code\Lux\Domain\Model\Pagevisit::TABLE_NAME,
+                'foreign_table' => Pagevisit::TABLE_NAME,
                 'foreign_field' => 'visitor',
                 'maxitems' => 100000,
                 'appearance' => [
@@ -247,7 +251,7 @@ return [
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Visitor::TABLE_NAME . '.newsvisits',
             'config' => [
                 'type' => 'inline',
-                'foreign_table' => \In2code\Lux\Domain\Model\Newsvisit::TABLE_NAME,
+                'foreign_table' => Newsvisit::TABLE_NAME,
                 'foreign_field' => 'visitor',
                 'maxitems' => 100000,
                 'appearance' => [
@@ -264,7 +268,7 @@ return [
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Visitor::TABLE_NAME . '.linkclicks',
             'config' => [
                 'type' => 'inline',
-                'foreign_table' => \In2code\Lux\Domain\Model\Linkclick::TABLE_NAME,
+                'foreign_table' => Linkclick::TABLE_NAME,
                 'foreign_field' => 'visitor',
                 'maxitems' => 100000,
                 'appearance' => [
@@ -281,7 +285,7 @@ return [
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Visitor::TABLE_NAME . '.attributes',
             'config' => [
                 'type' => 'inline',
-                'foreign_table' => \In2code\Lux\Domain\Model\Attribute::TABLE_NAME,
+                'foreign_table' => Attribute::TABLE_NAME,
                 'foreign_field' => 'visitor',
                 'maxitems' => 1000,
                 'appearance' => [
@@ -307,7 +311,7 @@ return [
                 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Visitor::TABLE_NAME . '.ipinformations',
             'config' => [
                 'type' => 'inline',
-                'foreign_table' => \In2code\Lux\Domain\Model\Ipinformation::TABLE_NAME,
+                'foreign_table' => Ipinformation::TABLE_NAME,
                 'foreign_field' => 'visitor',
                 'maxitems' => 20,
                 'appearance' => [
@@ -324,7 +328,7 @@ return [
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Visitor::TABLE_NAME . '.downloads',
             'config' => [
                 'type' => 'inline',
-                'foreign_table' => \In2code\Lux\Domain\Model\Download::TABLE_NAME,
+                'foreign_table' => Download::TABLE_NAME,
                 'foreign_field' => 'visitor',
                 'maxitems' => 1000,
                 'appearance' => [
@@ -341,7 +345,7 @@ return [
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Visitor::TABLE_NAME . '.logs',
             'config' => [
                 'type' => 'inline',
-                'foreign_table' => \In2code\Lux\Domain\Model\Log::TABLE_NAME,
+                'foreign_table' => Log::TABLE_NAME,
                 'foreign_field' => 'visitor',
                 'maxitems' => 1000,
                 'appearance' => [

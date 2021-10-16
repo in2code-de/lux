@@ -2,8 +2,9 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\DataProvider;
 
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
-use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
@@ -27,10 +28,11 @@ class ReferrerAmountDataProvider extends AbstractDataProvider
      *
      * @return void
      * @throws Exception
+     * @throws ExceptionDbal
      */
     public function prepareData(): void
     {
-        $pagevisitRepository = ObjectUtility::getObjectManager()->get(PagevisitRepository::class);
+        $pagevisitRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
         $referrers = $pagevisitRepository->getAmountOfReferrers($this->filter);
         $titles = $amounts = [];
         $counter = 0;

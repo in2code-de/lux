@@ -6,7 +6,7 @@ use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Repository\FingerprintRepository;
 use In2code\Lux\Exception\ClassDoesNotExistException;
 use In2code\Lux\Utility\LocalizationUtility;
-use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
@@ -34,7 +34,7 @@ class BrowserAmountDataProvider extends AbstractDataProvider
      */
     public function prepareData(): void
     {
-        $fingerprintRepo = ObjectUtility::getObjectManager()->get(FingerprintRepository::class);
+        $fingerprintRepo = GeneralUtility::makeInstance(FingerprintRepository::class);
         $osBrowsers = $fingerprintRepo->getAmountOfUserAgents($this->filter);
         $titles = $amounts = [];
         $counter = $additionalAmount = 0;

@@ -10,10 +10,9 @@ use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\DatabaseUtility;
-use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
@@ -32,7 +31,6 @@ class NewsvisitRepository extends AbstractRepository
      * @param FilterDto $filter
      * @return array
      * @throws DBALException
-     * @throws Exception
      * @throws \Exception
      */
     public function findCombinedByNewsIdentifier(FilterDto $filter): array
@@ -61,11 +59,10 @@ class NewsvisitRepository extends AbstractRepository
     /**
      * @param array $rows
      * @return array
-     * @throws Exception
      */
     protected function combineAndCutNews(array $rows): array
     {
-        $newsRepository = ObjectUtility::getObjectManager()->get(NewsRepository::class);
+        $newsRepository = GeneralUtility::makeInstance(NewsRepository::class);
         $objects = [];
         foreach ($rows as $row) {
             $news = $newsRepository->findByIdentifier($row['news']);

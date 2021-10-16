@@ -2,10 +2,10 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\DataProvider;
 
+use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Repository\NewsvisitRepository;
 use In2code\Lux\Utility\LocalizationUtility;
-use In2code\Lux\Utility\ObjectUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class LanguagesNewsDataProvider
@@ -28,7 +28,7 @@ class LanguagesNewsDataProvider extends AbstractDataProvider
      *  ]
      *
      * @return void
-     * @throws Exception
+     * @throws DBALException
      */
     public function prepareData(): void
     {
@@ -41,12 +41,11 @@ class LanguagesNewsDataProvider extends AbstractDataProvider
 
     /**
      * @return array
-     * @throws Exception
+     * @throws DBALException
      */
     protected function getLanguagesFromSystem(): array
     {
-        /** @var NewsvisitRepository $newsvisitRepository */
-        $newsvisitRepository = ObjectUtility::getObjectManager()->get(NewsvisitRepository::class);
+        $newsvisitRepository = GeneralUtility::makeInstance(NewsvisitRepository::class);
         $rows = $newsvisitRepository->getAllLanguages($this->filter);
 
         foreach ($rows as &$row) {

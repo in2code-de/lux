@@ -10,7 +10,6 @@ use In2code\Lux\Domain\Repository\LinkclickRepository;
 use In2code\Lux\Domain\Repository\LinklistenerRepository;
 use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Signal\SignalTrait;
-use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
@@ -45,14 +44,13 @@ class LinkClickTracker
     /**
      * LinkListenerTracker constructor.
      * @param Visitor $visitor
-     * @throws Exception
      */
     public function __construct(Visitor $visitor)
     {
         $this->visitor = $visitor;
-        $this->linkclickRepository = ObjectUtility::getObjectManager()->get(LinkclickRepository::class);
-        $this->linklistenerRepository = ObjectUtility::getObjectManager()->get(LinklistenerRepository::class);
-        $this->pageRepository = ObjectUtility::getObjectManager()->get(PageRepository::class);
+        $this->linkclickRepository = GeneralUtility::makeInstance(LinkclickRepository::class);
+        $this->linklistenerRepository = GeneralUtility::makeInstance(LinklistenerRepository::class);
+        $this->pageRepository = GeneralUtility::makeInstance(PageRepository::class);
     }
 
     /**

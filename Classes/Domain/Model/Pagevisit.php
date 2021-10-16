@@ -6,7 +6,6 @@ use In2code\Lux\Domain\Repository\NewsvisitRepository;
 use In2code\Lux\Domain\Service\Referrer\Readable;
 use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Utility\FrontendUtility;
-use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -168,7 +167,7 @@ class Pagevisit extends AbstractModel
      */
     public function getReadableReferrer(): string
     {
-        $referrerService = ObjectUtility::getObjectManager()->get(Readable::class, $this->getReferrer());
+        $referrerService = GeneralUtility::makeInstance(Readable::class, $this->getReferrer());
         return $referrerService->getReadableReferrer();
     }
 
@@ -250,7 +249,6 @@ class Pagevisit extends AbstractModel
 
     /**
      * @return Newsvisit|null
-     * @throws Exception
      */
     public function getNewsvisit(): ?Newsvisit
     {
@@ -258,8 +256,7 @@ class Pagevisit extends AbstractModel
             return null;
         }
 
-        /** @var NewsvisitRepository $newsvisitRepository */
-        $newsvisitRepository = ObjectUtility::getObjectManager()->get(NewsvisitRepository::class);
+        $newsvisitRepository = GeneralUtility::makeInstance(NewsvisitRepository::class);
         return $newsvisitRepository->findByPagevisit($this);
     }
 }

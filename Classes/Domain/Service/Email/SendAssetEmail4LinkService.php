@@ -5,11 +5,11 @@ namespace In2code\Lux\Domain\Service\Email;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Service\ConfigurationService;
 use In2code\Lux\Signal\SignalTrait;
-use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use In2code\Lux\Utility\UrlUtility;
 use TYPO3\CMS\Core\Mail\MailMessage;
+use TYPO3\CMS\Core\Resource\Security\FileNameValidator;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -40,11 +40,10 @@ class SendAssetEmail4LinkService
     protected $configurationService = null;
 
     /**
-     * SendAssetEmail4LinkService constructor.
+     * Constructor
      *
      * @param Visitor $visitor
      * @param array $settings
-     * @throws Exception
      */
     public function __construct(Visitor $visitor, array $settings)
     {
@@ -77,26 +76,13 @@ class SendAssetEmail4LinkService
      */
     protected function send(string $href): void
     {
-        $message = ObjectUtility::getObjectManager()->get(MailMessage::class);
-        if (ConfigurationUtility::isVersionToCompareSameOrLowerThenCurrentTypo3Version('10.0.0')) {
-            // TYPO3 10
-            $message
-                ->setTo([$this->visitor->getEmail() => 'Receiver'])
-                ->setFrom($this->getSender())
-                ->setSubject($this->getSubject())
-                ->attachFromPath(GeneralUtility::getFileAbsFileName(UrlUtility::convertToRelative($href)))
-                ->html($this->getMailTemplate($href));
-        } else {
-            // Todo: Remove when TYPO3 9.5 support will be dropped
-            $message
-                ->setTo([$this->visitor->getEmail() => 'Receiver'])
-                ->setFrom($this->getSender())
-                ->setSubject($this->getSubject())
-                ->attach(\Swift_Attachment::fromPath(
-                    GeneralUtility::getFileAbsFileName(UrlUtility::convertToRelative($href))
-                ))
-                ->setBody($this->getMailTemplate($href), 'text/html');
-        }
+        $message = GeneralUtility::makeInstance(MailMessage::class);
+        $message
+            ->setTo([$this->visitor->getEmail() => 'Receiver'])
+            ->setFrom($this->getSender())
+            ->setSubject($this->getSubject())
+            ->attachFromPath(GeneralUtility::getFileAbsFileName(UrlUtility::convertToRelative($href)))
+            ->html($this->getMailTemplate($href));
         $this->setBcc($message);
         $this->signalDispatch(__CLASS__, 'send', [$message, $this->visitor, $href]);
         $message->send();
@@ -127,14 +113,13 @@ class SendAssetEmail4LinkService
     /**
      * @param string $href
      * @return string
-     * @throws Exception
      */
     protected function getMailTemplate(string $href): string
     {
         $mailTemplatePath = $this->configurationService->getTypoScriptSettingsByPath(
             'identification.email4link.mail.mailTemplate'
         );
-        $standaloneView = ObjectUtility::getObjectManager()->get(StandaloneView::class);
+        $standaloneView = GeneralUtility::makeInstance(StandaloneView::class);
         $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($mailTemplatePath));
         $standaloneView->assignMultiple([
             'href' => $href,
@@ -163,7 +148,6 @@ class SendAssetEmail4LinkService
     /**
      * @param string $href
      * @return bool
-     * @throws Exception
      */
     protected function isActivatedAndAllowed(string $href): bool
     {
@@ -204,12 +188,11 @@ class SendAssetEmail4LinkService
     /**
      * @param string $href
      * @return bool
-     * @throws Exception
      */
     protected function isAllowedStorage(string $href): bool
     {
         $allowed = false;
-        $storageRepository = ObjectUtility::getObjectManager()->get(StorageRepository::class);
+        $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
         $storages = $storageRepository->findAll();
         foreach ($storages as $storage) {
             if ($storage->isOnline()) {
@@ -230,7 +213,7 @@ class SendAssetEmail4LinkService
      */
     protected function isNotMalicious(string $href): bool
     {
-        return GeneralUtility::verifyFilenameAgainstDenyPattern($href)
+        return GeneralUtility::makeInstance(FileNameValidator::class)->isValid($href)
             && GeneralUtility::validPathStr($href);
     }
 

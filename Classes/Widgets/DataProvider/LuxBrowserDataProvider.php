@@ -4,10 +4,9 @@ namespace In2code\Lux\Widgets\DataProvider;
 
 use In2code\Lux\Domain\DataProvider\BrowserAmountDataProvider;
 use In2code\Lux\Utility\LocalizationUtility;
-use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Dashboard\WidgetApi;
 use TYPO3\CMS\Dashboard\Widgets\ChartDataProviderInterface;
-use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
  * Class LuxBrowserDataProvider
@@ -17,11 +16,10 @@ class LuxBrowserDataProvider implements ChartDataProviderInterface
 {
     /**
      * @return array
-     * @throws Exception
      */
     public function getChartData(): array
     {
-        $browserAmountDP = ObjectUtility::getObjectManager()->get(BrowserAmountDataProvider::class);
+        $browserAmountDP = GeneralUtility::makeInstance(BrowserAmountDataProvider::class);
         return [
             'labels' => $browserAmountDP->getTitlesFromData(),
             'datasets' => [

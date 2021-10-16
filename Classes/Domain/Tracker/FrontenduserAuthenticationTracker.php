@@ -5,7 +5,7 @@ namespace In2code\Lux\Domain\Tracker;
 use Doctrine\DBAL\DBALException;
 use In2code\Lux\Exception\EmailValidationException;
 use In2code\Lux\Utility\FrontendUtility;
-use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -32,7 +32,7 @@ class FrontenduserAuthenticationTracker extends AbstractFrontenduserTracker
     public function trackByFrontenduserAuthentication(): void
     {
         if (FrontendUtility::isLoggedInFrontendUser()) {
-            $userRepository = ObjectUtility::getObjectManager()->get(FrontendUserRepository::class);
+            $userRepository = GeneralUtility::makeInstance(FrontendUserRepository::class);
             /** @var FrontendUser $user */
             $user = $userRepository->findByUid((int)FrontendUtility::getPropertyFromLoggedInFrontendUser('uid'));
 
@@ -44,7 +44,6 @@ class FrontenduserAuthenticationTracker extends AbstractFrontenduserTracker
     /**
      * @param FrontendUser $user
      * @return void
-     * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
@@ -60,7 +59,6 @@ class FrontenduserAuthenticationTracker extends AbstractFrontenduserTracker
     /**
      * @param FrontendUser $user
      * @return void
-     * @throws DBALException
      * @throws EmailValidationException
      * @throws Exception
      * @throws IllegalObjectTypeException

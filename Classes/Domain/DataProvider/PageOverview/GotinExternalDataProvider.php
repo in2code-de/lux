@@ -9,11 +9,9 @@ use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Service\Referrer\Readable;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\FrontendUtility;
-use In2code\Lux\Utility\ObjectUtility;
 use PDO;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
  * GotinExternalDataProvider
@@ -35,12 +33,11 @@ class GotinExternalDataProvider extends AbstractDataProvider
      * Constructor
      *
      * @param FilterDto|null $filter contains timeframe and page identifier as searchterm
-     * @throws Exception
      */
     public function __construct(FilterDto $filter = null)
     {
         $this->filter = $filter;
-        $this->pagevisitRepository = ObjectUtility::getObjectManager()->get(PagevisitRepository::class);
+        $this->pagevisitRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
     }
 
     /**

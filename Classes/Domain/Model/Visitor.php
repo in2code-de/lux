@@ -12,6 +12,7 @@ use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -133,7 +134,7 @@ class Visitor extends AbstractModel
     protected $blacklisted = false;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
+     * @var FrontendUser
      */
     protected $frontenduser = null;
 
@@ -181,7 +182,7 @@ class Visitor extends AbstractModel
      */
     public function getScoringByDate(\DateTime $time): int
     {
-        $scoringService = ObjectUtility::getObjectManager()->get(ScoringService::class, $time);
+        $scoringService = GeneralUtility::makeInstance(ScoringService::class, $time);
         return $scoringService->calculateScoring($this);
     }
 
@@ -278,15 +279,13 @@ class Visitor extends AbstractModel
      */
     public function setCategoryscoringByCategory(int $scoring, Category $category): void
     {
-        /** @var CategoryscoringRepository $csRepository */
-        $csRepository = ObjectUtility::getObjectManager()->get(CategoryscoringRepository::class);
+        $csRepository = GeneralUtility::makeInstance(CategoryscoringRepository::class);
         $categoryscoring = $this->getCategoryscoringByCategory($category);
         if ($categoryscoring !== null) {
             $categoryscoring->setScoring($scoring);
             $csRepository->update($categoryscoring);
         } else {
-            /** @var Categoryscoring $categoryscoring */
-            $categoryscoring = ObjectUtility::getObjectManager()->get(Categoryscoring::class);
+            $categoryscoring = GeneralUtility::makeInstance(Categoryscoring::class);
             $categoryscoring->setCategory($category);
             $categoryscoring->setScoring($scoring);
             $categoryscoring->setVisitor($this);
@@ -1066,7 +1065,7 @@ class Visitor extends AbstractModel
         $this->downloads = new ObjectStorage();
         $this->logs = new ObjectStorage();
 
-        $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
+        $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $visitorRepository->removeRelatedTableRowsByVisitor($this);
 
         $now = new \DateTime();
@@ -1096,7 +1095,7 @@ class Visitor extends AbstractModel
      * Search in database for a fe_users record with the same email and add a relation to it
      *
      * @return bool
-     * @throws Exception
+     * @throws InvalidConfigurationTypeException
      */
     public function setFrontenduserAutomatically(): bool
     {
@@ -1107,8 +1106,8 @@ class Visitor extends AbstractModel
             ) === '1';
             if ($enabled) {
                 /** @var FrontendUserRepository $feuRepository */
-                $feuRepository = ObjectUtility::getObjectManager()->get(FrontendUserRepository::class);
-                $querySettings = ObjectUtility::getObjectManager()->get(Typo3QuerySettings::class);
+                $feuRepository = GeneralUtility::makeInstance(FrontendUserRepository::class);
+                $querySettings = GeneralUtility::makeInstance(Typo3QuerySettings::class);
                 $querySettings->setRespectStoragePage(false);
                 $feuRepository->setDefaultQuerySettings($querySettings);
                 /** @var FrontendUser|null $feuser */
@@ -1124,7 +1123,6 @@ class Visitor extends AbstractModel
 
     /**
      * @return string
-     * @throws Exception
      */
     public function getImageUrl(): string
     {
@@ -1205,7 +1203,7 @@ class Visitor extends AbstractModel
     {
         $company = $this->getPropertyFromAttributes('company');
         if (empty($company)) {
-            $companyFromIp = ObjectUtility::getObjectManager()->get(GetCompanyFromIpService::class);
+            $companyFromIp = GeneralUtility::makeInstance(GetCompanyFromIpService::class);
             $company = $companyFromIp->get($this);
             if (empty($company)) {
                 $company = $this->getPropertyFromIpinformations('org');
@@ -1345,6 +1343,7 @@ class Visitor extends AbstractModel
      * @param string $company
      * @return bool
      * @throws Exception
+     * @throws InvalidConfigurationTypeException
      */
     protected function isTelecomProvider(string $company): bool
     {

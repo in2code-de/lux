@@ -9,6 +9,8 @@ use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
@@ -21,24 +23,27 @@ class PageTracker
     use SignalTrait;
 
     /**
-     * @var VisitorRepository|null
+     * @var VisitorRepository
      */
-    protected $visitorRepository = null;
+    protected $visitorRepository;
 
     /**
-     * PageTracker constructor.
+     * Constructor
+     *
+     * @param VisitorRepository $visitorRepository
      */
-    public function __construct()
+    public function __construct(VisitorRepository $visitorRepository)
     {
-        $this->visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
+        $this->visitorRepository = $visitorRepository;
     }
 
     /**
      * @param Visitor $visitor
      * @param array $arguments
-     * @return Pagevisit
+     * @return Pagevisit|null
      * @throws Exception
      * @throws IllegalObjectTypeException
+     * @throws InvalidConfigurationTypeException
      * @throws UnknownObjectException
      */
     public function track(Visitor $visitor, array $arguments): ?Pagevisit
@@ -63,13 +68,12 @@ class PageTracker
      * @param int $languageUid
      * @param string $referrer
      * @return Pagevisit
-     * @throws Exception
      */
     protected function getPageVisit(int $pageUid, int $languageUid, string $referrer): Pagevisit
     {
         /** @var Pagevisit $pageVisit */
-        $pageVisit = ObjectUtility::getObjectManager()->get(Pagevisit::class);
-        $pageRepository = ObjectUtility::getObjectManager()->get(PageRepository::class);
+        $pageVisit = GeneralUtility::makeInstance(Pagevisit::class);
+        $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
         /** @var Page $page */
         $page = $pageRepository->findByUid($pageUid);
         $pageVisit->setPage($page)->setLanguage($languageUid)->setReferrer($referrer)->setDomain();
@@ -80,7 +84,7 @@ class PageTracker
      * @param Visitor $visitor
      * @param int $pageUid
      * @return bool
-     * @throws Exception
+     * @throws InvalidConfigurationTypeException
      */
     protected function isTrackingActivated(Visitor $visitor, int $pageUid): bool
     {
@@ -91,7 +95,7 @@ class PageTracker
      * Check if tracking of pagevisits is turned on via TypoScript
      *
      * @return bool
-     * @throws Exception
+     * @throws InvalidConfigurationTypeException
      */
     protected function isTrackingActivatedInSettings(): bool
     {

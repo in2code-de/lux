@@ -1,5 +1,5 @@
 <?php
-if (!defined('TYPO3_MODE')) {
+if (!defined('TYPO3')) {
     die('Access denied.');
 }
 
@@ -10,23 +10,23 @@ call_user_func(
          * Include Frontend Plugins
          */
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-            'In2code.lux',
+            'Lux',
             'Fe',
             [
-                'Frontend' => 'dispatchRequest'
+                \In2code\Lux\Controller\FrontendController::class => 'dispatchRequest'
             ],
             [
-                'Frontend' => 'dispatchRequest'
+                \In2code\Lux\Controller\FrontendController::class => 'dispatchRequest'
             ]
         );
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-            'In2code.lux',
+            'Lux',
             'Pi1',
             [
-                'Frontend' => 'trackingOptOut'
+                \In2code\Lux\Controller\FrontendController::class => 'trackingOptOut'
             ],
             [
-                'Frontend' => ''
+                \In2code\Lux\Controller\FrontendController::class => ''
             ]
         );
 
@@ -208,7 +208,7 @@ call_user_func(
             \In2code\Lux\Hooks\PageOverview::CACHE_KEY
         ];
         foreach ($cacheKeys as $cacheKey) {
-            if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheKey])) {
+            if (!isset($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheKey])) {
                 $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheKey] = [];
             }
         }

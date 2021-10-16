@@ -4,31 +4,30 @@ namespace In2code\Lux\Domain\Service;
 
 use In2code\Lux\Domain\Model\File;
 use In2code\Lux\Domain\Repository\FileRepository;
-use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\StorageRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class FileService
  */
 class FileService
 {
-
     /**
      * @param string $href
      * @return File|null
      */
     public function getFileFromHref(string $href)
     {
-        $resourceFactory = ResourceFactory::getInstance();
+        $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
         try {
             $file = $resourceFactory->getFileObjectFromCombinedIdentifier(
                 $this->convertHrefToStorageAndFilePath($href)
             );
             if ($file !== null) {
                 /** @var File $file */
-                $fileRepository = ObjectUtility::getObjectManager()->get(FileRepository::class);
+                $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
                 $file = $fileRepository->findByUid($file->getUid());
             }
         } catch (\Exception $exception) {
@@ -66,8 +65,7 @@ class FileService
      */
     protected function getStorageUidFromPath(string $href): int
     {
-        /** @var StorageRepository $storageRepository */
-        $storageRepository = ObjectUtility::getObjectManager()->get(StorageRepository::class);
+        $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
         $storages = $storageRepository->findAll();
         $storageUid = 0;
         foreach ($storages as $storage) {
@@ -89,8 +87,7 @@ class FileService
      */
     protected function getBasePathFromHref(string $href): string
     {
-        /** @var StorageRepository $storageRepository */
-        $storageRepository = ObjectUtility::getObjectManager()->get(StorageRepository::class);
+        $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
         $storages = $storageRepository->findAll();
         $basePath = '';
         foreach ($storages as $storage) {

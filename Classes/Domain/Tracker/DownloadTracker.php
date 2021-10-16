@@ -12,6 +12,7 @@ use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
@@ -37,12 +38,11 @@ class DownloadTracker
      * DownloadTracker constructor.
      *
      * @param Visitor $visitor
-     * @throws Exception
      */
     public function __construct(Visitor $visitor)
     {
         $this->visitor = $visitor;
-        $this->visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
+        $this->visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
     }
 
     /**
@@ -52,6 +52,7 @@ class DownloadTracker
      * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws InvalidConfigurationTypeException
      */
     public function addDownload(string $href, int $pageIdentifier)
     {
@@ -69,17 +70,16 @@ class DownloadTracker
      * @param string $href
      * @param int $pageIdentifier
      * @return Download
-     * @throws Exception
      * @throws IllegalObjectTypeException
      */
     protected function getAndPersistNewDownload(string $href, int $pageIdentifier): Download
     {
-        $fileService = ObjectUtility::getObjectManager()->get(FileService::class);
+        $fileService = GeneralUtility::makeInstance(FileService::class);
         $file = $fileService->getFileFromHref($href);
-        $downloadRepository = ObjectUtility::getObjectManager()->get(DownloadRepository::class);
-        $pageRepository = ObjectUtility::getObjectManager()->get(PageRepository::class);
+        $downloadRepository = GeneralUtility::makeInstance(DownloadRepository::class);
+        $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
         $page = $pageRepository->findByIdentifier($pageIdentifier);
-        $download = ObjectUtility::getObjectManager()->get(Download::class)
+        $download = GeneralUtility::makeInstance(Download::class)
             ->setHref($href)
             ->setPage($page)
             ->setDomain();
@@ -100,7 +100,7 @@ class DownloadTracker
      *
      * @param string $href
      * @return bool
-     * @throws Exception
+     * @throws InvalidConfigurationTypeException
      */
     protected function isDownloadAddingEnabled(string $href): bool
     {
@@ -111,7 +111,7 @@ class DownloadTracker
     /**
      * @param string $href
      * @return bool
-     * @throws Exception
+     * @throws InvalidConfigurationTypeException
      */
     protected function isFileExtensionAllowedToBeTracked(string $href): bool
     {
@@ -131,7 +131,7 @@ class DownloadTracker
 
     /**
      * @return bool
-     * @throws Exception
+     * @throws InvalidConfigurationTypeException
      */
     protected function isEnabledDownloadTrackingInSettings(): bool
     {

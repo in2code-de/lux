@@ -8,7 +8,6 @@ use In2code\Lux\Domain\Repository\LinklistenerRepository;
 use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\FrontendUtility;
-use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -55,8 +54,7 @@ class CategoryScoringService
      */
     protected function calculateCategoryScoringForPageRequest(Visitor $visitor): void
     {
-        /** @var PageRepository $pageRepository */
-        $pageRepository = ObjectUtility::getObjectManager()->get(PageRepository::class);
+        $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
         $page = $pageRepository->findByUid(FrontendUtility::getCurrentPageIdentifier());
         $categories = $page->getLuxCategories();
         foreach ($categories as $category) {
@@ -103,7 +101,7 @@ class CategoryScoringService
      */
     protected function calculateCategoryScoringForLinkClick(Visitor $visitor): void
     {
-        $llRepository = ObjectUtility::getObjectManager()->get(LinklistenerRepository::class);
+        $llRepository = GeneralUtility::makeInstance(LinklistenerRepository::class);
         $identifier = (int)GeneralUtility::_GP('tx_lux_fe')['arguments']['linklistenerIdentifier'];
         /** @var Linklistener $linkListener */
         $linkListener = $llRepository->findByIdentifier($identifier);

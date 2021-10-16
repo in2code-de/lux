@@ -12,10 +12,7 @@
                 <div class="panel-body">
 
                     <f:if condition="{pagevisits}">
-                        <f:widget.paginate
-                            objects="{pagevisits}"
-                            as="pagevisitsItem"
-                            configuration="{itemsPerPage:25,insertAbove:0,insertBelow:'{f:if(condition: \'{pagevisits -> f:count()} > 25\',then:1)}',maximumNumberOfLinks:10}">
+                        <lux:pagination.paginate objects="{pagevisits}" as="pagevisitsPaginator" itemsPerPage="25">
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
@@ -29,7 +26,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <f:for each="{pagevisitsItem}" as="pagevisit">
+                                <f:for each="{pagevisitsPaginator.paginator.paginatedItems}" as="pagevisit">
                                     <tr data-identifier-pagevisit="{pagevisit.uid}">
                                         <td><span title="{pagevisit.pageTitleWithLanguage}"><f:format.crop maxCharacters="50" append=" ...">{pagevisit.pageTitleWithLanguage}</f:format.crop></span></td>
                                         <td>
@@ -55,7 +52,11 @@
                                 </f:for>
                                 </tbody>
                             </table>
-                        </f:widget.paginate>
+
+                            <f:alias map="{pagination:pagevisitsPaginator.pagination, paginator:pagevisitsPaginator.paginator, name:pagevisitsPaginator.name}">
+                                <f:render partial="Miscellaneous/Pagination" arguments="{_all}" />
+                            </f:alias>
+                        </lux:pagination.paginate>
                     </f:if>
                 </div>
             </div>

@@ -50,7 +50,7 @@ class LuxLeadSendSummaryOfKnownCompaniesCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
+        $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $filter = ObjectUtility::getFilterDto();
         $filter
             ->setTimeFrame((int)$input->getArgument('timeframe'))
@@ -59,8 +59,7 @@ class LuxLeadSendSummaryOfKnownCompaniesCommand extends Command
         $visitors = $visitorRepository->findAllWithKnownCompanies($filter);
 
         if (count($visitors) > 0) {
-            /** @var SendSummaryService $sendSummaryService */
-            $sendSummaryService = ObjectUtility::getObjectManager()->get(SendSummaryService::class, $visitors);
+            $sendSummaryService = GeneralUtility::makeInstance(SendSummaryService::class, $visitors);
             $result = $sendSummaryService->send(GeneralUtility::trimExplode(',', $input->getArgument('emails'), true));
             if ($result === true) {
                 $output->writeln('Mail with ' . count($visitors) . ' leads successfully sent');

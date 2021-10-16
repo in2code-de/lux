@@ -7,6 +7,7 @@ use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Exception\ClassDoesNotExistException;
 use In2code\Lux\Utility\DatabaseUtility;
+use WhichBrowser\Parser;
 
 /**
  * Class FingerprintRepository
@@ -44,8 +45,8 @@ class FingerprintRepository extends AbstractRepository
         $records = (array)$connection->executeQuery($sql)->fetchAll();
         $result = [];
         foreach ($records as $record) {
-            if (class_exists(\WhichBrowser\Parser::class)) {
-                $parser = new \WhichBrowser\Parser($record['user_agent']);
+            if (class_exists(Parser::class)) {
+                $parser = new Parser($record['user_agent']);
                 $osBrowser = $parser->os->name . ' ' . $parser->browser->name;
                 if (array_key_exists($osBrowser, $result)) {
                     $result[$osBrowser] += $record['count'];

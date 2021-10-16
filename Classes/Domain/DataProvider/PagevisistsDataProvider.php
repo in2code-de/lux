@@ -2,8 +2,9 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\DataProvider;
 
+use Exception;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
-use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class PagevisistsDataProvider
@@ -26,11 +27,11 @@ class PagevisistsDataProvider extends AbstractDynamicFilterDataProvider
      *  ]
      *
      * @return void
-     * @throws \Exception
+     * @throws Exception
      */
     public function prepareData(): void
     {
-        $pagevisitRepository = ObjectUtility::getObjectManager()->get(PagevisitRepository::class);
+        $pagevisitRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
         $intervals = $this->filter->getIntervals();
         $frequency = (string)$intervals['frequency'];
         foreach ($intervals['intervals'] as $interval) {

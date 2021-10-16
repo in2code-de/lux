@@ -213,6 +213,16 @@ class ConfigurationUtility
     }
 
     /**
+     * Todo: Can be removed if TYPO3 10 support is dropped
+     *
+     * @return bool
+     */
+    public static function isTypo3Version11(): bool
+    {
+        return self::isVersionToCompareSameOrLowerThenCurrentTypo3Version('10.4.99');
+    }
+
+    /**
      * @param string $versionToCompare like "1.2.3"
      * @return bool
      */

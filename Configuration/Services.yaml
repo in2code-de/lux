@@ -7,5 +7,32 @@ services:
   In2code\Lux\:
     resource: '../Classes/*'
 
-  In2code\Lux\Domain\Repository:
+  In2code\Lux\Domain\Factory\Ipinformation\Handler:
+    public: true
+
+  In2code\Lux\Domain\Service\VisitorImageService:
+    public: true
+
+  In2code\Lux\Domain\Service\VisitorMergeService:
+    public: true
+
+  In2code\Lux\Domain\Tracker\NewsTracker:
+    public: true
+
+  In2code\Lux\Domain\Tracker\PageTracker:
+    public: true
+
+  In2code\Lux\Domain\Tracker\SearchTracker:
+    public: true
+
+  In2code\Lux\Hooks\PageOverview:
+    public: true
+
+  In2code\Lux\ViewHelpers\Lead\GetDateOfLatestPageVisitAndPageViewHelper:
+    public: true
+
+  In2code\Lux\ViewHelpers\Lead\GetDateOfLatestPageVisitViewHelper:
+    public: true
+
+  In2code\Lux\ViewHelpers\Page\GetVisitedPageAmountByPageIdentifierAndVisitorViewHelper:
     public: true

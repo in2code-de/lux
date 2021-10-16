@@ -4,10 +4,10 @@ namespace In2code\Lux\Command;
 
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\ScoringService;
-use In2code\Lux\Utility\ObjectUtility;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
@@ -47,8 +47,8 @@ class LuxServiceRecalculateScoringCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $scoringService = ObjectUtility::getObjectManager()->get(ScoringService::class);
-        $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
+        $scoringService = GeneralUtility::makeInstance(ScoringService::class);
+        $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $visitors = $visitorRepository->findAll();
         foreach ($visitors as $visitor) {
             $scoringService->calculateAndSetScoring($visitor);

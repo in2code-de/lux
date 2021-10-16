@@ -6,7 +6,7 @@ use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 
 /**
  * Class GetCompanyFromIpService
@@ -16,7 +16,7 @@ class GetCompanyFromIpService
     /**
      * @param Visitor $visitor
      * @return string
-     * @throws Exception
+     * @throws InvalidConfigurationTypeException
      */
     public function get(Visitor $visitor): string
     {

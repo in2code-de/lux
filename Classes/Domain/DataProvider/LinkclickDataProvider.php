@@ -10,7 +10,7 @@ use In2code\Lux\Domain\Repository\LinklistenerRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Utility\DateUtility;
 use In2code\Lux\Utility\ObjectUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class LinkclickDataProvider
@@ -29,13 +29,13 @@ class LinkclickDataProvider extends AbstractDataProvider
 
     /**
      * LinkclickDataProvider constructor.
+     *
      * @param FilterDto|null $filter
-     * @throws Exception
      */
     public function __construct(FilterDto $filter = null)
     {
-        $this->linkclickRepository = ObjectUtility::getObjectManager()->get(LinkclickRepository::class);
-        $this->linklistenerRepository = ObjectUtility::getObjectManager()->get(LinklistenerRepository::class);
+        $this->linkclickRepository = GeneralUtility::makeInstance(LinkclickRepository::class);
+        $this->linklistenerRepository = GeneralUtility::makeInstance(LinklistenerRepository::class);
         parent::__construct($filter);
     }
 
@@ -61,7 +61,6 @@ class LinkclickDataProvider extends AbstractDataProvider
      *  ]
      * @return void
      * @throws DBALException
-     * @throws Exception
      */
     public function prepareData(): void
     {
@@ -136,7 +135,6 @@ class LinkclickDataProvider extends AbstractDataProvider
      *
      * @return array
      * @throws DBALException
-     * @throws Exception
      */
     public function getGroupedData(): array
     {
@@ -193,7 +191,6 @@ class LinkclickDataProvider extends AbstractDataProvider
      *
      * @return array
      * @throws DBALException
-     * @throws Exception
      */
     protected function getUngroupedData(): array
     {
@@ -223,12 +220,11 @@ class LinkclickDataProvider extends AbstractDataProvider
      * @param int $pageUid
      * @param int $linklistener
      * @return int
-     * @throws Exception
      * @throws \Exception
      */
     protected function getPagevisitsFromPageByTagTimeframe(int $pageUid, int $linklistener): int
     {
-        $pagevisitRepository = ObjectUtility::getObjectManager()->get(PagevisitRepository::class);
+        $pagevisitRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
         $start = DateUtility::convertTimestamp(
             $this->linkclickRepository->getFirstCreationDateFromLinklistenerIdentifier($linklistener)
         );

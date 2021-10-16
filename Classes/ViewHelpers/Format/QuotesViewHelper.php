@@ -9,7 +9,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class QuotesViewHelper extends AbstractViewHelper
 {
-
     /**
      * @var bool
      */
@@ -20,6 +19,6 @@ class QuotesViewHelper extends AbstractViewHelper
      */
     public function render(): string
     {
-        return '"' . str_replace('"', '\"', $this->renderChildren()) . '"';
+        return '"' . str_replace('"', '\"', (string)$this->renderChildren()) . '"';
     }
 }

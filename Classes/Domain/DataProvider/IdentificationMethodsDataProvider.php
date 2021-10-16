@@ -6,8 +6,7 @@ use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Repository\LogRepository;
 use In2code\Lux\Utility\LocalizationUtility;
-use In2code\Lux\Utility\ObjectUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class IdentificationMethodsDataProvider
@@ -30,12 +29,11 @@ class IdentificationMethodsDataProvider extends AbstractDataProvider
      *  ]
      *
      * @return void
-     * @throws Exception
      * @throws DBALException
      */
     public function prepareData(): void
     {
-        $logRepository = ObjectUtility::getObjectManager()->get(LogRepository::class);
+        $logRepository = GeneralUtility::makeInstance(LogRepository::class);
         $this->data = [
             'amounts' => [
                 $logRepository->findByStatusAmount(Log::STATUS_IDENTIFIED_EMAIL4LINK, $this->filter),

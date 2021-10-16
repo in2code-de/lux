@@ -7,7 +7,6 @@ use In2code\Lux\Exception\ParametersException;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
  * Class RedirectService
@@ -33,7 +32,6 @@ class RedirectService
      * @param string $hash
      * @return string
      * @throws ParametersException
-     * @throws Exception
      * @throws ConfigurationException
      */
     public function getParsedTargetByHash(string $hash): string

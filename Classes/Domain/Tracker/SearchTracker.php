@@ -9,6 +9,7 @@ use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
@@ -19,9 +20,9 @@ class SearchTracker
     use SignalTrait;
 
     /**
-     * @var VisitorRepository|null
+     * @var VisitorRepository
      */
-    protected $visitorRepository = null;
+    protected $visitorRepository;
 
     /**
      * @var array
@@ -29,11 +30,14 @@ class SearchTracker
     protected $settings = [];
 
     /**
-     * PageTracker constructor.
+     * Constructor
+     *
+     * @param VisitorRepository $visitorRepository
+     * @throws InvalidConfigurationTypeException
      */
-    public function __construct()
+    public function __construct(VisitorRepository $visitorRepository)
     {
-        $this->visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
+        $this->visitorRepository = $visitorRepository;
         $configurationService = ObjectUtility::getConfigurationService();
         $this->settings = $configurationService->getTypoScriptSettings();
     }
@@ -57,7 +61,7 @@ class SearchTracker
             ];
             $queryBuilder->insert(Search::TABLE_NAME)->values($properties)->execute();
             $searchUid = $queryBuilder->getConnection()->lastInsertId();
-            $this->signalDispatch(__CLASS__, __FUNCTION__, [$visitor, $searchUid]);
+            $this->signalDispatch(__CLASS__, __FUNCTION__, [$visitor, (int)$searchUid]);
         }
     }
 

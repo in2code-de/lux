@@ -2,16 +2,15 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\Service;
 
+use Buchin\GoogleImageGrabber\GoogleImageGrabber;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\FileUtility;
-use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Exception\NoSuchCacheException;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Service\ImageService;
 
 /**
@@ -63,7 +62,6 @@ class VisitorImageService
 
     /**
      * @return string
-     * @throws Exception
      */
     public function getUrl(): string
     {
@@ -77,7 +75,6 @@ class VisitorImageService
 
     /**
      * @return string
-     * @throws Exception
      */
     protected function buildImageUrl(): string
     {
@@ -92,7 +89,6 @@ class VisitorImageService
     /**
      * @param string $url
      * @return string
-     * @throws Exception
      */
     protected function getImageUrlFromFrontenduser(string $url): string
     {
@@ -100,7 +96,7 @@ class VisitorImageService
             foreach ($this->visitor->getFrontenduser()->getImage() as $imageObject) {
                 /** @var File $file */
                 $file = $imageObject->getOriginalResource()->getOriginalFile();
-                $imageService = ObjectUtility::getObjectManager()->get(ImageService::class);
+                $imageService = GeneralUtility::makeInstance(ImageService::class);
                 $image = $imageService->getImage('', $file, false);
                 $processConfiguration = [
                     'width' => (string)$this->size . 'c',
@@ -136,10 +132,9 @@ class VisitorImageService
      */
     protected function getImageFromGoogle(string $url): string
     {
-        if (empty($url) && $this->visitor->isIdentified()
-            && class_exists(\Buchin\GoogleImageGrabber\GoogleImageGrabber::class)) {
+        if (empty($url) && $this->visitor->isIdentified() && class_exists(GoogleImageGrabber::class)) {
             try {
-                $images = \Buchin\GoogleImageGrabber\GoogleImageGrabber::grab($this->visitor->getEmail());
+                $images = GoogleImageGrabber::grab($this->visitor->getEmail());
                 foreach ((array)$images as $image) {
                     if (!empty($image['url']) && FileUtility::isImageFile($image['url']) && $image['width'] > 25) {
                         $url = $image['url'];

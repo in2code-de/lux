@@ -5,11 +5,8 @@ namespace In2code\Lux\UserFunc;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\DatabaseUtility;
-use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Mvc\Exception\InvalidExtensionNameException;
-use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
@@ -25,8 +22,6 @@ class EnableStatus
 
     /**
      * @return string
-     * @throws InvalidExtensionNameException
-     * @throws Exception
      * @noinspection PhpUnused
      */
     public function showEnableStatus()
@@ -50,12 +45,10 @@ class EnableStatus
     /**
      * @param array $variables
      * @return string
-     * @throws InvalidExtensionNameException
-     * @throws Exception
      */
     protected function renderMarkup(array $variables): string
     {
-        $standaloneView = ObjectUtility::getObjectManager()->get(StandaloneView::class);
+        $standaloneView = GeneralUtility::makeInstance(StandaloneView::class);
         $standaloneView->getRequest()->setControllerExtensionName('lux');
         $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($this->templatePathAndFile));
         $standaloneView->assignMultiple($variables);

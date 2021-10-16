@@ -9,6 +9,7 @@ use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Dashboard\WidgetApi;
 use TYPO3\CMS\Dashboard\Widgets\ChartDataProviderInterface;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -63,8 +64,7 @@ class LuxPageVisitsDataProvider implements ChartDataProviderInterface
      */
     protected function getPageData(): array
     {
-        /** @var PagevisitRepository $pagevisitRepository */
-        $pagevisitRepository = ObjectUtility::getObjectManager()->get(PagevisitRepository::class);
+        $pagevisitRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
         $pageVisits = $pagevisitRepository->findCombinedByPageIdentifier(
             ObjectUtility::getFilterDto(FilterDto::PERIOD_THISYEAR)
         );

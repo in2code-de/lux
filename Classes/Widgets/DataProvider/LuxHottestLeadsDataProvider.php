@@ -6,8 +6,8 @@ use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Dashboard\Widgets\ListDataProviderInterface;
-use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
 /**
@@ -18,13 +18,12 @@ class LuxHottestLeadsDataProvider implements ListDataProviderInterface
 {
     /**
      * @return array
-     * @throws Exception
      * @throws InvalidQueryException
      */
     public function getItems(): array
     {
         $list = [];
-        $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
+        $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $filter = ObjectUtility::getFilterDto(FilterDto::PERIOD_THISMONTH);
         $visitors = $visitorRepository->findByHottestScorings($filter);
         /** @var Visitor $visitor */

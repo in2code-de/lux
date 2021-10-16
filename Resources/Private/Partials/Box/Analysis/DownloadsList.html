@@ -1,9 +1,6 @@
 <f:if condition="{downloads}">
     <f:then>
-        <f:widget.paginate
-            objects="{downloads}"
-            as="downloadsItem"
-            configuration="{itemsPerPage:15,insertAbove:0,insertBelow:'{f:if(condition: \'{downloads -> f:count()} > 15\',then:1)}',maximumNumberOfLinks:10}">
+        <lux:pagination.paginate objects="{downloads}" as="downloadsPaginator" itemsPerPage="15">
             <table class="table table-striped table-hover table-pointer">
                 <thead>
                 <tr>
@@ -17,7 +14,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <f:for each="{downloadsItem}" as="download">
+                <f:for each="{downloadsPaginator.paginator.paginatedItems}" as="download">
                     <tr data-lux-action-analysiscontentdetaildownload="{download.0.href}">
                         <td>
                             <span title="{download.0.href}">
@@ -26,13 +23,21 @@
                         </td>
                         <td>{download -> f:count()}</td>
                         <td>
-                            <f:link.action action="detailDownload" arguments="{href:download.0.href}" class="btn btn-primary pull-right hidden" data="{lux-linkmock-link:'detaildownload{download.0.uid}'}">Details</f:link.action>
+                            <f:link.action
+                                action="detailDownload"
+                                arguments="{href:download.0.href}"
+                                class="btn btn-primary pull-right hidden"
+                                data="{lux-linkmock-link:'detaildownload{download.0.uid}'}">Details</f:link.action>
                         </td>
                     </tr>
                 </f:for>
                 </tbody>
             </table>
-        </f:widget.paginate>
+
+            <f:alias map="{pagination:downloadsPaginator.pagination, paginator:downloadsPaginator.paginator, name:downloadsPaginator.name}">
+                <f:render partial="Miscellaneous/Pagination" arguments="{_all}" />
+            </f:alias>
+        </lux:pagination.paginate>
     </f:then>
     <f:else>
         <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>

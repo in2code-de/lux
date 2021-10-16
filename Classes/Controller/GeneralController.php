@@ -11,18 +11,19 @@ use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
-use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class GeneralController
  * to show general information by clicking on the help icon
+ * Todo: Return type ": ResponseInterface" and "return $this->htmlResponse();" when TYPO3 10 support is dropped
+ *       for all actions
  */
 class GeneralController extends AbstractController
 {
     /**
      * @return void
      * @throws DBALException
-     * @throws Exception
      */
     public function informationAction(): void
     {
@@ -61,11 +62,10 @@ class GeneralController extends AbstractController
      *
      * @param ServerRequestInterface $request
      * @return ResponseInterface
-     * @throws Exception
      */
     public function showOrHidePageOverviewAjax(ServerRequestInterface $request): ResponseInterface
     {
         BackendUtility::saveValueToSession('toggle', 'PageOverview', 'General', $request->getQueryParams());
-        return ObjectUtility::getObjectManager()->get(JsonResponse::class);
+        return GeneralUtility::makeInstance(JsonResponse::class);
     }
 }

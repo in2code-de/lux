@@ -3,10 +3,9 @@ declare(strict_types = 1);
 namespace In2code\Lux\Domain\Repository;
 
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
-use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
@@ -38,11 +37,10 @@ abstract class AbstractRepository extends Repository
 
     /**
      * @return void
-     * @throws Exception
      */
     public function persistAll()
     {
-        $persistanceManager = ObjectUtility::getObjectManager()->get(PersistenceManager::class);
+        $persistanceManager = GeneralUtility::makeInstance(PersistenceManager::class);
         $persistanceManager->persistAll();
     }
 

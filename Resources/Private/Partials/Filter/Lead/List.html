@@ -17,18 +17,36 @@
                             id="searchterm"
                             class="form-control"
                             placeholder="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.searchterm')}" />
-                        <label class="input-group-addon fa fa-search" for="searchterm"></label>
+                        <lux:condition.isTypo3Eleven>
+                            <f:then>
+                                <label class="btn btn-default" for="searchterm">
+                                    <span class="fa fa-search"></span>
+                                </label>
+                            </f:then>
+                            <f:else>
+                                <label class="input-group-addon fa fa-search" for="searchterm"></label>
+                            </f:else>
+                        </lux:condition.isTypo3Eleven>
                     </div>
 
                     <div class="input-group form-group">
                         <f:form.textfield
-                            type="datetime"
+                            type="datetime-local"
                             property="timeFrom"
                             id="timeFrom"
-                            class="form-control t3js-datetimepicker t3js-clearable"
-                            placeholder="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeFrom')}"
-                            data="{date-type:'datetime',date-offset:'0'}" />
-                        <label class="input-group-addon fa fa-calendar" for="timeFrom"></label>
+                            class="form-control" />
+                        <lux:condition.isTypo3Eleven>
+                            <f:then>
+                                <label class="btn btn-default" for="timeFrom">
+                                    {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeFrom')}
+                                </label>
+                            </f:then>
+                            <f:else>
+                                <label class="input-group-addon fa fa-calendar" for="timeFrom">
+                                    {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeFrom')}
+                                </label>
+                            </f:else>
+                        </lux:condition.isTypo3Eleven>
                     </div>
                 </div>
 
@@ -43,20 +61,38 @@
                             class="form-control"
                             additionalAttributes="{min:0, max:200, onchange:'document.getElementById(\'scoring_label\').innerHTML = this.value;'}"
                             id="scoring"/>
-                        <label class="input-group-addon">
-                            Min: <strong id="scoring_label">{filter.scoring}</strong>
-                        </label>
+                        <lux:condition.isTypo3Eleven>
+                            <f:then>
+                                <label class="btn btn-default" for="scoring">
+                                    Min: <strong id="scoring_label">{filter.scoring}</strong>
+                                </label>
+                            </f:then>
+                            <f:else>
+                                <label class="input-group-addon" for="scoring">
+                                    Min: <strong id="scoring_label">{filter.scoring}</strong>
+                                </label>
+                            </f:else>
+                        </lux:condition.isTypo3Eleven>
                     </div>
 
                     <div class="input-group form-group">
                         <f:form.textfield
-                            type="datetime"
+                            type="datetime-local"
                             property="timeTo"
                             id="timeTo"
-                            class="form-control t3js-datetimepicker t3js-clearable"
-                            placeholder="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeTo')}"
-                            data="{date-type:'datetime',date-offset:'0'}" />
-                        <label class="input-group-addon fa fa-calendar" for="timeTo"></label>
+                            class="form-control" />
+                        <lux:condition.isTypo3Eleven>
+                            <f:then>
+                                <label class="btn btn-default" for="timeTo">
+                                    {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeTo')}
+                                </label>
+                            </f:then>
+                            <f:else>
+                                <label class="input-group-addon fa fa-calendar" for="timeTo">
+                                    {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeTo')}
+                                </label>
+                            </f:else>
+                        </lux:condition.isTypo3Eleven>
                     </div>
                 </div>
 
@@ -72,9 +108,18 @@
                             optionValueField="uid"
                             prependOptionValue=""
                             prependOptionLabel=""
-                            class="form-control"
+                            class="form-control form-select"
                             id="categoryScoring"/>
-                        <label class="input-group-addon fa fa-tag" for="categoryScoring"></label>
+                        <lux:condition.isTypo3Eleven>
+                            <f:then>
+                                <label class="btn btn-default" for="categoryScoring">
+                                    <span class="fa fa-tag"></span>
+                                </label>
+                            </f:then>
+                            <f:else>
+                                <label class="input-group-addon fa fa-tag" for="categoryScoring"></label>
+                            </f:else>
+                        </lux:condition.isTypo3Eleven>
                     </div>
 
                     <div class="input-group form-group" style="display: block">
@@ -84,9 +129,9 @@
                                 id="identified"
                                 property="identified"
                                 value="1"
-                                style="position: absolute; left: 0; top: 4px;"
+                                style="position: absolute; top: 4px;"
                                 checked="{f:if(condition:'{filter.identified} == 1',then:'checked')}"/>
-                            <label style="padding: 8px 0 0 20px;" class="form-check-label" for="identified">
+                            <label style="{lux:condition.isTypo3Eleven(then:'padding: 5px 0 0 5px;',else:'padding: 8px 0 0 20px;')}" class="form-check-label" for="identified">
                                 <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.label.identifiedonly">Identified only</f:translate>
                             </label>
                         </div>
@@ -100,7 +145,16 @@
 
                             <f:comment>CSV Download</f:comment>
                             <f:form.submit class="fa fa-download" name="export" id="download" value="csv" style="visibility:hidden;width:1px;padding:0;margin:0;"/>
-                            <label class="btn btn-default fa fa-download" for="download" style="margin-right: 10px;" title="CSV Download"></label>
+                            <lux:condition.isTypo3Eleven>
+                                <f:then>
+                                    <label class="btn btn-default" for="download" style="margin-right: 10px;">
+                                        <span class="fa fa-download" title="CSV Download"></span>
+                                    </label>
+                                </f:then>
+                                <f:else>
+                                    <label class="btn btn-default fa fa-download" for="download" style="margin-right: 10px;" title="CSV Download"></label>
+                                </f:else>
+                            </lux:condition.isTypo3Eleven>
 
                             <f:comment>Clear filter</f:comment>
                             <f:if condition="{filter.set}">

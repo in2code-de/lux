@@ -8,9 +8,9 @@ use In2code\Lux\Domain\Repository\NewsvisitRepository;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Dashboard\WidgetApi;
 use TYPO3\CMS\Dashboard\Widgets\ChartDataProviderInterface;
-use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
  * Class LuxNewsDataProvider
@@ -20,7 +20,6 @@ class LuxNewsDataProvider implements ChartDataProviderInterface
 {
     /**
      * @return array
-     * @throws Exception
      * @throws DBALException
      */
     public function getChartData(): array
@@ -55,12 +54,11 @@ class LuxNewsDataProvider implements ChartDataProviderInterface
      *  ]
      *
      * @return array
-     * @throws Exception
      * @throws DBALException
      */
     protected function getNewsData(): array
     {
-        $newsvisitRepository = ObjectUtility::getObjectManager()->get(NewsvisitRepository::class);
+        $newsvisitRepository = GeneralUtility::makeInstance(NewsvisitRepository::class);
         $news = $newsvisitRepository->findCombinedByNewsIdentifier(
             ObjectUtility::getFilterDto(FilterDto::PERIOD_THISYEAR)
         );

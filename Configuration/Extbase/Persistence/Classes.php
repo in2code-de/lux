@@ -1,23 +1,30 @@
 <?php
 declare(strict_types = 1);
 
+use In2code\Lux\Domain\Model\Category;
+use In2code\Lux\Domain\Model\File;
+use In2code\Lux\Domain\Model\Metadata;
+use In2code\Lux\Domain\Model\News;
+use In2code\Lux\Domain\Model\Page;
+use In2code\Lux\Domain\Model\User;
+
 return [
-    \In2code\Lux\Domain\Model\Page::class => [
+    Page::class => [
         'tableName' => 'pages'
     ],
-    \In2code\Lux\Domain\Model\User::class => [
+    User::class => [
         'tableName' => 'be_users'
     ],
-    \In2code\Lux\Domain\Model\Category::class => [
+    Category::class => [
         'tableName' => 'sys_category'
     ],
-    \In2code\Lux\Domain\Model\File::class => [
+    File::class => [
         'tableName' => 'sys_file'
     ],
-    \In2code\Lux\Domain\Model\Metadata::class => [
+    Metadata::class => [
         'tableName' => 'sys_file_metadata'
     ],
-    \In2code\Lux\Domain\Model\News::class => [
+    News::class => [
         'tableName' => 'tx_news_domain_model_news'
     ]
 ];

@@ -7,7 +7,6 @@ use In2code\Lux\Domain\Repository\IpinformationRepository;
 use In2code\Lux\Domain\Service\ConfigurationService;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\IpinformationServiceConnectionFailureException;
-use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -32,18 +31,15 @@ final class Handler
     /**
      * Constructor
      *
-     * @param ConfigurationService|null $configurationService
-     * @param IpinformationRepository|null $ipinformationRepository
-     * @throws Exception
+     * @param ConfigurationService $configurationService
+     * @param IpinformationRepository $ipinformationRepository
      */
     public function __construct(
-        ConfigurationService $configurationService = null,
-        IpinformationRepository $ipinformationRepository = null
+        ConfigurationService $configurationService,
+        IpinformationRepository $ipinformationRepository
     ) {
-        $this->configurationService
-            = $configurationService ?: GeneralUtility::makeInstance(ConfigurationService::class);
-        $this->ipinformationRepository
-            = $ipinformationRepository ?: ObjectUtility::getObjectManager()->get(IpinformationRepository::class);
+        $this->configurationService = $configurationService;
+        $this->ipinformationRepository = $ipinformationRepository;
     }
 
     /**
@@ -54,7 +50,7 @@ final class Handler
      */
     public function getObjectStorage(): ObjectStorage
     {
-        $objectStorage = ObjectUtility::getObjectManager()->get(ObjectStorage::class);
+        $objectStorage = GeneralUtility::makeInstance(ObjectStorage::class);
         /** @var IpinformationInterface $object */
         foreach ($this->getServiceObjects() as $object) {
             try {
@@ -62,7 +58,7 @@ final class Handler
                 if ($result !== []) {
                     foreach ($result as $key => $value) {
                         if (!empty($value)) {
-                            $ipinformation = ObjectUtility::getObjectManager()->get(Ipinformation::class);
+                            $ipinformation = GeneralUtility::makeInstance(Ipinformation::class);
                             $ipinformation->setName($key)->setValue((string)$value);
                             $this->ipinformationRepository->add($ipinformation);
                             $objectStorage->attach($ipinformation);

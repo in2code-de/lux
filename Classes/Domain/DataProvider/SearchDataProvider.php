@@ -2,8 +2,9 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\DataProvider;
 
+use Exception;
 use In2code\Lux\Domain\Repository\SearchRepository;
-use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * SearchDataProvider
@@ -26,12 +27,11 @@ class SearchDataProvider extends AbstractDynamicFilterDataProvider
      *  ]
      *
      * @return void
-     * @throws \Exception
+     * @throws Exception
      */
     public function prepareData(): void
     {
-        /** @var SearchRepository $searchRepository */
-        $searchRepository = ObjectUtility::getObjectManager()->get(SearchRepository::class);
+        $searchRepository = GeneralUtility::makeInstance(SearchRepository::class);
         $intervals = $this->filter->getIntervals();
         $frequency = (string)$intervals['frequency'];
         foreach ($intervals['intervals'] as $interval) {

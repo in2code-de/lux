@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\Service;
 
+use DateTime;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\DownloadRepository;
@@ -9,11 +10,10 @@ use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Exception\ClassDoesNotExistException;
 use In2code\Lux\Utility\ConfigurationUtility;
-use In2code\Lux\Utility\ObjectUtility;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
-use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
@@ -31,18 +31,18 @@ class ScoringService
     protected $calculation = '';
 
     /**
-     * @var \DateTime|null
+     * @var DateTime|null
      */
     protected $time = null;
 
     /**
      * ScoringService constructor.
-     * @param \DateTime|null $time Set a time if you want to calculate a scoring from the past
+     * @param DateTime|null $time Set a time if you want to calculate a scoring from the past
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws ClassDoesNotExistException
      */
-    public function __construct(\DateTime $time = null)
+    public function __construct(DateTime $time = null)
     {
         if (!class_exists(ExpressionLanguage::class)) {
             throw new ClassDoesNotExistException(
@@ -62,14 +62,13 @@ class ScoringService
      * @throws InvalidQueryException
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
-     * @throws Exception
      */
     public function calculateAndSetScoring(Visitor $visitor)
     {
         if ($visitor->isNotBlacklisted()) {
             $scoring = $this->calculateScoring($visitor);
             $visitor->setScoring($scoring);
-            $visitorRepository = ObjectUtility::getObjectManager()->get(VisitorRepository::class);
+            $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
             $visitorRepository->update($visitor);
             $visitorRepository->persistAll();
         }
@@ -79,7 +78,6 @@ class ScoringService
      * @param Visitor $visitor
      * @return int Integer value 0 or higher
      * @throws InvalidQueryException
-     * @throws Exception
      */
     public function calculateScoring(Visitor $visitor): int
     {
@@ -104,7 +102,6 @@ class ScoringService
      * @param Visitor $visitor
      * @return int
      * @throws InvalidQueryException
-     * @throws Exception
      * @throws \Exception
      */
     protected function getNumberOfSiteVisits(Visitor $visitor): int
@@ -114,14 +111,14 @@ class ScoringService
             $sitevisits = $visitor->getVisits();
         } else {
             /** @var PagevisitRepository $pagevisitRepository */
-            $pagevisitRepository = ObjectUtility::getObjectManager()->get(PagevisitRepository::class);
+            $pagevisitRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
             $pagevisits = $pagevisitRepository->findByVisitorAndTime($visitor, $this->time);
             if (count($pagevisits) > 0) {
                 $sitevisits = 1;
                 $lastVisit = null;
                 /** @var Pagevisit $pagevisit */
                 foreach ($pagevisits as $pagevisit) {
-                    /** @var \DateTime $lastVisit */
+                    /** @var DateTime $lastVisit */
                     if ($lastVisit !== null) {
                         $interval = $lastVisit->diff($pagevisit->getCrdate());
                         // if difference is greater then one hour
@@ -140,7 +137,6 @@ class ScoringService
      * @param Visitor $visitor
      * @return int
      * @throws InvalidQueryException
-     * @throws Exception
      * @throws \Exception
      */
     protected function getNumberOfVisits(Visitor $visitor): int
@@ -148,8 +144,7 @@ class ScoringService
         if ($this->time === null) {
             $visits = count($visitor->getPagevisits());
         } else {
-            /** @var PagevisitRepository $pagevisitRepository */
-            $pagevisitRepository = ObjectUtility::getObjectManager()->get(PagevisitRepository::class);
+            $pagevisitRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
             $visits = $pagevisitRepository->findByVisitorAndTime($visitor, $this->time)->count();
         }
         return $visits;
@@ -159,7 +154,6 @@ class ScoringService
      * @param Visitor $visitor
      * @return int
      * @throws InvalidQueryException
-     * @throws Exception
      * @throws \Exception
      */
     protected function getNumberOfDaysSinceLastVisit(Visitor $visitor): int
@@ -168,14 +162,14 @@ class ScoringService
         if ($this->time === null) {
             $lastPagevisit = $visitor->getLastPagevisit();
         } else {
-            $pagevisitRepository = ObjectUtility::getObjectManager()->get(PagevisitRepository::class);
+            $pagevisitRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
             /** @var Pagevisit $lastPagevisit */
             $lastPagevisit = $pagevisitRepository->findLastByVisitorAndTime($visitor, $this->time);
         }
         if ($lastPagevisit !== null) {
             $time = $this->time;
             if ($this->time === null) {
-                $time = new \DateTime();
+                $time = new DateTime();
             }
             $delta = $time->diff($lastPagevisit->getCrdate());
             $days = $delta->d;
@@ -187,7 +181,6 @@ class ScoringService
      * @param Visitor $visitor
      * @return int
      * @throws InvalidQueryException
-     * @throws Exception
      */
     protected function getNumberOfDownloads(Visitor $visitor): int
     {
@@ -195,7 +188,7 @@ class ScoringService
             $downloads = count($visitor->getDownloads());
         } else {
             /** @var DownloadRepository $downloadRepository */
-            $downloadRepository = ObjectUtility::getObjectManager()->get(DownloadRepository::class);
+            $downloadRepository = GeneralUtility::makeInstance(DownloadRepository::class);
             $downloads = $downloadRepository->findByVisitorAndTime($visitor, $this->time)->count();
         }
         return $downloads;
