@@ -106,8 +106,11 @@ label {
         background-color: #eee;
     }
 
-    .form-control {
+    .form-control:not(.form-select) {
         border: 1px solid $colorGrey;
+        height: 100%;
+        font-size: 14px;
+        line-height: 125%;
     }
 
     .collapse-arrow {
