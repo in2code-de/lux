@@ -97,19 +97,19 @@ abstract class AbstractController extends ActionController
 
     /**
      * AbstractController constructor.
-     * @param VisitorRepository|null $visitorRepository
-     * @param IpinformationRepository|null $ipinformationRepository
-     * @param LogRepository|null $logRepository
-     * @param PagevisitRepository|null $pagevisitsRepository
-     * @param PageRepository|null $pageRepository
-     * @param DownloadRepository|null $downloadRepository
-     * @param NewsvisitRepository|null $newsvisitRepository
-     * @param NewsRepository|null $newsRepository
-     * @param CategoryRepository|null $categoryRepository
-     * @param LinkclickRepository|null $linkclickRepository
-     * @param LinklistenerRepository|null $linklistenerRepository
-     * @param FingerprintRepository|null $fingerprintRepository
-     * @param SearchRepository|null $searchRepository
+     * @param VisitorRepository $visitorRepository
+     * @param IpinformationRepository $ipinformationRepository
+     * @param LogRepository $logRepository
+     * @param PagevisitRepository $pagevisitsRepository
+     * @param PageRepository $pageRepository
+     * @param DownloadRepository $downloadRepository
+     * @param NewsvisitRepository $newsvisitRepository
+     * @param NewsRepository $newsRepository
+     * @param CategoryRepository $categoryRepository
+     * @param LinkclickRepository $linkclickRepository
+     * @param LinklistenerRepository $linklistenerRepository
+     * @param FingerprintRepository $fingerprintRepository
+     * @param SearchRepository $searchRepository
      */
     public function __construct(
         VisitorRepository $visitorRepository,
