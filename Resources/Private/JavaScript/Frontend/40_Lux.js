@@ -48,6 +48,7 @@ function LuxMain() {
         initializeTracking();
       } else {
         addRedirectListener();
+        addAbTestingListener();
       }
       addEmail4LinkListeners();
       doNotTrackListener();
@@ -231,7 +232,7 @@ function LuxMain() {
         };
       }
     }, parseInt(response['configuration']['delay']));
-  }
+  };
 
   /**
    * Not a real workflowAction but more a finisher action to stop asking for email addresses on email4link clicks if
@@ -241,6 +242,20 @@ function LuxMain() {
    */
   this.disableEmail4LinkWorkflowAction = function(response) {
     identification.setDisableForLinkStorageEntry();
+  };
+
+  /**
+   * A/B Testing page visit AJAX response. Take the tx_luxenterprise_domain_model_abpagevisit.uid value and save it
+   * into a data-attribute, so it can be used for conversion management later
+   *
+   * @param response
+   */
+  this.abPageVisitWorkflowAction = function(response) {
+    var abpagevisitIdentifier = response['configuration']['record'];
+    if (abpagevisitIdentifier !== null) {
+      var element = document.querySelector('[data-lux-abpagevisit]');
+      element.setAttribute('data-lux-abpagevisit', abpagevisitIdentifier);
+    }
   };
 
   /**
@@ -276,6 +291,7 @@ function LuxMain() {
       addDownloadListener();
       addLinkListenerListener();
       addRedirectListener();
+      addAbTestingListener();
     } else {
       trackIteration++;
       if (trackIteration < 200) {
@@ -459,6 +475,20 @@ function LuxMain() {
         'tx_lux_fe[dispatchAction]': 'redirectRequest',
         'tx_lux_fe[identificator]': identification.isIdentificatorSet() ? identification.getIdentificator() : '',
         'tx_lux_fe[arguments][redirectHash]': hash
+      }, getRequestUri(), 'generalWorkflowActionCallback', null);
+    }
+  };
+
+  /**
+   * @returns {void}
+   */
+  var addAbTestingListener = function() {
+    var abTestingContainer = document.querySelector('[data-lux-abtestingpage]');
+    if (abTestingContainer !== null) {
+      ajaxConnection({
+        'tx_lux_fe[dispatchAction]': 'abTestingRequest',
+        'tx_lux_fe[identificator]': identification.isIdentificatorSet() ? identification.getIdentificator() : '',
+        'tx_lux_fe[arguments][abTestingPage]': abTestingContainer.getAttribute('data-lux-abtestingpage'),
       }, getRequestUri(), 'generalWorkflowActionCallback', null);
     }
   };
