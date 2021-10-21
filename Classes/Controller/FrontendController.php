@@ -89,11 +89,11 @@ class FrontendController extends ActionController
         try {
             $visitor = $this->getVisitor($identificator);
             $this->callAdditionalTrackers($visitor, $arguments);
-            $pageTracker = $this->objectManager->get(PageTracker::class);
+            $pageTracker = GeneralUtility::makeInstance(PageTracker::class);
             $pagevisit = $pageTracker->track($visitor, $arguments);
-            $newsTracker = $this->objectManager->get(NewsTracker::class);
+            $newsTracker = GeneralUtility::makeInstance(NewsTracker::class);
             $newsTracker->track($visitor, $arguments, $pagevisit);
-            $searchTracker = $this->objectManager->get(SearchTracker::class);
+            $searchTracker = GeneralUtility::makeInstance(SearchTracker::class);
             $searchTracker->track($visitor, $arguments);
             return json_encode($this->afterAction($visitor));
         } catch (\Exception $exception) {
@@ -112,8 +112,7 @@ class FrontendController extends ActionController
     {
         try {
             $visitor = $this->getVisitor($identificator);
-            /** @noinspection PhpParamsInspection */
-            $attributeTracker = $this->objectManager->get(
+            $attributeTracker = GeneralUtility::makeInstance(
                 AttributeTracker::class,
                 $visitor,
                 AttributeTracker::CONTEXT_FIELDLISTENING,
@@ -138,8 +137,7 @@ class FrontendController extends ActionController
         try {
             $visitor = $this->getVisitor($identificator);
             $values = json_decode($arguments['values'], true);
-            /** @noinspection PhpParamsInspection */
-            $attributeTracker = $this->objectManager->get(
+            $attributeTracker = GeneralUtility::makeInstance(
                 AttributeTracker::class,
                 $visitor,
                 AttributeTracker::CONTEXT_FORMLISTENING,
@@ -163,8 +161,7 @@ class FrontendController extends ActionController
     {
         try {
             $visitor = $this->getVisitor($identificator, true);
-            /** @noinspection PhpParamsInspection */
-            $attributeTracker = $this->objectManager->get(
+            $attributeTracker = GeneralUtility::makeInstance(
                 AttributeTracker::class,
                 $visitor,
                 AttributeTracker::CONTEXT_EMAIL4LINK,
@@ -178,12 +175,10 @@ class FrontendController extends ActionController
             );
             $attributeTracker->addAttributes($values, $allowedFields);
 
-            /** @noinspection PhpParamsInspection */
-            $downloadTracker = $this->objectManager->get(DownloadTracker::class, $visitor);
+            $downloadTracker = GeneralUtility::makeInstance(DownloadTracker::class, $visitor);
             $downloadTracker->addDownload($arguments['href'], (int)$arguments['pageUid']);
             if ($arguments['sendEmail'] === 'true') {
-                /** @noinspection PhpParamsInspection */
-                $this->objectManager->get(SendAssetEmail4LinkService::class, $visitor, $this->settings)
+                GeneralUtility::makeInstance(SendAssetEmail4LinkService::class, $visitor, $this->settings)
                     ->sendMail($arguments['href']);
             }
             return json_encode($this->afterAction($visitor));
@@ -203,8 +198,7 @@ class FrontendController extends ActionController
     {
         try {
             $visitor = $this->getVisitor($identificator);
-            /** @noinspection PhpParamsInspection */
-            $downloadTracker = $this->objectManager->get(DownloadTracker::class, $visitor);
+            $downloadTracker = GeneralUtility::makeInstance(DownloadTracker::class, $visitor);
             $downloadTracker->addDownload($arguments['href'], (int)$arguments['pageUid']);
             return json_encode($this->afterAction($visitor));
         } catch (\Exception $exception) {
@@ -223,8 +217,7 @@ class FrontendController extends ActionController
     {
         try {
             $visitor = $this->getVisitor($identificator);
-            /** @noinspection PhpParamsInspection */
-            $linkClickTracker = $this->objectManager->get(LinkClickTracker::class, $visitor);
+            $linkClickTracker = GeneralUtility::makeInstance(LinkClickTracker::class, $visitor);
             $linkClickTracker->addLinkClick((int)$arguments['linklistenerIdentifier'], (int)$arguments['pageUid']);
             return json_encode($this->afterAction($visitor));
         } catch (\Exception $exception) {
@@ -279,16 +272,14 @@ class FrontendController extends ActionController
      */
     protected function callAdditionalTrackers(Visitor $visitor, array $arguments): void
     {
-        /** @noinspection PhpParamsInspection */
-        $authTracker = $this->objectManager->get(
+        $authTracker = GeneralUtility::makeInstance(
             FrontenduserAuthenticationTracker::class,
             $visitor,
             (int)$arguments['pageUid']
         );
         $authTracker->trackByFrontenduserAuthentication();
 
-        /** @noinspection PhpParamsInspection */
-        $luxletterTracker = $this->objectManager->get(
+        $luxletterTracker = GeneralUtility::makeInstance(
             LuxletterlinkAttributeTracker::class,
             $visitor,
             AttributeTracker::CONTEXT_LUXLETTERLINK,
@@ -344,8 +335,7 @@ class FrontendController extends ActionController
      */
     protected function getVisitor(string $identificator, bool $tempVisitor = false): Visitor
     {
-        /** @noinspection PhpParamsInspection */
-        $visitorFactory = $this->objectManager->get(VisitorFactory::class, $identificator, $tempVisitor);
+        $visitorFactory = GeneralUtility::makeInstance(VisitorFactory::class, $identificator, $tempVisitor);
         return $visitorFactory->getVisitor();
     }
 }
