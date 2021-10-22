@@ -183,6 +183,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 18.1.1     | 2021-10-22 | Bugfix     | Fix a typo when rendering the star icon in all lux backend modules                                                                                                                         |
 | 18.1.0     | 2021-10-17 | Task       | Add a "go enterprise" to backend layouts, Update input field height for bootstrap 5, Small code cleanup                                                                                    |
 | 18.0.0     | 2021-10-16 | Task       | Support TYPO3 11 (and 10) and drop support for version 9                                                                                                                                   |
 | 17.2.0     | 2021-09-26 | Feature    | Add description, createdate, author to linklisteners list and edit view for a better organisation, add creationdate and author for news list, small TCA bugfixes                           |
