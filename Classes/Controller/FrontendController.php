@@ -3,6 +3,7 @@ declare(strict_types = 1);
 namespace In2code\Lux\Controller;
 
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use Exception;
 use In2code\Lux\Domain\Factory\VisitorFactory;
 use In2code\Lux\Domain\Model\Visitor;
@@ -60,6 +61,7 @@ class FrontendController extends ActionController
             'linkClickRequest',
             'redirectRequest',
             'abTestingRequest',
+            'abTestingConversionFulfilledRequest'
         ];
         $action = $this->request->getArgument('dispatchAction');
         if (!in_array($action, $allowedActions)) {
@@ -274,6 +276,31 @@ class FrontendController extends ActionController
         $result = $this->afterAction($visitor);
         $result[] = ['action' => 'abPageVisit', 'configuration' => ['record' => $abpagevisit->getUid()]];
         return json_encode($result);
+    }
+
+    /**
+     * @param string $identificator
+     * @param array $arguments
+     * @return string
+     * @throws ExceptionExtbaseObject
+     * @throws ExceptionDbal
+     */
+    public function abTestingConversionFulfilledRequestAction(string $identificator, array $arguments): string
+    {
+        try {
+            $visitor = $this->getVisitor($identificator);
+        } catch (Exception $exception) {
+            try {
+                // Empty fingerprint, create visitor on the fly
+                $visitor = new Visitor();
+            } catch (Exception $exception) {
+                return json_encode($this->getError($exception));
+            }
+        }
+
+        $abTestingTracker = GeneralUtility::makeInstance(AbTestingTracker::class, $visitor);
+        $abTestingTracker->conversionFulfilled((int)$arguments['abPageVisitIdentifier']);
+        return json_encode($this->afterAction($visitor));
     }
 
     /**
