@@ -1158,12 +1158,14 @@ function LuxMain() {
   }
 
   /**
-   * Search for text "ENABLELUXDEBUG" anywhere on the website to show some debug information
+   * Is debug mode activated?
+   * - Check if a cookie with name "ENABLELUXDEBUG" is given
+   * - Search for text "ENABLELUXDEBUG" anywhere on the website
    *
    * @returns {boolean}
    */
   var isDebugMode = function () {
-    return document.body.innerHTML.search('ENABLELUXDEBUG') !== -1;
+    return identification.isDebugCookieSet() || document.body.innerHTML.search('ENABLELUXDEBUG') !== -1;
   }
 }
 

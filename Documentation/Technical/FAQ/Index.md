@@ -17,8 +17,13 @@ see [Identification](../Identification/Index.md) for more information.
 
 #### Debugging in JavaScript or why is Lux not working?
 
-If you add the string `ENABLELUXDEBUG` anywhere on your website, the JS-debugging mode is turned on. So you will see
-if Lux is activated or deactivated and why in the browser console. In addition fingerprint values are shown.
+There is a debug output in browser console. This is helpful to find problems with lux on your website. E.g. it shows
+if tracking is disabled and why. In addition fingerprint values are shown.
+
+Two possibilities to turn on debug mode:
+
+* Add a new cookie in your browser console (e.g. by clicking + at tab web storage in Firefox) with name `ENABLELUXDEBUG` and any value (e.g. 1)
+* Simply add the string `ENABLELUXDEBUG` anywhere on your website
 
 
 #### How to enable tracking even if I'm logged in into backend?
