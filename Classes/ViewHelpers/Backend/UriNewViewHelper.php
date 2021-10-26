@@ -22,7 +22,7 @@ class UriNewViewHelper extends AbstractViewHelper
     {
         parent::initializeArguments();
         $this->registerArgument('tableName', 'string', 'tableName', true);
-        $this->registerArgument('moduleName', 'string', 'module name', true);
+        $this->registerArgument('moduleName', 'string', 'module name for return url', true);
         $this->registerArgument('addReturnUrl', 'bool', 'addReturnUrl', false, true);
     }
 

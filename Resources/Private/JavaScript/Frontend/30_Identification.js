@@ -92,6 +92,13 @@ function LuxIdentification() {
   };
 
   /**
+   * @returns {Boolean} return true if trackingOptIn is set
+   */
+  this.isDebugCookieSet = function () {
+    return getCookieByName('ENABLELUXDEBUG') !== '';
+  };
+
+  /**
    * @param {string} key
    * @returns {string}
    */
@@ -269,11 +276,13 @@ function LuxIdentification() {
   };
 
   /**
-   * Search for text "ENABLELUXDEBUG" anywhere on the website to show some debug information
+   * Is debug mode activated?
+   * - Check if a cookie with name "ENABLELUXDEBUG" is given
+   * - Search for text "ENABLELUXDEBUG" anywhere on the website
    *
    * @returns {boolean}
    */
   var isDebugMode = function () {
-    return document.body.innerHTML.search('ENABLELUXDEBUG') !== -1;
+    return that.isDebugCookieSet() || document.body.innerHTML.search('ENABLELUXDEBUG') !== -1;
   }
 }
