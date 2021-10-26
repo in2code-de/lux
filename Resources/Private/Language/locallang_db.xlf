@@ -1492,6 +1492,9 @@
 			<trans-unit id="deleteconfirm">
 				<source>Are you sure to delete this record?</source>
 			</trans-unit>
+			<trans-unit id="marketingcampaigns">
+				<source>Marketing campaigns</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

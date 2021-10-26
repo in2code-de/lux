@@ -1972,6 +1972,10 @@
 				<source>Are you sure to delete this record?</source>
 				<target state="translated">Wollen Sie diesen Datensatz wirklich löschen?</target>
 			</trans-unit>
+			<trans-unit id="marketingcampaigns">
+				<source>Marketing campaigns</source>
+				<target state="translated">Marketing Kampagnen</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
