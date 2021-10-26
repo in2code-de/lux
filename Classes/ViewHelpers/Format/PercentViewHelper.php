@@ -18,7 +18,7 @@ class PercentViewHelper extends AbstractViewHelper
     public function render(): string
     {
         $number = $this->renderChildren();
-        $number = number_format($number, 3);
+        $number = number_format((float)$number, 3);
         return ($number * 100) . '%';
     }
 }
