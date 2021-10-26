@@ -33,6 +33,20 @@ class DateUtility
     }
 
     /**
+     * @param DateTime $date1
+     * @param DateTime $date2
+     * @return int
+     */
+    public static function getNumberOfDaysBetweenTwoDates(DateTime $date1, DateTime $date2): int
+    {
+        $difference = $date1->diff($date2)->days;
+        if ($difference < 0) {
+            $difference *= -1;
+        }
+        return $difference;
+    }
+
+    /**
      * Get a number of months and then the beginning date and the ending date of this month
      *
      * @param int $back 0 means this month, 1 last month and so on... (must be a positive value)
