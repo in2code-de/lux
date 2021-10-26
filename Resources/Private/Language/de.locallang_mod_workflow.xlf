@@ -4,16 +4,16 @@
 		<header/>
 		<body>
 			<trans-unit id="mlang_tabs_tab">
-				<source>Workflow</source>
-				<target state="translated">Workflow</target>
+				<source>Campaings</source>
+				<target state="translated">Kampagnen</target>
 			</trans-unit>
 			<trans-unit id="mlang_labels_tabdescr">
-				<source>Workflow and User Experience</source>
-				<target state="translated">Workflow und User Experience</target>
+				<source>Marketing campaigns with workflows, A/B testing and URL shortener</source>
+				<target state="translated">Marketing Kampagnen mit Workflows, A/B Tests und URL Shortener</target>
 			</trans-unit>
 			<trans-unit id="mlang_labels_tablabel">
-				<source>Workflow</source>
-				<target state="translated">Workflow</target>
+				<source>Campaings</source>
+				<target state="translated">Kampagnen</target>
 			</trans-unit>
 		</body>
 	</file>

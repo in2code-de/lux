@@ -48,6 +48,7 @@ function LuxMain() {
         initializeTracking();
       } else {
         addRedirectListener();
+        addAbTestingListener();
       }
       addEmail4LinkListeners();
       doNotTrackListener();
@@ -231,7 +232,7 @@ function LuxMain() {
         };
       }
     }, parseInt(response['configuration']['delay']));
-  }
+  };
 
   /**
    * Not a real workflowAction but more a finisher action to stop asking for email addresses on email4link clicks if
@@ -241,6 +242,68 @@ function LuxMain() {
    */
   this.disableEmail4LinkWorkflowAction = function(response) {
     identification.setDisableForLinkStorageEntry();
+  };
+
+  /**
+   * A/B Testing page visit AJAX response. Take the tx_luxenterprise_domain_model_abpagevisit.uid value and save it
+   * into a data-attribute, so it can be used for conversion management later
+   *
+   * @param response
+   */
+  this.abPageVisitWorkflowAction = function(response) {
+    var abpagevisitIdentifier = response['configuration']['record'];
+    if (abpagevisitIdentifier !== null) {
+      var element = document.querySelector('[data-lux-abpagevisit]');
+      element.setAttribute('data-lux-abpagevisit', abpagevisitIdentifier);
+
+      abPageConversionListener(
+        abpagevisitIdentifier,
+        element.getAttribute('data-lux-abpageconversion'),
+        element.getAttribute('data-lux-abpageconversionconfiguration')
+      )
+    }
+  };
+
+  /**
+   * Try to send a request if A/B testing conversion is fulfilled
+   *
+   * @param {Number} abpagevisitIdentifier like "123"
+   * @param {String} method 0=link, 1=form, 2=htmlSelection
+   * @param {String} configuration like "[data-foo]"
+   */
+  var abPageConversionListener = function(abpagevisitIdentifier, method, configuration) {
+    var selection = 'a';
+    if (method === '1') {
+      selection = 'form'; // todo: to implement
+    } else if (method === '2') {
+      selection = unescapeHtml(configuration);
+    }
+
+    var elements = document.querySelectorAll(selection);
+    for (var i = 0; i < elements.length; i++) {
+      if (elements[i].localName === 'form' || elements[i].form !== undefined) {
+        var form = (elements[i].form !== undefined ? elements[i].form : elements[i]);
+        form.addEventListener('submit', function(event) {
+          delaySubmit(event, 'abTestConversion');
+
+          ajaxConnection({
+            'tx_lux_fe[dispatchAction]': 'abTestingConversionFulfilledRequest',
+            'tx_lux_fe[identificator]': identification.isIdentificatorSet() ? identification.getIdentificator() : '',
+            'tx_lux_fe[arguments][abPageVisitIdentifier]': abpagevisitIdentifier,
+          }, getRequestUri(), null, null);
+        });
+      } else {
+        elements[i].addEventListener('click', function(event) {
+          delayClick(event, 'abTestConversion');
+
+          ajaxConnection({
+            'tx_lux_fe[dispatchAction]': 'abTestingConversionFulfilledRequest',
+            'tx_lux_fe[identificator]': identification.isIdentificatorSet() ? identification.getIdentificator() : '',
+            'tx_lux_fe[arguments][abPageVisitIdentifier]': abpagevisitIdentifier,
+          }, getRequestUri(), null, null);
+        });
+      }
+    }
   };
 
   /**
@@ -276,6 +339,7 @@ function LuxMain() {
       addDownloadListener();
       addLinkListenerListener();
       addRedirectListener();
+      addAbTestingListener();
     } else {
       trackIteration++;
       if (trackIteration < 200) {
@@ -464,7 +528,21 @@ function LuxMain() {
   };
 
   /**
-   * Delay a click to a link to give AJAX some time
+   * @returns {void}
+   */
+  var addAbTestingListener = function() {
+    var abTestingContainer = document.querySelector('[data-lux-abtestingpage]');
+    if (abTestingContainer !== null) {
+      ajaxConnection({
+        'tx_lux_fe[dispatchAction]': 'abTestingRequest',
+        'tx_lux_fe[identificator]': identification.isIdentificatorSet() ? identification.getIdentificator() : '',
+        'tx_lux_fe[arguments][abTestingPage]': abTestingContainer.getAttribute('data-lux-abtestingpage'),
+      }, getRequestUri(), 'generalWorkflowActionCallback', null);
+    }
+  };
+
+  /**
+   * Delay a click to a link to give AJAX some time to do a bit magic
    *
    * @returns {void}
    */
@@ -483,6 +561,27 @@ function LuxMain() {
         }, delay
       );
     }
+  };
+
+  /**
+   * Delay a form submit to give AJAX some time to do a bit magic
+   *
+   * @param event triggered form
+   * @param status debugging name
+   * @returns {void}
+   */
+  var delaySubmit = function(event, status) {
+    event.preventDefault();
+    var delay = 400;
+    if (isDebugMode()) {
+      console.log(status + ' triggered. Form submit delayed');
+      delay = 5000;
+    }
+    setTimeout(
+      function() {
+        event.target.submit();
+      }, delay
+    );
   };
 
   /**
@@ -1045,12 +1144,28 @@ function LuxMain() {
   };
 
   /**
-   * Search for text "ENABLELUXDEBUG" anywhere on the website to show some debug information
+   * htmlspecialchars_decode() variant for JavaScript
+   *
+   * @param {string} html
+   * @returns {string}
+   */
+  var unescapeHtml = function(html) {
+    var temp = document.createElement("div");
+    temp.innerHTML = html;
+    var result = temp.childNodes[0].nodeValue;
+    temp.removeChild(temp.firstChild);
+    return result;
+  }
+
+  /**
+   * Is debug mode activated?
+   * - Check if a cookie with name "ENABLELUXDEBUG" is given
+   * - Search for text "ENABLELUXDEBUG" anywhere on the website
    *
    * @returns {boolean}
    */
   var isDebugMode = function () {
-    return document.body.innerHTML.search('ENABLELUXDEBUG') !== -1;
+    return identification.isDebugCookieSet() || document.body.innerHTML.search('ENABLELUXDEBUG') !== -1;
   }
 }
 

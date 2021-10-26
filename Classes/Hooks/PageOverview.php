@@ -71,25 +71,26 @@ class PageOverview
 
     /**
      * PageOverview constructor.
-     * @param VisitorRepository $visitorRepository
-     * @param PagevisitRepository $pagevisitRepository
-     * @param LinkclickRepository $linkclickRepository
-     * @param DownloadRepository $downloadRepository
-     * @param LogRepository $logRepository
+     * @param VisitorRepository|null $visitorRepository
+     * @param PagevisitRepository|null $pagevisitRepository
+     * @param LinkclickRepository|null $linkclickRepository
+     * @param DownloadRepository|null $downloadRepository
+     * @param LogRepository|null $logRepository
      * @throws NoSuchCacheException
+     * Todo: Remove Fallback to makeInstance() when TYPO3 10 support is dropped
      */
     public function __construct(
-        VisitorRepository $visitorRepository,
-        PagevisitRepository $pagevisitRepository,
-        LinkclickRepository $linkclickRepository,
-        DownloadRepository $downloadRepository,
-        LogRepository $logRepository
+        VisitorRepository $visitorRepository = null,
+        PagevisitRepository $pagevisitRepository = null,
+        LinkclickRepository $linkclickRepository = null,
+        DownloadRepository $downloadRepository = null,
+        LogRepository $logRepository = null
     ) {
-        $this->visitorRepository = $visitorRepository;
-        $this->pagevisitRepository = $pagevisitRepository;
-        $this->linkclickRepository = $linkclickRepository;
-        $this->downloadRepository = $downloadRepository;
-        $this->logRepository = $logRepository;
+        $this->visitorRepository = $visitorRepository ?: GeneralUtility::makeInstance(VisitorRepository::class);
+        $this->pagevisitRepository = $pagevisitRepository ?: GeneralUtility::makeInstance(PagevisitRepository::class);
+        $this->linkclickRepository = $linkclickRepository ?: GeneralUtility::makeInstance(LinkclickRepository::class);
+        $this->downloadRepository = $downloadRepository ?: GeneralUtility::makeInstance(DownloadRepository::class);
+        $this->logRepository = $logRepository ?: GeneralUtility::makeInstance(LogRepository::class);
         $this->cacheInstance = GeneralUtility::makeInstance(CacheManager::class)->getCache(self::CACHE_KEY);
     }
 

@@ -8,6 +8,7 @@ use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\LogRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Luxenterprise\Domain\Model\AbTestingPage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
@@ -209,6 +210,25 @@ class LogService
             [
                 'shownContentUid' => $shownContentUid,
                 'containerContentUid' => $containerContentUid
+            ]
+        );
+    }
+
+    /**
+     * @param Visitor $visitor
+     * @param AbTestingPage $abTestingPage
+     * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    public function logAbTestingPage(Visitor $visitor, AbTestingPage $abTestingPage): void
+    {
+        $this->log(
+            Log::STATUS_ABTESTING_PAGE,
+            $visitor,
+            [
+                'abTestingPage' => $abTestingPage->getUid(),
+                'pageUid' => $abTestingPage->getPid()
             ]
         );
     }

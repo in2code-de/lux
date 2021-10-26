@@ -42,7 +42,7 @@ call_user_func(
          */
         // Show page overview (leads or analysis) in page module
         if (\In2code\Lux\Utility\ConfigurationUtility::isPageOverviewDisabled() === false) {
-            $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/db_layout.php']['drawHeaderHook'][]
+            $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/db_layout.php']['drawHeaderHook'][1634669927]
                 = \In2code\Lux\Hooks\PageOverview::class . '->render';
         }
         // Linkhandler for Link Listener
