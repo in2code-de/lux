@@ -93,12 +93,12 @@ luxConfigurationFormIdentification.10.settings < lib.lux.settings
 
 #### How to add own workflow triggers?
 
-This is very simple - see [Workflows](../Workflows/Index.md) for more information.
+This is very simple - see [Workflows](../Campaigns/Index.md) for more information.
 
 
 #### How to add own workflow actions?
 
-This is very simple - see [Workflows](../Workflows/Index.md) for more information.
+This is very simple - see [Workflows](../Campaigns/Index.md) for more information.
 
 
 #### How can I remove the annoying google bot from lux?

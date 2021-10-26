@@ -1,18 +1,6 @@
 <img align="left" src="../../../Resources/Public/Icons/lux.svg" width="50" />
 
-### Workflows and URL shortener
-
-**NOTE:** This module is only part of the enterprise version. Look at
-https://www.in2code.de/produkte/lux-typo3-marketing-automation/ for more information.
-
-What can be done with workflows? Look into our blog for some inspiration
-
-* [Tip 1: Lead notification workflow](https://www.in2code.de/en/recent/marketing-automation-tip-1-lead-notification-workflow/)
-* [Tip 2: How to quickly build landing pages](https://www.in2code.de/en/recent/marketing-automation-tip-2-create-landing-pages-quickly/)
-* [Tip 3: Newsletter registration in email4link](https://www.in2code.de/en/recent/marketing-automation-tip-3-newsletter-registrierung-mit-downloads-verbinden/)
-* [Tip 4: Show relevant content](https://www.in2code.de/en/recent/marketing-automation-tip-4-show-relevant-content/)
-
-#### Workflow view
+#### Workflows
 
 This part of the manual describes how to manage workflows in lux backend module.
 
@@ -945,23 +933,3 @@ class. Have a look into AbstractAction class for some examples and the default v
 
 Last but not least, you should add a locallang file with the keys that you've used in TypoScript and in your Trigger
 HTML file.
-
-
-#### URL shortener view
-
-This part of the manual describes how to manage URL shortener with lux.
-
-URL shorteners help you to build individual short URL on your domain for your marketing campaigns. You can track visits
-of short URL usage per lead.
-
-##### List view
-
-If you open the backend module workflows you can switch to "URL shortener" by clicking the button on the top.
-A list view is shown.
-
-<img src="../../../Documentation/Images/screenshot_urlshortener_list.png" width="800" />
-
-This view works basicly like every other view in Lux. You can filter your shorteners per searchterm, category or per
-timeframe. Diagrams are showing you "overall usage", "top shortener" and visits from "socialmedia".
-
-A click on an existing shortener will show you individual information about the leads that used this shortener.

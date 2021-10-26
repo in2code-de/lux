@@ -41,7 +41,7 @@ and probably a third for **carreer** to find new collegues who wants to help us 
 Of course a download or a page visit of an asset/page of a lux category should increase a category scoring.
 
 What can we do with the knowledge about leads and their category scoring? Lux is able to execute workflow actions
-(see [Workflow](../Workflows/Index.md)) based on category scoring or show contextual content
+(see [Workflow](../Campaigns/Index.md)) based on category scoring or show contextual content
 (also based on category scoring - see [Plugins](../Plugins/Index.md)).
 
 ##### Configuration
