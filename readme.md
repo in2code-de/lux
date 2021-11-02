@@ -183,6 +183,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 19.0.1     | 2021-11-02 | Bugfix     | Prevent exception in dashboards if TypoScript is not available in Lux backend modules (for some reason)                                                                                    |
 | 19.0.0     | 2021-10-26 | Feature    | Prepare A/B tests for EXT:luxenterprise                                                                                                                                                    |
 | 18.1.1     | 2021-10-22 | Bugfix     | Fix a typo when rendering the star icon in all lux backend modules                                                                                                                         |
 | 18.1.0     | 2021-10-17 | Task       | Add a "go enterprise" to backend layouts, Update input field height for bootstrap 5, Small code cleanup                                                                                    |
