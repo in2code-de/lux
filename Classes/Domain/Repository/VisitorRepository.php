@@ -475,8 +475,15 @@ class VisitorRepository extends AbstractRepository
         QueryInterface $query,
         array $logicalAnd
     ): array {
-        $logicalAnd[] = $query->greaterThan('pagevisits.crdate', $filter->getStartTimeForFilter());
-        $logicalAnd[] = $query->lessThan('pagevisits.crdate', $filter->getEndTimeForFilter());
+        $logicalAnd[] = $query->logicalOr([
+            // Also find leads without any pagevisits (e.g. with DNT header)
+            $query->equals('pagevisits.uid', null),
+            $query->logicalAnd([
+                $query->greaterThan('pagevisits.crdate', $filter->getStartTimeForFilter()),
+                $query->lessThan('pagevisits.crdate', $filter->getEndTimeForFilter())
+            ])
+        ]);
+
         if ($filter->getSearchterms() !== []) {
             $logicalOr = [];
             foreach ($filter->getSearchterms() as $searchterm) {
