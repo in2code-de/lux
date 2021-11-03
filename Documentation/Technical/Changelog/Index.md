@@ -15,6 +15,7 @@
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 19.0.2     | 2021-11-03 | Task       | Also find leads in list view without any pagevisits now                                                                                                                                    |
 | 19.0.1     | 2021-11-02 | Bugfix     | Prevent exception in dashboards if TypoScript is not available in Lux backend modules (for some reason)                                                                                    |
 | 19.0.0     | 2021-10-26 | Feature    | Prepare A/B tests for EXT:luxenterprise                                                                                                                                                    |
 | 18.1.1     | 2021-10-22 | Bugfix     | Fix a typo when rendering the star icon in all lux backend modules                                                                                                                         |
