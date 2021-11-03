@@ -42,3 +42,4 @@ See more information in the chapters:
 ### [Commands & Scheduler Tasks](Commands/Index.md)
 ### [SignalSlots](SignalSlots/Index.md)
 ### [FAQ](FAQ/Index.md)
+### [Changelog and breaking changes](Changelog/Index.md)
