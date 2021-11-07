@@ -48,3 +48,6 @@ disableIpLogging = 0
 
 # cat=advanced/enable/250; type=boolean; label= Anonymize IP: As an alternative to disableIpLogging, you can anonymize the visitors IP-address when saving. The last part of the IP will be anonymized with "***".
 anonymizeIp = 1
+
+# cat=advanced/enable/260; type=boolean; label= Show render time: Show rendering times for all backend views.
+showRenderTimes = 0

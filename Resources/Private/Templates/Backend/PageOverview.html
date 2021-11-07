@@ -188,6 +188,12 @@
                         data-chart-labels="{numberOfVisitorsData.titlesList}"></canvas>
             </f:if>
         </div>
+
+        <lux:backend.getRenderingTime>
+            <p class="alert alert-light" role="alert" style="clear:both;">
+                Rendering time: {renderingTime}s
+            </p>
+        </lux:backend.getRenderingTime>
     </div>
 </f:section>
 
@@ -254,5 +260,11 @@
                 </f:be.link>
             </div>
         </f:for>
+
+        <lux:backend.getRenderingTime>
+            <p class="alert alert-light" role="alert" style="clear:both;">
+                Rendering time: {renderingTime}s
+            </p>
+        </lux:backend.getRenderingTime>
     </div>
 </f:section>

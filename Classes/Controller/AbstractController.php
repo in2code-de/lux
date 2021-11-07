@@ -16,6 +16,7 @@ use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Repository\SearchRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Domain\Service\RenderingTimeService;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
@@ -96,6 +97,11 @@ abstract class AbstractController extends ActionController
     protected $searchRepository = null;
 
     /**
+     * @var RenderingTimeService
+     */
+    protected $renderingTimeService;
+
+    /**
      * AbstractController constructor.
      * @param VisitorRepository $visitorRepository
      * @param IpinformationRepository $ipinformationRepository
@@ -110,6 +116,7 @@ abstract class AbstractController extends ActionController
      * @param LinklistenerRepository $linklistenerRepository
      * @param FingerprintRepository $fingerprintRepository
      * @param SearchRepository $searchRepository
+     * @param RenderingTimeService $renderingTimeService to initialize renderingTimes
      */
     public function __construct(
         VisitorRepository $visitorRepository,
@@ -124,7 +131,8 @@ abstract class AbstractController extends ActionController
         LinkclickRepository $linkclickRepository,
         LinklistenerRepository $linklistenerRepository,
         FingerprintRepository $fingerprintRepository,
-        SearchRepository $searchRepository
+        SearchRepository $searchRepository,
+        RenderingTimeService $renderingTimeService
     ) {
         $this->visitorRepository = $visitorRepository;
         $this->ipinformationRepository = $ipinformationRepository;
@@ -139,6 +147,7 @@ abstract class AbstractController extends ActionController
         $this->linklistenerRepository = $linklistenerRepository;
         $this->fingerprintRepository = $fingerprintRepository;
         $this->searchRepository = $searchRepository;
+        $this->renderingTimeService = $renderingTimeService;
     }
 
     /**
