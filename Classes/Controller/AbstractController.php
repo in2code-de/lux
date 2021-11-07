@@ -16,6 +16,7 @@ use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Repository\SearchRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Domain\Service\RenderingTimeService;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
@@ -97,6 +98,11 @@ abstract class AbstractController extends ActionController
     protected $searchRepository = null;
 
     /**
+     * @var RenderingTimeService
+     */
+    protected $renderingTimeService;
+
+    /**
      * AbstractController constructor.
      * @param VisitorRepository|null $visitorRepository
      * @param IpinformationRepository|null $ipinformationRepository
@@ -111,6 +117,7 @@ abstract class AbstractController extends ActionController
      * @param LinklistenerRepository|null $linklistenerRepository
      * @param FingerprintRepository|null $fingerprintRepository
      * @param SearchRepository|null $searchRepository
+     * @param RenderingTimeService $renderingTimeService to initialize renderingTimes
      * @throws Exception
      */
     public function __construct(
@@ -126,7 +133,8 @@ abstract class AbstractController extends ActionController
         LinkclickRepository $linkclickRepository = null,
         LinklistenerRepository $linklistenerRepository = null,
         FingerprintRepository $fingerprintRepository = null,
-        SearchRepository $searchRepository = null
+        SearchRepository $searchRepository = null,
+        RenderingTimeService $renderingTimeService
     ) {
         if ($visitorRepository === null) {
             // Todo: Fallback for TYPO3 9 without symfony DI
@@ -143,6 +151,7 @@ abstract class AbstractController extends ActionController
             $linklistenerRepository = ObjectUtility::getObjectManager()->get(LinklistenerRepository::class);
             $fingerprintRepository = ObjectUtility::getObjectManager()->get(FingerprintRepository::class);
             $searchRepository = ObjectUtility::getObjectManager()->get(SearchRepository::class);
+            $renderingTimeService = ObjectUtility::getObjectManager()->get(RenderingTimeService::class);
         }
         $this->visitorRepository = $visitorRepository;
         $this->ipinformationRepository = $ipinformationRepository;
@@ -157,6 +166,7 @@ abstract class AbstractController extends ActionController
         $this->linklistenerRepository = $linklistenerRepository;
         $this->fingerprintRepository = $fingerprintRepository;
         $this->searchRepository = $searchRepository;
+        $this->renderingTimeService = $renderingTimeService;
     }
 
     /**

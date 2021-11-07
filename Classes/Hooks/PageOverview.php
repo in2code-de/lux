@@ -13,6 +13,7 @@ use In2code\Lux\Domain\Repository\LinkclickRepository;
 use In2code\Lux\Domain\Repository\LogRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Domain\Service\RenderingTimeService;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\ObjectUtility;
@@ -66,6 +67,11 @@ class PageOverview
     protected $logRepository = null;
 
     /**
+     * @var RenderingTimeService
+     */
+    protected $renderingTimeService = null;
+
+    /**
      * @var FrontendInterface
      */
     protected $cacheInstance = null;
@@ -85,7 +91,8 @@ class PageOverview
         PagevisitRepository $pagevisitRepository = null,
         LinkclickRepository $linkclickRepository = null,
         DownloadRepository $downloadRepository = null,
-        LogRepository $logRepository = null
+        LogRepository $logRepository = null,
+        RenderingTimeService $renderingTimeService = null
     ) {
         $this->visitorRepository
             = $visitorRepository ?: ObjectUtility::getObjectManager()->get(VisitorRepository::class);
@@ -96,6 +103,8 @@ class PageOverview
         $this->downloadRepository
             = $downloadRepository ?: ObjectUtility::getObjectManager()->get(DownloadRepository::class);
         $this->logRepository = $logRepository ?: ObjectUtility::getObjectManager()->get(LogRepository::class);
+        $this->renderingTimeService
+            = $renderingTimeService ?: GeneralUtility::makeInstance(RenderingTimeService::class);
         $this->cacheInstance = GeneralUtility::makeInstance(CacheManager::class)->getCache(self::CACHE_KEY);
     }
 
