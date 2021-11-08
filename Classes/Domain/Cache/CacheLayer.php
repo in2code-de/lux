@@ -4,16 +4,11 @@ declare(strict_types = 1);
 
 namespace In2code\Lux\Domain\Cache;
 
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\UnexpectedValueException;
 use In2code\Lux\Utility\CacheLayerUtility;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
-use TYPO3\CMS\Extbase\Object\Exception as ExceptionExtbaseObject;
-use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
 /**
  * CacheLayer
@@ -75,11 +70,7 @@ final class CacheLayer
      * @param string $identifier
      * @return array
      * @throws ConfigurationException
-     * @throws DBALException
-     * @throws ExceptionDbal
-     * @throws InvalidConfigurationTypeException
-     * @throws ExceptionExtbaseObject
-     * @throws InvalidQueryException
+     * @throws UnexpectedValueException
      */
     public function getArguments(string $class, string $function, string $identifier = ''): array
     {
@@ -95,6 +86,28 @@ final class CacheLayer
     }
 
     /**
+     * @param string $class
+     * @param string $function
+     * @param string $identifier
+     * @return void
+     * @throws ConfigurationException
+     * @throws UnexpectedValueException
+     */
+    public function warmupCaches(string $class, string $function, string $identifier = ''): void
+    {
+        $this->initialize($class, $function, $identifier);
+        $this->getArguments($class, $function, $identifier);
+    }
+
+    /**
+     * @return void
+     */
+    public function flushCaches(): void
+    {
+        $this->cache->flush();
+    }
+
+    /**
      * @return array
      */
     public function getFromCache(): array
@@ -103,9 +116,10 @@ final class CacheLayer
     }
 
     /**
-     * @param array $arguments value to cache
+     * @param array $arguments
      * @return void
      * @throws ConfigurationException
+     * @throws UnexpectedValueException
      */
     public function cacheArguments(array $arguments): void
     {
@@ -122,6 +136,7 @@ final class CacheLayer
     /**
      * @return bool
      * @throws ConfigurationException
+     * @throws UnexpectedValueException
      */
     public function isCacheAvailable(): bool
     {

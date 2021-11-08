@@ -4,8 +4,6 @@ declare(strict_types = 1);
 
 namespace In2code\Lux\Domain\Cache;
 
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Repository\CategoryRepository;
 use In2code\Lux\Domain\Repository\DownloadRepository;
 use In2code\Lux\Domain\Repository\FingerprintRepository;
@@ -22,9 +20,6 @@ use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\UnexpectedValueException;
 use In2code\Lux\Utility\CacheLayerUtility;
-use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
-use TYPO3\CMS\Extbase\Object\Exception as ExceptionExtbaseObject;
-use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
 /**
  * AbstractLayer
@@ -153,11 +148,6 @@ abstract class AbstractLayer
 
     /**
      * @return array
-     * @throws DBALException
-     * @throws ExceptionDbal
-     * @throws InvalidConfigurationTypeException
-     * @throws ExceptionExtbaseObject
-     * @throws InvalidQueryException
      */
     public function getAllArguments(): array
     {

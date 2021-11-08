@@ -17,15 +17,18 @@ class CacheLayerUtility
     {
         $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'][\In2code\Lux\Controller\AnalysisController::class . '->dashboardAction'] = [
             'lifetime' => 86400,
-            'class' => \In2code\Lux\Domain\Cache\AnalysisDashboard::class
+            'class' => \In2code\Lux\Domain\Cache\AnalysisDashboard::class,
+            'identifier' => false
         ];
         $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'][\In2code\Lux\Controller\LeadController::class . '->dashboardAction'] = [
             'lifetime' => 86400,
-            'class' => \In2code\Lux\Domain\Cache\LeadDashboard::class
+            'class' => \In2code\Lux\Domain\Cache\LeadDashboard::class,
+            'identifier' => false
         ];
         $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'][\In2code\Lux\Hooks\PageOverview::class . '->getArguments'] = [
             'lifetime' => 86400,
-            'class' => \In2code\Lux\Domain\Cache\PageOverview::class
+            'class' => \In2code\Lux\Domain\Cache\PageOverview::class,
+            'identifier' => 'pageIdentifier'
         ];
     }
 
@@ -69,7 +72,7 @@ class CacheLayerUtility
      * @return array
      * @SuppressWarnings(PHPMD.Superglobals)
      */
-    protected static function getCachelayerConfiguration(): array
+    public static function getCachelayerConfiguration(): array
     {
         return $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'] ?? [];
     }

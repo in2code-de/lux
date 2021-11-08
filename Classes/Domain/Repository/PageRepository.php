@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\Repository;
 
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Utility\DatabaseUtility;
 
@@ -41,5 +42,21 @@ class PageRepository extends AbstractRepository
             return $result;
         }
         return [];
+    }
+
+    /**
+     * @return array
+     * @throws ExceptionDbalDriver
+     */
+    public function getPageIdentifiersFromNormalDokTypes(): array
+    {
+        $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Page::TABLE_NAME, true);
+        return (array)$queryBuilder
+            ->select('uid')
+            ->from(Page::TABLE_NAME)
+            ->where('doktype=1')
+            ->setMaxResults(100000)
+            ->execute()
+            ->fetchAllAssociative();
     }
 }

@@ -66,6 +66,11 @@ services:
       - name: 'console.command'
         command: 'lux:autorelateToFrontendUsers'
 
+  In2code\Lux\Command\LuxCacheWarmupCommand:
+    tags:
+      - name: 'console.command'
+        command: 'lux:cachewarmup'
+
   In2code\Lux\Command\LuxCleanupAllVisitorsCommand:
     tags:
       - name: 'console.command'
