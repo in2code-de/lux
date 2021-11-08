@@ -5,7 +5,6 @@ namespace In2code\Lux\Controller;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\DataProvider\AllLinkclickDataProvider;
-use In2code\Lux\Domain\DataProvider\BrowserAmountDataProvider;
 use In2code\Lux\Domain\DataProvider\DomainDataProvider;
 use In2code\Lux\Domain\DataProvider\DomainNewsDataProvider;
 use In2code\Lux\Domain\DataProvider\DownloadsDataProvider;
@@ -15,11 +14,11 @@ use In2code\Lux\Domain\DataProvider\LinkclickDataProvider;
 use In2code\Lux\Domain\DataProvider\NewsvisistsDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
 use In2code\Lux\Domain\DataProvider\SearchDataProvider;
-use In2code\Lux\Domain\DataProvider\SocialMediaDataProvider;
 use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\News;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
+use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
@@ -43,31 +42,17 @@ class AnalysisController extends AbstractController
 {
     /**
      * @return void
+     * @throws ConfigurationException
      * @throws DBALException
      * @throws Exception
+     * @throws ExceptionDbal
      * @throws InvalidQueryException
      * @throws InvalidConfigurationTypeException
      */
     public function dashboardAction(): void
     {
-        $filter = ObjectUtility::getFilterDto();
-        $values = [
-            'filter' => $filter,
-            'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
-            'numberOfDownloadsData' => GeneralUtility::makeInstance(DownloadsDataProvider::class, $filter),
-            'interestingLogs' => $this->logRepository->findInterestingLogs($filter),
-            'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
-            'downloads' => $this->downloadRepository->findCombinedByHref($filter),
-            'news' => $this->newsvisitRepository->findCombinedByNewsIdentifier($filter),
-            'searchterms' => $this->searchRepository->findCombinedBySearchIdentifier($filter),
-            'latestPagevisits' => $this->pagevisitsRepository->findLatestPagevisits($filter),
-            'browserData' => GeneralUtility::makeInstance(BrowserAmountDataProvider::class, $filter),
-            'linkclickData' => GeneralUtility::makeInstance(LinkclickDataProvider::class, $filter),
-            'languageData' => GeneralUtility::makeInstance(LanguagesDataProvider::class, $filter),
-            'domainData' => GeneralUtility::makeInstance(DomainDataProvider::class, $filter),
-            'socialMediaData' => GeneralUtility::makeInstance(SocialMediaDataProvider::class, $filter),
-        ];
-        $this->view->assignMultiple($values);
+        $arguments = $this->cacheLayer->getArguments(__CLASS__, __FUNCTION__);
+        $this->view->assignMultiple($arguments);
     }
 
     /**

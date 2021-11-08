@@ -7,6 +7,25 @@ services:
   In2code\Lux\:
     resource: '../Classes/*'
 
+  cache.luxcachelayer:
+    class: TYPO3\CMS\Core\Cache\Frontend\FrontendInterface
+    factory: [ '@TYPO3\CMS\Core\Cache\CacheManager', 'getCache' ]
+    arguments: [ 'luxcachelayer' ]
+
+  In2code\Lux\Domain\Cache\AnalysisDashboard:
+    public: true
+
+  In2code\Lux\Domain\Cache\LeadDashboard:
+    public: true
+
+  In2code\Lux\Domain\Cache\CacheLayer:
+    public: true
+    arguments:
+      $cache: '@cache.luxcachelayer'
+
+  In2code\Lux\Domain\Cache\PageOverview:
+    public: true
+
   In2code\Lux\Domain\Factory\Ipinformation\Handler:
     public: true
 

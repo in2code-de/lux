@@ -3,14 +3,12 @@ declare(strict_types = 1);
 namespace In2code\Lux\Controller;
 
 use Doctrine\DBAL\DBALException;
-use In2code\Lux\Domain\DataProvider\IdentificationMethodsDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
-use In2code\Lux\Domain\DataProvider\ReferrerAmountDataProvider;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Utility\ConfigurationUtility;
-use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
@@ -34,28 +32,17 @@ class LeadController extends AbstractController
 {
     /**
      * @return void
-     * @throws InvalidQueryException
      * @throws DBALException
+     * @throws Exception
      * @throws InvalidConfigurationTypeException
+     * @throws InvalidQueryException
+     * @throws \Doctrine\DBAL\Exception
+     * @throws ConfigurationException
      */
     public function dashboardAction(): void
     {
-        $filter = ObjectUtility::getFilterDto();
-        $values = [
-            'filter' => $filter,
-            'interestingLogs' => $this->logRepository->findInterestingLogs($filter, 10),
-            'numberOfUniqueSiteVisitors' => $this->visitorRepository->findByUniqueSiteVisits($filter)->count(),
-            'numberOfRecurringSiteVisitors' => $this->visitorRepository->findByRecurringSiteVisits($filter)->count(),
-            'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter, 10),
-            'numberOfIdentifiedVisitors' => $this->visitorRepository->findIdentified($filter)->count(),
-            'identifiedPerMonth' => $this->logRepository->findIdentifiedLogsFromMonths(6),
-            'numberOfUnknownVisitors' => $this->visitorRepository->findUnknown($filter)->count(),
-            'identificationMethods' => GeneralUtility::makeInstance(IdentificationMethodsDataProvider::class, $filter),
-            'referrerAmountData' => GeneralUtility::makeInstance(ReferrerAmountDataProvider::class, $filter),
-            'whoisonline' => $this->visitorRepository->findOnline(8),
-            'countries' => $this->ipinformationRepository->findAllCountryCodesGrouped($filter),
-        ];
-        $this->view->assignMultiple($values);
+        $arguments = $this->cacheLayer->getArguments(__CLASS__, __FUNCTION__);
+        $this->view->assignMultiple($arguments);
     }
 
     /**

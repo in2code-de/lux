@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Controller;
 
+use In2code\Lux\Domain\Cache\CacheLayer;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Repository\CategoryRepository;
 use In2code\Lux\Domain\Repository\DownloadRepository;
@@ -99,7 +100,12 @@ abstract class AbstractController extends ActionController
     /**
      * @var RenderingTimeService
      */
-    protected $renderingTimeService;
+    protected $renderingTimeService = null;
+
+    /**
+     * @var CacheLayer
+     */
+    protected $cacheLayer = null;
 
     /**
      * AbstractController constructor.
@@ -117,6 +123,7 @@ abstract class AbstractController extends ActionController
      * @param FingerprintRepository $fingerprintRepository
      * @param SearchRepository $searchRepository
      * @param RenderingTimeService $renderingTimeService to initialize renderingTimes
+     * @param CacheLayer $cacheLayer
      */
     public function __construct(
         VisitorRepository $visitorRepository,
@@ -132,7 +139,8 @@ abstract class AbstractController extends ActionController
         LinklistenerRepository $linklistenerRepository,
         FingerprintRepository $fingerprintRepository,
         SearchRepository $searchRepository,
-        RenderingTimeService $renderingTimeService
+        RenderingTimeService $renderingTimeService,
+        CacheLayer $cacheLayer
     ) {
         $this->visitorRepository = $visitorRepository;
         $this->ipinformationRepository = $ipinformationRepository;
@@ -148,6 +156,7 @@ abstract class AbstractController extends ActionController
         $this->fingerprintRepository = $fingerprintRepository;
         $this->searchRepository = $searchRepository;
         $this->renderingTimeService = $renderingTimeService;
+        $this->cacheLayer = $cacheLayer;
     }
 
     /**
