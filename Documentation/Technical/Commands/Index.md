@@ -19,7 +19,9 @@ Most of the Commands can be called via CLI or via Scheduler Backend Module (dire
   * Send an overall summary
   * Send a summary mail with known companies
   * Send a summary mail by a lux category
-* Service commands (calculate scoring for all leads)
+* Service commands
+  * Calculate scoring for all leads
+  * Cache warmup for cache layer
 
 
 #### Anonymize Leads Command
@@ -177,4 +179,16 @@ Example usage:
 
 ```
 ./vendor/bin/typo3 lux:autorelateToFrontendUsers
+```
+
+
+##### \In2code\Lux\Command\LuxCacheWarmupCommand
+
+If you are using a cache layer for some views (must be turned on in general extension configuration), you can warm
+up those caches via this command.
+
+Example usage:
+
+```
+./vendor/bin/typo3 lux:cachewarmup
 ```

@@ -45,7 +45,7 @@ class GetRenderingTimeViewHelper extends AbstractViewHelper
             $templateVariableContainer = $renderingContext->getVariableProvider();
             $templateVariableContainer->add('renderingTime', $renderingTimeService->getTime());
             $output = $renderChildrenClosure();
-            $templateVariableContainer->remove($arguments['renderingTime']);
+            $templateVariableContainer->remove('renderingTime');
             return $output;
         }
         return '';
