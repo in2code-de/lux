@@ -58,10 +58,11 @@ If you click on the settings symbol for extension lux, you can change some basic
 | Module: Disable workflow module                  | Toggle the backend module Workflows in general                                                          |
 | Advanced: Disable lux in page overview module    | Toggle the lux analysis or leads box in page module in general                                          |
 | Advanced: Pageoverview mode                      | If not disabled, choose between classic leads view or the new analysis view                             |
-| Advanced: Caching time pageoverview              | Database results in page overview module are cached. Define the time in seconds or disable it with 0    |
 | Advanced: Disable ckeditor configuration         | Toggle if an automatic ckeditor configuration should be added or not (for email4link feature)           |
 | Advanced: Disable ip logging                     | Disable the logging of the visitors IP address                                                          |
 | Advanced: Anonymize IP                           | As an alternative to disableIpLogging, you can anonymize the visitors IP-address when saving. The last part of the IP will be anonymized with "***" |
+| Advanced: Show render time                       | For an easier debugging all views in backend can be shown with render times                             |
+| Advanced: Use cache layer (experimental)         | If you are facing performance issues with lux backend modules or with the page overview view (quick analysis), you can cache views (for 24h) when turning the feature on. In addition there is a command that can be executed via scheduler task to warmup caches (e.g. every night). Experimental because of problems in TYPO3 11 https://forge.typo3.org/issues/95899 |
 
 #### 3. Add TypoScript
 

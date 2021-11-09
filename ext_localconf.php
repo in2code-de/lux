@@ -205,12 +205,13 @@ call_user_func(
          */
         $cacheKeys = [
             \In2code\Lux\Domain\Service\VisitorImageService::CACHE_KEY,
-            \In2code\Lux\Hooks\PageOverview::CACHE_KEY
+            \In2code\Lux\Domain\Cache\CacheLayer::CACHE_KEY
         ];
         foreach ($cacheKeys as $cacheKey) {
             if (!isset($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheKey])) {
                 $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheKey] = [];
             }
         }
+        \In2code\Lux\Utility\CacheLayerUtility::registerCacheLayers();
     }
 );

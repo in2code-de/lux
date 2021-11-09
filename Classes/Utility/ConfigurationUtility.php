@@ -105,17 +105,6 @@ class ConfigurationUtility
     }
 
     /**
-     * @return int
-     * @throws ExtensionConfigurationExtensionNotConfiguredException
-     * @throws ExtensionConfigurationPathDoesNotExistException
-     */
-    public static function getPageOverviewCacheLifeTime(): int
-    {
-        $extensionConfig = self::getExtensionConfiguration();
-        return (int)$extensionConfig['pageOverviewCacheLifeTime'];
-    }
-
-    /**
      * @return bool
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
@@ -157,6 +146,28 @@ class ConfigurationUtility
     {
         $extensionConfig = self::getExtensionConfiguration();
         return $extensionConfig['anonymizeIp'] === '1';
+    }
+
+    /**
+     * @return bool
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     */
+    public static function isShowRenderTimesEnabled(): bool
+    {
+        $extensionConfig = self::getExtensionConfiguration();
+        return $extensionConfig['showRenderTimes'] === '1';
+    }
+
+    /**
+     * @return bool
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     */
+    public static function isUseCacheLayerEnabled(): bool
+    {
+        $extensionConfig = self::getExtensionConfiguration();
+        return $extensionConfig['useCacheLayer'] === '1';
     }
 
     /**

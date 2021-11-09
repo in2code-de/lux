@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Utility;
 
+use In2code\Lux\Domain\Service\SiteService;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
@@ -24,7 +25,14 @@ class FrontendUtility
      */
     public static function getCurrentDomain(): string
     {
-        return GeneralUtility::getIndpEnv('HTTP_HOST');
+        $currentDomain = GeneralUtility::getIndpEnv('HTTP_HOST');
+        if ($currentDomain === null) {
+            // Normally in CLI context
+            $siteService = GeneralUtility::makeInstance(SiteService::class);
+            $site = $siteService->getDefaultSite();
+            $currentDomain = preg_replace('~http(s)://|/~', '', (string)$site->getBase());
+        }
+        return $currentDomain;
     }
 
     /**

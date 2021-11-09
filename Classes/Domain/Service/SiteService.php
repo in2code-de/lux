@@ -39,6 +39,16 @@ class SiteService
     }
 
     /**
+     * @return Site
+     */
+    public function getDefaultSite(): Site
+    {
+        $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
+        $sites = $siteFinder->getAllSites();
+        return current($sites);
+    }
+
+    /**
      * @param int $languageId
      * @param Site $site
      * @return string

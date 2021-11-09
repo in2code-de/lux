@@ -15,6 +15,7 @@
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 20.0.0     | 2021-11-04 | Feature    | Add a cache layer for dashboards and pageoverview view, add a cache warmup command, add noindex,nofollow to shortener link requests                                                        |
 | 19.0.3     | 2021-11-04 | Task       | Adjust requirements for google-image-grabber package to allow stable configuration for minimum-stability in composer.json file                                                             |
 | 19.0.2     | 2021-11-03 | Bugfix     | Also find leads in list view without any pagevisits now                                                                                                                                    |
 | 19.0.1     | 2021-11-02 | Bugfix     | Prevent exception in dashboards if TypoScript is not available in Lux backend modules (for some reason)                                                                                    |

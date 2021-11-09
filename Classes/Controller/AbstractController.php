@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Controller;
 
+use In2code\Lux\Domain\Cache\CacheLayer;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Repository\CategoryRepository;
 use In2code\Lux\Domain\Repository\DownloadRepository;
@@ -16,6 +17,7 @@ use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Repository\SearchRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Domain\Service\RenderingTimeService;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
@@ -96,6 +98,16 @@ abstract class AbstractController extends ActionController
     protected $searchRepository = null;
 
     /**
+     * @var RenderingTimeService
+     */
+    protected $renderingTimeService = null;
+
+    /**
+     * @var CacheLayer
+     */
+    protected $cacheLayer = null;
+
+    /**
      * AbstractController constructor.
      * @param VisitorRepository $visitorRepository
      * @param IpinformationRepository $ipinformationRepository
@@ -110,6 +122,8 @@ abstract class AbstractController extends ActionController
      * @param LinklistenerRepository $linklistenerRepository
      * @param FingerprintRepository $fingerprintRepository
      * @param SearchRepository $searchRepository
+     * @param RenderingTimeService $renderingTimeService to initialize renderingTimes
+     * @param CacheLayer $cacheLayer
      */
     public function __construct(
         VisitorRepository $visitorRepository,
@@ -124,7 +138,9 @@ abstract class AbstractController extends ActionController
         LinkclickRepository $linkclickRepository,
         LinklistenerRepository $linklistenerRepository,
         FingerprintRepository $fingerprintRepository,
-        SearchRepository $searchRepository
+        SearchRepository $searchRepository,
+        RenderingTimeService $renderingTimeService,
+        CacheLayer $cacheLayer
     ) {
         $this->visitorRepository = $visitorRepository;
         $this->ipinformationRepository = $ipinformationRepository;
@@ -139,6 +155,8 @@ abstract class AbstractController extends ActionController
         $this->linklistenerRepository = $linklistenerRepository;
         $this->fingerprintRepository = $fingerprintRepository;
         $this->searchRepository = $searchRepository;
+        $this->renderingTimeService = $renderingTimeService;
+        $this->cacheLayer = $cacheLayer;
     }
 
     /**
