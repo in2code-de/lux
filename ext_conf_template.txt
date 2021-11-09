@@ -49,5 +49,5 @@ anonymizeIp = 1
 # cat=advanced/enable/250; type=boolean; label= Show render time: Show rendering times for all backend views for an easier performance debugging.
 showRenderTimes = 0
 
-# cat=advanced/enable/260; type=boolean; label= Use cache layer: Cache layer could be used for both dashboard views and quick analyse in page overview view. Lifetime is per default 1day and caches can be warmed up via scheduler task.
+# cat=advanced/enable/260; type=boolean; label= Use cache layer (experimental): Cache layer could be used for both dashboard views and quick analyse in page overview view. Lifetime is per default 1day and caches can be warmed up via scheduler task.
 useCacheLayer = 0
