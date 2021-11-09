@@ -164,6 +164,17 @@ class ConfigurationUtility
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      */
+    public static function isUseCacheLayerEnabled(): bool
+    {
+        $extensionConfig = self::getExtensionConfiguration();
+        return $extensionConfig['useCacheLayer'] === '1';
+    }
+
+    /**
+     * @return bool
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     */
     public static function isLeadModuleDisabled(): bool
     {
         $extensionConfig = self::getExtensionConfiguration();

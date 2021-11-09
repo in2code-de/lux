@@ -7,7 +7,10 @@ namespace In2code\Lux\Domain\Cache;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\UnexpectedValueException;
 use In2code\Lux\Utility\CacheLayerUtility;
+use In2code\Lux\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -71,11 +74,25 @@ final class CacheLayer
      * @return array
      * @throws ConfigurationException
      * @throws UnexpectedValueException
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public function getArguments(string $class, string $function, string $identifier = ''): array
     {
         $this->initialize($class, $function, $identifier);
+        if (ConfigurationUtility::isUseCacheLayerEnabled()) {
+            return $this->getArgumentsWithEnabledCacheLayer();
+        }
+        return $this->getArgumentsWithoutEnabledCacheLayer();
+    }
 
+    /**
+     * @return array
+     * @throws ConfigurationException
+     * @throws UnexpectedValueException
+     */
+    protected function getArgumentsWithEnabledCacheLayer(): array
+    {
         if ($this->isCacheAvailable()) {
             return array_merge($this->getFromCache(), $this->cacheLayer->getUncachableArguments());
         }
@@ -86,11 +103,21 @@ final class CacheLayer
     }
 
     /**
+     * @return array
+     */
+    protected function getArgumentsWithoutEnabledCacheLayer(): array
+    {
+        return $this->cacheLayer->getAllArguments();
+    }
+
+    /**
      * @param string $class
      * @param string $function
      * @param string $identifier
      * @return void
      * @throws ConfigurationException
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws UnexpectedValueException
      */
     public function warmupCaches(string $class, string $function, string $identifier = ''): void
