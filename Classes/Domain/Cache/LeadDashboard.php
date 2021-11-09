@@ -29,9 +29,8 @@ class LeadDashboard extends AbstractLayer implements LayerInterface
             'filter' => $filter,
             'numberOfUniqueSiteVisitors' => $this->visitorRepository->findByUniqueSiteVisits($filter)->count(),
             'numberOfRecurringSiteVisitors' => $this->visitorRepository->findByRecurringSiteVisits($filter)->count(),
-            'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter, 10),
-            'numberOfIdentifiedVisitors' => $this->visitorRepository->findIdentified($filter)->count(),
             'identifiedPerMonth' => $this->logRepository->findIdentifiedLogsFromMonths(6),
+            'numberOfIdentifiedVisitors' => $this->visitorRepository->findIdentified($filter)->count(),
             'numberOfUnknownVisitors' => $this->visitorRepository->findUnknown($filter)->count(),
             'identificationMethods' => GeneralUtility::makeInstance(IdentificationMethodsDataProvider::class, $filter),
             'referrerAmountData' => GeneralUtility::makeInstance(ReferrerAmountDataProvider::class, $filter),
@@ -50,6 +49,7 @@ class LeadDashboard extends AbstractLayer implements LayerInterface
         return [
             'interestingLogs' => $this->logRepository->findInterestingLogs($filter, 10),
             'whoisonline' => $this->visitorRepository->findOnline(8),
+            'hottestVisitors' => $this->visitorRepository->findByHottestScoringsPlain(10),
         ];
     }
 }
