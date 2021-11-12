@@ -83,7 +83,7 @@ class Telecommunication
             );
         }
         $fileContent = file_get_contents($filename);
-        $terms = explode(PHP_EOL, $fileContent);
+        $terms = GeneralUtility::trimExplode(PHP_EOL, $fileContent, true);
         foreach ($terms as $term) {
             if (stristr($company, $term) !== false) {
                 return true;
