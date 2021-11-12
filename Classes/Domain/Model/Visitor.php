@@ -8,9 +8,10 @@ use Exception;
 use In2code\Lux\Domain\Repository\CategoryscoringRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\GetCompanyFromIpService;
+use In2code\Lux\Domain\Service\Provider\Telecommunication;
 use In2code\Lux\Domain\Service\ScoringService;
 use In2code\Lux\Domain\Service\VisitorImageService;
-use In2code\Lux\Utility\FileUtility;
+use In2code\Lux\Exception\FileNotFoundException;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -1208,6 +1209,7 @@ class Visitor extends AbstractModel
     /**
      * @return string
      * @throws InvalidConfigurationTypeException
+     * @throws FileNotFoundException
      */
     public function getCompany(): string
     {
@@ -1217,7 +1219,8 @@ class Visitor extends AbstractModel
             $company = $companyFromIp->get($this);
             if (empty($company)) {
                 $company = $this->getPropertyFromIpinformations('org');
-                if ($this->isTelecomProvider($company)) {
+                $tcProvider = GeneralUtility::makeInstance(Telecommunication::class);
+                if ($tcProvider->isTelecommunicationProvider($company)) {
                     $company = '';
                 }
             }
@@ -1347,17 +1350,5 @@ class Visitor extends AbstractModel
             $result = 1;
         }
         return $result;
-    }
-
-    /**
-     * @param string $company
-     * @return bool
-     * @throws InvalidConfigurationTypeException
-     */
-    protected function isTelecomProvider(string $company): bool
-    {
-        $configurationService = ObjectUtility::getConfigurationService();
-        $tpFileList = $configurationService->getTypoScriptSettingsByPath('general.telecommunicationProviderList');
-        return FileUtility::isStringInFile($company, GeneralUtility::getFileAbsFileName($tpFileList));
     }
 }

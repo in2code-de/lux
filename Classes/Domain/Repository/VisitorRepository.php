@@ -4,6 +4,7 @@ namespace In2code\Lux\Domain\Repository;
 
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Exception as ExceptionDbal;
+use Exception;
 use In2code\Lux\Domain\Model\Attribute;
 use In2code\Lux\Domain\Model\Categoryscoring;
 use In2code\Lux\Domain\Model\Download;
@@ -16,10 +17,12 @@ use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Search;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Exception\FileNotFoundException;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\DateUtility;
+use PDO;
 use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
@@ -38,10 +41,8 @@ class VisitorRepository extends AbstractRepository
      * @param int $type
      * @return Visitor|null
      */
-    public function findOneAndAlsoBlacklistedByFingerprint(
-        string $identificator,
-        int $type
-    ): ?Visitor {
+    public function findOneAndAlsoBlacklistedByFingerprint(string $identificator, int $type): ?Visitor
+    {
         $query = $this->createQuery();
         $query->getQuerySettings()->setIgnoreEnableFields(true)->setEnableFieldsToBeIgnored(['blacklisted']);
         $and = [
@@ -76,7 +77,8 @@ class VisitorRepository extends AbstractRepository
      * @param FilterDto $filter
      * @return array
      * @throws InvalidQueryException
-     * @throws Exception
+     * @throws FileNotFoundException
+     * @throws InvalidConfigurationTypeException
      */
     public function findAllWithKnownCompanies(FilterDto $filter): array
     {
@@ -174,9 +176,6 @@ class VisitorRepository extends AbstractRepository
          * https://forge.typo3.org/issues/94899
          */
         $query = $this->createQuery();
-//        $query->matching($query->equals('pagevisits.page', $pageIdentifier));
-//        $query->setLimit(3);
-//        $query->setOrderings(['pagevisits.tstamp' => QueryInterface::ORDER_DESCENDING]);
         $sql = 'select v.*, pv.tstamp';
         $sql .= ' from ' . Visitor::TABLE_NAME . ' v left join ' . Pagevisit::TABLE_NAME . ' pv on v.uid=pv.visitor';
         $sql .= ' where pv.page=' . (int)$pageIdentifier . ' and v.deleted=0 and pv.deleted=0';
@@ -262,7 +261,7 @@ class VisitorRepository extends AbstractRepository
      * @param int $limit
      * @return QueryResultInterface
      * @throws InvalidQueryException
-     * @throws \Exception
+     * @throws Exception
      */
     public function findOnline(int $limit = 10): QueryResultInterface
     {
@@ -320,7 +319,7 @@ class VisitorRepository extends AbstractRepository
                 $queryBuilder->expr()->eq('frontenduser', 0)
             )
             ->execute()
-            ->fetchAll(\PDO::FETCH_COLUMN);
+            ->fetchAll(PDO::FETCH_COLUMN);
         if ($result !== false) {
             return $result;
         }
@@ -478,7 +477,7 @@ class VisitorRepository extends AbstractRepository
      * @param array $logicalAnd
      * @return array
      * @throws InvalidQueryException
-     * @throws \Exception
+     * @throws Exception
      */
     protected function extendLogicalAndWithFilterConstraintsForCrdate(
         FilterDto $filter,
