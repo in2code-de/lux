@@ -7,7 +7,7 @@ use In2code\Lux\Domain\Model\Attribute;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\AttributeRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
-use In2code\Lux\Domain\Service\AllowedMailProvidersService;
+use In2code\Lux\Domain\Service\Provider\AllowedMail;
 use In2code\Lux\Domain\Service\VisitorMergeService;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\EmailValidationException;
@@ -164,7 +164,7 @@ class AttributeTracker
     protected function checkDisallowedMailProviders(string $key, string $value)
     {
         if ($key === 'email') {
-            $mailProviderService = GeneralUtility::makeInstance(AllowedMailProvidersService::class);
+            $mailProviderService = GeneralUtility::makeInstance(AllowedMail::class);
             if ($mailProviderService->isEmailAllowed($value) === false) {
                 throw new EmailValidationException('Email is not allowed', 1555427969);
             }
