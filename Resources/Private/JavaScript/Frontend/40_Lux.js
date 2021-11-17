@@ -432,16 +432,14 @@ function LuxMain() {
     var links = document.querySelectorAll('[data-lux-linklistener]');
     for (var i = 0; i < links.length; i++) {
       links[i].addEventListener('click', function(event) {
-        var linklistenerIdentifier = event.target.getAttribute('data-lux-linklistener');
-        if (linklistenerIdentifier !== '') {
-          ajaxConnection({
-            'tx_lux_fe[dispatchAction]': 'linkClickRequest',
-            'tx_lux_fe[identificator]': identification.getIdentificator(),
-            'tx_lux_fe[arguments][linklistenerIdentifier]': linklistenerIdentifier,
-            'tx_lux_fe[arguments][pageUid]': getPageUid()
-          }, getRequestUri(), null, null);
-          delayClick(event, 'LinkListener');
-        }
+        var target = (event.currentTarget) ? event.currentTarget : event.target;
+        ajaxConnection({
+          'tx_lux_fe[dispatchAction]': 'linkClickRequest',
+          'tx_lux_fe[identificator]': identification.getIdentificator(),
+          'tx_lux_fe[arguments][linklistenerIdentifier]': target.getAttribute('data-lux-linklistener'),
+          'tx_lux_fe[arguments][pageUid]': getPageUid()
+        }, getRequestUri(), null, null);
+        delayClick(event, 'LinkListener');
       });
     }
   };
@@ -469,7 +467,8 @@ function LuxMain() {
    * @returns {void}
    */
   var delayClick = function(event, status) {
-    var href = event.target.getAttribute('href');
+    var target = (event.currentTarget) ? event.currentTarget : event.target;
+    var href = target.getAttribute('href');
     var delay = 400;
     if (isDebugMode()) {
       console.log(status + ' triggered. Redirect in some seconds to ' + href);
