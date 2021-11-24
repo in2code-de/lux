@@ -1,6 +1,9 @@
 lib.lux.settings {
   general {
-    # Path to a simple csv with general telecom providers (to not show them as company in lead list)
+    # Wildcard matches: Path to a simple csv files (comma separate more files) with general telecom providers (to not show them as company in lead list)
+    telecommunicationProviderTermList = EXT:lux/Resources/Private/Static/TelecommunicationProviderTerms.txt
+
+    # Exact matches: Path to simple csv files (comma separate more files) with general telecom providers (to not show them as company in lead list)
     telecommunicationProviderList = EXT:lux/Resources/Private/Static/TelecommunicationProviders.txt
 
     # Path to a simple csv with disallowed mail providers (don't send them email with email4link)

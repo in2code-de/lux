@@ -2,20 +2,22 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\Model;
 
+use DateTime;
 use Doctrine\DBAL\DBALException;
+use Exception;
 use In2code\Lux\Domain\Repository\CategoryscoringRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\GetCompanyFromIpService;
+use In2code\Lux\Domain\Service\Provider\Telecommunication;
 use In2code\Lux\Domain\Service\ScoringService;
 use In2code\Lux\Domain\Service\VisitorImageService;
-use In2code\Lux\Utility\FileUtility;
+use In2code\Lux\Exception\FileNotFoundException;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
-use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
@@ -114,12 +116,12 @@ class Visitor extends AbstractModel
     protected $logs = null;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      */
     protected $crdate = null;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      */
     protected $tstamp = null;
 
@@ -175,12 +177,11 @@ class Visitor extends AbstractModel
     /**
      * Get the scoring to any given time in the past
      *
-     * @param \DateTime $time
+     * @param DateTime $time
      * @return int
      * @throws InvalidQueryException
-     * @throws Exception
      */
-    public function getScoringByDate(\DateTime $time): int
+    public function getScoringByDate(DateTime $time): int
     {
         $scoringService = GeneralUtility::makeInstance(ScoringService::class, $time);
         return $scoringService->calculateScoring($this);
@@ -275,7 +276,6 @@ class Visitor extends AbstractModel
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
-     * @throws Exception
      */
     public function setCategoryscoringByCategory(int $scoring, Category $category): void
     {
@@ -301,7 +301,6 @@ class Visitor extends AbstractModel
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
-     * @throws Exception
      */
     public function increaseCategoryscoringByCategory(int $value, Category $category): void
     {
@@ -457,7 +456,7 @@ class Visitor extends AbstractModel
      * Get pagevisits of a visitor and sort it descending (last visit at first)
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function getPagevisits(): array
     {
@@ -474,7 +473,7 @@ class Visitor extends AbstractModel
     /**
      * @param int $pageIdentifier
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function getPagevisitsOfGivenPageIdentifier(int $pageIdentifier): array
     {
@@ -494,7 +493,7 @@ class Visitor extends AbstractModel
      * Get last page visit
      *
      * @return Pagevisit|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function getPagevisitLast(): ?Pagevisit
     {
@@ -509,7 +508,7 @@ class Visitor extends AbstractModel
      * Get first page visit
      *
      * @return Pagevisit|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function getPagevisitFirst(): ?Pagevisit
     {
@@ -553,7 +552,7 @@ class Visitor extends AbstractModel
 
     /**
      * @return Pagevisit|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function getLastPagevisit(): ?Pagevisit
     {
@@ -570,14 +569,14 @@ class Visitor extends AbstractModel
      * Calculate number of unique page visits. If user show a reaction after min. 1h we define it as new pagevisit.
      *
      * @return int
-     * @throws \Exception
+     * @throws Exception
      */
     public function getNumberOfUniquePagevisits(): int
     {
         $pagevisits = $this->pagevisits;
         $number = 1;
         if (count($pagevisits) > 1) {
-            /** @var \DateTime $lastVisit **/
+            /** @var DateTime $lastVisit **/
             $lastVisit = null;
             foreach ($pagevisits as $pagevisit) {
                 if ($lastVisit !== null) {
@@ -596,6 +595,7 @@ class Visitor extends AbstractModel
 
     /**
      * @return ObjectStorage
+     * @noinspection PhpUnused
      */
     public function getNewsvisits(): ObjectStorage
     {
@@ -605,6 +605,7 @@ class Visitor extends AbstractModel
     /**
      * @param ObjectStorage $newsvisits
      * @return Visitor
+     * @noinspection PhpUnused
      */
     public function setNewsvisits(ObjectStorage $newsvisits): self
     {
@@ -625,6 +626,7 @@ class Visitor extends AbstractModel
     /**
      * @param Newsvisit $newsvisits
      * @return $this
+     * @noinspection PhpUnused
      */
     public function removeNewsvisit(Newsvisit $newsvisits): self
     {
@@ -634,6 +636,7 @@ class Visitor extends AbstractModel
 
     /**
      * @return ObjectStorage
+     * @noinspection PhpUnused
      */
     public function getLinkclicks(): ObjectStorage
     {
@@ -643,6 +646,7 @@ class Visitor extends AbstractModel
     /**
      * @param ObjectStorage $linkclicks
      * @return Visitor
+     * @noinspection PhpUnused
      */
     public function setLinkclicks(ObjectStorage $linkclicks): self
     {
@@ -653,6 +657,7 @@ class Visitor extends AbstractModel
     /**
      * @param Linkclick $linkclick
      * @return $this
+     * @noinspection PhpUnused
      */
     public function addLinkclick(Linkclick $linkclick): self
     {
@@ -663,6 +668,7 @@ class Visitor extends AbstractModel
     /**
      * @param Linkclick $linkclick
      * @return $this
+     * @noinspection PhpUnused
      */
     public function removeLinkclick(Linkclick $linkclick): self
     {
@@ -748,6 +754,7 @@ class Visitor extends AbstractModel
         $attributes = [];
         $disallowed = ['password', 'lockToDomain'];
         if ($this->frontenduser !== null) {
+            /** @noinspection PhpInternalEntityUsedInspection */
             foreach ($this->frontenduser->_getProperties() as $name => $value) {
                 if (!empty($value) && in_array($name, $disallowed) === false) {
                     if (is_string($value) || is_int($value)) {
@@ -832,6 +839,7 @@ class Visitor extends AbstractModel
     /**
      * @param Ipinformation $ipinformation
      * @return $this
+     * @noinspection PhpUnused
      */
     public function removeIpinformation(Ipinformation $ipinformation): self
     {
@@ -870,6 +878,7 @@ class Visitor extends AbstractModel
     /**
      * @param Download $download
      * @return Visitor
+     * @noinspection PhpUnused
      */
     public function removeDownload(Download $download): self
     {
@@ -947,27 +956,28 @@ class Visitor extends AbstractModel
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getCrdate(): \DateTime
+    public function getCrdate(): DateTime
     {
         return $this->crdate;
     }
 
     /**
-     * @param \DateTime $crdate
+     * @param DateTime $crdate
      * @return Visitor
      */
-    public function setCrdate(\DateTime $crdate): self
+    public function setCrdate(DateTime $crdate): self
     {
         $this->crdate = $crdate;
         return $this;
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
+     * @noinspection PhpUnused
      */
-    public function getTstamp(): \DateTime
+    public function getTstamp(): DateTime
     {
         return $this->tstamp;
     }
@@ -976,9 +986,10 @@ class Visitor extends AbstractModel
      * You should not use "tstamp" to get the latest page visit because there could be some tasks that update visitor
      * records but this does not mean that the visitor was on your page at this time
      *
-     * @return \DateTime|null
+     * @return DateTime|null
+     * @noinspection PhpUnused
      */
-    public function getDateOfLastVisit(): ?\DateTime
+    public function getDateOfLastVisit(): ?DateTime
     {
         $log = $this->getLatestLog();
         if ($log !== null) {
@@ -988,10 +999,10 @@ class Visitor extends AbstractModel
     }
 
     /**
-     * @param \DateTime $tstamp
+     * @param DateTime $tstamp
      * @return Visitor
      */
-    public function setTstamp(\DateTime $tstamp): self
+    public function setTstamp(DateTime $tstamp): self
     {
         $this->tstamp = $tstamp;
         return $this;
@@ -1047,7 +1058,6 @@ class Visitor extends AbstractModel
      *
      * @return void
      * @throws DBALException
-     * @throws Exception
      * @noinspection PhpUnhandledExceptionInspection
      */
     public function setBlacklistedStatus(): void
@@ -1068,7 +1078,7 @@ class Visitor extends AbstractModel
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $visitorRepository->removeRelatedTableRowsByVisitor($this);
 
-        $now = new \DateTime();
+        $now = new DateTime();
         $this->setDescription('Blacklisted (' . $now->format('Y-m-d H:i:s') . ')');
         $this->setBlacklisted(true);
     }
@@ -1111,6 +1121,7 @@ class Visitor extends AbstractModel
                 $querySettings->setRespectStoragePage(false);
                 $feuRepository->setDefaultQuerySettings($querySettings);
                 /** @var FrontendUser|null $feuser */
+                /** @noinspection PhpUndefinedMethodInspection */
                 $feuser = $feuRepository->findOneByEmail($this->getEmail());
                 if ($feuser !== null) {
                     $this->setFrontenduser($feuser);
@@ -1197,7 +1208,8 @@ class Visitor extends AbstractModel
 
     /**
      * @return string
-     * @throws Exception
+     * @throws InvalidConfigurationTypeException
+     * @throws FileNotFoundException
      */
     public function getCompany(): string
     {
@@ -1207,7 +1219,8 @@ class Visitor extends AbstractModel
             $company = $companyFromIp->get($this);
             if (empty($company)) {
                 $company = $this->getPropertyFromIpinformations('org');
-                if ($this->isTelecomProvider($company)) {
+                $tcProvider = GeneralUtility::makeInstance(Telecommunication::class);
+                if ($tcProvider->isTelecommunicationProvider($company)) {
                     $company = '';
                 }
             }
@@ -1337,18 +1350,5 @@ class Visitor extends AbstractModel
             $result = 1;
         }
         return $result;
-    }
-
-    /**
-     * @param string $company
-     * @return bool
-     * @throws Exception
-     * @throws InvalidConfigurationTypeException
-     */
-    protected function isTelecomProvider(string $company): bool
-    {
-        $configurationService = ObjectUtility::getConfigurationService();
-        $tpFileList = $configurationService->getTypoScriptSettingsByPath('general.telecommunicationProviderList');
-        return FileUtility::isStringInFile($company, GeneralUtility::getFileAbsFileName($tpFileList));
     }
 }

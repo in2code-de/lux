@@ -1,6 +1,6 @@
 <?php
 declare(strict_types = 1);
-namespace In2code\Lux\Domain\Service;
+namespace In2code\Lux\Domain\Service\Provider;
 
 use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\ObjectUtility;
@@ -9,9 +9,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 
 /**
- * Class AllowedMailProvidersService
+ * Class AllowedMail
  */
-class AllowedMailProvidersService
+class AllowedMail
 {
     /**
      * @param string $email
