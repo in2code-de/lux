@@ -40,7 +40,7 @@ class Telecommunication
     }
 
     /**
-     * Search for exact matches in list
+     * Search for exact matches in list of files
      *
      * @param string $company
      * @return bool
@@ -49,17 +49,23 @@ class Telecommunication
      */
     protected function isTelecommunicationProviderByDisallowedList(string $company): bool
     {
-        $tpFileList = $this->configurationService->getTypoScriptSettingsByPath(
+        $fileList = $this->configurationService->getTypoScriptSettingsByPath(
             'general.telecommunicationProviderList'
         );
-        $filename = GeneralUtility::getFileAbsFileName($tpFileList);
-        if (file_exists($filename) === false) {
-            throw new FileNotFoundException(
-                'File defined in "telecommunicationProviderList" does not exists',
-                1636753747
-            );
+        $files = GeneralUtility::trimExplode(',', $fileList, true);
+        foreach ($files as $file) {
+            $filename = GeneralUtility::getFileAbsFileName($file);
+            if (file_exists($filename) === false) {
+                throw new FileNotFoundException(
+                    'File defined in "telecommunicationProviderList" does not exists',
+                    1636753747
+                );
+            }
+            if (FileUtility::isStringInFile($company, $filename)) {
+                return true;
+            }
         }
-        return FileUtility::isStringInFile($company, $filename);
+        return false;
     }
 
     /**
@@ -72,21 +78,24 @@ class Telecommunication
      */
     protected function isTelecommunicationProviderByWildcardSearch(string $company): bool
     {
-        $tpFileList = $this->configurationService->getTypoScriptSettingsByPath(
+        $fileList = $this->configurationService->getTypoScriptSettingsByPath(
             'general.telecommunicationProviderTermList'
         );
-        $filename = GeneralUtility::getFileAbsFileName($tpFileList);
-        if (file_exists($filename) === false) {
-            throw new FileNotFoundException(
-                'File defined in "telecommunicationProviderList" does not exists',
-                1636753747
-            );
-        }
-        $fileContent = file_get_contents($filename);
-        $terms = GeneralUtility::trimExplode(PHP_EOL, $fileContent, true);
-        foreach ($terms as $term) {
-            if (stristr($company, $term) !== false) {
-                return true;
+        $files = GeneralUtility::trimExplode(',', $fileList, true);
+        foreach ($files as $file) {
+            $filename = GeneralUtility::getFileAbsFileName($file);
+            if (file_exists($filename) === false) {
+                throw new FileNotFoundException(
+                    'File defined in "telecommunicationProviderTermList" does not exists',
+                    1636753747
+                );
+            }
+            $fileContent = file_get_contents($filename);
+            $terms = GeneralUtility::trimExplode(PHP_EOL, $fileContent, true);
+            foreach ($terms as $term) {
+                if (stristr($company, $term) !== false) {
+                    return true;
+                }
             }
         }
         return false;
