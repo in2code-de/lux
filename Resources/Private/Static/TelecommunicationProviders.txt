@@ -1,165 +1,74 @@
 18 originates by AS35244
-1&1 Versatel Deutschland GmbH
-A1 Telekom Austria AG
-ACONET
-ADDIX Internet Services GmbH
-Afrihost
 AGENDA komunikacijski in informacijski inzeniring
-AIS-Fibre
 Aligia GmbH
-Amazon.com
-ANTIK Telecom s.r.o
 AnschlussWerk GmbH
-ARCOR-IP
 Artfiles New Media GmbH
 ARTOS a.s.
-Atria Convergence Technologies Pvt. Ltd.
-Atria Convergence Technologies Pvt. Ltd. Broadband INDIA
-AT&T Mobility LLC
-AT&T U-verse
 Automattic
 B2 Net Solutions Inc.
 Balaji Infra Ray Private Limited
-Beijing Baidu Netcom Science and Technology Co.
 Beijing Qihu Technology Company Limited
-Bell Canada
-Bell Teleservices India Pvt Ltd
 BELWUE
-BH Telecom d.d. Sarajevo
-Bharti Airtel
-Bharti Broadband
 Bisping & Bisping GmbH & Co KG
 Bisping & mbH & Co KG
-British Telecommunications PLC
 Company Bisping & mbH & Co KG
-BITel Gesellschaft fuer Telekommunikation mbH
-bn:t Blatzheim Networks Telecom GmbH
-Bredband2 AB
-Bremen Briteline GmbH
-British Telecom
 BT
 BT UK
-Cable Onda
-Cablenet
-CAT Telecom public company Ltd
 CHCTI-CCI
-China Mobile communications corporation
-China Mobile Guangdong
-China Telecom
-China Telecom (Group)
-China Telecom Guangdong
-China Unicom Beijing
-China Unicom Beijing Province Network
-China Unicom CHINA169 Guangdong Province network
-China Unicom Henan Province Network
-China Unicom Liaoning
-China Unicom Shanghai Province Network
-Chinanet
 "Choopa, LLC"
-Citycable
 CLARANET
-Cloudflare
-Cogent Communications
 Colt Technologies
 COLT Technology Services Group Limited
-Comcast Cable
-Company T-Systems Multimedia Solutions GmbH
 Company Tata Teleservices ISP
-Cox Communications
 customers with static IP
 Cyber Smart Solutions S.R.L
 cyberways Munich
 Cyberlink AG
 CyrusOne LLC
-D2VODAFONE
-Daten- und Telekommunikations GmbH Dessau
 DELTA Fiber Nederland B.V.
-Deutsche Glasfaser Business GmbH
-Deutsche Glasfaser Wholesale
-Deutsche Telekom AG
-Deutsche Telekom Business
 DFN
 Digital Energy Technologies Chile SpA
 Digital Energy Technologies Ltd.
 DigitalOcean
-DOKOM Gesellschaft fuer Telekommunikation mbH
 DSI GmbH Daten Service Informationssysteme
-DTAG European region
 DTAC-GPRS
-ecotel communication ag
 Eltrona Interdiffusion S.A.
 EliteWork LLC
-Energie AG Oberoesterreich Telekom GmbH
 Envia Tel GmbH
 EUNET
-Eurofiber Nederland BV
 europroNET Bosnia d.o.o.
 Euroweb Romania
-EWETEL
-EWE-Tel GmbH
 EWE TEL GmbH
 F3 Netze e.V.
-Facebook
 Fastweb SpA
 Fiber Grid Inc
 Free SAS
-Frontier Communications
 Global Layer B.V.
 Globalways AG
-Google
-Google Cloud
-Google India Pvt. Ltd.
-Google LLC
-Google Proxy
 Gujarat Telelink Pvt Ltd
 H3G-AUSTRIA Customer dynamic
-HANSENET
-HeLi NET Telekommunication GmbH & Co.
-HeLi NET Telekommunikation GmbH & Co. KG
 Herzo Media GmbH & Co. KG
-HETZNER
-Hetzner Online GmbH
 HIGHWAY194
 Host Europe GmbH
-Host1Plus
 Hutchison Drei Austria GmbH
 IBH IT-Service GmbH
-inexio Informationstechnologie und Telekommunikation Gmbh
 Infibeam Avenues Limited
 INFOSTRADA
 Init7 (Switzerland) Ltd.
-Interactive Network Communications GmbH
 ip&more GmbH
-IPHH Internet Port Hamburg GmbH
 IPVanish
 ISAR
-Ishan's Network
 IT.NRW
 ITANDTEL
 ITERGO
 JimmyNet s.r.o.
 Joyent
-JSC ER-Telecom Holding
-KabelBW
-Kabel BW
-Kabel-TV Lampert
-Kabeldeutschland
-Kabelfernsehen Muenchen ServiCenter GmbH & Co.KG
-kabelplus GmbH
-Kabelplus GmbH
-KEVAG Telekom GmbH
 KDVZ Citkomm
 KielNET-Main
 Kom4tel GmbH
 KOMDSL-Hochfrankenwald
-Komro
-komro GmbH
-Komro GmbH
-Komsa Group Network
 Konverto SPA
 KPN B.V.
-lagis Internet Service Provider GmbH
-lagis Internet Serviceprovider GmbH
 LDCOM
 Leaseweb Deutschland GmbH
 LeaseWeb Netherlands B.V.
@@ -167,24 +76,17 @@ Leaseweb USA
 LEW TelNet GmbH
 Liberty Global B.V.
 Liberty Global Operations B.V.
-Limestone Networks
 "Linode, LLC"
 Linz Strom Gas Waerme GmbH
-LIWEST Kabelmedien GmbH
 LueneCom Kommunikationsloesungen GmbH
 LWLcom GmbH
 M & A Leasing Limited
 M-net
-M-net Telekommunikations GmbH
 M247 Ltd
 Madnet d.o.o.
-Mannesmann Arcor Telecommunications AG & Co
-MCI Communications Services
 MDlink online service center GmbH
 Medianet Group Srl
-mhs internet AG
 Microsoft Corporation
-MK Netzdienste GmbH & Co. KG
 MNET
 Mtel
 myLoc managed IT AG
@@ -193,37 +95,19 @@ NBP
 Neofonie GmbH
 Nessus GmbH
 Netalis SAS
-NetCologne Gesellschaft fur Telekommunikation mbH
 NetCologne GmbH
-NetCom BW GmbH
 NETHINKS GmbH
 Netia SA
-netlogix GmbH & Co. KG
 netplusFR SA
-Netwire Internet Solutions Pvt
 Nexinto GmbH
-Next Layer Telekommunikationsdienstleistungs- und
-Next Layer Telekommunikationsdienstleistungs- und Beratungs GmbH
 NTS workspace AG
-O2 DE Block2
-O2 Deutschland
-o2-Germany
-o2-Germany 1-MUN
-OJSC Rostelecom Macroregional Branch South
-Olivenet Network S.L.
 OMG.de GmbH
 Online S.A.S.
 ONLINE SAS
 OOO NI
 Optimate-Server
-Orange
-Orange Polska
-Orange Slovensko a.s.
-Orange Swiatlowod
-Orion Telekom ISP IP network
 OSNATEL
 OVH SAS
-Pakistan Telecommuication company limited
 Planet Digital Lichtwellenleiternetz Errichtungs- und Betrieb GmbH & Co KG
 Play
 Plus.line AG
@@ -237,71 +121,26 @@ QITS Quality Information Technology Services GmbH
 QSC AG
 Quickline
 R-KOM GmbH & Co. KG
-R-KOM Regensburger Telekommunikations GmbH & Co. KG
-R-KOM Regensburger Telekommunikationsgesellschaft
-R-KOM Regensburger Telekommunikationsgesellschaft mbH & Co. KG
-R-KOM Regensburger Telekommunikationsverwaltungsgesellschaft mbH trading as R-K
-RailTel Corporation Of India Ltd
-RelAix Networks GmbH
 REWE Systems GmbH
 RDSNET
-RJIL Internet
-Rogers Cable
-Rostelecom
 RSM Connect
 S.A.S.
 SANET
 S-IT Informationstechnologie Betreiber GmbH & Co.
-Salt Mobile SA
-sasag Kabelkommunikation AG
-Serbia Broadband
 ScanPlus GmbH
 "ShenZhen Sunrise Technology Co.,Ltd."
-SK Broadband
-Sky Broadband
 Skynet Belgium
 SLOVANET
-Slovak Telecom AS6855
 STNB
-Stadtnetz Bamberg Gesellschaft fuer Telekommunikation mbH
 Stadtwerke Flensburg GmbH
 Starnet Servicii SRL
 Strato AG
-Suedwestfalen IT Network
-Sunrise Communications AG
-Swisscom
-Swisscom 6RD
-Swisscom (Schweiz) AG - Bluewin
-Swisscom (Schweiz) AG - SME/Cybernet
 SWITCH
-SWU TeleNet GmbH
 SysEleven GmbH
-T-Mobile Austria GmbH
-T-Mobile Deutschland GmbH
-T-mobile Polska
-T-Systems Multimedia Solutions GmbH
-T-Systems International GmbH
-Tajik Academician Research and Educational Network
-Telenet Operaties N.V.
 teutel GmbH
 TDC A/S
-Telcom Networks Limited
 Tele Columbus AG
 Tele2 Business AB
-Telecom Italia
-Telecom Italia Business
-Telecomunikatsiina Companiya Ltd
-Telefonica de Espana
-Telefonica Deutschland GmbH
-Telefonica Germany GmbH & Co. OHG
-Telefonica Germany GmbH & Co.OHG
-Telefonica International Wholesale Services II
-Telefonica o2 (Germany) GmbH & Co.
-Telefonica O2 Germany
-Telekom Austria
-Telekom Deutschland GmbH
-Telekommunikation Mittleres Ruhrgebiet GmbH
-TelemaxX Telekommunikation GmbH
 Telenor Norge AS
 TeleRadioCompany Studio TV-9 Beregsasom Ltd.
 Telfort B.V.
@@ -310,41 +149,17 @@ Telmex
 Thuega SmartService GmbH
 TMT GmbH & Co. KG
 TOPNET
-Turksat Uydu-Net Internet
 TWL-Kom GmbH
-Unitymedia
 Unus
 UPC Austria
 UPC NL
 UPC Schweiz
 UPC Schweiz GmbH
 Verizon Deutschland GmbH
-Vectra Broadband
-Versatel Deutschland
-Versatel West GmbH
-VF-Network
 Video-Broadcast GmbH
-VIP mobile
-VISTEC Internet Service GmbH
 vitroconnect GmbH
-Vodafone Albania Sh.A.
-Vodafone D2 GmbH
-Vodafone DSL
-Vodafone GmbH
-Vodafone Kabel Deutschland
-Vodafone Kabel Deutschland GmbH
-Vodafone Ono
-Vodafone Portugal
-Vodafone Portugal - Communicacoes Pessoais S.A.
-Vodafone-Libertel NV
 wilhelm.tel
 wilhelm.tel GmbH
-WITCOM Wiesbadener Informations- und Telekommunikations GmbH
-Wojciech Jerzy Winkel trading as Tempus Telecom
 WVNET Information und Kommunikation GmbH
-Xs4all Internet BV
 YANDEX LLC
 ZIT
-Zscaler
-Zscaler Switzerland GmbH
-ZSCALER
