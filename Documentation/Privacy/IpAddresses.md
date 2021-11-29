@@ -64,4 +64,4 @@ Disabling Ip-API.com but keep iplist.cc could be done via:
 lib.lux.settings.ipinformation.1 >
 ```
 
-**Note:** Take care that your lib.lux configuration is recognized by lux (see FAQ section how to copy it to plugin.tx_lux_fe)
+**Note:** Take care that your lib.lux configuration is recognized by LUX (see FAQ section how to copy it to plugin.tx_lux_fe)
