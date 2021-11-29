@@ -55,10 +55,10 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 
 ## Features
 
-### Extensions for lux
+### Extensions for LUX
 
-* luxenterprise for individual workflows: https://www.in2code.de/produkte/lux-typo3-marketing-automation/
-* luxletter for email marketing aspects: https://github.com/in2code-de/luxletter
+* LUXenterprise for individual workflows: https://www.in2code.de/produkte/lux-typo3-marketing-automation/
+* LUXletter for email marketing aspects: https://github.com/in2code-de/luxletter
 
 ### Tracking
 
@@ -76,7 +76,7 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 * Identify a lead with any webform email field
 * Identify a lead while listening to complete form submits
 * Offer via CkEditor plugin a email4link popup (give me your email and we are going to send you the asset via email)
-* Identify a lead via click in a newsletter email sent by [Extension luxletter](https://github.com/in2code-de/luxletter)
+* Identify a lead via click in a newsletter email sent by [Extension LUXletter](https://github.com/in2code-de/luxletter)
 * Identify a lead automatically via frontend login
 * Automatically merge legacy cookie-ids or different fingerprints on new identifications
 * Multi-Domain, Multi-Device and Multi-Platorm tracking
@@ -132,7 +132,7 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 * Lead commands to get a summary mail for your sales team
   * Send an overall summary
   * Send a summary mail with known companies
-  * Send a summary mail by a lux category
+  * Send a summary mail by a LUX category
 * Service commands (calculate scoring for all leads)
 
 ### Privacy Features
@@ -166,9 +166,9 @@ Interested? Call us!
 
 ## Technical requirements
 
-lux needs minimum *TYPO3 9.5* as a modern basic together with *composer mode*. Every kind of form extension is supported
+LUX needs minimum *TYPO3 9.5* as a modern basic together with *composer mode*. Every kind of form extension is supported
 for the identification feature (powermail, form, formhandler, felogin, etc...).
-At the moment it's not possible to use lux without **composer mode**!
+At the moment it's not possible to use LUX without **composer mode**!
 
 ## Changelog and breaking changes
 
