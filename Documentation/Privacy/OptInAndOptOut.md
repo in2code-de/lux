@@ -4,14 +4,14 @@
 
 ### Opt-Out Plugin
 
-As known from Matomo (former known as Piwik) also Lux offers a Plugin fo an Opt-Out possibility for visitors.
+As known from Matomo (former known as Piwik) also LUX offers a Plugin fo an Opt-Out possibility for visitors.
 
 <img src="../Images/documentation_plugin_optout_frontend1.png" width="800" />
 
 ### Opt-In Functionality
 
 If you want to not automaticly track your visitors without their acceptence, you can use the opt-in functionality
-of Lux.
+of LUX.
 
 First of all, you have to disable the autoenable function via TypoScript constants:
 
@@ -19,17 +19,17 @@ First of all, you have to disable the autoenable function via TypoScript constan
 plugin.tx_lux.settings.autoenable = 0
 ```
 
-Now, lux will not track visits per default. As next step, you should place a HTML-element
+Now, LUX will not track visits per default. As next step, you should place a HTML-element
 anywhere on the page with data-lux-trackingoptin="true". A click on this element will allow the tracking.
 
 ```
-<span data-lux-trackingoptin="true">Opt-In for Lux analyses</span>
+<span data-lux-trackingoptin="true">Opt-In for LUX analyses</span>
 ```
 
 This can also be disabled again with an element like:
 
 ```
-<span data-lux-trackingoptin="false">Opt-Out for Lux analyses</span>
+<span data-lux-trackingoptin="false">Opt-Out for LUX analyses</span>
 ```
 
 How to work with this possibilities? You can add a cookie banner or a cookie lightbox over your website where you can
@@ -51,7 +51,7 @@ Lux.optOut();
 ### DoNotTrack Header
 
 Browsers support a (per default turned off) option to inform the website that the visitor don't wants to be tracked.
-This is the *DoNotTrack* or *DNT* setting. Even if this rare used feature of the browser is only a recommendation, Lux
+This is the *DoNotTrack* or *DNT* setting. Even if this rare used feature of the browser is only a recommendation, LUX
 will respect this setting of course!
 
 <img src="../Images/documentation_marketing_donottrack.png" width="800" />
