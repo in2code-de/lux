@@ -2,9 +2,9 @@
 
 ## IP addresses
 
-Lux recognizes visitor IP addreses and can use it for a transformation to a company by using a IP service API.
+LUX recognizes visitor IP addreses and can use it for a transformation to a company by using a IP service API.
 In addition IP-addresses can be stored complete or anynomized.
-This small documentation shows you all configuration options related to IP-addresses in lux.
+This small documentation shows you all configuration options related to IP-addresses in LUX.
 
 ### Extension manager configuration
 
