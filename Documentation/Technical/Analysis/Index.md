@@ -3,14 +3,14 @@
 ### Tracking and Analysis
 
 This part of the documentation describes all configuration parts related to analysis and tracking of visitors and will
-be automaticly loaded if you choose the main lux static template in the root template.
+be automaticly loaded if you choose the main LUX static template in the root template.
 
 #### TypoScript Configuration
 
 The file [01_TrackingConfiguration.typoscript](../../../Configuration/TypoScript/Lux/01_TrackingConfiguration.typoscript)
 contains all relevant settings for the visitor tracking.
 
-Lux basicly tracks every vistors page request with the current time. In addition it's possible to also track asset
+LUX basicly tracks every vistors page request with the current time. In addition it's possible to also track asset
 downloads.
 
 See the inline comments for a description in TypoScript:
@@ -46,7 +46,7 @@ lib.lux.settings {
 }
 ```
 
-**Note:** Take care that your lib.lux configuration is recognized by lux (see FAQ section how to copy it to plugin.tx_lux_fe)
+**Note:** Take care that your lib.lux configuration is recognized by LUX (see FAQ section how to copy it to plugin.tx_lux_fe)
 
 Constants to this TypoScript part:
 ```
@@ -74,7 +74,7 @@ Example page tracking request in browser console:
 
 #### Dashboard
 
-Now, if lux is up and running, you should see information in the Analysis Backend Module in the dashboard view:
+Now, if LUX is up and running, you should see information in the Analysis Backend Module in the dashboard view:
 <img src="../../../Documentation/Images/screenshot_analysis_dashboard.png" width="800" />
 
 The dashboard view should give you a quick overview about the latest activities and some useful information:
@@ -85,7 +85,7 @@ The dashboard view should give you a quick overview about the latest activities 
 * Identifaction rate of the latest months
 * Hottest leads (orderings by scoring)
 * A world map for a basic visitor analysis
-* A basic statistics about the records that are stored in lux
+* A basic statistics about the records that are stored in LUX
 
 Clicking on a name/email/"anonymous" will open a detail page with some more information of the lead.
 
@@ -99,7 +99,7 @@ lib.lux.settings {
     backendview {
         analysis {
             activity {
-                # Greater then 0 means to also have "lux identified a new lead", greater 1 means to not have this kind of messages
+                # Greater then 0 means to also have "LUX identified a new lead", greater 1 means to not have this kind of messages
                 statusGreaterThen = 1
             }
         }
@@ -107,7 +107,7 @@ lib.lux.settings {
 }
 ```
 
-**Note:** Take care that your lib.lux configuration is recognized by lux (see FAQ section how to copy it to plugin.tx_lux_fe)
+**Note:** Take care that your lib.lux configuration is recognized by LUX (see FAQ section how to copy it to plugin.tx_lux_fe)
 
 #### Pagevisits and Downloads
 
@@ -130,7 +130,7 @@ in this item.
 
 #### Link Listeners
 
-Link Listeners are introduced with Lux 9 and give you more power over your "call to action" performance on your
+Link Listeners are introduced with LUX 9 and give you more power over your "call to action" performance on your
 website.
 
 The view starts with a list of Link Listeners and the possibility to manage them (add new, edit existing or delete old
@@ -153,7 +153,7 @@ new Listener. That's all. Now all clicks on this link are tracked now.
 
 #### Search
 
-With lux 16 we started to introduce a own search view.
+With LUX 16 we started to introduce a own search view.
 
 If there are entries in the search table, editors can see and click the search view button in analysis backend module.
 The view starts with a list of used searchterms of your websearch.
@@ -174,7 +174,7 @@ modified in TypoScript configuration.
 In addition to the build in dashboard, since TYPO3 10 it is possible to install another dashboard for system wide
 diagrams in TYPO3.
 You could do this simply with `composer require typo3/cms-dashboard`. Once it is available, you can add some widgets
-from Lux.
+from LUX.
 
 This is a screenshot fom default values:
 

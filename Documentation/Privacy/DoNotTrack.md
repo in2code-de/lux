@@ -3,7 +3,7 @@
 ## DoNotTrack Header
 
 Browsers support a (per default turned off) option to inform the website that the visitor don't wants to be tracked.
-This is the *DoNotTrack* or *DNT* setting. Even if this rare used feature of the browser is only a recommendation, Lux
+This is the *DoNotTrack* or *DNT* setting. Even if this rare used feature of the browser is only a recommendation, LUX
 will respect this setting of course!
 
 <img src="../Images/documentation_marketing_donottrack.png" width="800" />

@@ -9,45 +9,82 @@ tool. LUX will track, identify, analyse your leads and give the visitors some im
 like showing relevant information at the right time.
 LUX will not set any cookies.
 
-## Screenshots
-
-TYPO3 dashboard (for TYPO3 with package "typo3/cms-dashboard"):\
-\
-![Example TYPO3 dashboard](Documentation/Images/screenshot_typo3dashboard.png "TYPO3 Dashboard")
-
-Example dashboards:\
-\
-![Example dashboard1](Documentation/Images/screenshot_dashboard.png "Dashboard1")
-
-![Example dashboard2](Documentation/Images/screenshot_analysis_dashboard.png "Dashboard2")
-
-Example leadlist:\
-\
-![Leadlist](Documentation/Images/screenshot_list.png "Leadlist")
-
-Show some details:\
-\
-![Some Details](Documentation/Images/screenshot_list2.png "Some details")
-
-Show relevant information in page view:\
-\
-![Relevant information in page view](Documentation/Images/screenshot_pageoverview.png "Page Overview")
-
-Workflow - Define your own trigger(s) and combine them via AND or OR (Enterprise version only):\
-\
-![Workflow trigger](Documentation/Images/screenshot_workflow_trigger.png "Workflow Trigger")
-
-Workflow - Do one or more Actions if a trigger is activated (Enterprise version only):\
-\
-![Workflow action](Documentation/Images/screenshot_workflow_action.png "Workflow action")
-
-Ask for the visitors email-address when he/she wants to download an asset:\
-\
-![Email 4 Link](Documentation/Images/screenshot_email4link.png "E-Mail for Link")
-
-... with a CK editor plugin:\
-\
-![Email for Link with CKEditor](Documentation/Images/screenshot_email4link_ckeditor_plugin.png "with CKeditor")
+<table>
+    <tr>
+        <th colspan="2" align="center">Screenshots</th>
+    </tr>
+    <tr>
+        <th colspan="2">TYPO3 dashboard (for TYPO3 with package <code>typo3/cms-dashboard</code>)</th>
+    </tr>
+    <tr>
+        <td align="center" colspan="2">
+            <img alt="" width="600" src="https://github.com/in2code-de/lux/blob/master/Documentation/Images/screenshot_typo3dashboard.png">
+        </td>
+    </tr>
+    <tr>
+        <th colspan="2">Example dashboards</th>
+    <tr>
+    </tr>
+        <td align="center">
+            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/master/Documentation/Images/screenshot_dashboard.png">
+        </td>
+        <td align="center">
+            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/master/Documentation/Images/screenshot_analysis_dashboard.png">
+        </td>
+    </tr>
+    <tr>
+        <th>Leadlist</th>
+        <th>Lead details</th>
+    </tr>
+    <tr>
+        <td align="center">
+            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/master/Documentation/Images/screenshot_list.png">
+        </td>
+        <td align="center">
+            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/master/Documentation/Images/screenshot_list2.png">
+        </td>
+    </tr>
+    <tr>
+        <th colspan="2">Show relevant information in page view</th>
+    </tr>
+    <tr>
+        <td align="center" colspan="2">
+            <img alt="" width="600" src="https://github.com/in2code-de/lux/blob/master/Documentation/Images/screenshot_pageoverview.png">
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            <strong>Workflow</strong><br/>
+            Define your own trigger(s) and combine them via AND or OR<br/>
+            <i>(Enterprise version only)</i>
+        </td>
+        <td align="center">
+            <strong>Workflow</strong><br/>
+            Do one or more Actions if a trigger is activated<br/>
+            <i>(Enterprise version only)</i>
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/master/Documentation/Images/screenshot_workflow_trigger.png">
+        </td>
+        <td align="center">
+            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/master/Documentation/Images/screenshot_workflow_action.png">
+        </td>
+    </tr>
+    <tr>
+        <th>Ask for the visitors email-address when he/she wants to download an asset</th>
+        <th>...with a CK editor plugin</th>
+    </tr>
+    <tr>
+        <td align="center">
+            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/master/Documentation/Images/screenshot_email4link.png">
+        </td>
+        <td align="center">
+            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/master/Documentation/Images/screenshot_email4link_ckeditor_plugin.png">
+        </td>
+    </tr>
+</table>
 
 ## Documentation
 
@@ -55,10 +92,10 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 
 ## Features
 
-### Extensions for lux
+### Extensions for LUX
 
-* luxenterprise for individual workflows: https://www.in2code.de/produkte/lux-typo3-marketing-automation/
-* luxletter for email marketing aspects: https://github.com/in2code-de/luxletter
+* LUXenterprise for individual workflows: https://www.in2code.de/produkte/lux-typo3-marketing-automation/
+* LUXletter for email marketing aspects: https://github.com/in2code-de/luxletter
 
 ### Tracking
 
@@ -76,7 +113,7 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 * Identify a lead with any webform email field
 * Identify a lead while listening to complete form submits
 * Offer via CkEditor plugin a email4link popup (give me your email and we are going to send you the asset via email)
-* Identify a lead via click in a newsletter email sent by [Extension luxletter](https://github.com/in2code-de/luxletter)
+* Identify a lead via click in a newsletter email sent by [Extension LUXletter](https://github.com/in2code-de/luxletter)
 * Identify a lead automatically via frontend login
 * Automatically merge legacy cookie-ids or different fingerprints on new identifications
 * Multi-Domain, Multi-Device and Multi-Platorm tracking
@@ -132,7 +169,7 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 * Lead commands to get a summary mail for your sales team
   * Send an overall summary
   * Send a summary mail with known companies
-  * Send a summary mail by a lux category
+  * Send a summary mail by a LUX category
 * Service commands (calculate scoring for all leads)
 
 ### Privacy Features
@@ -166,9 +203,9 @@ Interested? Call us!
 
 ## Technical requirements
 
-lux needs minimum *TYPO3 9.5* as a modern basic together with *composer mode*. Every kind of form extension is supported
+LUX needs minimum *TYPO3 9.5* as a modern basic together with *composer mode*. Every kind of form extension is supported
 for the identification feature (powermail, form, formhandler, felogin, etc...).
-At the moment it's not possible to use lux without **composer mode**!
+At the moment it's not possible to use LUX without **composer mode**!
 
 ## Changelog and breaking changes
 

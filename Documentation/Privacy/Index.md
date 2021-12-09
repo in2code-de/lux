@@ -4,7 +4,7 @@ This part of the documentation gives you some information about privacy on websi
 
 ## Privacy documentation
 
-Lux respects the privacy protection of website visitors. Please follow our example.
+LUX respects the privacy protection of website visitors. Please follow our example.
 
 First of all let your visitors know what kind of information you are collecting and why you are collection those
 information and where the information is stored (not on a third party companies server but on your server!).
