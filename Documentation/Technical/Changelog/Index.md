@@ -15,6 +15,7 @@
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 20.2.0     | 2021-12-09 | Bugfix     | Harden tracking of formListening events, add some more unit tests                                                                                                                          |
 | 20.1.0     | 2021-11-24 | Feature    | Add wildcard telecommunication provider list, support multiple telecom lists, add pagination for linklisteners, add database indices for better performance                                |
 | 20.0.1     | 2021-11-17 | Bugfix     | Fix linklistener tracking in some cases                                                                                                                                                    |
 | 20.0.0     | 2021-11-04 | Feature    | Add a cache layer for dashboards and pageoverview view, add a cache warmup command, add noindex,nofollow to shortener link requests                                                        |
