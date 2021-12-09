@@ -284,7 +284,7 @@ function LuxMain() {
       if (elements[i].localName === 'form' || elements[i].form !== undefined) {
         var form = (elements[i].form !== undefined ? elements[i].form : elements[i]);
         form.addEventListener('submit', function(event) {
-          delaySubmit(event, 'abTestConversion');
+          delaySubmit(event, 'abTestConversion', true);
 
           ajaxConnection({
             'tx_lux_fe[dispatchAction]': 'abTestingConversionFulfilledRequest',
@@ -444,10 +444,12 @@ function LuxMain() {
     var forms = document.querySelectorAll('form[data-lux-form-identification]');
     for (var i = 0; i < forms.length; i++) {
       forms[i].addEventListener('submit', function(event) {
-        if (event.target.getAttribute('data-lux-form-identification') === 'preventDefault') {
-          event.preventDefault();
-        }
         sendFormValues(event.target);
+        delaySubmit(
+          event,
+          'formListening',
+          event.target.getAttribute('data-lux-form-identification') !== 'preventDefault'
+        );
       });
     }
   };
@@ -569,18 +571,20 @@ function LuxMain() {
    * @param status debugging name
    * @returns {void}
    */
-  var delaySubmit = function(event, status) {
+  var delaySubmit = function(event, status, submit) {
     event.preventDefault();
     var delay = 400;
     if (isDebugMode()) {
       console.log(status + ' triggered. Form submit delayed');
       delay = 5000;
     }
-    setTimeout(
-      function() {
-        event.target.submit();
-      }, delay
-    );
+    if (submit === true) {
+      setTimeout(
+        function() {
+          event.target.submit();
+        }, delay
+      );
+    }
   };
 
   /**
