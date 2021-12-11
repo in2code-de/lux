@@ -1,14 +1,15 @@
 /* jshint node: true */
 'use strict';
 
-var gulp = require('gulp');
-var sass = require('gulp-sass');
-var uglify = require('gulp-uglify');
-var plumber = require('gulp-plumber');
-var rename = require('gulp-rename');
-var concat = require('gulp-concat');
+const { src, dest, watch, series, parallel } = require('gulp');
+const sass = require('gulp-sass')(require('node-sass'));
+const rollup = require('rollup').rollup;
+const rollupConfig = require('./rollup.config');
+const uglify = require('gulp-uglify');
+const plumber = require('gulp-plumber');
+const rename = require('gulp-rename');
 
-var project = {
+const project = {
 	base: __dirname + '/../../Public',
 	css: __dirname + '/../../Public/Css',
 	js: __dirname + '/../../Public/JavaScript/Lux',
@@ -16,42 +17,49 @@ var project = {
 };
 
 // SCSS zu css
-gulp.task('css', function() {
-	var config = {};
+function css() {
+	const config = {};
 	config.outputStyle = 'compressed';
 
-	gulp.src(__dirname + '/../Sass/*.scss')
+	return src(__dirname + '/../Sass/*.scss')
 		.pipe(plumber())
 		.pipe(sass(config))
 		.pipe(rename({
 			suffix: '.min'
 		}))
-		.pipe(gulp.dest(project.css));
-});
+		.pipe(dest(project.css));
+};
 
-gulp.task('jsFrontend', function() {
-	gulp.src([__dirname + '/../JavaScript/Frontend/*.js'])
-		.pipe(plumber())
-		.pipe(concat('Lux.min.js'))
-		.pipe(uglify())
-		.pipe(gulp.dest(project.js));
-});
+function jsFrontend(done) {
+  rollup(rollupConfig).then(bundle => {
+    rollupConfig.output.plugins = rollupConfig
+    bundle.write(rollupConfig.output).then(() => done());
+  });
+};
 
-gulp.task('jsBackend', function() {
-	gulp.src([__dirname + '/../JavaScript/Backend/*.js'])
+function jsBackend() {
+	return src([__dirname + '/JavaScript/Backend/*.js'])
 		.pipe(plumber())
 		.pipe(uglify())
 		.pipe(rename({
 			suffix: '.min'
 		}))
-		.pipe(gulp.dest(project.js));
-});
+		.pipe(dest(project.js));
+};
 
 // "npm run build"
-gulp.task('build', ['jsFrontend', 'jsBackend', 'css']);
+const build = series(jsFrontend, jsBackend, css);
 
 // "npm run watch"
-gulp.task('default', function() {
-	gulp.watch(__dirname + '/../Sass/*.scss', ['css']);
-	gulp.watch(__dirname + '/../JavaScript/*.js', ['jsFrontend', 'jsBackend']);
-});
+const def = () => parallel([
+  watch(__dirname + '/../Sass/*.scss', [css]),
+  watch(__dirname + '/JavaScript/*.js', [jsFrontend, jsBackend])
+]);
+
+module.exports = {
+  default: def,
+  build,
+  css,
+  jsBackend,
+  jsFrontend
+};
