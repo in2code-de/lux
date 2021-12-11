@@ -1,9 +1,12 @@
+import UAParser from 'ua-parser-js';
+import Fingerprint2 from '@fingerprintjs/fingerprintjs';
+
 /**
  * LuxIdentification functions
  *
  * @class LuxMain
  */
-function LuxIdentification() {
+export default function LuxIdentification() {
   'use strict';
 
   /**

@@ -1,3 +1,6 @@
+import * as basicLightbox from 'basiclightbox';
+import LuxIdentification from './Identification';
+
 /**
  * LuxMain functions
  *
@@ -1058,7 +1061,7 @@ function LuxMain() {
  *
  * @type {{getInstance: (function(): LuxIdentification)}}
  */
-var LuxSingleton = (function() {
+window.LuxSingleton = (function() {
   var instance;
 
   function createInstance() {
@@ -1075,5 +1078,5 @@ var LuxSingleton = (function() {
   };
 })();
 
-var Lux = LuxSingleton.getInstance();
+var Lux = window.LuxSingleton.getInstance();
 Lux.initialize();
