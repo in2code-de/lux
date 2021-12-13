@@ -51,10 +51,10 @@ function jsBackend() {
 const build = series(jsFrontend, jsBackend, css);
 
 // "npm run watch"
-const def = () => parallel([
-  watch(__dirname + '/../Sass/*.scss', [css]),
-  watch(__dirname + '/JavaScript/*.js', [jsFrontend, jsBackend])
-]);
+const def = parallel(
+  function watchSCSS() { return watch(__dirname + '/../Sass/**/*.scss', series(css)) },
+  function watchJS() { return watch(__dirname + '/JavaScript/**/*.js', series(jsFrontend, jsBackend)) }
+);
 
 module.exports = {
   default: def,
