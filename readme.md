@@ -183,6 +183,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 17.2.2     | 2021-12-14 | Bugfix     | Frontend toolchain updated for better usage with require.js                                                                                                                                |
 | 17.2.1     | 2021-11-17 | Bugfix     | Fix linklistener tracking in some cases                                                                                                                                                    |
 | 17.2.0     | 2021-09-26 | Feature    | Add description, createdate, author to linklisteners list and edit view for a better organisation, add creationdate and author for news list, small TCA bugfixes                           |
 | 17.1.2     | 2021-09-24 | Bugfix     | Make lightbox responsive (Workflow action content in lightbox)                                                                                                                             |
