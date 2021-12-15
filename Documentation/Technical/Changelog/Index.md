@@ -15,6 +15,7 @@
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 20.2.2     | 2021-12-15 | Bugfix     | Don't include JS for lightbox twice                                                                                                                                                        |
 | 20.2.1     | 2021-12-14 | Bugfix     | Frontend toolchain updated for better usage with require.js                                                                                                                                |
 | 20.2.0     | 2021-12-09 | Bugfix     | Harden tracking of formListening events, add some more unit tests                                                                                                                          |
 | 20.1.0     | 2021-11-24 | Feature    | Add wildcard telecommunication provider list, support multiple telecom lists, add pagination for linklisteners, add database indices for better performance                                |
@@ -27,7 +28,8 @@
 | 18.1.1     | 2021-10-22 | Bugfix     | Fix a typo when rendering the star icon in all lux backend modules                                                                                                                         |
 | 18.1.0     | 2021-10-17 | Task       | Add a "go enterprise" to backend layouts, Update input field height for bootstrap 5, Small code cleanup                                                                                    |
 | 18.0.0     | 2021-10-16 | Task       | Support TYPO3 11 (and 10) and drop support for version 9                                                                                                                                   |
-| 17.2.2     | 2021-12-14 | Feature    | Frontend toolchain updated for better usage with require.js                                                                                                                                |
+| 17.2.3     | 2021-12-15 | Bugfix     | Don't include JS for lightbox twice                                                                                                                                                        |
+| 17.2.2     | 2021-12-14 | Bugfix     | Frontend toolchain updated for better usage with require.js                                                                                                                                |
 | 17.2.1     | 2021-11-17 | Feature    | Backport: Fix linklistener tracking in some cases                                                                                                                                          |
 | 17.2.0     | 2021-09-26 | Feature    | Add description, createdate, author to linklisteners list and edit view for a better organisation, add creationdate and author for news list, small TCA bugfixes                           |
 | 17.1.2     | 2021-09-24 | Bugfix     | Make lightbox responsive (Workflow action content in lightbox)                                                                                                                             |
