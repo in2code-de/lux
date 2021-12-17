@@ -2,7 +2,7 @@
 
 <f:section name="content">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-9">
             <f:render partial="Filter/{view.controller}/{view.actionUpper}" arguments="{_all}"/>
 
             <f:if condition="{allVisitors}">
@@ -121,7 +121,7 @@
                 </f:else>
             </f:if>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div data-lux-container="detail">
                 <f:render partial="Box/Analysis/Pagevisits" arguments="{_all}"/>
                 <f:render partial="Box/Leads/Hottest" arguments="{_all}"/>
