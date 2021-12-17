@@ -90,7 +90,7 @@ call_user_func(
                 ]
             );
         }
-        // Add module for workflow
+        // Add module for campaigns
         if (\In2code\Lux\Utility\ConfigurationUtility::isWorkflowModuleDisabled() === false) {
             \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
                 'Lux',
@@ -100,7 +100,7 @@ call_user_func(
                 [
                     \In2code\Lux\Controller\WorkflowController::class =>
                         'list,new,create,edit,update,delete,disable,enable',
-                    \In2code\Lux\Controller\ShortenerController::class => 'list,delete,detail,resetFilter',
+                    \In2code\Lux\Controller\ShortenerController::class => 'list,delete,detail,resetFilter,qr',
                     \In2code\Lux\Controller\AbTestingController::class => 'list',
                     \In2code\Lux\Controller\GeneralController::class => 'information'
                 ],
