@@ -616,9 +616,9 @@ function LuxMain() {
       if (containers.length > 0) {
         var container = containers[0].cloneNode(true);
         var html = container.innerHTML;
-        html = html.replace('###TITLE###', title);
-        html = html.replace('###TEXT###', text);
-        html = html.replace('###HREF###', getFilenameFromHref(href));
+        html = html.replace('###EMAIL4LINK_TITLE###', title);
+        html = html.replace('###EMAIL4LINK_TEXT###', text);
+        html = html.replace('###EMAIL4LINK_HREF###', getFilenameFromHref(href));
         that.lightboxInstance = basicLightbox.create(html);
         that.lightboxInstance.element().querySelector('[data-lux-email4link="form"]').addEventListener('submit', function(event) {
           email4LinkLightboxSubmitListener(this, event, link);
