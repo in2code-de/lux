@@ -68,7 +68,7 @@ class SiteService
      * @return Site
      * @throws SiteNotFoundException
      */
-    protected function getSiteFromPageIdentifier(int $pageIdentifier): Site
+    public function getSiteFromPageIdentifier(int $pageIdentifier): Site
     {
         $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
         return $siteFinder->getSiteByPageId($pageIdentifier);

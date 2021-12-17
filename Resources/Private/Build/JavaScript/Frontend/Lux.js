@@ -1,3 +1,6 @@
+import * as basicLightbox from 'basiclightbox';
+import LuxIdentification from './Identification';
+
 /**
  * LuxMain functions
  *
@@ -613,9 +616,9 @@ function LuxMain() {
       if (containers.length > 0) {
         var container = containers[0].cloneNode(true);
         var html = container.innerHTML;
-        html = html.replace('###TITLE###', title);
-        html = html.replace('###TEXT###', text);
-        html = html.replace('###HREF###', getFilenameFromHref(href));
+        html = html.replace('###EMAIL4LINK_TITLE###', title);
+        html = html.replace('###EMAIL4LINK_TEXT###', text);
+        html = html.replace('###EMAIL4LINK_HREF###', getFilenameFromHref(href));
         that.lightboxInstance = basicLightbox.create(html);
         that.lightboxInstance.element().querySelector('[data-lux-email4link="form"]').addEventListener('submit', function(event) {
           email4LinkLightboxSubmitListener(this, event, link);
@@ -1177,7 +1180,7 @@ function LuxMain() {
  *
  * @type {{getInstance: (function(): LuxIdentification)}}
  */
-var LuxSingleton = (function() {
+window.LuxSingleton = (function() {
   var instance;
 
   function createInstance() {
@@ -1194,5 +1197,5 @@ var LuxSingleton = (function() {
   };
 })();
 
-var Lux = LuxSingleton.getInstance();
+var Lux = window.LuxSingleton.getInstance();
 Lux.initialize();
