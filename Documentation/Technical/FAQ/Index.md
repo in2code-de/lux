@@ -248,8 +248,8 @@ newsletter:
 ```
 <div class="lux_container_email4link" data-lux-container="email4link">
     <div class="lux_lightbox_container">
-        <h3>###TITLE###</h3>
-        <p>###TEXT###</p>
+        <h3>###EMAIL4LINK_TITLE###</h3>
+        <p>###EMAIL4LINK_TEXT###</p>
 
         <form data-lux-email4link="form">
             <div class="form-group">
@@ -322,7 +322,7 @@ newsletter:
 
         </form>
 
-        <p class="lux_smalltext">###HREF###</p>
+        <p class="lux_smalltext">###EMAIL4LINK_HREF###</p>
 
         <div data-lux-email4link="successMessageSendEmail" style="display:none;" class="alert alert-success">
             {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:frontend.email4link.lightbox.success')}
