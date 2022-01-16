@@ -68,8 +68,8 @@
 				<target state="translated">Letzter Besuch</target>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_visitor.fingerprints">
-				<source>Lux Fingerprints</source>
-				<target state="translated">Lux Fingerprints</target>
+				<source>LUX Fingerprints</source>
+				<target state="translated">LUX Fingerprints</target>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_visitor.pagevisits">
 				<source>Page visits</source>
@@ -428,8 +428,8 @@
 				<target state="translated">Link</target>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_linklistener.category">
-				<source>Lux Category</source>
-				<target state="translated">Lux Kategorie</target>
+				<source>LUX Category</source>
+				<target state="translated">LUX Kategorie</target>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_linklistener.linkclicks">
 				<source>Link clicks</source>
@@ -487,8 +487,8 @@
 			</trans-unit>
 
 			<trans-unit id="sys_category.lux_category">
-				<source>Is lux category?</source>
-				<target state="translated">Ist eine lux-Kategorie?</target>
+				<source>Is LUX category?</source>
+				<target state="translated">Ist eine LUX-Kategorie?</target>
 			</trans-unit>
 
 			<trans-unit id="anonym">
@@ -657,8 +657,8 @@
 				<target state="translated">Newsaufrufe</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.information">
-				<source>About Lux</source>
-				<target state="translated">Über Lux</target>
+				<source>About LUX</source>
+				<target state="translated">Über LUX</target>
 			</trans-unit>
 
 			<trans-unit id="module.analysis.novalues">
@@ -694,8 +694,8 @@
 				<target state="translated">Identifizierte Leads pro Monat</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics">
-				<source>Lux Statistics</source>
-				<target state="translated">Lux Statistik</target>
+				<source>LUX Statistics</source>
+				<target state="translated">LUX Statistik</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.visitors">
 				<source>Number of visitors</source>
@@ -730,8 +730,8 @@
 				<target state="translated">Luxletter</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.luxcategories">
-				<source>Lux categories</source>
-				<target state="translated">Lux Kategorien</target>
+				<source>LUX categories</source>
+				<target state="translated">LUX Kategorien</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.pagevisits">
 				<source>Page visits</source>
@@ -746,8 +746,8 @@
 				<target state="translated">Anzahl getrackter Klicks auf Links</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.versionlux">
-				<source>Lux version</source>
-				<target state="translated">Lux Version</target>
+				<source>LUX version</source>
+				<target state="translated">LUX Version</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.versionluxenterprise">
 				<source>Luxenterprise version</source>
@@ -794,12 +794,12 @@
 				<target state="translated">Unbekannte Leads</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.1">
-				<source>lux has tracked a new lead</source>
-				<target state="translated">lux hat einen neuen Lead erfasst</target>
+				<source>LUX has tracked a new lead</source>
+				<target state="translated">LUX hat einen neuen Lead erfasst</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.2">
-				<source>lux has identified a new lead</source>
-				<target state="translated">lux hat einen neuen Lead identifiziert</target>
+				<source>LUX has identified a new lead</source>
+				<target state="translated">LUX hat einen neuen Lead identifiziert</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.21">
 				<source>"email4link" identified lead</source>
@@ -826,7 +826,7 @@
 				<target state="translated">"luxletterlink" hat einen Lead identifiziert</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.3">
-				<source>lux has added an attribute</source>
+				<source>LUX has added an attribute</source>
 				<target state="translated">Weitere Eigenschaft hinzugefügt</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.40">
@@ -846,24 +846,24 @@
 				<target state="translated">Fünfter Seitenbesuch</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.50">
-				<source>lux tracked a download</source>
-				<target state="translated">lux hat einen Download aufgezeichnet</target>
+				<source>LUX tracked a download</source>
+				<target state="translated">LUX hat einen Download aufgezeichnet</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.55">
-				<source>lux tracked a web search</source>
-				<target state="translated">lux hat eine Suche aufgezeichnet</target>
+				<source>LUX tracked a web search</source>
+				<target state="translated">LUX hat eine Suche aufgezeichnet</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.60">
-				<source>"lux started a workflow</source>
-				<target state="translated">lux hat einen Workflow ausgeführt</target>
+				<source>"LUX started a workflow</source>
+				<target state="translated">LUX hat einen Workflow ausgeführt</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.70">
-				<source>"lux showed a contextual content</source>
-				<target state="translated">lux hat einen passenden Seiteninhalt gezeigt</target>
+				<source>"LUX showed a contextual content</source>
+				<target state="translated">LUX hat einen passenden Seiteninhalt gezeigt</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.80">
-				<source>lux tracked a link click</source>
-				<target state="translated">lux hat einen Klick auf einen Link getrackt</target>
+				<source>LUX tracked a link click</source>
+				<target state="translated">LUX hat einen Klick auf einen Link getrackt</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.90">
 				<source>Profiles merged by identical fingerprint</source>
@@ -1348,16 +1348,16 @@
 			</trans-unit>
 
 			<trans-unit id="module.dashboard.preset.lux.title">
-				<source>Lux dashboard</source>
-				<target state="translated">Lux dashboard</target>
+				<source>LUX dashboard</source>
+				<target state="translated">LUX dashboard</target>
 			</trans-unit>
 			<trans-unit id="module.dashboard.preset.lux.description">
-				<source>Show all Lux widgets in an own dashboard</source>
-				<target state="translated">Zeige alle Lux Widgets in einem eigenen Dashboard</target>
+				<source>Show all LUX widgets in an own dashboard</source>
+				<target state="translated">Zeige alle LUX Widgets in einem eigenen Dashboard</target>
 			</trans-unit>
 			<trans-unit id="module.dashboard.group.lux.title">
-				<source>Lux</source>
-				<target state="translated">Lux</target>
+				<source>LUX</source>
+				<target state="translated">LUX</target>
 			</trans-unit>
 			<trans-unit id="module.dashboard.widget.luxpagevisits.title">
 				<source>Top page visits of this year</source>
@@ -1520,8 +1520,8 @@
 				<target state="translated">Hottest Leads</target>
 			</trans-unit>
 			<trans-unit id="module.dashboard.widget.hottestleads.description">
-				<source>Show hottest leads from Lux</source>
-				<target state="translated">Zeige "Hottest Leads" von Lux</target>
+				<source>Show hottest leads from LUX</source>
+				<target state="translated">Zeige "Hottest Leads" von LUX</target>
 			</trans-unit>
 
 			<trans-unit id="luxletter.module.newsletter.receiver.title">
@@ -1749,8 +1749,8 @@
 			</trans-unit>
 
 			<trans-unit id="pi1.title">
-				<source>Lux Tracking Opt Out</source>
-				<target state="translated">Lux Tracking Opt Out</target>
+				<source>LUX Tracking Opt Out</source>
+				<target state="translated">LUX Tracking Opt Out</target>
 			</trans-unit>
 			<trans-unit id="pi1.description">
 				<source>Offer your visitors an opt-out function from future tracking. Normally such a form is placed on the privacy or imprint page.</source>
@@ -1769,8 +1769,8 @@
 				<target state="translated">Erklärungstext für die Browsereinstellung "do not track"</target>
 			</trans-unit>
 			<trans-unit id="pi2.title">
-				<source>Lux Contextual Content</source>
-				<target state="translated">Lux Kontextabhängiger Content</target>
+				<source>LUX Contextual Content</source>
+				<target state="translated">LUX Kontextabhängiger Content</target>
 			</trans-unit>
 			<trans-unit id="pi2.description">
 				<source>Show fitting content based on the visitors category scoring.</source>
@@ -1781,8 +1781,8 @@
 				<target state="translated">Standard Seiteninhalt wählen (Bitte eines auswählen und danach speichern. Im Anschluss können unten weitere Elemente ausgewählt werden).</target>
 			</trans-unit>
 			<trans-unit id="pi2.flexform.category">
-				<source>Choose a lux category.</source>
-				<target state="translated">Bitte eine lux Kategorie auswählen.</target>
+				<source>Choose a LUX category.</source>
+				<target state="translated">Bitte eine LUX Kategorie auswählen.</target>
 			</trans-unit>
 			<trans-unit id="pi2.flexform.contentelements">
 				<source>Select one or more content elements that should be shown for this category.</source>
