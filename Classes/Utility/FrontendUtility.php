@@ -66,6 +66,7 @@ class FrontendUtility
 
     /**
      * @return bool
+     * @SuppressWarnings(PHPMD.Superglobals)
      */
     public static function isFrontendMode(): bool
     {
