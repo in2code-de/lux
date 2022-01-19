@@ -1,6 +1,6 @@
 <?php
 $EM_CONF[$_EXTKEY] = [
-    'title' => 'lux - TYPO3 Marketing Automation',
+    'title' => 'LUX - TYPO3 Marketing Automation',
     'description' => 'Living User Experience - LUX - the Marketing Automation tool for TYPO3.
         Turn your visitors to leads. Identification and profiling of your visitors within your TYPO3 website.',
     'category' => 'plugin',
