@@ -9,7 +9,7 @@ use In2code\Lux\Domain\DataProvider\IdentificationMethodsDataProvider;
 use In2code\Lux\Domain\DataProvider\ReferrerAmountDataProvider;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
+use TYPO3\CMS\Extbase\Object\Exception as ExceptionExtbaseObject;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
 /**
@@ -20,6 +20,7 @@ class LeadDashboard extends AbstractLayer implements LayerInterface
     /**
      * @return array
      * @throws DBALException
+     * @throws ExceptionExtbaseObject
      * @throws InvalidQueryException
      */
     public function getCachableArguments(): array
@@ -40,8 +41,8 @@ class LeadDashboard extends AbstractLayer implements LayerInterface
 
     /**
      * @return array
-     * @throws InvalidConfigurationTypeException
      * @throws InvalidQueryException
+     * @throws ExceptionExtbaseObject
      */
     public function getUncachableArguments(): array
     {
@@ -49,7 +50,7 @@ class LeadDashboard extends AbstractLayer implements LayerInterface
         return [
             'interestingLogs' => $this->logRepository->findInterestingLogs($filter, 10),
             'whoisonline' => $this->visitorRepository->findOnline(8),
-            'hottestVisitors' => $this->visitorRepository->findByHottestScoringsPlain(10),
+            'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter, 10),
         ];
     }
 }
