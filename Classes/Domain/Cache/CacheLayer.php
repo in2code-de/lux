@@ -9,9 +9,12 @@ use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\UnexpectedValueException;
 use In2code\Lux\Utility\CacheLayerUtility;
+use In2code\Lux\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Exception\NoSuchCacheException;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Object\Exception as ExceptionExtbaseObject;
@@ -77,17 +80,31 @@ final class CacheLayer
      * @param string $identifier
      * @return array
      * @throws ConfigurationException
-     * @throws DBALException
-     * @throws ExceptionDbal
-     * @throws InvalidConfigurationTypeException
-     * @throws ExceptionExtbaseObject
-     * @throws InvalidQueryException
      * @throws UnexpectedValueException
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public function getArguments(string $class, string $function, string $identifier = ''): array
     {
         $this->initialize($class, $function, $identifier);
+        if (ConfigurationUtility::isUseCacheLayerEnabled()) {
+            return $this->getArgumentsWithEnabledCacheLayer();
+        }
+        return $this->getArgumentsWithoutEnabledCacheLayer();
+    }
 
+    /**
+     * @return array
+     * @throws ConfigurationException
+     * @throws DBALException
+     * @throws ExceptionDbal
+     * @throws ExceptionExtbaseObject
+     * @throws InvalidConfigurationTypeException
+     * @throws InvalidQueryException
+     * @throws UnexpectedValueException
+     */
+    protected function getArgumentsWithEnabledCacheLayer(): array
+    {
         if ($this->isCacheAvailable()) {
             return array_merge($this->getFromCache(), $this->cacheLayer->getUncachableArguments());
         }
@@ -98,16 +115,26 @@ final class CacheLayer
     }
 
     /**
-     * @param string $class
-     * @param string $function
-     * @param string $identifier
-     * @return void
-     * @throws ConfigurationException
+     * @return array
      * @throws DBALException
      * @throws ExceptionDbal
      * @throws ExceptionExtbaseObject
      * @throws InvalidConfigurationTypeException
      * @throws InvalidQueryException
+     */
+    protected function getArgumentsWithoutEnabledCacheLayer(): array
+    {
+        return $this->cacheLayer->getAllArguments();
+    }
+
+    /**
+     * @param string $class
+     * @param string $function
+     * @param string $identifier
+     * @return void
+     * @throws ConfigurationException
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws UnexpectedValueException
      */
     public function warmupCaches(string $class, string $function, string $identifier = ''): void
