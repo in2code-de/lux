@@ -42,4 +42,19 @@ class PageRepository extends AbstractRepository
         }
         return [];
     }
+
+    /**
+     * @return array
+     */
+    public function getPageIdentifiersFromNormalDokTypes(): array
+    {
+        $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Page::TABLE_NAME, true);
+        return (array)$queryBuilder
+            ->select('uid')
+            ->from(Page::TABLE_NAME)
+            ->where('doktype=1')
+            ->setMaxResults(100000)
+            ->execute()
+            ->fetchAll();
+    }
 }

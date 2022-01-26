@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 use In2code\Lux\Command\LuxAnonymizeCommand;
 use In2code\Lux\Command\LuxAutorelateToFrontendUsersCommand;
+use In2code\Lux\Command\LuxCacheWarmupCommand;
 use In2code\Lux\Command\LuxCleanupAllVisitorsCommand;
 use In2code\Lux\Command\LuxCleanupUnknownVisitorsByAgeCommand;
 use In2code\Lux\Command\LuxCleanupVisitorByUidCommand;
@@ -56,6 +57,10 @@ return [
     ],
     'lux:leadSendSummaryOfKnownCompaniesCommand' => [
         'class' => LuxLeadSendSummaryOfKnownCompaniesCommand::class,
+        'schedulable' => true
+    ],
+    'lux:cachewarmup' => [
+        'class' => LuxCacheWarmupCommand::class,
         'schedulable' => true
     ],
 ];
