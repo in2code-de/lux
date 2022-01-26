@@ -5,7 +5,6 @@ namespace In2code\Lux\Controller;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\DataProvider\AllLinkclickDataProvider;
-use In2code\Lux\Domain\DataProvider\BrowserAmountDataProvider;
 use In2code\Lux\Domain\DataProvider\DomainDataProvider;
 use In2code\Lux\Domain\DataProvider\DomainNewsDataProvider;
 use In2code\Lux\Domain\DataProvider\DownloadsDataProvider;
@@ -15,18 +14,22 @@ use In2code\Lux\Domain\DataProvider\LinkclickDataProvider;
 use In2code\Lux\Domain\DataProvider\NewsvisistsDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
 use In2code\Lux\Domain\DataProvider\SearchDataProvider;
-use In2code\Lux\Domain\DataProvider\SocialMediaDataProvider;
 use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\News;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
+use In2code\Lux\Exception\ConfigurationException;
+use In2code\Lux\Exception\UnexpectedValueException;
 use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
@@ -41,30 +44,20 @@ class AnalysisController extends AbstractController
 {
     /**
      * @return void
+     * @throws ConfigurationException
      * @throws DBALException
      * @throws Exception
+     * @throws ExceptionDbal
      * @throws InvalidQueryException
+     * @throws UnexpectedValueException
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     * @throws InvalidConfigurationTypeException
      */
     public function dashboardAction(): void
     {
-        $filter = ObjectUtility::getFilterDto();
-        $values = [
-            'filter' => $filter,
-            'numberOfVisitorsData' => ObjectUtility::getObjectManager()->get(PagevisistsDataProvider::class, $filter),
-            'numberOfDownloadsData' => ObjectUtility::getObjectManager()->get(DownloadsDataProvider::class, $filter),
-            'interestingLogs' => $this->logRepository->findInterestingLogs($filter),
-            'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
-            'downloads' => $this->downloadRepository->findCombinedByHref($filter),
-            'news' => $this->newsvisitRepository->findCombinedByNewsIdentifier($filter),
-            'searchterms' => $this->searchRepository->findCombinedBySearchIdentifier($filter),
-            'latestPagevisits' => $this->pagevisitsRepository->findLatestPagevisits($filter),
-            'browserData' => ObjectUtility::getObjectManager()->get(BrowserAmountDataProvider::class, $filter),
-            'linkclickData' => ObjectUtility::getObjectManager()->get(LinkclickDataProvider::class, $filter),
-            'languageData' => ObjectUtility::getObjectManager()->get(LanguagesDataProvider::class, $filter),
-            'domainData' => ObjectUtility::getObjectManager()->get(DomainDataProvider::class, $filter),
-            'socialMediaData' => ObjectUtility::getObjectManager()->get(SocialMediaDataProvider::class, $filter),
-        ];
-        $this->view->assignMultiple($values);
+        $arguments = $this->cacheLayer->getArguments(__CLASS__, __FUNCTION__);
+        $this->view->assignMultiple($arguments);
     }
 
     /**

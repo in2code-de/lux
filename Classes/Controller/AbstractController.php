@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Controller;
 
+use In2code\Lux\Domain\Cache\CacheLayer;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Repository\CategoryRepository;
 use In2code\Lux\Domain\Repository\DownloadRepository;
@@ -103,6 +104,11 @@ abstract class AbstractController extends ActionController
     protected $renderingTimeService;
 
     /**
+     * @var CacheLayer
+     */
+    protected $cacheLayer = null;
+
+    /**
      * AbstractController constructor.
      * @param VisitorRepository|null $visitorRepository
      * @param IpinformationRepository|null $ipinformationRepository
@@ -118,6 +124,7 @@ abstract class AbstractController extends ActionController
      * @param FingerprintRepository|null $fingerprintRepository
      * @param SearchRepository|null $searchRepository
      * @param RenderingTimeService $renderingTimeService to initialize renderingTimes
+     * @param CacheLayer $cacheLayer
      * @throws Exception
      */
     public function __construct(
@@ -134,7 +141,8 @@ abstract class AbstractController extends ActionController
         LinklistenerRepository $linklistenerRepository = null,
         FingerprintRepository $fingerprintRepository = null,
         SearchRepository $searchRepository = null,
-        RenderingTimeService $renderingTimeService
+        RenderingTimeService $renderingTimeService,
+        CacheLayer $cacheLayer
     ) {
         if ($visitorRepository === null) {
             // Todo: Fallback for TYPO3 9 without symfony DI
@@ -152,6 +160,7 @@ abstract class AbstractController extends ActionController
             $fingerprintRepository = ObjectUtility::getObjectManager()->get(FingerprintRepository::class);
             $searchRepository = ObjectUtility::getObjectManager()->get(SearchRepository::class);
             $renderingTimeService = ObjectUtility::getObjectManager()->get(RenderingTimeService::class);
+            $cacheLayer = ObjectUtility::getObjectManager()->get(CacheLayer::class);
         }
         $this->visitorRepository = $visitorRepository;
         $this->ipinformationRepository = $ipinformationRepository;
@@ -167,6 +176,7 @@ abstract class AbstractController extends ActionController
         $this->fingerprintRepository = $fingerprintRepository;
         $this->searchRepository = $searchRepository;
         $this->renderingTimeService = $renderingTimeService;
+        $this->cacheLayer = $cacheLayer;
     }
 
     /**

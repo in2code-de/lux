@@ -3,18 +3,22 @@ declare(strict_types = 1);
 namespace In2code\Lux\Controller;
 
 use Doctrine\DBAL\DBALException;
-use In2code\Lux\Domain\DataProvider\IdentificationMethodsDataProvider;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
-use In2code\Lux\Domain\DataProvider\ReferrerAmountDataProvider;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Exception\ConfigurationException;
+use In2code\Lux\Exception\UnexpectedValueException;
 use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
@@ -31,34 +35,20 @@ class LeadController extends AbstractController
 {
     /**
      * @return void
+     * @throws DBALException
      * @throws Exception
      * @throws InvalidQueryException
-     * @throws DBALException
+     * @throws ExceptionDbal
+     * @throws ConfigurationException
+     * @throws UnexpectedValueException
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     * @throws InvalidConfigurationTypeException
      */
     public function dashboardAction(): void
     {
-        $filter = ObjectUtility::getFilterDto();
-        $values = [
-            'filter' => $filter,
-            'interestingLogs' => $this->logRepository->findInterestingLogs($filter, 10),
-            'numberOfUniqueSiteVisitors' => $this->visitorRepository->findByUniqueSiteVisits($filter)->count(),
-            'numberOfRecurringSiteVisitors' => $this->visitorRepository->findByRecurringSiteVisits($filter)->count(),
-            'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter, 10),
-            'numberOfIdentifiedVisitors' => $this->visitorRepository->findIdentified($filter)->count(),
-            'identifiedPerMonth' => $this->logRepository->findIdentifiedLogsFromMonths(6),
-            'numberOfUnknownVisitors' => $this->visitorRepository->findUnknown($filter)->count(),
-            'identificationMethods' => ObjectUtility::getObjectManager()->get(
-                IdentificationMethodsDataProvider::class,
-                $filter
-            ),
-            'referrerAmountData' => ObjectUtility::getObjectManager()->get(
-                ReferrerAmountDataProvider::class,
-                $filter
-            ),
-            'whoisonline' => $this->visitorRepository->findOnline(8),
-            'countries' => $this->ipinformationRepository->findAllCountryCodesGrouped($filter),
-        ];
-        $this->view->assignMultiple($values);
+        $arguments = $this->cacheLayer->getArguments(__CLASS__, __FUNCTION__);
+        $this->view->assignMultiple($arguments);
     }
 
     /**

@@ -37,17 +37,14 @@ disablePageOverview = 0
 # cat=advanced/enable/210; type=options[analysis,leads]; label= Pageoverview mode: If not disabled, choose between classic leads view or the new analysis view.
 pageOverviewView = analysis
 
-# cat=advanced/enable/220; type=int+; label= Caching time pageoverview: If not turned to 0 this time in seconds configures how long pageoverview result should be cached per page to speed up the backend page module.
-pageOverviewCacheLifeTime = 86400
-
-# cat=advanced/enable/230; type=boolean; label= Disable ckeditor configuraiton: Lux adds an own ckeditor configuration file to enable email4link feature. If you don't want this, you can turn this off.
+# cat=advanced/enable/220; type=boolean; label= Disable ckeditor configuraiton: Lux adds an own ckeditor configuration file to enable email4link feature. If you don't want this, you can turn this off.
 disableCkEditorConfiguration = 0
 
-# cat=advanced/enable/240; type=boolean; label= Disable IP logging: Disable the logging of the visitors IP-address.
+# cat=advanced/enable/230; type=boolean; label= Disable IP logging: Disable the logging of the visitors IP-address.
 disableIpLogging = 0
 
-# cat=advanced/enable/250; type=boolean; label= Anonymize IP: As an alternative to disableIpLogging, you can anonymize the visitors IP-address when saving. The last part of the IP will be anonymized with "***".
+# cat=advanced/enable/240; type=boolean; label= Anonymize IP: As an alternative to disableIpLogging, you can anonymize the visitors IP-address when saving. The last part of the IP will be anonymized with "***".
 anonymizeIp = 1
 
-# cat=advanced/enable/260; type=boolean; label= Show render time: Show rendering times for all backend views.
+# cat=advanced/enable/250; type=boolean; label= Show render time: Show rendering times for all backend views.
 showRenderTimes = 0
