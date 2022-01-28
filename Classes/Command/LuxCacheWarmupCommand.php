@@ -9,8 +9,11 @@ use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\UnexpectedValueException;
 use In2code\Lux\Utility\CacheLayerUtility;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -22,12 +25,19 @@ class LuxCacheWarmupCommand extends Command
      * @var CacheLayer|null
      */
     protected $layer = null;
+
     /**
      * @return void
      */
     public function configure()
     {
         $this->setDescription('Warmup for caches from caching layer (e.g. dashboards).');
+        $this->addArgument(
+            'layers',
+            InputArgument::OPTIONAL,
+            'commaseparated classnames like "In2code\\Lux\\Domain\\Cache\\LeadDashboard"',
+            implode(',', CacheLayerUtility::getCachelayerNames())
+        );
     }
 
     /**
@@ -35,6 +45,9 @@ class LuxCacheWarmupCommand extends Command
      * @param OutputInterface $output
      * @return int
      * @throws ConfigurationException
+     * @throws ExceptionDbalDriver
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws UnexpectedValueException
      */
     public function execute(InputInterface $input, OutputInterface $output): int
@@ -45,11 +58,13 @@ class LuxCacheWarmupCommand extends Command
         $configuration = CacheLayerUtility::getCachelayerConfiguration();
 
         foreach ($configuration as $cacheName => $classConfiguration) {
-            if (empty($classConfiguration['identifier'])) {
-                $this->warmupSingleLayer($output, $cacheName);
-            }
-            if ($classConfiguration['identifier'] === 'pageIdentifier') {
-                $this->warumPageIdentifierLayer($output, $cacheName);
+            if (GeneralUtility::inList($input->getArgument('layers'), $classConfiguration['class'])) {
+                if (empty($classConfiguration['identifier'])) {
+                    $this->warmupSingleLayer($output, $cacheName);
+                }
+                if ($classConfiguration['identifier'] === 'pageIdentifier') {
+                    $this->warmupPageIdentifierLayer($output, $cacheName);
+                }
             }
         }
         return 0;
@@ -60,6 +75,8 @@ class LuxCacheWarmupCommand extends Command
      * @param string $cacheName
      * @return void
      * @throws ConfigurationException
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws UnexpectedValueException
      */
     protected function warmupSingleLayer(OutputInterface $output, string $cacheName): void
@@ -76,9 +93,11 @@ class LuxCacheWarmupCommand extends Command
      * @return void
      * @throws ConfigurationException
      * @throws ExceptionDbalDriver
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws UnexpectedValueException
      */
-    protected function warumPageIdentifierLayer(OutputInterface $output, string $cacheName): void
+    protected function warmupPageIdentifierLayer(OutputInterface $output, string $cacheName): void
     {
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
         foreach ($pageRepository->getPageIdentifiersFromNormalDokTypes() as $row) {

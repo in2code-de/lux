@@ -191,4 +191,7 @@ Example usage:
 
 ```
 ./vendor/bin/typo3 lux:cachewarmup
+
+# Warmup only dashboards:
+./vendor/bin/typo3 lux:cachewarmup In2code\\Lux\\Domain\\Cache\\AnalysisDashboard,In2code\\Lux\\Domain\\Cache\\LeadDashboard
 ```
