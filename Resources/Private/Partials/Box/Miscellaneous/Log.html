@@ -10,7 +10,7 @@
                 <div style="{style}">
                     <nav class="timeline timeline--vertical">
                         <f:for each="{interestingLogs}" as="log">
-                            <div class="timeline__item" title="{lux:format.readableDate(date:log.crdate)} ({f:format.date(date:log.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')})" data-record="{log.uid}">
+                            <div class="timeline__item" title="{lux:format.readableDate(date:log.crdate)} ({f:format.date(date:log.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}){f:if(condition:log.pageUid,then:' PID{log.pageUid}')}" data-record="{log.uid}">
                                 <div style="margin-top: 5px;">
                                     <strong><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.log.status.{log.status}" default="No translation found to log status {log.status}" /></strong><br />
                                     <f:render section="status{log.status}" optional="true" arguments="{_all}" />

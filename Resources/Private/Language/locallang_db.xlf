@@ -52,7 +52,7 @@
 				<source>Last visit</source>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_visitor.fingerprints">
-				<source>Lux Fingerprints</source>
+				<source>LUX Fingerprints</source>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_visitor.pagevisits">
 				<source>Page visits</source>
@@ -326,7 +326,7 @@
 				<source>Link</source>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_linklistener.category">
-				<source>Lux Category</source>
+				<source>LUX Category</source>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_linklistener.linkclicks">
 				<source>Link clicks</source>
@@ -371,7 +371,7 @@
 			</trans-unit>
 
 			<trans-unit id="sys_category.lux_category">
-				<source>Is lux category?</source>
+				<source>Is LUX category?</source>
 			</trans-unit>
 
 			<trans-unit id="anonym">
@@ -499,7 +499,7 @@
 				<source>News views</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.information">
-				<source>About Lux</source>
+				<source>About LUX</source>
 			</trans-unit>
 
 			<trans-unit id="module.analysis.novalues">
@@ -527,7 +527,7 @@
 				<source>Identified leads per month</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics">
-				<source>Lux Statistics</source>
+				<source>LUX Statistics</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.visitors">
 				<source>Number of visitors</source>
@@ -554,7 +554,7 @@
 				<source>Luxletter</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.luxcategories">
-				<source>Lux categories</source>
+				<source>LUX categories</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.pagevisits">
 				<source>Page visits</source>
@@ -566,7 +566,7 @@
 				<source>Number of tracked clicks on links</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.versionlux">
-				<source>Lux version</source>
+				<source>LUX version</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.versionluxenterprise">
 				<source>Luxenterprise version</source>
@@ -602,10 +602,10 @@
 				<source>Unknown leads</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.1">
-				<source>lux has tracked a new lead</source>
+				<source>LUX has tracked a new lead</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.2">
-				<source>lux has identified a new lead</source>
+				<source>LUX has identified a new lead</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.21">
 				<source>"email4link" identified lead</source>
@@ -626,7 +626,7 @@
 				<source>"luxletterlink" identified lead</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.3">
-				<source>lux has added an attribute</source>
+				<source>LUX has added an attribute</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.40">
 				<source>Second page visit</source>
@@ -641,19 +641,19 @@
 				<source>Fifth page visit</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.50">
-				<source>lux tracked a download</source>
+				<source>LUX tracked a download</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.55">
-				<source>lux tracked a web search</source>
+				<source>LUX tracked a web search</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.60">
-				<source>"lux started a workflow</source>
+				<source>"LUX started a workflow</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.70">
-				<source>"lux showed a contextual content</source>
+				<source>"LUX showed a contextual content</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.80">
-				<source>lux tracked a link click</source>
+				<source>LUX tracked a link click</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.90">
 				<source>Profiles merged by identical fingerprint</source>
@@ -785,7 +785,7 @@
 				<source>Filter for domain...</source>
 			</trans-unit>
 			<trans-unit id="module.list.filter.header.category">
-				<source>Lux Category</source>
+				<source>LUX Category</source>
 			</trans-unit>
 			<trans-unit id="module.list.filter.header.time">
 				<source>Time</source>
@@ -866,7 +866,7 @@
 				<source>Description</source>
 			</trans-unit>
 			<trans-unit id="module.linklistener.table.category">
-				<source>Lux Category</source>
+				<source>LUX Category</source>
 			</trans-unit>
 			<trans-unit id="module.linklistener.table.created">
 				<source>Created</source>
@@ -1022,13 +1022,13 @@
 			</trans-unit>
 
 			<trans-unit id="module.dashboard.preset.lux.title">
-				<source>Lux dashboard</source>
+				<source>LUX dashboard</source>
 			</trans-unit>
 			<trans-unit id="module.dashboard.preset.lux.description">
-				<source>Show all Lux widgets in an own dashboard</source>
+				<source>Show all LUX widgets in an own dashboard</source>
 			</trans-unit>
 			<trans-unit id="module.dashboard.group.lux.title">
-				<source>Lux</source>
+				<source>LUX</source>
 			</trans-unit>
 			<trans-unit id="module.dashboard.widget.luxpagevisits.title">
 				<source>Top page visits of this year</source>
@@ -1151,7 +1151,7 @@
 				<source>Hottest leads</source>
 			</trans-unit>
 			<trans-unit id="module.dashboard.widget.hottestleads.description">
-				<source>Show hottest leads from Lux</source>
+				<source>Show hottest leads from LUX</source>
 			</trans-unit>
 
 			<trans-unit id="luxletter.module.newsletter.receiver.title">
@@ -1324,7 +1324,7 @@
 			</trans-unit>
 
 			<trans-unit id="pi1.title">
-				<source>Lux Tracking Opt Out</source>
+				<source>LUX Tracking Opt Out</source>
 			</trans-unit>
 			<trans-unit id="pi1.description">
 				<source>Offer your visitors an opt-out function from future tracking. Normally such a form is placed on the privacy or imprint page.</source>
@@ -1339,7 +1339,7 @@
 				<source>Add an explanation text for "do not track" browser setting</source>
 			</trans-unit>
 			<trans-unit id="pi2.title">
-				<source>Lux Contextual Content</source>
+				<source>LUX Contextual Content</source>
 			</trans-unit>
 			<trans-unit id="pi2.description">
 				<source>Show fitting content based on the visitors category scoring.</source>
@@ -1348,7 +1348,7 @@
 				<source>Choose a default content element (Please select one and save aferwards. Then choose additional elements below).</source>
 			</trans-unit>
 			<trans-unit id="pi2.flexform.category">
-				<source>Choose a lux category.</source>
+				<source>Choose a LUX category.</source>
 			</trans-unit>
 			<trans-unit id="pi2.flexform.contentelements">
 				<source>Select one or more content elements that should be shown for this category.</source>

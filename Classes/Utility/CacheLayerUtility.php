@@ -76,4 +76,17 @@ class CacheLayerUtility
     {
         return $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'] ?? [];
     }
+
+    /**
+     * @return array
+     */
+    public static function getCachelayerNames(): array
+    {
+        $layers = self::getCachelayerConfiguration();
+        $names = [];
+        foreach ($layers as $configuration) {
+            $names[] = $configuration['class'];
+        }
+        return $names;
+    }
 }
