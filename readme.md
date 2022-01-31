@@ -183,7 +183,8 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 17.3.0     | 2022-01-26 | Featur     | Backport: Show rendering time, add caching layer                                                                                                                                           |
+| 17.4.0     | 2022-01-26 | Feature    | Backport: Add parameter to warmup specific caches via CLI command                                                                                                                          |
+| 17.3.0     | 2022-01-26 | Feature    | Backport: Show rendering time, add caching layer                                                                                                                                           |
 | 17.2.3     | 2021-12-15 | Bugfix     | Don't include lightbox JS twice                                                                                                                                                            |
 | 17.2.2     | 2021-12-14 | Bugfix     | Frontend toolchain updated for better usage with require.js                                                                                                                                |
 | 17.2.1     | 2021-11-17 | Bugfix     | Fix linklistener tracking in some cases                                                                                                                                                    |
