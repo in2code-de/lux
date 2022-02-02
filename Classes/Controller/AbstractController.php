@@ -123,8 +123,8 @@ abstract class AbstractController extends ActionController
      * @param LinklistenerRepository|null $linklistenerRepository
      * @param FingerprintRepository|null $fingerprintRepository
      * @param SearchRepository|null $searchRepository
-     * @param RenderingTimeService $renderingTimeService to initialize renderingTimes
-     * @param CacheLayer $cacheLayer
+     * @param RenderingTimeService|null $renderingTimeService to initialize renderingTimes
+     * @param CacheLayer|null $cacheLayer
      * @throws Exception
      */
     public function __construct(
@@ -141,8 +141,8 @@ abstract class AbstractController extends ActionController
         LinklistenerRepository $linklistenerRepository = null,
         FingerprintRepository $fingerprintRepository = null,
         SearchRepository $searchRepository = null,
-        RenderingTimeService $renderingTimeService,
-        CacheLayer $cacheLayer
+        RenderingTimeService $renderingTimeService = null,
+        CacheLayer $cacheLayer = null
     ) {
         if ($visitorRepository === null) {
             // Todo: Fallback for TYPO3 9 without symfony DI
