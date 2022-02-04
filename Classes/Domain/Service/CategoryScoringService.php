@@ -2,8 +2,11 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\Service;
 
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use In2code\Lux\Domain\Model\Linklistener;
+use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Domain\Repository\CategoryRepository;
 use In2code\Lux\Domain\Repository\LinklistenerRepository;
 use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Utility\ConfigurationUtility;
@@ -11,7 +14,6 @@ use In2code\Lux\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 
@@ -21,6 +23,8 @@ use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 class CategoryScoringService
 {
     /**
+     * Is called over signal "afterTracking"
+     *
      * @param Visitor $visitor
      * @param string $actionMethodName
      * @return void
@@ -28,7 +32,7 @@ class CategoryScoringService
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
-     * @throws Exception
+     * @throws ExceptionDbalDriver
      */
     public function calculateAndSetScoring(Visitor $visitor, string $actionMethodName): void
     {
@@ -46,15 +50,34 @@ class CategoryScoringService
     /**
      * @param Visitor $visitor
      * @return void
+     * @throws ExceptionDbalDriver
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
-     * @throws Exception
      */
     protected function calculateCategoryScoringForPageRequest(Visitor $visitor): void
     {
+        $variables = GeneralUtility::_GP('tx_lux_fe');
+        if (empty($variables['arguments']['newsUid'])) {
+            $this->calculateCategoryScoringForPageRequestForPages($visitor);
+        } else {
+            $this->calculateCategoryScoringForPageRequestForNews($visitor);
+        }
+    }
+
+    /**
+     * @param Visitor $visitor
+     * @return void
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    protected function calculateCategoryScoringForPageRequestForPages(Visitor $visitor): void
+    {
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
+        /** @var Page $page */
         $page = $pageRepository->findByUid(FrontendUtility::getCurrentPageIdentifier());
         $categories = $page->getLuxCategories();
         foreach ($categories as $category) {
@@ -69,11 +92,37 @@ class CategoryScoringService
     /**
      * @param Visitor $visitor
      * @return void
+     * @throws ExceptionDbalDriver
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    protected function calculateCategoryScoringForPageRequestForNews(Visitor $visitor): void
+    {
+        $categoryRepository = GeneralUtility::makeInstance(CategoryRepository::class);
+        $variables = GeneralUtility::_GP('tx_lux_fe');
+        $categoryIdentifiers = $categoryRepository->findAllCategoryIdentifiersToNews(
+            (int)$variables['arguments']['newsUid']
+        );
+        foreach ($categoryIdentifiers as $categoryIdentifier) {
+            if ($categoryRepository->isLuxCategory($categoryIdentifier)) {
+                $category = $categoryRepository->findByUid($categoryIdentifier);
+                $visitor->increaseCategoryscoringByCategory(
+                    ConfigurationUtility::getCategoryScoringAddNewsVisit(),
+                    $category
+                );
+            }
+        }
+    }
+
+    /**
+     * @param Visitor $visitor
+     * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
-     * @throws Exception
      */
     protected function calculateCategoryScoringForDownload(Visitor $visitor): void
     {
@@ -93,7 +142,6 @@ class CategoryScoringService
     /**
      * @param Visitor $visitor
      * @return void
-     * @throws Exception
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws IllegalObjectTypeException

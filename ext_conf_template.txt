@@ -9,13 +9,16 @@ scoringCalculation = (10 * numberOfSiteVisits) + (1 * numberOfPageVisits) + (20 
 # cat=basic//020; type=number; label= Add on page visit: Add a value to the category scoring if lead visits a page of a lux category
 categoryScoringAddPageVisit = 10
 
-# cat=basic//030; type=number; label= Add on download: Add a value to the category scoring if lead an asset of a lux category
+# cat=basic//030; type=number; label= Add on news visit: Add a value to the category scoring if lead visits a news page with a lux category
+categoryScoringAddNewsVisit = 10
+
+# cat=basic//040; type=number; label= Add on download: Add a value to the category scoring if lead an asset of a lux category
 categoryScoringAddDownload = 20
 
-# cat=basic//040; type=number; label= Add on click on Link Listener: Add a value to the category scoring if a lead clicks a Link Listener link
+# cat=basic//050; type=number; label= Add on click on Link Listener: Add a value to the category scoring if a lead clicks a Link Listener link
 categoryScoringLinkListenerClick = 20
 
-# cat=basic//050; type=number; label= Where to save LinkListener records: Define a page where the link listener records should be saved - relevant for editor rights
+# cat=basic//060; type=number; label= Where to save LinkListener records: Define a page where the link listener records should be saved - relevant for editor rights
 pidLinkClickRedords = 0
 
 
