@@ -8,10 +8,10 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Class GetCategoryScoringListFromVisitorViewHelper
+ * @noinspection ALL
  */
 class GetCategoryScoringListFromVisitorViewHelper extends AbstractViewHelper
 {
-
     /**
      * @return void
      */
