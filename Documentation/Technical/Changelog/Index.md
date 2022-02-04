@@ -16,6 +16,7 @@
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 21.2.0     | 2021-02-04 | Feature    | Increase category scorings on news visits, Bugfixes: Show all categoryscorings in lead detail view (even if the scoring is identically), class name correction in signals                  |
 | 21.1.0     | 2021-01-31 | Feature    | Add parameter which caches should be warmed up on CLI command                                                                                                                              |
 | 21.0.0 !!! | 2021-12-17 | Feature    | Support QR codes for shortener, marker names in email4download changed to reduce possible conflicts with core functionality                                                                |
 | 20.2.2     | 2021-12-15 | Bugfix     | Don't include JS for lightbox twice                                                                                                                                                        |
