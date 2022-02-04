@@ -183,6 +183,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 17.4.1     | 2022-02-04 | Bugfix     | Fix missing constructor DI in TYPO3 9                                                                                                                                                      |
 | 17.4.0     | 2022-01-26 | Feature    | Backport: Add parameter to warmup specific caches via CLI command                                                                                                                          |
 | 17.3.0     | 2022-01-26 | Feature    | Backport: Show rendering time, add caching layer                                                                                                                                           |
 | 17.2.3     | 2021-12-15 | Bugfix     | Don't include lightbox JS twice                                                                                                                                                            |
