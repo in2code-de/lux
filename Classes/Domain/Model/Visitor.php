@@ -230,13 +230,8 @@ class Visitor extends AbstractModel
      */
     public function getCategoryscoringsSortedByScoring(): array
     {
-        $categoryscoringsOs = $this->getCategoryscorings();
-        $categoryscorings = [];
-        /** @var Categoryscoring $categoryscoring */
-        foreach ($categoryscoringsOs as $categoryscoring) {
-            $categoryscorings[$categoryscoring->getScoring()] = $categoryscoring;
-        }
-        krsort($categoryscorings);
+        $categoryscorings = $this->getCategoryscorings()->toArray();
+        usort($categoryscorings, [$this, 'getCategoryscoringsSortedByScoringCallback']);
         return $categoryscorings;
     }
 
@@ -1350,5 +1345,15 @@ class Visitor extends AbstractModel
             $result = 1;
         }
         return $result;
+    }
+
+    /**
+     * @param Categoryscoring $a
+     * @param Categoryscoring $b
+     * @return int
+     */
+    protected function getCategoryscoringsSortedByScoringCallback(Categoryscoring $a, Categoryscoring $b): int
+    {
+        return ($a->getScoring() < $b->getScoring()) ? 1 : -1;
     }
 }

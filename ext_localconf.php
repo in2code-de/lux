@@ -105,7 +105,7 @@ call_user_func(
         );
         // Log: email4link send mail
         $signalSlotDispatcher->connect(
-            \In2code\Lux\Domain\Service\SendAssetEmail4LinkService::class,
+            \In2code\Lux\Domain\Service\Email\SendAssetEmail4LinkService::class,
             'email4linkSendEmail',
             \In2code\Lux\Slot\Log::class,
             'logEmail4LinkEmail',
@@ -113,7 +113,7 @@ call_user_func(
         );
         // Log: email4link send mail
         $signalSlotDispatcher->connect(
-            \In2code\Lux\Domain\Service\SendAssetEmail4LinkService::class,
+            \In2code\Lux\Domain\Service\Email\SendAssetEmail4LinkService::class,
             'email4linkSendEmailFailed',
             \In2code\Lux\Slot\Log::class,
             'logEmail4LinkEmailFailed',

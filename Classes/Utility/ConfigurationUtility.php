@@ -47,6 +47,17 @@ class ConfigurationUtility
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      */
+    public static function getCategoryScoringAddNewsVisit(): int
+    {
+        $extensionConfig = self::getExtensionConfiguration();
+        return (int)$extensionConfig['categoryScoringAddNewsVisit'];
+    }
+
+    /**
+     * @return int
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     */
     public static function getCategoryScoringAddDownload(): int
     {
         $extensionConfig = self::getExtensionConfiguration();
