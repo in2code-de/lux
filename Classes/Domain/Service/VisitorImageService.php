@@ -4,11 +4,15 @@ namespace In2code\Lux\Domain\Service;
 
 use Buchin\GoogleImageGrabber\GoogleImageGrabber;
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\StringUtility;
+use Throwable;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Exception\NoSuchCacheException;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Service\ImageService;
@@ -62,6 +66,8 @@ class VisitorImageService
 
     /**
      * @return string
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public function getUrl(): string
     {
@@ -75,6 +81,8 @@ class VisitorImageService
 
     /**
      * @return string
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     protected function buildImageUrl(): string
     {
@@ -112,15 +120,23 @@ class VisitorImageService
     /**
      * @param string $url
      * @return string
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     protected function getImageUrlFromGravatar(string $url): string
     {
+        $configuration = [
+            'all',
+            'nogoogle',
+        ];
         if (empty($url) && $this->visitor->isIdentified()) {
-            $gravatarUrl = 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($this->visitor->getEmail())))
-                . '?d=' . urlencode($this->getDefaultUrl($url)) . '&s=' . $this->size;
-            $header = GeneralUtility::getUrl($gravatarUrl, 2);
-            if (!empty($header)) {
-                $url = $gravatarUrl;
+            if (in_array(ConfigurationUtility::getLeadImageFromExternalSourcesConfiguration(), $configuration)) {
+                $gravatarUrl = 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($this->visitor->getEmail())))
+                    . '?d=' . urlencode($this->getDefaultUrl($url)) . '&s=' . $this->size;
+                $header = GeneralUtility::getUrl($gravatarUrl, 2);
+                if (!empty($header)) {
+                    $url = $gravatarUrl;
+                }
             }
         }
         return $url;
@@ -129,20 +145,28 @@ class VisitorImageService
     /**
      * @param string $url
      * @return string
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     protected function getImageFromGoogle(string $url): string
     {
+        $configuration = [
+            'all',
+            'nogravatar',
+        ];
         if (empty($url) && $this->visitor->isIdentified() && class_exists(GoogleImageGrabber::class)) {
-            try {
-                $images = GoogleImageGrabber::grab($this->visitor->getEmail());
-                foreach ((array)$images as $image) {
-                    if (!empty($image['url']) && FileUtility::isImageFile($image['url']) && $image['width'] > 25) {
-                        $url = $image['url'];
-                        break;
+            if (in_array(ConfigurationUtility::getLeadImageFromExternalSourcesConfiguration(), $configuration)) {
+                try {
+                    $images = GoogleImageGrabber::grab($this->visitor->getEmail());
+                    foreach ((array)$images as $image) {
+                        if (!empty($image['url']) && FileUtility::isImageFile($image['url']) && $image['width'] > 25) {
+                            $url = $image['url'];
+                            break;
+                        }
                     }
+                } catch (Throwable $exception) {
+                    // Catch exceptions from third party package like allow_url_fopen=0 on server
                 }
-            } catch (\Exception $exception) {
-                // Catch exceptions from third party package like allow_url_fopen=0 on server
             }
         }
         return $url;
