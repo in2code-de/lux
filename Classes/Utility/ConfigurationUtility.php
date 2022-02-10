@@ -160,6 +160,20 @@ class ConfigurationUtility
     }
 
     /**
+     * @return string "all", "nogoogle", "nogravatar", "noexternal"
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     */
+    public static function getLeadImageFromExternalSourcesConfiguration(): string
+    {
+        $extensionConfig = self::getExtensionConfiguration();
+        if (array_key_exists('leadImageFromExternalSources', $extensionConfig)) {
+            return $extensionConfig['leadImageFromExternalSources'];
+        }
+        return 'all';
+    }
+
+    /**
      * @return bool
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException

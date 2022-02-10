@@ -49,7 +49,8 @@ If you click on the settings symbol for extension lux, you can change some basic
 | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------- |
 | Overview: Extension status                       | Just a small overview over the extension.                                                               |
 | Basic: Scoring Calculation                       | Define a calculation model for the basic lead scoring.<br>Available variables are - numberOfSiteVisits, numberOfPageVisits, downloads, lastVisitDaysAgo.<br>Note - you should run a commandController (e.g. every night) and calculate the scoring again, if you are using the variable "lastVisitDaysAgo".|
-| Basic: Add on pagevisit                          | Categoryscoring: Add this value to the categoryscoring if a lead visits a page of a lux-category        |
+| Basic: Add on page visit                         | Categoryscoring: Add this value to the categoryscoring if a lead visits a page of a lux-category        |
+| Basic: Add on news visit                         | Categoryscoring: Add this value to the categoryscoring if a lead visits a news page (tx_news)           |
 | Basic: Add on download                           | Categoryscoring: Add this value to the categoryscoring if a lead downloads an asset of a lux-category   |
 | Basic: Add on click on Link Listener             | Categoryscoring: Add this value to the categoryscoring if a lead clicks on a Link Listener link         |
 | Basic: PID to save Link Listener records         | Define a PID where the link listener records should be stored (relevant for the editors user rights)    |
@@ -61,6 +62,7 @@ If you click on the settings symbol for extension lux, you can change some basic
 | Advanced: Disable ckeditor configuration         | Toggle if an automatic ckeditor configuration should be added or not (for email4link feature)           |
 | Advanced: Disable ip logging                     | Disable the logging of the visitors IP address                                                          |
 | Advanced: Anonymize IP                           | As an alternative to disableIpLogging, you can anonymize the visitors IP-address when saving. The last part of the IP will be anonymized with "***" |
+| Advanced: Lead picture                           | Decide if TYPO3 should try to find an image of a lead by searching on gravatar.com or on google image search by given email address.                |
 | Advanced: Show render time                       | For an easier debugging all views in backend can be shown with render times                             |
 | Advanced: Use cache layer (experimental)         | If you are facing performance issues with lux backend modules or with the page overview view (quick analysis), you can cache views (for 24h) when turning the feature on. In addition there is a command that can be executed via scheduler task to warmup caches (e.g. every night). Experimental because of problems in TYPO3 11 https://forge.typo3.org/issues/95899 |
 

@@ -35,6 +35,7 @@ class LeadDashboard extends AbstractLayer implements LayerInterface
             'identificationMethods' => GeneralUtility::makeInstance(IdentificationMethodsDataProvider::class, $filter),
             'referrerAmountData' => GeneralUtility::makeInstance(ReferrerAmountDataProvider::class, $filter),
             'countries' => $this->ipinformationRepository->findAllCountryCodesGrouped($filter),
+            'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter, 10),
         ];
     }
 
@@ -49,7 +50,6 @@ class LeadDashboard extends AbstractLayer implements LayerInterface
         return [
             'interestingLogs' => $this->logRepository->findInterestingLogs($filter, 10),
             'whoisonline' => $this->visitorRepository->findOnline(8),
-            'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter, 10),
         ];
     }
 }

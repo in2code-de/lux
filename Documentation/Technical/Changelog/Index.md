@@ -16,6 +16,7 @@
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 21.3.0     | 2021-02-10 | Feature    | Show only identified leads in hottest leads list, Make lead image service adjustable, Bugfix of orientation of enterprise link in page module                                              |
 | 21.2.0     | 2021-02-04 | Feature    | Increase category scorings on news visits, Bugfixes: Show all categoryscorings in lead detail view (even if the scoring is identically), class name correction in signals                  |
 | 21.1.0     | 2021-01-31 | Feature    | Add parameter which caches should be warmed up on CLI command                                                                                                                              |
 | 21.0.0 !!! | 2021-12-17 | Feature    | Support QR codes for shortener, marker names in email4download changed to reduce possible conflicts with core functionality                                                                |
@@ -32,6 +33,7 @@
 | 18.1.1     | 2021-10-22 | Bugfix     | Fix a typo when rendering the star icon in all lux backend modules                                                                                                                         |
 | 18.1.0     | 2021-10-17 | Task       | Add a "go enterprise" to backend layouts, Update input field height for bootstrap 5, Small code cleanup                                                                                    |
 | 18.0.0     | 2021-10-16 | Task       | Support TYPO3 11 (and 10) and drop support for version 9                                                                                                                                   |
+| 17.4.1     | 2022-02-04 | Bugfix     | Fix missing constructor DI in TYPO3 9                                                                                                                                                      |
 | 17.4.0     | 2022-01-26 | Feature    | Backport: Add parameter to warmup specific caches via CLI command                                                                                                                          |
 | 17.3.0     | 2022-01-26 | Feature    | Backport: Show rendering time, add caching layer                                                                                                                                           |
 | 17.2.3     | 2021-12-15 | Bugfix     | Don't include JS for lightbox twice                                                                                                                                                        |

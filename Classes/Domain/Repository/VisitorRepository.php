@@ -126,6 +126,7 @@ class VisitorRepository extends AbstractRepository
     {
         $query = $this->createQuery();
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, []);
+        $logicalAnd[] = $query->equals('identified', true);
         $query->matching($query->logicalAnd($logicalAnd));
         $query->setLimit($limit);
         $query->setOrderings([
