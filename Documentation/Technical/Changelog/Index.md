@@ -16,6 +16,7 @@
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 21.4.0     | 2021-02-12 | Feature    | Small performance improvement for lead list                                                                                                                                                |
 | 21.3.0     | 2021-02-10 | Feature    | Show only identified leads in hottest leads list, Make lead image service adjustable, Bugfix of orientation of enterprise link in page module                                              |
 | 21.2.0     | 2021-02-04 | Feature    | Increase category scorings on news visits, Bugfixes: Show all categoryscorings in lead detail view (even if the scoring is identically), class name correction in signals                  |
 | 21.1.0     | 2021-01-31 | Feature    | Add parameter which caches should be warmed up on CLI command                                                                                                                              |
