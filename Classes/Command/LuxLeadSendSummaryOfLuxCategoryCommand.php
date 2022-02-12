@@ -58,11 +58,11 @@ class LuxLeadSendSummaryOfLuxCategoryCommand extends Command
             ->setCategoryScoring((int)$input->getArgument('luxCategory'));
         $visitors = $visitorRepository->findAllWithIdentifiedFirst($filter);
 
-        if ($visitors->count() > 0) {
+        if (count($visitors) > 0) {
             $sendSummaryService = GeneralUtility::makeInstance(SendSummaryService::class, $visitors);
             $result = $sendSummaryService->send(GeneralUtility::trimExplode(',', $input->getArgument('emails'), true));
             if ($result === true) {
-                $output->writeln('Mail with ' . $visitors->count() . ' leads successfully sent');
+                $output->writeln('Mail with ' . count($visitors) . ' leads successfully sent');
             } else {
                 $output->writeln('Mail could not be sent. Please check your configuration');
             }
