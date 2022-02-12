@@ -60,17 +60,17 @@ class VisitorRepository extends AbstractRepository
     /**
      * @param FilterDto $filter
      * @param int $limit
-     * @return QueryResultInterface
+     * @return array ->toArray() improves performance up to 100% on some cases
      * @throws InvalidQueryException
      */
-    public function findAllWithIdentifiedFirst(FilterDto $filter, int $limit = 750): QueryResultInterface
+    public function findAllWithIdentifiedFirst(FilterDto $filter, int $limit = 750): array
     {
         $query = $this->createQuery();
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, []);
         $query->matching($query->logicalAnd($logicalAnd));
         $query->setOrderings($this->getOrderingsArrayByFilterDto($filter));
         $query->setLimit($limit);
-        return $query->execute();
+        return $query->execute()->toArray();
     }
 
     /**
