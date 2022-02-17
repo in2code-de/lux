@@ -17,16 +17,16 @@ class CacheLayerUtility
     {
         $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'][\In2code\Lux\Controller\AnalysisController::class . '->dashboardAction'] = [
             'lifetime' => 86400,
-            'identifier' => false,
+            'route' => 'lux_LuxAnalysis',
         ];
         $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'][\In2code\Lux\Controller\LeadController::class . '->dashboardAction'] = [
             'lifetime' => 86400,
-            'identifier' => false,
+            'route' => 'lux_LuxLeads',
         ];
-        $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'][\In2code\Lux\Hooks\PageOverview::class . '->getArguments'] = [
-            'lifetime' => 86400,
-            'identifier' => 'pageIdentifier',
-        ];
+//        $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'][\In2code\Lux\Hooks\PageOverview::class . '->getArguments'] = [
+//            'lifetime' => 86400,
+//            'route' => '',
+//        ];
     }
 
     /**
@@ -49,23 +49,23 @@ class CacheLayerUtility
 
     /**
      * @return array
-     * @SuppressWarnings(PHPMD.Superglobals)
      */
-    public static function getCachelayerConfiguration(): array
+    public static function getCachelayerRoutes(): array
     {
-        return $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'] ?? [];
+        $layers = self::getCachelayerConfiguration();
+        $routes = [];
+        foreach ($layers as $configuration) {
+            $routes[] = $configuration['route'];
+        }
+        return $routes;
     }
 
     /**
      * @return array
+     * @SuppressWarnings(PHPMD.Superglobals)
      */
-    public static function getCachelayerNames(): array
+    protected static function getCachelayerConfiguration(): array
     {
-        $layers = self::getCachelayerConfiguration();
-        $names = [];
-        foreach ($layers as $configuration) {
-            $names[] = $configuration['class'];
-        }
-        return $names;
+        return $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'] ?? [];
     }
 }
