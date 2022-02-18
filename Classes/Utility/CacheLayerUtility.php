@@ -23,10 +23,10 @@ class CacheLayerUtility
             'lifetime' => 86400,
             'route' => 'lux_LuxLeads',
         ];
-//        $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'][\In2code\Lux\Hooks\PageOverview::class . '->getArguments'] = [
-//            'lifetime' => 86400,
-//            'route' => '',
-//        ];
+        $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'][\In2code\Lux\Hooks\PageOverview::class . '->render'] = [
+            'lifetime' => 86400,
+            'route' => '',
+        ];
     }
 
     /**
