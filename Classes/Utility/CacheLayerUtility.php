@@ -18,14 +18,22 @@ class CacheLayerUtility
         $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'][\In2code\Lux\Controller\AnalysisController::class . '->dashboardAction'] = [
             'lifetime' => 86400,
             'route' => 'lux_LuxAnalysis',
+            'arguments' => [],
+            'multiple' => false,
         ];
         $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'][\In2code\Lux\Controller\LeadController::class . '->dashboardAction'] = [
             'lifetime' => 86400,
             'route' => 'lux_LuxLeads',
+            'arguments' => [],
+            'multiple' => false,
         ];
         $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'][\In2code\Lux\Hooks\PageOverview::class . '->render'] = [
             'lifetime' => 86400,
-            'route' => '',
+            'route' => 'web_layout',
+            'arguments' => [
+                'id' => '{uid}' // {uid} can only be replaced with pages.uid when multiple is set to true
+            ],
+            'multiple' => true, // iterate per page identifier
         ];
     }
 
@@ -45,6 +53,25 @@ class CacheLayerUtility
             throw new UnexpectedValueException('No lifetime given in cachelayer configuration', 1636367766);
         }
         return $configuration[$cacheName]['lifetime'];
+    }
+
+    /**
+     * @param string $route
+     * @return array
+     * @throws ConfigurationException
+     */
+    public static function getCacheLayerConfigurationByRoute(string $route): array
+    {
+        $configurations = self::getCachelayerConfiguration();
+        foreach ($configurations as $configuration) {
+            if (isset($configuration['route']) === false) {
+                throw new ConfigurationException('Cache without route registered', 1645176511);
+            }
+            if ($configuration['route'] === $route) {
+                return $configuration;
+            }
+        }
+        throw new ConfigurationException('No cache configuration to route ' . $route . ' found', 1645176561);
     }
 
     /**

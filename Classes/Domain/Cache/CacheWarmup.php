@@ -44,17 +44,22 @@ final class CacheWarmup
     /**
      * @param string $route
      * @param string $domain
+     * @param array $arguments
      * @param OutputInterface $output
      * @return void
      * @throws RouteNotFoundException
      * @throws UnexpectedValueException
      */
-    public function warmup(string $route, string $domain, OutputInterface $output): void
+    public function warmup(string $route, string $domain, array $arguments, OutputInterface $output): void
     {
         $this->domain = $domain;
-        $output->writeln('Start: Cache warmup for route ' . $route . ' ...');
-        $this->sendRequestToBackendModule($route);
-        $output->writeln('Done: Cache for route ' . $route . ' successfully warmed up!');
+        $message = 'Cache warmup for route ' . $route;
+        if ($arguments !== []) {
+            $message .= ' (' . http_build_query($arguments) . ')';
+        }
+        $output->writeln('Start: ' . $message . ' ...');
+        $this->sendRequestToBackendModule($route, $arguments);
+        $output->writeln('Done: ' . $message . ' successfully build up!');
     }
 
     /**
@@ -62,24 +67,26 @@ final class CacheWarmup
      * curl -Ik --cookie "be_typo_user=sessid" https://domain.org/typo3/index.php\?route\=%2Fmodule%2Flux%2FLuxLeads\&token\=tokenid
      *
      * @param string $route
+     * @param array $arguments
      * @return void
      * @throws RouteNotFoundException
      * @throws UnexpectedValueException
      */
-    protected function sendRequestToBackendModule(string $route): void
+    protected function sendRequestToBackendModule(string $route, array $arguments): void
     {
         $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
         $path = $uriBuilder->buildUriFromRoute($route);
-        $url = $this->getDomain() . $path->__toString();
+        $url = $this->getDomain() . $path->__toString() . '&' . http_build_query($arguments);
 
         $jar = CookieJar::fromArray(
             ['be_typo_user' => $this->backendSessionFaker->getSessionIdentifier()],
             $this->getDomain(false)
         );
         $requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
-        $response = $requestFactory->request($url, 'GET', ['allow_redirects' => true, 'cookies' => $jar]);
+        $response = $requestFactory->request($url, 'GET', ['cookies' => $jar] + $arguments);
         if ($response->getStatusCode() === 200) {
-            if (stristr($response->getBody()->getContents(), 'lux-backend') === false) {
+            if (stristr($response->getBody()->getContents(), 'lux') === false) {
+                // If e.g. backend login form is shown, throw an exception
                 throw new UnexpectedValueException('Could not warmup cache', 1645131190);
             }
         }
