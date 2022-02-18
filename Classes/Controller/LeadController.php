@@ -16,6 +16,8 @@ use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
@@ -39,14 +41,20 @@ class LeadController extends AbstractController
      * @throws DBALException
      * @throws InvalidQueryException
      * @throws UnexpectedValueException
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public function dashboardAction(): void
     {
+        $filter = ObjectUtility::getFilterDto();
         $this->cacheLayer->initialize(__CLASS__, __FUNCTION__);
-        $this->view->assign('cacheLayer', $this->cacheLayer);
+        $this->view->assignMultiple([
+            'cacheLayer' => $this->cacheLayer,
+            'interestingLogs' => $this->logRepository->findInterestingLogs($filter, 10),
+            'whoisonline' => $this->visitorRepository->findOnline(8),
+        ]);
 
         if ($this->cacheLayer->isCacheAvailable('Box/Leads/Recurring') === false) {
-            $filter = ObjectUtility::getFilterDto();
             $this->view->assignMultiple([
                 'filter' => $filter,
                 'numberOfUniqueSiteVisitors' => $this->visitorRepository->findByUniqueSiteVisits($filter)->count(),

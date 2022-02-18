@@ -55,11 +55,14 @@ class AnalysisController extends AbstractController
      */
     public function dashboardAction(): void
     {
+        $filter = ObjectUtility::getFilterDto();
         $this->cacheLayer->initialize(__CLASS__, __FUNCTION__);
-        $this->view->assign('cacheLayer', $this->cacheLayer);
+        $this->view->assignMultiple([
+            'cacheLayer' => $this->cacheLayer,
+            'interestingLogs' => $this->logRepository->findInterestingLogs($filter),
+        ]);
 
         if ($this->cacheLayer->isCacheAvailable('Box/Analysis/Pagevisits') === false) {
-            $filter = ObjectUtility::getFilterDto();
             $this->view->assignMultiple([
                 'filter' => $filter,
                 'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
@@ -71,7 +74,6 @@ class AnalysisController extends AbstractController
                 'browserData' => GeneralUtility::makeInstance(BrowserAmountDataProvider::class, $filter),
                 'domainData' => GeneralUtility::makeInstance(DomainDataProvider::class, $filter),
                 'socialMediaData' => GeneralUtility::makeInstance(SocialMediaDataProvider::class, $filter),
-                'interestingLogs' => $this->logRepository->findInterestingLogs($filter),
                 'latestPagevisits' => $this->pagevisitsRepository->findLatestPagevisits($filter),
             ]);
         }
