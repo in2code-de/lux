@@ -17,37 +17,24 @@ class CacheLayerUtility
     {
         $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'][\In2code\Lux\Controller\AnalysisController::class . '->dashboardAction'] = [
             'lifetime' => 86400,
-            'class' => \In2code\Lux\Domain\Cache\AnalysisDashboard::class,
-            'identifier' => false
+            'route' => 'lux_LuxAnalysis',
+            'arguments' => [],
+            'multiple' => false,
         ];
         $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'][\In2code\Lux\Controller\LeadController::class . '->dashboardAction'] = [
             'lifetime' => 86400,
-            'class' => \In2code\Lux\Domain\Cache\LeadDashboard::class,
-            'identifier' => false
+            'route' => 'lux_LuxLeads',
+            'arguments' => [],
+            'multiple' => false,
         ];
-        $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'][\In2code\Lux\Hooks\PageOverview::class . '->getArguments'] = [
+        $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'][\In2code\Lux\Hooks\PageOverview::class . '->render'] = [
             'lifetime' => 86400,
-            'class' => \In2code\Lux\Domain\Cache\PageOverview::class,
-            'identifier' => 'pageIdentifier'
+            'route' => 'web_layout',
+            'arguments' => [
+                'id' => '{uid}' // {uid} can only be replaced with pages.uid when multiple is set to true
+            ],
+            'multiple' => true, // iterate per page identifier
         ];
-    }
-
-    /**
-     * @param string $cacheName class->method
-     * @return string
-     * @throws ConfigurationException
-     * @throws UnexpectedValueException
-     */
-    public static function getCachelayerClassByCacheName(string $cacheName): string
-    {
-        $configuration = self::getCachelayerConfiguration();
-        if (isset($configuration[$cacheName]) === false) {
-            throw new ConfigurationException('class ' . $cacheName . ' is not registered', 1636367507);
-        }
-        if (isset($configuration[$cacheName]['class']) === false) {
-            throw new UnexpectedValueException('No class given in cachelayer configuration', 1636367728);
-        }
-        return $configuration[$cacheName]['class'];
     }
 
     /**
@@ -69,24 +56,43 @@ class CacheLayerUtility
     }
 
     /**
+     * @param string $route
      * @return array
-     * @SuppressWarnings(PHPMD.Superglobals)
+     * @throws ConfigurationException
      */
-    public static function getCachelayerConfiguration(): array
+    public static function getCacheLayerConfigurationByRoute(string $route): array
     {
-        return $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'] ?? [];
+        $configurations = self::getCachelayerConfiguration();
+        foreach ($configurations as $configuration) {
+            if (isset($configuration['route']) === false) {
+                throw new ConfigurationException('Cache without route registered', 1645176511);
+            }
+            if ($configuration['route'] === $route) {
+                return $configuration;
+            }
+        }
+        throw new ConfigurationException('No cache configuration to route ' . $route . ' found', 1645176561);
     }
 
     /**
      * @return array
      */
-    public static function getCachelayerNames(): array
+    public static function getCachelayerRoutes(): array
     {
         $layers = self::getCachelayerConfiguration();
-        $names = [];
+        $routes = [];
         foreach ($layers as $configuration) {
-            $names[] = $configuration['class'];
+            $routes[] = $configuration['route'];
         }
-        return $names;
+        return $routes;
+    }
+
+    /**
+     * @return array
+     * @SuppressWarnings(PHPMD.Superglobals)
+     */
+    protected static function getCachelayerConfiguration(): array
+    {
+        return $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'] ?? [];
     }
 }
