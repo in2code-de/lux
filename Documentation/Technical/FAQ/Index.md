@@ -125,7 +125,32 @@ All data is stored on your server. The upside is quite clear in time of GDPR/DSG
 third party companies. The downside could be, that a lot of data is stored within your TYPO3 database.
 There a some possibilities to increase performance.
 
-##### 1. Extract lux data into a different database
+##### 1. Turn on caches for dashboards and page overview view
+
+We added a caching layer that, can speedup dashboard times with factor 100. Just turn it on in extension configuration.
+Of course there is a comand that helps you to warmup caches (e.g. 1 time per night).
+
+##### 2. Clean outdated data from time to time
+
+Remove all visitor data that is older then three years:
+
+`./vendor/bin/typo3 lux:cleanupVisitorsByAge 94608000`
+
+Remove only unknown visitors and their data that is older then one year:
+
+`./vendor/bin/typo3 lux:cleanupUnknownVisitorsByAge 31536000`
+
+
+##### 3. memory_limit and max_execution_time in Apache settings
+
+Depending on the settings of your server it could happen that some backend modules are crashing when open it.
+While it is best practice to keep Apache settings for `memory_limit` and `max_execution_time` quite small to prevent
+unneeded load in frontend, it would be nice to have some higher settings for all backend requests.
+A possible solution for such a scenario would be to use **PHP FPM** and different domains for backend and frontend.
+So `https://backend.yourdomain.org` could have a (e.g.) `memory_limit` of `512M` and a `max_execution_time` of `120`.
+
+
+##### 4. Extract lux data into a different database
 
 In TYPO3 you have the possibility to separate tables into different databases like:
 ```
@@ -161,27 +186,7 @@ $GLOBALS['TYPO3_CONF_VARS']['DB']['TableMapping'] = [
 ```
 
 
-##### 2. Clean outdated data from time to time
-
-Remove all visitor data that is older then three years:
-
-`./vendor/bin/typo3 lux:cleanupVisitorsByAge 94608000`
-
-Remove only unknown visitors and their data that is older then one year:
-
-`./vendor/bin/typo3 lux:cleanupUnknownVisitorsByAge 31536000`
-
-
-##### 3. memory_limit and max_execution_time in Apache settings
-
-Depending on the settings of your server it could happen that some backend modules are crashing when open it.
-While it is best practice to keep Apache settings for `memory_limit` and `max_execution_time` quite small to prevent
-unneeded load in frontend, it would be nice to have some higher settings for all backend requests.
-A possible solution for such a scenario would be to use **PHP FPM** and different domains for backend and frontend.
-So `https://backend.yourdomain.org` could have a (e.g.) `memory_limit` of `512M` and a `max_execution_time` of `120`.
-
-
-##### 4. Help from in2code
+##### 5. Help from in2code
 
 We offer help for users with in2code/luxenterprise. Just call us.
 
