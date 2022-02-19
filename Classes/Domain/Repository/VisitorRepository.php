@@ -249,22 +249,6 @@ class VisitorRepository extends AbstractRepository
     }
 
     /**
-     * @param FilterDto $filter
-     * @return QueryResultInterface
-     * @throws InvalidQueryException
-     */
-    public function findIdentifiedByMostVisits(FilterDto $filter): QueryResultInterface
-    {
-        $query = $this->createQuery();
-        $logicalAnd = [$query->equals('identified', true)];
-        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
-        $query->matching($query->logicalAnd($logicalAnd));
-        $query->setLimit(4);
-        $query->setOrderings(['visits' => QueryInterface::ORDER_DESCENDING]);
-        return $query->execute();
-    }
-
-    /**
      * Find visitors that are now on the website (5 Min last activity)
      *
      * @param int $limit
