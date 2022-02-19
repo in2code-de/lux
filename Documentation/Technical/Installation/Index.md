@@ -63,8 +63,8 @@ If you click on the settings symbol for extension lux, you can change some basic
 | Advanced: Disable ip logging                     | Disable the logging of the visitors IP address                                                          |
 | Advanced: Anonymize IP                           | As an alternative to disableIpLogging, you can anonymize the visitors IP-address when saving. The last part of the IP will be anonymized with "***" |
 | Advanced: Lead picture                           | Decide if TYPO3 should try to find an image of a lead by searching on gravatar.com or on google image search by given email address.                |
-| Advanced: Show render time                       | For an easier debugging all views in backend can be shown with render times                             |
-| Advanced: Use cache layer (experimental)         | If you are facing performance issues with lux backend modules or with the page overview view (quick analysis), you can cache views (for 24h) when turning the feature on. In addition there is a command that can be executed via scheduler task to warmup caches (e.g. every night). Experimental because of problems in TYPO3 11 https://forge.typo3.org/issues/95899 |
+| Advanced: Show render time                       | For an easier debugging all views in backend can be shown with render times. This is only visible for backend administrators.                       |
+| Advanced: Use cache layer                        | If you are facing performance issues with lux backend modules or with the page overview view (quick analysis), you can cache views (e.g. for 24h) when turning the feature on. In addition there is a command that can be executed via scheduler task to warmup caches (e.g. every night). |
 
 #### 3. Add TypoScript
 
