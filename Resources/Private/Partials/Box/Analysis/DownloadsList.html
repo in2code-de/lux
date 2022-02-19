@@ -21,7 +21,7 @@
                                 <lux:format.getFilenameFromPathAndFilename pathAndFilename="{download.0.href}"/>
                             </span>
                         </td>
-                        <td>{download -> f:count()}</td>
+                        <td><lux:format.readableNumber>{download -> f:count()}</lux:format.readableNumber></td>
                         <td>
                             <f:link.action
                                 action="detailDownload"

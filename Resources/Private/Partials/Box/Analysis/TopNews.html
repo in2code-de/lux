@@ -18,7 +18,7 @@
                                         <f:format.crop maxCharacters="25" append="..." respectWordBoundaries="0">{newsItem.news.title}</f:format.crop>
                                     </span>
                                 </td>
-                                <td>{newsItem.count}</td>
+                                <td><lux:format.readableNumber>{newsItem.count}</lux:format.readableNumber></td>
                             </tr>
                         </f:if>
                     </f:for>

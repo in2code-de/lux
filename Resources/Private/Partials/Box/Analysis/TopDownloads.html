@@ -22,7 +22,7 @@
                                         </f:if>
                                     </f:for>
                                 </td>
-                                <td>{download -> f:count()}</td>
+                                <td><lux:format.readableNumber>{download -> f:count()}</lux:format.readableNumber></td>
                             </tr>
                         </f:if>
                     </f:for>

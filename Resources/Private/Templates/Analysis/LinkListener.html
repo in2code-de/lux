@@ -57,7 +57,7 @@
                                 {linkListener.cruserId.username}
                                 <f:if condition="{linkListener.cruserId.name}">({linkListener.cruserId.username})</f:if>
                             </td>
-                            <td>{linkListener.linkclicksRaw -> f:count()}</td>
+                            <td><lux:format.readableNumber>{linkListener.linkclicksRaw -> f:count()}</lux:format.readableNumber></td>
                             <td>{linkListener.performance -> lux:format.percent()}</td>
                             <td>
                                 <div class="btn-group">
