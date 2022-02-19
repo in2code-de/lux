@@ -9,6 +9,9 @@ use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Authentication\IpLocker;
+use TYPO3\CMS\Core\Authentication\Mfa\MfaRequiredException;
+use TYPO3\CMS\Core\Core\SystemEnvironmentBuilder;
+use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\Session\Backend\DatabaseSessionBackend;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -93,10 +96,16 @@ final class BackendSessionFaker
     /**
      * @return void
      * @throws EnvironmentException
+     * @throws MfaRequiredException
      * @SuppressWarnings(PHPMD.Superglobals)
      */
     protected function createBackendUserGlobalObject(): void
     {
+        // Set request object (needed since TYPO3 11)
+        $request = GeneralUtility::makeInstance(ServerRequest::class);
+        $newRequest = $request->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_BE);
+        $GLOBALS['TYPO3_REQUEST'] = $newRequest;
+
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieSecure'] = 0;
         $GLOBALS['BE_USER'] = GeneralUtility::makeInstance(BackendUserAuthentication::class);
         $GLOBALS['BE_USER']->start();

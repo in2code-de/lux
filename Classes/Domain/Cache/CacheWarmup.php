@@ -6,6 +6,7 @@ namespace In2code\Lux\Domain\Cache;
 
 use GuzzleHttp\Cookie\CookieJar;
 use In2code\Lux\Domain\Service\SiteService;
+use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\EnvironmentException;
 use In2code\Lux\Exception\UnexpectedValueException;
 use In2code\Lux\Utility\UrlUtility;
@@ -49,6 +50,7 @@ final class CacheWarmup
      * @return void
      * @throws RouteNotFoundException
      * @throws UnexpectedValueException
+     * @throws ConfigurationException
      */
     public function warmup(string $route, string $domain, array $arguments, OutputInterface $output): void
     {
@@ -71,6 +73,7 @@ final class CacheWarmup
      * @return void
      * @throws RouteNotFoundException
      * @throws UnexpectedValueException
+     * @throws ConfigurationException
      */
     protected function sendRequestToBackendModule(string $route, array $arguments): void
     {
@@ -95,6 +98,7 @@ final class CacheWarmup
     /**
      * @param bool $withProtocol
      * @return string
+     * @throws ConfigurationException
      */
     protected function getDomain(bool $withProtocol = true): string
     {
@@ -104,8 +108,15 @@ final class CacheWarmup
             $domain = $siteService->getFirstDomain();
         }
         $domain = UrlUtility::removeSlashPrefixAndPostfix($domain);
+        if (UrlUtility::isAbsoluteUri($domain) === false) {
+            throw new ConfigurationException(
+                'Could not get valid domain from site configuration for CURL request. Please pass a domain when calling
+                 this command.',
+                1645271865
+            );
+        }
         if ($withProtocol === false) {
-            return UrlUtility::removeProtocolFromDomain($domain);
+            $domain = UrlUtility::removeProtocolFromDomain($domain);
         }
         return $domain;
     }

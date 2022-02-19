@@ -44,7 +44,7 @@ class LuxCacheWarmupCommand extends Command
         $this->addArgument(
             'routes',
             InputArgument::OPTIONAL,
-            'commaseparated routes like "lux_LuxAnalysis,lux_LuxLeads"',
+            'commaseparated routes like "lux_LuxAnalysis,lux_LuxLeads,web_layout"',
             implode(',', CacheLayerUtility::getCachelayerRoutes())
         );
         $this->addArgument(
@@ -93,6 +93,7 @@ class LuxCacheWarmupCommand extends Command
      * @return void
      * @throws RouteNotFoundException
      * @throws UnexpectedValueException
+     * @throws ConfigurationException
      */
     protected function warmupSingleLayer(string $route, string $domain, array $configuration): void
     {
@@ -107,6 +108,7 @@ class LuxCacheWarmupCommand extends Command
      * @throws ExceptionDbalDriver
      * @throws RouteNotFoundException
      * @throws UnexpectedValueException
+     * @throws ConfigurationException
      */
     protected function warmupMultipleLayers(string $route, string $domain, array $configuration): void
     {
