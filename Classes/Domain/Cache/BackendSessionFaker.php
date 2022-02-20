@@ -47,6 +47,7 @@ final class BackendSessionFaker
     /**
      * @return void
      * @throws EnvironmentException
+     * @throws MfaRequiredException
      */
     public function fake(): void
     {
@@ -70,10 +71,7 @@ final class BackendSessionFaker
         ];
 
         $queryBuilder = DatabaseUtility::getQueryBuilderForTable(self::TABLE_BACKENDUSERSESSION);
-        $queryBuilder
-            ->insert(self::TABLE_BACKENDUSERSESSION)
-            ->values($properties)
-            ->execute();
+        $queryBuilder->insert(self::TABLE_BACKENDUSERSESSION)->values($properties)->execute();
     }
 
     /**
@@ -94,6 +92,9 @@ final class BackendSessionFaker
     }
 
     /**
+     * We do need to create a backend user authentication object to create a valid link to a backend module
+     * from CLI context
+     *
      * @return void
      * @throws EnvironmentException
      * @throws MfaRequiredException

@@ -29,8 +29,8 @@ class FrontendUtility
         if ($currentDomain === null) {
             // Normally in CLI context
             $siteService = GeneralUtility::makeInstance(SiteService::class);
-            $site = $siteService->getDefaultSite();
-            $currentDomain = preg_replace('~http(s)://|/~', '', (string)$site->getBase());
+            $domain = $siteService->getFirstDomain();
+            $currentDomain = preg_replace('~http(s)://|/~', '', $domain);
         }
         return $currentDomain;
     }

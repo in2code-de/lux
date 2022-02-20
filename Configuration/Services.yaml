@@ -61,6 +61,7 @@ services:
     tags:
       - name: 'console.command'
         command: 'lux:cachewarmup'
+        schedulable: false
 
   In2code\Lux\Command\LuxCleanupAllVisitorsCommand:
     tags:
