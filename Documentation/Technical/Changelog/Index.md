@@ -16,6 +16,7 @@
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 22.0.0     | 2021-02-20 | Feature    | Reworked cache layer and warmup commands for a performance boost, rendering times for admins, readable numbers, some smaller performance optimizations, fix font problem in TYPO3 10       |
 | 21.4.0     | 2021-02-12 | Feature    | Small performance improvement for lead list                                                                                                                                                |
 | 21.3.0     | 2021-02-10 | Feature    | Show only identified leads in hottest leads list, Make lead image service adjustable, Bugfix of orientation of enterprise link in page module                                              |
 | 21.2.0     | 2021-02-04 | Feature    | Increase category scorings on news visits, Bugfixes: Show all categoryscorings in lead detail view (even if the scoring is identically), class name correction in signals                  |
