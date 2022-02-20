@@ -101,18 +101,19 @@ class PagevisitRepository extends AbstractRepository
      * @param \DateTime $end
      * @param FilterDto|null $filter
      * @return int
-     * @throws InvalidQueryException
+     * @throws DBALException
      */
-    public function getNumberOfVisitorsInTimeFrame(\DateTime $start, \DateTime $end, FilterDto $filter = null): int
+    public function getNumberOfVisitsInTimeFrame(\DateTime $start, \DateTime $end, FilterDto $filter = null): int
     {
-        $query = $this->createQuery();
-        $logicalAnd = [
-            $query->greaterThanOrEqual('crdate', $start->format('U')),
-            $query->lessThanOrEqual('crdate', $end->format('U'))
-        ];
-        $logicalAnd = $this->extendWithExtendedFilterQuery($query, $logicalAnd, $filter);
-        $query->matching($query->logicalAnd($logicalAnd));
-        return (int)$query->execute()->count();
+        $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
+        $sql = 'select count(*) count from ' . Pagevisit::TABLE_NAME . ' pv'
+            . $this->extendFromClauseWithJoinByFilter($filter, ['p', 'cs', 'v'])
+            . ' where pv.crdate>=' . $start->getTimestamp() . ' and pv.crdate<=' . $end->getTimestamp()
+            . $this->extendWhereClauseWithFilterSearchterms($filter, 'p')
+            . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
+            . $this->extendWhereClauseWithFilterScoring($filter, 'v')
+            . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs');
+        return $connection->executeQuery($sql)->fetchColumn();
     }
 
     /**

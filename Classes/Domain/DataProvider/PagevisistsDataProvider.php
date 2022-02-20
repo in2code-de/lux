@@ -34,7 +34,7 @@ class PagevisistsDataProvider extends AbstractDynamicFilterDataProvider
         $intervals = $this->filter->getIntervals();
         $frequency = (string)$intervals['frequency'];
         foreach ($intervals['intervals'] as $interval) {
-            $this->data['amounts'][] = $pagevisitRepository->getNumberOfVisitorsInTimeFrame(
+            $this->data['amounts'][] = $pagevisitRepository->getNumberOfVisitsInTimeFrame(
                 $interval['start'],
                 $interval['end'],
                 $this->filter

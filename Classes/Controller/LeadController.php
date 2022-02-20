@@ -97,7 +97,6 @@ class LeadController extends AbstractController
             'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter, 8),
             'filter' => $filter,
             'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter),
-            'identifiedByMostVisits' => $this->visitorRepository->findIdentifiedByMostVisits($filter),
             'luxCategories' => $this->categoryRepository->findAllLuxCategories()
         ]);
     }
