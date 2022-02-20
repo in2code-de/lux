@@ -75,6 +75,15 @@ class SiteService
     }
 
     /**
+     * @return string
+     */
+    public function getFirstDomain(): string
+    {
+        $site = self::getDefaultSite();
+        return $site->getBase()->__toString();
+    }
+
+    /**
      * @param string $domain
      * @return Site|null
      */

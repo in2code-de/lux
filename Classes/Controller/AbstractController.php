@@ -101,7 +101,7 @@ abstract class AbstractController extends ActionController
     /**
      * @var RenderingTimeService
      */
-    protected $renderingTimeService;
+    protected $renderingTimeService = null;
 
     /**
      * @var CacheLayer
@@ -123,8 +123,8 @@ abstract class AbstractController extends ActionController
      * @param LinklistenerRepository|null $linklistenerRepository
      * @param FingerprintRepository|null $fingerprintRepository
      * @param SearchRepository|null $searchRepository
-     * @param RenderingTimeService|null $renderingTimeService to initialize renderingTimes
-     * @param CacheLayer|null $cacheLayer
+     * @param RenderingTimeService $renderingTimeService to initialize renderingTimes
+     * @param CacheLayer $cacheLayer
      * @throws Exception
      */
     public function __construct(

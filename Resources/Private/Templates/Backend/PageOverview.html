@@ -9,11 +9,21 @@
     </lux:condition.isLuxenterpriseExtensionActivated>
 
     <h4 class="callout-title">
-        <f:render section="{view}Title" arguments="{_all}"/>
+        <lux:backend.cache identifier="PageOverviewTitle{pageIdentifier}" cacheLayer="{cacheLayer}">
+            <f:render section="{view}Title" arguments="{_all}"/>
+        </lux:backend.cache>
     </h4>
 
     <div data-lux-toggle-target="target" class="{f:if(condition:'{status} == \'close\'',then:' hide')}">
-        <f:render section="{view}" arguments="{_all}"/>
+        <lux:backend.cache identifier="PageOverviewContent{pageIdentifier}" cacheLayer="{cacheLayer}">
+            <f:render section="{view}" arguments="{_all}"/>
+        </lux:backend.cache>
+
+        <lux:backend.getRenderingTime>
+            <p class="alert alert-light" role="alert" style="clear:both;color:black;background:white;margin:5px;">
+                Rendering time: {renderingTime}s
+            </p>
+        </lux:backend.getRenderingTime>
     </div>
 
     <link rel="stylesheet" type="text/css" href="{f:uri.resource(path:'Css/PageOverview.min.css',extensionName:'lux')}" media="all">

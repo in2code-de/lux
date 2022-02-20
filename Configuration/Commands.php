@@ -19,6 +19,10 @@ return [
         'class' => LuxAnonymizeCommand::class,
         'schedulable' => false
     ],
+    'lux:cachewarmup' => [
+        'class' => LuxCacheWarmupCommand::class,
+        'schedulable' => false
+    ],
     'lux:cleanupUnknownVisitorsByAge' => [
         'class' => LuxCleanupUnknownVisitorsByAgeCommand::class,
         'schedulable' => true

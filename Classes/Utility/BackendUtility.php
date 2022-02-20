@@ -25,6 +25,17 @@ class BackendUtility
     }
 
     /**
+     * @return bool
+     */
+    public static function isAdministrator(): bool
+    {
+        if (self::getBackendUserAuthentication() !== null) {
+            return self::getBackendUserAuthentication()->user['admin'] === 1;
+        }
+        return false;
+    }
+
+    /**
      * @param string $key
      * @param string $action
      * @param string $controller
