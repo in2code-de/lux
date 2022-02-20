@@ -1928,6 +1928,15 @@
 				<target state="translated">KW%s</target>
 			</trans-unit>
 
+			<trans-unit id="number.decimalSeparator">
+				<source>.</source>
+				<target state="translated">,</target>
+			</trans-unit>
+			<trans-unit id="number.thousandsSeparator">
+				<source>,</source>
+				<target state="translated">.</target>
+			</trans-unit>
+
 			<trans-unit id="pleaseChoose">
 				<source>Please choose ...</source>
 				<target state="translated">Bitte wählen...</target>

@@ -18,7 +18,7 @@
                                         <f:format.crop maxCharacters="25" append="..." respectWordBoundaries="0">{page.page.title}</f:format.crop>
                                     </span>
                                 </td>
-                                <td>{page.count}</td>
+                                <td><lux:format.readableNumber>{page.count}</lux:format.readableNumber></td>
                             </tr>
                         </f:if>
                     </f:for>

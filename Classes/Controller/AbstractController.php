@@ -22,6 +22,10 @@ use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
@@ -164,6 +168,8 @@ abstract class AbstractController extends ActionController
      *
      * @param ViewInterface $view
      * @return void
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public function initializeView(ViewInterface $view)
     {
@@ -172,8 +178,9 @@ abstract class AbstractController extends ActionController
             'view' => [
                 'controller' => $this->getControllerName(),
                 'action' => $this->getActionName(),
-                'actionUpper' => ucfirst($this->getActionName())
-            ]
+                'actionUpper' => ucfirst($this->getActionName()),
+            ],
+            'extensionConfiguration' => GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('lux'),
         ]);
     }
 

@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\Repository;
 
+use DateTime;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Categoryscoring;
@@ -96,22 +97,23 @@ class PagevisitRepository extends AbstractRepository
     }
 
     /**
-     * @param \DateTime $start
-     * @param \DateTime $end
+     * @param DateTime $start
+     * @param DateTime $end
      * @param FilterDto|null $filter
      * @return int
-     * @throws InvalidQueryException
+     * @throws ExceptionDbal
      */
-    public function getNumberOfVisitorsInTimeFrame(\DateTime $start, \DateTime $end, FilterDto $filter = null): int
+    public function getNumberOfVisitsInTimeFrame(DateTime $start, DateTime $end, FilterDto $filter = null): int
     {
-        $query = $this->createQuery();
-        $logicalAnd = [
-            $query->greaterThanOrEqual('crdate', $start->format('U')),
-            $query->lessThanOrEqual('crdate', $end->format('U'))
-        ];
-        $logicalAnd = $this->extendWithExtendedFilterQuery($query, $logicalAnd, $filter);
-        $query->matching($query->logicalAnd($logicalAnd));
-        return (int)$query->execute()->count();
+        $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
+        $sql = 'select count(*) count from ' . Pagevisit::TABLE_NAME . ' pv'
+            . $this->extendFromClauseWithJoinByFilter($filter, ['p', 'cs', 'v'])
+            . ' where pv.crdate>=' . $start->getTimestamp() . ' and pv.crdate<=' . $end->getTimestamp()
+            . $this->extendWhereClauseWithFilterSearchterms($filter, 'p')
+            . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
+            . $this->extendWhereClauseWithFilterScoring($filter, 'v')
+            . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs');
+        return $connection->executeQuery($sql)->fetchColumn();
     }
 
     /**
@@ -119,11 +121,11 @@ class PagevisitRepository extends AbstractRepository
      * a week ago (so also today) and the given time is yesterday, we want to get all visits but not from today.
      *
      * @param Visitor $visitor
-     * @param \DateTime $time
+     * @param DateTime $time
      * @return QueryResultInterface
      * @throws InvalidQueryException
      */
-    public function findByVisitorAndTime(Visitor $visitor, \DateTime $time): QueryResultInterface
+    public function findByVisitorAndTime(Visitor $visitor, DateTime $time): QueryResultInterface
     {
         $query = $this->createQuery();
         $logicalAnd = [
@@ -140,11 +142,11 @@ class PagevisitRepository extends AbstractRepository
      * the given time is yesterday, we want to get the visit from 3 days ago
      *
      * @param Visitor $visitor
-     * @param \DateTime $time
+     * @param DateTime $time
      * @return Pagevisit|null
      * @throws InvalidQueryException
      */
-    public function findLastByVisitorAndTime(Visitor $visitor, \DateTime $time)
+    public function findLastByVisitorAndTime(Visitor $visitor, DateTime $time)
     {
         $query = $this->createQuery();
         $logicalAnd = [
@@ -178,10 +180,10 @@ class PagevisitRepository extends AbstractRepository
 
     /**
      * @param Visitor $visitor
-     * @return \DateTime|null
+     * @return DateTime|null
      * @throws ExceptionDbal
      */
-    public function findLatestDateByVisitor(Visitor $visitor): ?\DateTime
+    public function findLatestDateByVisitor(Visitor $visitor): ?DateTime
     {
         $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
         $sql = 'select crdate from ' . Pagevisit::TABLE_NAME
@@ -189,7 +191,7 @@ class PagevisitRepository extends AbstractRepository
             . ' order by crdate desc limit 1';
         $timestamp = (int)$connection->executeQuery($sql)->fetchColumn();
         if ($timestamp > 0) {
-            return \DateTime::createFromFormat('U', (string)$timestamp);
+            return DateTime::createFromFormat('U', (string)$timestamp);
         }
         return null;
     }
@@ -197,10 +199,10 @@ class PagevisitRepository extends AbstractRepository
     /**
      * @param Visitor $visitor
      * @param int $pageIdentifier
-     * @return \DateTime|null
+     * @return DateTime|null
      * @throws ExceptionDbal
      */
-    public function findLatestDateByVisitorAndPageIdentifier(Visitor $visitor, int $pageIdentifier): ?\DateTime
+    public function findLatestDateByVisitorAndPageIdentifier(Visitor $visitor, int $pageIdentifier): ?DateTime
     {
         $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
         $sql = 'select crdate from ' . Pagevisit::TABLE_NAME
@@ -208,7 +210,7 @@ class PagevisitRepository extends AbstractRepository
             . ' order by crdate desc limit 1';
         $timestamp = (int)$connection->executeQuery($sql)->fetchColumn();
         if ($timestamp > 0) {
-            return \DateTime::createFromFormat('U', (string)$timestamp);
+            return DateTime::createFromFormat('U', (string)$timestamp);
         }
         return null;
     }

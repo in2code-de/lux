@@ -52,8 +52,8 @@ anonymizeIp = 1
 # cat=advanced/enable/250; type=options[all,nogoogle,nogravatar,noexternal]; label= Lead pictures: Decide if TYPO3 should try to find an image of a lead by searching on gravatar.com or on google image search by given email address.
 leadImageFromExternalSources = all
 
-# cat=advanced/enable/260; type=boolean; label= Show render time: Show rendering times for all backend views for an easier performance debugging.
+# cat=advanced/enable/260; type=boolean; label= Show render time: Show rendering times for all backend views for an easier performance debugging (only visible for administrators).
 showRenderTimes = 0
 
-# cat=advanced/enable/270; type=boolean; label= Use cache layer (experimental): Cache layer could be used for both dashboard views and quick analyse in page overview view. Lifetime is per default 1day and caches can be warmed up via scheduler task.
+# cat=advanced/enable/270; type=boolean; label= Use cache layer: Performance boost for backend views. Cache layer could be used for both dashboard views and quick analyse in page overview view. Lifetime is per default 24h and caches can be warmed up via scheduler task.
 useCacheLayer = 0

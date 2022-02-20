@@ -5,6 +5,7 @@ namespace In2code\Lux\ViewHelpers\Backend;
 use Closure;
 use In2code\Lux\Domain\Service\RenderingTimeService;
 use In2code\Lux\Exception\UnexpectedValueException;
+use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
@@ -40,7 +41,7 @@ class GetRenderingTimeViewHelper extends AbstractViewHelper
         Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
     ) {
-        if (ConfigurationUtility::isShowRenderTimesEnabled()) {
+        if (ConfigurationUtility::isShowRenderTimesEnabled() && BackendUtility::isAdministrator()) {
             $renderingTimeService = GeneralUtility::makeInstance(RenderingTimeService::class);
             $templateVariableContainer = $renderingContext->getVariableProvider();
             $templateVariableContainer->add('renderingTime', $renderingTimeService->getTime());

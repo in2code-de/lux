@@ -64,4 +64,13 @@ class UrlUtility
         $string = rtrim($string, '/');
         return $string;
     }
+
+    /**
+     * @param string $domain
+     * @return string
+     */
+    public static function removeProtocolFromDomain(string $domain): string
+    {
+        return preg_replace('~https?://~', '', $domain);
+    }
 }

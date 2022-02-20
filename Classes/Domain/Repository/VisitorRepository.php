@@ -3,6 +3,7 @@ declare(strict_types = 1);
 namespace In2code\Lux\Domain\Repository;
 
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use Exception;
 use In2code\Lux\Domain\Model\Attribute;
@@ -119,21 +120,28 @@ class VisitorRepository extends AbstractRepository
      *
      * @param FilterDto $filter
      * @param int $limit
-     * @return QueryResultInterface
-     * @throws InvalidQueryException
+     * @return array
+     * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      */
-    public function findByHottestScorings(FilterDto $filter, int $limit = 10): QueryResultInterface
+    public function findByHottestScorings(FilterDto $filter, int $limit = 10)
     {
-        $query = $this->createQuery();
-        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, []);
-        $logicalAnd[] = $query->equals('identified', true);
-        $query->matching($query->logicalAnd($logicalAnd));
-        $query->setLimit($limit);
-        $query->setOrderings([
-            'scoring' => QueryInterface::ORDER_DESCENDING,
-            'tstamp' => QueryInterface::ORDER_DESCENDING
-        ]);
-        return $query->execute();
+        $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
+        $sql = 'select distinct v.uid from ' . Visitor::TABLE_NAME . ' v'
+            . $this->extendFromClauseWithJoinByFilter($filter, ['pv', 'p', 'cs'])
+            . ' where v.deleted=0 and v.hidden=0'
+            . $this->extendWhereClauseWithFilterSearchterms($filter, 'v', 'email')
+            . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
+            . $this->extendWhereClauseWithFilterScoring($filter, 'v')
+            . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
+            . ' order by v.scoring DESC, v.tstamp DESC'
+            . ' limit ' . $limit;
+        $rows = $connection->executeQuery($sql)->fetchAllAssociative();
+        $results = [];
+        foreach ($rows as $row) {
+            $results[] = $this->findByUid($row['uid']);
+        }
+        return $results;
     }
 
     /**
@@ -237,22 +245,6 @@ class VisitorRepository extends AbstractRepository
         $logicalAnd = [$query->equals('identified', false)];
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
         $query->matching($query->logicalAnd($logicalAnd));
-        return $query->execute();
-    }
-
-    /**
-     * @param FilterDto $filter
-     * @return QueryResultInterface
-     * @throws InvalidQueryException
-     */
-    public function findIdentifiedByMostVisits(FilterDto $filter): QueryResultInterface
-    {
-        $query = $this->createQuery();
-        $logicalAnd = [$query->equals('identified', true)];
-        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
-        $query->matching($query->logicalAnd($logicalAnd));
-        $query->setLimit(4);
-        $query->setOrderings(['visits' => QueryInterface::ORDER_DESCENDING]);
         return $query->execute();
     }
 

@@ -19,7 +19,7 @@
                             <span>{searchItem.searchterm}</span>
                         </td>
                         <td>
-                            {searchItem.count}
+                            <lux:format.readableNumber>{searchItem.count}</lux:format.readableNumber>
                             <f:link.action
                                 action="detailSearch"
                                 arguments="{searchterm:searchItem.searchterm}"

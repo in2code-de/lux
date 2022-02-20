@@ -21,7 +21,9 @@
                                 <td>
                                     {country}
                                 </td>
-                                <td>{amount}</td>
+                                <td>
+                                    <lux:format.readableNumber>{amount}</lux:format.readableNumber>
+                                </td>
                             </tr>
                         </f:if>
                     </f:for>

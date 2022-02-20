@@ -49,6 +49,26 @@ class SiteService
     }
 
     /**
+     * @param int $pageIdentifier
+     * @return Site
+     * @throws SiteNotFoundException
+     */
+    public function getSiteFromPageIdentifier(int $pageIdentifier): Site
+    {
+        $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
+        return $siteFinder->getSiteByPageId($pageIdentifier);
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstDomain(): string
+    {
+        $site = self::getDefaultSite();
+        return $site->getBase()->__toString();
+    }
+
+    /**
      * @param int $languageId
      * @param Site $site
      * @return string
@@ -61,17 +81,6 @@ class SiteService
             }
         }
         return '';
-    }
-
-    /**
-     * @param int $pageIdentifier
-     * @return Site
-     * @throws SiteNotFoundException
-     */
-    public function getSiteFromPageIdentifier(int $pageIdentifier): Site
-    {
-        $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
-        return $siteFinder->getSiteByPageId($pageIdentifier);
     }
 
     /**

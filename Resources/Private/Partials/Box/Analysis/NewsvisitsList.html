@@ -50,7 +50,7 @@
                             <f:if condition="{item.news.cruserId.name}">({item.news.cruserId.username})</f:if>
                         </td>
                         <td>
-                            {item.count}
+                            <lux:format.readableNumber>{item.count}</lux:format.readableNumber>
                             <f:link.action action="detailNews" arguments="{news:item.news}" class="btn btn-primary pull-right hidden" data="{lux-linkmock-link:'detailnews{item.news.uid}'}">Details</f:link.action>
                         </td>
                     </tr>

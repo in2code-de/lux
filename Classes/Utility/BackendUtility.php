@@ -9,10 +9,7 @@ use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
  */
 class BackendUtility
 {
-
     /**
-     * Get property from backend user
-     *
      * @param string $property
      * @return string|int
      */
@@ -22,6 +19,17 @@ class BackendUtility
             return self::getBackendUserAuthentication()->user[$property];
         }
         return '';
+    }
+
+    /**
+     * @return bool
+     */
+    public static function isAdministrator(): bool
+    {
+        if (self::getBackendUserAuthentication() !== null) {
+            return self::getBackendUserAuthentication()->user['admin'] === 1;
+        }
+        return false;
     }
 
     /**
@@ -48,11 +56,11 @@ class BackendUtility
     }
 
     /**
-     * @return BackendUserAuthentication
+     * @return ?BackendUserAuthentication
      * @SuppressWarnings(PHPMD.Superglobals)
      */
-    protected static function getBackendUserAuthentication(): BackendUserAuthentication
+    protected static function getBackendUserAuthentication(): ?BackendUserAuthentication
     {
-        return $GLOBALS['BE_USER'];
+        return $GLOBALS['BE_USER'] ?? null;
     }
 }

@@ -3,13 +3,16 @@ declare(strict_types = 1);
 namespace In2code\Lux\Controller;
 
 use Doctrine\DBAL\DBALException;
+use In2code\Lux\Domain\DataProvider\IdentificationMethodsDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
+use In2code\Lux\Domain\DataProvider\ReferrerAmountDataProvider;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\UnexpectedValueException;
 use In2code\Lux\Utility\ConfigurationUtility;
+use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
@@ -35,14 +38,39 @@ class LeadController extends AbstractController
     /**
      * @return void
      * @throws ConfigurationException
+     * @throws DBALException
+     * @throws InvalidQueryException
      * @throws UnexpectedValueException
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public function dashboardAction(): void
     {
-        $arguments = $this->cacheLayer->getArguments(__CLASS__, __FUNCTION__);
-        $this->view->assignMultiple($arguments);
+        $filter = ObjectUtility::getFilterDto();
+        $this->cacheLayer->initialize(__CLASS__, __FUNCTION__);
+        $this->view->assignMultiple([
+            'cacheLayer' => $this->cacheLayer,
+            'interestingLogs' => $this->logRepository->findInterestingLogs($filter, 10),
+            'whoisonline' => $this->visitorRepository->findOnline(8),
+        ]);
+
+        if ($this->cacheLayer->isCacheAvailable('Box/Leads/Recurring') === false) {
+            $this->view->assignMultiple([
+                'filter' => $filter,
+                'numberOfUniqueSiteVisitors' => $this->visitorRepository->findByUniqueSiteVisits($filter)->count(),
+                'numberOfRecurringSiteVisitors' =>
+                    $this->visitorRepository->findByRecurringSiteVisits($filter)->count(),
+                'identifiedPerMonth' => $this->logRepository->findIdentifiedLogsFromMonths(6),
+                'numberOfIdentifiedVisitors' => $this->visitorRepository->findIdentified($filter)->count(),
+                'numberOfUnknownVisitors' => $this->visitorRepository->findUnknown($filter)->count(),
+                'identificationMethods' =>
+                    GeneralUtility::makeInstance(IdentificationMethodsDataProvider::class, $filter),
+                'referrerAmountData' => GeneralUtility::makeInstance(ReferrerAmountDataProvider::class, $filter),
+                'countries' => $this->ipinformationRepository->findAllCountryCodesGrouped($filter),
+                'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter, 10),
+                'renderingTime' => $this->renderingTimeService->getTime(),
+            ]);
+        }
     }
 
     /**
@@ -71,7 +99,6 @@ class LeadController extends AbstractController
             'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter, 8),
             'filter' => $filter,
             'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter),
-            'identifiedByMostVisits' => $this->visitorRepository->findIdentifiedByMostVisits($filter),
             'luxCategories' => $this->categoryRepository->findAllLuxCategories()
         ]);
     }

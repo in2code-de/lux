@@ -19,7 +19,7 @@
                             <span title="UID{page.page.uid}">{page.page.title}</span>
                         </td>
                         <td>
-                            {page.count}
+                            <lux:format.readableNumber>{page.count}</lux:format.readableNumber>
                             <f:link.action
                                 action="detailPage"
                                 arguments="{page:page.page.uid}"

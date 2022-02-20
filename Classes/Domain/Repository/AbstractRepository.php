@@ -2,7 +2,11 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\Repository;
 
+use In2code\Lux\Domain\Model\Categoryscoring;
+use In2code\Lux\Domain\Model\Page;
+use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
+use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
@@ -199,6 +203,39 @@ abstract class AbstractRepository extends Repository
                 $field = $table . '.' . $field;
             }
             $sql .= ' and ' . $field . ' = ' . $filter->getCategoryScoring()->getUid();
+        }
+        return $sql;
+    }
+
+    /**
+     * This function allows us to build only a join if this is needed by filter settings (to increase performance)
+     *
+     * @param FilterDto $filter
+     * @param array $tables Define which joins should be build in general
+     * @return string
+     */
+    protected function extendFromClauseWithJoinByFilter(
+        FilterDto $filter,
+        array $tables = ['pv', 'p', 'cs', 'v']
+    ): string {
+        $sql = '';
+        if ($filter->getScoring() > 0) {
+            if (in_array('v', $tables)) {
+                $sql .= ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = pv.visitor';
+            }
+        }
+        if ($filter->getSearchterm() !== '' || $filter->getDomain() !== '') {
+            if (in_array('pv', $tables)) {
+                $sql .= ' left join ' . Pagevisit::TABLE_NAME . ' pv on v.uid = pv.visitor';
+            }
+            if (in_array('p', $tables)) {
+                $sql .= ' left join ' . Page::TABLE_NAME . ' p on p.uid = pv.page';
+            }
+        }
+        if ($filter->getCategoryScoring() !== null) {
+            if (in_array('cs', $tables)) {
+                $sql .= ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor';
+            }
         }
         return $sql;
     }
