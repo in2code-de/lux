@@ -107,8 +107,7 @@ class PagevisitRepository extends AbstractRepository
     {
         $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
         $sql = 'select count(*) count from ' . Pagevisit::TABLE_NAME . ' pv'
-            . $this->extendFromClauseWithJoinByFilter($filter)
-            . $this->extendFromClauseWithVisitorJoinByFilter($filter)
+            . $this->extendFromClauseWithJoinByFilter($filter, ['p', 'cs', 'v'])
             . ' where pv.crdate>=' . $start->getTimestamp() . ' and pv.crdate<=' . $end->getTimestamp()
             . $this->extendWhereClauseWithFilterSearchterms($filter, 'p')
             . $this->extendWhereClauseWithFilterDomain($filter, 'pv')

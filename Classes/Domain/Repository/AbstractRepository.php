@@ -211,30 +211,31 @@ abstract class AbstractRepository extends Repository
      * This function allows us to build only a join if this is needed by filter settings (to increase performance)
      *
      * @param FilterDto $filter
+     * @param array $tables Define which joins should be build in general
      * @return string
      */
-    protected function extendFromClauseWithJoinByFilter(FilterDto $filter): string
-    {
-        $sql = '';
-        if ($filter->getSearchterm() !== '' || $filter->getDomain() !== '') {
-            $sql .= ' left join ' . Pagevisit::TABLE_NAME . ' pv on v.uid = pv.visitor';
-            $sql .= ' left join ' . Page::TABLE_NAME . ' p on p.uid = pv.page';
-        }
-        if ($filter->getCategoryScoring() !== null) {
-            $sql .= ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor';
-        }
-        return $sql;
-    }
-
-    /**
-     * @param FilterDto $filter
-     * @return string
-     */
-    protected function extendFromClauseWithVisitorJoinByFilter(FilterDto $filter): string
-    {
+    protected function extendFromClauseWithJoinByFilter(
+        FilterDto $filter,
+        array $tables = ['pv', 'p', 'cs', 'v']
+    ): string {
         $sql = '';
         if ($filter->getScoring() > 0) {
-            $sql .= ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = pv.visitor';
+            if (in_array('v', $tables)) {
+                $sql .= ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = pv.visitor';
+            }
+        }
+        if ($filter->getSearchterm() !== '' || $filter->getDomain() !== '') {
+            if (in_array('pv', $tables)) {
+                $sql .= ' left join ' . Pagevisit::TABLE_NAME . ' pv on v.uid = pv.visitor';
+            }
+            if (in_array('p', $tables)) {
+                $sql .= ' left join ' . Page::TABLE_NAME . ' p on p.uid = pv.page';
+            }
+        }
+        if ($filter->getCategoryScoring() !== null) {
+            if (in_array('cs', $tables)) {
+                $sql .= ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor';
+            }
         }
         return $sql;
     }
