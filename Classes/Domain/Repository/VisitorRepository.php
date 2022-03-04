@@ -18,6 +18,7 @@ use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\DateUtility;
+use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
@@ -37,22 +38,24 @@ class VisitorRepository extends AbstractRepository
      * @param string $identificator
      * @param int $type
      * @return Visitor|null
+     * @throws DBALException
      */
     public function findOneAndAlsoBlacklistedByFingerprint(
         string $identificator,
         int $type
     ): ?Visitor {
-        $query = $this->createQuery();
-        $query->getQuerySettings()->setIgnoreEnableFields(true)->setEnableFieldsToBeIgnored(['blacklisted']);
-        $and = [
-            $query->equals('fingerprints.value', $identificator),
-            $query->equals('fingerprints.type', $type)
-        ];
-        $query->matching($query->logicalAnd($and));
-        $query->setOrderings(['crdate' => QueryInterface::ORDER_ASCENDING]);
-        $query->setLimit(1);
+        $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
+        $sql = 'select v.uid';
+        $sql .= ' from ' . Visitor::TABLE_NAME . ' v inner join ' . Fingerprint::TABLE_NAME . ' fp';
+        $sql .= ' on find_in_set(fp.uid, v.fingerprints) > 0';
+        $sql .= ' where fp.value="' . StringUtility::cleanString($identificator) . '" and fp.type=' . (int)$type;
+        $sql .= ' and v.deleted=0 and v.hidden=0';
+        $sql .= ' order by v.uid desc';
+        $sql .= ' limit 1';
+        $identifier = $connection->executeQuery($sql)->fetchColumn();
+
         /** @var Visitor $visitor */
-        $visitor = $query->execute()->getFirst();
+        $visitor = $this->findByUid($identifier);
         return $visitor;
     }
 
