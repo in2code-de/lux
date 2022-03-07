@@ -13,6 +13,7 @@ use In2code\Lux\Utility\UrlUtility;
 use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
+use TYPO3\CMS\Core\Authentication\Mfa\MfaRequiredException;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -35,6 +36,7 @@ final class CacheWarmup
      * Constructor
      *
      * @throws EnvironmentException
+     * @throws MfaRequiredException
      */
     public function __construct()
     {
@@ -86,7 +88,7 @@ final class CacheWarmup
             $this->getDomain(false)
         );
         $requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
-        $response = $requestFactory->request($url, 'GET', ['cookies' => $jar] + $arguments);
+        $response = $requestFactory->request($url, 'GET', ['cookies' => $jar]);
         if ($response->getStatusCode() === 200) {
             if (stristr($response->getBody()->getContents(), 'lux') === false) {
                 // If e.g. backend login form is shown, throw an exception

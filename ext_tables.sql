@@ -40,6 +40,7 @@ CREATE TABLE tx_lux_domain_model_visitor (
 	KEY parent (pid),
 	KEY email (email(20)),
 	KEY frontenduser (frontenduser),
+	KEY fingerprints (fingerprints(20)),
 	KEY scoring (scoring),
 	KEY language (l10n_parent,sys_language_uid)
 );
@@ -67,6 +68,10 @@ CREATE TABLE tx_lux_domain_model_fingerprint (
 
 	PRIMARY KEY (uid),
 	KEY parent (pid),
+	KEY value (value(33)),
+	KEY domain (domain(50)),
+	KEY user_agent (user_agent(50)),
+	KEY type (type),
 	KEY language (l10n_parent,sys_language_uid)
 );
 
@@ -126,6 +131,8 @@ CREATE TABLE tx_lux_domain_model_pagevisit (
 	KEY parent (pid),
 	KEY visitor (visitor),
 	KEY page (page),
+	KEY referrer (referrer(50)),
+	KEY domain (domain(50)),
 	KEY language (l10n_parent,sys_language_uid)
 );
 
@@ -157,6 +164,7 @@ CREATE TABLE tx_lux_domain_model_newsvisit (
 	KEY visitor (visitor),
 	KEY news (news),
 	KEY pagevisit (pagevisit),
+	KEY domain (domain(50)),
 	KEY language (l10n_parent,sys_language_uid)
 );
 
@@ -184,7 +192,9 @@ CREATE TABLE tx_lux_domain_model_download (
 	KEY parent (pid),
 	KEY visitor (visitor),
 	KEY file (file),
+	KEY href (href(50)),
 	KEY page (page),
+	KEY domain (domain(50)),
 	KEY language (l10n_parent,sys_language_uid)
 );
 
@@ -212,6 +222,8 @@ CREATE TABLE tx_lux_domain_model_ipinformation (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY visitor (visitor),
+	KEY name (name(20)),
+	KEY value (value(50)),
 	KEY language (l10n_parent,sys_language_uid)
 );
 
@@ -235,6 +247,7 @@ CREATE TABLE tx_lux_domain_model_search (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY visitor (visitor),
+	KEY searchterm (searchterm(20)),
 	KEY language (l10n_parent,sys_language_uid)
 );
 
@@ -260,6 +273,8 @@ CREATE TABLE tx_lux_domain_model_linklistener (
 
 	PRIMARY KEY (uid),
 	KEY parent (pid),
+	KEY linkclicks (linkclicks),
+	KEY category (category),
 	KEY language (l10n_parent,sys_language_uid)
 );
 
@@ -284,6 +299,7 @@ CREATE TABLE tx_lux_domain_model_categoryscoring (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY visitor (visitor),
+	KEY category (category),
 	KEY language (l10n_parent,sys_language_uid)
 );
 
@@ -348,6 +364,8 @@ CREATE TABLE tx_lux_domain_model_log (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY visitor (visitor),
+	KEY status (status),
+	KEY properties (properties(80)),
 	KEY language (l10n_parent,sys_language_uid)
 );
 

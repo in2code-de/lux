@@ -199,4 +199,5 @@ Example usage:
 ./vendor/bin/typo3 lux:cachewarmup lux_LuxAnalysis,lux_LuxLeads,web_layout https://domainforbackend.de
 ```
 
-Note: Every call of this command will clean all LUX cachelayer caches at the beginning of the task.
+**Note:** Every call of this command will clean all LUX cachelayer caches at the beginning of the task.
+**Note2:** This command can only be executed from CLI only

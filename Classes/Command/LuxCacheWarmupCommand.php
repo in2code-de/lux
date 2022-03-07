@@ -7,6 +7,7 @@ use In2code\Lux\Domain\Cache\CacheLayer;
 use In2code\Lux\Domain\Cache\CacheWarmup;
 use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Exception\ConfigurationException;
+use In2code\Lux\Exception\ContextException;
 use In2code\Lux\Exception\UnexpectedValueException;
 use In2code\Lux\Utility\CacheLayerUtility;
 use In2code\Lux\Utility\ConfigurationUtility;
@@ -17,6 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
@@ -60,14 +62,19 @@ class LuxCacheWarmupCommand extends Command
      * @param OutputInterface $output
      * @return int
      * @throws ConfigurationException
+     * @throws ContextException
      * @throws ExceptionDbalDriver
-     * @throws RouteNotFoundException
-     * @throws UnexpectedValueException
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
+     * @throws RouteNotFoundException
+     * @throws UnexpectedValueException
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
+        if (Environment::isCli() === false) {
+            throw new ContextException('This command can only be exected from CLI', 1645378130);
+        }
+
         $this->output = $output;
         $this->cacheWarmup = GeneralUtility::makeInstance(CacheWarmup::class);
         $this->flushCaches();
