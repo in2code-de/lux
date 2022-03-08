@@ -16,6 +16,7 @@
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 22.2.0     | 2022-03-05 | Task       | Show only identified leads in hottest box in dashboard. Make TYPO3 wizard with hottest leads more usable by always showing the email address.                                              |
 | 22.1.0     | 2022-03-07 | Feature    | General performance update                                                                                                                                                                 |
 | 22.0.0     | 2022-02-20 | Feature    | Reworked cache layer and warmup commands for a performance boost, rendering times for admins, readable numbers, some smaller performance optimizations, fix font problem in TYPO3 10       |
 | 21.4.0     | 2022-02-12 | Feature    | Small performance improvement for lead list                                                                                                                                                |
