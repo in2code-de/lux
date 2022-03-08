@@ -129,7 +129,7 @@ class VisitorRepository extends AbstractRepository
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
         $sql = 'select distinct v.uid from ' . Visitor::TABLE_NAME . ' v'
             . $this->extendFromClauseWithJoinByFilter($filter, ['pv', 'p', 'cs'])
-            . ' where v.deleted=0 and v.hidden=0'
+            . ' where v.deleted=0 and v.hidden=0 and v.identified=1'
             . $this->extendWhereClauseWithFilterSearchterms($filter, 'v', 'email')
             . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')

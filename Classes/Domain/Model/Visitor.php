@@ -14,6 +14,8 @@ use In2code\Lux\Domain\Service\VisitorImageService;
 use In2code\Lux\Exception\FileNotFoundException;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
@@ -1129,6 +1131,8 @@ class Visitor extends AbstractModel
 
     /**
      * @return string
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public function getImageUrl(): string
     {
@@ -1162,7 +1166,25 @@ class Visitor extends AbstractModel
     }
 
     /**
-     * @return string
+     * Always show email address. If name exists, also show a name
+     *
+     * @return string "Muster, Max (max.muster@domain.org)"
+     */
+    public function getFullNameWithEmail(): string
+    {
+        $name = $this->getNameCombination();
+        if ($this->isIdentified()) {
+            if ($name === '') {
+                $name = $this->getEmail();
+            } else {
+                $name .= ' (' . $this->getEmail() . ')';
+            }
+        }
+        return $name;
+    }
+
+    /**
+     * @return string "Muster, Max"
      */
     protected function getNameCombination(): string
     {
