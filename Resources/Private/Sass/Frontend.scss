@@ -33,6 +33,9 @@
 }
 
 .basicLightbox {
+    &--iframe &__placeholder {
+        pointer-events: all;
+    }
     iframe {
         background-color: $white;
     }
