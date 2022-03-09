@@ -138,11 +138,25 @@ function LuxMain() {
     } else {
       uri += '&luxContent=';
     }
-    var html = '<iframe src="' + uri + parseInt(contentElementUid) + '" width="1000" height="800"></iframe>';
+    var html = '<button class="basicLightbox__close" data-lux-action-lightbox="close">close</button>';
+    html += '<iframe src="' + uri + parseInt(contentElementUid) + '" width="1000" height="800"></iframe>';
     that.lightboxInstance = basicLightbox.create(html);
     setTimeout(function() {
       that.lightboxInstance.show();
+      lightboxCloseListener();
     }, parseInt(response['configuration']['delay']));
+  };
+
+  /**
+   * @returns {void}
+   */
+  var lightboxCloseListener = function() {
+    var elements = document.querySelectorAll('[data-lux-action-lightbox="close"]');
+    for (var i = 0; i < elements.length; i++) {
+      elements[i].addEventListener('click', function() {
+        that.lightboxInstance.close();
+      });
+    }
   };
 
   /**
