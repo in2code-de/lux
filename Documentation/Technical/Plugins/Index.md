@@ -72,3 +72,15 @@ content element - related to the category scoring of the current visitor.
 If you have added more then only one content element per category, the content element is selected randomly.
 
 <img src="../../../Documentation/Images/documentation_plugin_contextualcontent.png" width="800" />
+
+
+
+
+##### Plugin 3: Hidden content
+
+**NOTE:** This plugin is only part of the enterprise version. Look at
+https://www.in2code.de/produkte/lux-typo3-marketing-automation/ for more information.
+
+This plugin allows you to add invisible content elements on your page. Those can be shown via workflow action.
+
+<img src="../../../Documentation/Images/documentation_plugin_hiddencontent.png" width="800" />
