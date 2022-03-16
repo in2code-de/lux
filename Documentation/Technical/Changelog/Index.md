@@ -16,6 +16,7 @@
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 22.3.1     | 2022-03-16 | Bugfix     | Prevent egg-formed lead images in backend. Harden lead list filter (search in timeframe or search only with a searchterm)                                                                  |
 | 22.3.0     | 2022-03-09 | Feature    | Add close button to lightboxes. Allow interaction in lightboxes.                                                                                                                           |
 | 22.2.0     | 2022-03-05 | Task       | Show only identified leads in hottest box in dashboard. Make TYPO3 wizard with hottest leads more usable by always showing the email address.                                              |
 | 22.1.0     | 2022-03-07 | Feature    | General performance update                                                                                                                                                                 |
