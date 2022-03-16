@@ -479,11 +479,15 @@ class VisitorRepository extends AbstractRepository
     ): array {
         $logicalAnd[] = $query->logicalOr([
             // Also find leads without any pagevisits (e.g. with DNT header)
-            $query->equals('pagevisits.uid', null),
+            $query->logicalAnd([
+                $query->equals('pagevisits.uid', null),
+                $query->greaterThan('crdate', $filter->getStartTimeForFilter()),
+                $query->lessThan('crdate', $filter->getEndTimeForFilter())
+            ]),
             $query->logicalAnd([
                 $query->greaterThan('pagevisits.crdate', $filter->getStartTimeForFilter()),
                 $query->lessThan('pagevisits.crdate', $filter->getEndTimeForFilter())
-            ])
+            ]),
         ]);
 
         if ($filter->getSearchterms() !== []) {

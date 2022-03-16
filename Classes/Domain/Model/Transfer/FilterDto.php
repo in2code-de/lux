@@ -2,6 +2,8 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\Model\Transfer;
 
+use DateTime;
+use Exception;
 use In2code\Lux\Domain\Model\Category;
 use In2code\Lux\Domain\Repository\CategoryRepository;
 use In2code\Lux\Utility\DateUtility;
@@ -150,13 +152,13 @@ class FilterDto
     }
 
     /**
-     * @return \DateTime
-     * @throws \Exception
+     * @return DateTime
+     * @throws Exception
      */
-    public function getTimeFromDateTime(): \DateTime
+    public function getTimeFromDateTime(): DateTime
     {
         /** @noinspection PhpUnhandledExceptionInspection */
-        return new \DateTime($this->getTimeFrom());
+        return new DateTime($this->getTimeFrom());
     }
 
     /**
@@ -181,16 +183,16 @@ class FilterDto
     }
 
     /**
-     * @return \DateTime
-     * @throws \Exception
+     * @return DateTime
+     * @throws Exception
      */
-    public function getTimeToDateTime(): \DateTime
+    public function getTimeToDateTime(): DateTime
     {
         $timeTo = $this->getTimeTo();
         if ($timeTo === '') {
-            return new \DateTime();
+            return new DateTime();
         }
-        return new \DateTime($timeTo);
+        return new DateTime($timeTo);
     }
 
     /**
@@ -250,14 +252,14 @@ class FilterDto
      *
      * @param int $seconds
      * @return FilterDto
-     * @throws \Exception
+     * @throws Exception
      */
     public function setTimeFrame(int $seconds)
     {
         /** @noinspection PhpUnhandledExceptionInspection */
-        $timeFrom = new \DateTime($seconds . ' seconds ago');
+        $timeFrom = new DateTime($seconds . ' seconds ago');
         $this->setTimeFrom($timeFrom->format('c'));
-        $timeTo = new \DateTime();
+        $timeTo = new DateTime();
         $this->setTimeTo($timeTo->format('c'));
         return $this;
     }
@@ -363,13 +365,25 @@ class FilterDto
     }
 
     /**
+     * Is only a searchterm given and nothing else in backend filter?
+     *
+     * @return bool
+     */
+    protected function isOnlySearchtermGiven(): bool
+    {
+        return $this->searchterm !== '' && $this->pid === '' && $this->scoring === 0 && $this->categoryScoring === null
+            && $this->timeFrom === '' && $this->timeTo === '' && $this->timePeriod === self::PERIOD_DEFAULT
+            && $this->identified === self::IDENTIFIED_ALL && $this->domain === '';
+    }
+
+    /**
      * Get a start datetime for period filter
      *
      * @param bool $shortmode
-     * @return \DateTime
-     * @throws \Exception
+     * @return DateTime
+     * @throws Exception
      */
-    public function getStartTimeForFilter(bool $shortmode = false): \DateTime
+    public function getStartTimeForFilter(bool $shortmode = false): DateTime
     {
         if ($this->getTimeFrom()) {
             $time = $this->getTimeFromDateTime();
@@ -386,10 +400,10 @@ class FilterDto
     /**
      * Get a stop datetime for period filter
      *
-     * @return \DateTime
-     * @throws \Exception
+     * @return DateTime
+     * @throws Exception
      */
-    public function getEndTimeForFilter(): \DateTime
+    public function getEndTimeForFilter(): DateTime
     {
         if ($this->getTimeFrom()) {
             $time = $this->getTimeToDateTime();
@@ -400,66 +414,66 @@ class FilterDto
     }
 
     /**
-     * @return \DateTime
-     * @throws \Exception
+     * @return DateTime
+     * @throws Exception
      */
-    protected function getStartTimeFromTimePeriod(): \DateTime
+    protected function getStartTimeFromTimePeriod(): DateTime
     {
-        if ($this->getTimePeriod() === self::PERIOD_ALL) {
-            $time = new \DateTime();
+        if ($this->getTimePeriod() === self::PERIOD_ALL || $this->isOnlySearchtermGiven()) {
+            $time = new DateTime();
             $time->setTimestamp(0);
         } elseif ($this->getTimePeriod() === self::PERIOD_THISYEAR) {
-            $time = new \DateTime();
-            $time->setDate((int)$time->format('Y'), 1, 1)->setTime(0, 0, 0);
+            $time = new DateTime();
+            $time->setDate((int)$time->format('Y'), 1, 1)->setTime(0, 0);
         } elseif ($this->getTimePeriod() === self::PERIOD_LASTYEAR) {
-            $time = new \DateTime();
-            $time->setDate(((int)$time->format('Y') - 1), 1, 1)->setTime(0, 0, 0);
+            $time = new DateTime();
+            $time->setDate(((int)$time->format('Y') - 1), 1, 1)->setTime(0, 0);
         } elseif ($this->getTimePeriod() === self::PERIOD_THISMONTH) {
-            $time = new \DateTime('first day of this month');
-            $time->setTime(0, 0, 0);
+            $time = new DateTime('first day of this month');
+            $time->setTime(0, 0);
         } elseif ($this->getTimePeriod() === self::PERIOD_LASTMONTH) {
-            $time = new \DateTime('first day of last month');
-            $time->setTime(0, 0, 0);
+            $time = new DateTime('first day of last month');
+            $time->setTime(0, 0);
         } elseif ($this->getTimePeriod() === self::PERIOD_LAST12MONTH) {
-            $time = new \DateTime();
-            $time->modify('-12 months')->setTime(0, 0, 0);
+            $time = new DateTime();
+            $time->modify('-12 months')->setTime(0, 0);
         } elseif ($this->getTimePeriod() === self::PERIOD_LAST7DAYS) {
-            $time = new \DateTime('7 days ago midnight');
+            $time = new DateTime('7 days ago midnight');
         } elseif ($this->getTimePeriod() === self::PERIOD_7DAYSBEFORELAST7DAYS) {
-            $time = new \DateTime('14 days ago midnight');
+            $time = new DateTime('14 days ago midnight');
         } else {
-            $time = new \DateTime();
+            $time = new DateTime();
         }
         return $time;
     }
 
     /**
-     * @return \DateTime
-     * @throws \Exception
+     * @return DateTime
+     * @throws Exception
      */
-    protected function getEndTimeFromTimePeriod(): \DateTime
+    protected function getEndTimeFromTimePeriod(): DateTime
     {
         if ($this->getTimePeriod() === self::PERIOD_LASTYEAR) {
-            $time = new \DateTime('first day of january this year');
+            $time = new DateTime('first day of january this year');
         } elseif ($this->getTimePeriod() === self::PERIOD_LASTMONTH) {
-            $time = new \DateTime('last day of last month');
+            $time = new DateTime('last day of last month');
             $time->setTime(23, 59, 59);
         } elseif ($this->getTimePeriod() === self::PERIOD_7DAYSBEFORELAST7DAYS) {
-            $time = new \DateTime('7 days ago midnight');
+            $time = new DateTime('7 days ago midnight');
         } else {
-            $time = new \DateTime();
+            $time = new DateTime();
         }
         return $time;
     }
 
     /**
-     * @return \DateTime
-     * @throws \Exception
+     * @return DateTime
+     * @throws Exception
      */
-    protected function getStartTimeFromTimePeriodShort(): \DateTime
+    protected function getStartTimeFromTimePeriodShort(): DateTime
     {
         if ($this->isShortMode()) {
-            return new \DateTime('7 days ago midnight');
+            return new DateTime('7 days ago midnight');
         }
         return $this->getStartTimeFromTimePeriod();
     }
@@ -484,8 +498,8 @@ class FilterDto
      *      'frequency' => 'day' // or "week", "month", "year"
      *  ]
      *
-     * @return \DateTime[]
-     * @throws \Exception
+     * @return DateTime[]
+     * @throws Exception
      */
     public function getIntervals(): array
     {
@@ -515,8 +529,8 @@ class FilterDto
      *      'frequency' => 'day' // or "week", "month", "year"
      *  ]
      *
-     * @return \DateTime[]
-     * @throws \Exception
+     * @return DateTime[]
+     * @throws Exception
      */
     protected function getStartIntervals(): array
     {
@@ -537,8 +551,8 @@ class FilterDto
     }
 
     /**
-     * @return \DateTime[]
-     * @throws \Exception
+     * @return DateTime[]
+     * @throws Exception
      */
     protected function getHourIntervals(): array
     {
@@ -553,8 +567,8 @@ class FilterDto
     }
 
     /**
-     * @return \DateTime[]
-     * @throws \Exception
+     * @return DateTime[]
+     * @throws Exception
      */
     protected function getDayIntervals(): array
     {
@@ -569,8 +583,8 @@ class FilterDto
     }
 
     /**
-     * @return \DateTime[]
-     * @throws \Exception
+     * @return DateTime[]
+     * @throws Exception
      */
     protected function getWeekIntervals(): array
     {
@@ -585,8 +599,8 @@ class FilterDto
     }
 
     /**
-     * @return \DateTime[]
-     * @throws \Exception
+     * @return DateTime[]
+     * @throws Exception
      */
     protected function getMonthIntervals(): array
     {
@@ -601,8 +615,8 @@ class FilterDto
     }
 
     /**
-     * @return \DateTime[]
-     * @throws \Exception
+     * @return DateTime[]
+     * @throws Exception
      */
     protected function getYearIntervals(): array
     {
