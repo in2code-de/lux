@@ -14,7 +14,6 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
  */
 class ConfigurationUtility
 {
-
     /**
      * @return string
      * @throws ExtensionConfigurationExtensionNotConfiguredException
