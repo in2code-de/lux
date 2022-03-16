@@ -13,7 +13,7 @@ class BackendUtility
      * @param string $property
      * @return string|int
      */
-    public static function getPropertyFromBackendUser($property = 'uid')
+    public static function getPropertyFromBackendUser(string $property = 'uid')
     {
         if (!empty(self::getBackendUserAuthentication()->user[$property])) {
             return self::getBackendUserAuthentication()->user[$property];
@@ -38,6 +38,7 @@ class BackendUtility
      * @param string $controller
      * @param array $data
      * @return void
+     * @codeCoverageIgnore
      */
     public static function saveValueToSession(string $key, string $action, string $controller, array $data)
     {

@@ -27,7 +27,6 @@ class BackendUtilityTest extends UnitTestCase
 
     /**
      * @return void
-     * @SuppressWarnings(PHPMD.Superglobals)
      * @covers ::getPropertyFromBackendUser
      */
     public function testGetPropertyFromBackendUser()
@@ -37,12 +36,31 @@ class BackendUtilityTest extends UnitTestCase
         $this->assertSame($uidTest, BackendUtilityFixture::getPropertyFromBackendUser());
         $this->assertSame('lux_user', BackendUtilityFixture::getPropertyFromBackendUser('username'));
         $this->assertNotSame('', BackendUtilityFixture::getPropertyFromBackendUser('username'));
-        $this->assertNotSame('', BackendUtilityFixture::getPropertyFromBackendUser('uid'));
+        $this->assertNotSame('', BackendUtilityFixture::getPropertyFromBackendUser());
     }
 
     /**
      * @return void
-     * @SuppressWarnings(PHPMD.Superglobals)
+     * @covers ::isAdministrator
+     */
+    public function testIsAdministrator()
+    {
+        $this->assertFalse(BackendUtilityFixture::isAdministrator());
+        $this->initializeAuthentication(['uid' => 123], ['username' => 'lux_user'], ['admin' => 1]);
+        $this->assertTrue(BackendUtilityFixture::isAdministrator());
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetSessionValue()
+    {
+        $this->initializeAuthentication(['uid' => 123], ['username' => 'lux_user'], ['admin' => 1]);
+        $this->assertSame([], BackendUtilityFixture::getSessionValue('foo', 'bar', 'baz'));
+    }
+
+    /**
+     * @return void
      * @covers ::getBackendUserAuthentication
      */
     public function testGetBackendUserAuthentication()
@@ -55,6 +73,7 @@ class BackendUtilityTest extends UnitTestCase
 
     /**
      * @param array ...$properties
+     * @SuppressWarnings(PHPMD.Superglobals)
      * @return void
      */
     protected function initializeAuthentication(array ...$properties)

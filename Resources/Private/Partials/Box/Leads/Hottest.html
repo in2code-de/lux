@@ -11,8 +11,8 @@
                     <f:for each="{hottestVisitors}" as="visitor">
                         <li data-lux-identifier="UID{visitor.uid}">
                             <div class="row">
-                                <div class="col-md-3">
-                                    <img src="{visitor.imageUrl}" alt="{visitor.fullName}" class="img-circle img-small"/>
+                                <div class="col-md-3" style="padding:10px;">
+                                    <img src="{visitor.imageUrl}" alt="{visitor.fullName}" class="img-circle"/>
                                 </div>
                                 <div class="col-md-9">
                                     <f:link.action action="detail" controller="Lead" arguments="{visitor:visitor}">
