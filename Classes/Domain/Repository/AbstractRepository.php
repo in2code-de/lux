@@ -219,10 +219,8 @@ abstract class AbstractRepository extends Repository
         array $tables = ['pv', 'p', 'cs', 'v']
     ): string {
         $sql = '';
-        if ($filter->getScoring() > 0) {
-            if (in_array('v', $tables)) {
-                $sql .= ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = pv.visitor';
-            }
+        if (in_array('v', $tables)) {
+            $sql .= ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = pv.visitor';
         }
         if ($filter->getSearchterm() !== '' || $filter->getDomain() !== '') {
             if (in_array('pv', $tables)) {
