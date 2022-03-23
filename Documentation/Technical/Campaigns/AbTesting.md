@@ -55,3 +55,23 @@ Once you have activated A/B tests in page properties, you will see a result in p
 
 In the backend module you will see all active A/B tests with a short overview about their performance.
 Buttons allows you to change to edit view of a page or to pageoverview module with that page.
+
+
+##### Technical notes
+
+We already support also A/B Testing in "Backend User Sections" or on pages with "Frontend Authentication".
+If you want to use a Testing within such an area, the server itself will read the A or B target with a CURL-request. If
+session cookies for frontend or backend login is given, it will be passed in those requests.
+
+Nevertheless the IP address of the user may be different to the server and this is checked from TYPO3 by default.
+You can disable this check if you need it:
+
+```
+# For calling pages of type "Backend User Sections"
+$GLOBALS['TYPO3_CONF_VARS']['BE']['lockIP'] = 0;
+$GLOBALS['TYPO3_CONF_VARS']['BE']['lockIPv6'] = 0;
+
+# For calling pages of with a frontend authentication
+$GLOBALS['TYPO3_CONF_VARS']['FE']['lockIP'] = 0;
+$GLOBALS['TYPO3_CONF_VARS']['FE']['lockIPv6'] = 0;
+```
