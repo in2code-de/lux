@@ -9,7 +9,7 @@ This template is for EXT:luxletter to render a receiver analysis
     </h1>
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-7">
 
             <f:render partial="Miscellaneous/FlashMessages" arguments="{_all}"/>
 
@@ -23,6 +23,7 @@ This template is for EXT:luxletter to render a receiver analysis
                             <tr>
                                 <th>#</th>
                                 <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:luxletter.module.newsletter.receiver.table.receiver">receiver</f:translate></th>
+                                <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:luxletter.module.newsletter.receiver.table.email">email</f:translate></th>
                                 <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:luxletter.module.newsletter.receiver.table.usergroup">usergroup</f:translate></th>
                                 <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:luxletter.module.newsletter.receiver.table.newsletters">received newsletters</f:translate></th>
                                 <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:luxletter.module.newsletter.receiver.table.newsletteractions">newsletter actions</f:translate></th>
@@ -36,6 +37,7 @@ This template is for EXT:luxletter to render a receiver analysis
                                         <td>
                                             <span title="UID{user.uid} - {user.username}">{user.readableName}</span>
                                         </td>
+                                        <td>{user.email}</td>
                                         <td>
                                             <f:for each="{user.usergroup}" as="usergroup" iteration="iteration">
                                                 <span title="UID{usergroup.uid}">{usergroup.title}</span>
@@ -74,7 +76,7 @@ This template is for EXT:luxletter to render a receiver analysis
             </f:if>
 
         </div>
-        <div class="col-md-6" id="luxletter-newsletter-receiver-container">
+        <div class="col-md-5" id="luxletter-newsletter-receiver-container">
             <f:render partial="Newsletter/Receiver/MostActivest" arguments="{_all}"/>
         </div>
     </div>
