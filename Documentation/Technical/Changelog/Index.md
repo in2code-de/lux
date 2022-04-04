@@ -16,6 +16,7 @@
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 22.3.3     | 2022-04-04 | Bugfix     | Clean internal SVG files from id and class attributes.                                                                                                                                     |
 | 22.3.2     | 2022-03-23 | Bugfix     | Prevent SQL exception in page visit module on some cases.                                                                                                                                  |
 | 22.3.1     | 2022-03-16 | Bugfix     | Prevent egg-formed lead images in backend. Harden lead list filter (search in timeframe or search only with a searchterm)                                                                  |
 | 22.3.0     | 2022-03-09 | Feature    | Add close button to lightboxes. Allow interaction in lightboxes.                                                                                                                           |
