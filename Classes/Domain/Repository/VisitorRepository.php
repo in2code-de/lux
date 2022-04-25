@@ -21,6 +21,7 @@ use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Exception\FileNotFoundException;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\DateUtility;
+use In2code\Lux\Utility\StringUtility;
 use PDO;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
@@ -95,23 +96,31 @@ class VisitorRepository extends AbstractRepository
     }
 
     /**
+     * Is used for a command and the API requests in luxenterprise
+     *
      * @param string $propertyName
      * @param string $propertyValue
      * @param bool $exactMatch
+     * @param array $order
+     * @param int $limit
      * @return QueryResultInterface
      * @throws InvalidQueryException
      */
     public function findAllByProperty(
         string $propertyName,
         string $propertyValue,
-        bool $exactMatch
+        bool $exactMatch,
+        array $order = ['uid' => 'DESC'],
+        int $limit = 1000
     ): QueryResultInterface {
         $query = $this->createQuery();
-        $constraint = $query->equals($propertyName, $propertyValue);
+        $constraint = $query->equals(StringUtility::cleanString($propertyName), $propertyValue);
         if ($exactMatch === false) {
-            $constraint = $query->like($propertyName, '%' . $propertyValue . '%');
+            $constraint = $query->like(StringUtility::cleanString($propertyName), '%' . $propertyValue . '%');
         }
         $query->matching($constraint);
+        $query->setOrderings($order);
+        $query->setLimit($limit);
         return $query->execute();
     }
 

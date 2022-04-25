@@ -40,6 +40,7 @@ See more information in the chapters:
 ### [Plugins and Pageoverview](Plugins/Index.md)
 ### [Finisher](Finisher/Index.md)
 ### [Commands & Scheduler Tasks](Commands/Index.md)
+### [API](API/Index.md)
 ### [SignalSlots](SignalSlots/Index.md)
 ### [FAQ](FAQ/Index.md)
 ### [Changelog and breaking changes](Changelog/Index.md)

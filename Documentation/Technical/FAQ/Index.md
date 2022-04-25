@@ -206,6 +206,9 @@ If you define any type-parameters in your site configuration, you have to define
 | 1520192598 | Render content in a lightbox | in2code/luxenterprise |
 | 1560175278 | Render content via AJAX | in2code/luxenterprise |
 | 1520796480 | Render content via contextual content plugin | in2code/luxenterprise |
+| 1634676765 | Needed for A/B testing | in2code/luxenterprise |
+| 1639660481 | Linkhandler typolink configuration | in2code/luxenterprise |
+| 1650897821 | API of luxenterprise | in2code/luxenterprise |
 
 Example configuration:
 
@@ -233,6 +236,7 @@ routeEnhancers:
       contentContextualContent.html: 1520796480
       abtesting.html: 1634676765
       resolveTypolink.json: 1639660481
+      leadapi.json: 1650897821
 ...
 ```
 
