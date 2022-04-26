@@ -127,11 +127,14 @@ class VisitorRepository extends AbstractRepository
     }
 
     /**
+     * Used in API of luxenterprise
+     *
      * @param array $properties [['name' => 'email', 'value' => '@in2code', 'operator' => 'equals']]
      * @param array $orderings
      * @param int $limit
      * @return QueryResultInterface
      * @throws ParametersException
+     * @noinspection PhpUnused
      */
     public function findAllByAnyProperties(array $properties, array $orderings, int $limit): QueryResultInterface
     {
@@ -154,6 +157,23 @@ class VisitorRepository extends AbstractRepository
         $query->setOrderings(ArrayUtility::cleanStringForArrayKeys($orderings));
         $query->setLimit($limit);
         return $query->execute();
+    }
+
+    /**
+     * Used in API of luxenterprise
+     *
+     * @param string $propertyName
+     * @param string $propertyValue
+     * @return Visitor|null
+     * @noinspection PhpUnused
+     */
+    public function findByProperty(string $propertyName, string $propertyValue): ?Visitor
+    {
+        $query = $this->createQuery();
+        $query->matching($query->equals(StringUtility::cleanString($propertyName, false, '.%_-'), $propertyValue));
+        /** @var Visitor $visitor */
+        $visitor = $query->execute()->getFirst();
+        return $visitor;
     }
 
     /**
