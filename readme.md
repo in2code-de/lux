@@ -23,8 +23,8 @@ LUX will not set any cookies.
     </tr>
     <tr>
         <th colspan="2">Example dashboards</th>
-    <tr>
     </tr>
+    <tr>
         <td align="center">
             <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/master/Documentation/Images/screenshot_dashboard.png">
         </td>

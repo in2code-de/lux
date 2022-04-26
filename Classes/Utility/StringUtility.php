@@ -63,11 +63,13 @@ class StringUtility
     /**
      * @param string $string
      * @param bool $toLower
+     * @param string $addCharacters Allow some additional characters
      * @return string
      */
-    public static function cleanString(string $string, bool $toLower = false): string
+    public static function cleanString(string $string, bool $toLower = false, string $addCharacters = '_-'): string
     {
-        $string = preg_replace('/[^a-zA-Z0-9_-]/', '', $string);
+        $expression = '~[^a-zA-Z0-9' . $addCharacters . ']~';
+        $string = preg_replace($expression, '', $string);
         if ($toLower === true) {
             $string = strtolower($string);
         }
