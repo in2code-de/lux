@@ -17,19 +17,89 @@ an Api-Key and to define which IP-addresses are allowed to read from the API (op
 
 **Note:** Take care to add the typenum `1650897821` to your siteconfiguration (see FAQ for more details). In our example `leadapi.json` will be recognized from TYPO3 routing (see CURL examples below).
 
-#### Usage
+#### Endpoints
 
-##### Endpoints
+##### findAllByProperty
 
-At the beginning there is only one reading endpoint where you can search for any leads with a given propertyname and
-propertyvalue.
+This endpoint can be used to search for all leads by a given attribute name and value. In the example below, a search
+is triggered where in attribute `email` should be searched for any values like `in2code.de`.
+
+##### Default arguments
+
+This arguments are used by default if not overwritten in your request:
+
+```
+'endpoint' => 'findAllByProperty',
+'filter' => [
+    'exactMatch' => false
+],
+'limit' => 100,
+'depth' => 3,
+'orderings' => [
+    'uid' => 'DESC'
+],
+'defaultProperties' => [
+    'uid',
+    'scoring',
+    'email',
+    'email',
+    'identified',
+    'visits',
+    'blacklisted',
+    'attributes',
+]
+```
+
+##### Example usage
 
 CURL example:
 ```
-curl -d 'tx_luxenterprise_api[arguments]={"endpoint":"findAllByProperty","filter":{"propertyName":"email","propertyValue":"in2code.de"},"limit":100}' -H 'Api-Key: abc...' --url https://www.in2code.de/leadapi.json
+curl -d 'tx_luxenterprise_api[arguments]={"endpoint":"findAllByProperty","filter":{"propertyName":"email","propertyValue":"in2code.de"},"limit":1,"depth":2}' -H 'Api-Key: abc...' --url https://www.in2code.de/leadapi.json
 ```
 
 Example answer:
 ```
-{"arguments":{"endpoint":"findAllByProperty","filter":{"exactMatch":false,"propertyName":"email","propertyValue":"in2code.de"},"limit":1,"orderings":{"uid":"DESC"},"defaultProperties":["categoryscorings","scoring","email","email","identified","visits","blacklisted","attributes"]},"data":[{"scoring":647,"categoryscorings":[[],[],[]],"email":"alex@in2code.de","identified":true,"visits":13,"attributes":[[],[]],"blacklisted":false}]}
+{
+  "arguments": {
+    "endpoint": "findAllByProperty",
+    "filter": {
+      "exactMatch": false,
+      "propertyName": "email",
+      "propertyValue": "in2code.de"
+    },
+    "limit": 1,
+    "depth": 2,
+    "orderings": {
+      "uid": "DESC"
+    },
+    "defaultProperties": [
+      "categoryscorings",
+      "scoring",
+      "email",
+      "email",
+      "identified",
+      "visits",
+      "blacklisted",
+      "attributes"
+    ]
+  },
+  "data": [
+    {
+      "scoring": 647,
+      "categoryscorings": [
+        [],
+        [],
+        []
+      ],
+      "email": "alex@in2code.de",
+      "identified": true,
+      "visits": 13,
+      "attributes": [
+        [],
+        []
+      ],
+      "blacklisted": false
+    }
+  ]
+}
 ```
