@@ -45,4 +45,17 @@ class ArrayUtility
         }
         return $result;
     }
+
+    /**
+     * @param array $array
+     * @return array
+     */
+    public static function cleanStringForArrayKeys(array $array): array
+    {
+        $newArray = [];
+        foreach (array_keys($array) as $key) {
+            $newArray[StringUtility::cleanString($key, false, '._-')] = $array[$key];
+        }
+        return $newArray;
+    }
 }

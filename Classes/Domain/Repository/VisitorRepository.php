@@ -19,6 +19,8 @@ use In2code\Lux\Domain\Model\Search;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Exception\FileNotFoundException;
+use In2code\Lux\Exception\ParametersException;
+use In2code\Lux\Utility\ArrayUtility;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\DateUtility;
 use In2code\Lux\Utility\StringUtility;
@@ -110,7 +112,7 @@ class VisitorRepository extends AbstractRepository
         string $propertyName,
         string $propertyValue,
         bool $exactMatch,
-        array $order = ['uid' => 'DESC'],
+        array $orderings = ['uid' => 'DESC'],
         int $limit = 1000
     ): QueryResultInterface {
         $query = $this->createQuery();
@@ -119,7 +121,37 @@ class VisitorRepository extends AbstractRepository
             $constraint = $query->like(StringUtility::cleanString($propertyName), '%' . $propertyValue . '%');
         }
         $query->matching($constraint);
-        $query->setOrderings($order);
+        $query->setOrderings(ArrayUtility::cleanStringForArrayKeys($orderings));
+        $query->setLimit($limit);
+        return $query->execute();
+    }
+
+    /**
+     * @param array $properties [['name' => 'email', 'value' => '@in2code', 'operator' => 'equals']]
+     * @param array $orderings
+     * @param int $limit
+     * @return QueryResultInterface
+     * @throws ParametersException
+     */
+    public function findAllByAnyProperties(array $properties, array $orderings, int $limit): QueryResultInterface
+    {
+        $allowedOperators = ['greaterThan', 'greaterThanOrEqual', 'lessThan', 'lessThanOrEqual', 'equals', 'like'];
+        $query = $this->createQuery();
+        $and = [];
+        foreach ($properties as $property) {
+            if (empty($property['operator']) || in_array($property['operator'], $allowedOperators) === false) {
+                throw new ParametersException('Given property operator is empty or not valid', 1650987242);
+            }
+            if (empty($property['name']) || empty($property['value'])) {
+                throw new ParametersException('Property name or value is empty', 1650988934);
+            }
+            $and[] = $query->{$property['operator']}(
+                StringUtility::cleanString($property['name'], false, '.%_-'),
+                $property['value']
+            );
+        }
+        $query->matching($query->logicalAnd($and));
+        $query->setOrderings(ArrayUtility::cleanStringForArrayKeys($orderings));
         $query->setLimit($limit);
         return $query->execute();
     }
