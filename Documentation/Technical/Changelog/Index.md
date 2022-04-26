@@ -16,7 +16,8 @@
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 22.5.0     | 2022-04-25 | Feature    | Preperation for API                                                                                                                                                                        |
+| 22.6.0     | 2022-04-26 | Feature    | Extend API for a new endpoint                                                                                                                                                              |
+| 22.5.0     | 2022-04-25 | Feature    | Preperation for a proper API                                                                                                                                                               |
 | 22.4.0     | 2022-04-04 | Feature    | Show email addresses in luxletter receiver list.                                                                                                                                           |
 | 22.3.3     | 2022-04-04 | Bugfix     | Clean internal SVG files from id and class attributes.                                                                                                                                     |
 | 22.3.2     | 2022-03-23 | Bugfix     | Prevent SQL exception in page visit module on some cases.                                                                                                                                  |
