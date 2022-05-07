@@ -41,6 +41,6 @@ See more information in the chapters:
 ### [Finisher](Finisher/Index.md)
 ### [Commands & Scheduler Tasks](Commands/Index.md)
 ### [API](API/Index.md)
-### [SignalSlots](SignalSlots/Index.md)
+### [Events (PSR-14)](Events/Index.md)
 ### [FAQ](FAQ/Index.md)
 ### [Changelog and breaking changes](Changelog/Index.md)
