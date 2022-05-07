@@ -2,7 +2,7 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\Finisher;
 
-use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Events\AfterTrackingEvent;
 use In2code\Lux\Exception\ClassDoesNotExistException;
 use In2code\Lux\Exception\InterfaceIsMissingException;
 use In2code\Lux\Utility\ObjectUtility;
@@ -15,34 +15,23 @@ use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 class FinisherHandler
 {
     /**
-     * @param Visitor $visitor
-     * @param string $controllerAction
-     * @param array $actions
-     * @param array $parameters
-     * @return array
+     * @param AfterTrackingEvent $event
+     * @return void
      * @throws ClassDoesNotExistException
      * @throws InterfaceIsMissingException
      * @throws InvalidConfigurationTypeException
      */
-    public function startFinisher(
-        Visitor $visitor,
-        string $controllerAction,
-        array $actions,
-        array $parameters = []
-    ): array {
+    public function __invoke(AfterTrackingEvent $event): void
+    {
         foreach ($this->getFinisherClassConfiguration() as $fConfiguration) {
             /** @var AbstractFinisher $instance */
             $instance = GeneralUtility::makeInstance(
                 $fConfiguration['class'],
-                $visitor,
-                $controllerAction,
-                $actions,
-                $parameters,
-                $fConfiguration['configuration']
+                $event,
+                $fConfiguration['configuration'] ?? []
             );
-            $actions = $instance->handle();
+            $instance->handle();
         }
-        return [$visitor, $controllerAction, $actions, $parameters];
     }
 
     /**

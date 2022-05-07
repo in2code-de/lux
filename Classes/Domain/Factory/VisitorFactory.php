@@ -9,6 +9,7 @@ use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\VisitorMergeService;
 use In2code\Lux\Events\Log\LogVisitorEvent;
+use In2code\Lux\Events\StopAnyProcessBeforePersistenceEvent;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\FingerprintMustNotBeEmptyException;
 use In2code\Lux\Signal\SignalTrait;
@@ -51,7 +52,6 @@ class VisitorFactory
      *
      * @param string $identificator
      * @param bool $tempVisitor If there is no fingerprint (doNotTrack) but we even want to generate a visitor object
-     * @throws Exception
      * @throws FingerprintMustNotBeEmptyException
      */
     public function __construct(string $identificator, bool $tempVisitor = false)
@@ -62,7 +62,9 @@ class VisitorFactory
         $this->fingerprint = GeneralUtility::makeInstance(Fingerprint::class)->setValue($identificator);
         $this->visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $this->eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
-        $this->signalDispatch(__CLASS__, 'stopAnyProcessBeforePersistence', [$this->fingerprint]);
+        $this->eventDispatcher->dispatch(
+            GeneralUtility::makeInstance(StopAnyProcessBeforePersistenceEvent::class, $this->fingerprint)
+        );
     }
 
     /**
@@ -116,7 +118,6 @@ class VisitorFactory
      * @return Visitor|null
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
-     * @throws Exception
      */
     protected function getVisitorFromDatabaseByLegacyCookie(): ?Visitor
     {

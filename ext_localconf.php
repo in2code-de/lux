@@ -50,45 +50,6 @@ call_user_func(
             = \In2code\Lux\Hooks\LuxLinkListenerLinkhandler::class . '->postProcessTypoLink';
 
         /**
-         * Register Slots
-         */
-        $signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-            \TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class
-        );
-        // Calculate main scoring
-        $signalSlotDispatcher->connect(
-            \In2code\Lux\Controller\FrontendController::class,
-            'afterTracking',
-            \In2code\Lux\Domain\Service\ScoringService::class,
-            'calculateAndSetScoring',
-            false
-        );
-        // Calculate category scoring
-        $signalSlotDispatcher->connect(
-            \In2code\Lux\Controller\FrontendController::class,
-            'afterTracking',
-            \In2code\Lux\Domain\Service\CategoryScoringService::class,
-            'calculateAndSetScoring',
-            false
-        );
-        // Add finisher
-        $signalSlotDispatcher->connect(
-            \In2code\Lux\Controller\FrontendController::class,
-            'afterTracking',
-            \In2code\Lux\Domain\Finisher\FinisherHandler::class,
-            'startFinisher',
-            false
-        );
-        // Add a class to stop tracking
-        $signalSlotDispatcher->connect(
-            \In2code\Lux\Domain\Factory\VisitorFactory::class,
-            'stopAnyProcessBeforePersistence',
-            \In2code\Lux\Domain\Tracker\StopTracking::class,
-            'stop',
-            false
-        );
-
-        /**
          * CK editor configuration
          */
         if (\In2code\Lux\Utility\ConfigurationUtility::isCkEditorConfigurationNeeded()) {

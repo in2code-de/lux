@@ -3,6 +3,8 @@ declare(strict_types = 1);
 namespace In2code\Lux\Domain\Finisher;
 
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Events\AfterTrackingEvent;
+use Throwable;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 
 /**
@@ -10,25 +12,6 @@ use TYPO3\CMS\Core\Utility\ArrayUtility;
  */
 abstract class AbstractFinisher implements FinisherInterface
 {
-    /**
-     * @var Visitor
-     */
-    protected $visitor = null;
-
-    /**
-     * What was the start action for calling this finisher?
-     *
-     * Possible actions are:
-     *  "pageRequestAction"
-     *  "fieldListeningRequestAction"
-     *  "formListeningRequestAction"
-     *  "email4LinkRequestAction"
-     *  "downloadRequestAction"
-     *
-     * @var string
-     */
-    protected $controllerAction = '';
-
     /**
      * Overwrite this property if you want that your finisher will not be started by every start action
      *
@@ -43,16 +26,14 @@ abstract class AbstractFinisher implements FinisherInterface
     ];
 
     /**
-     * Former return values of the signal - e.g. actions from EXT:luxenterprise for JavaScript (AJAX)
-     *
-     * @var array
+     * @var Visitor
      */
-    protected $actions = [];
+    protected $visitor = null;
 
     /**
-     * @var array
+     * @var AfterTrackingEvent
      */
-    protected $parameters = [];
+    protected $event;
 
     /**
      * Finisher configuration from TypoScript setup
@@ -62,24 +43,13 @@ abstract class AbstractFinisher implements FinisherInterface
     protected $configuration = [];
 
     /**
-     * AbstractFinisher constructor.
-     * @param Visitor $visitor
-     * @param string $controllerAction
-     * @param array $actions
-     * @param array $parameters
+     * @param AfterTrackingEvent $event
      * @param array $configuration
      */
-    public function __construct(
-        Visitor $visitor,
-        string $controllerAction,
-        array $actions,
-        array $parameters,
-        array $configuration
-    ) {
-        $this->visitor = $visitor;
-        $this->controllerAction = $controllerAction;
-        $this->actions = $actions;
-        $this->parameters = $parameters;
+    public function __construct(AfterTrackingEvent $event, array $configuration)
+    {
+        $this->event = $event;
+        $this->visitor = $event->getVisitor();
         $this->configuration = $configuration;
     }
 
@@ -94,15 +64,14 @@ abstract class AbstractFinisher implements FinisherInterface
     }
 
     /**
-     * @return array
+     * @return void
      */
-    public function handle(): array
+    public function handle(): void
     {
         if ($this->shouldFinisherRun() === true
-            && in_array($this->controllerAction, $this->startWithControllerActions)) {
-            return array_merge([$this->start()], $this->getActions());
+            && in_array($this->event->getActionMethodName(), $this->startWithControllerActions)) {
+            $this->event->addResult($this->start());
         }
-        return $this->getActions();
     }
 
     /**
@@ -114,19 +83,11 @@ abstract class AbstractFinisher implements FinisherInterface
     }
 
     /**
-     * @return string
+     * @return AfterTrackingEvent
      */
-    public function getControllerAction(): string
+    public function getEvent(): AfterTrackingEvent
     {
-        return $this->controllerAction;
-    }
-
-    /**
-     * @return array
-     */
-    public function getActions(): array
-    {
-        return $this->actions;
+        return $this->event;
     }
 
     /**
@@ -159,7 +120,7 @@ abstract class AbstractFinisher implements FinisherInterface
         $configuration = $this->getConfiguration();
         try {
             return ArrayUtility::getValueByPath($configuration, $path, '.');
-        } catch (\Exception $exception) {
+        } catch (Throwable $exception) {
             unset($exception);
         }
         return '';

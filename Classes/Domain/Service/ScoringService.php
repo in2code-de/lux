@@ -8,6 +8,7 @@ use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\DownloadRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Events\AfterTrackingEvent;
 use In2code\Lux\Exception\ClassDoesNotExistException;
 use In2code\Lux\Utility\ConfigurationUtility;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
@@ -54,6 +55,18 @@ class ScoringService
             $this->time = $time;
         }
         $this->setCalculation();
+    }
+
+    /**
+     * @param AfterTrackingEvent $event
+     * @return void
+     * @throws IllegalObjectTypeException
+     * @throws InvalidQueryException
+     * @throws UnknownObjectException
+     */
+    public function calculateAndSetScoringFromEvent(AfterTrackingEvent $event): void
+    {
+        $this->calculateAndSetScoring($event->getVisitor());
     }
 
     /**

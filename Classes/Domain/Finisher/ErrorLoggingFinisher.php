@@ -7,7 +7,6 @@ use In2code\Lux\Domain\Service\Email\ErrorService;
 use In2code\Lux\Domain\Service\LogService;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\Exception as ExtbaseException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 
@@ -36,7 +35,6 @@ class ErrorLoggingFinisher extends AbstractFinisher
 
     /**
      * @return array
-     * @throws ExtbaseException
      * @throws IllegalObjectTypeException
      * @throws TransportExceptionInterface
      * @throws UnknownObjectException
@@ -44,7 +42,7 @@ class ErrorLoggingFinisher extends AbstractFinisher
     public function start(): array
     {
         /** @var Exception $exception */
-        $exception = $this->parameters['error'];
+        $exception = $this->event->getArgument('error');
         $this->log($exception);
         $this->sendEmail($exception);
         return [];
@@ -53,7 +51,6 @@ class ErrorLoggingFinisher extends AbstractFinisher
     /**
      * @param Exception $exception
      * @return void
-     * @throws ExtbaseException
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */

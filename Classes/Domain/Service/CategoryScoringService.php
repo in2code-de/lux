@@ -9,6 +9,7 @@ use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\CategoryRepository;
 use In2code\Lux\Domain\Repository\LinklistenerRepository;
 use In2code\Lux\Domain\Repository\PageRepository;
+use In2code\Lux\Events\AfterTrackingEvent;
 use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
@@ -23,26 +24,23 @@ use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 class CategoryScoringService
 {
     /**
-     * Is called over signal "afterTracking"
-     *
-     * @param Visitor $visitor
-     * @param string $actionMethodName
+     * @param AfterTrackingEvent $event
      * @return void
+     * @throws ExceptionDbalDriver
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
-     * @throws ExceptionDbalDriver
      */
-    public function calculateAndSetScoring(Visitor $visitor, string $actionMethodName): void
+    public function __invoke(AfterTrackingEvent $event): void
     {
-        if ($visitor->isNotBlacklisted()) {
-            if ($actionMethodName === 'pageRequestAction') {
-                $this->calculateCategoryScoringForPageRequest($visitor);
-            } elseif ($actionMethodName === 'downloadRequestAction') {
-                $this->calculateCategoryScoringForDownload($visitor);
-            } elseif ($actionMethodName === 'linkClickRequestAction') {
-                $this->calculateCategoryScoringForLinkClick($visitor);
+        if ($event->getVisitor()->isNotBlacklisted()) {
+            if ($event->getActionMethodName() === 'pageRequestAction') {
+                $this->calculateCategoryScoringForPageRequest($event->getVisitor());
+            } elseif ($event->getActionMethodName() === 'downloadRequestAction') {
+                $this->calculateCategoryScoringForDownload($event->getVisitor());
+            } elseif ($event->getActionMethodName() === 'linkClickRequestAction') {
+                $this->calculateCategoryScoringForLinkClick($event->getVisitor());
             }
         }
     }

@@ -17,36 +17,6 @@ services:
     arguments:
       $cache: '@cache.luxcachelayer'
 
-  In2code\Lux\Domain\Factory\Ipinformation\Handler:
-    public: true
-
-  In2code\Lux\Domain\Service\VisitorImageService:
-    public: true
-
-  In2code\Lux\Domain\Service\VisitorMergeService:
-    public: true
-
-  In2code\Lux\Domain\Tracker\NewsTracker:
-    public: true
-
-  In2code\Lux\Domain\Tracker\PageTracker:
-    public: true
-
-  In2code\Lux\Domain\Tracker\SearchTracker:
-    public: true
-
-  In2code\Lux\Hooks\PageOverview:
-    public: true
-
-  In2code\Lux\ViewHelpers\Lead\GetDateOfLatestPageVisitAndPageViewHelper:
-    public: true
-
-  In2code\Lux\ViewHelpers\Lead\GetDateOfLatestPageVisitViewHelper:
-    public: true
-
-  In2code\Lux\ViewHelpers\Page\GetVisitedPageAmountByPageIdentifierAndVisitorViewHelper:
-    public: true
-
   In2code\Lux\Command\LuxAnonymizeCommand:
     tags:
       - name: 'console.command'
@@ -108,6 +78,42 @@ services:
       - name: 'console.command'
         command: 'lux:serviceRecalculateScoring'
 
+  In2code\Lux\Domain\Factory\Ipinformation\Handler:
+    public: true
+
+  In2code\Lux\Domain\Service\VisitorImageService:
+    public: true
+
+  In2code\Lux\Domain\Service\VisitorMergeService:
+    public: true
+
+  In2code\Lux\Domain\Tracker\NewsTracker:
+    public: true
+
+  In2code\Lux\Domain\Tracker\PageTracker:
+    public: true
+
+  In2code\Lux\Domain\Tracker\SearchTracker:
+    public: true
+
+  In2code\Lux\Hooks\PageOverview:
+    public: true
+
+  In2code\Lux\ViewHelpers\Lead\GetDateOfLatestPageVisitAndPageViewHelper:
+    public: true
+
+  In2code\Lux\ViewHelpers\Lead\GetDateOfLatestPageVisitViewHelper:
+    public: true
+
+  In2code\Lux\ViewHelpers\Page\GetVisitedPageAmountByPageIdentifierAndVisitorViewHelper:
+    public: true
+
+  In2code\Lux\Domain\Finisher\FinisherHandler:
+    tags:
+      - name: 'event.listener'
+        identifier: 'lux/finisher'
+        event: In2code\Lux\Events\AfterTrackingEvent
+
   In2code\Lux\Domain\LogEventListeners\Log:
     tags:
       - name: 'event.listener'
@@ -154,3 +160,22 @@ services:
         identifier: 'lux/logLinkClick'
         method: 'logLinkClick'
         event: In2code\Lux\Events\Log\LinkClickEvent
+
+  In2code\Lux\Domain\Service\CategoryScoringService:
+    tags:
+      - name: 'event.listener'
+        identifier: 'lux/calculateCategoryScoring'
+        event: In2code\Lux\Events\AfterTrackingEvent
+
+  In2code\Lux\Domain\Service\ScoringService:
+    tags:
+      - name: 'event.listener'
+        identifier: 'lux/calculateScoring'
+        method: 'calculateAndSetScoringFromEvent'
+        event: In2code\Lux\Events\AfterTrackingEvent
+
+  In2code\Lux\Domain\Tracker\StopTracking:
+    tags:
+      - name: 'event.listener'
+        identifier: 'lux/stopTracking'
+        event: In2code\Lux\Events\StopAnyProcessBeforePersistenceEvent
