@@ -10,7 +10,6 @@ use In2code\Lux\Domain\Repository\LinkclickRepository;
 use In2code\Lux\Domain\Repository\LinklistenerRepository;
 use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Events\Log\LinkClickEvent;
-use In2code\Lux\Signal\SignalTrait;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
@@ -20,8 +19,6 @@ use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
  */
 class LinkClickTracker
 {
-    use SignalTrait;
-
     /**
      * @var Visitor
      */

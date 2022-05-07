@@ -7,8 +7,9 @@ use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
-use In2code\Lux\Signal\SignalTrait;
+use In2code\Lux\Events\PageTrackerEvent;
 use In2code\Lux\Utility\ObjectUtility;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -20,21 +21,24 @@ use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
  */
 class PageTracker
 {
-    use SignalTrait;
-
     /**
      * @var VisitorRepository
      */
     protected $visitorRepository;
 
     /**
-     * Constructor
-     *
-     * @param VisitorRepository $visitorRepository
+     * @var EventDispatcherInterface
      */
-    public function __construct(VisitorRepository $visitorRepository)
+    private $eventDispatcher;
+
+    /**
+     * @param VisitorRepository $visitorRepository
+     * @param EventDispatcherInterface $eventDispatcher
+     */
+    public function __construct(VisitorRepository $visitorRepository, EventDispatcherInterface $eventDispatcher)
     {
         $this->visitorRepository = $visitorRepository;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -57,7 +61,7 @@ class PageTracker
             $visitor->setVisits($visitor->getNumberOfUniquePagevisits());
             $this->visitorRepository->update($visitor);
             $this->visitorRepository->persistAll();
-            $this->signalDispatch(__CLASS__, __METHOD__, [$visitor]);
+            $this->eventDispatcher->dispatch(GeneralUtility::makeInstance(PageTrackerEvent::class, $visitor));
             return $pagevisit;
         }
         return null;

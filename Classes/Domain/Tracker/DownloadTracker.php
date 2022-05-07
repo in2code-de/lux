@@ -9,7 +9,6 @@ use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\FileService;
 use In2code\Lux\Events\Log\DownloadEvent;
-use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -23,8 +22,6 @@ use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
  */
 class DownloadTracker
 {
-    use SignalTrait;
-
     /**
      * @var Visitor|null
      */

@@ -70,8 +70,6 @@ class ScoringService
     }
 
     /**
-     * Is called via command or via signal "afterTracking"
-     *
      * @param Visitor $visitor
      * @return void
      * @throws InvalidQueryException

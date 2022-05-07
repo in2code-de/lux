@@ -10,9 +10,10 @@ use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\VisitorMergeService;
 use In2code\Lux\Events\Log\LogVisitorEvent;
 use In2code\Lux\Events\StopAnyProcessBeforePersistenceEvent;
+use In2code\Lux\Events\VisitorFactoryAfterCreateNewEvent;
+use In2code\Lux\Events\VisitorFactoryBeforeCreateNewEvent;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\FingerprintMustNotBeEmptyException;
-use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\CookieUtility;
 use In2code\Lux\Utility\IpUtility;
@@ -30,8 +31,6 @@ use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
  */
 class VisitorFactory
 {
-    use SignalTrait;
-
     /**
      * @var Fingerprint
      */
@@ -80,13 +79,17 @@ class VisitorFactory
     public function getVisitor(): Visitor
     {
         $visitor = $this->getVisitorFromDatabaseByFingerprint();
-        $this->signalDispatch(__CLASS__, __FUNCTION__ . 'beforeCreateNew', [$this->fingerprint]);
+        $this->eventDispatcher->dispatch(
+            GeneralUtility::makeInstance(VisitorFactoryBeforeCreateNewEvent::class, $visitor, $this->fingerprint)
+        );
         if ($visitor === null) {
             $visitor = $this->createNewVisitor();
             $this->visitorRepository->add($visitor);
             $this->visitorRepository->persistAll();
         }
-        $this->signalDispatch(__CLASS__, __FUNCTION__, [$this->fingerprint]);
+        $this->eventDispatcher->dispatch(
+            GeneralUtility::makeInstance(VisitorFactoryAfterCreateNewEvent::class, $visitor, $this->fingerprint)
+        );
         return $visitor;
     }
 

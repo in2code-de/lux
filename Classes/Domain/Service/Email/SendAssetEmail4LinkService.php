@@ -6,7 +6,7 @@ use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Service\ConfigurationService;
 use In2code\Lux\Events\Log\LogEmail4linkSendEmailEvent;
 use In2code\Lux\Events\Log\LogEmail4linkSendEmailFailedEvent;
-use In2code\Lux\Signal\SignalTrait;
+use In2code\Lux\Events\SetAssetEmail4LinkEvent;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use In2code\Lux\Utility\UrlUtility;
@@ -15,7 +15,7 @@ use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Resource\Security\FileNameValidator;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
@@ -23,8 +23,6 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  */
 class SendAssetEmail4LinkService
 {
-    use SignalTrait;
-
     /**
      * @var Visitor|null
      */
@@ -62,7 +60,7 @@ class SendAssetEmail4LinkService
     /**
      * @param string $href
      * @return void
-     * @throws Exception
+     * @throws InvalidConfigurationTypeException
      */
     public function sendMail(string $href): void
     {
@@ -83,7 +81,7 @@ class SendAssetEmail4LinkService
     /**
      * @param string $href
      * @return void
-     * @throws Exception
+     * @throws InvalidConfigurationTypeException
      */
     protected function send(string $href): void
     {
@@ -95,7 +93,9 @@ class SendAssetEmail4LinkService
             ->attachFromPath(GeneralUtility::getFileAbsFileName(UrlUtility::convertToRelative($href)))
             ->html($this->getMailTemplate($href));
         $this->setBcc($message);
-        $this->signalDispatch(__CLASS__, 'send', [$message, $this->visitor, $href]);
+        $this->eventDispatcher->dispatch(
+            GeneralUtility::makeInstance(SetAssetEmail4LinkEvent::class, $this->visitor, $message, $href)
+        );
         $message->send();
     }
 
@@ -124,6 +124,7 @@ class SendAssetEmail4LinkService
     /**
      * @param string $href
      * @return string
+     * @throws InvalidConfigurationTypeException
      */
     protected function getMailTemplate(string $href): string
     {
@@ -141,6 +142,7 @@ class SendAssetEmail4LinkService
 
     /**
      * @return array
+     * @throws InvalidConfigurationTypeException
      */
     protected function getSender(): array
     {
@@ -150,6 +152,7 @@ class SendAssetEmail4LinkService
 
     /**
      * @return string
+     * @throws InvalidConfigurationTypeException
      */
     protected function getSubject(): string
     {
@@ -159,6 +162,7 @@ class SendAssetEmail4LinkService
     /**
      * @param string $href
      * @return bool
+     * @throws InvalidConfigurationTypeException
      */
     protected function isActivatedAndAllowed(string $href): bool
     {
@@ -168,6 +172,7 @@ class SendAssetEmail4LinkService
 
     /**
      * @return bool
+     * @throws InvalidConfigurationTypeException
      */
     protected function isEnabled(): bool
     {
@@ -178,6 +183,7 @@ class SendAssetEmail4LinkService
     /**
      * @param string $href
      * @return bool
+     * @throws InvalidConfigurationTypeException
      */
     protected function isAllowedFileExtension(string $href): bool
     {

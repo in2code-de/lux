@@ -21,7 +21,6 @@ use In2code\Lux\Events\AfterTrackingEvent;
 use In2code\Lux\Exception\ActionNotAllowedException;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\EmailValidationException;
-use In2code\Lux\Signal\SignalTrait;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
@@ -42,8 +41,6 @@ use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
  */
 class FrontendController extends ActionController
 {
-    use SignalTrait;
-
     /**
      * @var EventDispatcherInterface
      */

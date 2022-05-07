@@ -2,7 +2,6 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Domain\Tracker;
 
-use Doctrine\DBAL\DBALException;
 use In2code\Lux\Exception\EmailValidationException;
 use In2code\Lux\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -27,7 +26,6 @@ class FrontenduserAuthenticationTracker extends AbstractFrontenduserTracker
      * @throws InvalidSlotException
      * @throws InvalidSlotReturnException
      * @throws UnknownObjectException
-     * @throws DBALException
      */
     public function trackByFrontenduserAuthentication(): void
     {
