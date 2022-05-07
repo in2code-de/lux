@@ -107,3 +107,50 @@ services:
     tags:
       - name: 'console.command'
         command: 'lux:serviceRecalculateScoring'
+
+  In2code\Lux\Domain\LogEventListeners\Log:
+    tags:
+      - name: 'event.listener'
+        identifier: 'lux/logNewVisitor'
+        method: 'logNewVisitor'
+        event: In2code\Lux\Events\Log\LogVisitorEvent
+      - name: 'event.listener'
+        identifier: 'lux/logVisitorIdentifiedByFieldlistening'
+        method: 'logIdentifiedVisitorByFieldListening'
+        event: In2code\Lux\Events\Log\LogVisitorIdentifiedByFieldlisteningEvent
+      - name: 'event.listener'
+        identifier: 'lux/logVisitorIdentifiedByFormlistening'
+        method: 'logIdentifiedVisitorByFormListening'
+        event: In2code\Lux\Events\Log\LogVisitorIdentifiedByFormlisteningEvent
+      - name: 'event.listener'
+        identifier: 'lux/logVisitorIdentifiedByEmail4link'
+        method: 'logIdentifiedVisitorByEmail4Link'
+        event: In2code\Lux\Events\Log\LogVisitorIdentifiedByEmail4linkEvent
+      - name: 'event.listener'
+        identifier: 'lux/logVisitorIdentifiedByLuxletterlink'
+        method: 'logIdentifiedVisitorByLuxletterlink'
+        event: In2code\Lux\Events\Log\LogVisitorIdentifiedByLuxletterlinkEvent
+      - name: 'event.listener'
+        identifier: 'lux/logVisitorIdentifiedByFrontendauthentication'
+        method: 'logIdentifiedVisitorByFrontendauthentication'
+        event: In2code\Lux\Events\Log\LogVisitorIdentifiedByFrontendauthenticationEvent
+      - name: 'event.listener'
+        identifier: 'lux/logEmail4linkSendEmailEvent'
+        method: 'logEmail4LinkEmail'
+        event: In2code\Lux\Events\Log\LogEmail4linkSendEmailEvent
+      - name: 'event.listener'
+        identifier: 'lux/logEmail4linkSendEmailFailedEvent'
+        method: 'logEmail4LinkEmailFailed'
+        event: In2code\Lux\Events\Log\LogEmail4linkSendEmailFailedEvent
+      - name: 'event.listener'
+        identifier: 'lux/logDownload'
+        method: 'logDownload'
+        event: In2code\Lux\Events\Log\DownloadEvent
+      - name: 'event.listener'
+        identifier: 'lux/logSearch'
+        method: 'logSearch'
+        event: In2code\Lux\Events\Log\SearchEvent
+      - name: 'event.listener'
+        identifier: 'lux/logLinkClick'
+        method: 'logLinkClick'
+        event: In2code\Lux\Events\Log\LinkClickEvent

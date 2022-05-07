@@ -8,6 +8,7 @@ use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\VisitorMergeService;
+use In2code\Lux\Events\Log\LogVisitorEvent;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\FingerprintMustNotBeEmptyException;
 use In2code\Lux\Signal\SignalTrait;
@@ -15,6 +16,7 @@ use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\CookieUtility;
 use In2code\Lux\Utility\IpUtility;
 use In2code\Lux\Utility\StringUtility;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -40,6 +42,11 @@ class VisitorFactory
     protected $visitorRepository = null;
 
     /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
+    /**
      * VisitorFactory constructor.
      *
      * @param string $identificator
@@ -54,6 +61,7 @@ class VisitorFactory
         }
         $this->fingerprint = GeneralUtility::makeInstance(Fingerprint::class)->setValue($identificator);
         $this->visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
+        $this->eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
         $this->signalDispatch(__CLASS__, 'stopAnyProcessBeforePersistence', [$this->fingerprint]);
     }
 
@@ -137,8 +145,9 @@ class VisitorFactory
         $visitor = GeneralUtility::makeInstance(Visitor::class);
         $visitor->addFingerprint($this->fingerprint);
         $this->enrichNewVisitorWithIpInformation($visitor);
-        $this->signalDispatch(__CLASS__, 'newVisitor', [$visitor]);
-        return $visitor;
+        /** @var LogVisitorEvent $event */
+        $event = $this->eventDispatcher->dispatch(GeneralUtility::makeInstance(LogVisitorEvent::class, $visitor));
+        return $event->getVisitor();
     }
 
     /**

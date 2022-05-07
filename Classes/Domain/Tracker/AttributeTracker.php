@@ -13,6 +13,7 @@ use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\EmailValidationException;
 use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\ObjectUtility;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -63,6 +64,11 @@ class AttributeTracker
     protected $attributeRepository = null;
 
     /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
+    /**
      * AttributeTracker constructor.
      *
      * @param Visitor $visitor
@@ -79,6 +85,7 @@ class AttributeTracker
         $this->pageIdentifier = $pageIdentifier;
         $this->visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $this->attributeRepository = GeneralUtility::makeInstance(AttributeRepository::class);
+        $this->eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
     }
 
     /**
@@ -137,10 +144,14 @@ class AttributeTracker
             }
             if ($attribute->isEmail()) {
                 if ($this->visitor->isIdentified() === false) {
-                    $this->signalDispatch(
-                        __CLASS__,
-                        'isIdentifiedBy' . $this->context,
-                        [$attribute, $this->visitor, $this->pageIdentifier]
+                    $className = 'In2code\Lux\Events\Log\LogVisitorIdentifiedBy' . $this->context . 'Event';
+                    $this->eventDispatcher->dispatch(
+                        GeneralUtility::makeInstance(
+                            $className,
+                            $this->visitor,
+                            $attribute,
+                            $this->pageIdentifier
+                        )
                     );
                 }
                 $this->visitor->setIdentified(true);

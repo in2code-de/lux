@@ -5,12 +5,13 @@ namespace In2code\Lux\Domain\Tracker;
 use In2code\Lux\Domain\Model\Search;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Events\Log\SearchEvent;
 use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
-use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
  * Class SearchTracker
@@ -30,14 +31,19 @@ class SearchTracker
     protected $settings = [];
 
     /**
-     * Constructor
-     *
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
+    /**
      * @param VisitorRepository $visitorRepository
+     * @param EventDispatcherInterface $eventDispatcher
      * @throws InvalidConfigurationTypeException
      */
-    public function __construct(VisitorRepository $visitorRepository)
+    public function __construct(VisitorRepository $visitorRepository, EventDispatcherInterface $eventDispatcher)
     {
         $this->visitorRepository = $visitorRepository;
+        $this->eventDispatcher = $eventDispatcher;
         $configurationService = ObjectUtility::getConfigurationService();
         $this->settings = $configurationService->getTypoScriptSettings();
     }
@@ -46,7 +52,6 @@ class SearchTracker
      * @param Visitor $visitor
      * @param array $arguments
      * @return void
-     * @throws Exception
      */
     public function track(Visitor $visitor, array $arguments): void
     {
@@ -61,7 +66,9 @@ class SearchTracker
             ];
             $queryBuilder->insert(Search::TABLE_NAME)->values($properties)->execute();
             $searchUid = $queryBuilder->getConnection()->lastInsertId();
-            $this->signalDispatch(__CLASS__, __FUNCTION__, [$visitor, (int)$searchUid]);
+            $this->eventDispatcher->dispatch(
+                GeneralUtility::makeInstance(SearchEvent::class, $visitor, (int)$searchUid)
+            );
         }
     }
 

@@ -8,12 +8,13 @@ use In2code\Lux\Domain\Repository\DownloadRepository;
 use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\FileService;
+use In2code\Lux\Events\Log\DownloadEvent;
 use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
-use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 
@@ -35,26 +36,29 @@ class DownloadTracker
     protected $visitorRepository = null;
 
     /**
-     * DownloadTracker constructor.
-     *
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
+    /**
      * @param Visitor $visitor
      */
     public function __construct(Visitor $visitor)
     {
         $this->visitor = $visitor;
         $this->visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
+        $this->eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
     }
 
     /**
      * @param string $href
      * @param int $pageIdentifier
      * @return void
-     * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      * @throws InvalidConfigurationTypeException
      */
-    public function addDownload(string $href, int $pageIdentifier)
+    public function addDownload(string $href, int $pageIdentifier): void
     {
         if ($this->isDownloadAddingEnabled($href)) {
             $download = $this->getAndPersistNewDownload($href, $pageIdentifier);
@@ -62,7 +66,9 @@ class DownloadTracker
             $download->setVisitor($this->visitor);
             $this->visitorRepository->update($this->visitor);
             $this->visitorRepository->persistAll();
-            $this->signalDispatch(__CLASS__, 'addDownload', [$download, $this->visitor]);
+            $this->eventDispatcher->dispatch(
+                GeneralUtility::makeInstance(DownloadEvent::class, $this->visitor, $download)
+            );
         }
     }
 

@@ -4,10 +4,13 @@ namespace In2code\Lux\Domain\Service\Email;
 
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Service\ConfigurationService;
+use In2code\Lux\Events\Log\LogEmail4linkSendEmailEvent;
+use In2code\Lux\Events\Log\LogEmail4linkSendEmailFailedEvent;
 use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use In2code\Lux\Utility\UrlUtility;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Resource\Security\FileNameValidator;
 use TYPO3\CMS\Core\Resource\StorageRepository;
@@ -40,8 +43,11 @@ class SendAssetEmail4LinkService
     protected $configurationService = null;
 
     /**
-     * Constructor
-     *
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
+    /**
      * @param Visitor $visitor
      * @param array $settings
      */
@@ -50,6 +56,7 @@ class SendAssetEmail4LinkService
         $this->visitor = $visitor;
         $this->settings = $settings;
         $this->configurationService = ObjectUtility::getConfigurationService();
+        $this->eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
     }
 
     /**
@@ -62,9 +69,13 @@ class SendAssetEmail4LinkService
         if ($this->visitor->isNotBlacklisted()) {
             if ($this->isActivatedAndAllowed($href)) {
                 $this->send($href);
-                $this->signalDispatch(__CLASS__, 'email4linkSendEmail', [$this->visitor, $href]);
+                $this->eventDispatcher->dispatch(
+                    GeneralUtility::makeInstance(LogEmail4linkSendEmailEvent::class, $this->visitor, $href)
+                );
             } else {
-                $this->signalDispatch(__CLASS__, 'email4linkSendEmailFailed', [$this->visitor, $href]);
+                $this->eventDispatcher->dispatch(
+                    GeneralUtility::makeInstance(LogEmail4linkSendEmailFailedEvent::class, $this->visitor, $href)
+                );
             }
         }
     }
