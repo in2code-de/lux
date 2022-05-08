@@ -664,6 +664,9 @@
 			<trans-unit id="module.analysis.log.status.100">
 				<source>URL shortener used</source>
 			</trans-unit>
+			<trans-unit id="module.analysis.log.status.200">
+				<source>A/B testing page called</source>
+			</trans-unit>
 			<trans-unit id="module.analysis.map">
 				<source>Lead source</source>
 			</trans-unit>

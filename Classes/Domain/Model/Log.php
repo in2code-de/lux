@@ -4,6 +4,8 @@ namespace In2code\Lux\Domain\Model;
 
 use In2code\Lux\Domain\Repository\LinklistenerRepository;
 use In2code\Lux\Domain\Repository\SearchRepository;
+use In2code\Luxenterprise\Domain\Model\AbTestingPage;
+use In2code\Luxenterprise\Domain\Repository\AbTestingPageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -167,6 +169,19 @@ class Log extends AbstractModel
     public function getShortenerpath(): string
     {
         return $this->getPropertyByKey('path');
+    }
+
+    /**
+     * @return AbTestingPage|null
+     */
+    public function getAbTestingPage(): ?AbTestingPage
+    {
+        $abTestingPageIdentifier = $this->getPropertyByKey('abTestingPage');
+        if ($abTestingPageIdentifier > 0) {
+            $abTestingPageRepository = GeneralUtility::makeInstance(AbTestingPageRepository::class);
+            return $abTestingPageRepository->findByUid($abTestingPageIdentifier);
+        }
+        return null;
     }
 
     /**
