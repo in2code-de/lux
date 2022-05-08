@@ -198,10 +198,10 @@ class AttributeTracker
         if ($attribute !== null) {
             $attribute->setValue($value);
             $this->attributeRepository->update($attribute);
+            $this->eventDispatcher->dispatch(
+                GeneralUtility::makeInstance(AttributeOverwriteEvent::class, $this->visitor, $attribute)
+            );
         }
-        $this->eventDispatcher->dispatch(
-            GeneralUtility::makeInstance(AttributeOverwriteEvent::class, $this->visitor, $attribute)
-        );
         return $attribute;
     }
 
