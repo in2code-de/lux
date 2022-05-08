@@ -9,10 +9,12 @@ use In2code\Lux\Domain\Repository\AttributeRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\Provider\AllowedMail;
 use In2code\Lux\Domain\Service\VisitorMergeService;
+use In2code\Lux\Events\AttributeCreateEvent;
+use In2code\Lux\Events\AttributeOverwriteEvent;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\EmailValidationException;
-use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\ObjectUtility;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -26,8 +28,6 @@ use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
  */
 class AttributeTracker
 {
-    use SignalTrait;
-
     const CONTEXT_FIELDLISTENING = 'Fieldlistening';
     const CONTEXT_FORMLISTENING = 'Formlistening';
     const CONTEXT_EMAIL4LINK = 'Email4link';
@@ -63,6 +63,11 @@ class AttributeTracker
     protected $attributeRepository = null;
 
     /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
+    /**
      * AttributeTracker constructor.
      *
      * @param Visitor $visitor
@@ -79,6 +84,7 @@ class AttributeTracker
         $this->pageIdentifier = $pageIdentifier;
         $this->visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $this->attributeRepository = GeneralUtility::makeInstance(AttributeRepository::class);
+        $this->eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
     }
 
     /**
@@ -133,14 +139,20 @@ class AttributeTracker
             if ($attribute === null) {
                 $attribute = $this->createNewAttribute($key, $value);
                 $this->visitor->addAttribute($attribute);
-                $this->signalDispatch(__CLASS__, 'createNewAttribute', [$attribute, $this->visitor]);
+                $this->eventDispatcher->dispatch(
+                    GeneralUtility::makeInstance(AttributeCreateEvent::class, $this->visitor, $attribute)
+                );
             }
             if ($attribute->isEmail()) {
                 if ($this->visitor->isIdentified() === false) {
-                    $this->signalDispatch(
-                        __CLASS__,
-                        'isIdentifiedBy' . $this->context,
-                        [$attribute, $this->visitor, $this->pageIdentifier]
+                    $className = 'In2code\Lux\Events\Log\LogVisitorIdentifiedBy' . $this->context . 'Event';
+                    $this->eventDispatcher->dispatch(
+                        GeneralUtility::makeInstance(
+                            $className,
+                            $this->visitor,
+                            $attribute,
+                            $this->pageIdentifier
+                        )
                     );
                 }
                 $this->visitor->setIdentified(true);
@@ -178,10 +190,7 @@ class AttributeTracker
      * @param string $value
      * @return Attribute|object|null
      * @throws IllegalObjectTypeException
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
      * @throws UnknownObjectException
-     * @throws Exception
      */
     protected function getAndUpdateAttributeFromDatabase(string $key, string $value)
     {
@@ -190,7 +199,9 @@ class AttributeTracker
             $attribute->setValue($value);
             $this->attributeRepository->update($attribute);
         }
-        $this->signalDispatch(__CLASS__, __FUNCTION__, [$attribute]);
+        $this->eventDispatcher->dispatch(
+            GeneralUtility::makeInstance(AttributeOverwriteEvent::class, $this->visitor, $attribute)
+        );
         return $attribute;
     }
 

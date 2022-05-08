@@ -3,6 +3,7 @@ declare(strict_types = 1);
 namespace In2code\Lux\Domain\Tracker;
 
 use In2code\Lux\Domain\Model\Fingerprint;
+use In2code\Lux\Events\StopAnyProcessBeforePersistenceEvent;
 use In2code\Lux\Exception\DisallowedUserAgentException;
 
 /**
@@ -24,7 +25,7 @@ class StopTracking
      * @var array
      */
     protected $blacklistedBrowsers = [
-        'Googlebot'
+        'Googlebot',
     ];
 
     /**
@@ -43,7 +44,7 @@ class StopTracking
         'lighthouse',
         'sistrix',
         'cookieradar',
-        'HeadlessChrome'
+        'HeadlessChrome',
     ];
 
     /**
@@ -52,16 +53,16 @@ class StopTracking
      * - For any blacklisted strings in UserAgent string
      * - For any browsers (parsed UserAgent)
      *
-     * @param Fingerprint $fingerprint
+     * @param StopAnyProcessBeforePersistenceEvent $event
      * @return void Throw exception if blacklisted
      * @throws DisallowedUserAgentException
      */
-    public function stop(Fingerprint $fingerprint)
+    public function __invoke(StopAnyProcessBeforePersistenceEvent $event)
     {
-        $this->checkForEmptyUserAgent($fingerprint);
-        $this->checkForBlacklistedUserAgentStrings($fingerprint);
-        $this->checkForBlacklistedParsedUserAgent($fingerprint);
-        $this->checkForBotUserAgent($fingerprint);
+        $this->checkForEmptyUserAgent($event->getFingerprint());
+        $this->checkForBlacklistedUserAgentStrings($event->getFingerprint());
+        $this->checkForBlacklistedParsedUserAgent($event->getFingerprint());
+        $this->checkForBotUserAgent($event->getFingerprint());
     }
 
     /**

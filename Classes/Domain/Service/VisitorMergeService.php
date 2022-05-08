@@ -14,8 +14,10 @@ use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\AttributeRepository;
 use In2code\Lux\Domain\Repository\FingerprintRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
-use In2code\Lux\Signal\SignalTrait;
+use In2code\Lux\Events\VisitorsMergeEvent;
 use In2code\Lux\Utility\DatabaseUtility;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
@@ -31,8 +33,6 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
  */
 class VisitorMergeService
 {
-    use SignalTrait;
-
     /**
      * @var Visitor|null
      */
@@ -59,23 +59,29 @@ class VisitorMergeService
     protected $logService;
 
     /**
-     * Constructor
-     *
+     * @var EventDispatcherInterface
+     */
+    protected $eventDispatcher;
+
+    /**
      * @param VisitorRepository $visitorRepository
      * @param FingerprintRepository $fingerprintRepository
      * @param AttributeRepository $attributeRepository
      * @param LogService $logService
+     * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(
         VisitorRepository $visitorRepository,
         FingerprintRepository $fingerprintRepository,
         AttributeRepository $attributeRepository,
-        LogService $logService
+        LogService $logService,
+        EventDispatcherInterface $eventDispatcher
     ) {
         $this->visitorRepository = $visitorRepository;
         $this->fingerprintRepository = $fingerprintRepository;
         $this->attributeRepository = $attributeRepository;
         $this->logService = $logService;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -138,7 +144,9 @@ class VisitorMergeService
                 $this->deleteVisitor($visitor);
             }
         }
-        $this->signalDispatch(__CLASS__, 'mergeVisitors', [$visitors]);
+        $this->eventDispatcher->dispatch(
+            GeneralUtility::makeInstance(VisitorsMergeEvent::class, $visitors)
+        );
     }
 
     /**
