@@ -18,10 +18,10 @@ final class VisitorFactoryBeforeCreateNewEvent
     protected $fingerprint;
 
     /**
-     * @param Visitor $visitor
-     * @param Fingerprint $fingerprint
+     * @param Visitor|null $visitor
+     * @param Fingerprint|null $fingerprint
      */
-    public function __construct(Visitor $visitor, Fingerprint $fingerprint)
+    public function __construct(Visitor $visitor = null, Fingerprint $fingerprint = null)
     {
         $this->visitor = $visitor;
         $this->fingerprint = $fingerprint;
