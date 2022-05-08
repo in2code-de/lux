@@ -17,10 +17,11 @@ use In2code\Lux\Domain\Tracker\LuxletterlinkAttributeTracker;
 use In2code\Lux\Domain\Tracker\NewsTracker;
 use In2code\Lux\Domain\Tracker\PageTracker;
 use In2code\Lux\Domain\Tracker\SearchTracker;
+use In2code\Lux\Events\AfterTrackingEvent;
 use In2code\Lux\Exception\ActionNotAllowedException;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\EmailValidationException;
-use In2code\Lux\Signal\SignalTrait;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -40,7 +41,18 @@ use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
  */
 class FrontendController extends ActionController
 {
-    use SignalTrait;
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $eventDispatcher;
+
+    /**
+     * @param EventDispatcherInterface $eventDispatcher
+     */
+    public function __construct(EventDispatcherInterface $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+    }
 
     /**
      * Check for allowed actions
@@ -86,7 +98,6 @@ class FrontendController extends ActionController
      * @param string $identificator
      * @param array $arguments
      * @return string
-     * @throws ExceptionExtbaseObject
      * @noinspection PhpUnused
      */
     public function pageRequestAction(string $identificator, array $arguments): string
@@ -110,7 +121,6 @@ class FrontendController extends ActionController
      * @param string $identificator
      * @param array $arguments
      * @return string
-     * @throws ExceptionExtbaseObject
      * @noinspection PhpUnused
      */
     public function fieldListeningRequestAction(string $identificator, array $arguments): string
@@ -134,7 +144,6 @@ class FrontendController extends ActionController
      * @param string $identificator
      * @param array $arguments
      * @return string
-     * @throws ExceptionExtbaseObject
      * @noinspection PhpUnused
      */
     public function formListeningRequestAction(string $identificator, array $arguments): string
@@ -159,7 +168,6 @@ class FrontendController extends ActionController
      * @param string $identificator
      * @param array $arguments
      * @return string
-     * @throws ExceptionExtbaseObject
      * @noinspection PhpUnused
      */
     public function email4LinkRequestAction(string $identificator, array $arguments): string
@@ -196,7 +204,6 @@ class FrontendController extends ActionController
      * @param string $identificator
      * @param array $arguments
      * @return string
-     * @throws ExceptionExtbaseObject
      * @noinspection PhpUnused
      */
     public function downloadRequestAction(string $identificator, array $arguments): string
@@ -215,7 +222,6 @@ class FrontendController extends ActionController
      * @param string $identificator
      * @param array $arguments
      * @return string
-     * @throws ExceptionExtbaseObject
      * @noinspection PhpUnused
      */
     public function linkClickRequestAction(string $identificator, array $arguments): string
@@ -233,7 +239,6 @@ class FrontendController extends ActionController
     /**
      * @param string $identificator empty means no opt-in yet
      * @return string
-     * @throws ExceptionExtbaseObject
      */
     public function redirectRequestAction(string $identificator): string
     {
@@ -254,7 +259,6 @@ class FrontendController extends ActionController
      * @param string $identificator
      * @param array $arguments
      * @return string
-     * @throws ExceptionExtbaseObject
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
@@ -282,7 +286,6 @@ class FrontendController extends ActionController
      * @param string $identificator
      * @param array $arguments
      * @return string
-     * @throws ExceptionExtbaseObject
      * @throws ExceptionDbal
      */
     public function abTestingConversionFulfilledRequestAction(string $identificator, array $arguments): string
@@ -346,29 +349,27 @@ class FrontendController extends ActionController
     }
 
     /**
-     * This method will be called after normal frontend actions.
-     * Pass four parameters to slot. The first is the visitor to use this data. The second is the action name from
-     * where the signal came from. The third is an array, which could be returned for passing an array as json to the
-     * javascript of the visitor. The last one is mandatory and in this case useless.
-     *
      * @param Visitor $visitor
      * @return array
-     * @throws ExceptionExtbaseObject
      */
     protected function afterAction(Visitor $visitor): array
     {
-        $result = $this->signalDispatch(__CLASS__, 'afterTracking', [$visitor, $this->actionMethodName, [], []]);
-        return $result[2];
+        /** @var AfterTrackingEvent $event */
+        $event = $this->eventDispatcher->dispatch(
+            GeneralUtility::makeInstance(AfterTrackingEvent::class, $visitor, $this->actionMethodName)
+        );
+        return $event->getResults();
     }
 
     /**
      * @param Exception $exception
      * @return array
-     * @throws ExceptionExtbaseObject
      */
     protected function getError(Exception $exception): array
     {
-        $this->signalDispatch(__CLASS__, 'afterTracking', [new Visitor(), 'error', [], ['error' => $exception]]);
+        $this->eventDispatcher->dispatch(
+            GeneralUtility::makeInstance(AfterTrackingEvent::class, new Visitor(), 'error', ['error' => $exception])
+        );
         return [
             'error' => true,
             'exception' => [

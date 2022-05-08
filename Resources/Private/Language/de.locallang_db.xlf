@@ -877,6 +877,10 @@
 				<source>URL shortener used</source>
 				<target state="translated">URL Shortener wurde benutzt</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.log.status.200">
+				<source>A/B testing page called</source>
+				<target state="translated">A/B Testseite aufgerufen</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.map">
 				<source>Lead source</source>
 				<target state="translated">Lead Ursprung</target>

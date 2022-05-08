@@ -80,7 +80,8 @@ class SendNotificationEmailFinisher extends AbstractFinisher implements Finisher
 ```
 
 Your PHP finisher class must implement FinisherInterface and should extend the AbstractFinisher. Last class offers you
-useful methods like getVisitor(), getConfigurationByKey() or getControllerAction() to get helpful information.
+useful methods like $this->getVisitor(), $this->getConfigurationByKey(), $this->getConfigurationByPath()
+or $this->getEvent() can help you to get useful information.
 
 Your class must have a start() function where your logic is implemented. The method shouldFinisherRun() is optional
 and if you don't add this to your finisher, it will return true by default.

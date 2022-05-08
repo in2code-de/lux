@@ -9,9 +9,9 @@ use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\LinkclickRepository;
 use In2code\Lux\Domain\Repository\LinklistenerRepository;
 use In2code\Lux\Domain\Repository\PageRepository;
-use In2code\Lux\Signal\SignalTrait;
+use In2code\Lux\Events\Log\LinkClickEvent;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 
 /**
@@ -19,8 +19,6 @@ use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
  */
 class LinkClickTracker
 {
-    use SignalTrait;
-
     /**
      * @var Visitor
      */
@@ -42,12 +40,17 @@ class LinkClickTracker
     protected $pageRepository = null;
 
     /**
-     * LinkListenerTracker constructor.
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
+    /**
      * @param Visitor $visitor
      */
     public function __construct(Visitor $visitor)
     {
         $this->visitor = $visitor;
+        $this->eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
         $this->linkclickRepository = GeneralUtility::makeInstance(LinkclickRepository::class);
         $this->linklistenerRepository = GeneralUtility::makeInstance(LinklistenerRepository::class);
         $this->pageRepository = GeneralUtility::makeInstance(PageRepository::class);
@@ -57,7 +60,6 @@ class LinkClickTracker
      * @param int $linkclickIdentifier
      * @param int $pageUid
      * @return void
-     * @throws Exception
      * @throws IllegalObjectTypeException
      */
     public function addLinkClick(int $linkclickIdentifier, int $pageUid): void
@@ -72,7 +74,9 @@ class LinkClickTracker
             $this->linkclickRepository->add($linkclick);
             $this->linkclickRepository->persistAll();
 
-            $this->signalDispatch(__CLASS__, 'addLinkClick', [$this->visitor, $linklistener, $pageUid]);
+            $this->eventDispatcher->dispatch(
+                GeneralUtility::makeInstance(LinkClickEvent::class, $this->visitor, $linklistener, $pageUid)
+            );
         }
     }
 }

@@ -8,13 +8,17 @@ use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\VisitorMergeService;
+use In2code\Lux\Events\Log\LogVisitorEvent;
+use In2code\Lux\Events\StopAnyProcessBeforePersistenceEvent;
+use In2code\Lux\Events\VisitorFactoryAfterCreateNewEvent;
+use In2code\Lux\Events\VisitorFactoryBeforeCreateNewEvent;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\FingerprintMustNotBeEmptyException;
-use In2code\Lux\Signal\SignalTrait;
 use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\CookieUtility;
 use In2code\Lux\Utility\IpUtility;
 use In2code\Lux\Utility\StringUtility;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -27,8 +31,6 @@ use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
  */
 class VisitorFactory
 {
-    use SignalTrait;
-
     /**
      * @var Fingerprint
      */
@@ -40,11 +42,15 @@ class VisitorFactory
     protected $visitorRepository = null;
 
     /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
+    /**
      * VisitorFactory constructor.
      *
      * @param string $identificator
      * @param bool $tempVisitor If there is no fingerprint (doNotTrack) but we even want to generate a visitor object
-     * @throws Exception
      * @throws FingerprintMustNotBeEmptyException
      */
     public function __construct(string $identificator, bool $tempVisitor = false)
@@ -54,7 +60,10 @@ class VisitorFactory
         }
         $this->fingerprint = GeneralUtility::makeInstance(Fingerprint::class)->setValue($identificator);
         $this->visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
-        $this->signalDispatch(__CLASS__, 'stopAnyProcessBeforePersistence', [$this->fingerprint]);
+        $this->eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
+        $this->eventDispatcher->dispatch(
+            GeneralUtility::makeInstance(StopAnyProcessBeforePersistenceEvent::class, $this->fingerprint)
+        );
     }
 
     /**
@@ -70,13 +79,17 @@ class VisitorFactory
     public function getVisitor(): Visitor
     {
         $visitor = $this->getVisitorFromDatabaseByFingerprint();
-        $this->signalDispatch(__CLASS__, __FUNCTION__ . 'beforeCreateNew', [$this->fingerprint]);
+        $this->eventDispatcher->dispatch(
+            GeneralUtility::makeInstance(VisitorFactoryBeforeCreateNewEvent::class, $visitor, $this->fingerprint)
+        );
         if ($visitor === null) {
             $visitor = $this->createNewVisitor();
             $this->visitorRepository->add($visitor);
             $this->visitorRepository->persistAll();
         }
-        $this->signalDispatch(__CLASS__, __FUNCTION__, [$this->fingerprint]);
+        $this->eventDispatcher->dispatch(
+            GeneralUtility::makeInstance(VisitorFactoryAfterCreateNewEvent::class, $visitor, $this->fingerprint)
+        );
         return $visitor;
     }
 
@@ -108,7 +121,6 @@ class VisitorFactory
      * @return Visitor|null
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
-     * @throws Exception
      */
     protected function getVisitorFromDatabaseByLegacyCookie(): ?Visitor
     {
@@ -137,8 +149,9 @@ class VisitorFactory
         $visitor = GeneralUtility::makeInstance(Visitor::class);
         $visitor->addFingerprint($this->fingerprint);
         $this->enrichNewVisitorWithIpInformation($visitor);
-        $this->signalDispatch(__CLASS__, 'newVisitor', [$visitor]);
-        return $visitor;
+        /** @var LogVisitorEvent $event */
+        $event = $this->eventDispatcher->dispatch(GeneralUtility::makeInstance(LogVisitorEvent::class, $visitor));
+        return $event->getVisitor();
     }
 
     /**

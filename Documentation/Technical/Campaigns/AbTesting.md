@@ -59,6 +59,14 @@ Buttons allows you to change to edit view of a page or to pageoverview module wi
 
 ##### Technical notes
 
+###### Enforce a variant
+
+You can simply add a new (or rename an existing) cookie with name `LUXABTEST` and set the value to `A` or `B` etc.
+
+`LUXABTEST=B`
+
+###### Backend User Sections or Frontend Authentication
+
 We already support also A/B Testing in "Backend User Sections" or on pages with "Frontend Authentication".
 If you want to use a Testing within such an area, the server itself will read the A or B target with a CURL-request. If
 session cookies for frontend or backend login is given, it will be passed in those requests.

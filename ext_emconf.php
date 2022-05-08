@@ -4,7 +4,7 @@ $EM_CONF[$_EXTKEY] = [
     'description' => 'Living User Experience - LUX - the Marketing Automation tool for TYPO3.
         Turn your visitors to leads. Identification and profiling of your visitors within your TYPO3 website.',
     'category' => 'plugin',
-    'version' => '22.6.0',
+    'version' => '23.0.0',
     'author' => 'Alex Kellner',
     'author_email' => 'alexander.kellner@in2code.de',
     'author_company' => 'in2code.de',

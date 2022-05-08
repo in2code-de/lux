@@ -17,36 +17,6 @@ services:
     arguments:
       $cache: '@cache.luxcachelayer'
 
-  In2code\Lux\Domain\Factory\Ipinformation\Handler:
-    public: true
-
-  In2code\Lux\Domain\Service\VisitorImageService:
-    public: true
-
-  In2code\Lux\Domain\Service\VisitorMergeService:
-    public: true
-
-  In2code\Lux\Domain\Tracker\NewsTracker:
-    public: true
-
-  In2code\Lux\Domain\Tracker\PageTracker:
-    public: true
-
-  In2code\Lux\Domain\Tracker\SearchTracker:
-    public: true
-
-  In2code\Lux\Hooks\PageOverview:
-    public: true
-
-  In2code\Lux\ViewHelpers\Lead\GetDateOfLatestPageVisitAndPageViewHelper:
-    public: true
-
-  In2code\Lux\ViewHelpers\Lead\GetDateOfLatestPageVisitViewHelper:
-    public: true
-
-  In2code\Lux\ViewHelpers\Page\GetVisitedPageAmountByPageIdentifierAndVisitorViewHelper:
-    public: true
-
   In2code\Lux\Command\LuxAnonymizeCommand:
     tags:
       - name: 'console.command'
@@ -107,3 +77,105 @@ services:
     tags:
       - name: 'console.command'
         command: 'lux:serviceRecalculateScoring'
+
+  In2code\Lux\Domain\Factory\Ipinformation\Handler:
+    public: true
+
+  In2code\Lux\Domain\Service\VisitorImageService:
+    public: true
+
+  In2code\Lux\Domain\Service\VisitorMergeService:
+    public: true
+
+  In2code\Lux\Domain\Tracker\NewsTracker:
+    public: true
+
+  In2code\Lux\Domain\Tracker\PageTracker:
+    public: true
+
+  In2code\Lux\Domain\Tracker\SearchTracker:
+    public: true
+
+  In2code\Lux\Hooks\PageOverview:
+    public: true
+
+  In2code\Lux\ViewHelpers\Lead\GetDateOfLatestPageVisitAndPageViewHelper:
+    public: true
+
+  In2code\Lux\ViewHelpers\Lead\GetDateOfLatestPageVisitViewHelper:
+    public: true
+
+  In2code\Lux\ViewHelpers\Page\GetVisitedPageAmountByPageIdentifierAndVisitorViewHelper:
+    public: true
+
+  In2code\Lux\Domain\Finisher\FinisherHandler:
+    tags:
+      - name: 'event.listener'
+        identifier: 'lux/finisher'
+        event: In2code\Lux\Events\AfterTrackingEvent
+
+  In2code\Lux\Domain\LogEventListeners\Log:
+    tags:
+      - name: 'event.listener'
+        identifier: 'lux/logNewVisitor'
+        method: 'logNewVisitor'
+        event: In2code\Lux\Events\Log\LogVisitorEvent
+      - name: 'event.listener'
+        identifier: 'lux/logVisitorIdentifiedByFieldlistening'
+        method: 'logIdentifiedVisitorByFieldListening'
+        event: In2code\Lux\Events\Log\LogVisitorIdentifiedByFieldlisteningEvent
+      - name: 'event.listener'
+        identifier: 'lux/logVisitorIdentifiedByFormlistening'
+        method: 'logIdentifiedVisitorByFormListening'
+        event: In2code\Lux\Events\Log\LogVisitorIdentifiedByFormlisteningEvent
+      - name: 'event.listener'
+        identifier: 'lux/logVisitorIdentifiedByEmail4link'
+        method: 'logIdentifiedVisitorByEmail4Link'
+        event: In2code\Lux\Events\Log\LogVisitorIdentifiedByEmail4linkEvent
+      - name: 'event.listener'
+        identifier: 'lux/logVisitorIdentifiedByLuxletterlink'
+        method: 'logIdentifiedVisitorByLuxletterlink'
+        event: In2code\Lux\Events\Log\LogVisitorIdentifiedByLuxletterlinkEvent
+      - name: 'event.listener'
+        identifier: 'lux/logVisitorIdentifiedByFrontendauthentication'
+        method: 'logIdentifiedVisitorByFrontendauthentication'
+        event: In2code\Lux\Events\Log\LogVisitorIdentifiedByFrontendauthenticationEvent
+      - name: 'event.listener'
+        identifier: 'lux/logEmail4linkSendEmailEvent'
+        method: 'logEmail4LinkEmail'
+        event: In2code\Lux\Events\Log\LogEmail4linkSendEmailEvent
+      - name: 'event.listener'
+        identifier: 'lux/logEmail4linkSendEmailFailedEvent'
+        method: 'logEmail4LinkEmailFailed'
+        event: In2code\Lux\Events\Log\LogEmail4linkSendEmailFailedEvent
+      - name: 'event.listener'
+        identifier: 'lux/logDownload'
+        method: 'logDownload'
+        event: In2code\Lux\Events\Log\DownloadEvent
+      - name: 'event.listener'
+        identifier: 'lux/logSearch'
+        method: 'logSearch'
+        event: In2code\Lux\Events\Log\SearchEvent
+      - name: 'event.listener'
+        identifier: 'lux/logLinkClick'
+        method: 'logLinkClick'
+        event: In2code\Lux\Events\Log\LinkClickEvent
+
+  In2code\Lux\Domain\Service\CategoryScoringService:
+    tags:
+      - name: 'event.listener'
+        identifier: 'lux/calculateCategoryScoring'
+        event: In2code\Lux\Events\AfterTrackingEvent
+
+  In2code\Lux\Domain\Service\ScoringService:
+    tags:
+      - name: 'event.listener'
+        identifier: 'lux/calculateScoring'
+        method: 'calculateAndSetScoringFromEvent'
+        event: In2code\Lux\Events\AfterTrackingEvent
+
+  In2code\Lux\Domain\Tracker\StopTracking:
+    tags:
+      - name: 'event.listener'
+        identifier: 'lux/stopTracking'
+        event: In2code\Lux\Events\StopAnyProcessBeforePersistenceEvent
