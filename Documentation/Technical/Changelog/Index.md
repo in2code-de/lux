@@ -6,6 +6,7 @@
 
 | Version                        | Situation                                                    | Upgrade instructions                                                                                                                                                                      |
 | ------------------------------ | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| From former versions to 23.0.0 | Signals are migrated to PSR-14 events                        | If you have extended LUX via slots (based in signals), you have to migrate your slots to eventlisteners - see [Events documentation](../Events/Index.md) for details                      |
 | From former versions to 21.0.0 | Small change: Marker names in email4link template changed    | If you have overwritten the Email4Link template file, take care to use the "EMAIL4LINK_" prefix now for the 3 variables/markers (###TITLE### => ###EMAIL4LINK_TITLE###)                   |
 | From former versions to 17.1.0 | Small change: Disable IP-API.com via Typoscript now          | If you turned off connection to IP-API.com via extension manager settings, you have to do this now via TypoScript - see [documentation](../../../Documentation/Privacy/IpAddresses.md)    |
 | From former versions to 8.x    | Referrers are stored on a different place now                | Call your TYPO3 upgrade wizard. There will be one more step that will copy values from _visitor.referrer to _pagevisit.referrer table.                                                    |
@@ -16,6 +17,7 @@
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 23.0.0 !!! | 2022-05-08 | Feature    | Migrate all existing signalslots to PSR-14 eventdispatchers (to reduce technical dept and to simplify TYPO3 12 support in future)                                                          |
 | 22.6.0     | 2022-04-26 | Feature    | Extend API for a new endpoint                                                                                                                                                              |
 | 22.5.0     | 2022-04-25 | Feature    | Preperation for a proper API                                                                                                                                                               |
 | 22.4.0     | 2022-04-04 | Feature    | Show email addresses in luxletter receiver list.                                                                                                                                           |
