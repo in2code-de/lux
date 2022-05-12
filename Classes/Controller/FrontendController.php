@@ -151,13 +151,15 @@ class FrontendController extends ActionController
         try {
             $visitor = $this->getVisitor($identificator);
             $values = json_decode($arguments['values'], true);
-            $attributeTracker = GeneralUtility::makeInstance(
-                AttributeTracker::class,
-                $visitor,
-                AttributeTracker::CONTEXT_FORMLISTENING,
-                (int)$arguments['pageUid']
-            );
-            $attributeTracker->addAttributes($values);
+            if (is_array($values)) {
+                $attributeTracker = GeneralUtility::makeInstance(
+                    AttributeTracker::class,
+                    $visitor,
+                    AttributeTracker::CONTEXT_FORMLISTENING,
+                    (int)$arguments['pageUid']
+                );
+                $attributeTracker->addAttributes($values);
+            }
             return json_encode($this->afterAction($visitor));
         } catch (Exception $exception) {
             return json_encode($this->getError($exception));
@@ -181,13 +183,14 @@ class FrontendController extends ActionController
                 (int)$arguments['pageUid']
             );
             $values = json_decode((string)$arguments['values'], true);
-            $allowedFields = GeneralUtility::trimExplode(
-                ',',
-                $this->settings['identification']['email4link']['form']['fields']['enabled'],
-                true
-            );
-            $attributeTracker->addAttributes($values, $allowedFields);
-
+            if (is_array($values)) {
+                $allowedFields = GeneralUtility::trimExplode(
+                    ',',
+                    $this->settings['identification']['email4link']['form']['fields']['enabled'],
+                    true
+                );
+                $attributeTracker->addAttributes($values, $allowedFields);
+            }
             $downloadTracker = GeneralUtility::makeInstance(DownloadTracker::class, $visitor);
             $downloadTracker->addDownload($arguments['href'], (int)$arguments['pageUid']);
             if ($arguments['sendEmail'] === 'true') {
