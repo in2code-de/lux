@@ -1248,6 +1248,14 @@ class Visitor extends AbstractModel
     /**
      * @return string
      */
+    public function getPhone(): string
+    {
+        return $this->getPropertyFromAttributes('phone');
+    }
+
+    /**
+     * @return string
+     */
     public function getCountry(): string
     {
         return $this->getPropertyFromIpinformations('country');
