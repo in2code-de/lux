@@ -31,6 +31,7 @@ class Log extends AbstractModel
     const STATUS_DOWNLOAD = 50;
     const STATUS_SEARCH = 55;
     const STATUS_ACTION = 60;
+    const STATUS_ACTION_QUEUED = 61;
     const STATUS_CONTEXTUAL_CONTENT = 70;
     const STATUS_LINKLISTENER = 80;
     const STATUS_MERGE_BYFINGERPRINT = 90;
