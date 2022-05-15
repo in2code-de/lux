@@ -137,25 +137,32 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 ### Workflow & User Experience (Enterprise version only)
 
 * Workflow backend module with a GUI and easy extension possibility
-* Triggers:
-  * On page visit (define on which number of pagevisit)
-  * On a minimum scoring
-  * When lead reaches a categoryscoring
-  * When lead enters a page of a given category
-  * If in a time frame
-  * If a lead gets identified
-  * If lead company given
-  * Use your own expressions for doing even mor individual stuff (with Symfony Expression Language)
-  * Limit to a start action (page visit, download, form submit, etc...)
-* Actions:
-  * Lightbox with a content element
-  * Load a content element and show it on the current page
-  * Hide or show an element of the current page
-  * Send an email with lead details
-  * Redirect to any URL
-  * Send publication to a slack channel
-  * Send lead to your CRM via interface connection
-  * Blacklist a visitor
+* Triggers (already delivered by default):
+  * Lead properties: If a lead gets identified
+  * Lead properties: When lead reaches a scoring
+  * Lead properties: When lead reaches a categoryscoring
+  * Lead properties: If lead company given
+  * Lead properties: If any property value is given
+  * Lead properties: Use your own expressions for doing even mor individual stuff (with Symfony Expression Language)
+  * Lead action: On entering a page
+  * Lead action: When lead enters a page of a given category
+  * Miscellaneous: On a defined time
+  * Miscellaneous: Limit to a start action (page visit, download, form submit, etc...)
+  * Miscellaneous: TYPO3 context
+* Actions (already delivered by default):
+  * Content manipulation: Open a popup (lightbox) with a content element
+  * Content manipulation: Load a content element and show it on the current page
+  * Content manipulation: Hide or show an element of the current page
+  * Content manipulation: Redirect visitor to another page
+  * Notification: Sends an email
+  * Notification: Publish a message to a slack channel
+  * Notification: Send a SMS to a mobile number
+  * Notification: Show a push message
+  * Lead management: Sets a value for a visitor
+  * Lead management: Sets a value after a double opt in confirmation for a visitor
+  * Lead management: Add a visitor to a blacklist
+  * Data handling: Save values to any table in database
+  * Data handling: Send lead information to any interface (e.g. a CRM)
 
 ### CommandControllers & Scheduler
 
