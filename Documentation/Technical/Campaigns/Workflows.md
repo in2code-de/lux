@@ -59,11 +59,14 @@ An action is when lux executes a workflow on given conditions (triggers). You ca
 If you choose more actions, all actions will be executed.
 
 Choose an action and click on the **+** button. Now a new action configuration was added. Depending on the action that
-you have chosen, it's possible to add values to the action itself. In this example, we choose the *Publish a message
-to a slack channel* action.
+you have chosen, it's possible to add values to the action itself. In this example, we choose the
+*Notification: Sends an email* action.
 
-We can select if this action should be executed only once (default setting) or multiple times
-and we can add a text for publishing to a slack channel.
+On the left there are specific settings for the chosen action. In this case you can configure a sender name and email,
+a receiver email (can also be the email of the lead), a subject and the bodytext for the mail. Of course you can use
+some variables in the bodytext.
+On the right there are general options. You can select of this action should only be executed once per lead or more
+often. Some actions are supporting also a delayed execution where you can specify a day and a time.
 
 <img src="../../../Documentation/Images/documentation_workflow_edit_step3.png" width="800" />
 
