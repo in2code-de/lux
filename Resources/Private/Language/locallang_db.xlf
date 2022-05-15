@@ -647,10 +647,16 @@
 				<source>LUX tracked a web search</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.60">
-				<source>"LUX started a workflow</source>
+				<source>LUX started a workflow</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.61">
+				<source>LUX queued a workflow action</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.61.label">
+				<source>Execution on</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.70">
-				<source>"LUX showed a contextual content</source>
+				<source>LUX showed a contextual content</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.80">
 				<source>LUX tracked a link click</source>

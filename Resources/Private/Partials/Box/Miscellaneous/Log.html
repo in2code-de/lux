@@ -106,6 +106,14 @@
 
 
 
+<f:section name="status61">
+    {log.actionTitle}
+    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.log.status.61.label" />
+    <f:format.date format="d.m.Y H:i">@{log.actionExecutionTime}</f:format.date>
+</f:section>
+
+
+
 <f:section name="status70">
     <span title="UID{log.shownContentUid}: {lux:repository.getContentHeaderFromContentUid(uid:log.shownContentUid)}"><f:format.crop maxCharacters="25" append=" ..."><lux:repository.getContentHeaderFromContentUid uid="{log.shownContentUid}" /></f:format.crop></span>
     <span title="UID:{log.visitor.uid}">(<f:link.action action="detail" controller="Lead" arguments="{visitor:log.visitor}">{log.visitor.fullName}</f:link.action>)</span>

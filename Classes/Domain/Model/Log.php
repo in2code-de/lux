@@ -151,6 +151,22 @@ class Log extends AbstractModel
     /**
      * @return string
      */
+    public function getActionTitle(): string
+    {
+        return $this->getPropertyByKey('actionTitle');
+    }
+
+    /**
+     * @return string
+     */
+    public function getActionExecutionTime(): string
+    {
+        return $this->getPropertyByKey('executionTime');
+    }
+
+    /**
+     * @return string
+     */
     public function getShownContentUid(): string
     {
         return $this->getPropertyByKey('shownContentUid');
