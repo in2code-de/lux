@@ -74,6 +74,7 @@ Possible actions by default are:
 * Content manipulation: Redirect visitor to another page
 * Notification: Sends an email
 * Notification: Publish a message to a slack channel
+* Notification: Send a SMS to a mobile number
 * Notification: Show a push message
 * Lead management: Sets a value for a visitor
 * Lead management: Sets a value after a double opt in confirmation for a visitor
@@ -449,8 +450,49 @@ lib.lux.settings {
                 }
             }
 
-            # Sending push notifications
+            # Sendng SMS (through twilio.com - a registration on the platform is required first)
             220 {
+                # Title to show in workflow backend module
+                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.sms
+
+                # Classname for implementation of the action itself
+                className = In2code\Luxenterprise\Domain\Action\SmsAction
+
+                # Templatefile for implementation of the form in workflow module
+                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Sms.html
+
+                # Additional configuration
+                configuration {
+
+                    # Define multiple configurations - one per twilio account
+                    1 {
+                        # Add a name for a selection in workflow backend module
+                        name = Twilio Account #1
+
+                        # Account SID - used as endpoint in API requests
+                        accountSid = ACe5b11cd9ff0abcdef123456789abcd
+
+                        # Authorization token
+                        authToken = d78cd5d34f9ab123456789abcdef
+
+                        # Phone number given from twilio (e.g. +150712345678)
+                        from = +150712345678
+
+                        # Use this prefix if number is is not given in E.123 format (to convert number automatically)
+                        defaultPrefix = +49
+
+                        to {
+                            # Send only SMS if phone matches this prefix (per default: mobile numbers in germany)
+                            0 = +4915
+                            1 = +4916
+                            2 = +4917
+                        }
+                    }
+                }
+            }
+
+            # Sending push notifications
+            230 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.push
 
