@@ -219,6 +219,13 @@ label {
         }
     }
 
+    .description-block {
+        display: block;
+        margin-top: .5rem;
+        margin-bottom: 1rem;
+        color: #5a5a5a;
+    }
+
     /**
      * Table classes
      */
@@ -298,6 +305,13 @@ label {
     right: 0;
     bottom: 0;
     left: 0;
+}
+
+.lux-workflow-sidbox {
+    opacity: 0.5;
+    background: #ddd;
+    margin: 34px 0 0 0;
+    padding: 20px;
 }
 
 .lux_triggerarea,

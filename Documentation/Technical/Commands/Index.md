@@ -22,6 +22,7 @@ Most of the Commands can be called via CLI or via Scheduler Backend Module (dire
 * Service commands
   * Calculate scoring for all leads
   * Cache warmup for cache layer
+  * Execute delayed workflow actions
 
 
 #### Anonymize Leads Command
@@ -201,3 +202,15 @@ Example usage:
 
 **Note:** Every call of this command will clean all LUX cachelayer caches at the beginning of the task.
 **Note2:** This command can only be executed from CLI only
+
+
+##### \In2code\Luxenterprise\Command\LuxWorkflowActionDelayCommand
+
+Only for luxenterprise: This command executes delayed workflow actions - like emails or sms that should be send some
+days later.
+
+Example usage:
+
+```
+./vendor/bin/typo3 lux:workflowactiondelay
+```

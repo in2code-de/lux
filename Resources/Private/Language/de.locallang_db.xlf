@@ -854,11 +854,19 @@
 				<target state="translated">LUX hat eine Suche aufgezeichnet</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.60">
-				<source>"LUX started a workflow</source>
+				<source>LUX started a workflow</source>
 				<target state="translated">LUX hat einen Workflow ausgeführt</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.log.status.61">
+				<source>LUX queued a workflow action</source>
+				<target state="translated">LUX hat eine Workflow Aktion vorgemerkt</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.61.label">
+				<source>Execution on</source>
+				<target state="translated">Ausführung am</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.log.status.70">
-				<source>"LUX showed a contextual content</source>
+				<source>LUX showed a contextual content</source>
 				<target state="translated">LUX hat einen passenden Seiteninhalt gezeigt</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.80">
