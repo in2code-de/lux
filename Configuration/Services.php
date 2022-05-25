@@ -14,17 +14,18 @@ use In2code\Lux\Widgets\DataProvider\LuxPageVisitsWeekDataProvider;
 use In2code\Lux\Widgets\DataProvider\LuxRecurringDataProvider;
 use In2code\Lux\Widgets\DataProvider\LuxReferrerDataProvider;
 use In2code\Lux\Widgets\DataProvider\LuxSearchtermsDataProvider;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\DependencyInjection\Reference;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Dashboard\Dashboard;
 use TYPO3\CMS\Dashboard\Widgets\BarChartWidget;
 use TYPO3\CMS\Dashboard\Widgets\DoughnutChartWidget;
 use TYPO3\CMS\Dashboard\Widgets\ListWidget;
 
-return function (ContainerConfigurator $configurator) {
+return function (ContainerConfigurator $configurator, ContainerBuilder $containerBuilder) {
     $services = $configurator->services();
 
-    if (ExtensionManagementUtility::isLoaded('dashboard')) {
+    if ($containerBuilder->hasDefinition(Dashboard::class)) {
         $services->set('dashboard.widgets.luxPageVisitsWidget')
             ->class(BarChartWidget::class)
             ->arg('$view', new Reference('dashboard.views.widget'))

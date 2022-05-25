@@ -17,6 +17,7 @@
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 23.2.1     | 2022-05-25 | Bugfix     | Update disallowedMailProvider list, prevent exception "isPackageActive() on null" in TYPO3 11                                                                                              |
 | 23.2.0     | 2022-05-15 | Task       | Preperation for delayed workflows in luxenterprise                                                                                                                                         |
 | 23.1.0     | 2022-05-15 | Task       | Harden frontend requests, small optical improvements for workflows, adding a phone getter in visitor model, documentation update                                                           |
 | 23.0.0 !!! | 2022-05-08 | Feature    | Migrate all existing signalslots to PSR-14 eventdispatchers (to reduce technical dept and to simplify TYPO3 12 support in future)                                                          |
