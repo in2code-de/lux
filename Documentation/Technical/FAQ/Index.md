@@ -1,9 +1,9 @@
 <img align="left" src="../../../Resources/Public/Icons/lux.svg" width="50" />
 
-### FAQ
+# FAQ
 
 
-#### How can I identify visitors?
+## How can I identify visitors?
 
 Basicly there are 5 different ways at the moment:
 - Use fieldMapping to map single fields of any forms on your website and animate visitors to fill out those fields
@@ -15,7 +15,7 @@ Basicly there are 5 different ways at the moment:
 see [Identification](../Identification/Index.md) for more information.
 
 
-#### Debugging in JavaScript or why is Lux not working?
+## Debugging in JavaScript or why is Lux not working?
 
 There is a debug output in browser console. This is helpful to find problems with lux on your website. E.g. it shows
 if tracking is disabled and why. In addition fingerprint values are shown.
@@ -26,13 +26,13 @@ Two possibilities to turn on debug mode:
 * Simply add the string `ENABLELUXDEBUG` anywhere on your website
 
 
-#### How to enable tracking even if I'm logged in into backend?
+## How to enable tracking even if I'm logged in into backend?
 
 With a single line of TypoScript constants:
 `plugin.tx_lux.settings.disableTrackingForBackendUsers = 0`
 
 
-#### I change lib.lux.settings but nothing happens?
+## I change lib.lux.settings but nothing happens?
 
 If you change/overwrite lib.lux, it is maybe not recognized in lux itself. This is caused by building a lib object in
 lux and copying to plugin.tx_lux_fe and other parts before your sitepackage is included. If you want to change also
@@ -83,7 +83,14 @@ luxConfigurationFormIdentification.10.settings < lib.lux.settings
 ```
 
 
-#### Lux does not work - any hints?
+## CKEditor seems to be broken
+
+Per default LUX ships a configuration in YAML for CKEditor configuration to enable email4link feature. This should help
+even beginners to make this feature work. Nevertheless this configuration can break your individual configuration for
+the RTE. You can simply disable the configuration from LUX via Extension Manager configuration.
+
+
+## Lux does not work - any hints?
 
 * Did you clean all caches after installation (in Install Tool)?
 * Please use a second browser (where you are not logged in into backend) for your tests (or enable tracking for BE-users via TypoScript)
@@ -91,17 +98,17 @@ luxConfigurationFormIdentification.10.settings < lib.lux.settings
 * Please check if there is no cookie value *true* for cookie *luxTrackingOptOut* in your browser
 
 
-#### How to add own workflow triggers?
+## How to add own workflow triggers?
 
 This is very simple - see [Workflows](../Campaigns/Index.md) for more information.
 
 
-#### How to add own workflow actions?
+## How to add own workflow actions?
 
 This is very simple - see [Workflows](../Campaigns/Index.md) for more information.
 
 
-#### How can I remove the annoying google bot from lux?
+## How can I remove the annoying google bot from lux?
 
 There is a cleanup command controller that can be used for this kind of task.
 
@@ -113,24 +120,24 @@ Example CLI call:
 See [CommandController](../CommandController/Index.md) for more information.
 
 
-#### How to use opt-in instead of opt-out for cookies on my website?
+## How to use opt-in instead of opt-out for cookies on my website?
 
 If you want to use opt-in instead of opt-out functionality, there is a possibility for this -
 see [Privacy](../../Privacy/Index.md) for more information.
 
 
-#### How to increase performance?
+## How to increase performance?
 
 All data is stored on your server. The upside is quite clear in time of GDPR/DSGVO: You don't have to pass data to
 third party companies. The downside could be, that a lot of data is stored within your TYPO3 database.
 There a some possibilities to increase performance.
 
-##### 1. Turn on caches for dashboards and page overview view
+### 1. Turn on caches for dashboards and page overview view
 
 We added a caching layer that, can speedup dashboard times with factor 100. Just turn it on in extension configuration.
 Of course there is a comand that helps you to warmup caches (e.g. 1 time per night).
 
-##### 2. Clean outdated data from time to time
+### 2. Clean outdated data from time to time
 
 Remove all visitor data that is older then three years:
 
@@ -141,7 +148,7 @@ Remove only unknown visitors and their data that is older then one year:
 `./vendor/bin/typo3 lux:cleanupUnknownVisitorsByAge 31536000`
 
 
-##### 3. memory_limit and max_execution_time in Apache settings
+### 3. memory_limit and max_execution_time in Apache settings
 
 Depending on the settings of your server it could happen that some backend modules are crashing when open it.
 While it is best practice to keep Apache settings for `memory_limit` and `max_execution_time` quite small to prevent
@@ -150,7 +157,7 @@ A possible solution for such a scenario would be to use **PHP FPM** and differen
 So `https://backend.yourdomain.org` could have a (e.g.) `memory_limit` of `512M` and a `max_execution_time` of `120`.
 
 
-##### 4. Extract lux data into a different database
+### 4. Extract lux data into a different database
 
 In TYPO3 you have the possibility to separate tables into different databases like:
 ```
@@ -186,14 +193,14 @@ $GLOBALS['TYPO3_CONF_VARS']['DB']['TableMapping'] = [
 ```
 
 
-##### 5. Help from in2code
+### 5. Help from in2code
 
 We offer help for users with in2code/luxenterprise. Just call us.
 
 
-#### AJAX requests don't work as expectded
+## AJAX requests don't work as expectded
 
-##### TypeNum declaration in site configuration
+### TypeNum declaration in site configuration
 
 If you define any type-parameters in your site configuration, you have to define also all types for lux:
 
@@ -240,7 +247,7 @@ routeEnhancers:
 ...
 ```
 
-#### How to add fields to email4link popup in frontend?
+## How to add fields to email4link popup in frontend?
 
 Let's say you want to add some fields where you also ask for the name or company or for a newsletter subscription.
 This can be done very quick.
