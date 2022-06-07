@@ -30,7 +30,7 @@ After that you can choose next for step 2.
 ##### 2 Trigger
 
 A trigger is a condition for a possible event or action.
-You can choose one or more triggers (and combine them logical with AND or OR) that
+You can choose one or more triggers (and combine them logical with AND or OR or negotiate it) that
 should result in an action (see 3 Action).
 
 Choose a trigger and click on the **+** button. Now a new trigger configuration was added. Depending on the trigger that
@@ -717,7 +717,7 @@ EXT:luxextension/Resources/Private/Templates/Workflow/Trigger/FrontendUser.html:
     </f:comment>
 
 
-    <div class="row form-group lux-trigger lux-trigger-conjunction{trigger.conjunction}">
+    <div class="row form-group lux-trigger lux-trigger-conjunction{trigger.conjunction}{f:if(condition:trigger.not,then:' lux-trigger-not')}">
         <button data-lux-action-trigger="delete" class="close" type="button">delete</button>
 
         <div class="col-md-12">
@@ -735,6 +735,7 @@ EXT:luxextension/Resources/Private/Templates/Workflow/Trigger/FrontendUser.html:
 
         <input type="hidden" name="tx_lux_lux_luxworkflow[trigger][{index}][className]" value="{triggerSettings.className}" />
         <input type="hidden" name="tx_lux_lux_luxworkflow[trigger][{index}][conjunction]" value="{trigger.conjunction}" />
+        <input type="hidden" name="tx_lux_lux_luxworkflow[trigger][{index}][not]" value="{trigger.not}" />
     </div>
 </f:spaceless>
 ```
