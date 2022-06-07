@@ -11,7 +11,6 @@ use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\UnexpectedValueException;
-use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -105,7 +104,7 @@ class LeadController extends AbstractController
 
     /**
      * @param FilterDto $filter
-     * @return void|ResponseInterface
+     * @return ResponseInterface
      * @throws InvalidQueryException
      */
     public function downloadCsvAction(FilterDto $filter)
@@ -113,18 +112,7 @@ class LeadController extends AbstractController
         $this->view->assignMultiple([
             'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter)
         ]);
-
-        if (ConfigurationUtility::isTypo3Version11()) {
-            return $this->csvResponse($this->view->render());
-        }
-
-        // Todo: Remove when TYPO3 10 is dropped
-        $this->response->setHeader('Content-Type', 'text/x-csv');
-        $this->response->setHeader('Content-Disposition', 'attachment; filename="Leads.csv"');
-        $this->response->setHeader('Pragma', 'no-cache');
-        $this->response->sendHeaders();
-        echo $this->view->render();
-        exit;
+        return $this->csvResponse($this->view->render());
     }
 
     /**

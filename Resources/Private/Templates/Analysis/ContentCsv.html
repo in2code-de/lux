@@ -1,0 +1,9 @@
+<f:spaceless>
+    <lux:format.quotes>PAGE</lux:format.quotes>;<lux:format.quotes>PID</lux:format.quotes>;<lux:format.quotes>AMOUNT</lux:format.quotes>
+    <f:for each="{pages}" as="page"><lux:format.quotes>{page.page.title}</lux:format.quotes>;<lux:format.quotes>{page.page.uid}</lux:format.quotes>;<lux:format.quotes>{page.count}</lux:format.quotes>
+    </f:for>
+
+    <lux:format.quotes>DOWNLOAD</lux:format.quotes>;<lux:format.quotes>AMOUNT</lux:format.quotes>
+    <f:for each="{downloads}" as="download"><lux:format.quotes>{download.0.href}</lux:format.quotes>;<lux:format.quotes>{download -> f:count()}</lux:format.quotes>
+    </f:for>
+</f:spaceless>

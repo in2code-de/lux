@@ -92,13 +92,19 @@ class AnalysisController extends AbstractController
      * Page visits and downloads
      *
      * @param FilterDto $filter
+     * @param string $export
      * @return void
-     * @throws Exception
-     * @throws InvalidQueryException
      * @throws DBALException
+     * @throws Exception
+     * @throws ExceptionDbal
+     * @throws InvalidQueryException
      */
-    public function contentAction(FilterDto $filter): void
+    public function contentAction(FilterDto $filter, string $export = ''): void
     {
+        if ($export === 'csv') {
+            $this->forward('contentCsv', null, null, ['filter' => $filter]);
+        }
+
         $this->view->assignMultiple([
             'filter' => $filter,
             'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
@@ -110,6 +116,21 @@ class AnalysisController extends AbstractController
             'domainData' => GeneralUtility::makeInstance(DomainDataProvider::class, $filter),
             'domains' => $this->pagevisitsRepository->getAllDomains($filter)
         ]);
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @return ResponseInterface
+     * @throws Exception
+     * @throws ExceptionDbal
+     */
+    public function contentCsvAction(FilterDto $filter)
+    {
+        $this->view->assignMultiple([
+            'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
+            'downloads' => $this->downloadRepository->findCombinedByHref($filter),
+        ]);
+        return $this->csvResponse();
     }
 
     /**
