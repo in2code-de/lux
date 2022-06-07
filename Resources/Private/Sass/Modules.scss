@@ -353,6 +353,18 @@ label {
     .lux-trigger-conjunctionOR:before {
         content: 'OR';
     }
+
+    .lux-trigger-not:after {
+        content: '(NOT)';
+        width: 10px;
+        height: 50px;
+        position: absolute;
+        font-size: 26px;
+        color: $colorGrey;
+        right: 115px;
+        top: 7px;
+        font-weight: bold;
+    }
 }
 
 .lux-messages {
