@@ -18,5 +18,5 @@ $EM_CONF[$_EXTKEY] = [
         'suggests' => [
             'dashboard' => '0.0.0-0.0.0',
         ],
-    ]
+    ],
 ];
