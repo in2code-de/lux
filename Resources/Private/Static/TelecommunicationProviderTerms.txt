@@ -41,6 +41,7 @@ netlogix
 o2
 orange
 railtel
+starlink
 swisscom
 t-systems
 telecom
