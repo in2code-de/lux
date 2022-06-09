@@ -17,6 +17,7 @@
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 24.0.0     | 2022-06-09 | Feature    | Add CSV download possibilities for all analysis views, Allow to search for company name (when given from IP address), Prevent duplicated visitor records on A/B testing                    |
 | 23.3.0     | 2022-06-07 | Feature    | Small css update for NOT triggers in luxenterprise, small bugfix in loading order with dashboard, documentation update                                                                     |
 | 23.2.1     | 2022-05-25 | Bugfix     | Update disallowedMailProvider list, prevent exception "isPackageActive() on null" in TYPO3 11                                                                                              |
 | 23.2.0     | 2022-05-15 | Task       | Preperation for delayed workflows in luxenterprise                                                                                                                                         |
