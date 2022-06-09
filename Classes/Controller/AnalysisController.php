@@ -190,11 +190,17 @@ class AnalysisController extends AbstractController
 
     /**
      * @param FilterDto $filter
+     * @param string $export
      * @return void
      * @throws InvalidQueryException
+     * @throws StopActionException
      */
-    public function linkListenerAction(FilterDto $filter): void
+    public function linkListenerAction(FilterDto $filter, string $export = ''): void
     {
+        if ($export === 'csv') {
+            $this->forward('linkListenerCsv', null, null, ['filter' => $filter]);
+        }
+
         $this->view->assignMultiple([
             'filter' => $filter,
             'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
@@ -202,6 +208,19 @@ class AnalysisController extends AbstractController
             'allLinkclickData' => GeneralUtility::makeInstance(AllLinkclickDataProvider::class, $filter),
             'linkclickData' => GeneralUtility::makeInstance(LinkclickDataProvider::class, $filter),
         ]);
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @return ResponseInterface
+     * @throws InvalidQueryException
+     */
+    public function linkListenerCsvAction(FilterDto $filter)
+    {
+        $this->view->assignMultiple([
+            'linkListeners' => $this->linklistenerRepository->findByFilter($filter),
+        ]);
+        return $this->csvResponse();
     }
 
     /**
