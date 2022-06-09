@@ -62,6 +62,11 @@ class Visitor extends AbstractModel
     protected $email = '';
 
     /**
+     * @var string
+     */
+    protected $company = '';
+
+    /**
      * @var bool
      */
     protected $identified = false;
@@ -410,6 +415,57 @@ class Visitor extends AbstractModel
     public function setEmail(string $email): self
     {
         $this->email = $email;
+        return $this;
+    }
+
+    /**
+     * @return string
+     * @throws InvalidConfigurationTypeException
+     * @throws FileNotFoundException
+     */
+    public function getCompany(): string
+    {
+        $company = $this->company;
+        if (empty($company)) {
+            $company = $this->getPropertyFromAttributes('company');
+        }
+        if (empty($company)) {
+            $companyFromIp = GeneralUtility::makeInstance(GetCompanyFromIpService::class);
+            $company = $companyFromIp->get($this);
+            if (empty($company)) {
+                $company = $this->getPropertyFromIpinformations('org');
+                $tcProvider = GeneralUtility::makeInstance(Telecommunication::class);
+                if ($tcProvider->isTelecommunicationProvider($company)) {
+                    $company = '';
+                }
+            }
+        }
+        return $company;
+    }
+
+    /**
+     * @param string $company
+     * @return Visitor
+     */
+    public function setCompany(string $company): self
+    {
+        $this->company = $company;
+        return $this;
+    }
+
+    /**
+     * Set company from IP information if possible (on visitor creation)
+     *
+     * @return $this
+     * @throws FileNotFoundException
+     * @throws InvalidConfigurationTypeException
+     */
+    public function setCompanyAutomatic(): self
+    {
+        $company = $this->getCompany();
+        if ($company !== '') {
+            $this->company = $company;
+        }
         return $this;
     }
 
@@ -1221,28 +1277,6 @@ class Visitor extends AbstractModel
             $location .= $country;
         }
         return $location;
-    }
-
-    /**
-     * @return string
-     * @throws InvalidConfigurationTypeException
-     * @throws FileNotFoundException
-     */
-    public function getCompany(): string
-    {
-        $company = $this->getPropertyFromAttributes('company');
-        if (empty($company)) {
-            $companyFromIp = GeneralUtility::makeInstance(GetCompanyFromIpService::class);
-            $company = $companyFromIp->get($this);
-            if (empty($company)) {
-                $company = $this->getPropertyFromIpinformations('org');
-                $tcProvider = GeneralUtility::makeInstance(Telecommunication::class);
-                if ($tcProvider->isTelecommunicationProvider($company)) {
-                    $company = '';
-                }
-            }
-        }
-        return $company;
     }
 
     /**

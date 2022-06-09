@@ -13,6 +13,7 @@ use In2code\Lux\Events\StopAnyProcessBeforePersistenceEvent;
 use In2code\Lux\Events\VisitorFactoryAfterCreateNewEvent;
 use In2code\Lux\Events\VisitorFactoryBeforeCreateNewEvent;
 use In2code\Lux\Exception\ConfigurationException;
+use In2code\Lux\Exception\FileNotFoundException;
 use In2code\Lux\Exception\FingerprintMustNotBeEmptyException;
 use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\CookieUtility;
@@ -22,6 +23,7 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
@@ -73,7 +75,9 @@ class VisitorFactory
      * @throws Exception
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
+     * @throws FileNotFoundException
      * @throws IllegalObjectTypeException
+     * @throws InvalidConfigurationTypeException
      * @throws UnknownObjectException
      */
     public function getVisitor(): Visitor
@@ -143,12 +147,15 @@ class VisitorFactory
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws IllegalObjectTypeException
+     * @throws FileNotFoundException
+     * @throws InvalidConfigurationTypeException
      */
     protected function createNewVisitor(): Visitor
     {
         $visitor = GeneralUtility::makeInstance(Visitor::class);
         $visitor->addFingerprint($this->fingerprint);
         $this->enrichNewVisitorWithIpInformation($visitor);
+        $visitor->setCompanyAutomatic(); // must be after enrichNewVisitorWithIpInformation()
         /** @var LogVisitorEvent $event */
         $event = $this->eventDispatcher->dispatch(GeneralUtility::makeInstance(LogVisitorEvent::class, $visitor));
         return $event->getVisitor();
