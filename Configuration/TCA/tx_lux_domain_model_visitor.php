@@ -58,7 +58,7 @@ return [
             'showitem' => 'blacklisted,visits'
         ],
         'mail' => [
-            'showitem' => 'email,fingerprints'
+            'showitem' => 'email,company,--linebreak--,fingerprints'
         ],
         'time' => [
             'showitem' => 'crdate,tstamp'
@@ -210,6 +210,14 @@ return [
         'email' => [
             'exclude' => true,
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Visitor::TABLE_NAME . '.email',
+            'config' => [
+                'type' => 'input',
+                'readOnly' => true
+            ]
+        ],
+        'company' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Visitor::TABLE_NAME . '.company',
             'config' => [
                 'type' => 'input',
                 'readOnly' => true

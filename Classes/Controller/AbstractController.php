@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Controller;
 
+use DateTime;
 use In2code\Lux\Domain\Cache\CacheLayer;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Repository\CategoryRepository;
@@ -19,6 +20,7 @@ use In2code\Lux\Domain\Repository\SearchRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\RenderingTimeService;
 use In2code\Lux\Utility\BackendUtility;
+use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use Psr\Http\Message\ResponseInterface;
@@ -282,13 +284,30 @@ abstract class AbstractController extends ActionController
 
     /**
      * @param string|null $csv
+     * @param string $filename
      * @return ResponseInterface
      */
-    protected function csvResponse(string $csv = null): ResponseInterface
+    protected function csvResponse(string $csv = null, string $filename = ''): ResponseInterface
     {
+        if ($filename === '') {
+            $date = new DateTime();
+            $filename = $this->getControllerName() . '_' . $this->getActionName()
+                . '_' . $date->format('Y-m-d') . '.csv';
+        }
+
+        // Todo: Remove when TYPO3 10 is dropped
+        if (ConfigurationUtility::isTypo3Version11() === false) {
+            $this->response->setHeader('Content-Type', 'text/x-csv');
+            $this->response->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"');
+            $this->response->setHeader('Pragma', 'no-cache');
+            $this->response->sendHeaders();
+            echo $this->view->render();
+            exit;
+        }
+
         return $this->responseFactory->createResponse()
             ->withHeader('Content-Type', 'text/x-csv; charset=utf-8')
-            ->withHeader('Content-Disposition', 'attachment; filename="Leads.csv"')
+            ->withHeader('Content-Disposition', 'attachment; filename="' . $filename . '"')
             ->withHeader('Pragma', 'no-cache')
             ->withBody($this->streamFactory->createStream($csv ?? $this->view->render()));
     }

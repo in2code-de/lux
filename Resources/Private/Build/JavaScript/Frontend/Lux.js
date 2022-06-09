@@ -550,11 +550,15 @@ function LuxMain() {
   var addAbTestingListener = function() {
     var abTestingContainer = document.querySelector('[data-lux-abtestingpage]');
     if (abTestingContainer !== null) {
-      ajaxConnection({
-        'tx_lux_fe[dispatchAction]': 'abTestingRequest',
-        'tx_lux_fe[identificator]': identification.isIdentificatorSet() ? identification.getIdentificator() : '',
-        'tx_lux_fe[arguments][abTestingPage]': abTestingContainer.getAttribute('data-lux-abtestingpage'),
-      }, getRequestUri(), 'generalWorkflowActionCallback', null);
+      setTimeout(
+        function() {
+          ajaxConnection({
+            'tx_lux_fe[dispatchAction]': 'abTestingRequest',
+            'tx_lux_fe[identificator]': identification.isIdentificatorSet() ? identification.getIdentificator() : '',
+            'tx_lux_fe[arguments][abTestingPage]': abTestingContainer.getAttribute('data-lux-abtestingpage'),
+          }, getRequestUri(), 'generalWorkflowActionCallback', null);
+        }, 1000
+      );
     }
   };
 

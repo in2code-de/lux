@@ -92,13 +92,19 @@ class AnalysisController extends AbstractController
      * Page visits and downloads
      *
      * @param FilterDto $filter
+     * @param string $export
      * @return void
-     * @throws Exception
-     * @throws InvalidQueryException
      * @throws DBALException
+     * @throws Exception
+     * @throws ExceptionDbal
+     * @throws InvalidQueryException
      */
-    public function contentAction(FilterDto $filter): void
+    public function contentAction(FilterDto $filter, string $export = ''): void
     {
+        if ($export === 'csv') {
+            $this->forward('contentCsv', null, null, ['filter' => $filter]);
+        }
+
         $this->view->assignMultiple([
             'filter' => $filter,
             'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
@@ -113,6 +119,21 @@ class AnalysisController extends AbstractController
     }
 
     /**
+     * @param FilterDto $filter
+     * @return ResponseInterface
+     * @throws Exception
+     * @throws ExceptionDbal
+     */
+    public function contentCsvAction(FilterDto $filter)
+    {
+        $this->view->assignMultiple([
+            'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
+            'downloads' => $this->downloadRepository->findCombinedByHref($filter),
+        ]);
+        return $this->csvResponse();
+    }
+
+    /**
      * @return void
      * @throws NoSuchArgumentException
      */
@@ -123,11 +144,17 @@ class AnalysisController extends AbstractController
 
     /**
      * @param FilterDto $filter
+     * @param string $export
      * @return void
      * @throws DBALException
+     * @throws StopActionException
      */
-    public function newsAction(FilterDto $filter): void
+    public function newsAction(FilterDto $filter, string $export = ''): void
     {
+        if ($export === 'csv') {
+            $this->forward('newsCsv', null, null, ['filter' => $filter]);
+        }
+
         $this->view->assignMultiple([
             'filter' => $filter,
             'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
@@ -137,6 +164,19 @@ class AnalysisController extends AbstractController
             'domainData' => GeneralUtility::makeInstance(DomainNewsDataProvider::class, $filter),
             'domains' => $this->newsvisitRepository->getAllDomains($filter)
         ]);
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @return ResponseInterface
+     * @throws DBALException
+     */
+    public function newsCsvAction(FilterDto $filter)
+    {
+        $this->view->assignMultiple([
+            'news' => $this->newsvisitRepository->findCombinedByNewsIdentifier($filter),
+        ]);
+        return $this->csvResponse();
     }
 
     /**
@@ -150,11 +190,17 @@ class AnalysisController extends AbstractController
 
     /**
      * @param FilterDto $filter
+     * @param string $export
      * @return void
      * @throws InvalidQueryException
+     * @throws StopActionException
      */
-    public function linkListenerAction(FilterDto $filter): void
+    public function linkListenerAction(FilterDto $filter, string $export = ''): void
     {
+        if ($export === 'csv') {
+            $this->forward('linkListenerCsv', null, null, ['filter' => $filter]);
+        }
+
         $this->view->assignMultiple([
             'filter' => $filter,
             'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
@@ -162,6 +208,19 @@ class AnalysisController extends AbstractController
             'allLinkclickData' => GeneralUtility::makeInstance(AllLinkclickDataProvider::class, $filter),
             'linkclickData' => GeneralUtility::makeInstance(LinkclickDataProvider::class, $filter),
         ]);
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @return ResponseInterface
+     * @throws InvalidQueryException
+     */
+    public function linkListenerCsvAction(FilterDto $filter)
+    {
+        $this->view->assignMultiple([
+            'linkListeners' => $this->linklistenerRepository->findByFilter($filter),
+        ]);
+        return $this->csvResponse();
     }
 
     /**

@@ -18,6 +18,7 @@ CREATE TABLE tx_lux_domain_model_visitor (
 	identified tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	blacklisted tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	email varchar(255) DEFAULT '' NOT NULL,
+	company varchar(255) DEFAULT '' NOT NULL,
 	fingerprints varchar(255) DEFAULT '' NOT NULL,
 	ip_address varchar(255) DEFAULT '' NOT NULL,
 	visits int(11) unsigned DEFAULT '0' NOT NULL,

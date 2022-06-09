@@ -558,6 +558,7 @@ class VisitorRepository extends AbstractRepository
                     $logicalOr[] = $query->equals('uid', $searchterm);
                 }
                 $logicalOr[] = $query->like('email', '%' . $searchterm . '%');
+                $logicalOr[] = $query->like('company', '%' . $searchterm . '%');
                 $logicalOr[] = $query->like('ipAddress', '%' . $searchterm . '%');
                 $logicalOr[] = $query->like('description', '%' . $searchterm . '%');
                 $logicalOr[] = $query->like('attributes.value', '%' . $searchterm . '%');

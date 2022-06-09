@@ -96,18 +96,38 @@
                 </div>
 
 
-                <div class="col-md-4 flex" style="position: relative;">
-                    <div class="input-group form-group pull-right" style="display: block; position:absolute; bottom: 0;">
-                        <f:if condition="{filter.set}">
-                            <f:link.action class="btn btn-default" style="margin-right: 10px" action="resetFilter" arguments="{redirectAction:view.action}">
-                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.reset">Reset</f:translate>
-                            </f:link.action>
-                        </f:if>
+                <div class="col-md-4" style="display: flex; justify-content: right;">
+                    <f:comment>This submit is not visible. Nevertheless it will be triggered when pressing return in an input field because it is the first submit.</f:comment>
+                    <f:form.submit
+                        class="btn btn-primary"
+                        value="Submit"
+                        style="visibility:hidden;width:1px;padding:0;margin:0;"/>
 
-                        <f:form.submit
-                            class="btn btn-primary"
-                            value="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.submit')}" />
-                    </div>
+                    <f:comment>Clear filter</f:comment>
+                    <f:if condition="{filter.set}">
+                        <f:link.action class="btn btn-default" style="height: 32px; margin-top: auto; margin-right: 10px" action="resetFilter" arguments="{redirectAction:view.action}">
+                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.reset">Reset</f:translate>
+                        </f:link.action>
+                    </f:if>
+
+                    <f:comment>CSV download</f:comment>
+                    <f:form.submit class="fa fa-download" name="export" id="download" value="csv" style="visibility:hidden;width:1px;padding:0;margin:0;"/>
+                    <lux:condition.isTypo3Eleven>
+                        <f:then>
+                            <label class="btn btn-default" for="download" style="height: 32px; margin-top: auto; margin-right: 10px;">
+                                <span class="fa fa-download" title="CSV Download"></span>
+                            </label>
+                        </f:then>
+                        <f:else>
+                            <label class="btn btn-default fa fa-download" for="download" style="height: 32px; margin-top: auto; margin-right: 10px;" title="CSV Download"></label>
+                        </f:else>
+                    </lux:condition.isTypo3Eleven>
+
+                    <f:comment>Submit filter</f:comment>
+                    <f:form.submit
+                        style="height: 32px; margin-top: auto;"
+                        class="btn btn-primary"
+                        value="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.submit')}" />
                 </div>
             </div>
         </f:form>

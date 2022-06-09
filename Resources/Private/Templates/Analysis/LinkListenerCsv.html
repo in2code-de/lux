@@ -1,0 +1,5 @@
+<f:spaceless>
+    <lux:format.quotes>TITLE</lux:format.quotes>;<lux:format.quotes>DESCRIPTION</lux:format.quotes>;<lux:format.quotes>CATEGORIES</lux:format.quotes>;<lux:format.quotes>CREATED</lux:format.quotes>;<lux:format.quotes>AUTHOR</lux:format.quotes>;<lux:format.quotes>CLICKS</lux:format.quotes>;<lux:format.quotes>PERFORMANCE</lux:format.quotes>
+    <f:for each="{linkListeners}" as="linkListener"><lux:format.quotes>{linkListener.title}</lux:format.quotes>;<lux:format.quotes>{linkListener.description}</lux:format.quotes>;<lux:format.quotes>{linkListener.category.title}</lux:format.quotes>;<lux:format.quotes>{f:format.date(date:linkListener.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}</lux:format.quotes>;<lux:format.quotes>{linkListener.cruserId.username}</lux:format.quotes>;{linkListener.linkclicksRaw -> f:count()};{linkListener.performance -> lux:format.percent()}
+    </f:for>
+</f:spaceless>

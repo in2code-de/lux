@@ -1,0 +1,5 @@
+<f:spaceless>
+    <lux:format.quotes>UID</lux:format.quotes>;<lux:format.quotes>TITLE</lux:format.quotes>;<lux:format.quotes>CATEGORIES</lux:format.quotes>;<lux:format.quotes>CREATED</lux:format.quotes>;<lux:format.quotes>AUTHOR</lux:format.quotes>;<lux:format.quotes>AMOUNT</lux:format.quotes>
+    <f:for each="{news}" as="item"><lux:format.quotes>{item.news.uid}</lux:format.quotes>;<lux:format.quotes>{item.news.title}</lux:format.quotes>;<lux:format.quotes><f:for each="{item.news.categories}" as="category" iteration="iteration">{category.title}<f:if condition="!{iteration.isLast}">,</f:if></f:for></lux:format.quotes>;<lux:format.quotes>{f:format.date(date:item.news.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}</lux:format.quotes>;<lux:format.quotes>{item.news.cruserId.username}</lux:format.quotes>;{item.count}
+    </f:for>
+</f:spaceless>

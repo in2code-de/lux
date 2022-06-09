@@ -143,26 +143,50 @@ class AttributeTracker
                     GeneralUtility::makeInstance(AttributeCreateEvent::class, $this->visitor, $attribute)
                 );
             }
-            if ($attribute->isEmail()) {
-                if ($this->visitor->isIdentified() === false) {
-                    $className = 'In2code\Lux\Events\Log\LogVisitorIdentifiedBy' . $this->context . 'Event';
-                    $this->eventDispatcher->dispatch(
-                        GeneralUtility::makeInstance(
-                            $className,
-                            $this->visitor,
-                            $attribute,
-                            $this->pageIdentifier
-                        )
-                    );
-                }
-                $this->visitor->setIdentified(true);
-                $this->visitor->setEmail($value);
-                $this->visitor->setFrontenduserAutomatically();
-            }
+            $this->addAttributeEmail($attribute, $value);
+            $this->addAttributeCompany($attribute, $value);
             $this->visitorRepository->update($this->visitor);
             $this->visitorRepository->persistAll();
 
             $this->mergeVisitorsOnGivenEmail($key, $value);
+        }
+    }
+
+    /**
+     * @param Attribute $attribute
+     * @param string $value
+     * @return void
+     * @throws InvalidConfigurationTypeException
+     */
+    protected function addAttributeEmail(Attribute $attribute, string $value): void
+    {
+        if ($attribute->isEmail()) {
+            if ($this->visitor->isIdentified() === false) {
+                $className = 'In2code\Lux\Events\Log\LogVisitorIdentifiedBy' . $this->context . 'Event';
+                $this->eventDispatcher->dispatch(
+                    GeneralUtility::makeInstance(
+                        $className,
+                        $this->visitor,
+                        $attribute,
+                        $this->pageIdentifier
+                    )
+                );
+            }
+            $this->visitor->setIdentified(true);
+            $this->visitor->setEmail($value);
+            $this->visitor->setFrontenduserAutomatically();
+        }
+    }
+
+    /**
+     * @param Attribute $attribute
+     * @param string $value
+     * @return void
+     */
+    protected function addAttributeCompany(Attribute $attribute, string $value): void
+    {
+        if ($attribute->getName() === 'company') {
+            $this->visitor->setCompany($value);
         }
     }
 
