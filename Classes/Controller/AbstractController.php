@@ -291,7 +291,8 @@ abstract class AbstractController extends ActionController
     {
         if ($filename === '') {
             $date = new DateTime();
-            $filename = $this->getControllerName() . '_' . $date->format('Y-m-d') . '.csv';
+            $filename = $this->getControllerName() . '_' . $this->getActionName()
+                . '_' . $date->format('Y-m-d') . '.csv';
         }
 
         // Todo: Remove when TYPO3 10 is dropped

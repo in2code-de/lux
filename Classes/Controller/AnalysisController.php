@@ -144,11 +144,17 @@ class AnalysisController extends AbstractController
 
     /**
      * @param FilterDto $filter
+     * @param string $export
      * @return void
      * @throws DBALException
+     * @throws StopActionException
      */
-    public function newsAction(FilterDto $filter): void
+    public function newsAction(FilterDto $filter, string $export = ''): void
     {
+        if ($export === 'csv') {
+            $this->forward('newsCsv', null, null, ['filter' => $filter]);
+        }
+
         $this->view->assignMultiple([
             'filter' => $filter,
             'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
@@ -158,6 +164,19 @@ class AnalysisController extends AbstractController
             'domainData' => GeneralUtility::makeInstance(DomainNewsDataProvider::class, $filter),
             'domains' => $this->newsvisitRepository->getAllDomains($filter)
         ]);
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @return ResponseInterface
+     * @throws DBALException
+     */
+    public function newsCsvAction(FilterDto $filter)
+    {
+        $this->view->assignMultiple([
+            'news' => $this->newsvisitRepository->findCombinedByNewsIdentifier($filter),
+        ]);
+        return $this->csvResponse();
     }
 
     /**
