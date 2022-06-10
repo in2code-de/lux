@@ -733,9 +733,7 @@ EXT:luxextension/Resources/Private/Templates/Workflow/Trigger/FrontendUser.html:
                value="{configuration.page}" />
         </div>
 
-        <input type="hidden" name="tx_lux_lux_luxworkflow[trigger][{index}][className]" value="{triggerSettings.className}" />
-        <input type="hidden" name="tx_lux_lux_luxworkflow[trigger][{index}][conjunction]" value="{trigger.conjunction}" />
-        <input type="hidden" name="tx_lux_lux_luxworkflow[trigger][{index}][not]" value="{trigger.not}" />
+        <f:render partial="Trigger/HiddenFields" arguments="{_all}"/>
     </div>
 </f:spaceless>
 ```
