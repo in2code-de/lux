@@ -106,10 +106,12 @@ class PageOverview
      * @param array $parameters
      * @param PageLayoutController $plController
      * @return string
+     * @throws ConfigurationException
      * @throws DBALException
      * @throws ExceptionDbal
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
+     * @throws UnexpectedValueException
      */
     public function render(array $parameters, PageLayoutController $plController): string
     {
@@ -210,10 +212,12 @@ class PageOverview
     /**
      * @param PageLayoutController $plController
      * @return bool
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     protected function isPageOverviewEnabled(PageLayoutController $plController): bool
     {
         $row = BackendUtilityCore::getRecord('pages', $plController->id, 'hidden');
-        return $row['hidden'] !== 1;
+        return ConfigurationUtility::isPageOverviewDisabled() === false && $row['hidden'] !== 1;
     }
 }
