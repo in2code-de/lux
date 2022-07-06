@@ -17,6 +17,7 @@
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 24.0.1     | 2022-07-06 | Bugfix     | Hide page overview rendering when it is turned off via extension manager configuration (even if luxenterprise comes along with A/B testing)                                                |
 | 24.0.0     | 2022-06-09 | Feature    | Add CSV download possibilities for all analysis views, Allow to search for company name (when given from IP address), Prevent duplicated visitor records on A/B testing                    |
 | 23.3.0     | 2022-06-07 | Feature    | Small css update for NOT triggers in luxenterprise, small bugfix in loading order with dashboard, documentation update                                                                     |
 | 23.2.1     | 2022-05-25 | Bugfix     | Update disallowedMailProvider list, prevent exception "isPackageActive() on null" in TYPO3 11                                                                                              |
