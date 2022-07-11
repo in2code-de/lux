@@ -69,13 +69,18 @@ class FingerprintRepository extends AbstractRepository
     /**
      * @param string $fingerprint
      * @return int
-     * @throws DBALException
      */
     public function getFingerprintCountByValue(string $fingerprint): int
     {
-        $connection = DatabaseUtility::getConnectionForTable(Fingerprint::TABLE_NAME);
-        $sql = 'select count(*) from ' . Fingerprint::TABLE_NAME
-            . ' where value = "' . $fingerprint . '" and type=' . Fingerprint::TYPE_FINGERPRINT . ' and deleted=0';
-        return (int)$connection->executeQuery($sql)->fetchColumn();
+        $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Fingerprint::TABLE_NAME);
+        return (int)$queryBuilder
+            ->count('*')
+            ->from(Fingerprint::TABLE_NAME)
+            ->where(
+                $queryBuilder->expr()->eq('value', $queryBuilder->createNamedParameter($fingerprint)),
+                $queryBuilder->expr()->eq('type', Fingerprint::TYPE_FINGERPRINT)
+            )
+            ->execute()
+            ->fetchColumn();
     }
 }
