@@ -72,10 +72,11 @@ class GotinExternalDataProvider extends AbstractDataProvider
     protected function getExternalGotinToPagevisit(): array
     {
         $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
+        $domainLike = addcslashes($this->getDomainOfPageIdentifier((int)$this->filter->getSearchterm()), '_%');
         $referrers = $connection->executeQuery(
             'select referrer from ' . Pagevisit::TABLE_NAME
             . ' where referrer != ""'
-            . ' and referrer not like "%' . $this->getDomainOfPageIdentifier((int)$this->filter->getSearchterm()) . '%"'
+            . ' and referrer not like ' . $connection->quote('%' . $domainLike . '%')
             . ' and page=' . (int)$this->filter->getSearchterm()
             . ' and crdate > ' . $this->filter->getStartTimeForFilter()->format('U')
             . ' and crdate < ' . $this->filter->getEndTimeForFilter()->format('U')
