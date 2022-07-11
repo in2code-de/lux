@@ -183,6 +183,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 17.6.1     | 2022-07-11 | Security   | Harden SQL queries against possible SQL injection                                                                                                                                          |
 | 17.6.0     | 2022-03-07 | Feature    | General performance update                                                                                                                                                                 |
 | 17.5.0     | 2022-02-22 | Bugfix     | Backport: New cachelayer to cache HTML output from dashboards                                                                                                                              |
 | 17.4.1     | 2022-02-04 | Bugfix     | Fix missing constructor DI in TYPO3 9                                                                                                                                                      |
