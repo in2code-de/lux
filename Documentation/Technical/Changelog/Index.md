@@ -17,6 +17,7 @@
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 24.0.2     | 2022-07-11 | Security   | Harden SQL queries against possible SQL injection                                                                                                                                          |
 | 24.0.1     | 2022-07-06 | Bugfix     | Hide page overview rendering when it is turned off via extension manager configuration (even if luxenterprise comes along with A/B testing)                                                |
 | 24.0.0     | 2022-06-09 | Feature    | Add CSV download possibilities for all analysis views, Allow to search for company name (when given from IP address), Prevent duplicated visitor records on A/B testing                    |
 | 23.3.0     | 2022-06-07 | Feature    | Small css update for NOT triggers in luxenterprise, small bugfix in loading order with dashboard, documentation update                                                                     |
@@ -52,6 +53,7 @@
 | 18.1.1     | 2021-10-22 | Bugfix     | Fix a typo when rendering the star icon in all lux backend modules                                                                                                                         |
 | 18.1.0     | 2021-10-17 | Task       | Add a "go enterprise" to backend layouts, Update input field height for bootstrap 5, Small code cleanup                                                                                    |
 | 18.0.0     | 2021-10-16 | Task       | Support TYPO3 11 (and 10) and drop support for version 9                                                                                                                                   |
+| 17.6.1     | 2022-07-11 | Security   | Harden SQL queries against possible SQL injection                                                                                                                                          |
 | 17.6.0     | 2022-03-07 | Feature    | General performance update                                                                                                                                                                 |
 | 17.5.0     | 2022-02-22 | Bugfix     | Backport: New cachelayer to cache HTML output from dashboards                                                                                                                              |
 | 17.4.1     | 2022-02-04 | Bugfix     | Fix missing constructor DI in TYPO3 9                                                                                                                                                      |
