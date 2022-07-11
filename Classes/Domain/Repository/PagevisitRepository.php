@@ -272,8 +272,10 @@ class PagevisitRepository extends AbstractRepository
     public function getAmountOfReferrers(FilterDto $filter, int $limit = 100): array
     {
         $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
+        $domainLike = addcslashes(FrontendUtility::getCurrentDomain(), '_%');
         $sql = 'select referrer, count(referrer) count from ' . Pagevisit::TABLE_NAME
-            . ' where referrer != "" and referrer not like "%' . FrontendUtility::getCurrentDomain() . '%"'
+            . ' where referrer != ""'
+            . ' and referrer not like ' . $connection->quote('%' . $domainLike . '%')
             . $this->extendWhereClauseWithFilterTime($filter)
             . ' group by referrer having (count > 1) order by count desc limit ' . $limit;
         $records = (array)$connection->executeQuery($sql)->fetchAll();
