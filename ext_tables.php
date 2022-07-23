@@ -99,7 +99,7 @@ call_user_func(
                 '',
                 [
                     \In2code\Lux\Controller\WorkflowController::class =>
-                        'list,new,create,edit,update,delete,disable,enable',
+                        'list,new,create,edit,update,delete,disable,enable,resetFilter',
                     \In2code\Lux\Controller\ShortenerController::class => 'list,delete,detail,resetFilter,qr',
                     \In2code\Lux\Controller\AbTestingController::class => 'list',
                     \In2code\Lux\Controller\GeneralController::class => 'information'
