@@ -2,7 +2,8 @@
 declare(strict_types = 1);
 namespace In2code\Lux\Controller;
 
-use Psr\Http\Message\ResponseInterface;
+use In2code\Lux\Domain\Model\Transfer\FilterDto;
+use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 
 /**
  * Class WorkflowController
@@ -13,8 +14,18 @@ class WorkflowController extends AbstractController
 {
     /**
      * @return void
+     * @throws NoSuchArgumentException
      */
-    public function listAction()
+    public function initializeListAction(): void
+    {
+        $this->setFilterExtended();
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @return void
+     */
+    public function listAction(FilterDto $filter): void
     {
     }
 }
