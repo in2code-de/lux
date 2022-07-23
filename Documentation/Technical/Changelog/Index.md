@@ -17,6 +17,7 @@
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 24.1.0     | 2022-07-23 | Task       | Update for a better workflow management in luxenterprise                                                                                                                                   |
 | 24.0.2     | 2022-07-11 | Security   | Harden SQL queries against possible SQL injection                                                                                                                                          |
 | 24.0.1     | 2022-07-06 | Bugfix     | Hide page overview rendering when it is turned off via extension manager configuration (even if luxenterprise comes along with A/B testing)                                                |
 | 24.0.0     | 2022-06-09 | Feature    | Add CSV download possibilities for all analysis views, Allow to search for company name (when given from IP address), Prevent duplicated visitor records on A/B testing                    |
