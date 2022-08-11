@@ -2,7 +2,7 @@
 'use strict';
 
 const { src, dest, watch, series, parallel } = require('gulp');
-const sass = require('gulp-sass')(require('node-sass'));
+const sass = require('gulp-sass')(require('sass'));
 const rollup = require('rollup').rollup;
 const rollupConfig = require('./rollup.config');
 const uglify = require('gulp-uglify');

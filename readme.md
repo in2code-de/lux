@@ -18,7 +18,7 @@ LUX will not set any cookies.
     </tr>
     <tr>
         <td align="center" colspan="2">
-            <img alt="" width="600" src="https://github.com/in2code-de/lux/blob/master/Documentation/Images/screenshot_typo3dashboard.png">
+            <img alt="" width="600" src="https://github.com/in2code-de/lux/blob/develop/Documentation/Images/screenshot_typo3dashboard.png">
         </td>
     </tr>
     <tr>
@@ -26,10 +26,10 @@ LUX will not set any cookies.
     </tr>
     <tr>
         <td align="center">
-            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/master/Documentation/Images/screenshot_dashboard.png">
+            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/develop/Documentation/Images/screenshot_dashboard.png">
         </td>
         <td align="center">
-            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/master/Documentation/Images/screenshot_analysis_dashboard.png">
+            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/develop/Documentation/Images/screenshot_analysis_dashboard.png">
         </td>
     </tr>
     <tr>
@@ -38,10 +38,10 @@ LUX will not set any cookies.
     </tr>
     <tr>
         <td align="center">
-            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/master/Documentation/Images/screenshot_list.png">
+            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/develop/Documentation/Images/screenshot_list.png">
         </td>
         <td align="center">
-            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/master/Documentation/Images/screenshot_list2.png">
+            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/develop/Documentation/Images/screenshot_list2.png">
         </td>
     </tr>
     <tr>
@@ -49,7 +49,7 @@ LUX will not set any cookies.
     </tr>
     <tr>
         <td align="center" colspan="2">
-            <img alt="" width="600" src="https://github.com/in2code-de/lux/blob/master/Documentation/Images/screenshot_pageoverview.png">
+            <img alt="" width="600" src="https://github.com/in2code-de/lux/blob/develop/Documentation/Images/screenshot_pageoverview.png">
         </td>
     </tr>
     <tr>
@@ -66,10 +66,10 @@ LUX will not set any cookies.
     </tr>
     <tr>
         <td align="center">
-            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/master/Documentation/Images/screenshot_workflow_trigger.png">
+            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/develop/Documentation/Images/screenshot_workflow_trigger.png">
         </td>
         <td align="center">
-            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/master/Documentation/Images/screenshot_workflow_action.png">
+            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/develop/Documentation/Images/screenshot_workflow_action.png">
         </td>
     </tr>
     <tr>
@@ -78,10 +78,10 @@ LUX will not set any cookies.
     </tr>
     <tr>
         <td align="center">
-            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/master/Documentation/Images/screenshot_email4link.png">
+            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/develop/Documentation/Images/screenshot_email4link.png">
         </td>
         <td align="center">
-            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/master/Documentation/Images/screenshot_email4link_ckeditor_plugin.png">
+            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/develop/Documentation/Images/screenshot_email4link_ckeditor_plugin.png">
         </td>
     </tr>
 </table>
