@@ -17,6 +17,7 @@
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 24.2.0     | 2022-08-11 | Task       | Replace deprecated frontend build tools, prevent possible exception on longer user_agent strings                                                                                           |
 | 24.1.0     | 2022-07-23 | Task       | Update for a better workflow management in luxenterprise                                                                                                                                   |
 | 24.0.2     | 2022-07-11 | Security   | Harden SQL queries against possible SQL injection                                                                                                                                          |
 | 24.0.1     | 2022-07-06 | Bugfix     | Hide page overview rendering when it is turned off via extension manager configuration (even if luxenterprise comes along with A/B testing)                                                |
