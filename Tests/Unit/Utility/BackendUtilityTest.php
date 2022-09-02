@@ -21,7 +21,7 @@ class BackendUtilityTest extends UnitTestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         TestingHelper::setDefaultConstants();
     }
@@ -53,6 +53,7 @@ class BackendUtilityTest extends UnitTestCase
 
     /**
      * @return void
+     * @covers ::getSessionValue
      */
     public function testGetSessionValue()
     {
