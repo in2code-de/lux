@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\Finisher;
 
 use In2code\Lux\Domain\Model\Visitor;
@@ -22,7 +23,7 @@ abstract class AbstractFinisher implements FinisherInterface
         'fieldListeningRequestAction',
         'formListeningRequestAction',
         'email4LinkRequestAction',
-        'downloadRequestAction'
+        'downloadRequestAction',
     ];
 
     /**

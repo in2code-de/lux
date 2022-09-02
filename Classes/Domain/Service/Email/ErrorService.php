@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\Service\Email;
 
 use In2code\Lux\Domain\Model\Visitor;
@@ -68,7 +69,7 @@ class ErrorService
             ->assignMultiple([
                 'headline' => 'lux failure',
                 'introduction' => 'Exception catched in frontend request.',
-                'content' => $message
+                'content' => $message,
             ]);
         GeneralUtility::makeInstance(Mailer::class)->send($email);
     }

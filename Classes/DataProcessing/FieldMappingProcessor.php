@@ -1,4 +1,5 @@
 <?php
+
 namespace In2code\Lux\DataProcessing;
 
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;

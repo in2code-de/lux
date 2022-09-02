@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
 use Doctrine\DBAL\DBALException;
@@ -51,7 +52,7 @@ class VisitorRepository extends AbstractRepository
         $query->getQuerySettings()->setIgnoreEnableFields(true)->setEnableFieldsToBeIgnored(['blacklisted']);
         $and = [
             $query->equals('fingerprints.value', $identificator),
-            $query->equals('fingerprints.type', $type)
+            $query->equals('fingerprints.type', $type),
         ];
         $query->matching($query->logicalAnd($and));
         $query->setOrderings(['crdate' => QueryInterface::ORDER_ASCENDING]);
@@ -226,7 +227,7 @@ class VisitorRepository extends AbstractRepository
         $query = $this->createQuery();
         $logicalAnd = [
             $query->equals('fingerprints.value', $fingerprint),
-            $query->equals('fingerprints.type', Fingerprint::TYPE_FINGERPRINT)
+            $query->equals('fingerprints.type', Fingerprint::TYPE_FINGERPRINT),
         ];
         $query->matching($query->logicalAnd($logicalAnd));
         $query->setOrderings(['crdate' => QueryInterface::ORDER_ASCENDING]);
@@ -352,7 +353,7 @@ class VisitorRepository extends AbstractRepository
         $query = $this->createQuery();
         $logicalAnd = [
             $query->equals('identified', false),
-            $query->lessThan('tstamp', $timestamp)
+            $query->lessThan('tstamp', $timestamp),
         ];
         $query->matching($query->logicalAnd($logicalAnd));
         return $query->execute();
@@ -455,7 +456,7 @@ class VisitorRepository extends AbstractRepository
             Log::TABLE_NAME,
             Newsvisit::TABLE_NAME,
             Pagevisit::TABLE_NAME,
-            Visitor::TABLE_NAME
+            Visitor::TABLE_NAME,
         ];
         foreach ($tables as $table) {
             $connection = DatabaseUtility::getConnectionForTable($table);
@@ -494,7 +495,7 @@ class VisitorRepository extends AbstractRepository
             Categoryscoring::TABLE_NAME,
             Log::TABLE_NAME,
             Linkclick::TABLE_NAME,
-            Search::TABLE_NAME
+            Search::TABLE_NAME,
         ];
         foreach ($tables as $table) {
             $connection = DatabaseUtility::getConnectionForTable($table);
@@ -518,7 +519,7 @@ class VisitorRepository extends AbstractRepository
             Pagevisit::TABLE_NAME,
             Visitor::TABLE_NAME,
             Linkclick::TABLE_NAME,
-            Search::TABLE_NAME
+            Search::TABLE_NAME,
         ];
         foreach ($tables as $table) {
             DatabaseUtility::getConnectionForTable($table)->truncate($table);
@@ -543,11 +544,11 @@ class VisitorRepository extends AbstractRepository
             $query->logicalAnd([
                 $query->equals('pagevisits.uid', null),
                 $query->greaterThan('crdate', $filter->getStartTimeForFilter()),
-                $query->lessThan('crdate', $filter->getEndTimeForFilter())
+                $query->lessThan('crdate', $filter->getEndTimeForFilter()),
             ]),
             $query->logicalAnd([
                 $query->greaterThan('pagevisits.crdate', $filter->getStartTimeForFilter()),
-                $query->lessThan('pagevisits.crdate', $filter->getEndTimeForFilter())
+                $query->lessThan('pagevisits.crdate', $filter->getEndTimeForFilter()),
             ]),
         ]);
 

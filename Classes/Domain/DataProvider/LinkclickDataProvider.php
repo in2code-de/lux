@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider;
 
 use Doctrine\DBAL\DBALException;
@@ -207,7 +208,7 @@ class LinkclickDataProvider extends AbstractDataProvider
                 'page' => $linkclick['page'],
                 'linkclicks' => $linkclick['count'],
                 'pagevisits' => $pagevisits,
-                'pagevisitswithoutlinkclicks' => $pvWithoutLinkclicks
+                'pagevisitswithoutlinkclicks' => $pvWithoutLinkclicks,
             ];
         }
         return $data;

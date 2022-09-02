@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
 use Doctrine\DBAL\DBALException;
@@ -98,7 +99,7 @@ class LeadController extends AbstractController
             'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter, 8),
             'filter' => $filter,
             'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter),
-            'luxCategories' => $this->categoryRepository->findAllLuxCategories()
+            'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
         ]);
     }
 
@@ -110,7 +111,7 @@ class LeadController extends AbstractController
     public function downloadCsvAction(FilterDto $filter)
     {
         $this->view->assignMultiple([
-            'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter)
+            'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter),
         ]);
         return $this->csvResponse($this->view->render());
     }
@@ -174,7 +175,7 @@ class LeadController extends AbstractController
         ));
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         $standaloneView->assignMultiple([
-            'visitor' => $visitorRepository->findByUid((int)$request->getQueryParams()['visitor'])
+            'visitor' => $visitorRepository->findByUid((int)$request->getQueryParams()['visitor']),
         ]);
         /** @var StreamInterface $stream */
         $stream = $response->getBody();

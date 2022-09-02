@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\Service;
 
 use In2code\Lux\Domain\Model\Download;
@@ -209,7 +210,7 @@ class LogService
             $visitor,
             [
                 'shownContentUid' => $shownContentUid,
-                'containerContentUid' => $containerContentUid
+                'containerContentUid' => $containerContentUid,
             ]
         );
     }
@@ -228,7 +229,7 @@ class LogService
             $visitor,
             [
                 'abTestingPage' => $abTestingPage->getUid(),
-                'pageUid' => $abTestingPage->getPid()
+                'pageUid' => $abTestingPage->getPid(),
             ]
         );
     }
@@ -250,7 +251,7 @@ class LogService
             [
                 'message' => $message,
                 'code' => $code,
-                'source' => $source
+                'source' => $source,
             ]
         );
     }

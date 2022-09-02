@@ -1,4 +1,5 @@
 <?php
+
 namespace In2code\Lux\Tests\Unit\Utility;
 
 use In2code\Lux\Utility\UrlUtility;
@@ -10,7 +11,6 @@ use Nimut\TestingFramework\TestCase\UnitTestCase;
  */
 class UrlUtilityTest extends UnitTestCase
 {
-
     /**
      * @var array
      */
@@ -25,33 +25,33 @@ class UrlUtilityTest extends UnitTestCase
             [
                 '/fileadmin/file.pdf',
                 'fileadmin/file.pdf',
-                'https://domain.org'
+                'https://domain.org',
             ],
             [
                 'fileadmin/file.pdf',
                 'fileadmin/file.pdf',
-                'https://domain.org'
+                'https://domain.org',
             ],
             [
                 'https://domain.org/fileadmin/file.pdf',
                 'fileadmin/file.pdf',
-                'https://domain.org'
+                'https://domain.org',
             ],
             [
                 '/fileadmin/file.pdf',
                 'fileadmin/file.pdf',
-                'https://webserver-selfhosting-support.localhost.de'
+                'https://webserver-selfhosting-support.localhost.de',
             ],
             [
                 'fileadmin/file.pdf',
                 'fileadmin/file.pdf',
-                'https://webserver-selfhosting-support.localhost.de'
+                'https://webserver-selfhosting-support.localhost.de',
             ],
             [
                 'https://webserver-selfhosting-support.localhost.de/fileadmin/file.pdf',
                 'fileadmin/file.pdf',
-                'https://webserver-selfhosting-support.localhost.de'
-            ]
+                'https://webserver-selfhosting-support.localhost.de',
+            ],
         ];
     }
 
@@ -65,7 +65,7 @@ class UrlUtilityTest extends UnitTestCase
      */
     public function testConvertToRelative(string $givenPath, string $expectedResult, string $domain): void
     {
-        $this->assertEquals($expectedResult, UrlUtility::convertToRelative($givenPath, $domain));
+        self::assertEquals($expectedResult, UrlUtility::convertToRelative($givenPath, $domain));
     }
 
     /**
@@ -74,10 +74,10 @@ class UrlUtilityTest extends UnitTestCase
      */
     public function testIsAbsoluteUri(): void
     {
-        $this->assertTrue(UrlUtility::isAbsoluteUri('https://domain.org'));
-        $this->assertTrue(UrlUtility::isAbsoluteUri('http://domain.org/path/'));
-        $this->assertFalse(UrlUtility::isAbsoluteUri('/path/'));
-        $this->assertFalse(UrlUtility::isAbsoluteUri('path/'));
+        self::assertTrue(UrlUtility::isAbsoluteUri('https://domain.org'));
+        self::assertTrue(UrlUtility::isAbsoluteUri('http://domain.org/path/'));
+        self::assertFalse(UrlUtility::isAbsoluteUri('/path/'));
+        self::assertFalse(UrlUtility::isAbsoluteUri('path/'));
     }
 
     /**
@@ -87,8 +87,8 @@ class UrlUtilityTest extends UnitTestCase
     public function testGetAttributeValueFromString(): void
     {
         $tagString = '<tag data-anything-else="foo" data-anything="bar" class="test">';
-        $this->assertEquals('bar', UrlUtility::getAttributeValueFromString($tagString, 'data-anything'));
-        $this->assertEquals('test', UrlUtility::getAttributeValueFromString($tagString, 'class'));
+        self::assertEquals('bar', UrlUtility::getAttributeValueFromString($tagString, 'data-anything'));
+        self::assertEquals('test', UrlUtility::getAttributeValueFromString($tagString, 'class'));
     }
 
     /**
@@ -97,8 +97,8 @@ class UrlUtilityTest extends UnitTestCase
      */
     public function testRemoveSlashPrefixAndPostfix(): void
     {
-        $this->assertEquals('path', UrlUtility::removeSlashPrefixAndPostfix('/path/'));
-        $this->assertEquals('path/folder', UrlUtility::removeSlashPrefixAndPostfix('/path/folder/'));
+        self::assertEquals('path', UrlUtility::removeSlashPrefixAndPostfix('/path/'));
+        self::assertEquals('path/folder', UrlUtility::removeSlashPrefixAndPostfix('/path/folder/'));
     }
 
     /**
@@ -109,15 +109,15 @@ class UrlUtilityTest extends UnitTestCase
         return [
             [
                 'https://domain.org',
-                'domain.org'
+                'domain.org',
             ],
             [
                 'https://www.domain.org/path/file.ext',
-                'www.domain.org/path/file.ext'
+                'www.domain.org/path/file.ext',
             ],
             [
                 'http://domain.org',
-                'domain.org'
+                'domain.org',
             ],
         ];
     }
@@ -131,6 +131,6 @@ class UrlUtilityTest extends UnitTestCase
      */
     public function testRemoveProtocolFromDomain(string $domain, string $expectedDomain)
     {
-        $this->assertEquals($expectedDomain, UrlUtility::removeProtocolFromDomain($domain));
+        self::assertEquals($expectedDomain, UrlUtility::removeProtocolFromDomain($domain));
     }
 }

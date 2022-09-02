@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\Finisher;
 
 use Exception;
@@ -19,7 +20,7 @@ class ErrorLoggingFinisher extends AbstractFinisher
      * @var string[]
      */
     protected $startWithControllerActions = [
-        'error'
+        'error',
     ];
 
     /**

@@ -1,4 +1,5 @@
 <?php
+
 return [
     'lux' => [
         'title' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.dashboard.preset.lux.title',
@@ -17,8 +18,8 @@ return [
             'luxHottestLeads',
             'luxBrowser',
             'luxPageVisitsWeek',
-            'luxDownloadsWeek'
+            'luxDownloadsWeek',
         ],
-        'showInWizard' => true
-    ]
+        'showInWizard' => true,
+    ],
 ];

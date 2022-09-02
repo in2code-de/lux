@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\Tracker;
 
 use In2code\Lux\Domain\Model\Search;
@@ -59,7 +60,7 @@ class SearchTracker
                 'searchterm' => $searchTerm,
                 'visitor' => $visitor->getUid(),
                 'crdate' => time(),
-                'tstamp' => time()
+                'tstamp' => time(),
             ];
             $queryBuilder->insert(Search::TABLE_NAME)->values($properties)->execute();
             $searchUid = $queryBuilder->getConnection()->lastInsertId();

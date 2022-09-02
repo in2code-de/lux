@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\Service\Uri;
 
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
@@ -19,7 +20,7 @@ class WebRecord extends AbstractRecord
     public function get(string $tableName, int $identifier, bool $addReturnUrl = true): string
     {
         $uriParameters = [
-            'id' => $identifier
+            'id' => $identifier,
         ];
         return $this->getRoute('web_layout', $uriParameters);
     }

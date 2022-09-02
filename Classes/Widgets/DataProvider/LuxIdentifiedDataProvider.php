@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Widgets\DataProvider;
 
 use Doctrine\DBAL\DBALException;
@@ -46,10 +47,10 @@ class LuxIdentifiedDataProvider implements ChartDataProviderInterface
                     'data' => [
                         $visitorRepository->findAllIdentifiedAmount(),
                         $visitorRepository->findAllUnknownAmount(),
-                        $visitorRepository->findAllAmount()
-                    ]
-                ]
-            ]
+                        $visitorRepository->findAllAmount(),
+                    ],
+                ],
+            ],
         ];
     }
 }

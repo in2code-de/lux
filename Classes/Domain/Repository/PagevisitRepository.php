@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
 use DateTime;
@@ -86,7 +87,7 @@ class PagevisitRepository extends AbstractRepository
     {
         $query = $this->createQuery();
         $logicalAnd = [
-            $query->greaterThan('page.uid', 0)
+            $query->greaterThan('page.uid', 0),
         ];
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
         $query->matching(
@@ -130,7 +131,7 @@ class PagevisitRepository extends AbstractRepository
         $query = $this->createQuery();
         $logicalAnd = [
             $query->equals('visitor', $visitor),
-            $query->lessThanOrEqual('crdate', $time)
+            $query->lessThanOrEqual('crdate', $time),
         ];
         $query->matching($query->logicalAnd($logicalAnd));
         $query->setOrderings(['crdate' => QueryInterface::ORDER_DESCENDING]);
@@ -151,7 +152,7 @@ class PagevisitRepository extends AbstractRepository
         $query = $this->createQuery();
         $logicalAnd = [
             $query->equals('visitor', $visitor),
-            $query->lessThanOrEqual('crdate', $time)
+            $query->lessThanOrEqual('crdate', $time),
         ];
         $query->matching($query->logicalAnd($logicalAnd));
         $query->setOrderings(['crdate' => QueryInterface::ORDER_DESCENDING]);

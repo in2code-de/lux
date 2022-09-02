@@ -1,4 +1,5 @@
 <?php
+
 use In2code\Lux\Domain\Model\Linkclick;
 use In2code\Lux\Domain\Model\Linklistener;
 
@@ -15,7 +16,7 @@ return [
         'default_sortby' => 'ORDER BY title ASC',
         'delete' => 'deleted',
         'iconfile' => 'EXT:lux/Resources/Public/Icons/' . Linklistener::TABLE_NAME . '.svg',
-        'rootLevel' => -1
+        'rootLevel' => -1,
     ],
     'types' => [
         '1' => [
@@ -25,18 +26,18 @@ return [
                 '--palette--;LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:'
                 . Linklistener::TABLE_NAME . '.palette.link;palette_link,' .
                 '--palette--;LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:'
-                . Linklistener::TABLE_NAME . '.palette.creation;palette_creation,'
+                . Linklistener::TABLE_NAME . '.palette.creation;palette_creation,',
         ],
     ],
     'palettes' => [
         'palette_title' => [
-            'showitem' => 'title,description'
+            'showitem' => 'title,description',
         ],
         'palette_link' => [
-            'showitem' => 'link,category'
+            'showitem' => 'link,category',
         ],
         'palette_creation' => [
-            'showitem' => 'crdate,cruser_id'
+            'showitem' => 'crdate,cruser_id',
         ],
     ],
     'columns' => [
@@ -51,8 +52,8 @@ return [
                 'default' => 0,
                 'items' => [
                     ['LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1],
-                    ['LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0]
-                ]
+                    ['LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0],
+                ],
             ],
         ],
         'l10n_parent' => [
@@ -62,12 +63,12 @@ return [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['', 0]
+                    ['', 0],
                 ],
                 'foreign_table' => Linklistener::TABLE_NAME,
                 'foreign_table_where' => 'AND ' . Linklistener::TABLE_NAME . '.pid=###CURRENT_PID### AND ' .
                     Linklistener::TABLE_NAME . '.sys_language_uid IN (-1,0)',
-                'default' => 0
+                'default' => 0,
             ],
         ],
         'l10n_diffsource' => [
@@ -85,8 +86,8 @@ return [
                 'renderType' => 'inputDateTime',
                 'size' => 30,
                 'eval' => 'datetime',
-                'readOnly' => true
-            ]
+                'readOnly' => true,
+            ],
         ],
         'cruser_id' => [
             'exclude' => true,
@@ -99,8 +100,8 @@ return [
                     ['', ''],
                 ],
                 'foreign_table' => 'be_users',
-                'readOnly' => true
-            ]
+                'readOnly' => true,
+            ],
         ],
         'title' => [
             'exclude' => true,
@@ -110,7 +111,7 @@ return [
                 'eval' => 'trim,required',
                 'placeholder' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:'
                     . Linklistener::TABLE_NAME . '.title.placeholder',
-            ]
+            ],
         ],
         'description' => [
             'exclude' => true,
@@ -121,7 +122,7 @@ return [
                 'default' => '',
                 'placeholder' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:'
                     . Linklistener::TABLE_NAME . '.description.placeholder',
-            ]
+            ],
         ],
         'link' => [
             'exclude' => true,
@@ -129,8 +130,8 @@ return [
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputLink',
-                'eval' => 'required'
-            ]
+                'eval' => 'required',
+            ],
         ],
         'category' => [
             'exclude' => true,
@@ -145,8 +146,8 @@ return [
                 'foreign_table' => 'sys_category',
                 'foreign_table_where' => 'lux_category=1 ORDER BY title ASC',
                 'minitems' => 1,
-                'eval' => 'int,required'
-            ]
+                'eval' => 'int,required',
+            ],
         ],
         'linkclicks' => [
             'exclude' => true,
@@ -162,9 +163,9 @@ return [
                     'levelLinksPosition' => 'top',
                     'showSynchronizationLink' => 1,
                     'showPossibleLocalizationRecords' => 1,
-                    'showAllLocalizationLink' => 1
-                ]
-            ]
+                    'showAllLocalizationLink' => 1,
+                ],
+            ],
         ],
-    ]
+    ],
 ];

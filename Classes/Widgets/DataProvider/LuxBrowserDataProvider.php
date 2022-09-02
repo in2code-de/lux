@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Widgets\DataProvider;
 
 use In2code\Lux\Domain\DataProvider\BrowserAmountDataProvider;
@@ -31,12 +32,12 @@ class LuxBrowserDataProvider implements ChartDataProviderInterface
                         WidgetApi::getDefaultChartColors()[2],
                         WidgetApi::getDefaultChartColors()[3],
                         WidgetApi::getDefaultChartColors()[4],
-                        '#dddddd'
+                        '#dddddd',
                     ],
                     'border' => 0,
-                    'data' => $browserAmountDP->getAmountsFromData()
-                ]
-            ]
+                    'data' => $browserAmountDP->getAmountsFromData(),
+                ],
+            ],
         ];
     }
 

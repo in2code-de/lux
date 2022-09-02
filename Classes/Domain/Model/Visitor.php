@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
 use DateTime;
@@ -37,7 +38,7 @@ class Visitor extends AbstractModel
         'firstname',
         'lastname',
         'company',
-        'username'
+        'username',
     ];
 
     /**
@@ -813,7 +814,7 @@ class Visitor extends AbstractModel
                     if (is_string($value) || is_int($value)) {
                         $attributes[] = [
                             'name' => $name,
-                            'value' => $value
+                            'value' => $value,
                         ];
                     }
                 }
@@ -856,7 +857,7 @@ class Visitor extends AbstractModel
         $important = [
             'org',
             'country',
-            'city'
+            'city',
         ];
         $informations = $this->getIpinformations();
         $importantInfo = [];

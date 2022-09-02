@@ -1,4 +1,5 @@
 <?php
+
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\TCA\GetStatusForLogSelection;
@@ -16,7 +17,7 @@ return [
         'default_sortby' => 'ORDER BY crdate DESC',
         'delete' => 'deleted',
         'iconfile' => 'EXT:lux/Resources/Public/Icons/' . Log::TABLE_NAME . '.svg',
-        'rootLevel' => -1
+        'rootLevel' => -1,
     ],
     'types' => [
         '1' => ['showitem' => 'crdate,status,properties,visitor'],
@@ -33,8 +34,8 @@ return [
                 'default' => 0,
                 'items' => [
                     ['LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1],
-                    ['LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0]
-                ]
+                    ['LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0],
+                ],
             ],
         ],
         'l10n_parent' => [
@@ -44,12 +45,12 @@ return [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['', 0]
+                    ['', 0],
                 ],
                 'foreign_table' => Log::TABLE_NAME,
                 'foreign_table_where' => 'AND ' . Log::TABLE_NAME . '.pid=###CURRENT_PID### AND ' .
                     Log::TABLE_NAME . '.sys_language_uid IN (-1,0)',
-                'default' => 0
+                'default' => 0,
             ],
         ],
         'l10n_diffsource' => [
@@ -66,8 +67,8 @@ return [
                 'renderType' => 'inputDateTime',
                 'size' => 30,
                 'eval' => 'datetime',
-                'readOnly' => true
-            ]
+                'readOnly' => true,
+            ],
         ],
         'status' => [
             'exclude' => true,
@@ -76,14 +77,14 @@ return [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['', 0]
+                    ['', 0],
                 ],
                 'size' => 1,
                 'maxitems' => 1,
                 'readOnly' => true,
                 'default' => 0,
-                'itemsProcFunc' => GetStatusForLogSelection::class . '->addOptions'
-            ]
+                'itemsProcFunc' => GetStatusForLogSelection::class . '->addOptions',
+            ],
         ],
         'properties' => [
             'exclude' => true,
@@ -92,8 +93,8 @@ return [
                 'type' => 'text',
                 'cols' => 32,
                 'rows' => 5,
-                'readOnly' => true
-            ]
+                'readOnly' => true,
+            ],
         ],
         'visitor' => [
             'exclude' => true,
@@ -103,8 +104,8 @@ return [
                 'renderType' => 'selectSingle',
                 'foreign_table' => Visitor::TABLE_NAME,
                 'default' => 0,
-                'readOnly' => true
-            ]
-        ]
-    ]
+                'readOnly' => true,
+            ],
+        ],
+    ],
 ];

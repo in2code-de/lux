@@ -1,4 +1,5 @@
 <?php
+
 namespace In2code\Lux\Tests\Unit\Utility;
 
 use In2code\Lux\Controller\AnalysisController;
@@ -36,12 +37,12 @@ class CacheLayerUtilityTest extends UnitTestCase
     public function testGetPropertyFromBackendUser()
     {
         CacheLayerUtility::registerCacheLayers();
-        $this->assertGreaterThan(0, count($GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer']));
+        self::assertGreaterThan(0, count($GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer']));
         $first = current($GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer']);
-        $this->assertArrayHasKey('lifetime', $first);
-        $this->assertArrayHasKey('route', $first);
-        $this->assertArrayHasKey('arguments', $first);
-        $this->assertArrayHasKey('multiple', $first);
+        self::assertArrayHasKey('lifetime', $first);
+        self::assertArrayHasKey('route', $first);
+        self::assertArrayHasKey('arguments', $first);
+        self::assertArrayHasKey('multiple', $first);
     }
 
     /**
@@ -54,7 +55,7 @@ class CacheLayerUtilityTest extends UnitTestCase
     {
         CacheLayerUtility::registerCacheLayers();
         $key = AnalysisController::class . '->dashboardAction';
-        $this->assertGreaterThan(0, CacheLayerUtility::getCachelayerLifetimeByCacheName($key));
+        self::assertGreaterThan(0, CacheLayerUtility::getCachelayerLifetimeByCacheName($key));
     }
 
     /**
@@ -65,7 +66,7 @@ class CacheLayerUtilityTest extends UnitTestCase
     public function testGetCacheLayerConfigurationByRoute()
     {
         CacheLayerUtility::registerCacheLayers();
-        $this->assertGreaterThan(0, count(CacheLayerUtility::getCacheLayerConfigurationByRoute('lux_LuxAnalysis')));
+        self::assertGreaterThan(0, count(CacheLayerUtility::getCacheLayerConfigurationByRoute('lux_LuxAnalysis')));
     }
 
     /**
@@ -103,7 +104,7 @@ class CacheLayerUtilityTest extends UnitTestCase
     public function testGetCachelayerRoutes()
     {
         CacheLayerUtility::registerCacheLayers();
-        $this->assertGreaterThan(0, count(CacheLayerUtility::getCachelayerRoutes()));
+        self::assertGreaterThan(0, count(CacheLayerUtility::getCachelayerRoutes()));
     }
 
     /**
@@ -113,6 +114,6 @@ class CacheLayerUtilityTest extends UnitTestCase
     public function testGetCachelayerConfiguration()
     {
         CacheLayerUtility::registerCacheLayers();
-        $this->assertGreaterThan(0, count(CacheLayerUtilityFixture::getCachelayerConfiguration()));
+        self::assertGreaterThan(0, count(CacheLayerUtilityFixture::getCachelayerConfiguration()));
     }
 }

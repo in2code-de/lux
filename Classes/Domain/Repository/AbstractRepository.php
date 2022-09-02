@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
 use In2code\Lux\Domain\Model\Categoryscoring;
@@ -25,7 +26,7 @@ abstract class AbstractRepository extends Repository
      * @var array
      */
     protected $defaultOrderings = [
-        'crdate' => QueryInterface::ORDER_DESCENDING
+        'crdate' => QueryInterface::ORDER_DESCENDING,
     ];
 
     /**

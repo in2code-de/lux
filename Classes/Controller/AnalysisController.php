@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
 use Doctrine\DBAL\DBALException;
@@ -114,7 +115,7 @@ class AnalysisController extends AbstractController
             'downloads' => $this->downloadRepository->findCombinedByHref($filter),
             'languageData' => GeneralUtility::makeInstance(LanguagesDataProvider::class, $filter),
             'domainData' => GeneralUtility::makeInstance(DomainDataProvider::class, $filter),
-            'domains' => $this->pagevisitsRepository->getAllDomains($filter)
+            'domains' => $this->pagevisitsRepository->getAllDomains($filter),
         ]);
     }
 
@@ -162,7 +163,7 @@ class AnalysisController extends AbstractController
             'news' => $this->newsvisitRepository->findCombinedByNewsIdentifier($filter),
             'languageData' => GeneralUtility::makeInstance(LanguagesNewsDataProvider::class, $filter),
             'domainData' => GeneralUtility::makeInstance(DomainNewsDataProvider::class, $filter),
-            'domains' => $this->newsvisitRepository->getAllDomains($filter)
+            'domains' => $this->newsvisitRepository->getAllDomains($filter),
         ]);
     }
 
@@ -269,7 +270,7 @@ class AnalysisController extends AbstractController
         $filter = ObjectUtility::getFilterDto()->setSearchterm((string)$page->getUid());
         $this->view->assignMultiple([
             'pagevisits' => $this->pagevisitsRepository->findByPage($page, 100),
-            'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter)
+            'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
         ]);
     }
 
@@ -284,7 +285,7 @@ class AnalysisController extends AbstractController
         $this->view->assignMultiple([
             'news' => $news,
             'newsvisits' => $this->newsvisitRepository->findByNews($news, 100),
-            'newsvisitsData' => GeneralUtility::makeInstance(NewsvisistsDataProvider::class, $filter)
+            'newsvisitsData' => GeneralUtility::makeInstance(NewsvisistsDataProvider::class, $filter),
         ]);
     }
 
@@ -298,7 +299,7 @@ class AnalysisController extends AbstractController
         $filter = ObjectUtility::getFilterDto()->setSearchterm(FileUtility::getFilenameFromPathAndFilename($href));
         $this->view->assignMultiple([
             'downloads' => $this->downloadRepository->findByHref($href, 100),
-            'numberOfDownloadsData' => GeneralUtility::makeInstance(DownloadsDataProvider::class, $filter)
+            'numberOfDownloadsData' => GeneralUtility::makeInstance(DownloadsDataProvider::class, $filter),
         ]);
     }
 
@@ -325,7 +326,7 @@ class AnalysisController extends AbstractController
         $this->view->assignMultiple([
             'searchterm' => $searchterm,
             'searchData' => GeneralUtility::makeInstance(SearchDataProvider::class, $filter),
-            'searches' => $this->searchRepository->findBySearchterm(urldecode($searchterm))
+            'searches' => $this->searchRepository->findBySearchterm(urldecode($searchterm)),
         ]);
     }
 
@@ -349,7 +350,7 @@ class AnalysisController extends AbstractController
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         $standaloneView->assignMultiple([
             'pagevisits' => $page !== null ? $this->pagevisitsRepository->findByPage($page, 10) : null,
-            'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter)
+            'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
         ]);
         $response = GeneralUtility::makeInstance(JsonResponse::class);
         /** @var StreamInterface $stream */
@@ -379,7 +380,7 @@ class AnalysisController extends AbstractController
         $standaloneView->assignMultiple([
             'news' => $news,
             'newsvisits' => $news !== null ? $this->newsvisitRepository->findByNews($news, 10) : null,
-            'newsvisitsData' => GeneralUtility::makeInstance(NewsvisistsDataProvider::class, $filter)
+            'newsvisitsData' => GeneralUtility::makeInstance(NewsvisistsDataProvider::class, $filter),
         ]);
         $response = GeneralUtility::makeInstance(JsonResponse::class);
         /** @var StreamInterface $stream */
@@ -406,7 +407,7 @@ class AnalysisController extends AbstractController
             'searches' => $this->searchRepository->findBySearchterm(
                 urldecode($request->getQueryParams()['searchterm'])
             ),
-            'searchterm' => $request->getQueryParams()['searchterm']
+            'searchterm' => $request->getQueryParams()['searchterm'],
         ]);
         $response = GeneralUtility::makeInstance(JsonResponse::class);
         /** @var StreamInterface $stream */
@@ -436,7 +437,7 @@ class AnalysisController extends AbstractController
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         $standaloneView->assignMultiple([
             'downloads' => $this->downloadRepository->findByHref((string)$request->getQueryParams()['download'], 10),
-            'numberOfDownloadsData' => GeneralUtility::makeInstance(DownloadsDataProvider::class, $filter)
+            'numberOfDownloadsData' => GeneralUtility::makeInstance(DownloadsDataProvider::class, $filter),
         ]);
         $response = GeneralUtility::makeInstance(JsonResponse::class);
         /** @var StreamInterface $stream */
@@ -465,7 +466,7 @@ class AnalysisController extends AbstractController
         $standaloneView->assignMultiple([
             'linkListener' => $linkListener,
             'linkclicks' => $this->linkclickRepository->findByLinklistenerIdentifier($linkListener->getUid(), 10),
-            'allLinkclickData' => GeneralUtility::makeInstance(AllLinkclickDataProvider::class, $filter)
+            'allLinkclickData' => GeneralUtility::makeInstance(AllLinkclickDataProvider::class, $filter),
         ]);
         $response = GeneralUtility::makeInstance(JsonResponse::class);
         /** @var StreamInterface $stream */

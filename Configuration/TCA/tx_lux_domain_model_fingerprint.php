@@ -1,4 +1,5 @@
 <?php
+
 use In2code\Lux\Domain\Model\Fingerprint;
 
 return [
@@ -19,7 +20,7 @@ return [
             'endtime' => 'endtime',
         ],
         'iconfile' => 'EXT:lux/Resources/Public/Icons/' . Fingerprint::TABLE_NAME . '.svg',
-        'rootLevel' => -1
+        'rootLevel' => -1,
     ],
     'types' => [
         '1' => ['showitem' => 'value,domain,user_agent,type'],
@@ -30,16 +31,16 @@ return [
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Fingerprint::TABLE_NAME . '.value',
             'config' => [
                 'type' => 'input',
-                'readOnly' => true
-            ]
+                'readOnly' => true,
+            ],
         ],
         'domain' => [
             'exclude' => true,
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Fingerprint::TABLE_NAME . '.domain',
             'config' => [
                 'type' => 'input',
-                'readOnly' => true
-            ]
+                'readOnly' => true,
+            ],
         ],
         'user_agent' => [
             'exclude' => true,
@@ -47,8 +48,8 @@ return [
                 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Fingerprint::TABLE_NAME . '.user_agent',
             'config' => [
                 'type' => 'input',
-                'readOnly' => true
-            ]
+                'readOnly' => true,
+            ],
         ],
         'type' => [
             'exclude' => true,
@@ -59,9 +60,9 @@ return [
                 'default' => 0,
                 'items' => [
                     ['Fingerprint', 0],
-                    ['Cookie', 1]
-                ]
-            ]
+                    ['Cookie', 1],
+                ],
+            ],
         ],
-    ]
+    ],
 ];

@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\ViewHelpers\Format;
 
 use In2code\Lux\Utility\LocalizationUtility;
@@ -10,7 +11,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ReadableDateViewHelper extends AbstractViewHelper
 {
-
     /**
      * @return void
      */
@@ -32,9 +32,11 @@ class ReadableDateViewHelper extends AbstractViewHelper
 
         if ($deltaTimestamp < 3600) {
             return $this->renderMinutes($delta);
-        } elseif ($deltaTimestamp < 86400) {
+        }
+        if ($deltaTimestamp < 86400) {
             return $this->renderHours($delta);
-        } elseif ($deltaTimestamp < 604800) {
+        }
+        if ($deltaTimestamp < 604800) {
             return $this->renderDays($delta);
         }
         return $this->renderDate($date);

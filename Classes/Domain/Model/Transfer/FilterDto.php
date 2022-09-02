@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\Model\Transfer;
 
 use DateTime;
@@ -511,7 +512,7 @@ class FilterDto
                 $end->modify('-1 second');
                 $intervals['intervals'][] = [
                     'start' => $dateTime,
-                    'end' => $end
+                    'end' => $end,
                 ];
             }
         }
@@ -539,11 +540,14 @@ class FilterDto
         $deltaSeconds = $end->getTimestamp() - $start->getTimestamp();
         if ($deltaSeconds <= 86400) { // until 1 days
             return ['intervals' => $this->getHourIntervals(), 'frequency' => 'hour'];
-        } elseif ($deltaSeconds <= 1209600) { // until 2 weeks
+        }
+        if ($deltaSeconds <= 1209600) { // until 2 weeks
             return ['intervals' => $this->getDayIntervals(), 'frequency' => 'day'];
-        } elseif ($deltaSeconds <= 5184000) { // until 2 month
+        }
+        if ($deltaSeconds <= 5184000) { // until 2 month
             return ['intervals' => $this->getWeekIntervals(), 'frequency' => 'week'];
-        } elseif ($deltaSeconds <= 63072000) { // until 2 years
+        }
+        if ($deltaSeconds <= 63072000) { // until 2 years
             return ['intervals' => $this->getMonthIntervals(), 'frequency' => 'month'];
         }
         // over 2 years

@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
 use Doctrine\DBAL\Exception;
@@ -65,7 +66,7 @@ class SearchRepository extends AbstractRepository
         $query = $this->createQuery();
         $logicalAnd = [
             $query->greaterThanOrEqual('crdate', $start->format('U')),
-            $query->lessThanOrEqual('crdate', $end->format('U'))
+            $query->lessThanOrEqual('crdate', $end->format('U')),
         ];
         $logicalAnd = $this->extendWithExtendedFilterQuery($query, $logicalAnd, $filter);
         $query->matching($query->logicalAnd($logicalAnd));

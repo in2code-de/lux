@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\Service\Uri;
 
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
@@ -21,9 +22,9 @@ class EditRecord extends AbstractRecord
         $uriParameters = [
             'edit' => [
                 $tableName => [
-                    $identifier => 'edit'
-                ]
-            ]
+                    $identifier => 'edit',
+                ],
+            ],
         ];
         if ($addReturnUrl) {
             $uriParameters['returnUrl'] = $this->getReturnUrl();

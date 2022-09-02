@@ -1,4 +1,5 @@
 <?php
+
 use In2code\Lux\Domain\Model\Newsvisit;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Visitor;
@@ -21,7 +22,7 @@ return [
             'endtime' => 'endtime',
         ],
         'iconfile' => 'EXT:lux/Resources/Public/Icons/' . Newsvisit::TABLE_NAME . '.svg',
-        'rootLevel' => -1
+        'rootLevel' => -1,
     ],
     'types' => [
         '1' => ['showitem' => 'page,language,crdate,referrer,domain,domain,pagevisit,visitor'],
@@ -38,9 +39,9 @@ return [
                 'default' => 0,
                 'items' => [
                     ['LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1],
-                    ['LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0]
-                ]
-            ]
+                    ['LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0],
+                ],
+            ],
         ],
         'l10n_parent' => [
             'displayCond' => 'FIELD:sys_language_uid:>:0',
@@ -54,20 +55,20 @@ return [
                 'foreign_table' => Newsvisit::TABLE_NAME,
                 'foreign_table_where' => 'AND ' . Newsvisit::TABLE_NAME . '.pid=###CURRENT_PID### AND ' .
                     Newsvisit::TABLE_NAME . '.sys_language_uid IN (-1,0)',
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'l10n_diffsource' => [
             'config' => [
                 'type' => 'passthrough',
-            ]
+            ],
         ],
         'hidden' => [
             'exclude' => true,
             'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.hidden',
             'config' => [
                 'type' => 'check',
-            ]
+            ],
         ],
         'starttime' => [
             'exclude' => true,
@@ -77,8 +78,8 @@ return [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
                 'eval' => 'datetime,int',
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'endtime' => [
             'exclude' => true,
@@ -88,8 +89,8 @@ return [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
                 'eval' => 'datetime,int',
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
 
         'crdate' => [
@@ -100,8 +101,8 @@ return [
                 'renderType' => 'inputDateTime',
                 'size' => 30,
                 'eval' => 'datetime',
-                'readOnly' => true
-            ]
+                'readOnly' => true,
+            ],
         ],
         'news' => [
             'exclude' => true,
@@ -112,7 +113,7 @@ return [
                 'foreign_table' => 'tx_news_domain_model_news',
                 'foreign_table_where' => 'ORDER BY pages.title',
                 'default' => 0,
-                'readOnly' => true
+                'readOnly' => true,
             ],
         ],
         'language' => [
@@ -124,7 +125,7 @@ return [
                 'foreign_table' => 'sys_language',
                 'foreign_table_where' => 'ORDER BY sys_language.title',
                 'default' => 0,
-                'readOnly' => true
+                'readOnly' => true,
             ],
         ],
         'domain' => [
@@ -133,8 +134,8 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'readOnly' => true
-            ]
+                'readOnly' => true,
+            ],
         ],
         'pagevisit' => [
             'exclude' => true,
@@ -145,8 +146,8 @@ return [
                 'renderType' => 'selectSingle',
                 'foreign_table' => Pagevisit::TABLE_NAME,
                 'default' => 0,
-                'readOnly' => true
-            ]
+                'readOnly' => true,
+            ],
         ],
         'visitor' => [
             'exclude' => true,
@@ -156,8 +157,8 @@ return [
                 'renderType' => 'selectSingle',
                 'foreign_table' => Visitor::TABLE_NAME,
                 'default' => 0,
-                'readOnly' => true
-            ]
-        ]
-    ]
+                'readOnly' => true,
+            ],
+        ],
+    ],
 ];

@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Widgets\DataProvider;
 
 use In2code\Lux\Domain\DataProvider\ReferrerAmountDataProvider;
@@ -27,9 +28,9 @@ class LuxReferrerDataProvider implements ChartDataProviderInterface
                     'label' => $this->getLabel(),
                     'backgroundColor' => [WidgetApi::getDefaultChartColors()[0], '#dddddd'],
                     'border' => 0,
-                    'data' => $referrerAmountDP->getAmountsFromData()
-                ]
-            ]
+                    'data' => $referrerAmountDP->getAmountsFromData(),
+                ],
+            ],
         ];
     }
 

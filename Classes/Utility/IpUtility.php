@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Utility;
 
 use TYPO3\CMS\Core\Http\RequestFactory;
@@ -10,7 +11,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class IpUtility
 {
-
     /**
      * Get visitors IP address. Also make a testing ip possible. And in addition get external IP if IP=="127.0.0.1" for
      * local testing environment.

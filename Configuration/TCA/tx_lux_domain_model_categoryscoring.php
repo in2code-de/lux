@@ -19,7 +19,7 @@ return [
         'delete' => 'deleted',
         'enablecolumns' => [],
         'iconfile' => 'EXT:lux/Resources/Public/Icons/' . Categoryscoring::TABLE_NAME . '.svg',
-        'rootLevel' => -1
+        'rootLevel' => -1,
     ],
     'types' => [
         '1' => ['showitem' => 'scoring,category,visitor'],
@@ -36,9 +36,9 @@ return [
                 'default' => 0,
                 'items' => [
                     ['LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1],
-                    ['LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0]
-                ]
-            ]
+                    ['LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0],
+                ],
+            ],
         ],
         'l10n_parent' => [
             'displayCond' => 'FIELD:sys_language_uid:>:0',
@@ -52,13 +52,13 @@ return [
                 'foreign_table' => Categoryscoring::TABLE_NAME,
                 'foreign_table_where' => 'AND ' . Categoryscoring::TABLE_NAME . '.pid=###CURRENT_PID### AND ' .
                     Categoryscoring::TABLE_NAME . '.sys_language_uid IN (-1,0)',
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'l10n_diffsource' => [
             'config' => [
                 'type' => 'passthrough',
-            ]
+            ],
         ],
 
         'scoring' => [
@@ -68,8 +68,8 @@ return [
             'config' => [
                 'type' => 'input',
                 'readOnly' => true,
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'category' => [
             'exclude' => true,
@@ -84,7 +84,7 @@ return [
                 'foreign_table' => 'sys_category',
                 'foreign_table_where' => 'lux_category=1 ORDER BY title ASC',
                 'default' => 0,
-                'readOnly' => true
+                'readOnly' => true,
             ],
         ],
         'visitor' => [
@@ -96,8 +96,8 @@ return [
                 'renderType' => 'selectSingle',
                 'foreign_table' => Visitor::TABLE_NAME,
                 'default' => 0,
-                'readOnly' => true
-            ]
-        ]
-    ]
+                'readOnly' => true,
+            ],
+        ],
+    ],
 ];

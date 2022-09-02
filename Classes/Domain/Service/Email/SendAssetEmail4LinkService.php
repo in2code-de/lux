@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\Service\Email;
 
 use In2code\Lux\Domain\Model\Visitor;
@@ -135,7 +136,7 @@ class SendAssetEmail4LinkService
         $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($mailTemplatePath));
         $standaloneView->assignMultiple([
             'href' => $href,
-            'visitor' => $this->visitor
+            'visitor' => $this->visitor,
         ]);
         return $standaloneView->render();
     }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 use In2code\Lux\Widgets\DataProvider\LuxBrowserDataProvider;
 use In2code\Lux\Widgets\DataProvider\LuxDownloadsDataProvider;

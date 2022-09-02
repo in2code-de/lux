@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Widgets\DataProvider;
 
 use Doctrine\DBAL\DBALException;
@@ -35,9 +36,9 @@ class LuxNewsDataProvider implements ChartDataProviderInterface
                     'label' => $label,
                     'backgroundColor' => [WidgetApi::getDefaultChartColors()[0], '#dddddd'],
                     'border' => 0,
-                    'data' => $data['amounts']
-                ]
-            ]
+                    'data' => $data['amounts'],
+                ],
+            ],
         ];
     }
 

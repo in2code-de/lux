@@ -21,7 +21,7 @@ return [
             'endtime' => 'endtime',
         ],
         'iconfile' => 'EXT:lux/Resources/Public/Icons/' . Ipinformation::TABLE_NAME . '.svg',
-        'rootLevel' => -1
+        'rootLevel' => -1,
     ],
     'types' => [
         '1' => ['showitem' => 'name,value,visitor'],
@@ -38,8 +38,8 @@ return [
                 'default' => 0,
                 'items' => [
                     ['LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1],
-                    ['LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0]
-                ]
+                    ['LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0],
+                ],
             ],
         ],
         'l10n_parent' => [
@@ -54,7 +54,7 @@ return [
                 'foreign_table' => Ipinformation::TABLE_NAME,
                 'foreign_table_where' => 'AND ' . Ipinformation::TABLE_NAME . '.pid=###CURRENT_PID### AND ' .
                     Ipinformation::TABLE_NAME . '.sys_language_uid IN (-1,0)',
-                'default' => 0
+                'default' => 0,
             ],
         ],
         'l10n_diffsource' => [
@@ -77,7 +77,7 @@ return [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
                 'eval' => 'datetime,int',
-                'default' => 0
+                'default' => 0,
             ],
         ],
         'endtime' => [
@@ -88,7 +88,7 @@ return [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
                 'eval' => 'datetime,int',
-                'default' => 0
+                'default' => 0,
             ],
         ],
 
@@ -97,8 +97,8 @@ return [
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Ipinformation::TABLE_NAME . '.name',
             'config' => [
                 'type' => 'input',
-                'readOnly' => true
-            ]
+                'readOnly' => true,
+            ],
         ],
         'value' => [
             'exclude' => true,
@@ -106,8 +106,8 @@ return [
                 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Ipinformation::TABLE_NAME . '.value',
             'config' => [
                 'type' => 'input',
-                'readOnly' => true
-            ]
+                'readOnly' => true,
+            ],
         ],
         'visitor' => [
             'exclude' => true,
@@ -118,8 +118,8 @@ return [
                 'renderType' => 'selectSingle',
                 'foreign_table' => Visitor::TABLE_NAME,
                 'default' => 0,
-                'readOnly' => true
-            ]
-        ]
-    ]
+                'readOnly' => true,
+            ],
+        ],
+    ],
 ];

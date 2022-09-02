@@ -1,4 +1,5 @@
 <?php
+
 use In2code\Lux\Domain\Model\Download;
 use In2code\Lux\Domain\Model\File;
 use In2code\Lux\Domain\Model\Pagevisit;
@@ -17,7 +18,7 @@ return [
         'default_sortby' => 'ORDER BY crdate DESC',
         'delete' => 'deleted',
         'iconfile' => 'EXT:lux/Resources/Public/Icons/' . Download::TABLE_NAME . '.svg',
-        'rootLevel' => -1
+        'rootLevel' => -1,
     ],
     'types' => [
         '1' => ['showitem' => 'crdate,href,page,file,properties,domain,visitor'],
@@ -34,8 +35,8 @@ return [
                 'default' => 0,
                 'items' => [
                     ['LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1],
-                    ['LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0]
-                ]
+                    ['LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0],
+                ],
             ],
         ],
         'l10n_parent' => [
@@ -45,12 +46,12 @@ return [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['', 0]
+                    ['', 0],
                 ],
                 'foreign_table' => Download::TABLE_NAME,
                 'foreign_table_where' => 'AND ' . Download::TABLE_NAME . '.pid=###CURRENT_PID### AND ' .
                     Download::TABLE_NAME . '.sys_language_uid IN (-1,0)',
-                'default' => 0
+                'default' => 0,
             ],
         ],
         'l10n_diffsource' => [
@@ -67,16 +68,16 @@ return [
                 'renderType' => 'inputDateTime',
                 'size' => 30,
                 'eval' => 'datetime',
-                'readOnly' => true
-            ]
+                'readOnly' => true,
+            ],
         ],
         'href' => [
             'exclude' => true,
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Download::TABLE_NAME . '.href',
             'config' => [
                 'type' => 'input',
-                'readOnly' => true
-            ]
+                'readOnly' => true,
+            ],
         ],
         'page' => [
             'exclude' => true,
@@ -87,7 +88,7 @@ return [
                 'foreign_table' => 'pages',
                 'foreign_table_where' => 'ORDER BY pages.title',
                 'default' => 0,
-                'readOnly' => true
+                'readOnly' => true,
             ],
         ],
         'file' => [
@@ -100,8 +101,8 @@ return [
                 'size' => 1,
                 'maxitems' => 1,
                 'default' => 0,
-                'readOnly' => true
-            ]
+                'readOnly' => true,
+            ],
         ],
         'domain' => [
             'exclude' => true,
@@ -109,8 +110,8 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'readOnly' => true
-            ]
+                'readOnly' => true,
+            ],
         ],
         'visitor' => [
             'exclude' => true,
@@ -120,8 +121,8 @@ return [
                 'renderType' => 'selectSingle',
                 'foreign_table' => Visitor::TABLE_NAME,
                 'default' => 0,
-                'readOnly' => true
-            ]
-        ]
-    ]
+                'readOnly' => true,
+            ],
+        ],
+    ],
 ];

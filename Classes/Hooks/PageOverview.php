@@ -1,4 +1,5 @@
 <?php
+
 namespace In2code\Lux\Hooks;
 
 use Doctrine\DBAL\DBALException;

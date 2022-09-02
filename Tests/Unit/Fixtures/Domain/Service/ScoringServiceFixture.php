@@ -1,4 +1,5 @@
 <?php
+
 namespace In2code\Lux\Tests\Unit\Fixtures\Domain\Service;
 
 use In2code\Lux\Domain\Model\Visitor;

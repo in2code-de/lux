@@ -1,7 +1,8 @@
 <?php
+
 /** @noinspection SqlNoDataSourceInspection */
 /** @noinspection SqlDialectInspection */
-declare(strict_types = 1);
+declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
 use DateTime;
@@ -82,7 +83,7 @@ class DownloadRepository extends AbstractRepository
         $query = $this->createQuery();
         $logicalAnd = [
             $query->equals('visitor', $visitor),
-            $query->lessThanOrEqual('crdate', $time)
+            $query->lessThanOrEqual('crdate', $time),
         ];
         $query->matching($query->logicalAnd($logicalAnd));
         $query->setOrderings(['crdate' => QueryInterface::ORDER_DESCENDING]);
@@ -101,7 +102,7 @@ class DownloadRepository extends AbstractRepository
         $query = $this->createQuery();
         $logicalAnd = [
             $query->greaterThanOrEqual('crdate', $start->format('U')),
-            $query->lessThanOrEqual('crdate', $end->format('U'))
+            $query->lessThanOrEqual('crdate', $end->format('U')),
         ];
         $logicalAnd = $this->extendWithExtendedFilterQuery($query, $logicalAnd, $filter);
         $query->matching($query->logicalAnd($logicalAnd));

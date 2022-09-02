@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
 use In2code\Lux\Exception\FingerprintMustNotBeEmptyException;
@@ -103,7 +104,7 @@ class Fingerprint extends AbstractModel
             'os' => '',
             'osversion' => '',
             'manufacturer' => '',
-            'type' => ''
+            'type' => '',
         ];
         if (class_exists(Parser::class)) {
             $parser = new Parser($this->getUserAgent());
@@ -113,7 +114,7 @@ class Fingerprint extends AbstractModel
                 'os' => $parser->os->getName(),
                 'osversion' => $parser->os->getVersion(),
                 'manufacturer' => $parser->device->getManufacturer(),
-                'type' => $parser->device->type
+                'type' => $parser->device->type,
             ];
         }
         return $properties;
@@ -202,9 +203,11 @@ class Fingerprint extends AbstractModel
     {
         if ($this->getType() === self::TYPE_FINGERPRINT) {
             return 'Fingerprint';
-        } elseif ($this->getType() === self::TYPE_COOKIE) {
+        }
+        if ($this->getType() === self::TYPE_COOKIE) {
             return 'Cookie';
-        } elseif ($this->getType() === self::TYPE_STORAGE) {
+        }
+        if ($this->getType() === self::TYPE_STORAGE) {
             return 'LocalStorage';
         }
         return 'Unknown';

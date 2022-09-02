@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\ViewHelpers\String;
 
 use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
@@ -10,7 +11,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ImplodeOnObjectsPropertyViewHelper extends AbstractViewHelper
 {
-
     /**
      * @return void
      */

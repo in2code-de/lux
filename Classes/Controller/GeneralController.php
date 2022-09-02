@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
 use Doctrine\DBAL\DBALException;
@@ -51,8 +52,8 @@ class GeneralController extends AbstractController
                 'linkclicks' => $this->linkclickRepository->findAllAmount(),
                 'fingerprints' => $this->fingerprintRepository->findAllAmount(),
                 'ipinformations' => $this->ipinformationRepository->findAllAmount(),
-                'logs' => $this->logRepository->findAllAmount()
-            ]
+                'logs' => $this->logRepository->findAllAmount(),
+            ],
         ];
         $this->view->assignMultiple($values);
     }

@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
 use DateTime;
@@ -269,7 +270,7 @@ abstract class AbstractController extends ActionController
      */
     protected function getControllerName(): string
     {
-        $classParts = explode('\\', get_called_class());
+        $classParts = explode('\\', static::class);
         $name = end($classParts);
         return StringUtility::removeStringPostfix($name, 'Controller');
     }

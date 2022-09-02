@@ -36,5 +36,5 @@ return [
     '/lux/pageoverview' => [
         'path' => '/lux/pageoverview',
         'target' => GeneralController::class . '::showOrHidePageOverviewAjax',
-    ]
+    ],
 ];

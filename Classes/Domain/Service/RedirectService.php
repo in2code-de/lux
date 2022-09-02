@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\Service;
 
 use In2code\Lux\Exception\ConfigurationException;
@@ -102,7 +103,7 @@ class RedirectService
                 'hash' => $hash,
                 'arguments' => json_encode($arguments),
                 'tstamp' => time(),
-                'crdate' => time()
+                'crdate' => time(),
             ])
             ->execute();
     }

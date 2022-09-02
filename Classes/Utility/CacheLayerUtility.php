@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Utility;
 
 use In2code\Lux\Exception\ConfigurationException;
@@ -31,7 +32,7 @@ class CacheLayerUtility
             'lifetime' => 86400,
             'route' => 'web_layout',
             'arguments' => [
-                'id' => '{uid}' // {uid} can only be replaced with pages.uid when multiple is set to true
+                'id' => '{uid}', // {uid} can only be replaced with pages.uid when multiple is set to true
             ],
             'multiple' => true, // iterate per page identifier
         ];

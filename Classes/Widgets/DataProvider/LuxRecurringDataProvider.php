@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Widgets\DataProvider;
 
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
@@ -36,7 +37,7 @@ class LuxRecurringDataProvider implements ChartDataProviderInterface
                 ),
                 LocalizationUtility::getLanguageService()->sL(
                     $llPrefix . 'module.dashboard.widget.luxrecurring.label.1'
-                )
+                ),
             ],
             'datasets' => [
                 [
@@ -45,10 +46,10 @@ class LuxRecurringDataProvider implements ChartDataProviderInterface
                     'border' => 0,
                     'data' => [
                         $visitorRepository->findByRecurringSiteVisits($filter)->count(),
-                        $visitorRepository->findByUniqueSiteVisits($filter)->count()
-                    ]
-                ]
-            ]
+                        $visitorRepository->findByUniqueSiteVisits($filter)->count(),
+                    ],
+                ],
+            ],
         ];
     }
 }

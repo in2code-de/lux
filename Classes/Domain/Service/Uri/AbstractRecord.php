@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\Service\Uri;
 
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
@@ -64,7 +65,7 @@ abstract class AbstractRecord implements RecordInterface
             'M',
             'moduleToken',
             'route',
-            'token'
+            'token',
         ];
         foreach ($getParameters as $key => $value) {
             if (in_array($key, $ignoreKeys)) {

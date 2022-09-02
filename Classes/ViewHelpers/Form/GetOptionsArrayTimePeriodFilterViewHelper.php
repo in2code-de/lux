@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\ViewHelpers\Form;
 
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
@@ -11,7 +12,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class GetOptionsArrayTimePeriodFilterViewHelper extends AbstractViewHelper
 {
-
     /**
      * @return array
      */
@@ -25,7 +25,7 @@ class GetOptionsArrayTimePeriodFilterViewHelper extends AbstractViewHelper
             FilterDto::PERIOD_THISMONTH
                 => LocalizationUtility::translateByKey('module.analysis.filter.timePeriod.1'),
             FilterDto::PERIOD_LASTMONTH
-                => LocalizationUtility::translateByKey('module.analysis.filter.timePeriod.2')
+                => LocalizationUtility::translateByKey('module.analysis.filter.timePeriod.2'),
         ];
     }
 }

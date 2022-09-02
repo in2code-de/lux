@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
 use Doctrine\DBAL\DBALException;
@@ -73,7 +74,7 @@ class FrontendController extends ActionController
             'linkClickRequest',
             'redirectRequest',
             'abTestingRequest',
-            'abTestingConversionFulfilledRequest'
+            'abTestingConversionFulfilledRequest',
         ];
         $action = $this->request->getArgument('dispatchAction');
         if (!in_array($action, $allowedActions)) {
@@ -377,8 +378,8 @@ class FrontendController extends ActionController
             'error' => true,
             'exception' => [
                 'code' => $exception->getCode(),
-                'message' => $exception->getMessage()
-            ]
+                'message' => $exception->getMessage(),
+            ],
         ];
     }
 

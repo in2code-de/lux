@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Widgets\DataProvider;
 
 use Exception;
@@ -36,12 +37,12 @@ class LuxDownloadsWeekDataProvider implements ChartDataProviderInterface
                         '#dddddd',
                         '#dddddd',
                         '#dddddd',
-                        WidgetApi::getDefaultChartColors()[0]
+                        WidgetApi::getDefaultChartColors()[0],
                     ],
                     'border' => 0,
-                    'data' => $downloadsData->getAmountsFromData()
-                ]
-            ]
+                    'data' => $downloadsData->getAmountsFromData(),
+                ],
+            ],
         ];
     }
 }
