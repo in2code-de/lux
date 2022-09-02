@@ -46,6 +46,7 @@ Possible triggers by default are:
 * Lead properties: If any property value is given
 * Lead properties: Use your own expressions for doing even mor individual stuff (with Symfony Expression Language)
 * Lead action: On entering a page
+* Lead action: On reading a news
 * Lead action: When lead enters a page of a given category
 * Miscellaneous: On a defined time
 * Miscellaneous: Limit to a start action (page visit, download, form submit, etc...)
@@ -227,8 +228,25 @@ lib.lux.settings {
                 }
             }
 
-            # If lead enters a page or downloads an asset with a relation to a lux category
+            # If lead visits a defined news
             410 {
+                # Title to show in workflow backend module
+                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.newsvisit
+
+                # Classname for implementation of the trigger itself
+                className = In2code\Luxenterprise\Domain\Trigger\NewsVisitTrigger
+
+                # Templatefile for implementation of the form in workflow module
+                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/NewsVisit.html
+
+                # Additional configuration
+                configuration {
+                    # Any configuration - available as array in Template File and Trigger class for some own magic
+                }
+            }
+
+            # If lead enters a page or downloads an asset with a relation to a lux category
+            420 {
                 # Title to show in workflow backend module
                 title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.category
 

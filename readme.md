@@ -145,6 +145,7 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
   * Lead properties: If any property value is given
   * Lead properties: Use your own expressions for doing even mor individual stuff (with Symfony Expression Language)
   * Lead action: On entering a page
+  * Lead action: On reading a news
   * Lead action: When lead enters a page of a given category
   * Miscellaneous: On a defined time
   * Miscellaneous: Limit to a start action (page visit, download, form submit, etc...)
