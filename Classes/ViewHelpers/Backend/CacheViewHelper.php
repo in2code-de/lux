@@ -7,6 +7,8 @@ namespace In2code\Lux\ViewHelpers\Backend;
 use In2code\Lux\Domain\Cache\CacheLayer;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\UnexpectedValueException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -33,6 +35,8 @@ class CacheViewHelper extends AbstractViewHelper
      * @return string
      * @throws ConfigurationException
      * @throws UnexpectedValueException
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public function render(): string
     {

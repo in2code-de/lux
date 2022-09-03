@@ -675,7 +675,7 @@
 			</trans-unit>
 			<trans-unit id="module.analysis.filter.timePeriod.1">
 				<source>This month</source>
-				<target state="translated">Diesen Monat</target>
+				<target state="translated">Dieser Monat</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.filter.timePeriod.2">
 				<source>Previous month</source>
@@ -684,6 +684,10 @@
 			<trans-unit id="module.analysis.filter.timePeriod.3">
 				<source>Previous year</source>
 				<target state="translated">Letztes Jahr</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.filter.timePeriod.15">
+				<source>Last 3 months</source>
+				<target state="translated">Letzten 3 Monate</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.pagevisits">
 				<source>Newest page visits</source>

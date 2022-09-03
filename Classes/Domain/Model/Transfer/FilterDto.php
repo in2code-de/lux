@@ -22,6 +22,7 @@ class FilterDto
     const PERIOD_LASTMONTH = 3;
     const PERIOD_LASTYEAR = 4;
     const PERIOD_LAST12MONTH = 10;
+    const PERIOD_LAST3MONTH = 15;
     const PERIOD_LAST7DAYS = 20;
     const PERIOD_7DAYSBEFORELAST7DAYS = 21;
     const PERIOD_ALL = 100;
@@ -435,6 +436,9 @@ class FilterDto
         } elseif ($this->getTimePeriod() === self::PERIOD_LASTMONTH) {
             $time = new DateTime('first day of last month');
             $time->setTime(0, 0);
+        } elseif ($this->getTimePeriod() === self::PERIOD_LAST3MONTH) {
+            $time = new DateTime();
+            $time->modify('-3 months')->setTime(0, 0);
         } elseif ($this->getTimePeriod() === self::PERIOD_LAST12MONTH) {
             $time = new DateTime();
             $time->modify('-12 months')->setTime(0, 0);
@@ -632,5 +636,28 @@ class FilterDto
         }
         $interval[] = $end;
         return $interval;
+    }
+
+    /**
+     * Synonym function for $this->__toString() - look at there description
+     *
+     * @return string
+     */
+    public function getHash(): string
+    {
+        return $this->__toString();
+    }
+
+    /**
+     * Calculate unique hash that can be transferred to a cacheLayer for different caches depending on filter settings
+     *
+     * @return string
+     */
+    public function __toString(): string
+    {
+        $string = $this->searchterm . $this->pid . $this->timeFrom . $this->timeTo . (string)$this->scoring .
+            (string)$this->categoryScoring . (string)$this->timePeriod . (string)$this->identified .
+            (string)$this->shortMode . (string)$this->domain;
+        return md5($string);
     }
 }

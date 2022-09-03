@@ -28,6 +28,8 @@ use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
@@ -46,26 +48,37 @@ class AnalysisController extends AbstractController
 {
     /**
      * @return void
+     * @throws NoSuchArgumentException
+     */
+    public function initializeDashboardAction(): void
+    {
+        $this->setFilterExtended(FilterDto::PERIOD_LAST3MONTH);
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @return void
      * @throws ConfigurationException
      * @throws DBALException
      * @throws Exception
      * @throws ExceptionDbal
+     * @throws InvalidConfigurationTypeException
      * @throws InvalidQueryException
      * @throws UnexpectedValueException
-     * @throws InvalidConfigurationTypeException
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
-    public function dashboardAction(): void
+    public function dashboardAction(FilterDto $filter): void
     {
-        $filter = ObjectUtility::getFilterDto();
         $this->cacheLayer->initialize(__CLASS__, __FUNCTION__);
         $this->view->assignMultiple([
             'cacheLayer' => $this->cacheLayer,
+            'filter' => $filter,
             'interestingLogs' => $this->logRepository->findInterestingLogs($filter),
         ]);
 
-        if ($this->cacheLayer->isCacheAvailable('Box/Analysis/Pagevisits') === false) {
+        if ($this->cacheLayer->isCacheAvailable('Box/Analysis/Pagevisits/' . $filter->getHash()) === false) {
             $this->view->assignMultiple([
-                'filter' => $filter,
                 'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
                 'numberOfDownloadsData' => GeneralUtility::makeInstance(DownloadsDataProvider::class, $filter),
                 'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
@@ -99,6 +112,7 @@ class AnalysisController extends AbstractController
      * @throws Exception
      * @throws ExceptionDbal
      * @throws InvalidQueryException
+     * @throws StopActionException
      */
     public function contentAction(FilterDto $filter, string $export = ''): void
     {
@@ -124,8 +138,9 @@ class AnalysisController extends AbstractController
      * @return ResponseInterface
      * @throws Exception
      * @throws ExceptionDbal
+     * @throws InvalidQueryException
      */
-    public function contentCsvAction(FilterDto $filter)
+    public function contentCsvAction(FilterDto $filter): ResponseInterface
     {
         $this->view->assignMultiple([
             'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
@@ -172,7 +187,7 @@ class AnalysisController extends AbstractController
      * @return ResponseInterface
      * @throws DBALException
      */
-    public function newsCsvAction(FilterDto $filter)
+    public function newsCsvAction(FilterDto $filter): ResponseInterface
     {
         $this->view->assignMultiple([
             'news' => $this->newsvisitRepository->findCombinedByNewsIdentifier($filter),
@@ -216,7 +231,7 @@ class AnalysisController extends AbstractController
      * @return ResponseInterface
      * @throws InvalidQueryException
      */
-    public function linkListenerCsvAction(FilterDto $filter)
+    public function linkListenerCsvAction(FilterDto $filter): ResponseInterface
     {
         $this->view->assignMultiple([
             'linkListeners' => $this->linklistenerRepository->findByFilter($filter),
