@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\Service;
 
 use Doctrine\DBAL\DBALException;
@@ -32,7 +33,7 @@ class AnonymizeService
         'Sybille',
         'Andrea',
         'Michael',
-        'Melanie'
+        'Melanie',
     ];
 
     /**
@@ -51,7 +52,7 @@ class AnonymizeService
         'Schmidt',
         'Meier',
         'Horn',
-        'Ochs'
+        'Ochs',
     ];
 
     /**
@@ -71,7 +72,7 @@ class AnonymizeService
         'Batman - A Marketing Agency',
         'University Gotham City',
         'Metropolis College',
-        'Metropolis University'
+        'Metropolis University',
     ];
 
     /**
@@ -85,7 +86,7 @@ class AnonymizeService
         'ch',
         'org',
         'fr',
-        'co.uk'
+        'co.uk',
     ];
 
     /**
@@ -128,7 +129,7 @@ class AnonymizeService
             'Univerity B',
             'Univerity C',
             'Verein e.V.',
-            'Stiftung ABC'
+            'Stiftung ABC',
         ],
         'org' => [
             'Company A',
@@ -138,7 +139,7 @@ class AnonymizeService
             'Univerity B',
             'Univerity C',
             'Verein e.V.',
-            'Stiftung ABC'
+            'Stiftung ABC',
         ],
         'city' => [
             'Nürnberg',
@@ -150,7 +151,7 @@ class AnonymizeService
             'Paris',
             'Bukarest',
             'Hamburg',
-            'Bordeaux'
+            'Bordeaux',
         ],
         'country' => [
             'Germany',
@@ -181,13 +182,13 @@ class AnonymizeService
         'lon' => [
             '12.3301',
             '9.9116',
-            '12.1026'
+            '12.1026',
         ],
         'lat' => [
             '51.2187',
             '53.566',
             '47.8391',
-        ]
+        ],
     ];
 
     /**
@@ -219,7 +220,7 @@ class AnonymizeService
             $properties = [
                 'email' => $this->getRandomEmail(),
                 'ip_address' => '127.0.0.***',
-                'description' => $this->getRandomDescription()
+                'description' => $this->getRandomDescription(),
             ];
             $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
             $connection->executeQuery(

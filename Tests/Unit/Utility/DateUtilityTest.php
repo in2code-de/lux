@@ -1,4 +1,5 @@
 <?php
+
 namespace In2code\Lux\Tests\Unit\Utility;
 
 use DateTime;
@@ -20,8 +21,8 @@ class DateUtilityTest extends UnitTestCase
     {
         $timestamp = 12345;
         $result = DateUtility::convertTimestamp($timestamp);
-        $this->assertTrue(is_a($result, DateTime::class));
-        $this->assertSame((string)$timestamp, $result->format('U'));
+        self::assertTrue(is_a($result, DateTime::class));
+        self::assertSame((string)$timestamp, $result->format('U'));
     }
 
     /**
@@ -35,13 +36,13 @@ class DateUtilityTest extends UnitTestCase
         $date3 = DateTime::createFromFormat('Y-m-d H:i', '2025-06-06 00:01');
         $date4 = DateTime::createFromFormat('Y-m-d H:i', '2019-03-13 00:00');
         $date5 = DateTime::createFromFormat('Y-m-d H:i', '2019-03-13 23:39');
-        $this->assertSame(29, DateUtility::getNumberOfDaysBetweenTwoDates($date1, $date2));
-        $this->assertSame(1282, DateUtility::getNumberOfDaysBetweenTwoDates($date1, $date3));
-        $this->assertSame(994, DateUtility::getNumberOfDaysBetweenTwoDates($date1, $date4));
-        $this->assertSame(1253, DateUtility::getNumberOfDaysBetweenTwoDates($date2, $date3));
-        $this->assertSame(1023, DateUtility::getNumberOfDaysBetweenTwoDates($date2, $date4));
-        $this->assertSame(2277, DateUtility::getNumberOfDaysBetweenTwoDates($date3, $date4));
-        $this->assertSame(0, DateUtility::getNumberOfDaysBetweenTwoDates($date4, $date5));
+        self::assertSame(29, DateUtility::getNumberOfDaysBetweenTwoDates($date1, $date2));
+        self::assertSame(1282, DateUtility::getNumberOfDaysBetweenTwoDates($date1, $date3));
+        self::assertSame(994, DateUtility::getNumberOfDaysBetweenTwoDates($date1, $date4));
+        self::assertSame(1253, DateUtility::getNumberOfDaysBetweenTwoDates($date2, $date3));
+        self::assertSame(1023, DateUtility::getNumberOfDaysBetweenTwoDates($date2, $date4));
+        self::assertSame(2277, DateUtility::getNumberOfDaysBetweenTwoDates($date3, $date4));
+        self::assertSame(0, DateUtility::getNumberOfDaysBetweenTwoDates($date4, $date5));
     }
 
     /**
@@ -52,11 +53,11 @@ class DateUtilityTest extends UnitTestCase
     public function testGetLatestMonthDates(): void
     {
         $result = DateUtility::getLatestMonthDates(13);
-        $this->assertSame(2, count($result));
-        $this->assertTrue(is_a($result[0], DateTime::class));
-        $this->assertTrue(is_a($result[1], DateTime::class));
-        $this->assertTrue($result[0]->format('Y') < date('Y'));
-        $this->assertTrue($result[1]->format('Y') < date('Y'));
+        self::assertSame(2, count($result));
+        self::assertTrue(is_a($result[0], DateTime::class));
+        self::assertTrue(is_a($result[1], DateTime::class));
+        self::assertTrue($result[0]->format('Y') < date('Y'));
+        self::assertTrue($result[1]->format('Y') < date('Y'));
     }
 
     /**
@@ -67,10 +68,10 @@ class DateUtilityTest extends UnitTestCase
     public function testGetCurrentOnlineDateTime(): void
     {
         $result = DateUtility::getCurrentOnlineDateTime();
-        $this->assertTrue(is_a($result, DateTime::class));
-        $this->assertTrue($result->format('U') < time());
-        $this->assertTrue($result->format('U') > time() - 6000);
-        $this->assertTrue((int)$result->format('U') === time() - (DateUtility::IS_ONLINE_TIME * 60));
+        self::assertTrue(is_a($result, DateTime::class));
+        self::assertTrue($result->format('U') < time());
+        self::assertTrue($result->format('U') > time() - 6000);
+        self::assertTrue((int)$result->format('U') === time() - (DateUtility::IS_ONLINE_TIME * 60));
     }
 
     /**
@@ -82,9 +83,9 @@ class DateUtilityTest extends UnitTestCase
     {
         $dateToCompare = DateTime::createFromFormat('Y-m-d H:i', '2021-12-1 00:01');
         $result = DateUtility::getDayStart($dateToCompare);
-        $this->assertTrue(is_a($result, DateTime::class));
-        $this->assertTrue($result->format('U') < $dateToCompare->format('U'));
-        $this->assertTrue($result->format('U') > ($dateToCompare->format('U') - 600));
+        self::assertTrue(is_a($result, DateTime::class));
+        self::assertTrue($result->format('U') < $dateToCompare->format('U'));
+        self::assertTrue($result->format('U') > ($dateToCompare->format('U') - 600));
     }
 
     /**
@@ -96,9 +97,9 @@ class DateUtilityTest extends UnitTestCase
     {
         $dateToCompare = DateTime::createFromFormat('Y-m-d H:i', '2021-12-1 23:55');
         $result = DateUtility::getDayEnd($dateToCompare);
-        $this->assertTrue(is_a($result, DateTime::class));
-        $this->assertTrue($result->format('U') > $dateToCompare->format('U'));
-        $this->assertTrue($result->format('U') < ((int)$dateToCompare->format('U') + 600));
+        self::assertTrue(is_a($result, DateTime::class));
+        self::assertTrue($result->format('U') > $dateToCompare->format('U'));
+        self::assertTrue($result->format('U') < ((int)$dateToCompare->format('U') + 600));
     }
 
     /**
@@ -110,8 +111,8 @@ class DateUtilityTest extends UnitTestCase
     {
         $dateToCompare = DateTime::createFromFormat('Y-m-d H:i', '2021-12-1 23:55');
         $result = DateUtility::getPreviousMonday($dateToCompare);
-        $this->assertTrue(is_a($result, DateTime::class));
-        $this->assertTrue($result->format('U') < $dateToCompare->format('U'));
+        self::assertTrue(is_a($result, DateTime::class));
+        self::assertTrue($result->format('U') < $dateToCompare->format('U'));
     }
 
     /**
@@ -123,8 +124,8 @@ class DateUtilityTest extends UnitTestCase
     {
         $dateToCompare = DateTime::createFromFormat('Y-m-d H:i', '2021-12-3 23:55');
         $result = DateUtility::getStartOfMonth($dateToCompare);
-        $this->assertTrue(is_a($result, DateTime::class));
-        $this->assertTrue($result->format('U') < $dateToCompare->format('U'));
+        self::assertTrue(is_a($result, DateTime::class));
+        self::assertTrue($result->format('U') < $dateToCompare->format('U'));
     }
 
     /**
@@ -136,7 +137,7 @@ class DateUtilityTest extends UnitTestCase
     {
         $dateToCompare = DateTime::createFromFormat('Y-m-d H:i', '2021-01-02 23:55');
         $result = DateUtility::getStartOfYear($dateToCompare);
-        $this->assertTrue(is_a($result, DateTime::class));
-        $this->assertTrue($result->format('U') < $dateToCompare->format('U'));
+        self::assertTrue(is_a($result, DateTime::class));
+        self::assertTrue($result->format('U') < $dateToCompare->format('U'));
     }
 }

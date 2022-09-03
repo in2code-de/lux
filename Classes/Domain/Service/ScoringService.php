@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\Service;
 
 use DateTime;
@@ -100,7 +101,7 @@ class ScoringService
                 'numberOfSiteVisits' => $this->getNumberOfSiteVisits($visitor),
                 'numberOfPageVisits' => $this->getNumberOfVisits($visitor),
                 'lastVisitDaysAgo' => $this->getNumberOfDaysSinceLastVisit($visitor),
-                'downloads' => $this->getNumberOfDownloads($visitor)
+                'downloads' => $this->getNumberOfDownloads($visitor),
             ];
             $expressionLanguage = new ExpressionLanguage();
             $scoring = (int)$expressionLanguage->evaluate($this->getCalculation(), $variables);

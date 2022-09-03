@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Utility;
 
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
@@ -106,7 +107,7 @@ class ConfigurationUtility
         $extensionConfig = self::getExtensionConfiguration();
         $allowed = [
             'analysis',
-            'leads'
+            'leads',
         ];
         if (in_array((string)$extensionConfig['pageOverviewView'], $allowed)) {
             return $extensionConfig['pageOverviewView'];

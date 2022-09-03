@@ -1,4 +1,5 @@
 <?php
+
 namespace In2code\Lux\Tests\Unit\Utility;
 
 use In2code\Lux\Tests\Helper\TestingHelper;
@@ -20,7 +21,7 @@ class BackendUtilityTest extends UnitTestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         TestingHelper::setDefaultConstants();
     }
@@ -33,10 +34,10 @@ class BackendUtilityTest extends UnitTestCase
     {
         $uidTest = rand();
         $this->initializeAuthentication(['uid' => $uidTest], ['username' => 'lux_user']);
-        $this->assertSame($uidTest, BackendUtilityFixture::getPropertyFromBackendUser());
-        $this->assertSame('lux_user', BackendUtilityFixture::getPropertyFromBackendUser('username'));
-        $this->assertNotSame('', BackendUtilityFixture::getPropertyFromBackendUser('username'));
-        $this->assertNotSame('', BackendUtilityFixture::getPropertyFromBackendUser());
+        self::assertSame($uidTest, BackendUtilityFixture::getPropertyFromBackendUser());
+        self::assertSame('lux_user', BackendUtilityFixture::getPropertyFromBackendUser('username'));
+        self::assertNotSame('', BackendUtilityFixture::getPropertyFromBackendUser('username'));
+        self::assertNotSame('', BackendUtilityFixture::getPropertyFromBackendUser());
     }
 
     /**
@@ -45,18 +46,19 @@ class BackendUtilityTest extends UnitTestCase
      */
     public function testIsAdministrator()
     {
-        $this->assertFalse(BackendUtilityFixture::isAdministrator());
+        self::assertFalse(BackendUtilityFixture::isAdministrator());
         $this->initializeAuthentication(['uid' => 123], ['username' => 'lux_user'], ['admin' => 1]);
-        $this->assertTrue(BackendUtilityFixture::isAdministrator());
+        self::assertTrue(BackendUtilityFixture::isAdministrator());
     }
 
     /**
      * @return void
+     * @covers ::getSessionValue
      */
     public function testGetSessionValue()
     {
         $this->initializeAuthentication(['uid' => 123], ['username' => 'lux_user'], ['admin' => 1]);
-        $this->assertSame([], BackendUtilityFixture::getSessionValue('foo', 'bar', 'baz'));
+        self::assertSame([], BackendUtilityFixture::getSessionValue('foo', 'bar', 'baz'));
     }
 
     /**
@@ -66,7 +68,7 @@ class BackendUtilityTest extends UnitTestCase
     public function testGetBackendUserAuthentication()
     {
         $this->initializeAuthentication(['uid' => 123], ['username' => 'lux_user']);
-        $this->assertTrue(
+        self::assertTrue(
             is_a(BackendUtilityFixture::getBackendUserAuthentication(), BackendUserAuthentication::class)
         );
     }

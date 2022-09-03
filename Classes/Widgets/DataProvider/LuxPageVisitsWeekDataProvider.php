@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Widgets\DataProvider;
 
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
@@ -34,12 +35,12 @@ class LuxPageVisitsWeekDataProvider implements ChartDataProviderInterface
                         '#dddddd',
                         '#dddddd',
                         '#dddddd',
-                        WidgetApi::getDefaultChartColors()[0]
+                        WidgetApi::getDefaultChartColors()[0],
                     ],
                     'border' => 0,
-                    'data' => $pagevisistsData->getAmountsFromData()
-                ]
-            ]
+                    'data' => $pagevisistsData->getAmountsFromData(),
+                ],
+            ],
         ];
     }
 }

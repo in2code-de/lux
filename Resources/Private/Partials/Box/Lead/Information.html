@@ -7,7 +7,7 @@
 	<div class="panel-body">
 		<div class="row">
 			<div class="col-md-3">
-				<img src="{visitor.imageUrl}" alt="{visitor.fullName}" width="150" height="150" style="max-width: 100%; margin-top: 20px;" class="img-circle img-responsive" />
+				<img src="{f:uri.resource(path:'Images/AvatarDefault.svg',extensionName:'lux')}" alt="{visitor.fullName}" data-lux-asynchronous-image="{visitor.uid}" width="150" height="150" style="max-width: 100%; margin-top: 20px;" class="img-circle img-responsive" />
 			</div>
 			<div class="col-md-9">
 				<h3 title="UID{visitor.uid}">

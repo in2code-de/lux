@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
 use Doctrine\DBAL\DBALException;
@@ -69,7 +70,7 @@ class NewsvisitRepository extends AbstractRepository
             if ($news !== null) {
                 $objects[] = [
                     'count' => $row['count'],
-                    'news' => $news
+                    'news' => $news,
                 ];
             }
         }
@@ -88,7 +89,7 @@ class NewsvisitRepository extends AbstractRepository
         $query = $this->createQuery();
         $logicalAnd = [
             $query->greaterThanOrEqual('crdate', $start->format('U')),
-            $query->lessThanOrEqual('crdate', $end->format('U'))
+            $query->lessThanOrEqual('crdate', $end->format('U')),
         ];
         $logicalAnd = $this->extendWithExtendedFilterQuery($query, $logicalAnd, $filter);
         $query->matching($query->logicalAnd($logicalAnd));

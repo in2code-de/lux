@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\Service\Referrer;
 
 /**
@@ -55,7 +56,7 @@ class Readable
         'typo3.org' => 'TYPO3',
         'typo3.com' => 'TYPO3',
         'com.slack' => 'Slack',
-        'slack.com' => 'Slack'
+        'slack.com' => 'Slack',
     ];
 
     /**

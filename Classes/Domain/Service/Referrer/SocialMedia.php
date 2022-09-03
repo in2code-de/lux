@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\Service\Referrer;
 
 /**
@@ -21,7 +22,7 @@ class SocialMedia
                 'm.facebook.com',
                 'l.facebook.com',
                 'lm.facebook.com',
-            ]
+            ],
         ],
         [
             'name' => 'Instagram',
@@ -32,7 +33,7 @@ class SocialMedia
                 'lm.instagram.com',
                 'mobile.instagram.com',
                 'web.instagram.com',
-            ]
+            ],
         ],
         [
             'name' => 'LinkedIn',
@@ -42,7 +43,7 @@ class SocialMedia
                 'm.linkedin.com',
                 'l.linkedin.com',
                 'lm.linkedin.com',
-            ]
+            ],
         ],
         [
             'name' => 'Twitter',
@@ -52,25 +53,25 @@ class SocialMedia
                 'm.twitter.com',
                 'l.twitter.com',
                 'lm.twitter.com',
-            ]
+            ],
         ],
         [
             'name' => 'Xing',
             'domains' => [
                 'xing.com',
-            ]
+            ],
         ],
         [
             'name' => 'YouTube',
             'domains' => [
                 'www.youtube.com',
-            ]
+            ],
         ],
         [
             'name' => 'Vimeo',
             'domains' => [
                 'vimeo.com',
-            ]
+            ],
         ],
     ];
 

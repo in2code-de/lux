@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\ViewHelpers\Visitor;
 
 use In2code\Lux\Domain\Model\Visitor;
@@ -11,7 +12,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class GetPropertyFromAttributesViewHelper extends AbstractViewHelper
 {
-
     /**
      * @return void
      */

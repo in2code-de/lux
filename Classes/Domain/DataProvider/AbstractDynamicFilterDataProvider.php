@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider;
 
 use In2code\Lux\Utility\LocalizationUtility;
@@ -19,12 +20,12 @@ abstract class AbstractDynamicFilterDataProvider extends AbstractDataProvider
         'hour' => [
             'prefix' => 'datetime.n',
             'postfix' => ':00',
-            'argumentDateFormat' => 'G'
+            'argumentDateFormat' => 'G',
         ],
         'day' => [
             'prefix' => 'datetime.weekday.',
             'postfixDateFormat' => 'D',
-            'overruleLatest' => 'datetime.week.0'
+            'overruleLatest' => 'datetime.week.0',
         ],
         'week' => [
             'prefix' => 'datetime.week.n',
@@ -32,11 +33,11 @@ abstract class AbstractDynamicFilterDataProvider extends AbstractDataProvider
         ],
         'month' => [
             'prefix' => 'datetime.month.',
-            'postfixDateFormat' => 'n'
+            'postfixDateFormat' => 'n',
         ],
         'year' => [
             'prefix' => 'datetime.n',
-            'argumentDateFormat' => 'Y'
+            'argumentDateFormat' => 'Y',
         ],
     ];
 

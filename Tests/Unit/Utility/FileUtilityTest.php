@@ -1,4 +1,5 @@
 <?php
+
 namespace In2code\Lux\Tests\Unit\Utility;
 
 use In2code\Lux\Utility\FileUtility;
@@ -10,7 +11,6 @@ use Nimut\TestingFramework\TestCase\UnitTestCase;
  */
 class FileUtilityTest extends UnitTestCase
 {
-
     /**
      * @var array
      */
@@ -24,6 +24,6 @@ class FileUtilityTest extends UnitTestCase
     public function testGetFilenameFromPathAndFilename()
     {
         $pathAndFilename = 'fileadmin/folder/file123.pdf';
-        $this->assertSame('file123.pdf', FileUtility::getFilenameFromPathAndFilename($pathAndFilename));
+        self::assertSame('file123.pdf', FileUtility::getFilenameFromPathAndFilename($pathAndFilename));
     }
 }

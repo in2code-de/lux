@@ -1,4 +1,5 @@
 <?php
+
 namespace In2code\Lux\Tests\Helper;
 
 use TYPO3\CMS\Core\Configuration\ConfigurationManager;
@@ -10,7 +11,6 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  */
 class TestingHelper
 {
-
     /**
      * @return void
      * @SuppressWarnings(PHPMD.Superglobals)
@@ -75,7 +75,7 @@ class TestingHelper
         self::setDefaultConstants();
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['trustedHostsPattern'] = '.*';
         $GLOBALS['TYPO3_CONF_VARS']['FE']['ContentObjects'] = [
-            'TEXT' => 'TYPO3\CMS\Frontend\ContentObject\TextContentObject'
+            'TEXT' => 'TYPO3\CMS\Frontend\ContentObject\TextContentObject',
         ];
         $GLOBALS['TT'] = new TimeTracker();
         $GLOBALS['TSFE'] = new TypoScriptFrontendController($GLOBALS['TYPO3_CONF_VARS'], $pid ?: 1, 0, true);

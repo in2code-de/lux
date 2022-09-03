@@ -17,6 +17,7 @@
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 25.0.0     | 2022-09-03 | Feature    | Time period filter for dashboards (small performance feature), Async load of visitor image (big performance feature), code cleanup, updated DisallowedMailProvider list                    |
 | 24.2.0     | 2022-08-11 | Task       | Replace deprecated frontend build tools, prevent possible exception on longer user_agent strings                                                                                           |
 | 24.1.0     | 2022-07-23 | Task       | Update for a better workflow management in luxenterprise                                                                                                                                   |
 | 24.0.2     | 2022-07-11 | Security   | Harden SQL queries against possible SQL injection                                                                                                                                          |

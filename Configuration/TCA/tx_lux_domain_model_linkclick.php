@@ -1,4 +1,5 @@
 <?php
+
 use In2code\Lux\Domain\Model\Linkclick;
 use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\Visitor;
@@ -16,7 +17,7 @@ return [
         'default_sortby' => 'ORDER BY linklistener ASC',
         'delete' => 'deleted',
         'iconfile' => 'EXT:lux/Resources/Public/Icons/' . Linkclick::TABLE_NAME . '.svg',
-        'rootLevel' => -1
+        'rootLevel' => -1,
     ],
     'types' => [
         '1' => ['showitem' => 'crdate,linklistener,page,visitor'],
@@ -33,8 +34,8 @@ return [
                 'default' => 0,
                 'items' => [
                     ['LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1],
-                    ['LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0]
-                ]
+                    ['LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0],
+                ],
             ],
         ],
         'l10n_parent' => [
@@ -44,12 +45,12 @@ return [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['', 0]
+                    ['', 0],
                 ],
                 'foreign_table' => Linkclick::TABLE_NAME,
                 'foreign_table_where' => 'AND ' . Linkclick::TABLE_NAME . '.pid=###CURRENT_PID### AND ' .
                     Linkclick::TABLE_NAME . '.sys_language_uid IN (-1,0)',
-                'default' => 0
+                'default' => 0,
             ],
         ],
         'l10n_diffsource' => [
@@ -66,8 +67,8 @@ return [
                 'renderType' => 'inputDateTime',
                 'size' => 30,
                 'eval' => 'datetime',
-                'readOnly' => true
-            ]
+                'readOnly' => true,
+            ],
         ],
         'linklistener' => [
             'exclude' => true,
@@ -79,7 +80,7 @@ return [
                 'foreign_table' => Linklistener::TABLE_NAME,
                 'foreign_table_where' => 'ORDER BY ' . Linklistener::TABLE_NAME . '.title',
                 'default' => 0,
-                'readOnly' => true
+                'readOnly' => true,
             ],
         ],
         'page' => [
@@ -91,7 +92,7 @@ return [
                 'foreign_table' => 'pages',
                 'foreign_table_where' => 'ORDER BY pages.title',
                 'default' => 0,
-                'readOnly' => true
+                'readOnly' => true,
             ],
         ],
         'visitor' => [
@@ -102,8 +103,8 @@ return [
                 'renderType' => 'selectSingle',
                 'foreign_table' => Visitor::TABLE_NAME,
                 'default' => 0,
-                'readOnly' => true
-            ]
-        ]
-    ]
+                'readOnly' => true,
+            ],
+        ],
+    ],
 ];

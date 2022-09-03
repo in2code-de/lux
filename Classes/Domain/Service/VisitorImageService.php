@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\Service;
 
 use Buchin\GoogleImageGrabber\GoogleImageGrabber;
@@ -108,7 +109,7 @@ class VisitorImageService
                 $image = $imageService->getImage('', $file, false);
                 $processConfiguration = [
                     'width' => (string)$this->size . 'c',
-                    'height' => (string)$this->size . 'c'
+                    'height' => (string)$this->size . 'c',
                 ];
                 $processedImage = $imageService->applyProcessingInstructions($image, $processConfiguration);
                 $url = $imageService->getImageUri($processedImage, true);

@@ -1,28 +1,30 @@
 <f:layout name="Backend"/>
 
 <f:section name="content">
+    <f:render partial="Lead/DashboardFilter" arguments="{_all}"/>
+
     <div class="row flex">
         <div class="col-md-8 flex">
             <div class="row flex">
                 <div class="col-md-6 flex">
-                    <lux:backend.cache identifier="Box/Leads/Recurring" cacheLayer="{cacheLayer}">
+                    <lux:backend.cache identifier="Box/Leads/Recurring/{filter.hash}" cacheLayer="{cacheLayer}">
                         <f:render partial="Box/Leads/Recurring" arguments="{_all}"/>
                     </lux:backend.cache>
                 </div>
                 <div class="col-md-6 flex">
-                    <lux:backend.cache identifier="Box/Leads/Hottest" cacheLayer="{cacheLayer}">
+                    <lux:backend.cache identifier="Box/Leads/Hottest/{filter.hash}" cacheLayer="{cacheLayer}">
                         <f:render partial="Box/Leads/Hottest" arguments="{_all}"/>
                     </lux:backend.cache>
                 </div>
             </div>
             <div class="row flex">
                 <div class="col-md-6 flex">
-                    <lux:backend.cache identifier="Box/Leads/Identified" cacheLayer="{cacheLayer}">
+                    <lux:backend.cache identifier="Box/Leads/Identified/{filter.hash}" cacheLayer="{cacheLayer}">
                         <f:render partial="Box/Leads/Identified" arguments="{_all}"/>
                     </lux:backend.cache>
                 </div>
                 <div class="col-md-6 flex">
-                    <lux:backend.cache identifier="Box/Leads/IdentifiedPerMonth" cacheLayer="{cacheLayer}">
+                    <lux:backend.cache identifier="Box/Leads/IdentifiedPerMonth/{filter.hash}" cacheLayer="{cacheLayer}">
                         <f:render partial="Box/Leads/IdentifiedPerMonth" arguments="{_all}"/>
                     </lux:backend.cache>
                 </div>
@@ -35,12 +37,12 @@
 
     <div class="row flex">
         <div class="col-md-4 flex">
-            <lux:backend.cache identifier="Box/Leads/IdentifiedPerMethod" cacheLayer="{cacheLayer}">
+            <lux:backend.cache identifier="Box/Leads/IdentifiedPerMethod/{filter.hash}" cacheLayer="{cacheLayer}">
                 <f:render partial="Box/Leads/IdentifiedPerMethod" arguments="{_all}"/>
             </lux:backend.cache>
         </div>
         <div class="col-md-4 flex">
-            <lux:backend.cache identifier="Box/Leads/Referrer" cacheLayer="{cacheLayer}">
+            <lux:backend.cache identifier="Box/Leads/Referrer/{filter.hash}" cacheLayer="{cacheLayer}">
                 <f:render partial="Box/Leads/Referrer" arguments="{_all}"/>
             </lux:backend.cache>
         </div>
@@ -51,12 +53,12 @@
 
     <div class="row flex">
         <div class="col-md-8">
-            <lux:backend.cache identifier="Box/Leads/Map" cacheLayer="{cacheLayer}">
+            <lux:backend.cache identifier="Box/Leads/Map/{filter.hash}" cacheLayer="{cacheLayer}">
                 <f:render partial="Box/Leads/Map" arguments="{_all}"/>
             </lux:backend.cache>
         </div>
         <div class="col-md-4">
-            <lux:backend.cache identifier="Box/Leads/CountryList" cacheLayer="{cacheLayer}">
+            <lux:backend.cache identifier="Box/Leads/CountryList/{filter.hash}" cacheLayer="{cacheLayer}">
                 <f:render partial="Box/Leads/CountryList" arguments="{_all}"/>
             </lux:backend.cache>
         </div>

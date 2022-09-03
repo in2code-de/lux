@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\UserFunc;
 
 use In2code\Lux\Domain\Model\Visitor;
@@ -31,13 +32,13 @@ class EnableStatus
             'composerMode' => ConfigurationUtility::isComposerMode(),
             'enabled' => [
                 'lux' => ExtensionManagementUtility::isLoaded('lux'),
-                'luxenterprise' => ExtensionManagementUtility::isLoaded('luxenterprise')
+                'luxenterprise' => ExtensionManagementUtility::isLoaded('luxenterprise'),
             ],
             'stats' => [
                 'visitors' => count($this->getVisitors('1=1')),
                 'visitorsIdentified' => count($this->getVisitors('identified=1')),
-                'visitorsUnidentified' => count($this->getVisitors('identified=0'))
-            ]
+                'visitorsUnidentified' => count($this->getVisitors('identified=0')),
+            ],
         ];
         return $this->renderMarkup($variables);
     }

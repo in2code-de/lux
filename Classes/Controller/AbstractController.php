@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
 use DateTime;
@@ -187,23 +188,14 @@ abstract class AbstractController extends ActionController
     }
 
     /**
-     * Set a filter for the last 12 month
-     *
-     * @return void
-     */
-    protected function setFilter(): void
-    {
-        $this->request->setArgument('filter', ObjectUtility::getFilterDto());
-    }
-
-    /**
      * Always set a default FilterDto even if there are no filter params. In addition remove categoryScoring with 0 to
      * avoid propertymapping exceptions
      *
+     * @param int $timePeriod
      * @return void
      * @throws NoSuchArgumentException
      */
-    protected function setFilterExtended(): void
+    protected function setFilterExtended(int $timePeriod = FilterDto::PERIOD_DEFAULT): void
     {
         $filterArgument = $this->arguments->getArgument('filter');
         $filterPropMapping = $filterArgument->getPropertyMappingConfiguration();
@@ -211,6 +203,7 @@ abstract class AbstractController extends ActionController
 
         if ($this->request->hasArgument('filter') === false) {
             $filter = BackendUtility::getSessionValue('filter', $this->getActionName(), $this->getControllerName());
+            $filter = array_merge(['timePeriod' => $timePeriod], $filter);
         } else {
             $filter = (array)$this->request->getArgument('filter');
             BackendUtility::saveValueToSession('filter', $this->getActionName(), $this->getControllerName(), $filter);
@@ -269,7 +262,7 @@ abstract class AbstractController extends ActionController
      */
     protected function getControllerName(): string
     {
-        $classParts = explode('\\', get_called_class());
+        $classParts = explode('\\', static::class);
         $name = end($classParts);
         return StringUtility::removeStringPostfix($name, 'Controller');
     }

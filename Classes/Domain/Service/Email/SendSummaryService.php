@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\Service\Email;
 
 use In2code\Lux\Domain\Service\ConfigurationService;
@@ -92,7 +93,7 @@ class SendSummaryService
         $standaloneView = GeneralUtility::makeInstance(StandaloneView::class);
         $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($mailTemplatePath));
         $standaloneView->assignMultiple([
-            'visitors' => $this->visitors
+            'visitors' => $this->visitors,
         ]);
         $standaloneView->assignMultiple($assignment);
         return $standaloneView->render();

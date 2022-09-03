@@ -28,6 +28,7 @@
 
     <link rel="stylesheet" type="text/css" href="{f:uri.resource(path:'Css/PageOverview.min.css',extensionName:'lux')}" media="all">
     <lux:backend.addRequireJsModule moduleName="TYPO3/CMS/Lux/Lux/Diagram.min" />
+    <lux:backend.addRequireJsModule moduleName="TYPO3/CMS/Lux/Lux/Module.min" />
     <script src="{f:uri.resource(path:'JavaScript/Lux/PageOverview.min.js',extensionName:'lux')}"></script>
 </f:if>
 
@@ -225,7 +226,8 @@
                     <div class="lux-pageoverview-box">
                         <div class="lux-pageoverview-box-left">
                             <img
-                                src="{visitor.imageUrl}"
+                                src="{f:uri.resource(path:'Images/AvatarDefault.svg',extensionName:'lux')}"
+                                data-lux-asynchronous-image="{visitor.uid}"
                                 alt="{visitor.fullName}"
                                 width="150"
                                 class="img-responsive lux-pageoverview-box-image" />

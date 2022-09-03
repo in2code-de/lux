@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Hooks;
 
 use In2code\Lux\Domain\Model\Linklistener;
@@ -37,7 +38,7 @@ class LuxLinkListenerLinkhandler
     {
         $linkListenerUid = $this->getLinkListenerIdentifier($parameters);
         $configuration = [
-            'parameter' => $this->getLinkTargetFromLinkListenerIdentifier($linkListenerUid)
+            'parameter' => $this->getLinkTargetFromLinkListenerIdentifier($linkListenerUid),
         ];
         return ObjectUtility::getContentObject()->typoLink_URL($configuration);
     }

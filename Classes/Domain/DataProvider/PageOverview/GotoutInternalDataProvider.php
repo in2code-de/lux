@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider\PageOverview;
 
 use Doctrine\DBAL\Exception as ExceptionDbal;
@@ -65,7 +66,7 @@ class GotoutInternalDataProvider extends AbstractDataProvider
                     $results[$page] = [
                         'pageIdentifier' => $page,
                         'title' => $this->pageRepository->findTitleByIdentifier($page),
-                        'amount' => 1
+                        'amount' => 1,
                     ];
                 } else {
                     $results[$page]['amount']++;

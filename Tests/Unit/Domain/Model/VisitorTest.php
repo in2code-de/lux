@@ -1,4 +1,5 @@
 <?php
+
 namespace In2code\Lux\Tests\Unit\Domain\Model;
 
 use In2code\Lux\Domain\Model\Attribute;
@@ -14,7 +15,6 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
  */
 class VisitorTest extends UnitTestCase
 {
-
     /**
      * @var array
      */
@@ -23,7 +23,7 @@ class VisitorTest extends UnitTestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         TestingHelper::setDefaultConstants();
     }
@@ -38,37 +38,37 @@ class VisitorTest extends UnitTestCase
                 'firstname',
                 'lastname',
                 'email@mail.org',
-                'lastname, firstname'
+                'lastname, firstname',
             ],
             [
                 'firstname',
                 'lastname',
                 '',
-                'lastname, firstname [notIdentified]'
+                'lastname, firstname [notIdentified]',
             ],
             [
                 '',
                 'lastname',
                 '',
-                'lastname [notIdentified]'
+                'lastname [notIdentified]',
             ],
             [
                 'firstname',
                 '',
                 'email@mail.org',
-                'firstname'
+                'firstname',
             ],
             [
                 '',
                 'lastname',
                 'email@mail.org',
-                'lastname'
+                'lastname',
             ],
             [
                 '',
                 '',
                 '',
-                'anonym'
+                'anonym',
             ],
         ];
     }
@@ -96,7 +96,7 @@ class VisitorTest extends UnitTestCase
             $visitor->setEmail($email);
             $visitor->setIdentified(true);
         }
-        $this->assertSame($expectedResult, $visitor->getFullName());
+        self::assertSame($expectedResult, $visitor->getFullName());
     }
 
     /**
@@ -107,15 +107,15 @@ class VisitorTest extends UnitTestCase
         return [
             [
                 [2, 1, 3],
-                [3, 2, 1]
+                [3, 2, 1],
             ],
             [
                 [20, 100, 0],
-                [100, 20, 0]
+                [100, 20, 0],
             ],
             [
                 [10, 20, 30, 20],
-                [30, 20, 20, 10]
+                [30, 20, 20, 10],
             ],
         ];
     }
@@ -141,6 +141,6 @@ class VisitorTest extends UnitTestCase
         foreach ($csSorted as $cs) {
             $newScoringArray[] = $cs->getScoring();
         }
-        $this->assertSame($expectedSortings, $newScoringArray);
+        self::assertSame($expectedSortings, $newScoringArray);
     }
 }

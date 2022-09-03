@@ -1,7 +1,8 @@
 <?php
+
 /** @noinspection SqlNoDataSourceInspection */
 /** @noinspection SqlDialectInspection */
-declare(strict_types = 1);
+declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
 use Doctrine\DBAL\DBALException;
@@ -104,7 +105,7 @@ class LogRepository extends AbstractRepository
             Log::STATUS_IDENTIFIED_EMAIL4LINK,
             Log::STATUS_IDENTIFIED_FORMLISTENING,
             Log::STATUS_IDENTIFIED_FRONTENDAUTHENTICATION,
-            Log::STATUS_IDENTIFIED_LUXLETTERLINK
+            Log::STATUS_IDENTIFIED_LUXLETTERLINK,
         ];
         try {
             $connection = DatabaseUtility::getConnectionForTable(Log::TABLE_NAME);
@@ -139,7 +140,7 @@ class LogRepository extends AbstractRepository
         }
         $status = GeneralUtility::trimExplode(',', $configString, true);
         return [
-            $query->in('status', $status)
+            $query->in('status', $status),
         ];
     }
 }

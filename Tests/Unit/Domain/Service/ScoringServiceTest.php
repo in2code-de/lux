@@ -1,4 +1,5 @@
 <?php
+
 namespace In2code\Lux\Tests\Unit\Domain\Model;
 
 use In2code\Lux\Domain\Model\Visitor;
@@ -15,7 +16,6 @@ use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
  */
 class ScoringServiceTest extends UnitTestCase
 {
-
     /**
      * @var array
      */
@@ -24,7 +24,7 @@ class ScoringServiceTest extends UnitTestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         TestingHelper::setDefaultConstants();
     }
@@ -40,36 +40,36 @@ class ScoringServiceTest extends UnitTestCase
                 2,
                 3,
                 4,
-                61
+                61,
             ],
             [
                 0,
                 0,
                 1,
                 1,
-                11
+                11,
             ],
             [
                 47,
                 872,
                 45,
                 2,
-                133
+                133,
             ],
             [
                 0,
                 0,
                 0,
                 0,
-                0
+                0,
             ],
             [
                 0,
                 100,
                 0,
                 0,
-                0
-            ]
+                0,
+            ],
         ];
     }
 
@@ -95,8 +95,8 @@ class ScoringServiceTest extends UnitTestCase
         $scoringService->numberOfVisits = $nov;
         $scoringService->numberOfSiteVisits = $nosv;
         $visitor = new Visitor();
-        $this->assertSame($expected, $scoringService->calculateScoring($visitor));
+        self::assertSame($expected, $scoringService->calculateScoring($visitor));
         $visitor->setBlacklisted(true);
-        $this->assertSame(0, $scoringService->calculateScoring($visitor));
+        self::assertSame(0, $scoringService->calculateScoring($visitor));
     }
 }

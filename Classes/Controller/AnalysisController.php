@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
 use Doctrine\DBAL\DBALException;
@@ -27,6 +28,8 @@ use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
@@ -45,26 +48,37 @@ class AnalysisController extends AbstractController
 {
     /**
      * @return void
+     * @throws NoSuchArgumentException
+     */
+    public function initializeDashboardAction(): void
+    {
+        $this->setFilterExtended(FilterDto::PERIOD_LAST3MONTH);
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @return void
      * @throws ConfigurationException
      * @throws DBALException
      * @throws Exception
      * @throws ExceptionDbal
+     * @throws InvalidConfigurationTypeException
      * @throws InvalidQueryException
      * @throws UnexpectedValueException
-     * @throws InvalidConfigurationTypeException
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
-    public function dashboardAction(): void
+    public function dashboardAction(FilterDto $filter): void
     {
-        $filter = ObjectUtility::getFilterDto();
         $this->cacheLayer->initialize(__CLASS__, __FUNCTION__);
         $this->view->assignMultiple([
             'cacheLayer' => $this->cacheLayer,
+            'filter' => $filter,
             'interestingLogs' => $this->logRepository->findInterestingLogs($filter),
         ]);
 
-        if ($this->cacheLayer->isCacheAvailable('Box/Analysis/Pagevisits') === false) {
+        if ($this->cacheLayer->isCacheAvailable('Box/Analysis/Pagevisits/' . $filter->getHash()) === false) {
             $this->view->assignMultiple([
-                'filter' => $filter,
                 'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
                 'numberOfDownloadsData' => GeneralUtility::makeInstance(DownloadsDataProvider::class, $filter),
                 'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
@@ -98,6 +112,7 @@ class AnalysisController extends AbstractController
      * @throws Exception
      * @throws ExceptionDbal
      * @throws InvalidQueryException
+     * @throws StopActionException
      */
     public function contentAction(FilterDto $filter, string $export = ''): void
     {
@@ -114,7 +129,7 @@ class AnalysisController extends AbstractController
             'downloads' => $this->downloadRepository->findCombinedByHref($filter),
             'languageData' => GeneralUtility::makeInstance(LanguagesDataProvider::class, $filter),
             'domainData' => GeneralUtility::makeInstance(DomainDataProvider::class, $filter),
-            'domains' => $this->pagevisitsRepository->getAllDomains($filter)
+            'domains' => $this->pagevisitsRepository->getAllDomains($filter),
         ]);
     }
 
@@ -123,8 +138,9 @@ class AnalysisController extends AbstractController
      * @return ResponseInterface
      * @throws Exception
      * @throws ExceptionDbal
+     * @throws InvalidQueryException
      */
-    public function contentCsvAction(FilterDto $filter)
+    public function contentCsvAction(FilterDto $filter): ResponseInterface
     {
         $this->view->assignMultiple([
             'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
@@ -162,7 +178,7 @@ class AnalysisController extends AbstractController
             'news' => $this->newsvisitRepository->findCombinedByNewsIdentifier($filter),
             'languageData' => GeneralUtility::makeInstance(LanguagesNewsDataProvider::class, $filter),
             'domainData' => GeneralUtility::makeInstance(DomainNewsDataProvider::class, $filter),
-            'domains' => $this->newsvisitRepository->getAllDomains($filter)
+            'domains' => $this->newsvisitRepository->getAllDomains($filter),
         ]);
     }
 
@@ -171,7 +187,7 @@ class AnalysisController extends AbstractController
      * @return ResponseInterface
      * @throws DBALException
      */
-    public function newsCsvAction(FilterDto $filter)
+    public function newsCsvAction(FilterDto $filter): ResponseInterface
     {
         $this->view->assignMultiple([
             'news' => $this->newsvisitRepository->findCombinedByNewsIdentifier($filter),
@@ -215,7 +231,7 @@ class AnalysisController extends AbstractController
      * @return ResponseInterface
      * @throws InvalidQueryException
      */
-    public function linkListenerCsvAction(FilterDto $filter)
+    public function linkListenerCsvAction(FilterDto $filter): ResponseInterface
     {
         $this->view->assignMultiple([
             'linkListeners' => $this->linklistenerRepository->findByFilter($filter),
@@ -269,7 +285,7 @@ class AnalysisController extends AbstractController
         $filter = ObjectUtility::getFilterDto()->setSearchterm((string)$page->getUid());
         $this->view->assignMultiple([
             'pagevisits' => $this->pagevisitsRepository->findByPage($page, 100),
-            'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter)
+            'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
         ]);
     }
 
@@ -284,7 +300,7 @@ class AnalysisController extends AbstractController
         $this->view->assignMultiple([
             'news' => $news,
             'newsvisits' => $this->newsvisitRepository->findByNews($news, 100),
-            'newsvisitsData' => GeneralUtility::makeInstance(NewsvisistsDataProvider::class, $filter)
+            'newsvisitsData' => GeneralUtility::makeInstance(NewsvisistsDataProvider::class, $filter),
         ]);
     }
 
@@ -298,7 +314,7 @@ class AnalysisController extends AbstractController
         $filter = ObjectUtility::getFilterDto()->setSearchterm(FileUtility::getFilenameFromPathAndFilename($href));
         $this->view->assignMultiple([
             'downloads' => $this->downloadRepository->findByHref($href, 100),
-            'numberOfDownloadsData' => GeneralUtility::makeInstance(DownloadsDataProvider::class, $filter)
+            'numberOfDownloadsData' => GeneralUtility::makeInstance(DownloadsDataProvider::class, $filter),
         ]);
     }
 
@@ -325,7 +341,7 @@ class AnalysisController extends AbstractController
         $this->view->assignMultiple([
             'searchterm' => $searchterm,
             'searchData' => GeneralUtility::makeInstance(SearchDataProvider::class, $filter),
-            'searches' => $this->searchRepository->findBySearchterm(urldecode($searchterm))
+            'searches' => $this->searchRepository->findBySearchterm(urldecode($searchterm)),
         ]);
     }
 
@@ -349,7 +365,7 @@ class AnalysisController extends AbstractController
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         $standaloneView->assignMultiple([
             'pagevisits' => $page !== null ? $this->pagevisitsRepository->findByPage($page, 10) : null,
-            'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter)
+            'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
         ]);
         $response = GeneralUtility::makeInstance(JsonResponse::class);
         /** @var StreamInterface $stream */
@@ -379,7 +395,7 @@ class AnalysisController extends AbstractController
         $standaloneView->assignMultiple([
             'news' => $news,
             'newsvisits' => $news !== null ? $this->newsvisitRepository->findByNews($news, 10) : null,
-            'newsvisitsData' => GeneralUtility::makeInstance(NewsvisistsDataProvider::class, $filter)
+            'newsvisitsData' => GeneralUtility::makeInstance(NewsvisistsDataProvider::class, $filter),
         ]);
         $response = GeneralUtility::makeInstance(JsonResponse::class);
         /** @var StreamInterface $stream */
@@ -406,7 +422,7 @@ class AnalysisController extends AbstractController
             'searches' => $this->searchRepository->findBySearchterm(
                 urldecode($request->getQueryParams()['searchterm'])
             ),
-            'searchterm' => $request->getQueryParams()['searchterm']
+            'searchterm' => $request->getQueryParams()['searchterm'],
         ]);
         $response = GeneralUtility::makeInstance(JsonResponse::class);
         /** @var StreamInterface $stream */
@@ -436,7 +452,7 @@ class AnalysisController extends AbstractController
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         $standaloneView->assignMultiple([
             'downloads' => $this->downloadRepository->findByHref((string)$request->getQueryParams()['download'], 10),
-            'numberOfDownloadsData' => GeneralUtility::makeInstance(DownloadsDataProvider::class, $filter)
+            'numberOfDownloadsData' => GeneralUtility::makeInstance(DownloadsDataProvider::class, $filter),
         ]);
         $response = GeneralUtility::makeInstance(JsonResponse::class);
         /** @var StreamInterface $stream */
@@ -465,7 +481,7 @@ class AnalysisController extends AbstractController
         $standaloneView->assignMultiple([
             'linkListener' => $linkListener,
             'linkclicks' => $this->linkclickRepository->findByLinklistenerIdentifier($linkListener->getUid(), 10),
-            'allLinkclickData' => GeneralUtility::makeInstance(AllLinkclickDataProvider::class, $filter)
+            'allLinkclickData' => GeneralUtility::makeInstance(AllLinkclickDataProvider::class, $filter),
         ]);
         $response = GeneralUtility::makeInstance(JsonResponse::class);
         /** @var StreamInterface $stream */

@@ -33,8 +33,12 @@ return [
         'path' => '/lux/visitordescription',
         'target' => LeadController::class . '::detailDescriptionAjax',
     ],
+    '/lux/visitorimage' => [
+        'path' => '/lux/visitorimage',
+        'target' => GeneralController::class . '::getVisitorImageUrlAjax',
+    ],
     '/lux/pageoverview' => [
         'path' => '/lux/pageoverview',
         'target' => GeneralController::class . '::showOrHidePageOverviewAjax',
-    ]
+    ],
 ];

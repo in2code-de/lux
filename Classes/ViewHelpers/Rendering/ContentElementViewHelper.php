@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\ViewHelpers\Rendering;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -35,7 +36,7 @@ class ContentElementViewHelper extends AbstractViewHelper
         $configuration = [
             'tables' => 'tt_content',
             'source' => (int)$this->arguments['uid'],
-            'dontCheckPid' => 1
+            'dontCheckPid' => 1,
         ];
         return $contentObject->cObjGetSingle('RECORDS', $configuration);
     }

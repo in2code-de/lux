@@ -1,4 +1,5 @@
 <?php
+
 namespace In2code\Lux\Tests\Unit\Utility;
 
 use In2code\Lux\Utility\ArrayUtility;
@@ -30,7 +31,7 @@ class ArrayUtilityTest extends UnitTestCase
                     'foo' => 4,
                     'bar' => 2,
                     'baz' => 11,
-                ]
+                ],
             ],
             [
                 [
@@ -48,13 +49,13 @@ class ArrayUtilityTest extends UnitTestCase
                     '2' => 5,
                     'baz' => 3,
                     'x' => 3,
-                ]
+                ],
             ],
             [
                 [],
                 [],
                 [],
-            ]
+            ],
         ];
     }
 
@@ -65,6 +66,6 @@ class ArrayUtilityTest extends UnitTestCase
      */
     public function testSumAmountArrays(array $array1, array $array2, array $expectedArray)
     {
-        $this->assertSame($expectedArray, ArrayUtility::sumAmountArrays($array1, $array2));
+        self::assertSame($expectedArray, ArrayUtility::sumAmountArrays($array1, $array2));
     }
 }

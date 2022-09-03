@@ -1,8 +1,11 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\DataProvider\IdentificationMethodsDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
 use In2code\Lux\Domain\DataProvider\ReferrerAmountDataProvider;
@@ -11,7 +14,6 @@ use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\UnexpectedValueException;
-use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
@@ -19,6 +21,7 @@ use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotCon
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -36,26 +39,38 @@ class LeadController extends AbstractController
 {
     /**
      * @return void
+     * @throws NoSuchArgumentException
+     */
+    public function initializeDashboardAction(): void
+    {
+        $this->setFilterExtended(FilterDto::PERIOD_LAST3MONTH);
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @return void
      * @throws ConfigurationException
      * @throws DBALException
-     * @throws InvalidQueryException
-     * @throws UnexpectedValueException
+     * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
+     * @throws InvalidConfigurationTypeException
+     * @throws InvalidQueryException
+     * @throws UnexpectedValueException
      */
-    public function dashboardAction(): void
+    public function dashboardAction(FilterDto $filter): void
     {
-        $filter = ObjectUtility::getFilterDto();
         $this->cacheLayer->initialize(__CLASS__, __FUNCTION__);
         $this->view->assignMultiple([
             'cacheLayer' => $this->cacheLayer,
+            'filter' => $filter,
             'interestingLogs' => $this->logRepository->findInterestingLogs($filter, 10),
             'whoisonline' => $this->visitorRepository->findOnline(8),
         ]);
 
-        if ($this->cacheLayer->isCacheAvailable('Box/Leads/Recurring') === false) {
+        if ($this->cacheLayer->isCacheAvailable('Box/Leads/Recurring/' . $filter->getHash()) === false) {
             $this->view->assignMultiple([
-                'filter' => $filter,
                 'numberOfUniqueSiteVisitors' => $this->visitorRepository->findByUniqueSiteVisits($filter)->count(),
                 'numberOfRecurringSiteVisitors' =>
                     $this->visitorRepository->findByRecurringSiteVisits($filter)->count(),
@@ -66,7 +81,7 @@ class LeadController extends AbstractController
                     GeneralUtility::makeInstance(IdentificationMethodsDataProvider::class, $filter),
                 'referrerAmountData' => GeneralUtility::makeInstance(ReferrerAmountDataProvider::class, $filter),
                 'countries' => $this->ipinformationRepository->findAllCountryCodesGrouped($filter),
-                'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter, 10),
+                'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter),
                 'renderingTime' => $this->renderingTimeService->getTime(),
             ]);
         }
@@ -85,6 +100,8 @@ class LeadController extends AbstractController
      * @param FilterDto $filter
      * @param string $export
      * @return void
+     * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      * @throws InvalidQueryException
      * @throws StopActionException
      */
@@ -98,7 +115,7 @@ class LeadController extends AbstractController
             'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter, 8),
             'filter' => $filter,
             'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter),
-            'luxCategories' => $this->categoryRepository->findAllLuxCategories()
+            'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
         ]);
     }
 
@@ -107,10 +124,10 @@ class LeadController extends AbstractController
      * @return ResponseInterface
      * @throws InvalidQueryException
      */
-    public function downloadCsvAction(FilterDto $filter)
+    public function downloadCsvAction(FilterDto $filter): ResponseInterface
     {
         $this->view->assignMultiple([
-            'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter)
+            'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter),
         ]);
         return $this->csvResponse($this->view->render());
     }
@@ -174,7 +191,7 @@ class LeadController extends AbstractController
         ));
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         $standaloneView->assignMultiple([
-            'visitor' => $visitorRepository->findByUid((int)$request->getQueryParams()['visitor'])
+            'visitor' => $visitorRepository->findByUid((int)$request->getQueryParams()['visitor']),
         ]);
         /** @var StreamInterface $stream */
         $stream = $response->getBody();

@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
 use In2code\Lux\Domain\Model\Attribute;
@@ -10,7 +11,6 @@ use In2code\Lux\Domain\Model\Visitor;
  */
 class AttributeRepository extends AbstractRepository
 {
-
     /**
      * @param Visitor $visitor
      * @param string $key
@@ -21,7 +21,7 @@ class AttributeRepository extends AbstractRepository
         $query = $this->createQuery();
         $logicalAnd = [
             $query->equals('visitor', $visitor),
-            $query->equals('name', $key)
+            $query->equals('name', $key),
         ];
         $query->matching($query->logicalAnd($logicalAnd));
         return $query->execute()->getFirst();
