@@ -30,6 +30,7 @@ define(['jquery'], function($) {
       addDescriptionListener();
       addLinkMockListener();
       addConfirmListeners();
+      asynchronousImageLoading();
     };
 
     /**
@@ -247,6 +248,34 @@ define(['jquery'], function($) {
     };
 
     /**
+     * This allows to get visitor images (maybe from google or gravatar) as asynchronous request, to not block page
+     * rendering.
+     * This function is used in LUX backend modules and also in PageOverview.html
+     *
+     * @returns {void}
+     */
+    const asynchronousImageLoading = function() {
+      const elements = document.querySelectorAll('[data-lux-asynchronous-image]');
+      for (let i = 0; i < elements.length; i++) {
+        let visitorIdentifier = elements[i].getAttribute('data-lux-asynchronous-image');
+        if (visitorIdentifier > 0) {
+          ajaxConnection(TYPO3.settings.ajaxUrls['/lux/visitorimage'], {
+            visitor: visitorIdentifier
+          }, 'asynchronousImageLoadingCallback', {element: elements[i]});
+        }
+      }
+    };
+
+    /**
+     * @params {Json} response
+     */
+    this.asynchronousImageLoadingCallback = function(response, callbackArguments) {
+      if (callbackArguments.element instanceof HTMLImageElement) {
+        callbackArguments.element.setAttribute('src', response.url)
+      }
+    };
+
+    /**
      * @param {string} elements
      * @param {string} className
      * @returns {void}
@@ -260,16 +289,17 @@ define(['jquery'], function($) {
     /**
      * @params {string} uri
      * @params {object} parameters
-     * @params {string} target callback function name
+     * @params {string} callback function name
      * @returns {void}
      */
-    var ajaxConnection = function(uri, parameters, target) {
+    var ajaxConnection = function(uri, parameters, callback, callbackArguments) {
+      callbackArguments = callbackArguments || {};
       if (uri !== undefined && uri !== '') {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
           if (this.readyState === 4 && this.status === 200) {
-            if (target !== null) {
-              that[target](JSON.parse(this.responseText));
+            if (callback !== null) {
+              that[callback](JSON.parse(this.responseText), callbackArguments);
             }
           }
         };
