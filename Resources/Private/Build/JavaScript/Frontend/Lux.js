@@ -570,6 +570,7 @@ function LuxMain() {
   var delayClick = function(event, status) {
     var target = (event.currentTarget) ? event.currentTarget : event.target;
     var href = target.getAttribute('href');
+    var hrefTarget = target.getAttribute('target');
     var delay = 400;
     if (isDebugMode()) {
       console.log(status + ' triggered. Redirect in some seconds to ' + href);
@@ -579,7 +580,14 @@ function LuxMain() {
       event.preventDefault();
       setTimeout(
         function() {
-          window.location = href;
+          var newWindow = null;
+          if (hrefTarget !== '') {
+            newWindow = window.open(href, hrefTarget);
+          }
+
+          if (newWindow === null) {
+            window.location = href;
+          }
         }, delay
       );
     }
@@ -657,6 +665,7 @@ function LuxMain() {
   var email4LinkLightboxSubmitListener = function(element, event, link) {
     event.preventDefault();
     var href = link.getAttribute('href');
+    var target = link.getAttribute('target');
     var sendEmail = link.getAttribute('data-lux-email4link-sendemail') || 'false';
 
     var formArguments = {};
@@ -681,7 +690,7 @@ function LuxMain() {
         'tx_lux_fe[arguments][href]': href,
         'tx_lux_fe[arguments][pageUid]': getPageUid(),
         'tx_lux_fe[arguments][values]': JSON.stringify(formArguments)
-      }, getRequestUri(), 'email4LinkLightboxSubmitCallback', {sendEmail: (sendEmail === 'true'), href: href});
+      }, getRequestUri(), 'email4LinkLightboxSubmitCallback', {sendEmail: (sendEmail === 'true'), href: href, target: target});
     } else {
       showElement(that.lightboxInstance.element().querySelector('[data-lux-email4link="errorEmailAddress"]'));
     }
@@ -710,8 +719,16 @@ function LuxMain() {
         }, 2000);
       } else {
         setTimeout(function() {
+          var newWindow = null;
+
           that.lightboxInstance.close();
-          window.location = callbackArguments.href;
+          if (callbackArguments.target !== '') {
+            newWindow = window.open(callbackArguments.href, callbackArguments.target);
+          }
+
+          if (newWindow === null) {
+            window.location = callbackArguments.href;
+          }
         }, 500);
       }
     }
