@@ -581,7 +581,8 @@ function LuxMain() {
       setTimeout(
         function() {
           var newWindow = null;
-          if (hrefTarget !== '') {
+
+          if (hrefTarget !== '' && hrefTarget !== null) {
             newWindow = window.open(href, hrefTarget);
           }
 
@@ -722,7 +723,7 @@ function LuxMain() {
           var newWindow = null;
 
           that.lightboxInstance.close();
-          if (callbackArguments.target !== '') {
+          if (callbackArguments.target !== '' && callbackArguments.target !== null) {
             newWindow = window.open(callbackArguments.href, callbackArguments.target);
           }
 
