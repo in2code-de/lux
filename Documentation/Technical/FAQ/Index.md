@@ -132,12 +132,17 @@ All data is stored on your server. The upside is quite clear in time of GDPR/DSG
 third party companies. The downside could be, that a lot of data is stored within your TYPO3 database.
 There a some possibilities to increase performance.
 
-### 1. Turn on caches for dashboards and page overview view
+### 1. Update LUX and related extensions to the latest version
+
+We are constantly working on performance improvements in LUX and LUXenterprise to deal with lot's of data in MySQL. See
+changelog for version details
+
+### 2. Turn on caches for dashboards and page overview view
 
 We added a caching layer that, can speedup dashboard times with factor 100. Just turn it on in extension configuration.
 Of course there is a comand that helps you to warmup caches (e.g. 1 time per night).
 
-### 2. Clean outdated data from time to time
+### 3. Clean outdated data from time to time
 
 Remove all visitor data that is older then three years:
 
@@ -148,7 +153,7 @@ Remove only unknown visitors and their data that is older then one year:
 `./vendor/bin/typo3 lux:cleanupUnknownVisitorsByAge 31536000`
 
 
-### 3. memory_limit and max_execution_time in Apache settings
+### 4. memory_limit and max_execution_time in Apache settings
 
 Depending on the settings of your server it could happen that some backend modules are crashing when open it.
 While it is best practice to keep Apache settings for `memory_limit` and `max_execution_time` quite small to prevent
@@ -157,9 +162,10 @@ A possible solution for such a scenario would be to use **PHP FPM** and differen
 So `https://backend.yourdomain.org` could have a (e.g.) `memory_limit` of `512M` and a `max_execution_time` of `120`.
 
 
-### 4. Extract lux data into a different database
+### 5. Extract lux data into a different database
 
-In TYPO3 you have the possibility to separate tables into different databases like:
+**Untested** In TYPO3 you have the possibility to separate tables into different databases like:
+
 ```
 <?php
 $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections'] = [
@@ -193,7 +199,7 @@ $GLOBALS['TYPO3_CONF_VARS']['DB']['TableMapping'] = [
 ```
 
 
-### 5. Help from in2code
+### 6. Help from in2code
 
 We offer help for users with in2code/luxenterprise. Just call us.
 
