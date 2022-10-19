@@ -13,7 +13,6 @@ use In2code\Lux\Utility\ObjectUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
-use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 
@@ -46,7 +45,6 @@ class PageTracker
      * @param Visitor $visitor
      * @param array $arguments
      * @return Pagevisit|null
-     * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws InvalidConfigurationTypeException
      * @throws UnknownObjectException
@@ -62,7 +60,9 @@ class PageTracker
             $visitor->setVisits($visitor->getNumberOfUniquePagevisits());
             $this->visitorRepository->update($visitor);
             $this->visitorRepository->persistAll();
-            $this->eventDispatcher->dispatch(GeneralUtility::makeInstance(PageTrackerEvent::class, $visitor));
+            $this->eventDispatcher->dispatch(
+                GeneralUtility::makeInstance(PageTrackerEvent::class, $visitor, $pagevisit)
+            );
             return $pagevisit;
         }
         return null;
