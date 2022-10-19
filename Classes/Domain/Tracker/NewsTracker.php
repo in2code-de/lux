@@ -54,14 +54,13 @@ class NewsTracker
     public function track(Visitor $visitor, array $arguments, Pagevisit $pagevisit = null): void
     {
         if ($this->isTrackingActivated($visitor, $arguments)) {
-            $visitor->addNewsvisit($this->getNewsvisit(
-                (int)$arguments['newsUid'],
-                (int)$arguments['languageUid'],
-                $pagevisit
-            ));
+            $newsvisit = $this->getNewsvisit((int)$arguments['newsUid'], (int)$arguments['languageUid'], $pagevisit);
+            $visitor->addNewsvisit($newsvisit);
             $this->visitorRepository->update($visitor);
             $this->visitorRepository->persistAll();
-            $this->eventDispatcher->dispatch(GeneralUtility::makeInstance(NewsTrackerEvent::class, $visitor));
+            $this->eventDispatcher->dispatch(
+                GeneralUtility::makeInstance(NewsTrackerEvent::class, $visitor, $newsvisit)
+            );
         }
     }
 
