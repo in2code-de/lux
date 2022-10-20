@@ -17,6 +17,7 @@
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 25.3.0     | 2022-10-20 | Feature    | Prevent email4link links to be downloaded with rightclick or middle mouse key                                                                                                              |
 | 25.2.0     | 2022-10-19 | Task       | Extend page and news tracker events with direct models for a better extending                                                                                                              |
 | 25.1.0     | 2022-09-27 | Feature    | Support target="_blank" for email4link links now                                                                                                                                           |
 | 25.0.0     | 2022-09-03 | Feature    | Time period filter for dashboards (small performance feature), Async load of visitor image (big performance feature), code cleanup, updated DisallowedMailProvider list                    |
