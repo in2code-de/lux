@@ -478,6 +478,8 @@ function LuxMain() {
     var links = document.querySelectorAll('[data-lux-email4link-title]');
     for (var i = 0; i < links.length; i++) {
       var element = links[i];
+      element.setAttribute('data-lux-href', element.getAttribute('href'));
+      element.setAttribute('href', '#');
       element.addEventListener('click', function(event) {
         email4LinkListener(this, event);
       });
@@ -569,7 +571,7 @@ function LuxMain() {
    */
   var delayClick = function(event, status) {
     var target = (event.currentTarget) ? event.currentTarget : event.target;
-    var href = target.getAttribute('href');
+    var href = target.hasAttribute('data-lux-href') ? target.getAttribute('data-lux-href') : target.getAttribute('href');
     var hrefTarget = target.getAttribute('target');
     var delay = 400;
     if (isDebugMode()) {
@@ -599,6 +601,7 @@ function LuxMain() {
    *
    * @param event triggered form
    * @param status debugging name
+   * @param submit
    * @returns {void}
    */
   var delaySubmit = function(event, status, submit) {
@@ -628,7 +631,7 @@ function LuxMain() {
       ajaxConnection({
         'tx_lux_fe[dispatchAction]': 'downloadRequest',
         'tx_lux_fe[identificator]': identification.getIdentificator(),
-        'tx_lux_fe[arguments][href]': link.getAttribute('href'),
+        'tx_lux_fe[arguments][href]': link.getAttribute('data-lux-href'),
         'tx_lux_fe[arguments][pageUid]': getPageUid()
       }, getRequestUri(), null, null);
       delayClick(event, 'Email4Link');
@@ -638,7 +641,7 @@ function LuxMain() {
 
       var title = link.getAttribute('data-lux-email4link-title') || '';
       var text = link.getAttribute('data-lux-email4link-text') || '';
-      var href = link.getAttribute('href');
+      var href = link.getAttribute('data-lux-href');
       var containers = document.querySelectorAll('[data-lux-container="email4link"]');
       if (containers.length > 0) {
         var container = containers[0].cloneNode(true);
@@ -665,7 +668,7 @@ function LuxMain() {
    */
   var email4LinkLightboxSubmitListener = function(element, event, link) {
     event.preventDefault();
-    var href = link.getAttribute('href');
+    var href = link.getAttribute('data-lux-href');
     var target = link.getAttribute('target');
     var sendEmail = link.getAttribute('data-lux-email4link-sendemail') || 'false';
 
