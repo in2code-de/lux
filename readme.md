@@ -183,6 +183,7 @@ At the moment it's not possible to use lux without **composer mode**!
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 17.7.1     | 2022-10-27 | Bugfix     | Backport: Find also leads without pagevisit relations                                                                                                                                      |
 | 17.7.0     | 2022-07-12 | Feature    | Backport: Add close button to default lightbox                                                                                                                                             |
 | 17.6.1     | 2022-07-11 | Security   | Harden SQL queries against possible SQL injection                                                                                                                                          |
 | 17.6.0     | 2022-03-07 | Feature    | General performance update                                                                                                                                                                 |
