@@ -57,7 +57,7 @@ call_user_func(
                 [
                     \In2code\Lux\Controller\AnalysisController::class =>
                         'dashboard,content,news,linkListener,search,deleteLinkListener,detailPage' .
-                        ',detailNews,detailSearch,detailDownload,detailLinkListener,resetFilter',
+                        ',detailNews,detailSearch,detailDownload,detailLinkListener,resetFilter,utm',
                     \In2code\Lux\Controller\LeadController::class =>
                         'dashboard,list,detail,downloadCsv,remove,deactivate,resetFilter',
                     \In2code\Lux\Controller\GeneralController::class => 'information'

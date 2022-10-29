@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
+use DateTime;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
@@ -51,6 +52,11 @@ class Utm extends AbstractEntity
      * @var string
      */
     protected $utmContent = '';
+
+    /**
+     * @var DateTime
+     */
+    protected $crdate = null;
 
     /**
      * @return Pagevisit
@@ -193,6 +199,24 @@ class Utm extends AbstractEntity
     public function setUtmContent(string $utmContent): Utm
     {
         $this->utmContent = $utmContent;
+        return $this;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getCrdate(): ?DateTime
+    {
+        return $this->crdate;
+    }
+
+    /**
+     * @param ?DateTime $crdate
+     * @return Utm
+     */
+    public function setCrdate(?DateTime $crdate): Utm
+    {
+        $this->crdate = $crdate;
         return $this;
     }
 }

@@ -1,0 +1,96 @@
+<f:if condition="{utmList}">
+    <f:then>
+        <lux:pagination.paginate objects="{utmList}" as="utmListPaginator" itemsPerPage="30">
+            <div style="background-color: #dddddd; border-top: 1px solid #cccccc; border-left: 1px solid #cccccc; border-right: 1px solid #cccccc; color: #5a5a5a; font-weight: bold; padding: 10px;">
+                Leads ({utmList -> f:count()})
+            </div>
+            <table class="table table-striped table-hover table-pointer">
+                <thead>
+                <tr>
+                    <th style="width: 40px;">#</th>
+                    <th>
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.leads">Leads</f:translate>
+                    </th>
+                    <th>
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.time">Time</f:translate>
+                    </th>
+                    <th title="&utm_campaign=">
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.campaign">Campaign</f:translate>
+                    </th>
+                    <th title="&utm_source=">
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.source">Source</f:translate>
+                    </th>
+                    <th title="&utm_medium=">
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.medium">Medium</f:translate>
+                    </th>
+                    <th title="&utm_id=">
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.id">ID</f:translate>
+                    </th>
+                    <th title="&utm_term=">
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.term">Term</f:translate>
+                    </th>
+                    <th title="&utm_content=">
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.content">Content</f:translate>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <f:for each="{utmListPaginator.paginator.paginatedItems}" as="utm" iteration="iteration">
+                    <tr data-lux-action-analysisutmdetailpage="{utm.pagevisit.visitor.uid}">
+                        <td>
+                            <span>
+                                {iteration.cycle}.
+                            </span>
+                        </td>
+                        <td>
+                            <span>{utm.pagevisit.visitor.fullName}</span>
+                        </td>
+                        <td>
+                            <span class="badge" title="{f:format.date(date:utm.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
+                                <lux:format.readableDate>{utm.crdate}</lux:format.readableDate>
+                            </span>
+                        </td>
+                        <td>
+                            <span>{utm.utmCampaign}</span>
+                        </td>
+                        <td>
+                            <span>{utm.utmSource}</span>
+                        </td>
+                        <td>
+                            <span>{utm.utmMedium}</span>
+                        </td>
+                        <td>
+                            <span>{utm.utmId}</span>
+                        </td>
+                        <td>
+                            <span>{utm.utmTerm}</span>
+                        </td>
+                        <td>
+                            <span>{utm.utmContent}</span>
+
+                            <f:comment>
+                                Invisible link for JS-clicks in preview only
+                            </f:comment>
+                            <f:link.action
+                                action="detail"
+                                controller="Lead"
+                                class="btn btn-primary pull-right hidden"
+                                arguments="{visitor:utm.pagevisit.visitor}"
+                                data="{lux-linkmock-link:'detail{utm.pagevisit.visitor.uid}'}">
+                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.linkdetail">show</f:translate>
+                            </f:link.action>
+                        </td>
+                    </tr>
+                </f:for>
+                </tbody>
+            </table>
+
+            <f:alias map="{pagination:utmListPaginator.pagination, paginator:utmListPaginator.paginator, name:utmListPaginator.name}">
+                <f:render partial="Miscellaneous/Pagination" arguments="{_all}" />
+            </f:alias>
+        </lux:pagination.paginate>
+    </f:then>
+    <f:else>
+        <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+    </f:else>
+</f:if>

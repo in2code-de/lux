@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\DataProvider\AllLinkclickDataProvider;
 use In2code\Lux\Domain\DataProvider\BrowserAmountDataProvider;
@@ -17,10 +18,15 @@ use In2code\Lux\Domain\DataProvider\NewsvisistsDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
 use In2code\Lux\Domain\DataProvider\SearchDataProvider;
 use In2code\Lux\Domain\DataProvider\SocialMediaDataProvider;
+use In2code\Lux\Domain\DataProvider\UtmCampaignDataProvider;
+use In2code\Lux\Domain\DataProvider\UtmDataProvider;
+use In2code\Lux\Domain\DataProvider\UtmMediaDataProvider;
+use In2code\Lux\Domain\DataProvider\UtmSourceDataProvider;
 use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\News;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
+use In2code\Lux\Domain\Model\Utm;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\UnexpectedValueException;
 use In2code\Lux\Utility\FileUtility;
@@ -52,7 +58,7 @@ class AnalysisController extends AbstractController
      */
     public function initializeDashboardAction(): void
     {
-        $this->setFilterExtended(FilterDto::PERIOD_LAST3MONTH);
+        $this->setFilter(FilterDto::PERIOD_LAST3MONTH);
     }
 
     /**
@@ -99,7 +105,7 @@ class AnalysisController extends AbstractController
      */
     public function initializeContentAction(): void
     {
-        $this->setFilterExtended();
+        $this->setFilter();
     }
 
     /**
@@ -155,7 +161,7 @@ class AnalysisController extends AbstractController
      */
     public function initializeNewsAction(): void
     {
-        $this->setFilterExtended();
+        $this->setFilter();
     }
 
     /**
@@ -199,9 +205,60 @@ class AnalysisController extends AbstractController
      * @return void
      * @throws NoSuchArgumentException
      */
+    public function initializeUtmAction(): void
+    {
+        $this->setFilter();
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @param string $export
+     * @return void
+     * @throws DBALException
+     * @throws ExceptionDbalDriver
+     * @throws InvalidQueryException
+     * @throws StopActionException
+     */
+    public function utmAction(FilterDto $filter, string $export = ''): void
+    {
+        if ($export === 'csv') {
+            $this->forward('utmCsv', null, null, ['filter' => $filter]);
+        }
+
+        $variables = [
+            'filter' => $filter,
+            'utmCampaigns' => $this->utmRepository->findAllCampaigns(),
+            'utmSources' => $this->utmRepository->findAllSources(),
+            'utmMedia' => $this->utmRepository->findAllMedia(),
+            'utmList' => $this->utmRepository->findByFilter($filter),
+            'utmData' => GeneralUtility::makeInstance(UtmDataProvider::class, $filter),
+            'utmCampaignData' => GeneralUtility::makeInstance(UtmCampaignDataProvider::class, $filter),
+            'utmSourceData' => GeneralUtility::makeInstance(UtmSourceDataProvider::class, $filter),
+            'utmMediaData' => GeneralUtility::makeInstance(UtmMediaDataProvider::class, $filter),
+        ];
+        $this->view->assignMultiple($variables);
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @return ResponseInterface
+     * @throws InvalidQueryException
+     */
+    public function utmCsvAction(FilterDto $filter): ResponseInterface
+    {
+        $this->view->assignMultiple([
+            'utmList' => $this->utmRepository->findByFilter($filter),
+        ]);
+        return $this->csvResponse();
+    }
+
+    /**
+     * @return void
+     * @throws NoSuchArgumentException
+     */
     public function initializeLinkListenerAction(): void
     {
-        $this->setFilterExtended();
+        $this->setFilter();
     }
 
     /**
@@ -245,7 +302,7 @@ class AnalysisController extends AbstractController
      */
     public function initializeSearchAction(): void
     {
-        $this->setFilterExtended();
+        $this->setFilter();
     }
 
     /**
@@ -402,6 +459,18 @@ class AnalysisController extends AbstractController
         $stream = $response->getBody();
         $stream->write(json_encode(['html' => $standaloneView->render()]));
         return $response;
+    }
+
+    /**
+     * AJAX action to show a detail view for utm
+     *
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     */
+    public function detailUtmAjaxPage(ServerRequestInterface $request): ResponseInterface
+    {
+        $leadController = GeneralUtility::makeInstance(LeadController::class);
+        return $leadController->detailAjax($request);
     }
 
     /**

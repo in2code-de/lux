@@ -468,6 +468,9 @@
 			<trans-unit id="module.analysis.news">
 				<source>News</source>
 			</trans-unit>
+			<trans-unit id="module.analysis.utm">
+				<source>Urchin Tracking Modules (UTM)</source>
+			</trans-unit>
 			<trans-unit id="module.analysis.linkListeners">
 				<source>Link listeners</source>
 			</trans-unit>
@@ -769,6 +772,9 @@
 			<trans-unit id="module.list.newsvisits">
 				<source>Newsvisits</source>
 			</trans-unit>
+			<trans-unit id="module.list.utm">
+				<source>Visits from campaigns</source>
+			</trans-unit>
 			<trans-unit id="module.list.search">
 				<source>Search</source>
 			</trans-unit>
@@ -952,6 +958,9 @@
 			</trans-unit>
 			<trans-unit id="module.box.headerpostfix">
 				<source>(all)</source>
+			</trans-unit>
+			<trans-unit id="module.box.headerpostfixfiltered">
+				<source>(filtered)</source>
 			</trans-unit>
 
 			<trans-unit id="module.workflow">
@@ -1513,6 +1522,34 @@
 			</trans-unit>
 			<trans-unit id="marketingcampaigns">
 				<source>Marketing campaigns</source>
+			</trans-unit>
+
+			<trans-unit id="dictionary.lead">
+				<source>Lead</source>
+			</trans-unit>
+			<trans-unit id="dictionary.leads">
+				<source>Leads</source>
+			</trans-unit>
+			<trans-unit id="dictionary.campaign">
+				<source>Campaign</source>
+			</trans-unit>
+			<trans-unit id="dictionary.id">
+				<source>Campaign ID</source>
+			</trans-unit>
+			<trans-unit id="dictionary.source">
+				<source>Source</source>
+			</trans-unit>
+			<trans-unit id="dictionary.medium">
+				<source>Medium</source>
+			</trans-unit>
+			<trans-unit id="dictionary.content">
+				<source>Content</source>
+			</trans-unit>
+			<trans-unit id="dictionary.term">
+				<source>Term</source>
+			</trans-unit>
+			<trans-unit id="dictionary.time">
+				<source>Time</source>
 			</trans-unit>
 		</body>
 	</file>

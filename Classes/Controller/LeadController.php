@@ -43,7 +43,7 @@ class LeadController extends AbstractController
      */
     public function initializeDashboardAction(): void
     {
-        $this->setFilterExtended(FilterDto::PERIOD_LAST3MONTH);
+        $this->setFilter(FilterDto::PERIOD_LAST3MONTH);
     }
 
     /**
@@ -93,7 +93,7 @@ class LeadController extends AbstractController
      */
     public function initializeListAction(): void
     {
-        $this->setFilterExtended();
+        $this->setFilter();
     }
 
     /**

@@ -59,4 +59,29 @@ class ArrayUtility
         }
         return $newArray;
     }
+
+    /**
+     *  [
+     *      0 => 'foo',
+     *      1 => 'bar',
+     *  ]
+     *
+     *  =>
+     *
+     *  [
+     *      'foo' => 'foo',
+     *      'bar' => 'bar',
+     *  ]
+     *
+     * @param array $array
+     * @return array
+     */
+    public static function copyValuesToKeys(array $array): array
+    {
+        $newArray = [];
+        foreach ($array as $value) {
+            $newArray[$value] = $value;
+        }
+        return $newArray;
+    }
 }

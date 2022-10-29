@@ -23,6 +23,7 @@ define(['jquery'], function($) {
       addLeadListDetailViewListener();
       addAnalysisContentDetailPageViewListener();
       addAnalysisNewsDetailPageViewListener();
+      addAnalysisUtmDetailPageViewListener();
       addAnalysisSearchDetailPageViewListener();
       addAnalysisContentDetailDownloadViewListener();
       addAnalysisLinkListenerDetailViewListener();
@@ -91,6 +92,27 @@ define(['jquery'], function($) {
 
           ajaxConnection(TYPO3.settings.ajaxUrls['/lux/analysisnewsdetailpage'], {
             news: news
+          }, 'generalDetailCallback');
+        });
+      }
+    };
+
+    /**
+     * Add listener for analysis/utm detail ajax view
+     *
+     * @returns {void}
+     */
+    var addAnalysisUtmDetailPageViewListener = function() {
+      var elements = document.querySelectorAll('[data-lux-action-analysisutmdetailpage]');
+      for (var i = 0; i < elements.length; i++) {
+        var element = elements[i];
+        element.addEventListener('click', function() {
+          removeClassFromElements(elements, 'lux-action-detail');
+          this.classList.add('lux-action-detail');
+          var visitor = this.getAttribute('data-lux-action-analysisutmdetailpage');
+
+          ajaxConnection(TYPO3.settings.ajaxUrls['/lux/analysisutmdetailpage'], {
+            visitor: visitor
           }, 'generalDetailCallback');
         });
       }

@@ -29,7 +29,7 @@ class UtmFactory
                 throw new ParametersException($key . ' is not existing in given array', 1666207599);
             }
             if ($parameters[$key] !== null) {
-                $utm->{'set' . GeneralUtility::underscoredToUpperCamelCase($key)}($parameters[$key]);
+                $utm->{'set' . GeneralUtility::underscoredToUpperCamelCase($key)}(trim($parameters[$key]));
             }
         }
         return $utm;

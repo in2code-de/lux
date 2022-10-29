@@ -68,4 +68,44 @@ class ArrayUtilityTest extends UnitTestCase
     {
         self::assertSame($expectedArray, ArrayUtility::sumAmountArrays($array1, $array2));
     }
+
+    /**
+     * @return void
+     * @covers ::cleanStringForArrayKeys
+     */
+    public function testCleanStringForArrayKeys()
+    {
+        $arrayActual = [
+            '<1>' => 'foo',
+            'abc123' => 'bar',
+            '1"test.5--' => 'baz',
+        ];
+        $arrayExpected = [
+            '1' => 'foo',
+            'abc123' => 'bar',
+            '1test.5--' => 'baz',
+        ];
+        self::assertSame($arrayExpected, ArrayUtility::cleanStringForArrayKeys($arrayActual));
+    }
+
+    /**
+     * @return void
+     * @covers ::copyValuesToKeys
+     */
+    public function testCopyValuesToKeys()
+    {
+        $arrayActual = [
+            'foo',
+            'bar',
+            'baz',
+            '123test',
+        ];
+        $arrayExpected = [
+            'foo' => 'foo',
+            'bar' => 'bar',
+            'baz' => 'baz',
+            '123test' => '123test',
+        ];
+        self::assertSame($arrayExpected, ArrayUtility::copyValuesToKeys($arrayActual));
+    }
 }
