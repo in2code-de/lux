@@ -54,7 +54,12 @@ class NewsTracker
     public function track(Visitor $visitor, array $arguments, Pagevisit $pagevisit = null): void
     {
         if ($this->isTrackingActivated($visitor, $arguments)) {
-            $newsvisit = $this->getNewsvisit((int)$arguments['newsUid'], (int)$arguments['languageUid'], $pagevisit);
+            $newsvisit = $this->getNewsvisit(
+                (int)$arguments['newsUid'],
+                (int)$arguments['languageUid'],
+                $visitor,
+                $pagevisit
+            );
             $visitor->addNewsvisit($newsvisit);
             $this->visitorRepository->update($visitor);
             $this->visitorRepository->persistAll();
@@ -67,16 +72,26 @@ class NewsTracker
     /**
      * @param int $newsUid
      * @param int $languageUid
+     * @param Visitor $visitor
      * @param Pagevisit|null $pagevisit
      * @return Newsvisit
      */
-    protected function getNewsvisit(int $newsUid, int $languageUid, Pagevisit $pagevisit = null): Newsvisit
-    {
+    protected function getNewsvisit(
+        int $newsUid,
+        int $languageUid,
+        Visitor $visitor,
+        Pagevisit $pagevisit = null
+    ): Newsvisit {
         $newsvisit = GeneralUtility::makeInstance(Newsvisit::class);
         $newsRepository = GeneralUtility::makeInstance(NewsRepository::class);
         /** @var News $news */
         $news = $newsRepository->findByUid($newsUid);
-        $newsvisit->setNews($news)->setLanguage($languageUid)->setDomain()->setPagevisit($pagevisit);
+        $newsvisit
+            ->setNews($news)
+            ->setLanguage($languageUid)
+            ->setDomain()
+            ->setVisitor($visitor)
+            ->setPagevisit($pagevisit);
         return $newsvisit;
     }
 

@@ -55,7 +55,7 @@ class PageTracker
         $languageUid = (int)$arguments['languageUid'];
         $referrer = $arguments['referrer'];
         if ($this->isTrackingActivated($visitor, $pageUid)) {
-            $pagevisit = $this->getPageVisit($pageUid, $languageUid, $referrer);
+            $pagevisit = $this->getPageVisit($pageUid, $languageUid, $referrer, $visitor);
             $visitor->addPagevisit($pagevisit);
             $visitor->setVisits($visitor->getNumberOfUniquePagevisits());
             $this->visitorRepository->update($visitor);
@@ -72,16 +72,22 @@ class PageTracker
      * @param int $pageUid
      * @param int $languageUid
      * @param string $referrer
+     * @param Visitor $visitor
      * @return Pagevisit
      */
-    protected function getPageVisit(int $pageUid, int $languageUid, string $referrer): Pagevisit
+    protected function getPageVisit(int $pageUid, int $languageUid, string $referrer, Visitor $visitor): Pagevisit
     {
         /** @var Pagevisit $pageVisit */
         $pageVisit = GeneralUtility::makeInstance(Pagevisit::class);
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
         /** @var Page $page */
         $page = $pageRepository->findByUid($pageUid);
-        $pageVisit->setPage($page)->setLanguage($languageUid)->setReferrer($referrer)->setDomain();
+        $pageVisit
+            ->setPage($page)
+            ->setLanguage($languageUid)
+            ->setReferrer($referrer)
+            ->setDomain()
+            ->setVisitor($visitor);
         return $pageVisit;
     }
 

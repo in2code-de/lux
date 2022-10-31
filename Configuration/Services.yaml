@@ -153,6 +153,10 @@ services:
         method: 'logDownload'
         event: In2code\Lux\Events\Log\DownloadEvent
       - name: 'event.listener'
+        identifier: 'lux/logUtm'
+        method: 'logUtm'
+        event: In2code\Lux\Events\Log\UtmEvent
+      - name: 'event.listener'
         identifier: 'lux/logSearch'
         method: 'logSearch'
         event: In2code\Lux\Events\Log\SearchEvent

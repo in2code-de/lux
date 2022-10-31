@@ -39,6 +39,7 @@ class Log extends AbstractModel
     const STATUS_MERGE_BYEMAIL = 91;
     const STATUS_SHORTENER_VISIT = 100;
     const STATUS_ABTESTING_PAGE = 200;
+    const STATUS_UTM_TRACK = 300;
     const STATUS_ERROR = 900;
 
     /**

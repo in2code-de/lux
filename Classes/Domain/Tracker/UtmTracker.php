@@ -7,8 +7,10 @@ use In2code\Lux\Domain\Factory\UtmFactory;
 use In2code\Lux\Domain\Model\Utm;
 use In2code\Lux\Domain\Repository\UtmRepository;
 use In2code\Lux\Domain\Service\LogService;
+use In2code\Lux\Events\Log\UtmEvent;
 use In2code\Lux\Events\NewsTrackerEvent;
 use In2code\Lux\Events\PageTrackerEvent;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Throwable;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -17,12 +19,18 @@ class UtmTracker
     protected $utmRepository = null;
     protected $logService = null;
     protected $utmFactory = null;
+    protected $eventDispatcher = null;
 
-    public function __construct(UtmRepository $utmRepository, UtmFactory $utmFactory, LogService $logService)
-    {
+    public function __construct(
+        UtmRepository $utmRepository,
+        UtmFactory $utmFactory,
+        LogService $logService,
+        EventDispatcherInterface $eventDispatcher
+    ) {
         $this->utmRepository = $utmRepository;
         $this->utmFactory = $utmFactory;
         $this->logService = $logService;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function trackPage(PageTrackerEvent $event): void
@@ -33,6 +41,7 @@ class UtmTracker
             try {
                 $this->utmRepository->add($utm);
                 $this->utmRepository->persistAll();
+                $this->eventDispatcher->dispatch(GeneralUtility::makeInstance(UtmEvent::class, $utm));
             } catch (Throwable $exception) {
                 // Do nothing
             }
@@ -47,6 +56,7 @@ class UtmTracker
             try {
                 $this->utmRepository->add($utm);
                 $this->utmRepository->persistAll();
+                $this->eventDispatcher->dispatch(GeneralUtility::makeInstance(UtmEvent::class, $utm));
             } catch (Throwable $exception) {
                 // Do nothing
             }
@@ -79,18 +89,11 @@ class UtmTracker
         return false;
     }
 
-    /**
-     * @return array
-     */
     final protected function getArguments(): array
     {
         return (array)GeneralUtility::_GP('tx_lux_fe');
     }
 
-    /**
-     * Get current url form normal web request like
-     * @return string
-     */
     final protected function getCurrentUrl(): string
     {
         $arguments = $this->getArguments();
@@ -100,11 +103,6 @@ class UtmTracker
         return '';
     }
 
-    /**
-     * Because the current url is passed as GET param to the AJAX request, single parameters must be parsed
-     *
-     * @return array
-     */
     final protected function getArgumentsFromCurrentUrl(): array
     {
         $parts = parse_url($this->getCurrentUrl());
@@ -116,10 +114,6 @@ class UtmTracker
         return [];
     }
 
-    /**
-     * @param string $argumentName
-     * @return string|array|null
-     */
     final protected function getArgumentFromCurrentUrl(string $argumentName)
     {
         $arguments = $this->getArgumentsFromCurrentUrl();

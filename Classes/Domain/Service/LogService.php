@@ -6,6 +6,7 @@ namespace In2code\Lux\Domain\Service;
 use In2code\Lux\Domain\Model\Download;
 use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\Log;
+use In2code\Lux\Domain\Model\Utm;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\LogRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
@@ -124,6 +125,26 @@ class LogService
     public function logDownload(Download $download): void
     {
         $this->log(Log::STATUS_DOWNLOAD, $download->getVisitor(), ['href' => $download->getHref()]);
+    }
+
+    /**
+     * @param Utm $utm
+     * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    public function logUtm(Utm $utm): void
+    {
+        $visitor = null;
+        if ($utm->getPagevisit() !== null) {
+            $visitor = $utm->getPagevisit()->getVisitor();
+        }
+        if ($utm->getNewsvisit() !== null) {
+            $visitor = $utm->getNewsvisit()->getVisitor();
+        }
+        if ($visitor !== null) {
+            $this->log(Log::STATUS_UTM_TRACK, $visitor, ['utm' => $utm->getUid()]);
+        }
     }
 
     /**
