@@ -135,13 +135,7 @@ class LogService
      */
     public function logUtm(Utm $utm): void
     {
-        $visitor = null;
-        if ($utm->getPagevisit() !== null) {
-            $visitor = $utm->getPagevisit()->getVisitor();
-        }
-        if ($utm->getNewsvisit() !== null) {
-            $visitor = $utm->getNewsvisit()->getVisitor();
-        }
+        $visitor = $utm->getVisitor();
         if ($visitor !== null) {
             $this->log(Log::STATUS_UTM_TRACK, $visitor, ['utm' => $utm->getUid()]);
         }

@@ -36,14 +36,14 @@
                 </thead>
                 <tbody>
                 <f:for each="{utmListPaginator.paginator.paginatedItems}" as="utm" iteration="iteration">
-                    <tr data-lux-action-analysisutmdetailpage="{utm.pagevisit.visitor.uid}">
+                    <tr data-lux-action-analysisutmdetailpage="{utm.visitor.uid}">
                         <td>
                             <span>
                                 {iteration.cycle}.
                             </span>
                         </td>
                         <td>
-                            <span>{utm.pagevisit.visitor.fullName}</span>
+                            <span>{utm.visitor.fullName}</span>
                         </td>
                         <td>
                             <span class="badge" title="{f:format.date(date:utm.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
@@ -75,8 +75,8 @@
                                 action="detail"
                                 controller="Lead"
                                 class="btn btn-primary pull-right hidden"
-                                arguments="{visitor:utm.pagevisit.visitor}"
-                                data="{lux-linkmock-link:'detail{utm.pagevisit.visitor.uid}'}">
+                                arguments="{visitor:utm.visitor}"
+                                data="{lux-linkmock-link:'detail{utm.visitor.uid}'}">
                                 <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.linkdetail">show</f:translate>
                             </f:link.action>
                         </td>

@@ -219,4 +219,21 @@ class Utm extends AbstractEntity
         $this->crdate = $crdate;
         return $this;
     }
+
+    /**
+     * Get visitor from pagevisit or from newsvisit
+     *
+     * @return Visitor
+     */
+    public function getVisitor(): Visitor
+    {
+        $visitor = null;
+        if ($this->getPagevisit() !== null) {
+            $visitor = $this->getPagevisit()->getVisitor();
+        }
+        if ($this->getNewsvisit() !== null) {
+            $visitor = $this->getNewsvisit()->getVisitor();
+        }
+        return $visitor;
+    }
 }
