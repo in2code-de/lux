@@ -5,6 +5,7 @@ namespace In2code\Lux\Domain\Model;
 
 use In2code\Lux\Domain\Repository\LinklistenerRepository;
 use In2code\Lux\Domain\Repository\SearchRepository;
+use In2code\Lux\Domain\Repository\UtmRepository;
 use In2code\Luxenterprise\Domain\Model\AbTestingPage;
 use In2code\Luxenterprise\Domain\Repository\AbTestingPageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -195,10 +196,20 @@ class Log extends AbstractModel
      */
     public function getAbTestingPage(): ?AbTestingPage
     {
-        $abTestingPageIdentifier = $this->getPropertyByKey('abTestingPage');
+        $abTestingPageIdentifier = (int)$this->getPropertyByKey('abTestingPage');
         if ($abTestingPageIdentifier > 0) {
             $abTestingPageRepository = GeneralUtility::makeInstance(AbTestingPageRepository::class);
             return $abTestingPageRepository->findByUid($abTestingPageIdentifier);
+        }
+        return null;
+    }
+
+    public function getUtm(): ?Utm
+    {
+        $utmIdentifier = (int)$this->getPropertyByKey('utm');
+        if ($utmIdentifier > 0) {
+            $utmRepository = GeneralUtility::makeInstance(UtmRepository::class);
+            return $utmRepository->findByUid($utmIdentifier);
         }
         return null;
     }
