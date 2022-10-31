@@ -45,11 +45,15 @@ LUX will not set any cookies.
         </td>
     </tr>
     <tr>
-        <th colspan="2">Show relevant information in page view</th>
+        <th>Show relevant information in page view</th>
+        <th>UTM parameters analyse</th>
     </tr>
     <tr>
-        <td align="center" colspan="2">
+        <td align="center">
             <img alt="" width="600" src="https://github.com/in2code-de/lux/blob/develop/Documentation/Images/screenshot_pageoverview.png">
+        </td>
+        <td align="center">
+            <img alt="" width="600" src="https://github.com/in2code-de/lux/blob/develop/Documentation/Images/screenshot_analysis_utm.png">
         </td>
     </tr>
     <tr>
