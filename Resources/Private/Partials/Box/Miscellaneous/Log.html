@@ -122,20 +122,30 @@
 
 
 <f:section name="status80">
-	"{log.linklistener.title}" PageUid: {log.pageUid}
-	<span title="UID:{log.visitor.uid}">(<f:link.action action="detail" controller="Lead" arguments="{visitor:log.visitor}">{log.visitor.fullName}</f:link.action>)</span>
+    "{log.linklistener.title}" PageUid: {log.pageUid}
+    <span title="UID:{log.visitor.uid}">(<f:link.action action="detail" controller="Lead" arguments="{visitor:log.visitor}">{log.visitor.fullName}</f:link.action>)</span>
 </f:section>
 
 
 
 <f:section name="status100">
-	"{log.shortenerpath}"
-	<span title="UID:{log.visitor.uid}">(<f:link.action action="detail" controller="Lead" arguments="{visitor:log.visitor}">{log.visitor.fullName}</f:link.action>)</span>
+    "{log.shortenerpath}"
+    <span title="UID:{log.visitor.uid}">(<f:link.action action="detail" controller="Lead" arguments="{visitor:log.visitor}">{log.visitor.fullName}</f:link.action>)</span>
 </f:section>
 
 
 
 <f:section name="status200">
-	"{log.abTestingPage.title} on PID{log.pageUid}"
-	<span title="UID:{log.visitor.uid}">(<f:link.action action="detail" controller="Lead" arguments="{visitor:log.visitor}">{log.visitor.fullName}</f:link.action>)</span>
+    "{log.abTestingPage.title} on PID{log.pageUid}"
+    <span title="UID:{log.visitor.uid}">(<f:link.action action="detail" controller="Lead" arguments="{visitor:log.visitor}">{log.visitor.fullName}</f:link.action>)</span>
+</f:section>
+
+
+
+<f:section name="status300">
+    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.campaign"/>: {log.utm.utmCampaign} ({log.utm.utmId})<br />
+    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.source"/>: {log.utm.utmSource}<br />
+    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.medium"/>: {log.utm.utmMedium}<br />
+    <span title="UID:{log.visitor.uid}"><f:link.action action="detail" controller="Lead" arguments="{visitor:log.visitor}">{log.visitor.fullName}</f:link.action></span>
+    <f:if condition="{log.visitor.location}">({log.visitor.location})</f:if>
 </f:section>

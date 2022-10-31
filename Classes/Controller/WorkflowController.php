@@ -19,7 +19,7 @@ class WorkflowController extends AbstractController
      */
     public function initializeListAction(): void
     {
-        $this->setFilterExtended();
+        $this->setFilter();
     }
 
     /**

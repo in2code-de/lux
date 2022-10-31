@@ -17,6 +17,10 @@ return [
         'path' => '/lux/analysisnewsdetailpage',
         'target' => AnalysisController::class . '::detailNewsAjaxPage',
     ],
+    '/lux/analysisutmdetailpage' => [
+        'path' => '/lux/analysisutmdetailpage',
+        'target' => AnalysisController::class . '::detailUtmAjaxPage',
+    ],
     '/lux/analysissearchdetailpage' => [
         'path' => '/lux/analysissearchdetailpage',
         'target' => AnalysisController::class . '::detailSearchAjaxPage',

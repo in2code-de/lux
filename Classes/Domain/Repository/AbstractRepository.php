@@ -86,18 +86,20 @@ abstract class AbstractRepository extends Repository
      * @param FilterDto $filter
      * @param string $table
      * @param string $titleField
+     * @param string $concatenation
      * @return string
      */
     protected function extendWhereClauseWithFilterSearchterms(
         FilterDto $filter,
         string $table = '',
-        string $titleField = 'title'
+        string $titleField = 'title',
+        string $concatenation = 'and'
     ): string {
         $sql = '';
         if ($filter->getSearchterms() !== []) {
             foreach ($filter->getSearchterms() as $searchterm) {
                 if ($sql === '') {
-                    $sql .= ' and (';
+                    $sql .= ' ' . $concatenation . ' (';
                 } else {
                     $sql .= ' or ';
                 }

@@ -18,6 +18,7 @@ use In2code\Lux\Domain\Repository\NewsvisitRepository;
 use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Repository\SearchRepository;
+use In2code\Lux\Domain\Repository\UtmRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\RenderingTimeService;
 use In2code\Lux\Utility\BackendUtility;
@@ -105,6 +106,11 @@ abstract class AbstractController extends ActionController
     protected $searchRepository = null;
 
     /**
+     * @var UtmRepository
+     */
+    protected $utmRepository = null;
+
+    /**
      * @var RenderingTimeService
      */
     protected $renderingTimeService = null;
@@ -146,6 +152,7 @@ abstract class AbstractController extends ActionController
         LinklistenerRepository $linklistenerRepository,
         FingerprintRepository $fingerprintRepository,
         SearchRepository $searchRepository,
+        UtmRepository $utmRepository,
         RenderingTimeService $renderingTimeService,
         CacheLayer $cacheLayer
     ) {
@@ -162,6 +169,7 @@ abstract class AbstractController extends ActionController
         $this->linklistenerRepository = $linklistenerRepository;
         $this->fingerprintRepository = $fingerprintRepository;
         $this->searchRepository = $searchRepository;
+        $this->utmRepository = $utmRepository;
         $this->renderingTimeService = $renderingTimeService;
         $this->cacheLayer = $cacheLayer;
     }
@@ -195,12 +203,13 @@ abstract class AbstractController extends ActionController
      * @return void
      * @throws NoSuchArgumentException
      */
-    protected function setFilterExtended(int $timePeriod = FilterDto::PERIOD_DEFAULT): void
+    protected function setFilter(int $timePeriod = FilterDto::PERIOD_DEFAULT): void
     {
         $filterArgument = $this->arguments->getArgument('filter');
         $filterPropMapping = $filterArgument->getPropertyMappingConfiguration();
         $filterPropMapping->allowAllProperties();
 
+        // Save to session
         if ($this->request->hasArgument('filter') === false) {
             $filter = BackendUtility::getSessionValue('filter', $this->getActionName(), $this->getControllerName());
             $filter = array_merge(['timePeriod' => $timePeriod], $filter);

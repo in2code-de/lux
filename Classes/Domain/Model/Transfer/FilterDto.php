@@ -92,6 +92,21 @@ class FilterDto
     protected $domain = '';
 
     /**
+     * @var string
+     */
+    protected $utmCampaign = '';
+
+    /**
+     * @var string
+     */
+    protected $utmSource = '';
+
+    /**
+     * @var string
+     */
+    protected $utmMedium = '';
+
+    /**
      * FilterDto constructor.
      *
      * @param int $timePeriod
@@ -353,6 +368,60 @@ class FilterDto
     }
 
     /**
+     * @return string
+     */
+    public function getUtmCampaign(): string
+    {
+        return $this->utmCampaign;
+    }
+
+    /**
+     * @param string $utmCampaign
+     * @return FilterDto
+     */
+    public function setUtmCampaign(string $utmCampaign): FilterDto
+    {
+        $this->utmCampaign = $utmCampaign;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUtmSource(): string
+    {
+        return $this->utmSource;
+    }
+
+    /**
+     * @param string $utmSource
+     * @return FilterDto
+     */
+    public function setUtmSource(string $utmSource): FilterDto
+    {
+        $this->utmSource = $utmSource;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUtmMedium(): string
+    {
+        return $this->utmMedium;
+    }
+
+    /**
+     * @param string $utmMedium
+     * @return FilterDto
+     */
+    public function setUtmMedium(string $utmMedium): FilterDto
+    {
+        $this->utmMedium = $utmMedium;
+        return $this;
+    }
+
+    /**
      * Calculated values
      */
 
@@ -363,7 +432,8 @@ class FilterDto
     {
         return $this->searchterm !== '' || $this->pid !== '' || $this->scoring > 0 || $this->categoryScoring !== null
             || $this->timeFrom !== '' || $this->timeTo !== '' || $this->timePeriod !== self::PERIOD_DEFAULT
-            || $this->identified !== self::IDENTIFIED_ALL || $this->domain !== '';
+            || $this->identified !== self::IDENTIFIED_ALL || $this->domain !== ''
+            || $this->utmCampaign !== '' || $this->utmMedium !== '' || $this->utmSource !== '';
     }
 
     /**

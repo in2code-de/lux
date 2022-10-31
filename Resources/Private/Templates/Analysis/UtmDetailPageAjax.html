@@ -1,0 +1,44 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.news.visits">news visits</f:translate>
+        </h3>
+    </div>
+    <div class="panel-body">
+
+        <f:if condition="{newsvisits}">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>News</th>
+                    <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.lead">Lead</f:translate></th>
+                    <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.company">Company</f:translate></th>
+                    <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.time">Time</f:translate></th>
+                </tr>
+                </thead>
+                <tbody>
+                <f:for each="{newsvisits}" as="newsvisit">
+                    <tr>
+                        <td><span title="{newsvisit.news.title}"><f:format.crop maxCharacters="35" append="...">{newsvisit.news.title}</f:format.crop></span></td>
+                        <td>
+                            <span title="UID{newsvisit.visitor.uid}">{newsvisit.visitor.fullName}</span>
+                        </td>
+                        <td>{newsvisit.visitor.company}</td>
+                        <td>
+                            <span class="badge" title="{f:format.date(date:newsvisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
+                                <lux:format.readableDate>{newsvisit.crdate}</lux:format.readableDate>
+                            </span>
+                        </td>
+                    </tr>
+                </f:for>
+                </tbody>
+            </table>
+
+            <button style="margin-top: 15px" class="btn btn-primary pull-right" data-lux-linkmock-event="detailnews{news.uid}"><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.detail">show</f:translate></button>
+        </f:if>
+    </div>
+</div>
+
+<f:alias map="{headerPostfix: newsvisits.0.news.title}">
+    <f:render partial="Box/Analysis/Newsvisits" arguments="{_all}"/>
+</f:alias>

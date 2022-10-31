@@ -1,0 +1,189 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">UTM Filter</h3>
+    </div>
+    <div class="panel-body">
+        <f:form name="filter" class="form" action="utm" object="{filter}">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.header.search">Suche</f:translate></h5>
+
+                    <div class="input-group form-group">
+                        <f:form.textfield
+                                type="text"
+                                property="searchterm"
+                                id="searchterm"
+                                class="form-control"
+                                placeholder="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.searchterm')}" />
+                        <lux:condition.isTypo3Eleven>
+                            <f:then>
+                                <label class="btn btn-default" for="searchterm">
+                                    <span class="fa fa-search"></span>
+                                </label>
+                            </f:then>
+                            <f:else>
+                                <label class="input-group-addon fa fa-search" for="searchterm"></label>
+                            </f:else>
+                        </lux:condition.isTypo3Eleven>
+                    </div>
+
+                    <div class="input-group form-group">
+                        <f:form.textfield
+                            type="datetime-local"
+                            property="timeFrom"
+                            id="timeFrom"
+                            class="form-control" />
+                        <lux:condition.isTypo3Eleven>
+                            <f:then>
+                                <label class="btn btn-default" for="timeFrom">
+                                    {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeFrom')}
+                                </label>
+                            </f:then>
+                            <f:else>
+                                <label class="input-group-addon" for="timeFrom">
+                                    {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeFrom')}
+                                </label>
+                            </f:else>
+                        </lux:condition.isTypo3Eleven>
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.campaign">Campaign</f:translate></h5>
+
+                    <div class="input-group form-group">
+                        <f:form.select
+                            property="utmCampaign"
+                            options="{utmCampaigns}"
+                            prependOptionValue=""
+                            prependOptionLabel=""
+                            class="form-control form-select"
+                            id="utmCampaign"/>
+                        <lux:condition.isTypo3Eleven>
+                            <f:then>
+                                <label class="btn btn-default" for="utmCampaign">
+                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.campaign">Campaign</f:translate>
+                                </label>
+                            </f:then>
+                            <f:else>
+                                <label class="input-group-addon" for="utmCampaign">
+                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.campaign">Campaign</f:translate>
+                                </label>
+                            </f:else>
+                        </lux:condition.isTypo3Eleven>
+                    </div>
+
+                    <div class="input-group form-group">
+                        <f:form.textfield
+                            type="datetime-local"
+                            property="timeTo"
+                            id="timeTo"
+                            class="form-control" />
+                        <lux:condition.isTypo3Eleven>
+                            <f:then>
+                                <label class="btn btn-default" for="timeTo">
+                                    {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeTo')}
+                                </label>
+                            </f:then>
+                            <f:else>
+                                <label class="input-group-addon" for="timeTo">
+                                    {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeTo')}
+                                </label>
+                            </f:else>
+                        </lux:condition.isTypo3Eleven>
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.source">Source</f:translate></h5>
+
+                    <div class="input-group form-group">
+                        <f:form.select
+                            property="utmSource"
+                            options="{utmSources}"
+                            optionLabelField="title"
+                            optionValueField="uid"
+                            prependOptionValue=""
+                            prependOptionLabel=""
+                            class="form-control form-select"
+                            id="utmSource"/>
+                        <lux:condition.isTypo3Eleven>
+                            <f:then>
+                                <label class="btn btn-default" for="utmSource">
+                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.source">Source</f:translate>
+                                </label>
+                            </f:then>
+                            <f:else>
+                                <label class="input-group-addon" for="utmSource">
+                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.source">Source</f:translate>
+                                </label>
+                            </f:else>
+                        </lux:condition.isTypo3Eleven>
+                    </div>
+
+                    <div class="input-group form-group">
+                        <f:form.select
+                            property="utmMedium"
+                            options="{utmMedia}"
+                            optionLabelField="title"
+                            optionValueField="uid"
+                            prependOptionValue=""
+                            prependOptionLabel=""
+                            class="form-control form-select"
+                            id="utmMedium"/>
+                        <lux:condition.isTypo3Eleven>
+                            <f:then>
+                                <label class="btn btn-default" for="utmMedium">
+                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.medium">Medium</f:translate>
+                                </label>
+                            </f:then>
+                            <f:else>
+                                <label class="input-group-addon" for="utmMedium">
+                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.medium">Medium</f:translate>
+                                </label>
+                            </f:else>
+                        </lux:condition.isTypo3Eleven>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12" style="display: flex; justify-content: right;">
+                    <f:comment>This submit is not visible. Nevertheless it will be triggered when pressing return in an input field because it is the first submit.</f:comment>
+                    <f:form.submit
+                        class="btn btn-primary"
+                        value="Submit"
+                        style="visibility:hidden;width:1px;padding:0;margin:0;"/>
+
+                    <f:comment>Clear filter</f:comment>
+                    <f:if condition="{filter.set}">
+                        <f:link.action class="btn btn-default" style="margin-right: 10px" action="resetFilter" arguments="{redirectAction:view.action}">
+                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.reset">Reset</f:translate>
+                        </f:link.action>
+                    </f:if>
+
+                    <f:comment>CSV download</f:comment>
+                    <f:form.submit class="fa fa-download" name="export" id="download" value="csv" style="visibility:hidden;width:1px;padding:0;margin:0;"/>
+                    <lux:condition.isTypo3Eleven>
+                        <f:then>
+                            <label class="btn btn-default" for="download" style="margin-right: 10px;">
+                                <span class="fa fa-download" title="CSV Download"></span>
+                            </label>
+                        </f:then>
+                        <f:else>
+                            <label class="btn btn-default fa fa-download" for="download" style="margin-right: 10px;" title="CSV Download"></label>
+                        </f:else>
+                    </lux:condition.isTypo3Eleven>
+
+                    <f:comment>Submit filter</f:comment>
+                    <f:form.submit
+                        class="btn btn-primary"
+                        value="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.submit')}" />
+                </div>
+            </div>
+        </f:form>
+    </div>
+</div>

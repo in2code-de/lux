@@ -153,6 +153,10 @@ services:
         method: 'logDownload'
         event: In2code\Lux\Events\Log\DownloadEvent
       - name: 'event.listener'
+        identifier: 'lux/logUtm'
+        method: 'logUtm'
+        event: In2code\Lux\Events\Log\UtmEvent
+      - name: 'event.listener'
         identifier: 'lux/logSearch'
         method: 'logSearch'
         event: In2code\Lux\Events\Log\SearchEvent
@@ -179,3 +183,15 @@ services:
       - name: 'event.listener'
         identifier: 'lux/stopTracking'
         event: In2code\Lux\Events\StopAnyProcessBeforePersistenceEvent
+
+  In2code\Lux\Domain\Tracker\UtmTracker:
+    public: true
+    tags:
+      - name: 'event.listener'
+        identifier: 'lux/utmPageTracker'
+        method: 'trackPage'
+        event: In2code\Lux\Events\PageTrackerEvent
+      - name: 'event.listener'
+        identifier: 'lux/utmNewsTracker'
+        method: 'trackNews'
+        event: In2code\Lux\Events\NewsTrackerEvent

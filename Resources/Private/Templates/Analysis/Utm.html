@@ -1,0 +1,26 @@
+<f:layout name="Backend" />
+
+<f:section name="content">
+    <div class="row">
+        <div class="col-md-8">
+
+            <f:render partial="Filter/{view.controller}/{view.actionUpper}" arguments="{_all}" />
+
+            <div class="row">
+                <div class="col-md-12">
+                    <f:variable name="headerPostfix" value="{f:if(condition:filter.set,then:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.headerpostfixfiltered\')}',else:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.headerpostfix\')}')}" />
+                    <f:render partial="Box/Analysis/Utm" arguments="{_all}"/>
+
+                    <f:render partial="Box/Analysis/UtmList" arguments="{_all}"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div data-lux-container="detail">
+                <f:render partial="Box/Analysis/UtmCampaign" arguments="{_all}"/>
+                <f:render partial="Box/Analysis/UtmSource" arguments="{_all}"/>
+                <f:render partial="Box/Analysis/UtmMedium" arguments="{_all}"/>
+            </div>
+        </div>
+    </div>
+</f:section>
