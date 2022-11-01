@@ -21,6 +21,7 @@ return [
         ],
         'iconfile' => 'EXT:lux/Resources/Public/Icons/' . Utm::TABLE_NAME . '.svg',
         'rootLevel' => -1,
+        'hideTable' => true,
     ],
     'types' => [
         '1' => [

@@ -17,6 +17,7 @@ return [
         'delete' => 'deleted',
         'iconfile' => 'EXT:lux/Resources/Public/Icons/' . Search::TABLE_NAME . '.svg',
         'rootLevel' => -1,
+        'hideTable' => true,
     ],
     'types' => [
         '1' => ['showitem' => 'crdate,searchterm,visitor'],

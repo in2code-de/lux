@@ -20,6 +20,7 @@ return [
         'enablecolumns' => [],
         'iconfile' => 'EXT:lux/Resources/Public/Icons/' . Categoryscoring::TABLE_NAME . '.svg',
         'rootLevel' => -1,
+        'hideTable' => true,
     ],
     'types' => [
         '1' => ['showitem' => 'scoring,category,visitor'],
