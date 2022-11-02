@@ -2075,6 +2075,10 @@
 				<source>Campaign</source>
 				<target state="translated">Kampagne</target>
 			</trans-unit>
+			<trans-unit id="dictionary.campaigns">
+				<source>Campaigns</source>
+				<target state="translated">Kampagnen</target>
+			</trans-unit>
 			<trans-unit id="dictionary.id">
 				<source>Campaign ID</source>
 				<target state="translated">Kampagnenkürzel</target>

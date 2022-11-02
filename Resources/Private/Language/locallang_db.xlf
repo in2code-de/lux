@@ -1570,6 +1570,9 @@
 			<trans-unit id="dictionary.campaign">
 				<source>Campaign</source>
 			</trans-unit>
+			<trans-unit id="dictionary.campaigns">
+				<source>Campaigns</source>
+			</trans-unit>
 			<trans-unit id="dictionary.id">
 				<source>Campaign ID</source>
 			</trans-unit>
