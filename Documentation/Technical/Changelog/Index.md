@@ -17,6 +17,7 @@
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 26.1.0     | 2022-11-03 | Feature    | Hide nearly all LUX tables in list view, preparations for UTM generator view in LUXenterprise                                                                                              |
 | 26.0.0     | 2022-10-31 | Feature    | Adding of Urchin Tracking Modules (UTM parameters) tracking and analysis                                                                                                                   |
 | 25.3.0     | 2022-10-20 | Feature    | Prevent email4link links to be downloaded with rightclick or middle mouse key                                                                                                              |
 | 25.2.0     | 2022-10-19 | Task       | Extend page and news tracker events with direct models for a better extending                                                                                                              |

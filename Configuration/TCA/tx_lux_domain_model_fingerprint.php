@@ -21,6 +21,7 @@ return [
         ],
         'iconfile' => 'EXT:lux/Resources/Public/Icons/' . Fingerprint::TABLE_NAME . '.svg',
         'rootLevel' => -1,
+        'hideTable' => true,
     ],
     'types' => [
         '1' => ['showitem' => 'value,domain,user_agent,type'],

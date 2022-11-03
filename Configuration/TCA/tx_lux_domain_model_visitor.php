@@ -33,6 +33,7 @@ return [
         'iconfile' => 'EXT:lux/Resources/Public/Icons/' . Visitor::TABLE_NAME . '.svg',
         'searchFields' => 'email,id_cookie',
         'rootLevel' => -1,
+        'hideTable' => true,
     ],
     'types' => [
         '1' => [

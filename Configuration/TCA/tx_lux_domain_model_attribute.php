@@ -22,6 +22,7 @@ return [
         ],
         'iconfile' => 'EXT:lux/Resources/Public/Icons/' . Attribute::TABLE_NAME . '.svg',
         'rootLevel' => -1,
+        'hideTable' => true,
     ],
     'types' => [
         '1' => ['showitem' => 'crdate,name,value'],

@@ -19,6 +19,7 @@ return [
         'delete' => 'deleted',
         'iconfile' => 'EXT:lux/Resources/Public/Icons/' . Download::TABLE_NAME . '.svg',
         'rootLevel' => -1,
+        'hideTable' => true,
     ],
     'types' => [
         '1' => ['showitem' => 'crdate,href,page,file,properties,domain,visitor'],

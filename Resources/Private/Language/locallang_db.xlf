@@ -370,6 +370,40 @@
 				<source>Lead</source>
 			</trans-unit>
 
+			<trans-unit id="tx_lux_domain_model_utm">
+				<source>UTM Parameters</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_utm.pagevisit">
+				<source>Page visits</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_utm.newsvisit">
+				<source>News visits</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_utm.crdate">
+				<source>Creation date</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_utm.tstamp">
+				<source>Change date</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_utm.utm_source">
+				<source>Source</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_utm.utm_medium">
+				<source>Medium</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_utm.utm_campaign">
+				<source>Campaign</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_utm.utm_id">
+				<source>Campaign Identifier</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_utm.utm_term">
+				<source>Term</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_utm.utm_content">
+				<source>Content</source>
+			</trans-unit>
+
 			<trans-unit id="sys_category.lux_category">
 				<source>Is LUX category?</source>
 			</trans-unit>
@@ -1535,6 +1569,9 @@
 			</trans-unit>
 			<trans-unit id="dictionary.campaign">
 				<source>Campaign</source>
+			</trans-unit>
+			<trans-unit id="dictionary.campaigns">
+				<source>Campaigns</source>
 			</trans-unit>
 			<trans-unit id="dictionary.id">
 				<source>Campaign ID</source>

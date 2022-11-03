@@ -22,6 +22,7 @@ return [
         ],
         'iconfile' => 'EXT:lux/Resources/Public/Icons/' . Ipinformation::TABLE_NAME . '.svg',
         'rootLevel' => -1,
+        'hideTable' => true,
     ],
     'types' => [
         '1' => ['showitem' => 'name,value,visitor'],
