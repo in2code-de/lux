@@ -9,6 +9,11 @@ import Fingerprint2 from '@fingerprintjs/fingerprintjs';
 export default function LuxIdentification() {
   'use strict';
 
+  const localStorageNameTracking = 'luxTracking';
+  const localStorageNameDisableEmail4Link = 'luxDisableEmail4Link';
+  const localStorageNameLuxId = 'luxId';
+  const coookieNameDebug = 'ENABLELUXDEBUG';
+
   /**
    * Fingerprint (32 characters) or Local Storage Id (33 characters)
    *
@@ -42,63 +47,49 @@ export default function LuxIdentification() {
    * @returns {void}
    */
   this.setDisableForLinkStorageEntry = function () {
-    addLocalStorageEntry('luxDisableEmail4Link', true);
+    addLocalStorageEntry(localStorageNameDisableEmail4Link, true);
   };
 
   /**
    * @returns {Boolean}
    */
   this.isDisableForLinkStorageEntrySet = function () {
-    return getLocalStorageEntryByName('luxDisableEmail4Link') === 'true'
+    return getLocalStorageEntryByName(localStorageNameDisableEmail4Link) === 'true'
   };
 
   /**
    * @returns {void}
    */
   this.setTrackingOptOutStatus = function () {
-    addLocalStorageEntry('luxTrackingOptOut', true);
-  };
-
-  /**
-   * @returns {void}
-   */
-  this.removeTrackingOptOutStatus = function () {
-    addLocalStorageEntry('luxTrackingOptOut', false);
-  };
-
-  /**
-   * @returns {Boolean} return true if trackingOptOut is set
-   */
-  this.isOptOutStatusSet = function () {
-    return getLocalStorageEntryByName('luxTrackingOptOut') === 'true';
+    addLocalStorageEntry(localStorageNameTracking, false);
   };
 
   /**
    * @returns {void}
    */
   this.setTrackingOptInStatus = function () {
-    addLocalStorageEntry('luxTrackingOptIn', true);
+    addLocalStorageEntry(localStorageNameTracking, true);
   };
 
   /**
-   * @returns {void}
+   * @returns {Boolean} return true if trackingOptOut is set
    */
-  this.removeTrackingOptInStatus = function () {
-    addLocalStorageEntry('luxTrackingOptIn', false);
+  this.isOptOutStatusSet = function () {
+    return getLocalStorageEntryByName(localStorageNameTracking) === 'false';
   };
 
   /**
    * @returns {Boolean} return true if trackingOptIn is set
    */
   this.isOptInStatusSet = function () {
-    return getLocalStorageEntryByName('luxTrackingOptIn') === 'true';
+    return getLocalStorageEntryByName(localStorageNameTracking) === 'true';
   };
 
   /**
    * @returns {Boolean} return true if trackingOptIn is set
    */
   this.isDebugCookieSet = function () {
-    return getCookieByName('ENABLELUXDEBUG') !== '';
+    return getCookieByName(coookieNameDebug) !== '';
   };
 
   /**
@@ -134,10 +125,10 @@ export default function LuxIdentification() {
    * @returns {void}
    */
   var setLocalStorageIdentificator = function () {
-    var identificator = getLocalStorageEntryByName('luxId');
+    var identificator = getLocalStorageEntryByName(localStorageNameLuxId);
     if (identificator === null) {
       identificator = getRandomString(33);
-      addLocalStorageEntry('luxId', identificator);
+      addLocalStorageEntry(localStorageNameLuxId, identificator);
     }
     that.identificator = identificator;
   }
@@ -286,6 +277,6 @@ export default function LuxIdentification() {
    * @returns {boolean}
    */
   var isDebugMode = function () {
-    return that.isDebugCookieSet() || document.body.innerHTML.search('ENABLELUXDEBUG') !== -1;
+    return that.isDebugCookieSet() || document.body.innerHTML.search(coookieNameDebug) !== -1;
   }
 }

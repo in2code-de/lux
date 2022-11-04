@@ -19,3 +19,4 @@ What can be done with luxenterprise? Look into our blog for some inspiration
 * [Workflows](Workflows.md)
 * [A/B testing](AbTesting.md)
 * [URL shortener](UrlShortener.md)
+* [UTM generator](UtmGenerator.md)

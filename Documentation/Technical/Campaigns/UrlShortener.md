@@ -9,7 +9,7 @@ of short URL usage per lead.
 
 ##### List view
 
-If you open the backend module workflows you can switch to "URL shortener" by clicking the button on the top.
+If you open the backend module campaigns you can switch to "URL shortener" by clicking the button on the top.
 A list view is shown.
 
 <img src="../../../Documentation/Images/screenshot_urlshortener_list.png" width="800" />
