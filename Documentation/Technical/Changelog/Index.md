@@ -6,6 +6,7 @@
 
 | Version                        | Situation                                                    | Upgrade instructions                                                                                                                                                                      |
 | ------------------------------ | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| From former versions to 26.2.0 | Name of localStorage settings changed                        | Nothing to code, but maybe you have to adjust your privacy note: Local storage settings `luxTrackingOptOut` + `luxTrackingOptIn` were removed. A new name is given `luxTracking`          |
 | From former versions to 23.0.0 | Signals are migrated to PSR-14 events                        | If you have extended LUX via slots (based in signals), you have to migrate your slots to eventlisteners - see [Events documentation](../Events/Index.md) for details                      |
 | From former versions to 21.0.0 | Small change: Marker names in email4link template changed    | If you have overwritten the Email4Link template file, take care to use the "EMAIL4LINK_" prefix now for the 3 variables/markers (###TITLE### => ###EMAIL4LINK_TITLE###)                   |
 | From former versions to 17.1.0 | Small change: Disable IP-API.com via Typoscript now          | If you turned off connection to IP-API.com via extension manager settings, you have to do this now via TypoScript - see [documentation](../../../Documentation/Privacy/IpAddresses.md)    |
@@ -17,6 +18,7 @@
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 26.2.0 !!! | 2022-11-04 | Task       | Very small breaking change: Name of lcoal storage keys changed a bit (see breaking changes note). Bugfix: No more duplicated eventhandlers on email4link links                             |
 | 26.1.0     | 2022-11-03 | Feature    | Hide nearly all LUX tables in list view, preparations for UTM generator view in LUXenterprise                                                                                              |
 | 26.0.0     | 2022-10-31 | Feature    | Adding of Urchin Tracking Modules (UTM parameters) tracking and analysis                                                                                                                   |
 | 25.3.0     | 2022-10-20 | Feature    | Prevent email4link links to be downloaded with rightclick or middle mouse key                                                                                                              |
