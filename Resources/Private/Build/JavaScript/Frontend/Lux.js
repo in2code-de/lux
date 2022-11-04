@@ -15,12 +15,18 @@ function LuxMain() {
   var that = this;
 
   /**
-   * Status if tracking is already initialized. That allows to call initialize() or optIn() more then once without
-   * problems.
+   * That allows to call to prevent (e.g.) more then one eventlistener on email4link links
    *
    * @type {boolean}
    */
-  var initialized = false;
+  var isInitialized = false;
+
+  /**
+   * Status if tracking is already initialized to prevent duplicated tracking initialization
+   *
+   * @type {boolean}
+   */
+  var isTrackingInitialized = false;
 
   /**
    * @type {null}
@@ -41,7 +47,7 @@ function LuxMain() {
    * @returns {void}
    */
   this.initialize = function() {
-    if (initialized === false) {
+    if (isInitialized === false) {
       identification = new LuxIdentification();
       checkFunctions();
 
@@ -55,6 +61,7 @@ function LuxMain() {
       }
       addEmail4LinkListeners();
       doNotTrackListener();
+      isInitialized = true;
     }
   };
 
@@ -336,10 +343,10 @@ function LuxMain() {
    * @returns {void}
    */
   var initializeTracking = function() {
-    if (initialized === false) {
+    if (isTrackingInitialized === false) {
       identification.setIdentificator(getIdentificationType());
       track();
-      initialized = true;
+      isTrackingInitialized = true;
     }
   };
 
