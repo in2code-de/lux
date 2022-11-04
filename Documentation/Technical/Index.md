@@ -26,8 +26,7 @@ recognize the visitor in future visits. This hash will be used for tracking and 
 
 There are some functional settings - saved to localstorage in browser which are:
 * `luxDisableEmail4Link` to disable email4link popups if a visitor is already identified
-* `luxTrackingOptOut` for a tracking opt out
-* `luxTrackingOptIn` for a tracking opt in (if lux should not track visitors by default - can be switch on via constants)
+* `luxTracking` for a tracking opt out or opt in
 
 See more information in the chapters:
 

@@ -95,7 +95,7 @@ the RTE. You can simply disable the configuration from LUX via Extension Manager
 * Did you clean all caches after installation (in Install Tool)?
 * Please use a second browser (where you are not logged in into backend) for your tests (or enable tracking for BE-users via TypoScript)
 * Please check if your browser does not use the *doNotTrack* settings (FireFox anonymous tab automaticly turns this function on)
-* Please check if there is no cookie value *true* for cookie *luxTrackingOptOut* in your browser
+* Please check if there is no local storage value *false* for entry *luxTracking* in your browser
 
 
 ## How to add own workflow triggers?
