@@ -9,8 +9,7 @@ import Fingerprint2 from '@fingerprintjs/fingerprintjs';
 export default function LuxIdentification() {
   'use strict';
 
-  const localStorageNameTrackingOptOut = 'luxTrackingOptOut';
-  const localStorageNameTrackingOptIn = 'luxTrackingOptIn';
+  const localStorageNameTracking = 'luxTracking';
   const localStorageNameDisableEmail4Link = 'luxDisableEmail4Link';
   const localStorageNameLuxId = 'luxId';
   const coookieNameDebug = 'ENABLELUXDEBUG';
@@ -62,42 +61,28 @@ export default function LuxIdentification() {
    * @returns {void}
    */
   this.setTrackingOptOutStatus = function () {
-    addLocalStorageEntry(localStorageNameTrackingOptOut, true);
-  };
-
-  /**
-   * @returns {void}
-   */
-  this.removeTrackingOptOutStatus = function () {
-    addLocalStorageEntry(localStorageNameTrackingOptOut, false);
-  };
-
-  /**
-   * @returns {Boolean} return true if trackingOptOut is set
-   */
-  this.isOptOutStatusSet = function () {
-    return getLocalStorageEntryByName(localStorageNameTrackingOptOut) === 'true';
+    addLocalStorageEntry(localStorageNameTracking, false);
   };
 
   /**
    * @returns {void}
    */
   this.setTrackingOptInStatus = function () {
-    addLocalStorageEntry(localStorageNameTrackingOptIn, true);
+    addLocalStorageEntry(localStorageNameTracking, true);
   };
 
   /**
-   * @returns {void}
+   * @returns {Boolean} return true if trackingOptOut is set
    */
-  this.removeTrackingOptInStatus = function () {
-    addLocalStorageEntry(localStorageNameTrackingOptIn, false);
+  this.isOptOutStatusSet = function () {
+    return getLocalStorageEntryByName(localStorageNameTracking) === 'false';
   };
 
   /**
    * @returns {Boolean} return true if trackingOptIn is set
    */
   this.isOptInStatusSet = function () {
-    return getLocalStorageEntryByName(localStorageNameTrackingOptIn) === 'true';
+    return getLocalStorageEntryByName(localStorageNameTracking) === 'true';
   };
 
   /**

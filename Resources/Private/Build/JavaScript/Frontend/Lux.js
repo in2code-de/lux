@@ -77,24 +77,6 @@ function LuxMain() {
   };
 
   /**
-   * Store if someone opts out (don't track any more)
-   *
-   * @returns {void}
-   */
-  this.optOut = function() {
-    identification.setTrackingOptOutStatus();
-  };
-
-  /**
-   * Remove opt out status (someone can be tracked again)
-   *
-   * @returns {void}
-   */
-  this.optOutDisabled = function() {
-    identification.removeTrackingOptOutStatus();
-  };
-
-  /**
    * OptIn (probably relevant if autoenable is disabled)
    *
    * @returns {void}
@@ -105,12 +87,22 @@ function LuxMain() {
   };
 
   /**
-   * OptIn remove (probably relevant if autoenable is disabled)
+   * Store if someone opts out (don't track any more)
    *
    * @returns {void}
    */
-  this.optInDisabled = function() {
-    identification.removeTrackingOptInStatus();
+  this.optOut = function() {
+    identification.setTrackingOptOutStatus();
+  };
+
+  /**
+   * Reloads page after opting out to ensure that there are no more JS events binded to any elements
+   *
+   * @returns {void}
+   */
+  this.optOutAndReload = function() {
+    this.optOut();
+    location.reload();
   };
 
   /**
@@ -388,7 +380,7 @@ function LuxMain() {
       element.addEventListener('change', function() {
         if (identification.isOptOutStatusSet()) {
           console.log('Lux: Disable Opt Out');
-          that.optOutDisabled();
+          that.optIn();
         } else {
           console.log('Lux: Opt Out');
           that.optOut();
@@ -414,7 +406,7 @@ function LuxMain() {
           that.optIn();
         } else {
           console.log('Lux: Opt Out selected');
-          that.optInDisabled();
+          that.optOut();
         }
       });
     }
