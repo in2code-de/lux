@@ -2103,6 +2103,10 @@
 				<source>Time</source>
 				<target state="translated">Zeitpunkt</target>
 			</trans-unit>
+			<trans-unit id="dictionary.and">
+				<source>and</source>
+				<target state="translated">und</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
