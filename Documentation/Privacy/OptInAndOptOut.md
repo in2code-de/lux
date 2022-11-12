@@ -2,25 +2,26 @@
 
 ## Tracking Opt-Out and Opt-In
 
-### Opt-Out Plugin
+### Opt-In or Opt-Out functionality
 
-As known from Matomo (former known as Piwik) also LUX offers a Plugin fo an Opt-Out possibility for visitors.
+First of all you have to decide, if LUX should track by default (no extra Opt-In needed, but an Opt-Out for disabled
+tracking) or if your website visitor should allow the tracking (normally done in a cookie banner popup - so
+with Opt-In functionality).
 
-<img src="../Images/documentation_plugin_optout_frontend1.png" width="800" />
-
-### Opt-In Functionality
-
-If you want to not automaticly track your visitors without their acceptence, you can use the opt-in functionality
+Per default LUX tracks visitors without their explicit agreement and they have to Opt-Out if they don't want to be
+tracked any more (see some examples below how to Opt-Out).
+If you want to not automaticly track your visitors without their agreement, you can use the opt-in functionality
 of LUX.
 
-First of all, you have to disable the autoenable function via TypoScript constants:
+In th first step, you have to disable the `autoenable` function via **TypoScript constants**:
 
 ```
 plugin.tx_lux.settings.autoenable = 0
 ```
 
-Now, LUX will not track visits per default. As next step, you should place a HTML-element
-anywhere on the page with data-lux-trackingoptin="true". A click on this element will allow the tracking.
+Now, LUX will not track visits per default (you can double check if `data-lux-autoenable="0"` is set in your HTML
+source). In the next step, you can place an HTML-element anywhere on the page with `data-lux-trackingoptin="true"`.
+A manual click on this element will allow the tracking (a local storage record `luxTracking=true` is set in the browser).
 
 ```
 <span data-lux-trackingoptin="true">Opt-In for LUX analyses</span>
@@ -32,21 +33,34 @@ This can also be disabled again with an element like:
 <span data-lux-trackingoptin="false">Opt-Out for LUX analyses</span>
 ```
 
-How to work with this possibilities? You can add a cookie banner or a cookie lightbox over your website where you can
-ask your visitor, if it's ok to set a cookie for e.g. usability reasons. Place the data-attribute on the ok-button and
-close the banner.
+As an alternative, you can directly access JavaScript functions to Opt-In or Opt-Out. This is helpful if you work with
+a cookie banner or a cookie lightbox like Usercentrics or a similar solution.
 
-You could also call the JavaScript function directly for Opt-In or Opt-Out (if JS is already added from
-EXT:lux/Resources/Public/JavaScript/Lux/Lux.min.js before):
+If you add the default JS before, what is normally automatically done via TypoScript setup in LUX
+(file EXT:lux/Resources/Public/JavaScript/Lux/Lux.min.js and
+if you have also installed LUXenterprise file EXT:luxenterprise/Resources/Public/JavaScript/Lux/LuxEnterprise.min.js),
+you can use this JavaScript:
 
 ```
+# Opt-In
 var Lux = LuxSingleton.getInstance();
-Lux.initialize();
 Lux.optIn();
 
-# or
+# Opt-Out
+var Lux = LuxSingleton.getInstance();
 Lux.optOut();
+
+# Opt-Out and reload for a stop of all tracking mechanism at once
+var Lux = LuxSingleton.getInstance();
+Lux.optOutAndReload();
 ```
+
+### Opt-Out Plugin
+
+As known from Matomo (former known as Piwik) also LUX offers a Plugin for an Opt-Out possibility for visitors. You
+can use it as a regulare editor.
+
+<img src="../Images/documentation_plugin_optout_frontend1.png" width="800" />
 
 ### DoNotTrack Header
 

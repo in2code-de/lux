@@ -1591,6 +1591,9 @@
 			<trans-unit id="dictionary.time">
 				<source>Time</source>
 			</trans-unit>
+			<trans-unit id="dictionary.and">
+				<source>and</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
