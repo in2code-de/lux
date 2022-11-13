@@ -48,6 +48,8 @@ Possible triggers by default are:
 * Lead action: On entering a page
 * Lead action: On reading a news
 * Lead action: When lead enters a page of a given category
+* Lead source: Check for a given referrer
+* Lead source: Check for a given UTM parameter
 * Miscellaneous: On a defined time
 * Miscellaneous: Limit to a start action (page visit, download, form submit, etc...)
 * Miscellaneous: TYPO3 context
@@ -259,6 +261,55 @@ lib.lux.settings {
                 # Additional configuration
                 configuration {
                   # Any configuration - available as array in Template File and Trigger class for some own magic
+                }
+            }
+
+
+            # Check for a given referrer
+            600 {
+                # Title to show in workflow backend module
+                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.referrer
+
+                # Classname for implementation of the trigger itself
+                className = In2code\Luxenterprise\Domain\Trigger\ReferrerTrigger
+
+                # Templatefile for implementation of the form in workflow module
+                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Referrer.html
+
+                # Additional configuration
+                configuration {
+                    fields {
+                        # Show "is external" checkbox
+                        external = 1
+
+                        # Show "Referrer contains" field
+                        contains = 1
+                    }
+                }
+            }
+
+            # Check for a given UTM parameter
+            610 {
+                # Title to show in workflow backend module
+                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.utmparameter
+
+                # Classname for implementation of the trigger itself
+                className = In2code\Luxenterprise\Domain\Trigger\UtmParameterTrigger
+
+                # Templatefile for implementation of the form in workflow module
+                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/UtmParameter.html
+
+                # Additional configuration
+                configuration {
+                    parameters {
+                        # Available parameters
+                        0 = utm_campaign
+                        1 = utm_id
+                        2 = utm_source
+                        3 = utm_medium
+                        4 = utm_term
+                        5 = utm_content
+                    }
                 }
             }
 
