@@ -18,6 +18,7 @@
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 26.3.1     | 2022-11-19 | Bugfix     | Ensure backward compatibility for older LUXenterprise versions (where workflow actions didn't have delay function name)                                                                    |
 | 26.3.0     | 2022-11-19 | Task       | Preparation for new delay functions in content manipulation workflow actions, documentation update                                                                                         |
 | 26.2.1     | 2022-11-12 | Task       | Documentation update, label improvement in UTM filter                                                                                                                                      |
 | 26.2.0 !!! | 2022-11-04 | Task       | Very small breaking change: Name of lcoal storage keys changed a bit (see breaking changes note). Bugfix: No more duplicated eventhandlers on email4link links                             |
