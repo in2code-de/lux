@@ -151,6 +151,10 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
   * Lead action: On entering a page
   * Lead action: On reading a news
   * Lead action: When lead enters a page of a given category
+  * Lead action: When lead enters a page in a given language
+  * Lead action: When lead enters a page of a given site
+  * Lead source: Check for a given referrer
+  * Lead source: Check for a given UTM parameter
   * Miscellaneous: On a defined time
   * Miscellaneous: Limit to a start action (page visit, download, form submit, etc...)
   * Miscellaneous: TYPO3 context
@@ -159,9 +163,10 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
   * Content manipulation: Load a content element and show it on the current page
   * Content manipulation: Hide or show an element of the current page
   * Content manipulation: Redirect visitor to another page
+  * Content manipulation: Change page title
   * Notification: Sends an email
   * Notification: Publish a message to a slack channel
-  * Notification: Send a SMS to a mobile number
+  * Notification: Send an SMS to a mobile number
   * Notification: Show a push message
   * Lead management: Sets a value for a visitor
   * Lead management: Sets a value after a double opt in confirmation for a visitor
@@ -169,7 +174,7 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
   * Data handling: Save values to any table in database
   * Data handling: Send lead information to any interface (e.g. a CRM)
 
-### CommandControllers & Scheduler
+### Commands & Scheduler Tasks
 
 * Anonymize leads (for presentations or local development)
 * Cleanup commands (to really erase data from database)

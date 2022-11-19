@@ -18,6 +18,7 @@
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 26.3.0     | 2022-11-19 | Task       | Preparation for new delay functions in content manipulation workflow actions, documentation update                                                                                         |
 | 26.2.1     | 2022-11-12 | Task       | Documentation update, label improvement in UTM filter                                                                                                                                      |
 | 26.2.0 !!! | 2022-11-04 | Task       | Very small breaking change: Name of lcoal storage keys changed a bit (see breaking changes note). Bugfix: No more duplicated eventhandlers on email4link links                             |
 | 26.1.0     | 2022-11-03 | Feature    | Hide nearly all LUX tables in list view, preparations for UTM generator view in LUXenterprise                                                                                              |

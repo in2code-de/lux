@@ -124,7 +124,8 @@ function LuxMain() {
   };
 
   /**
-   * Callback for workflow action "LightboxContent" (part of the Enterprise Edition)
+   * Callback for generalWorkflowActionCallback()
+   * "LightboxContent" (part of the Enterprise Edition)
    *
    * @param response
    */
@@ -140,10 +141,17 @@ function LuxMain() {
     var html = '<button class="basicLightbox__close" data-lux-action-lightbox="close">close</button>';
     html += '<iframe src="' + uri + parseInt(contentElementUid) + '" width="1000" height="800"></iframe>';
     that.lightboxInstance = basicLightbox.create(html);
-    setTimeout(function() {
-      that.lightboxInstance.show();
-      lightboxCloseListener();
-    }, parseInt(response['configuration']['delay']));
+    delayFunctionDispatcher(response['configuration']['delay'], 'lightboxOpen', response);
+  };
+
+  /**
+   * Callback for lightboxContentWorkflowAction() (after a delay function (e.g. pageLoadDelayFunction())
+   *
+   * @returns {void}
+   */
+  this.lightboxOpenAfterDelay = function() {
+    that.lightboxInstance.show();
+    lightboxCloseListener();
   };
 
   /**
@@ -159,18 +167,29 @@ function LuxMain() {
   };
 
   /**
-   * Callback for workflow action "Redirect" (part of the Enterprise Edition)
+   * Callback for generalWorkflowActionCallback()
+   * "Redirect" (part of the Enterprise Edition)
    *
    * @param response
    */
   this.redirectWorkflowAction = function(response) {
+    delayFunctionDispatcher(response['configuration']['delay'], 'redirect', response);
+  };
+
+  /**
+   * Callback for redirectWorkflowAction() (after a delay function (e.g. pageLoadDelayFunction())
+   *
+   * @param response
+   */
+  this.redirectAfterDelay = function(response) {
     if (response['configuration']['uri']) {
       window.location = response['configuration']['uri'];
     }
   };
 
   /**
-   * Callback for workflow action "AjaxContent" (part of the Enterprise Edition)
+   * Callback for generalWorkflowActionCallback()
+   * "AjaxContent" (part of the Enterprise Edition)
    *
    * @param response
    */
@@ -182,7 +201,11 @@ function LuxMain() {
       if (this.readyState === 4 && this.status === 200) {
         var domSelection = document.querySelector(response['configuration']['domselection']);
         if (domSelection !== null) {
-          domSelection.innerHTML = this.responseText;
+          delayFunctionDispatcher(
+            response['configuration']['delay'],
+            'showAjaxContent',
+            {domSelection: domSelection, responseText: this.responseText}
+          );
         } else {
           console.log('Element ' + response['configuration']['domselection'] + ' could not be found in HTML');
         }
@@ -197,11 +220,33 @@ function LuxMain() {
   };
 
   /**
-   * Callback for workflow action "Showorhide" (part of the Enterprise Edition)
+   * Callback for ajaxContentWorkflowAction() (after a delay function (e.g. pageLoadDelayFunction())
+   *
+   * @param actionArguments
+   * @returns {void}
+   */
+  this.showAjaxContentAfterDelay = function(actionArguments) {
+    let domSelection = actionArguments['domSelection'];
+    let responseText = actionArguments['responseText'];
+    domSelection.innerHTML = responseText;
+  };
+
+  /**
+   * Callback for generalWorkflowActionCallback()
+   * "Showorhide" (part of the Enterprise Edition)
    *
    * @param response
    */
   this.showorhideWorkflowAction = function(response) {
+    delayFunctionDispatcher(response['configuration']['delay'], 'showorhide', response);
+  };
+
+  /**
+   * Callback for showorhideWorkflowAction() (after a delay function (e.g. pageLoadDelayFunction())
+   *
+   * @param response
+   */
+  this.showorhideAfterDelay = function(response) {
     var domSelection = document.querySelector(response['configuration']['domselection']);
     if (domSelection !== null) {
       if (response['configuration']['showorhide'] === 'hide') {
@@ -215,18 +260,19 @@ function LuxMain() {
   };
 
   /**
-   * Callback for workflow action "push" (part of the Enterprise Edition)
+   * Callback for generalWorkflowActionCallback()
+   * "push" (part of the Enterprise Edition)
    *
    * @param response
    */
   this.pushWorkflowAction = function(response) {
     if ('Notification' in window && response['configuration']['title'] && response['configuration']['message']) {
-      if (Notification.permission === "granted") {
-        pushMessage(response);
-      } else if (Notification.permission !== "denied") {
+      if (Notification.permission === 'granted') {
+        delayFunctionDispatcher(response['configuration']['delay'], 'pushMessage', response);
+      } else if (Notification.permission !== 'denied') {
         Notification.requestPermission().then(function (permission) {
-          if (permission === "granted") {
-            pushMessage(response);
+          if (permission === 'granted') {
+            delayFunctionDispatcher(response['configuration']['delay'], 'pushMessage', response);
           }
         });
       }
@@ -234,9 +280,11 @@ function LuxMain() {
   };
 
   /**
+   * Callback for pushWorkflowAction() (after a delay function (e.g. pageLoadDelayFunction())
+   *
    * @param response
    */
-  var pushMessage = function(response) {
+  this.pushMessageAfterDelay = function(response) {
     setTimeout(function() {
       var notification = new Notification(response['configuration']['title'], {
         icon: response['configuration']['icon'],
@@ -251,6 +299,26 @@ function LuxMain() {
   };
 
   /**
+   * Callback for generalWorkflowActionCallback()
+   * "title" (part of the Enterprise Edition)
+   *
+   * @param response
+   */
+  this.titleWorkflowAction = function(response) {
+    delayFunctionDispatcher(response['configuration']['delay'], 'title', response);
+  };
+
+  /**
+   * Callback for titleWorkflowAction() (after a delay function (e.g. pageLoadDelayFunction())
+   *
+   * @param response
+   */
+  this.titleAfterDelay = function(response) {
+    document.title = response['configuration']['title'];
+  };
+
+  /**
+   * Callback for generalWorkflowActionCallback()
    * Not a real workflowAction but more a finisher action to stop asking for email addresses on email4link clicks if
    * the visitor is already known (only with a cookie "luxDisableEmail4Link"
    *
@@ -261,6 +329,7 @@ function LuxMain() {
   };
 
   /**
+   * Callback for generalWorkflowActionCallback()
    * A/B Testing page visit AJAX response. Take the tx_luxenterprise_domain_model_abpagevisit.uid value and save it
    * into a data-attribute, so it can be used for conversion management later
    *
@@ -319,6 +388,148 @@ function LuxMain() {
           }, getRequestUri(), null, null);
         });
       }
+    }
+  };
+
+  /**
+   * Decide what kind of delay function should call the final workflow action
+   *
+   * Possible delays are (functionname + "DelayFunction"):
+   *  - "pageLoad"
+   *  - "scrollToBottom"
+   *  - "mouseLeave"
+   *  - "inactiveTab"
+   *
+   * Possible actions (called after delay) are (functionname + "AfterDelay"):
+   *  - "lightboxOpen"
+   *  - "redirect"
+   *  - "showAjaxContent"
+   *  - "showorhide"
+   *  - "pushMessage"
+   *
+   * @param {Array} delay Configuration of the delay
+   * @param {String} action Name of the workflow action that should be executed when the delay is over
+   * @param actionArguments Arguments to pass to action
+   */
+  var delayFunctionDispatcher = function(delay, action, actionArguments) {
+    try {
+      that[delay['function'] + 'DelayFunction'](delay['options'], action, actionArguments);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  /**
+   * Callback for delayFunctionDispatcher()
+   * to wait the given delay time and then execute
+   *
+   * @param {Array} option
+   * @param {String} action
+   * @param actionArguments Arguments to pass to action
+   */
+  this.pageLoadDelayFunction = function(option, action, actionArguments) {
+    setTimeout(function() {
+      try {
+        that[action + 'AfterDelay'](actionArguments);
+      } catch (error) {
+        console.log(error);
+      }
+    }, parseInt(option['time']));
+  };
+
+  /**
+   * Callback for delayFunctionDispatcher()
+   * to wait until the visitor scrolled to the 90% down of page
+   *
+   * @param {Array} option
+   * @param {String} action
+   * @param actionArguments Arguments to pass to action
+   */
+  this.scrollToBottomDelayFunction = function(option, action, actionArguments) {
+    let eventFired = false; // ensure that the event is only fired the first time when scrolling to the bottom
+    window.onscroll = function() {
+      const pageHeight = document.body.offsetHeight / 100 * 90; // 90 % of the page height
+      if (eventFired === false && (window.innerHeight + window.pageYOffset) >= pageHeight) {
+        eventFired = true;
+        setTimeout(function() {
+          try {
+            that[action + 'AfterDelay'](actionArguments);
+          } catch (error) {
+            console.log(error);
+          }
+        }, parseInt(option['time']));
+      }
+    };
+  };
+
+  /**
+   * Callback for delayFunctionDispatcher()
+   * to fire of the mouse pointer leaves the browser window
+   *
+   * @param {Array} option
+   * @param {String} action
+   * @param actionArguments Arguments to pass to action
+   */
+  this.mouseLeaveDelayFunction = function(option, action, actionArguments) {
+    let eventFired = false; // ensure that the event is only fired the first time when mouse leaves browser tab
+    window.addEventListener('mouseout', function(event) {
+      if (eventFired === false) {
+        if (event.pageY < 0 || event.pageY > window.innerHeight || event.pageX < 0 || event.pageX > window.innerWidth) {
+          eventFired = true;
+          setTimeout(function() {
+            try {
+              that[action + 'AfterDelay'](actionArguments);
+            } catch (error) {
+              console.log(error);
+            }
+          }, parseInt(option['time']));
+        }
+      }
+    }, false);
+  };
+
+  /**
+   * Callback for delayFunctionDispatcher()
+   * to wait until the visitor switches to another tab (so the current tab is inactive)
+   *
+   * @param {Array} option
+   * @param {String} action
+   * @param actionArguments Arguments to pass to action
+   */
+  this.inactiveTabDelayFunction = function(option, action, actionArguments) {
+    let eventFired = false; // ensure that the event is only fired the first time when mouse leaves browser tab
+    let hidden;
+    let visibilityChange;
+    if (typeof document.hidden !== 'undefined') { // Opera 12.10 and Firefox 18 and later support
+      hidden = 'hidden';
+      visibilityChange = 'visibilitychange';
+    } else if (typeof document.msHidden !== 'undefined') {
+      hidden = "msHidden";
+      visibilityChange = 'msvisibilitychange';
+    } else if (typeof document.webkitHidden !== 'undefined') {
+      hidden = 'webkitHidden';
+      visibilityChange = 'webkitvisibilitychange';
+    }
+
+    if (typeof document.addEventListener === 'undefined' || hidden === undefined) {
+      console.log('This function requires a modern browser such as Google Chrome or Firefox withPage Visibility API');
+    } else {
+      document.addEventListener(visibilityChange, function() {
+        if (eventFired === false) {
+          if (document[hidden]) {
+            setTimeout(function() {
+              try {
+                eventFired = true;
+                that[action + 'AfterDelay'](actionArguments);
+              } catch (error) {
+                console.log(error);
+              }
+            }, parseInt(option['time']));
+          } else {
+            // is active (again)
+          }
+        }
+      }, false);
     }
   };
 
