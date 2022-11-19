@@ -2,7 +2,7 @@
 
 #### UTM generator
 
-UTM stands for Urchin Tracking Modules and is helpful to messure the performance of your online campaigns. This can
+UTM stands for Urchin Tracking Modules and is helpful to measure the performance of your online campaigns. This can
 be done with "UTM" GET parameters that are added to a target URL.
 
 General used UTM parameters in marketing automation and analysis:
@@ -16,7 +16,9 @@ General used UTM parameters in marketing automation and analysis:
 | `utm_term`                                       | Optional: Searchterm (mostly used in ads)         | `productname`                                          |
 | `utm_content`                                    | Optional: Description of the ad                   | `add1`                                                 |
 
-LUX tracks all of those GET parameters automatically and can be analysed in Analyse backend module.
+**Note:** LUX tracks all of those GET parameters automatically and can be analysed in Analyse backend module. This
+means that you don't have to use the build in UTM generator or to add all possible options to your system.
+Tracking starts as soon as ANY UTM parameter is given to a page request.
 
 So, if you want to boost a landing page or a product page, you have to create a lot of URIs with those parameters. We
 want to make marketeers life easier by creating an URI UTM generator tool, that can be used to create URIs for your
