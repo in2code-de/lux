@@ -300,6 +300,25 @@ function LuxMain() {
 
   /**
    * Callback for generalWorkflowActionCallback()
+   * "title" (part of the Enterprise Edition)
+   *
+   * @param response
+   */
+  this.titleWorkflowAction = function(response) {
+    delayFunctionDispatcher(response['configuration']['delay'], 'title', response);
+  };
+
+  /**
+   * Callback for titleWorkflowAction() (after a delay function (e.g. pageLoadDelayFunction())
+   *
+   * @param response
+   */
+  this.titleAfterDelay = function(response) {
+    document.title = response['configuration']['title'];
+  };
+
+  /**
+   * Callback for generalWorkflowActionCallback()
    * Not a real workflowAction but more a finisher action to stop asking for email addresses on email4link clicks if
    * the visitor is already known (only with a cookie "luxDisableEmail4Link"
    *
