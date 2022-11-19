@@ -413,7 +413,7 @@ function LuxMain() {
    */
   var delayFunctionDispatcher = function(delay, action, actionArguments) {
     try {
-      that[delay['function'] + 'DelayFunction'](delay['options'], action, actionArguments);
+      that[(delay['function'] || 'pageLoad') + 'DelayFunction'](delay['options'], action, actionArguments);
     } catch (error) {
       console.log(error);
     }
