@@ -48,6 +48,8 @@ Possible triggers by default are:
 * Lead action: On entering a page
 * Lead action: On reading a news
 * Lead action: When lead enters a page of a given category
+* Lead action: When lead enters a page in a given language
+* Lead action: When lead enters a page of a given site
 * Lead source: Check for a given referrer
 * Lead source: Check for a given UTM parameter
 * Miscellaneous: On a defined time
@@ -78,9 +80,10 @@ Possible actions by default are:
 * Content manipulation: Load a content element and show it on the current page
 * Content manipulation: Hide or show an element of the current page
 * Content manipulation: Redirect visitor to another page
+* Content manipulation: Change page title
 * Notification: Sends an email
 * Notification: Publish a message to a slack channel
-* Notification: Send a SMS to a mobile number
+* Notification: Send an SMS to a mobile number
 * Notification: Show a push message
 * Lead management: Sets a value for a visitor
 * Lead management: Sets a value after a double opt in confirmation for a visitor
@@ -100,285 +103,335 @@ Triggers:
 ```
 lib.lux.settings {
 
-    # All workflow settings
-    workflow {
+  # All workflow settings
+  workflow {
 
-        ############################
-        # Define individual triggers
-        ############################
-        triggers {
+    ############################
+    # Define individual triggers
+    ############################
+    triggers {
 
-            # 100-399 LEAD PROPERTIES
-            # If lead gets identified
-            100 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.identified
+      # 100-399 LEAD PROPERTIES
+      # If lead gets identified
+      100 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.identified
 
-                # Classname for implementation of the trigger itself
-                className = In2code\Luxenterprise\Domain\Trigger\IdentifiedTrigger
+        # Classname for implementation of the trigger itself
+        className = In2code\Luxenterprise\Domain\Trigger\IdentifiedTrigger
 
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Identified.html
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Identified.html
 
-                # Additional configuration
-                configuration {
-                  # Any configuration - available as array in Template File and Trigger class for some own magic
-                }
-            }
-
-            # If lead reaches a scoring
-            110 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.scoring
-
-                # Classname for implementation of the trigger itself
-                className = In2code\Luxenterprise\Domain\Trigger\ScoringTrigger
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Scoring.html
-
-                # Additional configuration
-                configuration {
-                  # Any configuration - available as array in Template File and Trigger class for some own magic
-                }
-            }
-
-            # If lead reaches a categoryscoring
-            120 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.categoryscoring
-
-                # Classname for implementation of the trigger itself
-                className = In2code\Luxenterprise\Domain\Trigger\CategoryScoringTrigger
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/CategoryScoring.html
-
-                # Additional configuration
-                configuration {
-                  # Any configuration - available as array in Template File and Trigger class for some own magic
-                }
-            }
-
-            # If company of a lead is known (e.g. from IP-Information)
-            130 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.company
-
-                # Classname for implementation of the trigger itself
-                className = In2code\Luxenterprise\Domain\Trigger\CompanyTrigger
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Company.html
-
-                # Additional configuration
-                configuration {
-                  # Any configuration - available as array in Template File and Trigger class for some own magic
-                }
-            }
-
-            # If property of a lead matches with a given string
-            140 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.property
-
-                # Classname for implementation of the trigger itself
-                className = In2code\Luxenterprise\Domain\Trigger\PropertyTrigger
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Property.html
-
-                # Additional configuration
-                configuration {
-                  # Any configuration - available as array in Template File and Trigger class for some own magic
-                }
-            }
-
-            # Symfony Expression Trigger for doing individual magic stuff with lead properties (compare with GET params, check if visitor country is in a list, etc...)
-            150 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.symfonyExpression
-
-                # Classname for implementation of the trigger itself
-                className = In2code\Luxenterprise\Domain\Trigger\SymfonyExpressionTrigger
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/SymfonyExpression.html
-
-                # Additional configuration
-                configuration {
-                  # Any configuration - available as array in Template File and Trigger class for some own magic
-                }
-            }
-
-
-            # 400-699 LEAD ACTION
-            # If lead visits a defined page
-            400 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.pagevisit
-
-                # Classname for implementation of the trigger itself
-                className = In2code\Luxenterprise\Domain\Trigger\PageVisitTrigger
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/PageVisit.html
-
-                # Additional configuration
-                configuration {
-                    # Any configuration - available as array in Template File and Trigger class for some own magic
-                }
-            }
-
-            # If lead visits a defined news
-            410 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.newsvisit
-
-                # Classname for implementation of the trigger itself
-                className = In2code\Luxenterprise\Domain\Trigger\NewsVisitTrigger
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/NewsVisit.html
-
-                # Additional configuration
-                configuration {
-                    # Any configuration - available as array in Template File and Trigger class for some own magic
-                }
-            }
-
-            # If lead enters a page or downloads an asset with a relation to a lux category
-            420 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.category
-
-                # Classname for implementation of the trigger itself
-                className = In2code\Luxenterprise\Domain\Trigger\CategoryTrigger
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Category.html
-
-                # Additional configuration
-                configuration {
-                  # Any configuration - available as array in Template File and Trigger class for some own magic
-                }
-            }
-
-
-            # Check for a given referrer
-            600 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.referrer
-
-                # Classname for implementation of the trigger itself
-                className = In2code\Luxenterprise\Domain\Trigger\ReferrerTrigger
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Referrer.html
-
-                # Additional configuration
-                configuration {
-                    fields {
-                        # Show "is external" checkbox
-                        external = 1
-
-                        # Show "Referrer contains" field
-                        contains = 1
-                    }
-                }
-            }
-
-            # Check for a given UTM parameter
-            610 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.utmparameter
-
-                # Classname for implementation of the trigger itself
-                className = In2code\Luxenterprise\Domain\Trigger\UtmParameterTrigger
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/UtmParameter.html
-
-                # Additional configuration
-                configuration {
-                    parameters {
-                        # Available parameters
-                        0 = utm_campaign
-                        1 = utm_id
-                        2 = utm_source
-                        3 = utm_medium
-                        4 = utm_term
-                        5 = utm_content
-                    }
-                }
-            }
-
-
-            # 700-999 MISCELLANEOUS
-            # At a defined time (start to stop)
-            700 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.timeframe
-
-                # Classname for implementation of the trigger itself
-                className = In2code\Luxenterprise\Domain\Trigger\TimeFrameTrigger
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/TimeFrame.html
-
-                # Additional configuration
-                configuration {
-                  # Any configuration - available as array in Template File and Trigger class for some own magic
-                }
-            }
-
-            # Define the initial action for triggering (page visit or download or form submit, etc...)
-            710 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.startaction
-
-                # Classname for implementation of the trigger itself
-                className = In2code\Luxenterprise\Domain\Trigger\StartactionTrigger
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Startaction.html
-
-                # Additional configuration
-                configuration {
-                    actions {
-                        0 = pageRequestAction
-                        1 = fieldListeningRequestAction
-                        2 = formListeningRequestAction
-                        3 = email4LinkRequestAction
-                        4 = downloadRequestAction
-                        5 = linkListenerRequestAction
-                        6 = error
-                    }
-                }
-            }
-
-            # Define TYPO3 context (e.g. to use workflows only on production)
-            720 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.context
-
-                # Classname for implementation of the trigger itself
-                className = In2code\Luxenterprise\Domain\Trigger\ContextTrigger
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Context.html
-
-                # Additional configuration
-                configuration {
-                    contexts {
-                        0 = Production
-                        1 = Development
-                        2 = Testing
-                    }
-                }
-            }
+        # Additional configuration
+        configuration {
+          # Any configuration - available as array in Template File and Trigger class for some own magic
         }
+      }
+
+      # If lead reaches a scoring
+      110 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.scoring
+
+        # Classname for implementation of the trigger itself
+        className = In2code\Luxenterprise\Domain\Trigger\ScoringTrigger
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Scoring.html
+
+        # Additional configuration
+        configuration {
+          # Any configuration - available as array in Template File and Trigger class for some own magic
+        }
+      }
+
+      # If lead reaches a categoryscoring
+      120 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.categoryscoring
+
+        # Classname for implementation of the trigger itself
+        className = In2code\Luxenterprise\Domain\Trigger\CategoryScoringTrigger
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/CategoryScoring.html
+
+        # Additional configuration
+        configuration {
+          # Any configuration - available as array in Template File and Trigger class for some own magic
+        }
+      }
+
+      # If lead is using a mobile device
+      130 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.mobile
+
+        # Classname for implementation of the trigger itself
+        className = In2code\Luxenterprise\Domain\Trigger\MobileTrigger
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Mobile.html
+
+        # Additional configuration
+        configuration {
+          # Any configuration - available as array in Template File and Trigger class for some own magic
+        }
+      }
+
+      # If company of a lead is known (e.g. from IP-Information)
+      140 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.company
+
+        # Classname for implementation of the trigger itself
+        className = In2code\Luxenterprise\Domain\Trigger\CompanyTrigger
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Company.html
+
+        # Additional configuration
+        configuration {
+          # Any configuration - available as array in Template File and Trigger class for some own magic
+        }
+      }
+
+      # If property of a lead matches with a given string
+      150 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.property
+
+        # Classname for implementation of the trigger itself
+        className = In2code\Luxenterprise\Domain\Trigger\PropertyTrigger
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Property.html
+
+        # Additional configuration
+        configuration {
+          # Any configuration - available as array in Template File and Trigger class for some own magic
+        }
+      }
+
+      # Symfony Expression Trigger for doing individual magic stuff with lead properties (compare with GET params, check if visitor country is in a list, etc...)
+      160 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.symfonyExpression
+
+        # Classname for implementation of the trigger itself
+        className = In2code\Luxenterprise\Domain\Trigger\SymfonyExpressionTrigger
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/SymfonyExpression.html
+
+        # Additional configuration
+        configuration {
+          # Any configuration - available as array in Template File and Trigger class for some own magic
+        }
+      }
+
+
+      # 400-699 LEAD ACTION
+      # If lead visits a defined page
+      400 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.pagevisit
+
+        # Classname for implementation of the trigger itself
+        className = In2code\Luxenterprise\Domain\Trigger\PageVisitTrigger
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/PageVisit.html
+
+        # Additional configuration
+        configuration {
+          # Any configuration - available as array in Template File and Trigger class for some own magic
+        }
+      }
+
+      # If lead visits a defined news
+      410 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.newsvisit
+
+        # Classname for implementation of the trigger itself
+        className = In2code\Luxenterprise\Domain\Trigger\NewsVisitTrigger
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/NewsVisit.html
+
+        # Additional configuration
+        configuration {
+          # Any configuration - available as array in Template File and Trigger class for some own magic
+        }
+      }
+
+      # If lead enters a page or downloads an asset with a relation to a lux category
+      420 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.category
+
+        # Classname for implementation of the trigger itself
+        className = In2code\Luxenterprise\Domain\Trigger\CategoryTrigger
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Category.html
+
+        # Additional configuration
+        configuration {
+          # Any configuration - available as array in Template File and Trigger class for some own magic
+        }
+      }
+
+      # If page is in defined language
+      430 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.language
+
+        # Classname for implementation of the trigger itself
+        className = In2code\Luxenterprise\Domain\Trigger\LanguageTrigger
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Language.html
+
+        # Additional configuration
+        configuration {
+          # Any configuration - available as array in Template File and Trigger class for some own magic
+        }
+      }
+
+      # If page is in defined site
+      440 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.site
+
+        # Classname for implementation of the trigger itself
+        className = In2code\Luxenterprise\Domain\Trigger\SiteTrigger
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Site.html
+
+        # Additional configuration
+        configuration {
+          # Any configuration - available as array in Template File and Trigger class for some own magic
+        }
+      }
+
+      # 600-699 SOURCE
+      # Check for a given referrer
+      600 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.referrer
+
+        # Classname for implementation of the trigger itself
+        className = In2code\Luxenterprise\Domain\Trigger\ReferrerTrigger
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Referrer.html
+
+        # Additional configuration
+        configuration {
+          fields {
+            # Show "is external" checkbox
+            external = 1
+
+            # Show "Referrer contains" field
+            contains = 1
+          }
+        }
+      }
+
+      # Check for a given UTM parameter
+      610 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.utmparameter
+
+        # Classname for implementation of the trigger itself
+        className = In2code\Luxenterprise\Domain\Trigger\UtmParameterTrigger
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/UtmParameter.html
+
+        # Additional configuration
+        configuration {
+          parameters {
+            # Available parameters
+            0 = utm_campaign
+            1 = utm_id
+            2 = utm_source
+            3 = utm_medium
+            4 = utm_term
+            5 = utm_content
+          }
+        }
+      }
+
+      # 700-999 MISCELLANEOUS
+      # At a defined time (start to stop)
+      700 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.timeframe
+
+        # Classname for implementation of the trigger itself
+        className = In2code\Luxenterprise\Domain\Trigger\TimeFrameTrigger
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/TimeFrame.html
+
+        # Additional configuration
+        configuration {
+          # Any configuration - available as array in Template File and Trigger class for some own magic
+        }
+      }
+
+      # Define the initial action for triggering (page visit or download or form submit, etc...)
+      710 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.startaction
+
+        # Classname for implementation of the trigger itself
+        className = In2code\Luxenterprise\Domain\Trigger\StartactionTrigger
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Startaction.html
+
+        # Additional configuration
+        configuration {
+          actions {
+            0 = pageRequestAction
+            1 = fieldListeningRequestAction
+            2 = formListeningRequestAction
+            3 = email4LinkRequestAction
+            4 = downloadRequestAction
+            5 = linkListenerRequestAction
+            6 = error
+          }
+        }
+      }
+
+      # Define TYPO3 context (e.g. to use workflows only on production)
+      720 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.context
+
+        # Classname for implementation of the trigger itself
+        className = In2code\Luxenterprise\Domain\Trigger\ContextTrigger
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Context.html
+
+        # Additional configuration
+        configuration {
+          contexts {
+            0 = Production
+            1 = Development
+            2 = Testing
+          }
+        }
+      }
     }
+  }
 }
 ```
 
@@ -388,337 +441,349 @@ Actions:
 ```
 lib.lux.settings {
 
-    # All workflow settings
-    workflow {
-
-        ###########################
-        # Define individual actions
-        ###########################
-        actions {
-
-            # 100-199 CONTENT MANIPULATION
-            # Action for showing an individual content element in a lightbox to the lead
-            100 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.popupcontentelement
-
-                # Classname for implementation of the action itself
-                className = In2code\Luxenterprise\Domain\Action\PopupContentElementAction
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/PopupContentElement.html
-
-                # Additional configuration
-                configuration {
-                    # Any configuration - available as array in Template File and Action class for some own magic
-                }
-            }
-
-            # Action for loading an individual content element into the current HTML page
-            120 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.ajaxcontent
-
-                # Classname for implementation of the action itself
-                className = In2code\Luxenterprise\Domain\Action\AjaxContentElementAction
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/AjaxContentElement.html
-
-                # Additional configuration
-                configuration {
-                    # Any configuration - available as array in Template File and Action class for some own magic
-                }
-            }
-
-            # Show or hide any element on a HTML page
-            130 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.showOrHide
-
-                # Classname for implementation of the action itself
-                className = In2code\Luxenterprise\Domain\Action\ShowOrHideAction
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/ShowOrHide.html
-
-                # Additional configuration
-                configuration {
-                    # Any configuration - available as array in Template File and Action class for some own magic
-                }
-            }
-
-            # Action for doing a redirect to another URI
-            140 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.redirect
-
-                # Classname for implementation of the action itself
-                className = In2code\Luxenterprise\Domain\Action\RedirectAction
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Redirect.html
-
-                # Additional configuration
-                configuration {
-                    emailOverrides {
-                        # Any configuration - available as array in Template File and Action class for some own magic
-                    }
-                }
-            }
-
-
-
-            # 200-299 SEND MESSAGES
-            # Action for sending a notification email
-            200 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.email
-
-                # Classname for implementation of the action itself
-                className = In2code\Luxenterprise\Domain\Action\EmailAction
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Email.html
-
-                # Additional configuration
-                configuration {
-                    emailOverrides {
-                        # Override sender settings for SPF-defiance settings (affected only the sender settings - not the reply to settings)
-                        senderName = Marketing
-                        senderEmail = service@domain.org
-                    }
-                }
-            }
-
-            # Action for publishing to a slackchannel
-            210 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.slack
-
-                # Classname for implementation of the action itself
-                className = In2code\Luxenterprise\Domain\Action\SlackAction
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Slack.html
-
-                # Additional configuration
-                configuration {
-
-                    # Define multiple configurations - one per slack channels or slack domain
-                    1 {
-                        # Add a name for a selection in workflow backend module
-                        name = Slack Channel "Sales"
-
-                        # Add your webhook Url like https://hooks.slack.com/services/token
-                        webhookUrl = https://hooks.slack.com/services/TOKENabcdefghi123456/789123456/7891
-
-                        # Username for this webhook
-                        username = lux
-
-                        # Set an emoji for all this publishings (can be empty, if you already set an image to your webhook in slack)
-                        emoji = :fire:
-                    }
-                }
-            }
-
-            # Sendng SMS (through twilio.com - a registration on the platform is required first)
-            220 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.sms
-
-                # Classname for implementation of the action itself
-                className = In2code\Luxenterprise\Domain\Action\SmsAction
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Sms.html
-
-                # Additional configuration
-                configuration {
-
-                    # Define multiple configurations - one per twilio account
-                    1 {
-                        # Add a name for a selection in workflow backend module
-                        name = Twilio Account #1
-
-                        # Account SID - used as endpoint in API requests
-                        accountSid = ACe5b11cd9ff0abcdef123456789abcd
-
-                        # Authorization token
-                        authToken = d78cd5d34f9ab123456789abcdef
-
-                        # Phone number given from twilio (e.g. +150712345678)
-                        from = +150712345678
-
-                        # Use this prefix if number is is not given in E.123 format (to convert number automatically)
-                        defaultPrefix = +49
-
-                        to {
-                            # Send only SMS if phone matches this prefix (per default: mobile numbers in germany)
-                            0 = +4915
-                            1 = +4916
-                            2 = +4917
-                        }
-                    }
-                }
-            }
-
-            # Sending push notifications
-            230 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.push
-
-                # Classname for implementation of the action itself
-                className = In2code\Luxenterprise\Domain\Action\PushAction
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Push.html
-
-                # Additional configuration
-                configuration {
-                    # Icon for push notification
-                    icon = /typo3conf/ext/lux/Resources/Public/Icons/lux.svg
-                }
-            }
-
-
-
-            # 300-399 MANIPULATION OF VALUES
-            # Set a value for a visitor
-            300 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.property
-
-                # Classname for implementation of the action itself
-                className = In2code\Luxenterprise\Domain\Action\PropertyAction
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Property.html
-
-                # Additional configuration
-                configuration {
-                    # Any configuration - available as array in Template File and Action class for some own magic
-                }
-            }
-
-            # Double Opt-In for visitors
-            310 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.doubleoptin
-
-                # Classname for implementation of the action itself
-                className = In2code\Luxenterprise\Domain\Action\DoubleOptInAction
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/DoubleOptIn.html
-
-                # Additional configuration
-                configuration {
-                  emailOverrides {
-                    # Override sender settings for SPF-defiance settings (affected only the sender settings - not the reply to settings)
-                    senderName = Marketing
-                    senderEmail = service@domain.org
-                  }
-                }
-            }
-
-            # Set a blacklisted status
-            320 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.blacklist
-
-                # Classname for implementation of the action itself
-                className = In2code\Luxenterprise\Domain\Action\BlacklistAction
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Blacklist.html
-
-                # Additional configuration
-                configuration {
-                    # Any configuration - available as array in Template File and Action class for some own magic
-                }
-            }
-
-
-
-            # 400-499 WORKING WITH LEAD VALUES (THIRD PARTY API AND TABLES)
-            # Save values to a local table
-            400 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.saveToTable
-
-                # Classname for implementation of the action itself
-                className = In2code\Luxenterprise\Domain\Action\SaveToTableAction
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/SaveToTable.html
-
-                # Additional configuration
-                configuration {
-                    1 {
-                        # Any title for this table save action
-                        name = Save as Frontend User
-
-                        # Table name to save in
-                        table = fe_users
-
-                        # If identifierField is filled and there is already a record with the same value, it will be updated instead of inserted (twice). NOTE: This fieldname must be defined in mapping!
-                        identifierField = email
-
-                        # Map: fe_users.fieldname = value
-                        mapping {
-                            pid = 190
-                            tstamp = {f:format.date(date:'now',format:'U')}
-                            crdate = {f:format.date(date:'now',format:'U')}
-                            username = {visitor.email}
-                            password = {lux:string.getRandomValue()}
-                            usergroup = 1,2
-                            name = {visitor.fullName}
-                            first_name = {lux:visitor.getAnyProperty(visitor:visitor,property:'firstname')}
-                            last_name = {lux:visitor.getAnyProperty(visitor:visitor,property:'lastname')}
-                            telephone = {lux:visitor.getAnyProperty(visitor:visitor,property:'telephone')}
-                            email = {visitor.email}
-                            company = {visitor.company}
-                        }
-                    }
-                }
-            }
-
-            # Send to interface action for any kind of exports to a CRM
-            410 {
-                # Title to show in workflow backend module
-                title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.sendtointerface
-
-                # Classname for implementation of the action itself
-                className = In2code\Luxenterprise\Domain\Action\SendToInterfaceAction
-
-                # Templatefile for implementation of the form in workflow module
-                templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/SendToInterface.html
-
-                # Additional configuration
-                configuration {
-                    1 {
-                        # Any title for this interface connection
-                        name = Send lead to my CRM
-
-                        # Send to this url
-                        url = https://mycrm.net
-
-                        values {
-                            # build a string like &email=email@address.net&name=Alex&scoring=123 ...
-                            email = {visitor.email}
-                            name = {visitor.fullName}
-                            scoring = {visitor.scoring}
-                            country = {visitor.country}
-                            company = {visitor.company}
-                            anyattribute = {lux:visitor.getPropertyFromAttributes(attribute:'firstname',visitor:visitor)}
-                            anyvalue = any static value
-                        }
-                    }
-                }
-            }
+  # All workflow settings
+  workflow {
+
+    ###########################
+    # Define individual actions
+    ###########################
+    actions {
+
+      # 100-199 CONTENT MANIPULATION
+      # Action for showing an individual content element in a lightbox to the lead
+      100 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.popupcontentelement
+
+        # Classname for implementation of the action itself
+        className = In2code\Luxenterprise\Domain\Action\PopupContentElementAction
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/PopupContentElement.html
+
+        # Additional configuration
+        configuration {
+          # Any configuration - available as array in Template File and Action class for some own magic
         }
+      }
+
+      # Action for loading an individual content element into the current HTML page
+      120 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.ajaxcontent
+
+        # Classname for implementation of the action itself
+        className = In2code\Luxenterprise\Domain\Action\AjaxContentElementAction
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/AjaxContentElement.html
+
+        # Additional configuration
+        configuration {
+          # Any configuration - available as array in Template File and Action class for some own magic
+        }
+      }
+
+      # Show or hide any element on a HTML page
+      130 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.showOrHide
+
+        # Classname for implementation of the action itself
+        className = In2code\Luxenterprise\Domain\Action\ShowOrHideAction
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/ShowOrHide.html
+
+        # Additional configuration
+        configuration {
+          # Any configuration - available as array in Template File and Action class for some own magic
+        }
+      }
+
+      # Action for doing a redirect to another URI
+      140 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.redirect
+
+        # Classname for implementation of the action itself
+        className = In2code\Luxenterprise\Domain\Action\RedirectAction
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Redirect.html
+
+        # Additional configuration
+        configuration {
+          # Any configuration - available as array in Template File and Action class for some own magic
+        }
+      }
+
+      # Action to change website title
+      150 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.title
+
+        # Classname for implementation of the action itself
+        className = In2code\Luxenterprise\Domain\Action\TitleAction
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Title.html
+
+        # Additional configuration
+        configuration {
+          # Any configuration - available as array in Template File and Action class for some own magic
+        }
+      }
+
+
+      # 200-299 SEND MESSAGES
+      # Action for sending a notification email
+      200 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.email
+
+        # Classname for implementation of the action itself
+        className = In2code\Luxenterprise\Domain\Action\EmailAction
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Email.html
+
+        # Additional configuration
+        configuration {
+          emailOverrides {
+            # Override sender settings for SPF-defiance settings (affected only the sender settings - not the reply to settings)
+            senderName = Marketing
+            senderEmail = service@domain.org
+          }
+        }
+      }
+
+      # Action for publishing to a slackchannel
+      210 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.slack
+
+        # Classname for implementation of the action itself
+        className = In2code\Luxenterprise\Domain\Action\SlackAction
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Slack.html
+
+        # Additional configuration
+        configuration {
+
+          # Define multiple configurations - one per slack channels or slack domain
+          1 {
+            # Add a name for a selection in workflow backend module
+            name = Slack Channel "Sales"
+
+            # Add your webhook Url like https://hooks.slack.com/services/token
+            webhookUrl = https://hooks.slack.com/services/TOKENabcdefghi123456/789123456/7891
+
+            # Username for this webhook
+            username = lux
+
+            # Set an emoji for all this publishings (can be empty, if you already set an image to your webhook in slack)
+            emoji = :fire:
+          }
+        }
+      }
+
+      # Sending SMS (through twilio.com - a registration on the platform is required first)
+      220 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.sms
+
+        # Classname for implementation of the action itself
+        className = In2code\Luxenterprise\Domain\Action\SmsAction
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Sms.html
+
+        # Additional configuration
+        configuration {
+
+          # Define multiple configurations - one per twilio account
+          1 {
+            # Add a name for a selection in workflow backend module
+            name = Twilio Account #1
+
+            # Account SID - used as endpoint in API requests
+            accountSid = ACe5b11cd9ff0abcdef123456789abcd
+
+            # Authorization token
+            authToken = d78cd5d34f9ab123456789abcdef
+
+            # Phone number given from twilio (e.g. +150712345678)
+            from = +150712345678
+
+            # Use this prefix if number is is not given in E.123 format (to convert number automatically)
+            defaultPrefix = +49
+
+            to {
+              # Send only SMS if phone matches this prefix (per default: mobile numbers in germany)
+              0 = +4915
+              1 = +4916
+              2 = +4917
+            }
+          }
+        }
+      }
+
+      # Sending push notifications
+      230 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.push
+
+        # Classname for implementation of the action itself
+        className = In2code\Luxenterprise\Domain\Action\PushAction
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Push.html
+
+        # Additional configuration
+        configuration {
+          # Icon for push notification
+          icon = /typo3conf/ext/lux/Resources/Public/Icons/lux.svg
+        }
+      }
+
+
+      # 300-399 MANIPULATION OF VALUES
+      # Set a value for a visitor
+      300 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.property
+
+        # Classname for implementation of the action itself
+        className = In2code\Luxenterprise\Domain\Action\PropertyAction
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Property.html
+
+        # Additional configuration
+        configuration {
+          # Any configuration - available as array in Template File and Action class for some own magic
+        }
+      }
+
+      # Double Opt-In for visitors
+      310 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.doubleoptin
+
+        # Classname for implementation of the action itself
+        className = In2code\Luxenterprise\Domain\Action\DoubleOptInAction
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/DoubleOptIn.html
+
+        # Additional configuration
+        configuration {
+          emailOverrides {
+            # Override sender settings for SPF-defiance settings (affected only the sender settings - not the reply to settings)
+            senderName = Marketing
+            senderEmail = service@domain.org
+          }
+        }
+      }
+
+      # Set a blacklisted status
+      320 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.blacklist
+
+        # Classname for implementation of the action itself
+        className = In2code\Luxenterprise\Domain\Action\BlacklistAction
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Blacklist.html
+
+        # Additional configuration
+        configuration {
+          # Any configuration - available as array in Template File and Action class for some own magic
+        }
+      }
+
+
+      # 400-499 WORKING WITH LEAD VALUES (THIRD PARTY API AND TABLES)
+      # Save values to a local table
+      400 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.saveToTable
+
+        # Classname for implementation of the action itself
+        className = In2code\Luxenterprise\Domain\Action\SaveToTableAction
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/SaveToTable.html
+
+        # Additional configuration
+        configuration {
+          1 {
+            # Any title for this table save action
+            name = Save as Frontend User
+
+            # Table name to save in
+            table = fe_users
+
+            # If identifierField is filled and there is already a record with the same value, it will be updated instead of inserted (twice). NOTE: This fieldname must be defined in mapping!
+            identifierField = email
+
+            # Map: fe_users.fieldname = value
+            mapping {
+              pid = 190
+              tstamp = {f:format.date(date:'now',format:'U')}
+              crdate = {f:format.date(date:'now',format:'U')}
+              username = {visitor.email}
+              password = {lux:string.getRandomValue()}
+              usergroup = 1,2
+              name = {visitor.fullName}
+              first_name = {lux:visitor.getAnyProperty(visitor:visitor,property:'firstname')}
+              last_name = {lux:visitor.getAnyProperty(visitor:visitor,property:'lastname')}
+              telephone = {lux:visitor.getAnyProperty(visitor:visitor,property:'telephone')}
+              email = {visitor.email}
+              company = {visitor.company}
+            }
+          }
+        }
+      }
+
+      # Send to interface action for any kind of exports to a CRM
+      410 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.sendtointerface
+
+        # Classname for implementation of the action itself
+        className = In2code\Luxenterprise\Domain\Action\SendToInterfaceAction
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/SendToInterface.html
+
+        # Additional configuration
+        configuration {
+          1 {
+            # Any title for this interface connection
+            name = Send lead to my CRM
+
+            # Send to this url
+            url = https://mycrm.net
+
+            values {
+              # build a string like &email=email@address.net&name=Alex&scoring=123 ...
+              email = {visitor.email}
+              name = {visitor.fullName}
+              scoring = {visitor.scoring}
+              country = {visitor.country}
+              company = {visitor.company}
+              anyattribute = {lux:visitor.getPropertyFromAttributes(attribute:'firstname',visitor:visitor)}
+              anyvalue = any static value
+            }
+          }
+        }
+      }
     }
+  }
 }
 ```
 
