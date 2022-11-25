@@ -18,6 +18,7 @@
 
 | Version    | Date       | State      | Description                                                                                                                                                                                |
 | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 26.4.0     | 2022-11-25 | Task       | Remove config.no_cache=1, updated documentation, fix typo in label                                                                                                                         |
 | 26.3.1     | 2022-11-19 | Bugfix     | Ensure backward compatibility for older LUXenterprise versions (where workflow actions didn't have delay function name)                                                                    |
 | 26.3.0     | 2022-11-19 | Task       | Preparation for new delay functions in content manipulation workflow actions, documentation update                                                                                         |
 | 26.2.1     | 2022-11-12 | Task       | Documentation update, label improvement in UTM filter                                                                                                                                      |

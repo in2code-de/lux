@@ -157,7 +157,6 @@ luxPageRequestAjax {
       header = Content-Type: application/json
       replace = 1
     }
-    no_cache = 1
     disableAllHeaderCode = 1
     disablePrefixComment = 1
     xhtml_cleaning = 0
@@ -165,7 +164,7 @@ luxPageRequestAjax {
     debug = 0
   }
 
-  10 = USER
+  10 = USER_INT
   10 {
     userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
     extensionName = Lux
@@ -181,7 +180,6 @@ luxPageRequestAjax {
 luxRedirect = PAGE
 luxRedirect {
   typeNum = 1591948099
-  config.no_cache = 1
   meta {
     robots = noindex,nofollow
   }
@@ -201,34 +199,34 @@ luxRedirect {
 
     20 = TEXT
     20.value (
-            .lux-redirect {
-                position: fixed;
-                left: 50%;
-                top: 50%;
-                margin-top: -32px;
-                margin-left: -150px;
-                width: 300px;
-                height: 80px;
-            }
-            .lux-redirect-text {
-                margin-top: 20px;
-                text-align: center;
-                font-family: Arial, sans-serif;
-                font-size: 20px;
-                opacity: 0;
-            }
-            .fadein {
-              -webkit-transition: opacity 3s ease-in;
-              -moz-transition: opacity 3s ease-in;
-              -ms-transition: opacity 3s ease-in;
-              -o-transition: opacity 3s ease-in;
-              transition: opacity 3s ease-in;
-              opacity: 1;
-            }
+      .lux-redirect {
+          position: fixed;
+          left: 50%;
+          top: 50%;
+          margin-top: -32px;
+          margin-left: -150px;
+          width: 300px;
+          height: 80px;
+      }
+      .lux-redirect-text {
+          margin-top: 20px;
+          text-align: center;
+          font-family: Arial, sans-serif;
+          font-size: 20px;
+          opacity: 0;
+      }
+      .fadein {
+        -webkit-transition: opacity 3s ease-in;
+        -moz-transition: opacity 3s ease-in;
+        -ms-transition: opacity 3s ease-in;
+        -o-transition: opacity 3s ease-in;
+        transition: opacity 3s ease-in;
+        opacity: 1;
+      }
     )
   }
 
-  10 = COA
+  10 = COA_INT
   10 {
     10 = COA
     10 {

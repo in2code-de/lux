@@ -168,7 +168,7 @@ function LuxMain() {
 
   /**
    * Callback for generalWorkflowActionCallback()
-   * "Redirect" (part of the Enterprise Edition)
+   * "Redirect Workflow" and "Redirect with Shortener" (parts of the Enterprise Edition)
    *
    * @param response
    */
