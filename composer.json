@@ -83,6 +83,9 @@
 		"typo3/cms": {
 			"web-dir": ".Build/Web",
 			"extension-key": "lux"
+		},
+		"branch-alias": {
+			"dev-develop": "26.4.x-dev"
 		}
 	}
 }
