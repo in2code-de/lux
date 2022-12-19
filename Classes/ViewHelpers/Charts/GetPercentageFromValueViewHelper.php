@@ -37,8 +37,8 @@ class GetPercentageFromValueViewHelper extends AbstractViewHelper
      */
     public function render(): array
     {
-        if (isset($this->arguments['countries'])) {
-            $countries = $this->arguments['countries'];
+        $countries = $this->arguments['countries'];
+        if (!empty($countries)) {
             $values = array_values($countries);
             $highestValue = $values[0];
             if ($highestValue > 0) {
