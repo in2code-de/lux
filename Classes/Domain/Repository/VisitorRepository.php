@@ -189,7 +189,7 @@ class VisitorRepository extends AbstractRepository
     public function findByHottestScorings(FilterDto $filter, int $limit = 10)
     {
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
-        $sql = 'select distinct v.uid from ' . Visitor::TABLE_NAME . ' v'
+        $sql = 'select distinct v.uid, v.scoring, v.tstamp from ' . Visitor::TABLE_NAME . ' v'
             . $this->extendFromClauseWithJoinByFilter($filter, ['pv', 'p', 'cs'])
             . ' where v.deleted=0 and v.hidden=0 and v.identified=1'
             . $this->extendWhereClauseWithFilterSearchterms($filter, 'v', 'email')
