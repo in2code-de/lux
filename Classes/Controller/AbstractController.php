@@ -297,16 +297,6 @@ abstract class AbstractController extends ActionController
                 . '_' . $date->format('Y-m-d') . '.csv';
         }
 
-        // Todo: Remove when TYPO3 10 is dropped
-        if (ConfigurationUtility::isTypo3Version11() === false) {
-            $this->response->setHeader('Content-Type', 'text/x-csv');
-            $this->response->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"');
-            $this->response->setHeader('Pragma', 'no-cache');
-            $this->response->sendHeaders();
-            echo $this->view->render();
-            exit;
-        }
-
         return $this->responseFactory->createResponse()
             ->withHeader('Content-Type', 'text/x-csv; charset=utf-8')
             ->withHeader('Content-Disposition', 'attachment; filename="' . $filename . '"')

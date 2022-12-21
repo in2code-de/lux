@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use Exception;
@@ -43,11 +44,6 @@ use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
-/**
- * Class AnalysisController
- * Todo: Return type ": ResponseInterface" and "return $this->htmlResponse();" when TYPO3 10 support is dropped
- *       for all actions
- */
 class AnalysisController extends AbstractController
 {
     /**
@@ -69,6 +65,7 @@ class AnalysisController extends AbstractController
      * @throws UnexpectedValueException
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
+     * @throws DBALException
      */
     public function dashboardAction(FilterDto $filter): ResponseInterface
     {
@@ -113,6 +110,7 @@ class AnalysisController extends AbstractController
      * @return ResponseInterface
      * @throws ExceptionDbal
      * @throws InvalidQueryException
+     * @throws DBALException
      */
     public function contentAction(FilterDto $filter, string $export = ''): ResponseInterface
     {
@@ -185,6 +183,7 @@ class AnalysisController extends AbstractController
     /**
      * @param FilterDto $filter
      * @return ResponseInterface
+     * @throws DBALException
      */
     public function newsCsvAction(FilterDto $filter): ResponseInterface
     {
@@ -209,6 +208,7 @@ class AnalysisController extends AbstractController
      * @return ResponseInterface
      * @throws ExceptionDbalDriver
      * @throws InvalidQueryException
+     * @throws DBALException
      */
     public function utmAction(FilterDto $filter, string $export = ''): ResponseInterface
     {
@@ -327,6 +327,7 @@ class AnalysisController extends AbstractController
     /**
      * @param Page $page
      * @return ResponseInterface
+     * @throws DBALException
      */
     public function detailPageAction(Page $page): ResponseInterface
     {
@@ -341,6 +342,7 @@ class AnalysisController extends AbstractController
     /**
      * @param News $news
      * @return ResponseInterface
+     * @throws DBALException
      */
     public function detailNewsAction(News $news): ResponseInterface
     {
@@ -403,6 +405,7 @@ class AnalysisController extends AbstractController
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      * @noinspection PhpUnused
+     * @throws DBALException
      */
     public function detailAjaxPage(ServerRequestInterface $request): ResponseInterface
     {
@@ -431,6 +434,7 @@ class AnalysisController extends AbstractController
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      * @noinspection PhpUnused
+     * @throws DBALException
      */
     public function detailNewsAjaxPage(ServerRequestInterface $request): ResponseInterface
     {
