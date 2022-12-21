@@ -3,6 +3,8 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Service;
 
+use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\ParametersException;
 use In2code\Lux\Utility\DatabaseUtility;
@@ -67,6 +69,8 @@ class RedirectService
      * @param string $hash
      * @return array
      * @throws ParametersException
+     * @throws Exception
+     * @throws ExceptionDbal
      */
     protected function findByHash(string $hash): array
     {
@@ -79,12 +83,12 @@ class RedirectService
                 $queryBuilder->expr()->eq('deleted', 0)
             )
             ->setMaxResults(1)
-            ->execute()
-            ->fetch();
+            ->executeQuery()
+            ->fetchAssociative();
         if ($result === false) {
             throw new ParametersException('Redirect not found', 1593073397);
         }
-        return (array)$result;
+        return $result;
     }
 
     /**
@@ -105,6 +109,6 @@ class RedirectService
                 'tstamp' => time(),
                 'crdate' => time(),
             ])
-            ->execute();
+            ->executeQuery();
     }
 }

@@ -3,19 +3,20 @@
 declare(strict_types=1);
 namespace In2code\Lux\Hooks;
 
+use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\UrlUtility;
 
-/**
- * Class LuxLinkClickLinkhandler
- */
 class LuxLinkListenerLinkhandler
 {
     /**
      * @param array $parameters
      * @return void
+     * @throws Exception
+     * @throws ExceptionDbal
      * @noinspection PhpUnused
      */
     public function postProcessTypoLink(array &$parameters): void
@@ -33,6 +34,8 @@ class LuxLinkListenerLinkhandler
     /**
      * @param array $parameters
      * @return string
+     * @throws Exception
+     * @throws ExceptionDbal
      */
     protected function getTargetUri(array $parameters): string
     {
@@ -46,6 +49,8 @@ class LuxLinkListenerLinkhandler
     /**
      * @param int $linkListenerUid
      * @return string
+     * @throws Exception
+     * @throws ExceptionDbal
      */
     protected function getLinkTargetFromLinkListenerIdentifier(int $linkListenerUid): string
     {
@@ -54,8 +59,8 @@ class LuxLinkListenerLinkhandler
             ->select('link')
             ->from(Linklistener::TABLE_NAME)
             ->where('uid=' . (int)$linkListenerUid)
-            ->execute()
-            ->fetchColumn();
+            ->executeQuery()
+            ->fetchOne();
     }
 
     /**

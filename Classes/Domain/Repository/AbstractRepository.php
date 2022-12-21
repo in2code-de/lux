@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
+use Exception;
 use In2code\Lux\Domain\Model\Categoryscoring;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Pagevisit;
@@ -17,22 +18,13 @@ use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
-/**
- * Class AbstractRepository
- */
 abstract class AbstractRepository extends Repository
 {
-    /**
-     * @var array
-     */
     protected $defaultOrderings = [
         'crdate' => QueryInterface::ORDER_DESCENDING,
     ];
 
-    /**
-     * @return void
-     */
-    public function initializeObject()
+    public function initializeObject(): void
     {
         /** @var Typo3QuerySettings $defaultQuerySettings */
         $defaultQuerySettings = GeneralUtility::makeInstance(Typo3QuerySettings::class);
@@ -40,10 +32,7 @@ abstract class AbstractRepository extends Repository
         $this->setDefaultQuerySettings($defaultQuerySettings);
     }
 
-    /**
-     * @return void
-     */
-    public function persistAll()
+    public function persistAll(): void
     {
         $persistanceManager = GeneralUtility::makeInstance(PersistenceManager::class);
         $persistanceManager->persistAll();
@@ -52,7 +41,7 @@ abstract class AbstractRepository extends Repository
     /**
      * @param array $identifiers
      * @param string $tableName
-     * @return array must be array - otherwise pagebrowser seems to be broken (for whatever reason)
+     * @return array must be an array - otherwise pagebrowser seems to be broken (for whatever reason)
      */
     protected function convertIdentifiersToObjects(array $identifiers, string $tableName): array
     {
@@ -70,7 +59,7 @@ abstract class AbstractRepository extends Repository
      * @param array $logicalAnd
      * @return array
      * @throws InvalidQueryException
-     * @throws \Exception
+     * @throws Exception
      */
     protected function extendLogicalAndWithFilterConstraintsForCrdate(
         FilterDto $filter,
@@ -124,7 +113,7 @@ abstract class AbstractRepository extends Repository
      * @param bool $andPrefix
      * @param string $table table with crdate (normally the main table)
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     protected function extendWhereClauseWithFilterTime(
         FilterDto $filter,
@@ -151,7 +140,7 @@ abstract class AbstractRepository extends Repository
      * @param FilterDto $filter
      * @param string $table table with crdate (normally the main table)
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     protected function extendWhereClauseWithFilterDomain(
         FilterDto $filter,

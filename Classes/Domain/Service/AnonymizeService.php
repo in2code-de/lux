@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Service;
 
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\Exception;
 use In2code\Lux\Domain\Model\Attribute;
 use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Domain\Model\Ipinformation;
@@ -194,6 +195,7 @@ class AnonymizeService
     /**
      * @return void
      * @throws DBALException
+     * @throws Exception
      */
     public function anonymizeAll()
     {
@@ -206,6 +208,7 @@ class AnonymizeService
     /**
      * @return void
      * @throws DBALException
+     * @throws Exception
      */
     protected function anonymizeIdentifiedVisitors()
     {
@@ -214,8 +217,8 @@ class AnonymizeService
             ->select('*')
             ->from(Visitor::TABLE_NAME)
             ->where('identified=1')
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
         foreach ($rows as $row) {
             $properties = [
                 'email' => $this->getRandomEmail(),
@@ -233,6 +236,7 @@ class AnonymizeService
     /**
      * @return void
      * @throws DBALException
+     * @throws Exception
      */
     protected function anonymizeAttributes()
     {
@@ -240,8 +244,8 @@ class AnonymizeService
         $rows = $queryBuilder
             ->select('*')
             ->from(Attribute::TABLE_NAME)
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
         foreach ($rows as $row) {
             $value = StringUtility::getRandomString(8);
             if ($row['name'] === 'firstname') {
@@ -269,6 +273,7 @@ class AnonymizeService
     /**
      * @return void
      * @throws DBALException
+     * @throws Exception
      */
     protected function anonymizeIpinformation()
     {
@@ -276,8 +281,8 @@ class AnonymizeService
         $rows = $queryBuilder
             ->select('*')
             ->from(Ipinformation::TABLE_NAME)
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
         foreach ($rows as $row) {
             $value = $this->getRandomIpinformation($row['name']);
             $connection = DatabaseUtility::getConnectionForTable(Ipinformation::TABLE_NAME);

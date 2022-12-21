@@ -4,14 +4,13 @@ declare(strict_types=1);
 namespace In2code\Lux\Utility;
 
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class DatabaseUtility
- */
 class DatabaseUtility
 {
     /**
@@ -80,17 +79,26 @@ class DatabaseUtility
     /**
      * @param string $tableName
      * @return bool
+     * @throws ExceptionDbal
+     * @throws Exception
      */
     public static function isTableFilled(string $tableName): bool
     {
         $queryBuilder = self::getQueryBuilderForTable($tableName);
-        return (int)$queryBuilder->select('*')->from($tableName)->setMaxResults(1)->execute()->fetch() > 0;
+        return $queryBuilder
+                ->select('*')
+                ->from($tableName)
+                ->setMaxResults(1)
+                ->executeQuery()
+                ->fetchAssociative() > 0;
     }
 
     /**
      * @param string $fieldName
      * @param string $tableName
      * @return bool
+     * @throws Exception
+     * @throws ExceptionDbal
      */
     public static function isFieldInTableFilled(string $fieldName, string $tableName): bool
     {
@@ -99,7 +107,7 @@ class DatabaseUtility
                 ->select($fieldName)
                 ->from($tableName)
                 ->setMaxResults(1)
-                ->execute()
-                ->fetchColumn() !== '';
+                ->executeQuery()
+                ->fetchOne() !== '';
     }
 }

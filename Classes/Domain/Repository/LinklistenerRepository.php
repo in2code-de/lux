@@ -9,9 +9,6 @@ use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
-/**
- * Class LinklistenerRepository
- */
 class LinklistenerRepository extends AbstractRepository
 {
     /**
@@ -36,7 +33,7 @@ class LinklistenerRepository extends AbstractRepository
             $logicalAnd[] = $query->lessThan('linkclicks.crdate', $filter->getEndTimeForFilter());
         }
         $logicalAnd = $this->extendWithExtendedFilterQuery($query, $logicalAnd, $filter);
-        $query->matching($query->logicalAnd($logicalAnd));
+        $query->matching($query->logicalAnd(...$logicalAnd));
         return $query->execute();
     }
 

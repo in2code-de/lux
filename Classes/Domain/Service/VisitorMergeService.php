@@ -160,10 +160,10 @@ class VisitorMergeService
     protected function mergePagevisits(Visitor $newVisitor): void
     {
         $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
-        $connection->query(
+        $connection->executeQuery(
             'update ' . Pagevisit::TABLE_NAME . ' set visitor = ' . (int)$this->firstVisitor->getUid() . ' ' .
             'where visitor = ' . (int)$newVisitor->getUid()
-        )->execute();
+        );
     }
 
     /**
@@ -176,10 +176,10 @@ class VisitorMergeService
     protected function mergeLogs(Visitor $newVisitor): void
     {
         $connection = DatabaseUtility::getConnectionForTable(Log::TABLE_NAME);
-        $connection->query(
+        $connection->executeQuery(
             'update ' . Log::TABLE_NAME . ' set visitor = ' . (int)$this->firstVisitor->getUid() . ' ' .
             'where visitor = ' . (int)$newVisitor->getUid()
-        )->execute();
+        );
     }
 
     /**
@@ -201,15 +201,15 @@ class VisitorMergeService
             $connection = DatabaseUtility::getConnectionForTable(Categoryscoring::TABLE_NAME);
             if ($existingCs !== null) {
                 $this->firstVisitor->increaseCategoryscoringByCategory($categoryscoring->getScoring(), $category);
-                $connection->query(
+                $connection->executeQuery(
                     'update ' . Categoryscoring::TABLE_NAME . ' set deleted = 1' .
                     ' where visitor = ' . (int)$newVisitor->getUid() . ' and category = ' . (int)$category->getUid()
-                )->execute();
+                );
             } else {
-                $connection->query(
+                $connection->executeQuery(
                     'update ' . Categoryscoring::TABLE_NAME . ' set visitor = ' . (int)$this->firstVisitor->getUid() .
                     ' where visitor = ' . (int)$newVisitor->getUid() . ' and category = ' . (int)$category->getUid()
-                )->execute();
+                );
             }
         }
     }
@@ -224,10 +224,10 @@ class VisitorMergeService
     protected function mergeDownloads(Visitor $newVisitor): void
     {
         $connection = DatabaseUtility::getConnectionForTable(Download::TABLE_NAME);
-        $connection->query(
+        $connection->executeQuery(
             'update ' . Download::TABLE_NAME . ' set visitor = ' . (int)$this->firstVisitor->getUid() . ' ' .
             'where visitor = ' . (int)$newVisitor->getUid()
-        )->execute();
+        );
     }
 
     /**
@@ -240,10 +240,10 @@ class VisitorMergeService
     protected function mergeLinkclicks(Visitor $newVisitor): void
     {
         $connection = DatabaseUtility::getConnectionForTable(Linkclick::TABLE_NAME);
-        $connection->query(
+        $connection->executeQuery(
             'update ' . Linkclick::TABLE_NAME . ' set visitor = ' . (int)$this->firstVisitor->getUid() . ' ' .
             'where visitor = ' . (int)$newVisitor->getUid()
-        )->execute();
+        );
     }
 
     /**
@@ -257,11 +257,11 @@ class VisitorMergeService
     {
         if (DatabaseUtility::isTableExisting('tx_luxenterprise_domain_model_shortenervisit')) {
             $connection = DatabaseUtility::getConnectionForTable('tx_luxenterprise_domain_model_shortenervisit');
-            $connection->query(
+            $connection->executeQuery(
                 'update tx_luxenterprise_domain_model_shortenervisit ' .
                 'set visitor = ' . (int)$this->firstVisitor->getUid() . ' ' .
                 'where visitor = ' . (int)$newVisitor->getUid()
-            )->execute();
+            );
         }
     }
 
@@ -286,10 +286,10 @@ class VisitorMergeService
                 $this->attributeRepository->persistAll();
             } else {
                 $connection = DatabaseUtility::getConnectionForTable(Attribute::TABLE_NAME);
-                $connection->query(
+                $connection->executeQuery(
                     'update ' . Attribute::TABLE_NAME . ' set visitor = ' . $this->firstVisitor->getUid() . ' ' .
                     'where uid = ' . (int)$newAttribute->getUid()
-                )->execute();
+                );
             }
         }
     }

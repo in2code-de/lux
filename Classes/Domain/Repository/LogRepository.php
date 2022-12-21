@@ -6,31 +6,31 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Exception;
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\DateUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use Throwable;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
-/**
- * Class LogRepository
- */
 class LogRepository extends AbstractRepository
 {
     /**
      * @return int
      * @throws DBALException
+     * @throws ExceptionDbalDriver
      */
     public function findAllAmount(): int
     {
         $connection = DatabaseUtility::getConnectionForTable(Log::TABLE_NAME);
-        return (int)$connection->executeQuery('select count(*) from ' . Log::TABLE_NAME)->fetchColumn();
+        return (int)$connection->executeQuery('select count(*) from ' . Log::TABLE_NAME)->fetchOne();
     }
 
     /**
@@ -45,7 +45,7 @@ class LogRepository extends AbstractRepository
         $query = $this->createQuery();
         $logicalAnd = $this->interestingLogsLogicalAnd($query);
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
-        $query->matching($query->logicalAnd($logicalAnd));
+        $query->matching($query->logicalAnd(...$logicalAnd));
         $query->setLimit($limit);
         return $query->execute();
     }
@@ -61,6 +61,7 @@ class LogRepository extends AbstractRepository
      * @param int $months
      * @return array
      * @throws DBALException
+     * @throws ExceptionDbalDriver
      */
     public function findIdentifiedLogsFromMonths(int $months = 6): array
     {
@@ -72,7 +73,7 @@ class LogRepository extends AbstractRepository
             $query = 'select * from ' . Log::TABLE_NAME .
                 ' where status in(' . implode(',', Log::getIdentifiedStatus()) . ')' .
                 ' and crdate >= ' . $dates[0]->format('U') . ' and crdate <= ' . $dates[1]->format('U');
-            $result[] = $queryBuilder->executeQuery($query)->fetchAll();
+            $result[] = $queryBuilder->executeQuery($query)->fetchAllAssociative();
         }
         $result = array_reverse($result);
         return $result;
@@ -84,13 +85,14 @@ class LogRepository extends AbstractRepository
      * @return int
      * @throws DBALException
      * @throws Exception
+     * @throws ExceptionDbalDriver
      */
     public function findByStatusAmount(int $status, FilterDto $filter): int
     {
         $connection = DatabaseUtility::getConnectionForTable(Log::TABLE_NAME);
-        $query = 'select count(*) from ' . Log::TABLE_NAME . ' where status=' . (int)$status
+        $query = 'select count(*) from ' . Log::TABLE_NAME . ' where status=' . $status
             . $this->extendWhereClauseWithFilterTime($filter);
-        return (int)$connection->executeQuery($query)->fetchColumn();
+        return (int)$connection->executeQuery($query)->fetchOne();
     }
 
     /**
@@ -113,8 +115,8 @@ class LogRepository extends AbstractRepository
                 . ' where status in (' . implode(',', $identifiedStatus) . ')'
                 . ' and JSON_EXTRACT(properties, "$.pageUid") = ' . (int)$pageIdentifier
                 . $this->extendWhereClauseWithFilterTime($filter);
-            return (int)$connection->executeQuery($query)->fetchColumn();
-        } catch (Exception $exception) {
+            return (int)$connection->executeQuery($query)->fetchOne();
+        } catch (Throwable $exception) {
             // Catch if JSON_EXTRACT() is not possible as database operation
             return 0;
         }

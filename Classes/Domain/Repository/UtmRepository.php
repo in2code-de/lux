@@ -27,7 +27,7 @@ class UtmRepository extends AbstractRepository
         $query = $this->createQuery();
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, []);
         $logicalAnd = $this->extendWithExtendedFilterQuery($query, $logicalAnd, $filter);
-        $query->matching($query->logicalAnd($logicalAnd));
+        $query->matching($query->logicalAnd(...$logicalAnd));
         return $query->execute();
     }
 
@@ -43,7 +43,7 @@ class UtmRepository extends AbstractRepository
             ->select('utm_campaign')
             ->from(Utm::TABLE_NAME)
             ->groupBy('utm_campaign')
-            ->execute()
+            ->executeQuery()
             ->fetchFirstColumn();
         return ArrayUtility::copyValuesToKeys($results);
     }
@@ -60,7 +60,7 @@ class UtmRepository extends AbstractRepository
             ->select('utm_source')
             ->from(Utm::TABLE_NAME)
             ->groupBy('utm_source')
-            ->execute()
+            ->executeQuery()
             ->fetchFirstColumn();
         return ArrayUtility::copyValuesToKeys($results);
     }
@@ -77,7 +77,7 @@ class UtmRepository extends AbstractRepository
             ->select('utm_medium')
             ->from(Utm::TABLE_NAME)
             ->groupBy('utm_medium')
-            ->execute()
+            ->executeQuery()
             ->fetchFirstColumn();
         return ArrayUtility::copyValuesToKeys($results);
     }
@@ -97,8 +97,8 @@ class UtmRepository extends AbstractRepository
             $query->lessThanOrEqual('crdate', $end->format('U')),
         ];
         $logicalAnd = $this->extendWithExtendedFilterQuery($query, $logicalAnd, $filter);
-        $query->matching($query->logicalAnd($logicalAnd));
-        return (int)$query->execute()->count();
+        $query->matching($query->logicalAnd(...$logicalAnd));
+        return $query->execute()->count();
     }
 
     /**
@@ -106,6 +106,7 @@ class UtmRepository extends AbstractRepository
      * @param FilterDto $filter
      * @return array
      * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      */
     public function findCombinedByField(string $field, FilterDto $filter): array
     {
@@ -123,7 +124,7 @@ class UtmRepository extends AbstractRepository
             . $this->extendWhereClauseWithFilterSource($filter, 'utm')
             . $this->extendWhereClauseWithFilterMedium($filter, 'utm')
             . ' group by utm.' . $field . ' order by count desc limit 10';
-        return (array)$connection->executeQuery($sql)->fetchAll();
+        return $connection->executeQuery($sql)->fetchAllAssociative();
     }
 
     /**
@@ -203,7 +204,7 @@ class UtmRepository extends AbstractRepository
                     $logicalOr[] = $query->like('utmTerm', '%' . $searchterm . '%');
                     $logicalOr[] = $query->like('utmContent', '%' . $searchterm . '%');
                 }
-                $logicalAnd[] = $query->logicalOr($logicalOr);
+                $logicalAnd[] = $query->logicalOr(...$logicalOr);
             }
             if ($filter->getUtmCampaign() !== '') {
                 $logicalAnd[] = $query->like('utmCampaign', '%' . $filter->getUtmCampaign() . '%');

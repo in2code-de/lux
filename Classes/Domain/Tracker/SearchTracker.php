@@ -62,7 +62,7 @@ class SearchTracker
                 'crdate' => time(),
                 'tstamp' => time(),
             ];
-            $queryBuilder->insert(Search::TABLE_NAME)->values($properties)->execute();
+            $queryBuilder->insert(Search::TABLE_NAME)->values($properties)->executeQuery();
             $searchUid = $queryBuilder->getConnection()->lastInsertId();
             $this->eventDispatcher->dispatch(
                 GeneralUtility::makeInstance(SearchEvent::class, $visitor, (int)$searchUid)

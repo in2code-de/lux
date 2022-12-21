@@ -71,7 +71,7 @@ final class BackendSessionFaker
         ];
 
         $queryBuilder = DatabaseUtility::getQueryBuilderForTable(self::TABLE_BACKENDUSERSESSION);
-        $queryBuilder->insert(self::TABLE_BACKENDUSERSESSION)->values($properties)->execute();
+        $queryBuilder->insert(self::TABLE_BACKENDUSERSESSION)->values($properties)->executeQuery();
     }
 
     /**
@@ -88,7 +88,7 @@ final class BackendSessionFaker
                     $queryBuilder->createNamedParameter($this->dbSessionBackend->hash($this->getSessionIdentifier()))
                 )
             )
-            ->execute();
+            ->executeQuery();
     }
 
     /**
@@ -128,8 +128,8 @@ final class BackendSessionFaker
                 ->select('uid')
                 ->from(self::TABLE_BACKENDUSERS)
                 ->where('admin=1')
-                ->execute()
-                ->fetchColumn();
+                ->executeQuery()
+                ->fetchOne();
             if ($identifier === 0) {
                 throw new EnvironmentException('No administration backend user found', 1645125690);
             }

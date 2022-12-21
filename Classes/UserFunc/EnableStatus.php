@@ -3,6 +3,8 @@
 declare(strict_types=1);
 namespace In2code\Lux\UserFunc;
 
+use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\DatabaseUtility;
@@ -23,6 +25,8 @@ class EnableStatus
 
     /**
      * @return string
+     * @throws Exception
+     * @throws ExceptionDbal
      * @noinspection PhpUnused
      */
     public function showEnableStatus()
@@ -59,15 +63,17 @@ class EnableStatus
     /**
      * @param string $where
      * @return array
+     * @throws Exception
+     * @throws ExceptionDbal
      */
     protected function getVisitors(string $where = 'identified=1')
     {
         $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Visitor::TABLE_NAME);
-        return (array)$queryBuilder
+        return $queryBuilder
             ->select('uid')
             ->from(Visitor::TABLE_NAME)
             ->where($where)
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
     }
 }
