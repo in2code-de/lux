@@ -22,7 +22,6 @@ use In2code\Lux\Domain\Repository\UtmRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\RenderingTimeService;
 use In2code\Lux\Utility\BackendUtility;
-use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use Psr\Http\Message\ResponseInterface;
@@ -32,93 +31,28 @@ use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
-use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
-use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 
 /**
  * Class AbstractController
  */
 abstract class AbstractController extends ActionController
 {
-    /**
-     * @var VisitorRepository
-     */
-    protected $visitorRepository = null;
-
-    /**
-     * @var IpinformationRepository
-     */
-    protected $ipinformationRepository = null;
-
-    /**
-     * @var LogRepository
-     */
-    protected $logRepository = null;
-
-    /**
-     * @var PagevisitRepository
-     */
-    protected $pagevisitsRepository = null;
-
-    /**
-     * @var PageRepository
-     */
-    protected $pageRepository = null;
-
-    /**
-     * @var DownloadRepository
-     */
-    protected $downloadRepository = null;
-
-    /**
-     * @var NewsvisitRepository
-     */
-    protected $newsvisitRepository = null;
-
-    /**
-     * @var NewsRepository
-     */
-    protected $newsRepository = null;
-
-    /**
-     * @var CategoryRepository
-     */
-    protected $categoryRepository = null;
-
-    /**
-     * @var LinkclickRepository
-     */
-    protected $linkclickRepository = null;
-
-    /**
-     * @var LinklistenerRepository
-     */
-    protected $linklistenerRepository = null;
-
-    /**
-     * @var FingerprintRepository
-     */
-    protected $fingerprintRepository = null;
-
-    /**
-     * @var SearchRepository
-     */
-    protected $searchRepository = null;
-
-    /**
-     * @var UtmRepository
-     */
-    protected $utmRepository = null;
-
-    /**
-     * @var RenderingTimeService
-     */
-    protected $renderingTimeService = null;
-
-    /**
-     * @var CacheLayer
-     */
-    protected $cacheLayer = null;
+    protected ?VisitorRepository $visitorRepository = null;
+    protected ?IpinformationRepository $ipinformationRepository = null;
+    protected ?LogRepository $logRepository = null;
+    protected ?PagevisitRepository $pagevisitsRepository = null;
+    protected ?PageRepository $pageRepository = null;
+    protected ?DownloadRepository $downloadRepository = null;
+    protected ?NewsvisitRepository $newsvisitRepository = null;
+    protected ?NewsRepository $newsRepository = null;
+    protected ?CategoryRepository $categoryRepository = null;
+    protected ?LinkclickRepository $linkclickRepository = null;
+    protected ?LinklistenerRepository $linklistenerRepository = null;
+    protected ?FingerprintRepository $fingerprintRepository = null;
+    protected ?SearchRepository $searchRepository = null;
+    protected ?UtmRepository $utmRepository = null;
+    protected ?RenderingTimeService $renderingTimeService = null;
+    protected ?CacheLayer $cacheLayer = null;
 
     /**
      * AbstractController constructor.
@@ -135,6 +69,7 @@ abstract class AbstractController extends ActionController
      * @param LinklistenerRepository $linklistenerRepository
      * @param FingerprintRepository $fingerprintRepository
      * @param SearchRepository $searchRepository
+     * @param UtmRepository $utmRepository
      * @param RenderingTimeService $renderingTimeService to initialize renderingTimes
      * @param CacheLayer $cacheLayer
      */
@@ -177,14 +112,12 @@ abstract class AbstractController extends ActionController
     /**
      * Pass some important variables to all views
      *
-     * @param ViewInterface $view
      * @return void
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      */
-    public function initializeView(ViewInterface $view)
+    public function initializeView()
     {
-        parent::initializeView($view);
         $this->view->assignMultiple([
             'view' => [
                 'controller' => $this->getControllerName(),
@@ -225,7 +158,7 @@ abstract class AbstractController extends ActionController
         if (isset($filter['identified']) && $filter['identified'] === '') {
             $filter['identified'] = FilterDto::IDENTIFIED_ALL;
         }
-        $this->request->setArgument('filter', $filter);
+        $this->request = $this->request->withArgument('filter', $filter);
     }
 
     /**
@@ -258,7 +191,6 @@ abstract class AbstractController extends ActionController
     /**
      * @param string $redirectAction
      * @return void
-     * @throws StopActionException
      */
     public function resetFilterAction(string $redirectAction): void
     {
