@@ -3,9 +3,9 @@
 declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
-use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
+use Exception;
 use In2code\Lux\Domain\DataProvider\AllLinkclickDataProvider;
 use In2code\Lux\Domain\DataProvider\BrowserAmountDataProvider;
 use In2code\Lux\Domain\DataProvider\DomainDataProvider;
@@ -26,7 +26,6 @@ use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\News;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
-use In2code\Lux\Domain\Model\Utm;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\UnexpectedValueException;
 use In2code\Lux\Utility\FileUtility;
@@ -39,9 +38,8 @@ use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExis
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
+use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
-use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
-use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
@@ -63,10 +61,8 @@ class AnalysisController extends AbstractController
 
     /**
      * @param FilterDto $filter
-     * @return void
+     * @return ResponseInterface
      * @throws ConfigurationException
-     * @throws DBALException
-     * @throws Exception
      * @throws ExceptionDbal
      * @throws InvalidConfigurationTypeException
      * @throws InvalidQueryException
@@ -74,7 +70,7 @@ class AnalysisController extends AbstractController
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      */
-    public function dashboardAction(FilterDto $filter): void
+    public function dashboardAction(FilterDto $filter): ResponseInterface
     {
         $this->cacheLayer->initialize(__CLASS__, __FUNCTION__);
         $this->view->assignMultiple([
@@ -97,6 +93,7 @@ class AnalysisController extends AbstractController
                 'latestPagevisits' => $this->pagevisitsRepository->findLatestPagevisits($filter),
             ]);
         }
+        return $this->htmlResponse();
     }
 
     /**
@@ -113,17 +110,14 @@ class AnalysisController extends AbstractController
      *
      * @param FilterDto $filter
      * @param string $export
-     * @return void
-     * @throws DBALException
-     * @throws Exception
+     * @return ResponseInterface
      * @throws ExceptionDbal
      * @throws InvalidQueryException
-     * @throws StopActionException
      */
-    public function contentAction(FilterDto $filter, string $export = ''): void
+    public function contentAction(FilterDto $filter, string $export = ''): ResponseInterface
     {
         if ($export === 'csv') {
-            $this->forward('contentCsv', null, null, ['filter' => $filter]);
+            return (new ForwardResponse('contentCsv'))->withArguments(['filter' => $filter]);
         }
 
         $this->view->assignMultiple([
@@ -137,12 +131,12 @@ class AnalysisController extends AbstractController
             'domainData' => GeneralUtility::makeInstance(DomainDataProvider::class, $filter),
             'domains' => $this->pagevisitsRepository->getAllDomains($filter),
         ]);
+        return $this->htmlResponse();
     }
 
     /**
      * @param FilterDto $filter
      * @return ResponseInterface
-     * @throws Exception
      * @throws ExceptionDbal
      * @throws InvalidQueryException
      */
@@ -167,14 +161,13 @@ class AnalysisController extends AbstractController
     /**
      * @param FilterDto $filter
      * @param string $export
-     * @return void
-     * @throws DBALException
-     * @throws StopActionException
+     * @return ResponseInterface
+     * @throws Exception
      */
-    public function newsAction(FilterDto $filter, string $export = ''): void
+    public function newsAction(FilterDto $filter, string $export = ''): ResponseInterface
     {
         if ($export === 'csv') {
-            $this->forward('newsCsv', null, null, ['filter' => $filter]);
+            return (new ForwardResponse('newsCsv'))->withArguments(['filter' => $filter]);
         }
 
         $this->view->assignMultiple([
@@ -186,12 +179,12 @@ class AnalysisController extends AbstractController
             'domainData' => GeneralUtility::makeInstance(DomainNewsDataProvider::class, $filter),
             'domains' => $this->newsvisitRepository->getAllDomains($filter),
         ]);
+        return $this->htmlResponse();
     }
 
     /**
      * @param FilterDto $filter
      * @return ResponseInterface
-     * @throws DBALException
      */
     public function newsCsvAction(FilterDto $filter): ResponseInterface
     {
@@ -213,16 +206,14 @@ class AnalysisController extends AbstractController
     /**
      * @param FilterDto $filter
      * @param string $export
-     * @return void
-     * @throws DBALException
+     * @return ResponseInterface
      * @throws ExceptionDbalDriver
      * @throws InvalidQueryException
-     * @throws StopActionException
      */
-    public function utmAction(FilterDto $filter, string $export = ''): void
+    public function utmAction(FilterDto $filter, string $export = ''): ResponseInterface
     {
         if ($export === 'csv') {
-            $this->forward('utmCsv', null, null, ['filter' => $filter]);
+            return (new ForwardResponse('utmCsv'))->withArguments(['filter' => $filter]);
         }
 
         $variables = [
@@ -237,6 +228,7 @@ class AnalysisController extends AbstractController
             'utmMediaData' => GeneralUtility::makeInstance(UtmMediaDataProvider::class, $filter),
         ];
         $this->view->assignMultiple($variables);
+        return $this->htmlResponse();
     }
 
     /**
@@ -264,14 +256,13 @@ class AnalysisController extends AbstractController
     /**
      * @param FilterDto $filter
      * @param string $export
-     * @return void
+     * @return ResponseInterface
      * @throws InvalidQueryException
-     * @throws StopActionException
      */
-    public function linkListenerAction(FilterDto $filter, string $export = ''): void
+    public function linkListenerAction(FilterDto $filter, string $export = ''): ResponseInterface
     {
         if ($export === 'csv') {
-            $this->forward('linkListenerCsv', null, null, ['filter' => $filter]);
+            return (new ForwardResponse('linkListenerCsv'))->withArguments(['filter' => $filter]);
         }
 
         $this->view->assignMultiple([
@@ -281,6 +272,7 @@ class AnalysisController extends AbstractController
             'allLinkclickData' => GeneralUtility::makeInstance(AllLinkclickDataProvider::class, $filter),
             'linkclickData' => GeneralUtility::makeInstance(LinkclickDataProvider::class, $filter),
         ]);
+        return $this->htmlResponse();
     }
 
     /**
@@ -307,10 +299,10 @@ class AnalysisController extends AbstractController
 
     /**
      * @param FilterDto $filter
-     * @return void
+     * @return ResponseInterface
      * @throws ExceptionDbal
      */
-    public function searchAction(FilterDto $filter): void
+    public function searchAction(FilterDto $filter): ResponseInterface
     {
         $this->view->assignMultiple([
             'filter' => $filter,
@@ -318,13 +310,13 @@ class AnalysisController extends AbstractController
             'searchData' => GeneralUtility::makeInstance(SearchDataProvider::class, $filter),
             'search' => $this->searchRepository->findCombinedBySearchIdentifier($filter),
         ]);
+        return $this->htmlResponse();
     }
 
     /**
      * @param Linklistener $linkListener
      * @return void
      * @throws IllegalObjectTypeException
-     * @throws StopActionException
      */
     public function deleteLinkListenerAction(LinkListener $linkListener): void
     {
@@ -334,24 +326,23 @@ class AnalysisController extends AbstractController
 
     /**
      * @param Page $page
-     * @return void
-     * @throws DBALException
+     * @return ResponseInterface
      */
-    public function detailPageAction(Page $page): void
+    public function detailPageAction(Page $page): ResponseInterface
     {
         $filter = ObjectUtility::getFilterDto()->setSearchterm((string)$page->getUid());
         $this->view->assignMultiple([
             'pagevisits' => $this->pagevisitsRepository->findByPage($page, 100),
             'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
         ]);
+        return $this->htmlResponse();
     }
 
     /**
      * @param News $news
-     * @return void
-     * @throws DBALException
+     * @return ResponseInterface
      */
-    public function detailNewsAction(News $news): void
+    public function detailNewsAction(News $news): ResponseInterface
     {
         $filter = ObjectUtility::getFilterDto()->setSearchterm((string)$news->getUid());
         $this->view->assignMultiple([
@@ -359,40 +350,43 @@ class AnalysisController extends AbstractController
             'newsvisits' => $this->newsvisitRepository->findByNews($news, 100),
             'newsvisitsData' => GeneralUtility::makeInstance(NewsvisistsDataProvider::class, $filter),
         ]);
+        return $this->htmlResponse();
     }
 
     /**
      * @param string $href
-     * @return void
+     * @return ResponseInterface
      * @throws InvalidQueryException
      */
-    public function detailDownloadAction(string $href): void
+    public function detailDownloadAction(string $href): ResponseInterface
     {
         $filter = ObjectUtility::getFilterDto()->setSearchterm(FileUtility::getFilenameFromPathAndFilename($href));
         $this->view->assignMultiple([
             'downloads' => $this->downloadRepository->findByHref($href, 100),
             'numberOfDownloadsData' => GeneralUtility::makeInstance(DownloadsDataProvider::class, $filter),
         ]);
+        return $this->htmlResponse();
     }
 
     /**
      * @param Linklistener $linkListener
-     * @return void
+     * @return ResponseInterface
      */
-    public function detailLinkListenerAction(Linklistener $linkListener): void
+    public function detailLinkListenerAction(Linklistener $linkListener): ResponseInterface
     {
         $filter = $this->getFilterFromSessionForAjaxRequests('linkListener', (string)$linkListener->getUid());
         $this->view->assignMultiple([
             'linkListener' => $linkListener,
             'allLinkclickData' => GeneralUtility::makeInstance(AllLinkclickDataProvider::class, $filter),
         ]);
+        return $this->htmlResponse();
     }
 
     /**
      * @param string $searchterm
-     * @return void
+     * @return ResponseInterface
      */
-    public function detailSearchAction(string $searchterm): void
+    public function detailSearchAction(string $searchterm): ResponseInterface
     {
         $filter = ObjectUtility::getFilterDto()->setSearchterm($searchterm);
         $this->view->assignMultiple([
@@ -400,6 +394,7 @@ class AnalysisController extends AbstractController
             'searchData' => GeneralUtility::makeInstance(SearchDataProvider::class, $filter),
             'searches' => $this->searchRepository->findBySearchterm(urldecode($searchterm)),
         ]);
+        return $this->htmlResponse();
     }
 
     /**
@@ -407,7 +402,6 @@ class AnalysisController extends AbstractController
      *
      * @param ServerRequestInterface $request
      * @return ResponseInterface
-     * @throws DBALException
      * @noinspection PhpUnused
      */
     public function detailAjaxPage(ServerRequestInterface $request): ResponseInterface
@@ -436,7 +430,6 @@ class AnalysisController extends AbstractController
      *
      * @param ServerRequestInterface $request
      * @return ResponseInterface
-     * @throws DBALException
      * @noinspection PhpUnused
      */
     public function detailNewsAjaxPage(ServerRequestInterface $request): ResponseInterface

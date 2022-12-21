@@ -3,77 +3,43 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
-/**
- * Class Ipinformation
- */
 class Ipinformation extends AbstractModel
 {
     const TABLE_NAME = 'tx_lux_domain_model_ipinformation';
 
-    /**
-     * @var \In2code\Lux\Domain\Model\Visitor
-     */
-    protected $visitor = null;
+    protected string $name = '';
+    protected string $value = '';
 
-    /**
-     * @var string
-     */
-    protected $name = '';
+    protected ?Visitor $visitor = null;
 
-    /**
-     * @var string
-     */
-    protected $value = '';
-
-    /**
-     * @return Visitor
-     */
     public function getVisitor(): Visitor
     {
         return $this->visitor;
     }
 
-    /**
-     * @param Visitor $visitor
-     * @return Ipinformation
-     */
-    public function setVisitor(Visitor $visitor)
+    public function setVisitor(Visitor $visitor): self
     {
         $this->visitor = $visitor;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     * @return Ipinformation
-     */
-    public function setName(string $name)
+    public function setName(string $name): self
     {
         $this->name = $name;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getValue(): string
     {
         return $this->value;
     }
 
-    /**
-     * @param string $value
-     * @return Ipinformation
-     */
-    public function setValue(string $value)
+    public function setValue(string $value): self
     {
         $this->value = $value;
         return $this;

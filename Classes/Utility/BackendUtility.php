@@ -54,7 +54,11 @@ class BackendUtility
      */
     public static function getSessionValue(string $key, string $action, string $controller): array
     {
-        return (array)self::getBackendUserAuthentication()->getSessionData($key . $action . $controller . '_lux');
+        $value = self::getBackendUserAuthentication()->getSessionData($key . $action . $controller . '_lux');
+        if (is_array($value) === true) {
+            return $value;
+        }
+        return [];
     }
 
     /**

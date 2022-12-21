@@ -3,146 +3,81 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
+use DateTime;
 use In2code\Lux\Utility\FrontendUtility;
 
-/**
- * Class Download
- */
 class Download extends AbstractModel
 {
     const TABLE_NAME = 'tx_lux_domain_model_download';
 
-    /**
-     * @var \In2code\Lux\Domain\Model\Visitor
-     */
-    protected $visitor = null;
+    protected string $href = '';
+    protected string $domain = '';
 
-    /**
-     * @var \DateTime|null
-     */
-    protected $crdate = null;
+    protected ?Visitor $visitor = null;
+    protected ?DateTime $crdate = null;
+    protected ?Page $page = null;
+    protected ?File $file = null;
 
-    /**
-     * @var string
-     */
-    protected $href = '';
-
-    /**
-     * @var \In2code\Lux\Domain\Model\Page
-     */
-    protected $page = null;
-
-    /**
-     * @var \In2code\Lux\Domain\Model\File
-     */
-    protected $file = null;
-
-    /**
-     * @var string
-     */
-    protected $domain = '';
-
-    /**
-     * @return Visitor
-     */
-    public function getVisitor()
+    public function getVisitor(): ?Visitor
     {
         return $this->visitor;
     }
 
-    /**
-     * @param Visitor $visitor
-     * @return Download
-     */
-    public function setVisitor(Visitor $visitor): Download
+    public function setVisitor(Visitor $visitor): self
     {
         $this->visitor = $visitor;
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getCrdate(): \DateTime
+    public function getCrdate(): ?DateTime
     {
         return $this->crdate;
     }
 
-    /**
-     * @param \DateTime $crdate
-     * @return Download
-     */
-    public function setCrdate(\DateTime $crdate): Download
+    public function setCrdate(DateTime $crdate): self
     {
         $this->crdate = $crdate;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getHref(): string
     {
         return $this->href;
     }
 
-    /**
-     * @param string $href
-     * @return Download
-     */
-    public function setHref(string $href): Download
+    public function setHref(string $href): self
     {
         $this->href = $href;
         return $this;
     }
 
-    /**
-     * @return Page
-     */
     public function getPage(): ?Page
     {
         return $this->page;
     }
 
-    /**
-     * @param Page $page
-     * @return Download
-     */
     public function setPage(?Page $page): Download
     {
         $this->page = $page;
         return $this;
     }
 
-    /**
-     * @return File
-     */
     public function getFile(): ?File
     {
         return $this->file;
     }
 
-    /**
-     * @param File $file
-     * @return Download
-     */
-    public function setFile(File $file)
+    public function setFile(File $file): self
     {
         $this->file = $file;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getDomain(): string
     {
         return $this->domain;
     }
 
-    /**
-     * @return Download
-     */
     public function setDomain(): self
     {
         $this->domain = FrontendUtility::getCurrentDomain();

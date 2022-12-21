@@ -3,7 +3,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
-use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\DataProvider\IdentificationMethodsDataProvider;
@@ -16,25 +15,18 @@ use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\UnexpectedValueException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\StreamInterface;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
+use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
-use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
-use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
-/**
- * Class LeadController
- * Todo: Return type ": ResponseInterface" and "return $this->htmlResponse();" when TYPO3 10 support is dropped
- *       for all actions
- */
 class LeadController extends AbstractController
 {
     /**
@@ -48,9 +40,8 @@ class LeadController extends AbstractController
 
     /**
      * @param FilterDto $filter
-     * @return void
+     * @return ResponseInterface
      * @throws ConfigurationException
-     * @throws DBALException
      * @throws ExceptionDbal
      * @throws ExceptionDbalDriver
      * @throws ExtensionConfigurationExtensionNotConfiguredException
@@ -59,7 +50,7 @@ class LeadController extends AbstractController
      * @throws InvalidQueryException
      * @throws UnexpectedValueException
      */
-    public function dashboardAction(FilterDto $filter): void
+    public function dashboardAction(FilterDto $filter): ResponseInterface
     {
         $this->cacheLayer->initialize(__CLASS__, __FUNCTION__);
         $this->view->assignMultiple([
@@ -85,6 +76,7 @@ class LeadController extends AbstractController
                 'renderingTime' => $this->renderingTimeService->getTime(),
             ]);
         }
+        return $this->htmlResponse();
     }
 
     /**
@@ -99,16 +91,15 @@ class LeadController extends AbstractController
     /**
      * @param FilterDto $filter
      * @param string $export
-     * @return void
+     * @return ResponseInterface
      * @throws ExceptionDbal
      * @throws ExceptionDbalDriver
      * @throws InvalidQueryException
-     * @throws StopActionException
      */
-    public function listAction(FilterDto $filter, string $export = ''): void
+    public function listAction(FilterDto $filter, string $export = ''): ResponseInterface
     {
         if ($export === 'csv') {
-            $this->forward('downloadCsv', null, null, ['filter' => $filter]);
+            return (new ForwardResponse('downloadCsv'))->withArguments(['filter' => $filter]);
         }
         $this->view->assignMultiple([
             'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
@@ -117,6 +108,7 @@ class LeadController extends AbstractController
             'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter),
             'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
         ]);
+        return $this->htmlResponse();
     }
 
     /**
@@ -134,49 +126,43 @@ class LeadController extends AbstractController
 
     /**
      * @param Visitor $visitor
-     * @return void
+     * @return ResponseInterface
      */
-    public function detailAction(Visitor $visitor): void
+    public function detailAction(Visitor $visitor): ResponseInterface
     {
         $this->view->assign('visitor', $visitor);
+        return $this->htmlResponse();
     }
 
     /**
      * Really remove visitor completely from db (not only deleted=1)
      *
      * @param Visitor $visitor
-     * @return void
-     * @throws StopActionException
-     * @throws DBALException
+     * @return ResponseInterface
      */
-    public function removeAction(Visitor $visitor): void
+    public function removeAction(Visitor $visitor): ResponseInterface
     {
         $this->visitorRepository->removeVisitor($visitor);
         $this->visitorRepository->removeRelatedTableRowsByVisitor($visitor);
         $this->addFlashMessage('Visitor completely removed from database');
-        $this->redirect('list');
+        return $this->redirect('list');
     }
 
     /**
      * @param Visitor $visitor
-     * @return void
+     * @return ResponseInterface
      * @throws IllegalObjectTypeException
-     * @throws StopActionException
      * @throws UnknownObjectException
-     * @throws DBALException
-     * @throws Exception
      */
-    public function deactivateAction(Visitor $visitor): void
+    public function deactivateAction(Visitor $visitor): ResponseInterface
     {
         $visitor->setBlacklistedStatus();
         $this->visitorRepository->update($visitor);
         $this->addFlashMessage('Visitor is blacklisted now');
-        $this->redirect('list');
+        return $this->redirect('list');
     }
 
     /**
-     * AJAX action to show a detail view
-     *
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      * @noinspection PhpUnused
@@ -193,16 +179,12 @@ class LeadController extends AbstractController
         $standaloneView->assignMultiple([
             'visitor' => $visitorRepository->findByUid((int)$request->getQueryParams()['visitor']),
         ]);
-        /** @var StreamInterface $stream */
-        $stream = $response->getBody();
-        $stream->write(json_encode(['html' => $standaloneView->render()]));
-        return $response;
+        return $response->getBody()->write(json_encode(['html' => $standaloneView->render()]));
     }
 
     /**
      * @param ServerRequestInterface $request
      * @return ResponseInterface
-     * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      * @noinspection PhpUnused

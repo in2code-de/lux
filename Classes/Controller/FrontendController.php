@@ -3,9 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
-use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Exception as ExceptionDbal;
-use Exception;
 use In2code\Lux\Domain\Factory\VisitorFactory;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Service\Email\SendAssetEmail4LinkService;
@@ -22,34 +20,23 @@ use In2code\Lux\Events\AfterTrackingEvent;
 use In2code\Lux\Exception\ActionNotAllowedException;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\EmailValidationException;
+use In2code\Lux\Exception\FileNotFoundException;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Psr\Http\Message\ResponseInterface;
+use Throwable;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
+use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
-use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
-use TYPO3\CMS\Extbase\Object\Exception as ExceptionExtbaseObject;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
-use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
-use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
 
-/**
- * Class FrontendController
- * Todo: Return type ": ResponseInterface" and "return $this->htmlResponse();" when TYPO3 10 support is dropped
- *       for all actions
- */
 class FrontendController extends ActionController
 {
-    /**
-     * @var EventDispatcherInterface
-     */
     protected $eventDispatcher;
 
-    /**
-     * @param EventDispatcherInterface $eventDispatcher
-     */
     public function __construct(EventDispatcherInterface $eventDispatcher)
     {
         $this->eventDispatcher = $eventDispatcher;
@@ -59,7 +46,6 @@ class FrontendController extends ActionController
      * Check for allowed actions
      *
      * @return void
-     * @throws NoSuchArgumentException
      * @throws ActionNotAllowedException
      * @noinspection PhpUnused
      */
@@ -86,22 +72,25 @@ class FrontendController extends ActionController
      * @param string $dispatchAction
      * @param string $identificator Fingerprint or Local storage hash
      * @param array $arguments
-     * @return void
-     * @throws StopActionException
+     * @return ResponseInterface
      * @noinspection PhpUnused
      */
-    public function dispatchRequestAction(string $dispatchAction, string $identificator, array $arguments): void
-    {
-        $this->forward($dispatchAction, null, null, ['identificator' => $identificator, 'arguments' => $arguments]);
+    public function dispatchRequestAction(
+        string $dispatchAction,
+        string $identificator,
+        array $arguments
+    ): ResponseInterface {
+        return (new ForwardResponse($dispatchAction))
+            ->withArguments(['identificator' => $identificator, 'arguments' => $arguments]);
     }
 
     /**
      * @param string $identificator
      * @param array $arguments
-     * @return string
+     * @return ResponseInterface
      * @noinspection PhpUnused
      */
-    public function pageRequestAction(string $identificator, array $arguments): string
+    public function pageRequestAction(string $identificator, array $arguments): ResponseInterface
     {
         try {
             $visitor = $this->getVisitor($identificator);
@@ -112,19 +101,19 @@ class FrontendController extends ActionController
             $newsTracker->track($visitor, $arguments, $pagevisit);
             $searchTracker = GeneralUtility::makeInstance(SearchTracker::class);
             $searchTracker->track($visitor, $arguments);
-            return json_encode($this->afterAction($visitor));
-        } catch (Exception $exception) {
-            return json_encode($this->getError($exception));
+            return $this->jsonResponse(json_encode($this->afterAction($visitor)));
+        } catch (Throwable $exception) {
+            return $this->jsonResponse(json_encode($this->getError($exception)));
         }
     }
 
     /**
      * @param string $identificator
      * @param array $arguments
-     * @return string
+     * @return ResponseInterface
      * @noinspection PhpUnused
      */
-    public function fieldListeningRequestAction(string $identificator, array $arguments): string
+    public function fieldListeningRequestAction(string $identificator, array $arguments): ResponseInterface
     {
         try {
             $visitor = $this->getVisitor($identificator);
@@ -135,19 +124,19 @@ class FrontendController extends ActionController
                 (int)$arguments['pageUid']
             );
             $attributeTracker->addAttribute($arguments['key'], $arguments['value']);
-            return json_encode($this->afterAction($visitor));
-        } catch (Exception $exception) {
-            return json_encode($this->getError($exception));
+            return $this->jsonResponse(json_encode($this->afterAction($visitor)));
+        } catch (Throwable $exception) {
+            return $this->jsonResponse(json_encode($this->getError($exception)));
         }
     }
 
     /**
      * @param string $identificator
      * @param array $arguments
-     * @return string
+     * @return ResponseInterface
      * @noinspection PhpUnused
      */
-    public function formListeningRequestAction(string $identificator, array $arguments): string
+    public function formListeningRequestAction(string $identificator, array $arguments): ResponseInterface
     {
         try {
             $visitor = $this->getVisitor($identificator);
@@ -161,19 +150,19 @@ class FrontendController extends ActionController
                 );
                 $attributeTracker->addAttributes($values);
             }
-            return json_encode($this->afterAction($visitor));
-        } catch (Exception $exception) {
-            return json_encode($this->getError($exception));
+            return $this->jsonResponse(json_encode($this->afterAction($visitor)));
+        } catch (Throwable $exception) {
+            return $this->jsonResponse(json_encode($this->getError($exception)));
         }
     }
 
     /**
      * @param string $identificator
      * @param array $arguments
-     * @return string
+     * @return ResponseInterface
      * @noinspection PhpUnused
      */
-    public function email4LinkRequestAction(string $identificator, array $arguments): string
+    public function email4LinkRequestAction(string $identificator, array $arguments): ResponseInterface
     {
         try {
             $visitor = $this->getVisitor($identificator, true);
@@ -198,84 +187,84 @@ class FrontendController extends ActionController
                 GeneralUtility::makeInstance(SendAssetEmail4LinkService::class, $visitor, $this->settings)
                     ->sendMail($arguments['href']);
             }
-            return json_encode($this->afterAction($visitor));
-        } catch (Exception $exception) {
-            return json_encode($this->getError($exception));
+            return $this->jsonResponse(json_encode($this->afterAction($visitor)));
+        } catch (Throwable $exception) {
+            return $this->jsonResponse(json_encode($this->getError($exception)));
         }
     }
 
     /**
      * @param string $identificator
      * @param array $arguments
-     * @return string
+     * @return ResponseInterface
      * @noinspection PhpUnused
      */
-    public function downloadRequestAction(string $identificator, array $arguments): string
+    public function downloadRequestAction(string $identificator, array $arguments): ResponseInterface
     {
         try {
             $visitor = $this->getVisitor($identificator);
             $downloadTracker = GeneralUtility::makeInstance(DownloadTracker::class, $visitor);
             $downloadTracker->addDownload($arguments['href'], (int)$arguments['pageUid']);
-            return json_encode($this->afterAction($visitor));
-        } catch (Exception $exception) {
-            return json_encode($this->getError($exception));
+            return $this->jsonResponse(json_encode($this->afterAction($visitor)));
+        } catch (Throwable $exception) {
+            return $this->jsonResponse(json_encode($this->getError($exception)));
         }
     }
 
     /**
      * @param string $identificator
      * @param array $arguments
-     * @return string
+     * @return ResponseInterface
      * @noinspection PhpUnused
      */
-    public function linkClickRequestAction(string $identificator, array $arguments): string
+    public function linkClickRequestAction(string $identificator, array $arguments): ResponseInterface
     {
         try {
             $visitor = $this->getVisitor($identificator);
             $linkClickTracker = GeneralUtility::makeInstance(LinkClickTracker::class, $visitor);
             $linkClickTracker->addLinkClick((int)$arguments['linklistenerIdentifier'], (int)$arguments['pageUid']);
-            return json_encode($this->afterAction($visitor));
-        } catch (Exception $exception) {
-            return json_encode($this->getError($exception));
+            return $this->jsonResponse(json_encode($this->afterAction($visitor)));
+        } catch (Throwable $exception) {
+            return $this->jsonResponse(json_encode($this->getError($exception)));
         }
     }
 
     /**
      * @param string $identificator empty means no opt-in yet
-     * @return string
+     * @return ResponseInterface
      */
-    public function redirectRequestAction(string $identificator): string
+    public function redirectRequestAction(string $identificator): ResponseInterface
     {
         try {
             $visitor = $this->getVisitor($identificator);
-        } catch (Exception $exception) {
+        } catch (Throwable $exception) {
             try {
                 // Empty fingerprint, create visitor on the fly
                 $visitor = new Visitor();
-            } catch (Exception $exception) {
-                return json_encode($this->getError($exception));
+            } catch (Throwable $exception) {
+                return $this->jsonResponse(json_encode($this->getError($exception)));
             }
         }
-        return json_encode($this->afterAction($visitor));
+        return $this->jsonResponse(json_encode($this->afterAction($visitor)));
     }
 
     /**
      * @param string $identificator
      * @param array $arguments
-     * @return string
+     * @return ResponseInterface
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
-    public function abTestingRequestAction(string $identificator, array $arguments): string
+    public function abTestingRequestAction(string $identificator, array $arguments): ResponseInterface
     {
         try {
             $visitor = $this->getVisitor($identificator);
-        } catch (Exception $exception) {
+        } catch (Throwable $exception) {
             try {
                 // Empty fingerprint, create visitor on the fly
                 $visitor = new Visitor();
-            } catch (Exception $exception) {
-                return json_encode($this->getError($exception));
+            } catch (Throwable $exception) {
+                return $this->jsonResponse(json_encode($this->getError($exception)));
             }
         }
 
@@ -283,39 +272,42 @@ class FrontendController extends ActionController
         $abpagevisit = $abTestingTracker->track((int)$arguments['abTestingPage']);
         $result = $this->afterAction($visitor);
         $result[] = ['action' => 'abPageVisit', 'configuration' => ['record' => $abpagevisit->getUid()]];
-        return json_encode($result);
+        return $this->jsonResponse(json_encode($result));
     }
 
     /**
      * @param string $identificator
      * @param array $arguments
-     * @return string
+     * @return ResponseInterface
      * @throws ExceptionDbal
      */
-    public function abTestingConversionFulfilledRequestAction(string $identificator, array $arguments): string
-    {
+    public function abTestingConversionFulfilledRequestAction(
+        string $identificator,
+        array $arguments
+    ): ResponseInterface {
         try {
             $visitor = $this->getVisitor($identificator);
-        } catch (Exception $exception) {
+        } catch (Throwable $exception) {
             try {
                 // Empty fingerprint, create visitor on the fly
                 $visitor = new Visitor();
-            } catch (Exception $exception) {
-                return json_encode($this->getError($exception));
+            } catch (Throwable $exception) {
+                return $this->jsonResponse(json_encode($this->getError($exception)));
             }
         }
 
         $abTestingTracker = GeneralUtility::makeInstance(AbTestingTracker::class, $visitor);
         $abTestingTracker->conversionFulfilled((int)$arguments['abPageVisitIdentifier']);
-        return json_encode($this->afterAction($visitor));
+        return $this->jsonResponse(json_encode($this->afterAction($visitor)));
     }
 
     /**
-     * @return void
+     * @return ResponseInterface
      * @noinspection PhpUnused
      */
-    public function trackingOptOutAction(): void
+    public function trackingOptOutAction(): ResponseInterface
     {
+        return $this->htmlResponse();
     }
 
     /**
@@ -326,13 +318,9 @@ class FrontendController extends ActionController
      * @param Visitor $visitor
      * @param array $arguments
      * @return void
-     * @throws ExceptionExtbaseObject
-     * @throws DBALException
      * @throws EmailValidationException
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
      */
     protected function callAdditionalTrackers(Visitor $visitor, array $arguments): void
     {
@@ -366,10 +354,10 @@ class FrontendController extends ActionController
     }
 
     /**
-     * @param Exception $exception
+     * @param Throwable $exception
      * @return array
      */
-    protected function getError(Exception $exception): array
+    protected function getError(Throwable $exception): array
     {
         $this->eventDispatcher->dispatch(
             GeneralUtility::makeInstance(AfterTrackingEvent::class, new Visitor(), 'error', ['error' => $exception])
@@ -387,13 +375,13 @@ class FrontendController extends ActionController
      * @param string $identificator
      * @param bool $tempVisitor
      * @return Visitor
-     * @throws DBALException
-     * @throws ExceptionExtbaseObject
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
      * @throws ConfigurationException
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     * @throws FileNotFoundException
+     * @throws InvalidConfigurationTypeException
      */
     protected function getVisitor(string $identificator, bool $tempVisitor = false): Visitor
     {

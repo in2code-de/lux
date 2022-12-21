@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
 use DateTime;
-use Doctrine\DBAL\DBALException;
 use Exception;
 use In2code\Lux\Domain\Repository\CategoryscoringRepository;
+use In2code\Lux\Domain\Repository\FrontendUserRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\GetCompanyFromIpService;
 use In2code\Lux\Domain\Service\Provider\Telecommunication;
@@ -15,21 +15,13 @@ use In2code\Lux\Domain\Service\VisitorImageService;
 use In2code\Lux\Exception\FileNotFoundException;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
-use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
-use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
-use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
-use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
-/**
- * Class Visitor
- */
 class Visitor extends AbstractModel
 {
     const TABLE_NAME = 'tx_lux_domain_model_visitor';
@@ -41,116 +33,78 @@ class Visitor extends AbstractModel
         'username',
     ];
 
-    /**
-     * @var int
-     */
-    protected $scoring = 0;
+    protected int $scoring = 0;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Categoryscoring>
-     * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
+     * @var ?ObjectStorage<Categoryscoring>
+     * @Lazy
      */
-    protected $categoryscorings = null;
+    protected ?ObjectStorage $categoryscorings = null;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Fingerprint>
+     * @var ?ObjectStorage<Fingerprint>
      */
-    protected $fingerprints = null;
+    protected ?ObjectStorage $fingerprints = null;
+
+    protected string $email = '';
+    protected string $company = '';
+
+    protected bool $identified = false;
+
+    protected int $visits = 0;
 
     /**
-     * @var string
+     * @var ?ObjectStorage<Pagevisit>
+     * @Lazy
      */
-    protected $email = '';
+    protected ?ObjectStorage $pagevisits = null;
 
     /**
-     * @var string
+     * @var ?ObjectStorage<Newsvisit>
+     * @Lazy
      */
-    protected $company = '';
+    protected ?ObjectStorage $newsvisits = null;
 
     /**
-     * @var bool
+     * @var ?ObjectStorage<Linkclick>
+     * @Lazy
      */
-    protected $identified = false;
+    protected ?ObjectStorage $linkclicks = null;
 
     /**
-     * @var int
+     * @var ?ObjectStorage<Attribute>
      */
-    protected $visits = 0;
+    protected ?ObjectStorage $attributes = null;
+
+    protected string $ipAddress = '';
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Pagevisit>
-     * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
+     * @var ?ObjectStorage<Ipinformation>
+     * @Lazy
      */
-    protected $pagevisits = null;
+    protected ?ObjectStorage $ipinformations = null;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Newsvisit>
-     * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
+     * @var ?ObjectStorage<Download>
+     * @Lazy
      */
-    protected $newsvisits = null;
+    protected ?ObjectStorage $downloads = null;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Linkclick>
-     * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
+     * @var ?ObjectStorage<Log>
+     * @Lazy
      */
-    protected $linkclicks = null;
+    protected ?ObjectStorage $logs = null;
 
-    /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Attribute>
-     */
-    protected $attributes = null;
+    protected ?DateTime $crdate = null;
+    protected ?DateTime $tstamp = null;
 
-    /**
-     * @var string
-     */
-    protected $ipAddress = '';
+    protected string $description = '';
 
-    /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Ipinformation>
-     * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
-     */
-    protected $ipinformations = null;
+    protected bool $blacklisted = false;
 
-    /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Download>
-     * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
-     */
-    protected $downloads = null;
+    protected ?FrontendUser $frontenduser = null;
 
-    /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Log>
-     * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
-     */
-    protected $logs = null;
-
-    /**
-     * @var DateTime
-     */
-    protected $crdate = null;
-
-    /**
-     * @var DateTime
-     */
-    protected $tstamp = null;
-
-    /**
-     * @var string
-     */
-    protected $description = '';
-
-    /**
-     * @var bool
-     */
-    protected $blacklisted = false;
-
-    /**
-     * @var FrontendUser
-     */
-    protected $frontenduser = null;
-
-    /**
-     * Visitor constructor.
-     */
     public function __construct()
     {
         $this->categoryscorings = new ObjectStorage();
@@ -164,18 +118,11 @@ class Visitor extends AbstractModel
         $this->logs = new ObjectStorage();
     }
 
-    /**
-     * @return int
-     */
     public function getScoring(): int
     {
         return $this->scoring;
     }
 
-    /**
-     * @param int $scoring
-     * @return Visitor
-     */
     public function setScoring(int $scoring): self
     {
         $this->scoring = $scoring;
@@ -195,47 +142,29 @@ class Visitor extends AbstractModel
         return $scoringService->calculateScoring($this);
     }
 
-    /**
-     * @return ObjectStorage
-     */
     public function getCategoryscorings(): ObjectStorage
     {
         return $this->categoryscorings;
     }
 
-    /**
-     * @var ObjectStorage $categoryscorings
-     * @return Visitor
-     */
     public function setCategoryscorings(ObjectStorage $categoryscorings): self
     {
         $this->categoryscorings = $categoryscorings;
         return $this;
     }
 
-    /**
-     * @param Categoryscoring $categoryscoring
-     * @return $this
-     */
     public function addCategoryscoring(Categoryscoring $categoryscoring): self
     {
         $this->categoryscorings->attach($categoryscoring);
         return $this;
     }
 
-    /**
-     * @param Categoryscoring $categoryscoring
-     * @return $this
-     */
     public function removeCategoryscoring(Categoryscoring $categoryscoring): self
     {
         $this->categoryscorings->detach($categoryscoring);
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getCategoryscoringsSortedByScoring(): array
     {
         $categoryscorings = $this->getCategoryscorings()->toArray();
@@ -243,10 +172,6 @@ class Visitor extends AbstractModel
         return $categoryscorings;
     }
 
-    /**
-     * @param Category $category
-     * @return Categoryscoring|null
-     */
     public function getCategoryscoringByCategory(Category $category): ?Categoryscoring
     {
         $categoryscorings = $this->getCategoryscorings();
@@ -259,9 +184,6 @@ class Visitor extends AbstractModel
         return null;
     }
 
-    /**
-     * @return Categoryscoring|null
-     */
     public function getHottestCategoryscoring(): ?Categoryscoring
     {
         $categoryscorings = $this->getCategoryscorings()->toArray();
@@ -273,13 +195,6 @@ class Visitor extends AbstractModel
         return null;
     }
 
-    /**
-     * @param int $scoring
-     * @param Category $category
-     * @return void
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
-     */
     public function setCategoryscoringByCategory(int $scoring, Category $category): void
     {
         $csRepository = GeneralUtility::makeInstance(CategoryscoringRepository::class);
@@ -298,13 +213,6 @@ class Visitor extends AbstractModel
         $csRepository->persistAll();
     }
 
-    /**
-     * @param int $value
-     * @param Category $category
-     * @return void
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
-     */
     public function increaseCategoryscoringByCategory(int $value, Category $category): void
     {
         $scoring = 0;
@@ -315,9 +223,6 @@ class Visitor extends AbstractModel
         $this->setCategoryscoringByCategory($newScoring, $category);
     }
 
-    /**
-     * @return ObjectStorage
-     */
     public function getFingerprints(): ?ObjectStorage
     {
         return $this->fingerprints;
@@ -334,9 +239,6 @@ class Visitor extends AbstractModel
         return array_reverse($fingerprints);
     }
 
-    /**
-     * @return Fingerprint|null
-     */
     public function getLatestFingerprint(): ?Fingerprint
     {
         $fingerprints = $this->getFingerprints();
@@ -346,9 +248,6 @@ class Visitor extends AbstractModel
         return null;
     }
 
-    /**
-     * @return array
-     */
     public function getFingerprintValues(): array
     {
         $values = [];
@@ -358,30 +257,18 @@ class Visitor extends AbstractModel
         return $values;
     }
 
-    /**
-     * @var ObjectStorage $fingerprints
-     * @return Visitor
-     */
     public function setFingerprints(ObjectStorage $fingerprints): self
     {
         $this->fingerprints = $fingerprints;
         return $this;
     }
 
-    /**
-     * @param Fingerprint $fingerprint
-     * @return $this
-     */
     public function addFingerprint(Fingerprint $fingerprint): self
     {
         $this->fingerprints->attach($fingerprint);
         return $this;
     }
 
-    /**
-     * @param ObjectStorage $fingerprints
-     * @return $this
-     */
     public function addFingerprints(ObjectStorage $fingerprints): self
     {
         foreach ($fingerprints as $fingerprint) {
@@ -391,39 +278,23 @@ class Visitor extends AbstractModel
         return $this;
     }
 
-    /**
-     * @param Fingerprint $fingerprint
-     * @return $this
-     */
     public function removeFingerprint(Fingerprint $fingerprint): self
     {
         $this->fingerprints->detach($fingerprint);
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getEmail(): string
     {
         return $this->email;
     }
 
-    /**
-     * @param string $email
-     * @return Visitor
-     */
     public function setEmail(string $email): self
     {
         $this->email = $email;
         return $this;
     }
 
-    /**
-     * @return string
-     * @throws InvalidConfigurationTypeException
-     * @throws FileNotFoundException
-     */
     public function getCompany(): string
     {
         $company = $this->company;
@@ -444,10 +315,6 @@ class Visitor extends AbstractModel
         return $company;
     }
 
-    /**
-     * @param string $company
-     * @return Visitor
-     */
     public function setCompany(string $company): self
     {
         $this->company = $company;
@@ -470,36 +337,22 @@ class Visitor extends AbstractModel
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isIdentified(): bool
     {
         return $this->identified;
     }
 
-    /**
-     * @param bool $identified
-     * @return Visitor
-     */
     public function setIdentified(bool $identified): self
     {
         $this->identified = $identified;
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getVisits(): int
     {
         return $this->visits;
     }
 
-    /**
-     * @param int $visits
-     * @return Visitor
-     */
     public function setVisits(int $visits): self
     {
         $this->visits = $visits;
@@ -524,11 +377,6 @@ class Visitor extends AbstractModel
         return $pagevisitsArray;
     }
 
-    /**
-     * @param int $pageIdentifier
-     * @return array
-     * @throws Exception
-     */
     public function getPagevisitsOfGivenPageIdentifier(int $pageIdentifier): array
     {
         $pagevisits = $this->pagevisits;
@@ -543,12 +391,6 @@ class Visitor extends AbstractModel
         return $pagevisitsArray;
     }
 
-    /**
-     * Get last page visit
-     *
-     * @return Pagevisit|null
-     * @throws Exception
-     */
     public function getPagevisitLast(): ?Pagevisit
     {
         $pagevisits = $this->getPagevisits();
@@ -558,12 +400,6 @@ class Visitor extends AbstractModel
         return null;
     }
 
-    /**
-     * Get first page visit
-     *
-     * @return Pagevisit|null
-     * @throws Exception
-     */
     public function getPagevisitFirst(): ?Pagevisit
     {
         $pagevisits = $this->getPagevisits();
@@ -574,40 +410,24 @@ class Visitor extends AbstractModel
         return null;
     }
 
-    /**
-     * @var ObjectStorage $pagevisits
-     * @return Visitor
-     */
     public function setPagevisits(ObjectStorage $pagevisits): self
     {
         $this->pagevisits = $pagevisits;
         return $this;
     }
 
-    /**
-     * @param Pagevisit $pagevisit
-     * @return $this
-     */
     public function addPagevisit(Pagevisit $pagevisit): self
     {
         $this->pagevisits->attach($pagevisit);
         return $this;
     }
 
-    /**
-     * @param Pagevisit $pagevisit
-     * @return $this
-     */
     public function removePagevisit(Pagevisit $pagevisit): self
     {
         $this->pagevisits->detach($pagevisit);
         return $this;
     }
 
-    /**
-     * @return Pagevisit|null
-     * @throws Exception
-     */
     public function getLastPagevisit(): ?Pagevisit
     {
         $pagevisits = $this->getPagevisits();
@@ -647,130 +467,75 @@ class Visitor extends AbstractModel
         return $number;
     }
 
-    /**
-     * @return ObjectStorage
-     * @noinspection PhpUnused
-     */
     public function getNewsvisits(): ObjectStorage
     {
         return $this->newsvisits;
     }
 
-    /**
-     * @param ObjectStorage $newsvisits
-     * @return Visitor
-     * @noinspection PhpUnused
-     */
     public function setNewsvisits(ObjectStorage $newsvisits): self
     {
         $this->newsvisits = $newsvisits;
         return $this;
     }
 
-    /**
-     * @param Newsvisit $newsvisits
-     * @return $this
-     */
     public function addNewsvisit(Newsvisit $newsvisits): self
     {
         $this->newsvisits->attach($newsvisits);
         return $this;
     }
 
-    /**
-     * @param Newsvisit $newsvisits
-     * @return $this
-     * @noinspection PhpUnused
-     */
     public function removeNewsvisit(Newsvisit $newsvisits): self
     {
         $this->pagevisits->detach($newsvisits);
         return $this;
     }
 
-    /**
-     * @return ObjectStorage
-     * @noinspection PhpUnused
-     */
     public function getLinkclicks(): ObjectStorage
     {
         return $this->linkclicks;
     }
 
-    /**
-     * @param ObjectStorage $linkclicks
-     * @return Visitor
-     * @noinspection PhpUnused
-     */
     public function setLinkclicks(ObjectStorage $linkclicks): self
     {
         $this->linkclicks = $linkclicks;
         return $this;
     }
 
-    /**
-     * @param Linkclick $linkclick
-     * @return $this
-     * @noinspection PhpUnused
-     */
     public function addLinkclick(Linkclick $linkclick): self
     {
         $this->linkclicks->attach($linkclick);
         return $this;
     }
 
-    /**
-     * @param Linkclick $linkclick
-     * @return $this
-     * @noinspection PhpUnused
-     */
     public function removeLinkclick(Linkclick $linkclick): self
     {
         $this->linkclicks->detach($linkclick);
         return $this;
     }
 
-    /**
-     * @return ObjectStorage
-     */
     public function getAttributes(): ObjectStorage
     {
         return $this->attributes;
     }
 
-    /**
-     * @var ObjectStorage $attributes
-     * @return Visitor
-     */
     public function setAttributes(ObjectStorage $attributes): self
     {
         $this->attributes = $attributes;
         return $this;
     }
 
-    /**
-     * @param Attribute $attribute
-     * @return $this
-     */
     public function addAttribute(Attribute $attribute): self
     {
         $this->attributes->attach($attribute);
         return $this;
     }
 
-    /**
-     * @param Attribute $attribute
-     * @return $this
-     */
     public function removeAttribute(Attribute $attribute): self
     {
         $this->attributes->detach($attribute);
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getImportantAttributes(): array
     {
         $attributes = $this->getAttributes();
@@ -784,9 +549,6 @@ class Visitor extends AbstractModel
         return $importantAttributes;
     }
 
-    /**
-     * @return array
-     */
     public function getUnimportantAttributes(): array
     {
         $attributes = $this->getAttributes();
@@ -800,9 +562,6 @@ class Visitor extends AbstractModel
         return $unimportant;
     }
 
-    /**
-     * @return array
-     */
     public function getAttributesFromFrontenduser(): array
     {
         $attributes = [];
@@ -823,35 +582,22 @@ class Visitor extends AbstractModel
         return $attributes;
     }
 
-    /**
-     * @return string
-     */
     public function getIpAddress(): string
     {
         return $this->ipAddress;
     }
 
-    /**
-     * @param string $ipAddress
-     * @return Visitor
-     */
     public function setIpAddress(string $ipAddress): self
     {
         $this->ipAddress = $ipAddress;
         return $this;
     }
 
-    /**
-     * @return ObjectStorage
-     */
     public function getIpinformations(): ObjectStorage
     {
         return $this->ipinformations;
     }
 
-    /**
-     * @return array
-     */
     public function getImportantIpinformations(): array
     {
         $important = [
@@ -870,79 +616,47 @@ class Visitor extends AbstractModel
         return $importantInfo;
     }
 
-    /**
-     * @var ObjectStorage $ipinformations
-     * @return Visitor
-     */
     public function setIpinformations(ObjectStorage $ipinformations): self
     {
         $this->ipinformations = $ipinformations;
         return $this;
     }
 
-    /**
-     * @param Ipinformation $ipinformation
-     * @return $this
-     */
     public function addIpinformation(Ipinformation $ipinformation): self
     {
         $this->ipinformations->attach($ipinformation);
         return $this;
     }
 
-    /**
-     * @param Ipinformation $ipinformation
-     * @return $this
-     * @noinspection PhpUnused
-     */
     public function removeIpinformation(Ipinformation $ipinformation): self
     {
         $this->ipinformations->detach($ipinformation);
         return $this;
     }
 
-    /**
-     * @return ObjectStorage
-     */
     public function getDownloads(): ObjectStorage
     {
         return $this->downloads;
     }
 
-    /**
-     * @param ObjectStorage $downloads
-     * @return Visitor
-     */
     public function setDownloads(ObjectStorage $downloads): self
     {
         $this->downloads = $downloads;
         return $this;
     }
 
-    /**
-     * @param Download $download
-     * @return Visitor
-     */
     public function addDownload(Download $download): self
     {
         $this->downloads->attach($download);
         return $this;
     }
 
-    /**
-     * @param Download $download
-     * @return Visitor
-     * @noinspection PhpUnused
-     */
     public function removeDownload(Download $download): self
     {
         $this->downloads->detach($download);
         return $this;
     }
 
-    /**
-     * @return Download|null
-     */
     public function getLastDownload(): ?Download
     {
         $downloads = $this->getDownloads();
@@ -954,9 +668,6 @@ class Visitor extends AbstractModel
         return $download;
     }
 
-    /**
-     * @return array
-     */
     public function getLogs(): array
     {
         $logs = $this->logs->toArray();
@@ -964,9 +675,6 @@ class Visitor extends AbstractModel
         return $logs;
     }
 
-    /**
-     * @return Log|null
-     */
     public function getLatestLog(): ?Log
     {
         $logs = $this->getLogs();
@@ -977,20 +685,12 @@ class Visitor extends AbstractModel
         return null;
     }
 
-    /**
-     * @var ObjectStorage $logs
-     * @return Visitor
-     */
     public function setLogs(ObjectStorage $logs): self
     {
         $this->logs = $logs;
         return $this;
     }
 
-    /**
-     * @param Log $log
-     * @return $this
-     */
     public function addLog(Log $log): self
     {
         if ($this->logs !== null) {
@@ -999,49 +699,33 @@ class Visitor extends AbstractModel
         return $this;
     }
 
-    /**
-     * @param Log $log
-     * @return $this
-     */
     public function removeLog(Log $log): self
     {
         $this->logs->detach($log);
         return $this;
     }
 
-    /**
-     * @return DateTime
-     */
     public function getCrdate(): DateTime
     {
         return $this->crdate;
     }
 
-    /**
-     * @param DateTime $crdate
-     * @return Visitor
-     */
     public function setCrdate(DateTime $crdate): self
     {
         $this->crdate = $crdate;
         return $this;
     }
 
-    /**
-     * @return DateTime
-     * @noinspection PhpUnused
-     */
     public function getTstamp(): DateTime
     {
         return $this->tstamp;
     }
 
     /**
-     * You should not use "tstamp" to get the latest page visit because there could be some tasks that update visitor
-     * records but this does not mean that the visitor was on your page at this time
+     * Field "tstamp" should not be used to get the latest page visit because there could be some passive tasks
+     * that update visitor records but this does not mean that the visitor was on your page at this time
      *
-     * @return DateTime|null
-     * @noinspection PhpUnused
+     * @return ?DateTime
      */
     public function getDateOfLastVisit(): ?DateTime
     {
@@ -1052,54 +736,33 @@ class Visitor extends AbstractModel
         return null;
     }
 
-    /**
-     * @param DateTime $tstamp
-     * @return Visitor
-     */
     public function setTstamp(DateTime $tstamp): self
     {
         $this->tstamp = $tstamp;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * @param string $description
-     * @return Visitor
-     */
     public function setDescription(string $description): self
     {
         $this->description = $description;
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isBlacklisted(): bool
     {
         return $this->blacklisted;
     }
 
-    /**
-     * @return bool
-     */
     public function isNotBlacklisted(): bool
     {
         return !$this->isBlacklisted();
     }
 
-    /**
-     * @param bool $blacklisted
-     * @return Visitor
-     */
     public function setBlacklisted(bool $blacklisted): self
     {
         $this->blacklisted = $blacklisted;
@@ -1108,11 +771,9 @@ class Visitor extends AbstractModel
 
     /**
      * Set blacklisted flag and remove all related records to this visitor.
-     * In addition clean all other visitor properties.
+     * In addition, clean all other visitor properties.
      *
      * @return void
-     * @throws DBALException
-     * @noinspection PhpUnhandledExceptionInspection
      */
     public function setBlacklistedStatus(): void
     {
@@ -1137,18 +798,11 @@ class Visitor extends AbstractModel
         $this->setBlacklisted(true);
     }
 
-    /**
-     * @return FrontendUser
-     */
     public function getFrontenduser(): ?FrontendUser
     {
         return $this->frontenduser;
     }
 
-    /**
-     * @param FrontendUser $frontenduser
-     * @return Visitor
-     */
     public function setFrontenduser(FrontendUser $frontenduser): self
     {
         $this->frontenduser = $frontenduser;
@@ -1169,13 +823,11 @@ class Visitor extends AbstractModel
                 'tracking.pagevisits.autoconnectToFeUsers'
             ) === '1';
             if ($enabled) {
-                /** @var FrontendUserRepository $feuRepository */
                 $feuRepository = GeneralUtility::makeInstance(FrontendUserRepository::class);
                 $querySettings = GeneralUtility::makeInstance(Typo3QuerySettings::class);
                 $querySettings->setRespectStoragePage(false);
                 $feuRepository->setDefaultQuerySettings($querySettings);
                 /** @var FrontendUser|null $feuser */
-                /** @noinspection PhpUndefinedMethodInspection */
                 $feuser = $feuRepository->findOneByEmail($this->getEmail());
                 if ($feuser !== null) {
                     $this->setFrontenduser($feuser);
@@ -1186,11 +838,6 @@ class Visitor extends AbstractModel
         return false;
     }
 
-    /**
-     * @return string
-     * @throws ExtensionConfigurationExtensionNotConfiguredException
-     * @throws ExtensionConfigurationPathDoesNotExistException
-     */
     public function getImageUrl(): string
     {
         $visitorImageService = GeneralUtility::makeInstance(VisitorImageService::class, $this);
@@ -1260,9 +907,6 @@ class Visitor extends AbstractModel
         return $name;
     }
 
-    /**
-     * @return string
-     */
     public function getLocation(): string
     {
         $country = $this->getCountry();
@@ -1280,34 +924,21 @@ class Visitor extends AbstractModel
         return $location;
     }
 
-    /**
-     * @return string
-     */
     public function getPhone(): string
     {
         return $this->getPropertyFromAttributes('phone');
     }
 
-    /**
-     * @return string
-     */
     public function getCountry(): string
     {
         return $this->getPropertyFromIpinformations('country');
     }
 
-    /**
-     * @return string
-     */
     public function getCity(): string
     {
         return $this->getPropertyFromIpinformations('city');
     }
 
-    /**
-     * @param string $key
-     * @return string
-     */
     public function getPropertyFromAttributes(string $key): string
     {
         $attributes = $this->getAttributes();
@@ -1320,10 +951,6 @@ class Visitor extends AbstractModel
         return '';
     }
 
-    /**
-     * @param string $key
-     * @return string
-     */
     public function getPropertyFromIpinformations(string $key): string
     {
         $ipinformations = $this->getIpinformations();
@@ -1364,9 +991,6 @@ class Visitor extends AbstractModel
         return '';
     }
 
-    /**
-     * @return string
-     */
     public function getLatitude(): string
     {
         $lat = '';
@@ -1379,9 +1003,6 @@ class Visitor extends AbstractModel
         return $lat;
     }
 
-    /**
-     * @return string
-     */
     public function getLongitude(): string
     {
         $lng = '';
@@ -1412,13 +1033,8 @@ class Visitor extends AbstractModel
         return $result;
     }
 
-    /**
-     * @param Categoryscoring $a
-     * @param Categoryscoring $b
-     * @return int
-     */
-    protected function getCategoryscoringsSortedByScoringCallback(Categoryscoring $a, Categoryscoring $b): int
+    protected function getCategoryscoringsSortedByScoringCallback(Categoryscoring $cs1, Categoryscoring $cs2): int
     {
-        return ($a->getScoring() < $b->getScoring()) ? 1 : -1;
+        return ($cs1->getScoring() < $cs2->getScoring()) ? 1 : -1;
     }
 }

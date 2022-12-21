@@ -4,13 +4,9 @@ declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
+use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 
-/**
- * Class WorkflowController
- * Todo: Return type ": ResponseInterface" and "return $this->htmlResponse();" when TYPO3 10 support is dropped
- *       for all actions
- */
 class WorkflowController extends AbstractController
 {
     /**
@@ -24,9 +20,10 @@ class WorkflowController extends AbstractController
 
     /**
      * @param FilterDto $filter
-     * @return void
+     * @return ResponseInterface
      */
-    public function listAction(FilterDto $filter): void
+    public function listAction(FilterDto $filter): ResponseInterface
     {
+        return $this->htmlResponse();
     }
 }
