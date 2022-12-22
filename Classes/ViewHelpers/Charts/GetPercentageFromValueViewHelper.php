@@ -40,7 +40,7 @@ class GetPercentageFromValueViewHelper extends AbstractViewHelper
         if (isset($this->arguments['countries'])) {
             $countries = $this->arguments['countries'];
             $values = array_values($countries);
-            $highestValue = $values[0];
+            $highestValue = $values[0] ?? 0;
             if ($highestValue > 0) {
                 foreach ($countries as $countryCode => $visits) {
                     $percentuage = (int)($visits / $highestValue * 100);

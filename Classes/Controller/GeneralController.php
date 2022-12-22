@@ -48,7 +48,9 @@ class GeneralController extends AbstractController
             ],
         ];
         $this->view->assignMultiple($values);
-        return $this->htmlResponse();
+
+        $this->addNavigationButtons([]);
+        return $this->defaultRendering();
     }
 
     /**

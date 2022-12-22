@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
 use DateTime;
+use In2code\Lux\Backend\Buttons\NavigationGroupButton;
 use In2code\Lux\Domain\Cache\CacheLayer;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Repository\CategoryRepository;
@@ -25,6 +26,9 @@ use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Backend\Template\Components\ButtonBar;
+use TYPO3\CMS\Backend\Template\ModuleTemplate;
+use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
@@ -32,9 +36,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 
-/**
- * Class AbstractController
- */
 abstract class AbstractController extends ActionController
 {
     protected ?VisitorRepository $visitorRepository = null;
@@ -53,26 +54,9 @@ abstract class AbstractController extends ActionController
     protected ?UtmRepository $utmRepository = null;
     protected ?RenderingTimeService $renderingTimeService = null;
     protected ?CacheLayer $cacheLayer = null;
+    protected ModuleTemplateFactory $moduleTemplateFactory;
+    protected ModuleTemplate $moduleTemplate;
 
-    /**
-     * AbstractController constructor.
-     * @param VisitorRepository $visitorRepository
-     * @param IpinformationRepository $ipinformationRepository
-     * @param LogRepository $logRepository
-     * @param PagevisitRepository $pagevisitsRepository
-     * @param PageRepository $pageRepository
-     * @param DownloadRepository $downloadRepository
-     * @param NewsvisitRepository $newsvisitRepository
-     * @param NewsRepository $newsRepository
-     * @param CategoryRepository $categoryRepository
-     * @param LinkclickRepository $linkclickRepository
-     * @param LinklistenerRepository $linklistenerRepository
-     * @param FingerprintRepository $fingerprintRepository
-     * @param SearchRepository $searchRepository
-     * @param UtmRepository $utmRepository
-     * @param RenderingTimeService $renderingTimeService to initialize renderingTimes
-     * @param CacheLayer $cacheLayer
-     */
     public function __construct(
         VisitorRepository $visitorRepository,
         IpinformationRepository $ipinformationRepository,
@@ -89,7 +73,8 @@ abstract class AbstractController extends ActionController
         SearchRepository $searchRepository,
         UtmRepository $utmRepository,
         RenderingTimeService $renderingTimeService,
-        CacheLayer $cacheLayer
+        CacheLayer $cacheLayer,
+        ModuleTemplateFactory $moduleTemplateFactory,
     ) {
         $this->visitorRepository = $visitorRepository;
         $this->ipinformationRepository = $ipinformationRepository;
@@ -107,6 +92,7 @@ abstract class AbstractController extends ActionController
         $this->utmRepository = $utmRepository;
         $this->renderingTimeService = $renderingTimeService;
         $this->cacheLayer = $cacheLayer;
+        $this->moduleTemplateFactory = $moduleTemplateFactory;
     }
 
     /**
@@ -128,8 +114,13 @@ abstract class AbstractController extends ActionController
         ]);
     }
 
+    public function initializeAction()
+    {
+        $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+    }
+
     /**
-     * Always set a default FilterDto even if there are no filter params. In addition remove categoryScoring with 0 to
+     * Always set a default FilterDto even if there are no filter params. In addition, remove categoryScoring with 0 to
      * avoid propertymapping exceptions
      *
      * @param int $timePeriod
@@ -234,5 +225,40 @@ abstract class AbstractController extends ActionController
             ->withHeader('Content-Disposition', 'attachment; filename="' . $filename . '"')
             ->withHeader('Pragma', 'no-cache')
             ->withBody($this->streamFactory->createStream($csv ?? $this->view->render()));
+    }
+
+    protected function defaultRendering(): ResponseInterface
+    {
+        $this->moduleTemplate->setContent($this->view->render());
+        return $this->htmlResponse($this->moduleTemplate->renderContent());
+    }
+
+    protected function addDocumentHeader(array $configuration): void
+    {
+        $this->addNavigationButtons($configuration);
+        $this->addShortcutButton();
+    }
+
+    protected function addNavigationButtons(array $configuration): void
+    {
+        $buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
+        $navigationGroupButton = GeneralUtility::makeInstance(
+            NavigationGroupButton::class,
+            $this->request,
+            $this->getActionName(),
+            $configuration,
+        );
+        $buttonBar->addButton($navigationGroupButton, ButtonBar::BUTTON_POSITION_LEFT, 2);
+    }
+
+    protected function addShortcutButton(): void
+    {
+        $buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
+        $shortCutButton = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar()->makeShortcutButton();
+        $shortCutButton
+            ->setRouteIdentifier('lux_Lux' . $this->getControllerName())
+            ->setDisplayName('Shortcut')
+            ->setArguments(['action' => $this->getActionName(), 'controller' => $this->getControllerName()]);
+        $buttonBar->addButton($shortCutButton, ButtonBar::BUTTON_POSITION_RIGHT, 1);
     }
 }

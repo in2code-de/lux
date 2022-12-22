@@ -42,6 +42,11 @@ call_user_func(
             \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
             ['source' => 'EXT:lux/Resources/Public/Icons/lux_module_workflow.svg']
         );
+        $iconRegistry->registerIcon(
+            'extension-lux-star',
+            \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
+            ['source' => 'EXT:lux/Resources/Public/Icons/star.svg']
+        );
 
         /**
          * Include Modules

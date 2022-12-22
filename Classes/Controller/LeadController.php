@@ -14,6 +14,7 @@ use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\UnexpectedValueException;
+use In2code\Lux\Utility\LocalizationUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
@@ -78,7 +79,9 @@ class LeadController extends AbstractController
                 'renderingTime' => $this->renderingTimeService->getTime(),
             ]);
         }
-        return $this->htmlResponse();
+
+        $this->addDocumentHeaderForNewsletterController();
+        return $this->defaultRendering();
     }
 
     /**
@@ -110,7 +113,9 @@ class LeadController extends AbstractController
             'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter),
             'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
         ]);
-        return $this->htmlResponse();
+
+        $this->addDocumentHeaderForNewsletterController();
+        return $this->defaultRendering();
     }
 
     /**
@@ -133,7 +138,9 @@ class LeadController extends AbstractController
     public function detailAction(Visitor $visitor): ResponseInterface
     {
         $this->view->assign('visitor', $visitor);
-        return $this->htmlResponse();
+
+        $this->addDocumentHeaderForNewsletterController();
+        return $this->defaultRendering();
     }
 
     /**
@@ -203,5 +210,20 @@ class LeadController extends AbstractController
         $visitorRepository->update($visitor);
         $visitorRepository->persistAll();
         return $response;
+    }
+
+    /**
+     * @return void
+     */
+    protected function addDocumentHeaderForNewsletterController(): void
+    {
+        $actions = ['dashboard', 'list'];
+        $menuConfiguration = [];
+        foreach ($actions as $action) {
+            $menuConfiguration[$action] = LocalizationUtility::translate(
+                'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.lead.' . $action
+            );
+        }
+        $this->addDocumentHeader($menuConfiguration);
     }
 }

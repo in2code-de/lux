@@ -30,6 +30,7 @@ use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\UnexpectedValueException;
 use In2code\Lux\Utility\FileUtility;
+use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -37,6 +38,7 @@ use Psr\Http\Message\StreamInterface;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Http\JsonResponse;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
@@ -66,6 +68,7 @@ class AnalysisController extends AbstractController
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws DBALException
+     * @throws ExceptionDbalDriver
      */
     public function dashboardAction(FilterDto $filter): ResponseInterface
     {
@@ -90,7 +93,9 @@ class AnalysisController extends AbstractController
                 'latestPagevisits' => $this->pagevisitsRepository->findLatestPagevisits($filter),
             ]);
         }
-        return $this->htmlResponse();
+
+        $this->addDocumentHeaderForNewsletterController();
+        return $this->defaultRendering();
     }
 
     /**
@@ -111,6 +116,7 @@ class AnalysisController extends AbstractController
      * @throws ExceptionDbal
      * @throws InvalidQueryException
      * @throws DBALException
+     * @throws ExceptionDbalDriver
      */
     public function contentAction(FilterDto $filter, string $export = ''): ResponseInterface
     {
@@ -129,7 +135,9 @@ class AnalysisController extends AbstractController
             'domainData' => GeneralUtility::makeInstance(DomainDataProvider::class, $filter),
             'domains' => $this->pagevisitsRepository->getAllDomains($filter),
         ]);
-        return $this->htmlResponse();
+
+        $this->addDocumentHeaderForNewsletterController();
+        return $this->defaultRendering();
     }
 
     /**
@@ -137,6 +145,7 @@ class AnalysisController extends AbstractController
      * @return ResponseInterface
      * @throws ExceptionDbal
      * @throws InvalidQueryException
+     * @throws ExceptionDbalDriver
      */
     public function contentCsvAction(FilterDto $filter): ResponseInterface
     {
@@ -161,6 +170,7 @@ class AnalysisController extends AbstractController
      * @param string $export
      * @return ResponseInterface
      * @throws Exception
+     * @throws ExceptionDbalDriver
      */
     public function newsAction(FilterDto $filter, string $export = ''): ResponseInterface
     {
@@ -177,13 +187,16 @@ class AnalysisController extends AbstractController
             'domainData' => GeneralUtility::makeInstance(DomainNewsDataProvider::class, $filter),
             'domains' => $this->newsvisitRepository->getAllDomains($filter),
         ]);
-        return $this->htmlResponse();
+
+        $this->addDocumentHeaderForNewsletterController();
+        return $this->defaultRendering();
     }
 
     /**
      * @param FilterDto $filter
      * @return ResponseInterface
      * @throws DBALException
+     * @throws ExceptionDbalDriver
      */
     public function newsCsvAction(FilterDto $filter): ResponseInterface
     {
@@ -228,7 +241,9 @@ class AnalysisController extends AbstractController
             'utmMediaData' => GeneralUtility::makeInstance(UtmMediaDataProvider::class, $filter),
         ];
         $this->view->assignMultiple($variables);
-        return $this->htmlResponse();
+
+        $this->addDocumentHeaderForNewsletterController();
+        return $this->defaultRendering();
     }
 
     /**
@@ -257,6 +272,8 @@ class AnalysisController extends AbstractController
      * @param FilterDto $filter
      * @param string $export
      * @return ResponseInterface
+     * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      * @throws InvalidQueryException
      */
     public function linkListenerAction(FilterDto $filter, string $export = ''): ResponseInterface
@@ -272,7 +289,9 @@ class AnalysisController extends AbstractController
             'allLinkclickData' => GeneralUtility::makeInstance(AllLinkclickDataProvider::class, $filter),
             'linkclickData' => GeneralUtility::makeInstance(LinkclickDataProvider::class, $filter),
         ]);
-        return $this->htmlResponse();
+
+        $this->addDocumentHeaderForNewsletterController();
+        return $this->defaultRendering();
     }
 
     /**
@@ -301,6 +320,7 @@ class AnalysisController extends AbstractController
      * @param FilterDto $filter
      * @return ResponseInterface
      * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      */
     public function searchAction(FilterDto $filter): ResponseInterface
     {
@@ -310,7 +330,9 @@ class AnalysisController extends AbstractController
             'searchData' => GeneralUtility::makeInstance(SearchDataProvider::class, $filter),
             'search' => $this->searchRepository->findCombinedBySearchIdentifier($filter),
         ]);
-        return $this->htmlResponse();
+
+        $this->addDocumentHeaderForNewsletterController();
+        return $this->defaultRendering();
     }
 
     /**
@@ -328,6 +350,7 @@ class AnalysisController extends AbstractController
      * @param Page $page
      * @return ResponseInterface
      * @throws DBALException
+     * @throws ExceptionDbalDriver
      */
     public function detailPageAction(Page $page): ResponseInterface
     {
@@ -343,6 +366,7 @@ class AnalysisController extends AbstractController
      * @param News $news
      * @return ResponseInterface
      * @throws DBALException
+     * @throws ExceptionDbalDriver
      */
     public function detailNewsAction(News $news): ResponseInterface
     {
@@ -554,5 +578,28 @@ class AnalysisController extends AbstractController
         $stream = $response->getBody();
         $stream->write(json_encode(['html' => $standaloneView->render()]));
         return $response;
+    }
+
+    /**
+     * @return void
+     * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
+     */
+    protected function addDocumentHeaderForNewsletterController(): void
+    {
+        $actions = ['dashboard', 'content', 'utm', 'linkListener'];
+        if (ExtensionManagementUtility::isLoaded('news')) {
+            $actions[] = 'news';
+        }
+        if ($this->searchRepository->isSearchTableFilled()) {
+            $actions[] = 'search';
+        }
+        $menuConfiguration = [];
+        foreach ($actions as $action) {
+            $menuConfiguration[$action] = LocalizationUtility::translate(
+                'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.' . $action
+            );
+        }
+        $this->addDocumentHeader($menuConfiguration);
     }
 }

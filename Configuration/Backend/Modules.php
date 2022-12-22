@@ -11,7 +11,7 @@ if (\In2code\Lux\Utility\ConfigurationUtility::isAnalysisModuleDisabled() === fa
 }
 
 if (\In2code\Lux\Utility\ConfigurationUtility::isAnalysisModuleDisabled() === false) {
-    $configuration['lux_Analysis'] = [
+    $configuration['lux_LuxAnalysis'] = [
         'parent' => 'lux_module',
         'position' => [],
         'access' => 'user,group',
@@ -52,7 +52,7 @@ if (\In2code\Lux\Utility\ConfigurationUtility::isAnalysisModuleDisabled() === fa
 }
 
 if (\In2code\Lux\Utility\ConfigurationUtility::isLeadModuleDisabled() === false) {
-    $configuration['lux_Lead'] = [
+    $configuration['lux_LuxLead'] = [
         'parent' => 'lux_module',
         'position' => [],
         'access' => 'user,group',
@@ -86,7 +86,7 @@ if (\In2code\Lux\Utility\ConfigurationUtility::isLeadModuleDisabled() === false)
 }
 
 if (\In2code\Lux\Utility\ConfigurationUtility::isWorkflowModuleDisabled() === false) {
-    $configuration['lux_Workflow'] = [
+    $configuration['lux_LuxWorkflow'] = [
         'parent' => 'lux_module',
         'position' => [],
         'access' => 'user,group',
