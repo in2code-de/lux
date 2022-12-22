@@ -5,9 +5,6 @@ namespace In2code\Lux\Domain\Service\Uri;
 
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 
-/**
- * Class EditRecord
- */
 class WebRecord extends AbstractRecord
 {
     /**

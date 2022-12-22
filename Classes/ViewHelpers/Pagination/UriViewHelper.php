@@ -7,14 +7,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Service\ExtensionService;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 
-/**
- * UriViewHelper
- */
 class UriViewHelper extends AbstractTagBasedViewHelper
 {
-    /**
-     * Initialize arguments
-     */
     public function initializeArguments()
     {
         parent::initializeArguments();

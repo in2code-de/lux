@@ -3,22 +3,18 @@
 declare(strict_types=1);
 namespace In2code\Lux\Widgets\DataProvider;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Utility\LocalizationUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Dashboard\WidgetApi;
 use TYPO3\CMS\Dashboard\Widgets\ChartDataProviderInterface;
 
-/**
- * Class LuxIdentifiedDataProvider
- * @noinspection PhpUnused
- */
 class LuxIdentifiedDataProvider implements ChartDataProviderInterface
 {
     /**
      * @return array
-     * @throws DBALException
+     * @throws ExceptionDbalDriver
      */
     public function getChartData(): array
     {

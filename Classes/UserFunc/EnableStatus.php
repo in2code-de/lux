@@ -3,7 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\UserFunc;
 
-use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\ConfigurationUtility;
@@ -12,21 +12,14 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
-/**
- * Class EnableStatus
- * @noinspection PhpUnused
- */
 class EnableStatus
 {
-    /**
-     * @var string
-     */
-    protected $templatePathAndFile = 'EXT:lux/Resources/Private/Templates/UserFunc/EnableStatus.html';
+    protected string $templatePathAndFile = 'EXT:lux/Resources/Private/Templates/UserFunc/EnableStatus.html';
 
     /**
      * @return string
-     * @throws Exception
      * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      * @noinspection PhpUnused
      */
     public function showEnableStatus()
@@ -63,7 +56,6 @@ class EnableStatus
     /**
      * @param string $where
      * @return array
-     * @throws Exception
      * @throws ExceptionDbal
      */
     protected function getVisitors(string $where = 'identified=1')

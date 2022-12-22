@@ -12,22 +12,13 @@ call_user_func(
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
             'Lux',
             'Fe',
-            [
-                \In2code\Lux\Controller\FrontendController::class => 'dispatchRequest'
-            ],
-            [
-                \In2code\Lux\Controller\FrontendController::class => 'dispatchRequest'
-            ]
+            [\In2code\Lux\Controller\FrontendController::class => 'dispatchRequest'],
+            [\In2code\Lux\Controller\FrontendController::class => 'dispatchRequest']
         );
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
             'Lux',
             'Pi1',
-            [
-                \In2code\Lux\Controller\FrontendController::class => 'trackingOptOut'
-            ],
-            [
-                \In2code\Lux\Controller\FrontendController::class => ''
-            ]
+            [\In2code\Lux\Controller\FrontendController::class => 'trackingOptOut']
         );
 
         /**

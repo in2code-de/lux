@@ -10,7 +10,6 @@ use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\StringUtility;
 use Throwable;
 use TYPO3\CMS\Core\Cache\CacheManager;
-use TYPO3\CMS\Core\Cache\Exception\NoSuchCacheException;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
@@ -18,47 +17,30 @@ use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Service\ImageService;
 
-/**
- * Class VisitorImageService
- */
 class VisitorImageService
 {
     const CACHE_KEY = 'lux_visitor_imageurl';
 
-    /**
-     * @var Visitor
-     */
-    protected $visitor = null;
+    protected ?Visitor $visitor = null;
 
-    /**
-     * @var string
-     */
-    protected $defaultFile = 'typo3conf/ext/lux/Resources/Public/Images/AvatarDefault.svg';
+    protected string $defaultFile = 'typo3conf/ext/lux/Resources/Public/Images/AvatarDefault.svg';
 
     /**
      * Size in px
      *
      * @var int
      */
-    protected $size = 150;
+    protected int $size = 150;
 
     /**
      * Default cache live time is 24h
      *
      * @var int
      */
-    protected $cacheLifeTime = 86400;
+    protected int $cacheLifeTime = 86400;
 
-    /**
-     * @var FrontendInterface
-     */
-    protected $cacheInstance = null;
+    protected ?FrontendInterface $cacheInstance = null;
 
-    /**
-     * VisitorImageService constructor.
-     * @param Visitor $visitor
-     * @throws NoSuchCacheException
-     */
     public function __construct(Visitor $visitor)
     {
         $this->visitor = $visitor;
@@ -95,10 +77,6 @@ class VisitorImageService
         return $url;
     }
 
-    /**
-     * @param string $url
-     * @return string
-     */
     protected function getImageUrlFromFrontenduser(string $url): string
     {
         if ($this->isVisitorWithFrontendUserImage()) {
@@ -173,10 +151,6 @@ class VisitorImageService
         return $url;
     }
 
-    /**
-     * @param string $url
-     * @return string
-     */
     protected function getDefaultUrl(string $url): string
     {
         if (empty($url)) {
@@ -185,9 +159,6 @@ class VisitorImageService
         return $url;
     }
 
-    /**
-     * @return bool
-     */
     protected function isVisitorWithFrontendUserImage(): bool
     {
         return $this->visitor->getFrontenduser() !== null
@@ -195,10 +166,6 @@ class VisitorImageService
             && $this->visitor->getFrontenduser()->getImage()->count() > 0;
     }
 
-    /**
-     * @param string $url
-     * @return void
-     */
     protected function cacheUrl(string $url): void
     {
         if ($url !== '') {
@@ -211,9 +178,6 @@ class VisitorImageService
         }
     }
 
-    /**
-     * @return string
-     */
     protected function getUrlFromCache(): string
     {
         $url = '';
@@ -224,9 +188,6 @@ class VisitorImageService
         return $url;
     }
 
-    /**
-     * @return string
-     */
     protected function getCacheIdentifier(): string
     {
         return md5($this->visitor->getEmail() . self::CACHE_KEY);

@@ -3,7 +3,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\ViewHelpers\Repository;
 
-use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Utility\DatabaseUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -17,7 +16,6 @@ class GetContentHeaderFromContentUidViewHelper extends AbstractViewHelper
 
     /**
      * @return string
-     * @throws ExceptionDbalDriver
      * @throws ExceptionDbal
      */
     public function render(): string

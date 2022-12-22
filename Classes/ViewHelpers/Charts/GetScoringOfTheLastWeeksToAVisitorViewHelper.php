@@ -7,14 +7,8 @@ use In2code\Lux\Domain\Model\Visitor;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-/**
- * Class GetScoringOfTheLastWeeksToAVisitorViewHelper
- */
 class GetScoringOfTheLastWeeksToAVisitorViewHelper extends AbstractViewHelper
 {
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         $this->registerArgument('visitor', Visitor::class, 'Visitor', true);

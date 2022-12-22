@@ -4,13 +4,9 @@ namespace In2code\Lux\DataProcessing;
 
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 
-/**
- * Class FormFieldMappingProcessor
- */
 class FormFieldMappingProcessor implements DataProcessorInterface
 {
     /**
@@ -19,7 +15,6 @@ class FormFieldMappingProcessor implements DataProcessorInterface
      * @param array $processorConfiguration The configuration of this processor
      * @param array $processedData Key/value store of processed data (e.g. to be passed to a Fluid View)
      * @return array the processed data as key/value store
-     * @throws Exception
      */
     public function process(
         ContentObjectRenderer $cObj,
@@ -32,11 +27,6 @@ class FormFieldMappingProcessor implements DataProcessorInterface
         return $processedData;
     }
 
-    /**
-     * @param array $contentObjectConfiguration
-     * @return mixed
-     * @throws Exception
-     */
     protected function getFieldMappingSettings(array $contentObjectConfiguration): array
     {
         $fieldMapping = [];

@@ -6,9 +6,6 @@ namespace In2code\Lux\ViewHelpers\Charts;
 use In2code\Lux\Utility\LocalizationUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-/**
- * Class GetLastWeekNamesViewHelper
- */
 class GetLastWeekNamesViewHelper extends AbstractViewHelper
 {
     /**

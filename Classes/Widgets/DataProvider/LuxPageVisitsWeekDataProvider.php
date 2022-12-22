@@ -10,15 +10,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Dashboard\WidgetApi;
 use TYPO3\CMS\Dashboard\Widgets\ChartDataProviderInterface;
 
-/**
- * Class LuxPageVisitsWeekDataProvider
- * @noinspection PhpUnused
- */
 class LuxPageVisitsWeekDataProvider implements ChartDataProviderInterface
 {
-    /**
-     * @return array
-     */
     public function getChartData(): array
     {
         $pagevisistsData = GeneralUtility::makeInstance(PagevisistsDataProvider::class, ObjectUtility::getFilterDto());

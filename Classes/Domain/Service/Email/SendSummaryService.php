@@ -10,32 +10,18 @@ use In2code\Lux\Utility\EmailUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
-/**
- * Class SendSummaryService
- */
 class SendSummaryService
 {
-    /**
-     * @var string
-     */
-    protected $luxLogoPath = 'EXT:lux/Resources/Public/Icons/lux.png';
+    protected string $luxLogoPath = 'EXT:lux/Resources/Public/Icons/lux.png';
+
+    protected ?QueryResultInterface $visitors = null;
+    protected ?ConfigurationService $configurationService = null;
 
     /**
-     * @var QueryResultInterface|array
-     */
-    protected $visitors = null;
-
-    /**
-     * @var ConfigurationService
-     */
-    protected $configurationService = null;
-
-    /**
-     * Constructor
-     *
      * @param QueryResultInterface|array $visitors
      */
     public function __construct($visitors)
@@ -66,6 +52,7 @@ class SendSummaryService
 
     /**
      * @return array
+     * @throws InvalidConfigurationTypeException
      */
     protected function getSender(): array
     {
@@ -75,6 +62,7 @@ class SendSummaryService
 
     /**
      * @return string
+     * @throws InvalidConfigurationTypeException
      */
     protected function getSubject(): string
     {
@@ -84,6 +72,7 @@ class SendSummaryService
     /**
      * @param array $assignment
      * @return string
+     * @throws InvalidConfigurationTypeException
      */
     protected function getMailTemplate(array $assignment = []): string
     {

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Service;
 
-use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\ParametersException;
@@ -34,8 +34,10 @@ class RedirectService
     /**
      * @param string $hash
      * @return string
-     * @throws ParametersException
      * @throws ConfigurationException
+     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
+     * @throws ParametersException
      */
     public function getParsedTargetByHash(string $hash): string
     {
@@ -54,6 +56,8 @@ class RedirectService
     /**
      * @param string $hash
      * @return array
+     * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      * @throws ParametersException
      */
     public function getArgumentsByHash(string $hash): array
@@ -69,7 +73,6 @@ class RedirectService
      * @param string $hash
      * @return array
      * @throws ParametersException
-     * @throws Exception
      * @throws ExceptionDbal
      */
     protected function findByHash(string $hash): array
@@ -91,12 +94,6 @@ class RedirectService
         return $result;
     }
 
-    /**
-     * @param string $target
-     * @param string $hash
-     * @param array $arguments
-     * @return void
-     */
     protected function persistRedirect(string $target, string $hash, array $arguments = []): void
     {
         $queryBuilder = DatabaseUtility::getQueryBuilderForTable($this::TABLE_NAME);

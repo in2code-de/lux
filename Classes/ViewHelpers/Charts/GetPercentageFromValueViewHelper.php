@@ -5,14 +5,8 @@ namespace In2code\Lux\ViewHelpers\Charts;
 
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-/**
- * Class GetPercentageFromValueViewHelper
- */
 class GetPercentageFromValueViewHelper extends AbstractViewHelper
 {
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         $this->registerArgument('countries', 'array', 'Countries', true);

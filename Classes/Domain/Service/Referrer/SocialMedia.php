@@ -14,7 +14,7 @@ class SocialMedia
      *
      * @var array
      */
-    protected $sources = [
+    protected array $sources = [
         [
             'name' => 'Facebook',
             'domains' => [
@@ -94,7 +94,7 @@ class SocialMedia
     }
 
     /**
-     * Get a query string (splitted with pipe) with all domains
+     * Get a query string (split with pipe) with all domains
      *
      * @return string
      */

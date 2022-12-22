@@ -3,12 +3,10 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider;
 
+use DateTime;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\StringUtility;
 
-/**
- * Class AbstractDynamicFilterDataProvider
- */
 abstract class AbstractDynamicFilterDataProvider extends AbstractDataProvider
 {
     /**
@@ -16,7 +14,7 @@ abstract class AbstractDynamicFilterDataProvider extends AbstractDataProvider
      *
      * @var array
      */
-    protected $labelMapping = [
+    protected array $labelMapping = [
         'hour' => [
             'prefix' => 'datetime.n',
             'postfix' => ':00',
@@ -41,12 +39,7 @@ abstract class AbstractDynamicFilterDataProvider extends AbstractDataProvider
         ],
     ];
 
-    /**
-     * @param string $frequency
-     * @param \DateTime $dateTime
-     * @return string
-     */
-    protected function getLabelForFrequency(string $frequency, \DateTime $dateTime): string
+    protected function getLabelForFrequency(string $frequency, DateTime $dateTime): string
     {
         $arguments = null;
         $mapping = $this->labelMapping[$frequency];
@@ -67,10 +60,6 @@ abstract class AbstractDynamicFilterDataProvider extends AbstractDataProvider
         return $label;
     }
 
-    /**
-     * @param string $frequency
-     * @return void
-     */
     protected function overruleLatestTitle(string $frequency): void
     {
         $mapping = $this->labelMapping[$frequency];

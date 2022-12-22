@@ -8,9 +8,6 @@ use In2code\Lux\Events\AfterTrackingEvent;
 use Throwable;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 
-/**
- * Class AbstractFinisher
- */
 abstract class AbstractFinisher implements FinisherInterface
 {
     /**
@@ -18,7 +15,7 @@ abstract class AbstractFinisher implements FinisherInterface
      *
      * @var array
      */
-    protected $startWithControllerActions = [
+    protected array $startWithControllerActions = [
         'pageRequestAction',
         'fieldListeningRequestAction',
         'formListeningRequestAction',
@@ -26,27 +23,16 @@ abstract class AbstractFinisher implements FinisherInterface
         'downloadRequestAction',
     ];
 
-    /**
-     * @var Visitor
-     */
-    protected $visitor = null;
-
-    /**
-     * @var AfterTrackingEvent
-     */
-    protected $event;
+    protected ?Visitor $visitor = null;
+    protected AfterTrackingEvent $event;
 
     /**
      * Finisher configuration from TypoScript setup
      *
      * @var array
      */
-    protected $configuration = [];
+    protected array $configuration = [];
 
-    /**
-     * @param AfterTrackingEvent $event
-     * @param array $configuration
-     */
     public function __construct(AfterTrackingEvent $event, array $configuration)
     {
         $this->event = $event;
@@ -64,9 +50,6 @@ abstract class AbstractFinisher implements FinisherInterface
         return true;
     }
 
-    /**
-     * @return void
-     */
     public function handle(): void
     {
         if ($this->shouldFinisherRun() === true
@@ -75,34 +58,21 @@ abstract class AbstractFinisher implements FinisherInterface
         }
     }
 
-    /**
-     * @return Visitor
-     */
     public function getVisitor(): Visitor
     {
         return $this->visitor;
     }
 
-    /**
-     * @return AfterTrackingEvent
-     */
     public function getEvent(): AfterTrackingEvent
     {
         return $this->event;
     }
 
-    /**
-     * @return array
-     */
     public function getConfiguration(): array
     {
         return $this->configuration;
     }
 
-    /**
-     * @param string $key
-     * @return string
-     */
     final protected function getConfigurationByKey(string $key): string
     {
         $value = '';
@@ -112,10 +82,6 @@ abstract class AbstractFinisher implements FinisherInterface
         return $value;
     }
 
-    /**
-     * @param string $path
-     * @return mixed
-     */
     final protected function getConfigurationByPath(string $path)
     {
         $configuration = $this->getConfiguration();

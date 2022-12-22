@@ -3,33 +3,21 @@
 declare(strict_types=1);
 namespace In2code\Lux\ViewHelpers\Page;
 
-use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-/**
- * Class GetVisitedPageAmountByPageIdentifierAndVisitorViewHelper
- */
 class GetVisitedPageAmountByPageIdentifierAndVisitorViewHelper extends AbstractViewHelper
 {
-    /**
-     * @var PagevisitRepository
-     */
-    protected $pagevisitRepository;
+    protected PagevisitRepository $pagevisitRepository;
 
-    /**
-     * GetDateOfLatestPageVisitViewHelper constructor.
-     * @param PagevisitRepository $pagevisitRepository
-     */
     public function __construct(PagevisitRepository $pagevisitRepository)
     {
         $this->pagevisitRepository = $pagevisitRepository;
     }
 
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         parent::initializeArguments();
@@ -39,7 +27,8 @@ class GetVisitedPageAmountByPageIdentifierAndVisitorViewHelper extends AbstractV
 
     /**
      * @return int
-     * @throws Exception
+     * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      */
     public function render(): int
     {

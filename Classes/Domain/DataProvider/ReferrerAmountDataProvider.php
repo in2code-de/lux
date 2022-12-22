@@ -3,10 +3,10 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider;
 
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
  * Class ReferrerAmountDataProvider
@@ -28,8 +28,8 @@ class ReferrerAmountDataProvider extends AbstractDataProvider
      *  ]
      *
      * @return void
-     * @throws Exception
      * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      */
     public function prepareData(): void
     {

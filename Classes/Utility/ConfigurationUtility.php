@@ -10,9 +10,6 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
-/**
- * Class ConfigurationUtility
- */
 class ConfigurationUtility
 {
     /**
@@ -228,9 +225,6 @@ class ConfigurationUtility
         return $extensionConfig['disableWorkflowModule'] === '1';
     }
 
-    /**
-     * @return bool
-     */
     public static function isComposerMode(): bool
     {
         return defined('TYPO3_COMPOSER_MODE');
@@ -246,16 +240,6 @@ class ConfigurationUtility
     protected static function getExtensionConfiguration(): array
     {
         return GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('lux');
-    }
-
-    /**
-     * Todo: Can be removed if TYPO3 10 support is dropped
-     *
-     * @return bool
-     */
-    public static function isTypo3Version11(): bool
-    {
-        return self::isVersionToCompareSameOrLowerThenCurrentTypo3Version('10.4.99');
     }
 
     /**

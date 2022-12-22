@@ -3,13 +3,11 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider;
 
-use Exception;
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class PagevisistsDataProvider
- */
 class PagevisistsDataProvider extends AbstractDynamicFilterDataProvider
 {
     /**
@@ -28,7 +26,8 @@ class PagevisistsDataProvider extends AbstractDynamicFilterDataProvider
      *  ]
      *
      * @return void
-     * @throws Exception
+     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function prepareData(): void
     {

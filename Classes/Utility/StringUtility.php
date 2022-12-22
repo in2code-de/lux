@@ -5,15 +5,8 @@ namespace In2code\Lux\Utility;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class StringUtility
- */
 class StringUtility
 {
-    /**
-     * @param string $pathAndFilename
-     * @return string
-     */
     public static function getExtensionFromPathAndFilename(string $pathAndFilename): string
     {
         $path = parse_url($pathAndFilename, PHP_URL_PATH);
@@ -49,24 +42,11 @@ class StringUtility
         return $uri;
     }
 
-    /**
-     * @param string $string
-     * @return bool
-     */
     public static function isJsonArray(string $string): bool
     {
-        if (!is_string($string)) {
-            return false;
-        }
         return is_array(json_decode($string, true));
     }
 
-    /**
-     * @param string $string
-     * @param bool $toLower
-     * @param string $addCharacters Allow some additional characters
-     * @return string
-     */
     public static function cleanString(string $string, bool $toLower = false, string $addCharacters = '_-'): string
     {
         $expression = '~[^a-zA-Z0-9' . $addCharacters . ']~';
@@ -77,13 +57,6 @@ class StringUtility
         return $string;
     }
 
-    /**
-     * create a random string
-     *
-     * @param int $length
-     * @param bool $lowerAndUpperCase
-     * @return string
-     */
     public static function getRandomString(int $length = 32, bool $lowerAndUpperCase = true)
     {
         $characters = implode('', range(0, 9)) . implode('', range('a', 'z'));
@@ -98,10 +71,6 @@ class StringUtility
         return $fileName;
     }
 
-    /**
-     * @param string $email
-     * @return string
-     */
     public static function getDomainFromEmail(string $email): string
     {
         $parts = explode('@', $email);
@@ -111,11 +80,6 @@ class StringUtility
         return '';
     }
 
-    /**
-     * @param string $string
-     * @param string $prefix
-     * @return string
-     */
     public static function removeStringPrefix(string $string, string $prefix): string
     {
         if (StringUtility::startsWith($string, $prefix)) {
@@ -124,11 +88,6 @@ class StringUtility
         return $string;
     }
 
-    /**
-     * @param string $string
-     * @param string $postfix
-     * @return string
-     */
     public static function removeStringPostfix(string $string, string $postfix): string
     {
         return preg_replace('~' . $postfix . '$~', '', $string);
@@ -136,6 +95,7 @@ class StringUtility
 
     /**
      * Remove leading zeros from a string but not if string is "0"
+     *
      * @param string $string
      * @return string
      */
@@ -147,12 +107,6 @@ class StringUtility
         return $string;
     }
 
-    /**
-     * @param string $string
-     * @param int $length
-     * @param string $append
-     * @return string
-     */
     public static function cropString(string $string, int $length = 20, string $append = '...'): string
     {
         $contentObject = ObjectUtility::getContentObject();

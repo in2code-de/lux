@@ -13,29 +13,20 @@ use TYPO3\CMS\Core\SingletonInterface;
  */
 class RenderingTimeService implements SingletonInterface
 {
-    /**
-     * @var bool
-     */
-    protected $started = false;
+    protected bool $started = false;
 
     /**
      * Time in seconds (with microseconds as decimal place)
      *
      * @var float
      */
-    protected $timeStart = 0.0;
+    protected float $timeStart = 0.0;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->start();
     }
 
-    /**
-     * @return $this
-     */
     public function start(): self
     {
         if ($this->isRunning() === false) {
@@ -45,9 +36,6 @@ class RenderingTimeService implements SingletonInterface
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isRunning(): bool
     {
         return $this->started;

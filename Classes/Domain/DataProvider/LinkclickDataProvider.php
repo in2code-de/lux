@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider;
 
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Repository\LinkclickRepository;
@@ -13,26 +15,11 @@ use In2code\Lux\Utility\DateUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class LinkclickDataProvider
- */
 class LinkclickDataProvider extends AbstractDataProvider
 {
-    /**
-     * @var LinkclickRepository
-     */
-    protected $linkclickRepository = null;
+    protected ?LinkclickRepository $linkclickRepository = null;
+    protected ?LinklistenerRepository $linklistenerRepository = null;
 
-    /**
-     * @var LinklistenerRepository
-     */
-    protected $linklistenerRepository = null;
-
-    /**
-     * LinkclickDataProvider constructor.
-     *
-     * @param FilterDto|null $filter
-     */
     public function __construct(FilterDto $filter = null)
     {
         $this->linkclickRepository = GeneralUtility::makeInstance(LinkclickRepository::class);
@@ -62,6 +49,7 @@ class LinkclickDataProvider extends AbstractDataProvider
      *  ]
      * @return void
      * @throws DBALException
+     * @throws ExceptionDbalDriver
      */
     public function prepareData(): void
     {
@@ -136,6 +124,7 @@ class LinkclickDataProvider extends AbstractDataProvider
      *
      * @return array
      * @throws DBALException
+     * @throws ExceptionDbalDriver
      */
     public function getGroupedData(): array
     {
@@ -192,6 +181,7 @@ class LinkclickDataProvider extends AbstractDataProvider
      *
      * @return array
      * @throws DBALException
+     * @throws ExceptionDbalDriver
      */
     protected function getUngroupedData(): array
     {
@@ -215,13 +205,15 @@ class LinkclickDataProvider extends AbstractDataProvider
     }
 
     /**
-     * Get the beginning of the day where the first linkclick was tracked as start and the day where
+     * Get the beginning of the day when the first linkclick was tracked as start and the day where
      * the latest linkclick was tracked (midnight) as end and check how many pagevisits exists for a pageUid
      *
      * @param int $pageUid
      * @param int $linklistener
      * @return int
-     * @throws \Exception
+     * @throws DBALException
+     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     protected function getPagevisitsFromPageByTagTimeframe(int $pageUid, int $linklistener): int
     {
@@ -238,11 +230,6 @@ class LinkclickDataProvider extends AbstractDataProvider
         return $pagevisitRepository->findAmountPerPage($pageUid, $filter);
     }
 
-    /**
-     * @param array $left
-     * @param array $right
-     * @return int
-     */
     protected function sortByPerformanceDescCallback(array $left, array $right): int
     {
         return ($left['performance'] < $right['performance']) ? 1 : (($left['performance'] > $right['performance'])

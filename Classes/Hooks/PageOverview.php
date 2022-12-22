@@ -2,7 +2,7 @@
 
 namespace In2code\Lux\Hooks;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Cache\CacheLayer;
 use In2code\Lux\Domain\DataProvider\PageOverview\GotinExternalDataProvider;
@@ -34,72 +34,31 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  */
 class PageOverview
 {
-    /**
-     * @var string
-     */
-    protected $templatePathAndFile = 'EXT:lux/Resources/Private/Templates/Backend/PageOverview.html';
+    protected string $templatePathAndFile = 'EXT:lux/Resources/Private/Templates/Backend/PageOverview.html';
 
-    /**
-     * @var VisitorRepository|null
-     */
-    protected $visitorRepository = null;
+    protected VisitorRepository $visitorRepository;
+    protected PagevisitRepository $pagevisitRepository;
+    protected LinkclickRepository $linkclickRepository;
+    protected DownloadRepository $downloadRepository;
+    protected LogRepository $logRepository;
+    protected RenderingTimeService $renderingTimeService;
+    protected CacheLayer $cacheLayer;
 
-    /**
-     * @var PagevisitRepository|null
-     */
-    protected $pagevisitRepository = null;
-
-    /**
-     * @var LinkclickRepository|null
-     */
-    protected $linkclickRepository = null;
-
-    /**
-     * @var DownloadRepository|null
-     */
-    protected $downloadRepository = null;
-
-    /**
-     * @var LogRepository|null
-     */
-    protected $logRepository = null;
-
-    /**
-     * @var RenderingTimeService
-     */
-    protected $renderingTimeService = null;
-
-    /**
-     * @var CacheLayer
-     */
-    protected $cacheLayer = null;
-
-    /**
-     * PageOverview constructor.
-     * @param VisitorRepository|null $visitorRepository
-     * @param PagevisitRepository|null $pagevisitRepository
-     * @param LinkclickRepository|null $linkclickRepository
-     * @param DownloadRepository|null $downloadRepository
-     * @param LogRepository|null $logRepository
-     * @param RenderingTimeService|null $renderingTimeService to initialize renderingTimes
-     * @param CacheLayer|null $cacheLayer
-     * Todo: Remove Fallback to makeInstance() when TYPO3 10 support is dropped
-     */
     public function __construct(
-        VisitorRepository $visitorRepository = null,
-        PagevisitRepository $pagevisitRepository = null,
-        LinkclickRepository $linkclickRepository = null,
-        DownloadRepository $downloadRepository = null,
-        LogRepository $logRepository = null,
-        RenderingTimeService $renderingTimeService = null,
-        CacheLayer $cacheLayer = null
+        VisitorRepository $visitorRepository,
+        PagevisitRepository $pagevisitRepository,
+        LinkclickRepository $linkclickRepository,
+        DownloadRepository $downloadRepository,
+        LogRepository $logRepository,
+        RenderingTimeService $renderingTimeService,
+        CacheLayer $cacheLayer,
     ) {
-        $this->visitorRepository = $visitorRepository ?: GeneralUtility::makeInstance(VisitorRepository::class);
-        $this->pagevisitRepository = $pagevisitRepository ?: GeneralUtility::makeInstance(PagevisitRepository::class);
-        $this->linkclickRepository = $linkclickRepository ?: GeneralUtility::makeInstance(LinkclickRepository::class);
-        $this->downloadRepository = $downloadRepository ?: GeneralUtility::makeInstance(DownloadRepository::class);
-        $this->logRepository = $logRepository ?: GeneralUtility::makeInstance(LogRepository::class);
-        $this->renderingTimeService = $renderingTimeService;
+        $this->visitorRepository = $visitorRepository;
+        $this->pagevisitRepository = $pagevisitRepository;
+        $this->linkclickRepository = $linkclickRepository;
+        $this->downloadRepository = $downloadRepository;
+        $this->logRepository = $logRepository;
+        $this->renderingTimeService = $renderingTimeService; // initialize renderingTimes
         $this->cacheLayer = $cacheLayer;
     }
 
@@ -108,11 +67,11 @@ class PageOverview
      * @param PageLayoutController $plController
      * @return string
      * @throws ConfigurationException
-     * @throws DBALException
      * @throws ExceptionDbal
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws UnexpectedValueException
+     * @throws ExceptionDbalDriver
      */
     public function render(array $parameters, PageLayoutController $plController): string
     {
@@ -120,6 +79,8 @@ class PageOverview
         unset($parameters);
         $content = '';
         if ($this->isPageOverviewEnabled($plController)) {
+            \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump('Todo: get page identifier', 'in2code ' . __CLASS__ . ':' . __LINE__);
+            die(__CLASS__ . ':' . __LINE__);
             $pageIdentifier = $plController->id;
             $session = BackendUtility::getSessionValue('toggle', 'PageOverview', 'General');
             $arguments = $this->getArguments(ConfigurationUtility::getPageOverviewView(), $pageIdentifier, $session);
@@ -133,12 +94,12 @@ class PageOverview
      * @param int $pageIdentifier
      * @param array $session
      * @return array
-     * @throws DBALException
      * @throws ExceptionDbal
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws ConfigurationException
      * @throws UnexpectedValueException
+     * @throws ExceptionDbalDriver
      */
     protected function getArguments(string $view, int $pageIdentifier, array $session): array
     {
@@ -197,10 +158,6 @@ class PageOverview
         return $arguments;
     }
 
-    /**
-     * @param array $arguments
-     * @return string
-     */
     protected function getContent(array $arguments): string
     {
         $standaloneView = GeneralUtility::makeInstance(StandaloneView::class);
@@ -218,6 +175,8 @@ class PageOverview
      */
     protected function isPageOverviewEnabled(PageLayoutController $plController): bool
     {
+        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump('todo: get Page identifier', 'in2code ' . __CLASS__ . ':' . __LINE__);
+        die(__CLASS__ . ':' . __LINE__);
         $row = BackendUtilityCore::getRecord('pages', $plController->id, 'hidden');
         return ConfigurationUtility::isPageOverviewDisabled() === false && $row['hidden'] !== 1;
     }

@@ -76,9 +76,6 @@ class CacheLayerUtility
         throw new ConfigurationException('No cache configuration to route ' . $route . ' found', 1645176561);
     }
 
-    /**
-     * @return array
-     */
     public static function getCachelayerRoutes(): array
     {
         $layers = self::getCachelayerConfiguration();

@@ -19,37 +19,20 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
-/**
- * Class SendAssetEmail4LinkService
- */
 class SendAssetEmail4LinkService
 {
-    /**
-     * @var Visitor|null
-     */
-    protected $visitor = null;
+    protected ?Visitor $visitor = null;
 
     /**
      * TypoScript settings
      *
      * @var array
      */
-    protected $settings = [];
+    protected array $settings = [];
 
-    /**
-     * @var ConfigurationService|null
-     */
-    protected $configurationService = null;
+    protected ?ConfigurationService $configurationService = null;
+    private EventDispatcherInterface $eventDispatcher;
 
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $eventDispatcher;
-
-    /**
-     * @param Visitor $visitor
-     * @param array $settings
-     */
     public function __construct(Visitor $visitor, array $settings)
     {
         $this->visitor = $visitor;

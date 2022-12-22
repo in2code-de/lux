@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Service;
 
 use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Visitor;
@@ -19,9 +20,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 
-/**
- * Class CategoryScoringService
- */
 class CategoryScoringService
 {
     /**
@@ -32,6 +30,7 @@ class CategoryScoringService
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws ExceptionDbal
      */
     public function __invoke(AfterTrackingEvent $event): void
     {
@@ -54,6 +53,7 @@ class CategoryScoringService
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws ExceptionDbal
      */
     protected function calculateCategoryScoringForPageRequest(Visitor $visitor): void
     {
@@ -70,8 +70,6 @@ class CategoryScoringService
      * @return void
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
      */
     protected function calculateCategoryScoringForPageRequestForPages(Visitor $visitor): void
     {
@@ -94,8 +92,7 @@ class CategoryScoringService
      * @throws ExceptionDbalDriver
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
+     * @throws ExceptionDbal
      */
     protected function calculateCategoryScoringForPageRequestForNews(Visitor $visitor): void
     {
@@ -118,8 +115,6 @@ class CategoryScoringService
     /**
      * @param Visitor $visitor
      * @return void
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      */
@@ -143,8 +138,6 @@ class CategoryScoringService
      * @return void
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
      */
     protected function calculateCategoryScoringForLinkClick(Visitor $visitor): void
     {

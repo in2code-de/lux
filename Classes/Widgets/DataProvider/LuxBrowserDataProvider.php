@@ -9,15 +9,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Dashboard\WidgetApi;
 use TYPO3\CMS\Dashboard\Widgets\ChartDataProviderInterface;
 
-/**
- * Class LuxBrowserDataProvider
- * @noinspection PhpUnused
- */
 class LuxBrowserDataProvider implements ChartDataProviderInterface
 {
-    /**
-     * @return array
-     */
     public function getChartData(): array
     {
         $browserAmountDP = GeneralUtility::makeInstance(BrowserAmountDataProvider::class);
@@ -41,9 +34,6 @@ class LuxBrowserDataProvider implements ChartDataProviderInterface
         ];
     }
 
-    /**
-     * @return string
-     */
     protected function getWidgetLabel(): string
     {
         return LocalizationUtility::getLanguageService()->sL(

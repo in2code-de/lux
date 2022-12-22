@@ -8,26 +8,11 @@ use In2code\Lux\Domain\Model\Visitor;
 
 final class LogVisitorIdentifiedByFormlisteningEvent
 {
-    /**
-     * @var Visitor
-     */
-    protected $visitor;
+    protected Visitor $visitor;
+    protected ?Attribute $attribute = null;
 
-    /**
-     * @var Attribute|null
-     */
-    protected $attribute = null;
+    protected int $pageIdentifier = 0;
 
-    /**
-     * @var int
-     */
-    protected $pageIdentifier = 0;
-
-    /**
-     * @param Visitor $visitor
-     * @param Attribute|null $attribute
-     * @param int $pageIdentifier
-     */
     public function __construct(Visitor $visitor, ?Attribute $attribute, int $pageIdentifier)
     {
         $this->visitor = $visitor;
@@ -35,25 +20,16 @@ final class LogVisitorIdentifiedByFormlisteningEvent
         $this->pageIdentifier = $pageIdentifier;
     }
 
-    /**
-     * @return Visitor
-     */
     public function getVisitor(): Visitor
     {
         return $this->visitor;
     }
 
-    /**
-     * @return Attribute|null
-     */
     public function getAttribute(): ?Attribute
     {
         return $this->attribute;
     }
 
-    /**
-     * @return int
-     */
     public function getPageIdentifier(): int
     {
         return $this->pageIdentifier;

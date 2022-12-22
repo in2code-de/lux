@@ -3,52 +3,31 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Tracker;
 
+use Doctrine\DBAL\DBALException;
+use In2code\Lux\Domain\Model\FrontendUser;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Exception\EmailValidationException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
-use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
-use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
-use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
 
-/**
- * Class AbstractFrontenduserTracker
- */
 abstract class AbstractFrontenduserTracker
 {
-    /**
-     * @var Visitor
-     */
-    protected $visitor = null;
+    protected ?Visitor $visitor = null;
 
-    /**
-     * @var string
-     */
-    protected $context = AttributeTracker::CONTEXT_FRONTENDUSER;
+    protected string $context = AttributeTracker::CONTEXT_FRONTENDUSER;
 
-    /**
-     * @var int
-     */
-    protected $pageIdentifier = 0;
+    protected int $pageIdentifier = 0;
 
-    /**
-     * AbstractFrontenduserTracker constructor.
-     * @param Visitor $visitor
-     * @param string $context
-     * @param int $pageIdentifier
-     */
     public function __construct(
         Visitor $visitor,
-        string $context = '',
+        string $context = AttributeTracker::CONTEXT_FRONTENDUSER,
         int $pageIdentifier = 0
     ) {
         $this->visitor = $visitor;
-        if ($context !== '') {
-            $this->context = $context;
-        }
+        $this->context = $context;
         $this->pageIdentifier = $pageIdentifier;
     }
 
@@ -69,11 +48,10 @@ abstract class AbstractFrontenduserTracker
      * @param FrontendUser $user
      * @return void
      * @throws EmailValidationException
-     * @throws Exception
      * @throws IllegalObjectTypeException
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
      * @throws UnknownObjectException
+     * @throws DBALException
+     * @throws InvalidConfigurationTypeException
      */
     protected function addOrUpdateEmail(FrontendUser $user): void
     {

@@ -94,11 +94,6 @@ class PaginateViewHelper extends AbstractViewHelper
         );
     }
 
-    /**
-     * @param array $arguments
-     * @param RenderingContextInterface $renderingContext
-     * @return int
-     */
     protected static function getPageNumber(array $arguments, RenderingContextInterface $renderingContext): int
     {
         $extensionName = $renderingContext->getRequest()->getControllerExtensionName();
@@ -114,10 +109,6 @@ class PaginateViewHelper extends AbstractViewHelper
         return 1;
     }
 
-    /**
-     * @param array $arguments
-     * @return string
-     */
     protected static function getName(array $arguments): string
     {
         return $arguments['name'] ?: $arguments['as'];

@@ -9,7 +9,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class UtmFactory
 {
-    protected $utmKeys = [
+    protected array $utmKeys = [
         'utm_source',
         'utm_medium',
         'utm_campaign',

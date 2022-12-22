@@ -8,26 +8,11 @@ use TYPO3\CMS\Core\Mail\MailMessage;
 
 final class SetAssetEmail4LinkEvent
 {
-    /**
-     * @var Visitor
-     */
-    protected $visitor;
+    protected Visitor $visitor;
+    protected MailMessage $mailMessage;
 
-    /**
-     * @var MailMessage
-     */
-    protected $mailMessage;
+    protected string $href = '';
 
-    /**
-     * @var string
-     */
-    protected $href = '';
-
-    /**
-     * @param Visitor $visitor
-     * @param MailMessage $mailMessage
-     * @param string $href
-     */
     public function __construct(Visitor $visitor, MailMessage $mailMessage, string $href)
     {
         $this->visitor = $visitor;
@@ -35,25 +20,16 @@ final class SetAssetEmail4LinkEvent
         $this->href = $href;
     }
 
-    /**
-     * @return Visitor
-     */
     public function getVisitor(): Visitor
     {
         return $this->visitor;
     }
 
-    /**
-     * @return MailMessage
-     */
     public function getMailMessage(): MailMessage
     {
         return $this->mailMessage;
     }
 
-    /**
-     * @return string
-     */
     public function getHref(): string
     {
         return $this->href;

@@ -7,10 +7,7 @@ use In2code\Lux\Domain\Model\Visitor;
 
 final class AfterTrackingEvent
 {
-    /**
-     * @var Visitor
-     */
-    protected $visitor;
+    protected Visitor $visitor;
 
     /**
      * Possible actions are:
@@ -23,25 +20,17 @@ final class AfterTrackingEvent
      *
      * @var string
      */
-    protected $actionMethodName = '';
+    protected string $actionMethodName = '';
 
-    /**
-     * @var array
-     */
-    protected $arguments = [];
+    protected array $arguments = [];
 
     /**
      * JSON result for AJAX request
      *
      * @var array
      */
-    protected $results = [];
+    protected array $results = [];
 
-    /**
-     * @param Visitor $visitor
-     * @param string $actionMethodName
-     * @param array $arguments
-     */
     public function __construct(Visitor $visitor, string $actionMethodName, array $arguments = [])
     {
         $this->visitor = $visitor;
@@ -49,25 +38,16 @@ final class AfterTrackingEvent
         $this->arguments = $arguments;
     }
 
-    /**
-     * @return Visitor
-     */
     public function getVisitor(): Visitor
     {
         return $this->visitor;
     }
 
-    /**
-     * @return string
-     */
     public function getActionMethodName(): string
     {
         return $this->actionMethodName;
     }
 
-    /**
-     * @return array
-     */
     public function getArguments(): array
     {
         return $this->arguments;
@@ -86,20 +66,12 @@ final class AfterTrackingEvent
         return null;
     }
 
-    /**
-     * @param array $results
-     * @return AfterTrackingEvent
-     */
     public function setResults(array $results): AfterTrackingEvent
     {
         $this->results = $results;
         return $this;
     }
 
-    /**
-     * @param array $result
-     * @return AfterTrackingEvent
-     */
     public function addResult(array $result): AfterTrackingEvent
     {
         if ($result !== []) {
@@ -108,9 +80,6 @@ final class AfterTrackingEvent
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getResults(): array
     {
         return $this->results;

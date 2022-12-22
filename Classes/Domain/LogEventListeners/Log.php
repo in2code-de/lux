@@ -20,21 +20,10 @@ use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 
-/**
- * Class Log
- */
 class Log implements SingletonInterface
 {
-    /**
-     * @var LogService|null
-     */
-    protected $logService = null;
+    protected ?LogService $logService = null;
 
-    /**
-     * @param LogService $logService
-     * @return void
-     * @noinspection PhpUnused
-     */
     public function injectFormRepository(LogService $logService): void
     {
         $this->logService = $logService;

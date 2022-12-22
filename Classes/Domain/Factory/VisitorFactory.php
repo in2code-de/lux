@@ -25,7 +25,6 @@ use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotCon
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
-use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 
@@ -34,24 +33,11 @@ use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
  */
 class VisitorFactory
 {
-    /**
-     * @var Fingerprint
-     */
-    protected $fingerprint = null;
+    protected ?Fingerprint $fingerprint = null;
+    protected ?VisitorRepository $visitorRepository = null;
+    private EventDispatcherInterface $eventDispatcher;
 
     /**
-     * @var VisitorRepository|null
-     */
-    protected $visitorRepository = null;
-
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $eventDispatcher;
-
-    /**
-     * VisitorFactory constructor.
-     *
      * @param string $identificator
      * @param bool $tempVisitor If there is no fingerprint (doNotTrack) but we even want to generate a visitor object
      * @throws FingerprintMustNotBeEmptyException
@@ -73,7 +59,6 @@ class VisitorFactory
      * @return Visitor
      * @throws ConfigurationException
      * @throws DBALException
-     * @throws Exception
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws FileNotFoundException
@@ -100,12 +85,11 @@ class VisitorFactory
 
     /**
      * Check if there is a visitor already stored in database by given fingerprint. Also legacy luxId-cookie will be
-     * respected, to not loose visitors when changing lux from 6.x to 7.x
+     * respected, to not lose visitors when changing lux from 6.x to 7.x
      *
      * @return Visitor|null
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
-     * @throws Exception
      * @throws DBALException
      */
     protected function getVisitorFromDatabaseByFingerprint(): ?Visitor
@@ -144,7 +128,6 @@ class VisitorFactory
     /**
      * @return Visitor
      * @throws ConfigurationException
-     * @throws Exception
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws IllegalObjectTypeException
@@ -165,7 +148,6 @@ class VisitorFactory
     /**
      * @param Visitor $visitor
      * @return void
-     * @throws Exception
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws IllegalObjectTypeException

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace In2code\Lux\Domain\Cache;
 
+use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Exception\EnvironmentException;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\StringUtility;
@@ -15,30 +17,18 @@ use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\Session\Backend\DatabaseSessionBackend;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class BackendSessionFaker
- */
 final class BackendSessionFaker
 {
     const TABLE_BACKENDUSERS = 'be_users';
     const TABLE_BACKENDUSERSESSION = 'be_sessions';
 
-    /**
-     * @var DatabaseSessionBackend
-     */
-    protected $dbSessionBackend;
+    protected DatabaseSessionBackend $dbSessionBackend;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->dbSessionBackend = GeneralUtility::makeInstance(DatabaseSessionBackend::class);
     }
 
-    /**
-     * Destructor
-     */
     public function __destruct()
     {
         $this->removeBackendSession();
@@ -47,6 +37,8 @@ final class BackendSessionFaker
     /**
      * @return void
      * @throws EnvironmentException
+     * @throws Exception
+     * @throws ExceptionDbal
      * @throws MfaRequiredException
      */
     public function fake(): void
@@ -58,6 +50,8 @@ final class BackendSessionFaker
     /**
      * @return void
      * @throws EnvironmentException
+     * @throws Exception
+     * @throws ExceptionDbal
      */
     protected function createBackendSession(): void
     {
@@ -74,9 +68,6 @@ final class BackendSessionFaker
         $queryBuilder->insert(self::TABLE_BACKENDUSERSESSION)->values($properties)->executeQuery();
     }
 
-    /**
-     * @return void
-     */
     protected function removeBackendSession(): void
     {
         $queryBuilder = DatabaseUtility::getQueryBuilderForTable(self::TABLE_BACKENDUSERSESSION);
@@ -97,6 +88,8 @@ final class BackendSessionFaker
      *
      * @return void
      * @throws EnvironmentException
+     * @throws Exception
+     * @throws ExceptionDbal
      * @throws MfaRequiredException
      * @SuppressWarnings(PHPMD.Superglobals)
      */
@@ -118,6 +111,8 @@ final class BackendSessionFaker
     /**
      * @return int
      * @throws EnvironmentException
+     * @throws Exception
+     * @throws ExceptionDbal
      */
     protected function getBackendUserAdminIdentifier(): int
     {
@@ -151,9 +146,6 @@ final class BackendSessionFaker
         return $sessionIdentifier;
     }
 
-    /**
-     * @return string
-     */
     protected function getFormProtectionSessionToken(): string
     {
         static $sessionToken = '';

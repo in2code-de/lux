@@ -3,25 +3,14 @@
 declare(strict_types=1);
 namespace In2code\Lux\Utility;
 
-/**
- * Class FileUtility
- */
 class FileUtility
 {
-    /**
-     * @param string $pathAndFilename
-     * @return string
-     */
     public static function getFilenameFromPathAndFilename(string $pathAndFilename): string
     {
         $pathInfo = pathinfo($pathAndFilename);
         return (string)$pathInfo['basename'];
     }
 
-    /**
-     * @param string $filename
-     * @return bool
-     */
     public static function isImageFile(string $filename): bool
     {
         return in_array(self::getFileExtensionFromFilename($filename), ['jpg', 'jpeg', 'png', 'gif']);
@@ -51,10 +40,6 @@ class FileUtility
         return exec('grep -iw ' . escapeshellarg($value) . ' ' . $filename);
     }
 
-    /**
-     * @param string $filename
-     * @return string
-     */
     public static function getFileExtensionFromFilename(string $filename): string
     {
         $info = pathinfo($filename);

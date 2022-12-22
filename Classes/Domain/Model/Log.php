@@ -85,7 +85,7 @@ class Log extends AbstractModel
 
     public function getProperties(): array
     {
-        return json_decode($this->properties, true);
+        return (array)json_decode($this->properties, true);
     }
 
     public function setProperties(array $properties): self

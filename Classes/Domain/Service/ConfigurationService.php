@@ -18,10 +18,7 @@ class ConfigurationService implements SingletonInterface
 {
     const EXTENSION_NAME = 'Lux';
 
-    /**
-     * @var array
-     */
-    protected $settings = [];
+    protected array $settings = [];
 
     /**
      * @param string $path like "general.disallowedMailProviderList"

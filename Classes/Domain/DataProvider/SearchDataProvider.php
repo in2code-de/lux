@@ -3,13 +3,10 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider;
 
-use Exception;
 use In2code\Lux\Domain\Repository\SearchRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
-/**
- * SearchDataProvider
- */
 class SearchDataProvider extends AbstractDynamicFilterDataProvider
 {
     /**
@@ -28,7 +25,7 @@ class SearchDataProvider extends AbstractDynamicFilterDataProvider
      *  ]
      *
      * @return void
-     * @throws Exception
+     * @throws InvalidQueryException
      */
     public function prepareData(): void
     {

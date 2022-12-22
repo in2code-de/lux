@@ -7,20 +7,10 @@ use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class AbstractRecord
- */
 abstract class AbstractRecord implements RecordInterface
 {
-    /**
-     * @var string
-     */
-    protected $moduleName = '';
+    protected string $moduleName = '';
 
-    /**
-     * AbstractRecord constructor.
-     * @param string $moduleName
-     */
     public function __construct(string $moduleName)
     {
         $this->moduleName = $moduleName;

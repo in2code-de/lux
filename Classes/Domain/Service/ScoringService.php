@@ -30,15 +30,11 @@ class ScoringService
      *
      * @var string
      */
-    protected $calculation = '';
+    protected string $calculation = '';
+
+    protected ?DateTime $time = null;
 
     /**
-     * @var DateTime|null
-     */
-    protected $time = null;
-
-    /**
-     * ScoringService constructor.
      * @param DateTime|null $time Set a time if you want to calculate a scoring from the past
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
@@ -46,7 +42,7 @@ class ScoringService
      */
     public function __construct(DateTime $time = null)
     {
-        if (!class_exists(ExpressionLanguage::class)) {
+        if (class_exists(ExpressionLanguage::class) === false) {
             throw new ClassDoesNotExistException(
                 'ExpressionLanguage class not found. Composer package symfony/expression-language probably not loaded.',
                 1559499211
@@ -116,7 +112,6 @@ class ScoringService
      * @param Visitor $visitor
      * @return int
      * @throws InvalidQueryException
-     * @throws \Exception
      */
     protected function getNumberOfSiteVisits(Visitor $visitor): int
     {
@@ -135,7 +130,7 @@ class ScoringService
                     /** @var DateTime $lastVisit */
                     if ($lastVisit !== null) {
                         $interval = $lastVisit->diff($pagevisit->getCrdate());
-                        // if difference is greater then one hour
+                        // if difference is greater than one hour
                         if ($interval->h > 0) {
                             $sitevisits++;
                         }
@@ -151,7 +146,6 @@ class ScoringService
      * @param Visitor $visitor
      * @return int
      * @throws InvalidQueryException
-     * @throws \Exception
      */
     protected function getNumberOfVisits(Visitor $visitor): int
     {
@@ -168,7 +162,6 @@ class ScoringService
      * @param Visitor $visitor
      * @return int
      * @throws InvalidQueryException
-     * @throws \Exception
      */
     protected function getNumberOfDaysSinceLastVisit(Visitor $visitor): int
     {
@@ -208,9 +201,6 @@ class ScoringService
         return $downloads;
     }
 
-    /**
-     * @return string
-     */
     public function getCalculation(): string
     {
         return $this->calculation;
@@ -221,7 +211,7 @@ class ScoringService
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      */
-    public function setCalculation()
+    public function setCalculation(): void
     {
         $this->calculation = ConfigurationUtility::getScoringCalculation();
     }

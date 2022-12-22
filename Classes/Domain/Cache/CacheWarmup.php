@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace In2code\Lux\Domain\Cache;
 
+use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use GuzzleHttp\Cookie\CookieJar;
 use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Exception\ConfigurationException;
@@ -17,26 +19,19 @@ use TYPO3\CMS\Core\Authentication\Mfa\MfaRequiredException;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class CacheWarmup
- */
 final class CacheWarmup
 {
-    /**
-     * @var BackendSessionFaker
-     */
-    protected $backendSessionFaker;
+    protected BackendSessionFaker $backendSessionFaker;
 
-    /**
-     * @var string
-     */
-    protected $domain = '';
+    protected string $domain = '';
 
     /**
      * Constructor
      *
      * @throws EnvironmentException
      * @throws MfaRequiredException
+     * @throws Exception
+     * @throws ExceptionDbal
      */
     public function __construct()
     {

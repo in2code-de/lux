@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Factory\VisitorFactory;
 use In2code\Lux\Domain\Model\Visitor;
@@ -43,8 +44,6 @@ class FrontendController extends ActionController
     }
 
     /**
-     * Check for allowed actions
-     *
      * @return void
      * @throws ActionNotAllowedException
      * @noinspection PhpUnused
@@ -320,13 +319,16 @@ class FrontendController extends ActionController
      * @return void
      * @throws EmailValidationException
      * @throws IllegalObjectTypeException
+     * @throws InvalidConfigurationTypeException
      * @throws UnknownObjectException
+     * @throws DBALException
      */
     protected function callAdditionalTrackers(Visitor $visitor, array $arguments): void
     {
         $authTracker = GeneralUtility::makeInstance(
             FrontenduserAuthenticationTracker::class,
             $visitor,
+            AttributeTracker::CONTEXT_FRONTENDUSER,
             (int)$arguments['pageUid']
         );
         $authTracker->trackByFrontenduserAuthentication();
@@ -382,6 +384,7 @@ class FrontendController extends ActionController
      * @throws UnknownObjectException
      * @throws FileNotFoundException
      * @throws InvalidConfigurationTypeException
+     * @throws DBALException
      */
     protected function getVisitor(string $identificator, bool $tempVisitor = false): Visitor
     {

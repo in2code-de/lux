@@ -5,9 +5,6 @@ namespace In2code\Lux\Utility;
 
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 
-/**
- * Class BackendUtility
- */
 class BackendUtility
 {
     /**
@@ -22,9 +19,6 @@ class BackendUtility
         return '';
     }
 
-    /**
-     * @return bool
-     */
     public static function isAdministrator(): bool
     {
         if (self::getBackendUserAuthentication() !== null) {
@@ -46,12 +40,6 @@ class BackendUtility
         self::getBackendUserAuthentication()->setAndSaveSessionData($key . $action . $controller . '_lux', $data);
     }
 
-    /**
-     * @param string $key
-     * @param string $action
-     * @param string $controller
-     * @return array
-     */
     public static function getSessionValue(string $key, string $action, string $controller): array
     {
         $value = self::getBackendUserAuthentication()->getSessionData($key . $action . $controller . '_lux');

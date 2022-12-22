@@ -11,21 +11,15 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 
-/**
- * Class ErrorLoggingFinisher
- */
 class ErrorLoggingFinisher extends AbstractFinisher
 {
     /**
      * @var string[]
      */
-    protected $startWithControllerActions = [
+    protected array $startWithControllerActions = [
         'error',
     ];
 
-    /**
-     * @return bool
-     */
     public function shouldFinisherRun(): bool
     {
         return $this->getConfigurationByKey('enable') === '1'

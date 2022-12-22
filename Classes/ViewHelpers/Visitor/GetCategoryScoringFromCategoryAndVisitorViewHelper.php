@@ -8,23 +8,14 @@ use In2code\Lux\Domain\Model\Categoryscoring;
 use In2code\Lux\Domain\Model\Visitor;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-/**
- * Class GetCategoryScoringFromCategoryAndVisitorViewHelper
- */
 class GetCategoryScoringFromCategoryAndVisitorViewHelper extends AbstractViewHelper
 {
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         $this->registerArgument('visitor', Visitor::class, 'visitor', true);
         $this->registerArgument('category', Category::class, 'category', true);
     }
 
-    /**
-     * @return int
-     */
     public function render(): int
     {
         $scoring = 0;

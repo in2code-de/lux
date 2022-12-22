@@ -3,8 +3,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\Utility;
 
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\Exception;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -13,11 +11,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class DatabaseUtility
 {
-    /**
-     * @param string $tableName
-     * @param bool $removeRestrictions
-     * @return QueryBuilder
-     */
     public static function getQueryBuilderForTable(string $tableName, bool $removeRestrictions = false): QueryBuilder
     {
         /** @var QueryBuilder $queryBuilder */
@@ -28,10 +21,6 @@ class DatabaseUtility
         return $queryBuilder;
     }
 
-    /**
-     * @param string $tableName
-     * @return Connection
-     */
     public static function getConnectionForTable(string $tableName): Connection
     {
         return GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($tableName);
@@ -40,7 +29,7 @@ class DatabaseUtility
     /**
      * @param string $tableName
      * @return bool
-     * @throws DBALException
+     * @throws ExceptionDbal
      */
     public static function isTableExisting(string $tableName): bool
     {
@@ -60,7 +49,7 @@ class DatabaseUtility
      * @param string $fieldName
      * @param string $tableName
      * @return bool
-     * @throws DBALException
+     * @throws ExceptionDbal
      */
     public static function isFieldExistingInTable(string $fieldName, string $tableName): bool
     {
@@ -80,34 +69,32 @@ class DatabaseUtility
      * @param string $tableName
      * @return bool
      * @throws ExceptionDbal
-     * @throws Exception
      */
     public static function isTableFilled(string $tableName): bool
     {
         $queryBuilder = self::getQueryBuilderForTable($tableName);
         return $queryBuilder
-                ->select('*')
-                ->from($tableName)
-                ->setMaxResults(1)
-                ->executeQuery()
-                ->fetchAssociative() > 0;
+            ->select('*')
+            ->from($tableName)
+            ->setMaxResults(1)
+            ->executeQuery()
+            ->fetchAssociative() > 0;
     }
 
     /**
      * @param string $fieldName
      * @param string $tableName
      * @return bool
-     * @throws Exception
      * @throws ExceptionDbal
      */
     public static function isFieldInTableFilled(string $fieldName, string $tableName): bool
     {
         $queryBuilder = self::getQueryBuilderForTable($tableName);
         return (string)$queryBuilder
-                ->select($fieldName)
-                ->from($tableName)
-                ->setMaxResults(1)
-                ->executeQuery()
-                ->fetchOne() !== '';
+            ->select($fieldName)
+            ->from($tableName)
+            ->setMaxResults(1)
+            ->executeQuery()
+            ->fetchOne() !== '';
     }
 }
