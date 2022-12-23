@@ -37,7 +37,7 @@ class NavigationGroupButton extends AbstractButton
     public function render()
     {
         $content = $this->prepend();
-        $content .= '<div class="btn-group" role="group">';
+        $content .= '<div class="lux btn-group" role="group">';
         foreach ($this->configuration as $action => $label) {
             $url = $this->uriBuilder->uriFor($action);
             $class = 'btn-default';
@@ -69,7 +69,7 @@ class NavigationGroupButton extends AbstractButton
     {
         $icon = $this->iconFactory->getIcon('extension-lux-star', Icon::SIZE_SMALL);
         $content .= '<div style="padding-top: 5px;">';
-        $content .= 'LUX community edition';
+        $content .= 'LUX Community Edition';
         $content .= '<a href="' . $this->getInfoUri() . '" style="margin-left: 5px;">';
         $content .= $this->iconFactory->getIcon('actions-info-circle-alt', Icon::SIZE_SMALL);
         $content .= '</a></div>';
@@ -82,7 +82,7 @@ class NavigationGroupButton extends AbstractButton
     protected function appendEnterprise(string $content): string
     {
         $content .= '<div style="padding-top: 5px;">';
-        $content .= 'LUX enterprise edition';
+        $content .= 'LUX Enterprise Edition';
         $content .= '<a href="' . $this->getInfoUri() . '" style="margin-left: 5px;">';
         $content .= $this->iconFactory->getIcon('actions-info-circle-alt', Icon::SIZE_SMALL);
         $content .= '</a></div>';

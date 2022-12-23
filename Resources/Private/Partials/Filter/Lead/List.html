@@ -17,9 +17,9 @@
                             id="searchterm"
                             class="form-control"
                             placeholder="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.searchterm')}" />
-                        <label class="btn btn-default" for="searchterm">
-                            <span class="fa fa-search"></span>
-                        </label>
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#searchterm">
+                            <core:icon identifier="actions-search" />
+                        </button>
                     </div>
 
                     <div class="input-group form-group">
@@ -28,9 +28,9 @@
                             property="timeFrom"
                             id="timeFrom"
                             class="form-control" />
-                        <label class="btn btn-default" for="timeFrom">
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#timeFrom">
                             {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeFrom')}
-                        </label>
+                        </button>
                     </div>
                 </div>
 
@@ -45,9 +45,9 @@
                             class="form-control"
                             additionalAttributes="{min:0, max:200, onchange:'document.getElementById(\'scoring_label\').innerHTML = this.value;'}"
                             id="scoring"/>
-                        <label class="btn btn-default" for="scoring">
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#scoring">
                             Min: <strong id="scoring_label">{filter.scoring}</strong>
-                        </label>
+                        </button>
                     </div>
 
                     <div class="input-group form-group">
@@ -56,9 +56,9 @@
                             property="timeTo"
                             id="timeTo"
                             class="form-control" />
-                        <label class="btn btn-default" for="timeTo">
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#timeTo">
                             {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeTo')}
-                        </label>
+                        </button>
                     </div>
                 </div>
 
@@ -76,13 +76,13 @@
                             prependOptionLabel=""
                             class="form-control form-select"
                             id="categoryScoring"/>
-                        <label class="btn btn-default" for="categoryScoring">
-                            <span class="fa fa-tag"></span>
-                        </label>
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#categoryScoring">
+                            <core:icon identifier="actions-tag" />
+                        </button>
                     </div>
 
                     <div class="input-group form-group" style="display: block">
-                        <div class="form-check pull-left" style="position: relative;">
+                        <div class="form-check form-switch pull-left" style="position: relative;">
                             <f:form.checkbox
                                 class="form-check-input"
                                 id="identified"
@@ -105,7 +105,7 @@
                             <f:comment>CSV Download</f:comment>
                             <f:form.submit class="fa fa-download" name="export" id="download" value="csv" style="visibility:hidden;width:1px;padding:0;margin:0;"/>
                             <label class="btn btn-default" for="download" style="margin-right: 10px;">
-                                <span class="fa fa-download" title="CSV Download"></span>
+                                <core:icon identifier="actions-cloud-download" size="small" />
                             </label>
 
                             <f:comment>Clear filter</f:comment>

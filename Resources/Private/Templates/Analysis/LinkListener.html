@@ -62,19 +62,11 @@
                             <td>
                                 <div class="btn-group">
                                     <a href="{lux:backend.uriEdit(tableName:'tx_lux_domain_model_linklistener',identifier:linkListener.uid,moduleName:'lux_LuxAnalysis')}" class="btn btn-default" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:edit')}">
-                                        <span class="t3js-icon icon icon-size-small icon-state-default icon-actions-view-page">
-                                            <span class="icon-markup">
-                                                <span class="t3-icon fa fa-pencil"></span>
-                                            </span>
-                                        </span>
+                                        <core:icon identifier="actions-open" />
                                     </a>
 
                                     <f:link.action action="deleteLinkListener" arguments="{linkListener:linkListener}" class="btn btn-default" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:delete')}" additionalAttributes="{data-lux-confirm:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:deleteconfirm\')}'}">
-                                        <span class="t3js-icon icon icon-size-small icon-state-default icon-actions-view-page">
-                                            <span class="icon-markup">
-                                                <span class="t3-icon fa fa-trash"></span>
-                                            </span>
-                                        </span>
+                                        <core:icon identifier="actions-edit-delete" />
                                     </f:link.action>
                                 </div>
 
