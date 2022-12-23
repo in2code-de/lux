@@ -190,7 +190,8 @@ class LeadController extends AbstractController
         $standaloneView->assignMultiple([
             'visitor' => $visitorRepository->findByUid((int)$request->getQueryParams()['visitor']),
         ]);
-        return $response->getBody()->write(json_encode(['html' => $standaloneView->render()]));
+        $response->getBody()->write(json_encode(['html' => $standaloneView->render()]));
+        return $response;
     }
 
     /**

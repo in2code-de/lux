@@ -5,7 +5,7 @@ namespace In2code\Lux\Domain\Repository;
 
 use DateTime;
 use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Categoryscoring;
 use In2code\Lux\Domain\Model\News;
@@ -31,7 +31,7 @@ class NewsvisitRepository extends AbstractRepository
      *
      * @param FilterDto $filter
      * @return array
-     * @throws Exception
+     * @throws ExceptionDbalDriver
      * @throws ExceptionDbal
      */
     public function findCombinedByNewsIdentifier(FilterDto $filter): array
@@ -57,10 +57,6 @@ class NewsvisitRepository extends AbstractRepository
         return $this->combineAndCutNews($rows);
     }
 
-    /**
-     * @param array $rows
-     * @return array
-     */
     protected function combineAndCutNews(array $rows): array
     {
         $newsRepository = GeneralUtility::makeInstance(NewsRepository::class);
@@ -99,7 +95,7 @@ class NewsvisitRepository extends AbstractRepository
     /**
      * @param FilterDto $filter
      * @return array
-     * @throws Exception
+     * @throws ExceptionDbalDriver
      * @throws ExceptionDbal
      */
     public function getDomainsWithAmountOfVisits(FilterDto $filter): array
@@ -125,7 +121,7 @@ class NewsvisitRepository extends AbstractRepository
      * @param int $limit
      * @return array
      * @throws DBALException
-     * @throws Exception
+     * @throws ExceptionDbalDriver
      */
     public function findByNews(News $news, int $limit = 100): array
     {
@@ -137,10 +133,6 @@ class NewsvisitRepository extends AbstractRepository
         return $this->convertIdentifiersToObjects($newsvisitIdentifiers, Newsvisit::TABLE_NAME);
     }
 
-    /**
-     * @param Pagevisit $pagevisit
-     * @return Newsvisit|null
-     */
     public function findByPagevisit(Pagevisit $pagevisit): ?Newsvisit
     {
         $query = $this->createQuery();
@@ -161,7 +153,7 @@ class NewsvisitRepository extends AbstractRepository
      * @param FilterDto $filter
      * @return array
      * @throws DBALException
-     * @throws Exception
+     * @throws ExceptionDbalDriver
      */
     public function getAllDomains(FilterDto $filter): array
     {
@@ -182,7 +174,7 @@ class NewsvisitRepository extends AbstractRepository
      * @param FilterDto $filter
      * @return array
      * @throws DBALException
-     * @throws Exception
+     * @throws ExceptionDbalDriver
      */
     public function getAllLanguages(FilterDto $filter): array
     {
@@ -199,6 +191,18 @@ class NewsvisitRepository extends AbstractRepository
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
             . ' group by nv.language, l.title order by count desc ';
         return $connection->executeQuery($sql)->fetchAllAssociative();
+    }
+
+    /**
+     * @return bool
+     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
+     */
+    public function isTableFilled(): bool
+    {
+        $connection = DatabaseUtility::getConnectionForTable(News::TABLE_NAME);
+        $sql = 'select count(*) from ' . News::TABLE_NAME . ' where deleted=0';
+        return $connection->executeQuery($sql)->fetchOne() > 0;
     }
 
     /**

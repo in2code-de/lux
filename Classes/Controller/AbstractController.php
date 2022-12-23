@@ -152,11 +152,6 @@ abstract class AbstractController extends ActionController
         $this->request = $this->request->withArgument('filter', $filter);
     }
 
-    /**
-     * @param string $action
-     * @param string $searchterm
-     * @return FilterDto
-     */
     protected function getFilterFromSessionForAjaxRequests(string $action, string $searchterm = ''): FilterDto
     {
         $filterValues = BackendUtility::getSessionValue('filter', $action, $this->getControllerName());
@@ -179,14 +174,10 @@ abstract class AbstractController extends ActionController
         return $filter;
     }
 
-    /**
-     * @param string $redirectAction
-     * @return void
-     */
-    public function resetFilterAction(string $redirectAction): void
+    public function resetFilterAction(string $redirectAction): ResponseInterface
     {
         BackendUtility::saveValueToSession('filter', $redirectAction, $this->getControllerName(), []);
-        $this->redirect($redirectAction);
+        return $this->redirect($redirectAction);
     }
 
     /**
@@ -207,11 +198,6 @@ abstract class AbstractController extends ActionController
         return StringUtility::removeStringPostfix($this->actionMethodName, 'Action');
     }
 
-    /**
-     * @param string|null $csv
-     * @param string $filename
-     * @return ResponseInterface
-     */
     protected function csvResponse(string $csv = null, string $filename = ''): ResponseInterface
     {
         if ($filename === '') {

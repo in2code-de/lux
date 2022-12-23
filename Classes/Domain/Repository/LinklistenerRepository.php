@@ -11,9 +11,6 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 class LinklistenerRepository extends AbstractRepository
 {
-    /**
-     * @var array
-     */
     protected $defaultOrderings = [
         'title' => QueryInterface::ORDER_ASCENDING,
     ];
@@ -22,7 +19,6 @@ class LinklistenerRepository extends AbstractRepository
      * @param FilterDto $filter
      * @return QueryResultInterface
      * @throws InvalidQueryException
-     * @throws \Exception
      */
     public function findByFilter(FilterDto $filter): QueryResultInterface
     {
@@ -38,9 +34,9 @@ class LinklistenerRepository extends AbstractRepository
     }
 
     /**
-     * @param FilterDto $filter
      * @param QueryInterface $query
      * @param array $logicalAnd
+     * @param FilterDto|null $filter
      * @return array
      * @throws InvalidQueryException
      */
@@ -61,7 +57,7 @@ class LinklistenerRepository extends AbstractRepository
                         $logicalOr[] = $query->like('category.title', '%' . $searchterm . '%');
                     }
                 }
-                $logicalAnd[] = $query->logicalOr($logicalOr);
+                $logicalAnd[] = $query->logicalOr(...$logicalOr);
             }
             if ($filter->getCategoryScoring() !== null) {
                 $logicalAnd[] = $query->equals('category', $filter->getCategoryScoring());

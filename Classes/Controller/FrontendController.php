@@ -31,6 +31,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 
@@ -46,6 +47,7 @@ class FrontendController extends ActionController
     /**
      * @return void
      * @throws ActionNotAllowedException
+     * @throws NoSuchArgumentException
      * @noinspection PhpUnused
      */
     public function initializeDispatchRequestAction(): void

@@ -38,11 +38,11 @@ use Psr\Http\Message\StreamInterface;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Http\JsonResponse;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
+use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
@@ -337,13 +337,14 @@ class AnalysisController extends AbstractController
 
     /**
      * @param Linklistener $linkListener
-     * @return void
+     * @return ResponseInterface
      * @throws IllegalObjectTypeException
+     * @throws StopActionException
      */
-    public function deleteLinkListenerAction(LinkListener $linkListener): void
+    public function deleteLinkListenerAction(LinkListener $linkListener): ResponseInterface
     {
         $this->linklistenerRepository->remove($linkListener);
-        $this->redirect('linkListener');
+        return $this->redirect('linkListener');
     }
 
     /**
@@ -430,6 +431,7 @@ class AnalysisController extends AbstractController
      * @return ResponseInterface
      * @noinspection PhpUnused
      * @throws DBALException
+     * @throws ExceptionDbalDriver
      */
     public function detailAjaxPage(ServerRequestInterface $request): ResponseInterface
     {
@@ -459,6 +461,7 @@ class AnalysisController extends AbstractController
      * @return ResponseInterface
      * @noinspection PhpUnused
      * @throws DBALException
+     * @throws ExceptionDbalDriver
      */
     public function detailNewsAjaxPage(ServerRequestInterface $request): ResponseInterface
     {
@@ -588,10 +591,10 @@ class AnalysisController extends AbstractController
     protected function addDocumentHeaderForNewsletterController(): void
     {
         $actions = ['dashboard', 'content', 'utm', 'linkListener'];
-        if (ExtensionManagementUtility::isLoaded('news')) {
+        if ($this->newsvisitRepository->isTableFilled()) {
             $actions[] = 'news';
         }
-        if ($this->searchRepository->isSearchTableFilled()) {
+        if ($this->searchRepository->isTableFilled()) {
             $actions[] = 'search';
         }
         $menuConfiguration = [];
