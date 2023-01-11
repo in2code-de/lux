@@ -98,6 +98,10 @@ services:
 
   In2code\Lux\Hooks\PageOverview:
     public: true
+    tags:
+      - name: event.listener
+        identifier: 'lux/modifyPageModule'
+        method: 'eventRegistration'
 
   In2code\Lux\ViewHelpers\Lead\GetDateOfLatestPageVisitAndPageViewHelper:
     public: true

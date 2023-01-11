@@ -1,35 +1,37 @@
 <f:if condition="{visitors}">
-    <lux:condition.isLuxenterpriseExtensionActivated>
-        <f:else>
-            <a href="https://www.in2code.de/produkte/lux-typo3-marketing-automation/" class="lux_poweredby" style="float:right;font-weight:bold;">
-                <img src="{f:uri.resource(path:'Icons/star.svg',extensionName:'lux')}" alt="Lux enterprise" width="20" height="20" style="vertical-align:bottom;" />
-                Go enterprise
-            </a>
-        </f:else>
-    </lux:condition.isLuxenterpriseExtensionActivated>
+    <div class="lux">
+        <lux:condition.isLuxenterpriseExtensionActivated>
+            <f:else>
+                <a href="https://www.in2code.de/produkte/lux-typo3-marketing-automation/" class="lux_poweredby" style="float:right;font-weight:bold;">
+                    <img src="{f:uri.resource(path:'Icons/star.svg',extensionName:'lux')}" alt="Lux enterprise" width="20" height="20" style="vertical-align:bottom;" />
+                    Go enterprise
+                </a>
+            </f:else>
+        </lux:condition.isLuxenterpriseExtensionActivated>
 
-    <h4 class="callout-title">
-        <lux:backend.cache identifier="PageOverviewTitle{pageIdentifier}" cacheLayer="{cacheLayer}">
-            <f:render section="{view}Title" arguments="{_all}"/>
-        </lux:backend.cache>
-    </h4>
+        <h4 class="callout-title">
+            <lux:backend.cache identifier="PageOverviewTitle{pageIdentifier}" cacheLayer="{cacheLayer}">
+                <f:render section="{view}Title" arguments="{_all}"/>
+            </lux:backend.cache>
+        </h4>
 
-    <div data-lux-toggle-target="target" class="{f:if(condition:'{status} == \'close\'',then:' hide')}">
-        <lux:backend.cache identifier="PageOverviewContent{pageIdentifier}" cacheLayer="{cacheLayer}">
-            <f:render section="{view}" arguments="{_all}"/>
-        </lux:backend.cache>
+        <div data-lux-toggle-target="target" class="{f:if(condition:'{status} == \'close\'',then:' hide')}">
+            <lux:backend.cache identifier="PageOverviewContent{pageIdentifier}" cacheLayer="{cacheLayer}">
+                <f:render section="{view}" arguments="{_all}"/>
+            </lux:backend.cache>
 
-        <lux:backend.getRenderingTime>
-            <p class="alert alert-light" role="alert" style="clear:both;color:black;background:white;margin:5px;">
-                Rendering time: {renderingTime}s
-            </p>
-        </lux:backend.getRenderingTime>
+            <lux:backend.getRenderingTime>
+                <p class="alert alert-light" role="alert" style="clear:both;color:black;background:white;margin:5px;">
+                    Rendering time: {renderingTime}s
+                </p>
+            </lux:backend.getRenderingTime>
+        </div>
+
+        <link rel="stylesheet" type="text/css" href="{f:uri.resource(path:'Css/PageOverview.min.css',extensionName:'lux')}" media="all">
+        <lux:backend.addRequireJsModule moduleName="TYPO3/CMS/Lux/Lux/Diagram.min" />
+        <lux:backend.addRequireJsModule moduleName="TYPO3/CMS/Lux/Lux/Module.min" />
+        <script src="{f:uri.resource(path:'JavaScript/Lux/PageOverview.min.js',extensionName:'lux')}"></script>
     </div>
-
-    <link rel="stylesheet" type="text/css" href="{f:uri.resource(path:'Css/PageOverview.min.css',extensionName:'lux')}" media="all">
-    <lux:backend.addRequireJsModule moduleName="TYPO3/CMS/Lux/Lux/Diagram.min" />
-    <lux:backend.addRequireJsModule moduleName="TYPO3/CMS/Lux/Lux/Module.min" />
-    <script src="{f:uri.resource(path:'JavaScript/Lux/PageOverview.min.js',extensionName:'lux')}"></script>
 </f:if>
 
 
@@ -45,7 +47,7 @@
         <span style="padding:0 15px;">/</span>
 
         {abandons} {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.abandons')}
-        <i class="fa {f:if(condition:'{status} == \'close\'',then:'fa-chevron-up', else:'fa-chevron-down')}" style="cursor: pointer; margin-left: 5px;"></i>
+        <i class="fa {f:if(condition:'{status} == \'close\'',then:'lux-arrow-up', else:'lux-arrow-down')}" style="cursor: pointer; margin-left: 5px;"></i>
     </span>
 </f:section>
 

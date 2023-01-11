@@ -21,6 +21,7 @@ use In2code\Lux\Exception\UnexpectedValueException;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Backend\Controller\Event\ModifyPageLayoutContentEvent;
 use TYPO3\CMS\Backend\Controller\PageLayoutController;
 use TYPO3\CMS\Backend\Utility\BackendUtility as BackendUtilityCore;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
@@ -63,6 +64,28 @@ class PageOverview
     }
 
     /**
+     * Called from PSR-14 for TYPO3 12
+     *
+     * @param ModifyPageLayoutContentEvent $event
+     * @return void
+     * @throws ConfigurationException
+     * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     * @throws UnexpectedValueException
+     */
+    public function eventRegistration(ModifyPageLayoutContentEvent $event): void
+    {
+        $queryParams = $event->getRequest()->getQueryParams();
+        $pageIdentifier = (int)($queryParams['id'] ?? 0);
+        $event->addHeaderContent($this->renderContent($pageIdentifier));
+    }
+
+    /**
+     * Called from ext_localconf.php for TYPO3 11
+     * Todo: Can be removed when TYPO3 11 support is dropped
+     *
      * @param array $parameters
      * @param PageLayoutController $plController
      * @return string
@@ -75,13 +98,25 @@ class PageOverview
      */
     public function render(array $parameters, PageLayoutController $plController): string
     {
-        $this->cacheLayer->initialize(__CLASS__, __FUNCTION__);
         unset($parameters);
+        return $this->renderContent($plController->id);
+    }
+
+    /**
+     * @param int $pageIdentifier
+     * @return string
+     * @throws ConfigurationException
+     * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     * @throws UnexpectedValueException
+     */
+    protected function renderContent(int $pageIdentifier): string
+    {
+        $this->cacheLayer->initialize(__CLASS__, 'render');
         $content = '';
-        if ($this->isPageOverviewEnabled($plController)) {
-            \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump('Todo: get page identifier', 'in2code ' . __CLASS__ . ':' . __LINE__);
-            die(__CLASS__ . ':' . __LINE__);
-            $pageIdentifier = $plController->id;
+        if ($this->isPageOverviewEnabled($pageIdentifier)) {
             $session = BackendUtility::getSessionValue('toggle', 'PageOverview', 'General');
             $arguments = $this->getArguments(ConfigurationUtility::getPageOverviewView(), $pageIdentifier, $session);
             return $this->getContent($arguments);
@@ -168,16 +203,14 @@ class PageOverview
     }
 
     /**
-     * @param PageLayoutController $plController
+     * @param int $pageIdentifier
      * @return bool
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      */
-    protected function isPageOverviewEnabled(PageLayoutController $plController): bool
+    protected function isPageOverviewEnabled(int $pageIdentifier): bool
     {
-        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump('todo: get Page identifier', 'in2code ' . __CLASS__ . ':' . __LINE__);
-        die(__CLASS__ . ':' . __LINE__);
-        $row = BackendUtilityCore::getRecord('pages', $plController->id, 'hidden');
+        $row = BackendUtilityCore::getRecord('pages', $pageIdentifier, 'hidden');
         return ConfigurationUtility::isPageOverviewDisabled() === false && $row['hidden'] !== 1;
     }
 }

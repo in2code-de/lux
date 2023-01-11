@@ -32,13 +32,13 @@ function LuxPageOverview() {
           thisElement = thisElement.parentNode;
         }
         var iTag = thisElement.querySelector('i');
-        if (iTag.classList.contains('fa-chevron-down')) {
-          iTag.classList.remove('fa-chevron-down');
-          iTag.classList.add('fa-chevron-up');
+        if (iTag.classList.contains('lux-arrow-down')) {
+          iTag.classList.remove('lux-arrow-down');
+          iTag.classList.add('lux-arrow-up');
           persistStatus('close');
         } else {
-          iTag.classList.remove('fa-chevron-up');
-          iTag.classList.add('fa-chevron-down');
+          iTag.classList.remove('lux-arrow-up');
+          iTag.classList.add('lux-arrow-down');
           persistStatus('open');
         }
         var target = thisElement.getAttribute('data-lux-toggle');
