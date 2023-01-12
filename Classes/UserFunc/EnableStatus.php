@@ -3,7 +3,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\UserFunc;
 
-use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\ConfigurationUtility;
@@ -19,10 +18,9 @@ class EnableStatus
     /**
      * @return string
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      * @noinspection PhpUnused
      */
-    public function showEnableStatus()
+    public function showEnableStatus(): string
     {
         $variables = [
             'status' => ConfigurationUtility::isComposerMode() && ExtensionManagementUtility::isLoaded('lux'),
@@ -33,21 +31,16 @@ class EnableStatus
             ],
             'stats' => [
                 'visitors' => count($this->getVisitors('1=1')),
-                'visitorsIdentified' => count($this->getVisitors('identified=1')),
+                'visitorsIdentified' => count($this->getVisitors()),
                 'visitorsUnidentified' => count($this->getVisitors('identified=0')),
             ],
         ];
         return $this->renderMarkup($variables);
     }
 
-    /**
-     * @param array $variables
-     * @return string
-     */
     protected function renderMarkup(array $variables): string
     {
         $standaloneView = GeneralUtility::makeInstance(StandaloneView::class);
-        $standaloneView->getRequest()->setControllerExtensionName('lux');
         $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($this->templatePathAndFile));
         $standaloneView->assignMultiple($variables);
         return $standaloneView->render();
@@ -58,7 +51,7 @@ class EnableStatus
      * @return array
      * @throws ExceptionDbal
      */
-    protected function getVisitors(string $where = 'identified=1')
+    protected function getVisitors(string $where = 'identified=1'): array
     {
         $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Visitor::TABLE_NAME);
         return $queryBuilder
