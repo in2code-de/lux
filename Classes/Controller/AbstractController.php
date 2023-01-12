@@ -98,11 +98,12 @@ abstract class AbstractController extends ActionController
     /**
      * Pass some important variables to all views
      *
+     * @param \TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view (Todo: Param is only needed in TYPO3 11)
      * @return void
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      */
-    public function initializeView()
+    public function initializeView($view)
     {
         $this->view->assignMultiple([
             'view' => [

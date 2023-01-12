@@ -221,9 +221,9 @@
         <f:for each="{visitors}" as="visitor">
             <div class="col-md-4">
                 <f:be.link
-                    route="lux_LuxLeads"
+                    route="lux_LuxLead"
                     title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview.link',arguments:'{0:visitor.fullName}')}"
-                    parameters="{tx_lux_lux_luxleads:'{visitor:visitor.uid,action:\'detail\',controller:\'Lead\'}'}">
+                    parameters="{tx_lux_lux_luxlead:'{visitor:visitor.uid,action:\'detail\',controller:\'Lead\'}'}">
 
                     <div class="lux-pageoverview-box">
                         <div class="lux-pageoverview-box-left">

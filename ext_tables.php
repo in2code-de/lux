@@ -97,7 +97,7 @@ call_user_func(
             \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
                 'Lux',
                 'lux',
-                'leads',
+                'lead',
                 '',
                 [
                     \In2code\Lux\Controller\LeadController::class =>

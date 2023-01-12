@@ -47,7 +47,7 @@ class LuxCacheWarmupCommand extends Command
         $this->addArgument(
             'routes',
             InputArgument::OPTIONAL,
-            'commaseparated routes like "lux_LuxAnalysis,lux_LuxLeads,web_layout"',
+            'commaseparated routes like "lux_LuxAnalysis,lux_LuxLead,web_layout"',
             implode(',', CacheLayerUtility::getCachelayerRoutes())
         );
         $this->addArgument(

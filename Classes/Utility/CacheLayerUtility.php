@@ -25,7 +25,7 @@ class CacheLayerUtility
         ];
         $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'][LeadController::class . '->dashboardAction'] = [
             'lifetime' => 86400,
-            'route' => 'lux_LuxLeads',
+            'route' => 'lux_LuxLead',
             'arguments' => [],
             'multiple' => false,
         ];
