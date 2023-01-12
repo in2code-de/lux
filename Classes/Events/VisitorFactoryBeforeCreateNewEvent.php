@@ -8,8 +8,8 @@ use In2code\Lux\Domain\Model\Visitor;
 
 final class VisitorFactoryBeforeCreateNewEvent
 {
-    protected Visitor $visitor;
-    protected Fingerprint $fingerprint;
+    protected ?Visitor $visitor = null;
+    protected ?Fingerprint $fingerprint = null;
 
     public function __construct(Visitor $visitor = null, Fingerprint $fingerprint = null)
     {
