@@ -1,11 +1,14 @@
 import {UI} from "@typo3/ckeditor5-bundle.js";
+import CheckboxView from "../ui/checkboxview.js";
+import TextareaView from "../ui/textareaview.js";
 
 export default class Email4LinkView extends UI.View {
   constructor(locale) {
     super(locale);
 
     this.titleInputView = this._createInput('Title');
-    this.descriptionInputView = this._createInput('Description');
+    this.descriptionInputView = this._createTextarea('Description');
+    this.checkboxInputView = this._createCheckbox('Use title as description');
     this.saveButtonView = this._createButton(
       'Save',
       '<svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m2.25 12.321 7.27 6.491c.143.127.321.19.499.19.206 0 .41-.084.559-.249l11.23-12.501c.129-.143.192-.321.192-.5 0-.419-.338-.75-.749-.75-.206 0-.411.084-.559.249l-10.731 11.945-6.711-5.994c-.144-.127-.322-.19-.5-.19-.417 0-.75.336-.75.749 0 .206.084.412.25.56" fill-rule="nonzero"/></svg>',
@@ -23,6 +26,7 @@ export default class Email4LinkView extends UI.View {
     this.childViews = this.createCollection([
       this.titleInputView,
       this.descriptionInputView,
+      this.checkboxInputView,
       this.saveButtonView,
       this.cancelButtonView
     ]);
@@ -36,6 +40,7 @@ export default class Email4LinkView extends UI.View {
       children: [
         this.titleInputView,
         this.descriptionInputView,
+        this.checkboxInputView,
         {
           tag: 'p',
           id: 'poweredbylux',
@@ -84,5 +89,21 @@ export default class Email4LinkView extends UI.View {
       class: className
     });
     return button;
+  }
+
+  _createCheckbox(label) {
+    const checkbox = new CheckboxView(this.locale);
+    checkbox.set({
+      label
+    });
+    return checkbox;
+  }
+
+  _createTextarea(label) {
+    const textarea = new TextareaView(this.locale);
+    textarea.set({
+      label
+    });
+    return textarea;
   }
 }

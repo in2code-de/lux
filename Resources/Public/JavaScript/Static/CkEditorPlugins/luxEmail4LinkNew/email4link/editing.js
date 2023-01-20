@@ -8,22 +8,20 @@ export default class Email4LinkEditing extends Core.Plugin {
   _defineConverters() {
     const conversion = this.editor.conversion;
 
-    // Conversion from a model attribute to a view element
-    conversion.for('downcast').attributeToElement( {
-      model: 'email4link',
+    this.editor.model.schema.extend( '$text', { allowAttributes: 'data-test' } );
 
-      view: (modelAttributeValue, conversionApi) => {
-        const {writer} = conversionApi;
-        return writer.createAttributeElement('abbr', {
-          title: modelAttributeValue
-        } );
-      }
-    } );
+    conversion.for('downcast').attributeToAttribute({
+      model: {
+        key: 'data-test',
+        name: 'linkHref'
+      },
+      view: 'data-test'
+    })
 
     // Conversion from a view element to a model attribute
     conversion.for('upcast').elementToAttribute( {
       view: {
-        name: 'abbr',
+        name: 'a',
         attributes: ['title']
       },
       model: {

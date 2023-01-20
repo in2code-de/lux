@@ -1,6 +1,5 @@
-import {Core, UI} from "@typo3/ckeditor5-bundle.js";
+import {Core, UI, Typing} from "@typo3/ckeditor5-bundle.js";
 import View from "./view.js";
-
 export default class Email4LinkUI extends Core.Plugin {
   static get requires() {
     return [UI.ContextualBalloon];
@@ -37,15 +36,11 @@ export default class Email4LinkUI extends Core.Plugin {
 
     // On submit
     this.listenTo(formView, 'submit', () => {
-      const title = formView.titleInputView.fieldView.element.value;
-      const description = formView.descriptionInputView.fieldView.element.value;
-      const linkRange = findAttributeRange( selection.getFirstPosition(), 'linkHref', selection.getAttribute( 'linkHref' ), editor.model );
-      console.log(linkRange);
-
       editor.model.change(writer => {
-        // writer.setAttribute('data-test', 'options.width');
-        // editor.model.insertContent(writer.createText(description, {email4link: title}));
-        writer.setAttribute('data-test', 'options.width', linkRange);
+        for ( const block of editor.model.document.selection.getSelectedBlocks() ) {
+          writer.setAttribute('data-test', 'example', block);
+          console.log(block)
+        }
       });
 
       this._hideUI();
