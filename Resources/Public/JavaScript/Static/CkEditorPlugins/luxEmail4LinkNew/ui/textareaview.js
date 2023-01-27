@@ -148,7 +148,6 @@ export default class TextareaView extends UI.View {
       tag: 'textarea',
       attributes: {
         class: 'ck ck-input',
-        type: 'checkbox',
         id: bind.to( 'id' ),
         'disabled': bind.if( 'isEnabled', true, value => !value ),
         'aria-disabled': bind.if( 'isEnabled', true, value => !value )

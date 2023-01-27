@@ -1,4 +1,4 @@
-import {Core, UI, Typing} from "@typo3/ckeditor5-bundle.js";
+import {Core, UI} from "@typo3/ckeditor5-bundle.js";
 import View from "./view.js";
 export default class Email4LinkUI extends Core.Plugin {
   static get requires() {
@@ -21,6 +21,10 @@ export default class Email4LinkUI extends Core.Plugin {
         isToggleable: true
       });
 
+      const email4linkCommand = this.editor.commands.get('email4link');
+
+      button.bind('isEnabled').to(email4linkCommand, 'isEnabled');
+
       // Show the UI on button click.
       this.listenTo(button, 'execute', () => {
         this._showUI();
@@ -37,10 +41,13 @@ export default class Email4LinkUI extends Core.Plugin {
     // On submit
     this.listenTo(formView, 'submit', () => {
       editor.model.change(writer => {
-        for ( const block of editor.model.document.selection.getSelectedBlocks() ) {
-          writer.setAttribute('data-test', 'example', block);
-          console.log(block)
+        const value = {
+          sendEmail: String(formView.checkboxInputView.isChecked),
+          title: String(formView.titleInputView.fieldView.element.value),
+          text: String(formView.descriptionInputView.textareaView.element.value)
         }
+
+        editor.execute('email4link', value);
       });
 
       this._hideUI();
@@ -67,15 +74,27 @@ export default class Email4LinkUI extends Core.Plugin {
       view: this.formView,
       position: this._getBalloonPositionData()
     });
-    // this.formView.focus();
+
+    const link = this._getSelectedLink();
+
+    if (link) {
+      this.formView.titleInputView.fieldView.element.value = link.getAttribute('emailTitle') || '';
+      this.formView.descriptionInputView.textareaView.element.value = link.getAttribute('emailText') || '';
+      this.formView.checkboxInputView.isChecked = link.getAttribute('sendEmail') || false;
+    }
+
+    this.formView.focus();
   }
 
   _hideUI() {
-    // this.formView.titleInputView.fieldView.value = '';
-    // this.formView.descriptionInputView.fieldView.value = '';
-    // this.formView.element.reset();
+    this.formView.titleInputView.fieldView.element.value = '';
+    this.formView.descriptionInputView.textareaView.element.value = '';
+    this.formView.checkboxInputView.isChecked = false;
+    this.formView.element.reset();
+
     this._balloon.remove(this.formView);
-    // this.editor.editing.view.focus();
+
+    this.editor.editing.view.focus();
   }
 
   _getBalloonPositionData() {
@@ -84,5 +103,16 @@ export default class Email4LinkUI extends Core.Plugin {
     let target = null;
     target = () => view.domConverter.viewRangeToDom( viewDocument.selection.getFirstRange() );
     return {target};
+  }
+
+  _getSelectedLink() {
+    const model = this.editor.model;
+    const selection = model.document.selection;
+
+    if (selection.hasAttribute('linkHref')) {
+      return selection;
+    }
+
+    return null;
   }
 }
