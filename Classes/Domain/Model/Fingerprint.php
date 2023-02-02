@@ -109,12 +109,12 @@ class Fingerprint extends AbstractModel
         if (class_exists(Parser::class)) {
             $parser = new Parser($this->getUserAgent());
             $properties = [
-                'browser' => $parser->browser->getName(),
-                'browserversion' => (string)$parser->browser->version->value,
-                'os' => $parser->os->getName(),
-                'osversion' => $parser->os->getVersion(),
-                'manufacturer' => $parser->device->getManufacturer(),
-                'type' => $parser->device->type,
+                'browser' => $parser->browser->getName() ?? '',
+                'browserversion' => (string)($parser->browser->version->value ?? ''),
+                'os' => $parser->os->getName() ?? '',
+                'osversion' => $parser->os->getVersion() ?? '',
+                'manufacturer' => $parser->device->getManufacturer() ?? '',
+                'type' => $parser->device->type ?? '',
             ];
         }
         return $properties;
