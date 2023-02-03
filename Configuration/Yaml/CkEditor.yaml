@@ -9,7 +9,7 @@ editor:
     contentsCss: 'EXT:lux/Resources/Public/Css/Modules.min.css'
 
     importModules:
-      - 'EXT:lux/Resources/Public/JavaScript/Static/CkEditorPlugins/luxEmail4LinkNew/plugin.js'
+      - 'EXT:lux/Resources/Public/JavaScript/Static/CkEditorPlugins/luxEmail4Link/plugin.js'
 
     toolbar:
       items:
