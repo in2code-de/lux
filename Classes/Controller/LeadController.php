@@ -80,7 +80,7 @@ class LeadController extends AbstractController
             ]);
         }
 
-        $this->addDocumentHeaderForNewsletterController();
+        $this->addDocumentHeaderForCurrentController();
         return $this->defaultRendering();
     }
 
@@ -114,7 +114,7 @@ class LeadController extends AbstractController
             'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
         ]);
 
-        $this->addDocumentHeaderForNewsletterController();
+        $this->addDocumentHeaderForCurrentController();
         return $this->defaultRendering();
     }
 
@@ -139,7 +139,7 @@ class LeadController extends AbstractController
     {
         $this->view->assign('visitor', $visitor);
 
-        $this->addDocumentHeaderForNewsletterController();
+        $this->addDocumentHeaderForCurrentController();
         return $this->defaultRendering();
     }
 
@@ -216,7 +216,7 @@ class LeadController extends AbstractController
     /**
      * @return void
      */
-    protected function addDocumentHeaderForNewsletterController(): void
+    protected function addDocumentHeaderForCurrentController(): void
     {
         $actions = ['dashboard', 'list'];
         $menuConfiguration = [];

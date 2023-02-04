@@ -24,14 +24,14 @@ class WorkflowController extends AbstractController
      */
     public function listAction(FilterDto $filter): ResponseInterface
     {
-        $this->addDocumentHeaderForNewsletterController();
+        $this->addDocumentHeaderForCurrentController();
         return $this->defaultRendering();
     }
 
     /**
      * @return void
      */
-    protected function addDocumentHeaderForNewsletterController(): void
+    protected function addDocumentHeaderForCurrentController(): void
     {
         $this->addDocumentHeader([]);
     }

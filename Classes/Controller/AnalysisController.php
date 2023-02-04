@@ -94,7 +94,7 @@ class AnalysisController extends AbstractController
             ]);
         }
 
-        $this->addDocumentHeaderForNewsletterController();
+        $this->addDocumentHeaderForCurrentController();
         return $this->defaultRendering();
     }
 
@@ -136,7 +136,7 @@ class AnalysisController extends AbstractController
             'domains' => $this->pagevisitsRepository->getAllDomains($filter),
         ]);
 
-        $this->addDocumentHeaderForNewsletterController();
+        $this->addDocumentHeaderForCurrentController();
         return $this->defaultRendering();
     }
 
@@ -188,7 +188,7 @@ class AnalysisController extends AbstractController
             'domains' => $this->newsvisitRepository->getAllDomains($filter),
         ]);
 
-        $this->addDocumentHeaderForNewsletterController();
+        $this->addDocumentHeaderForCurrentController();
         return $this->defaultRendering();
     }
 
@@ -242,7 +242,7 @@ class AnalysisController extends AbstractController
         ];
         $this->view->assignMultiple($variables);
 
-        $this->addDocumentHeaderForNewsletterController();
+        $this->addDocumentHeaderForCurrentController();
         return $this->defaultRendering();
     }
 
@@ -290,7 +290,7 @@ class AnalysisController extends AbstractController
             'linkclickData' => GeneralUtility::makeInstance(LinkclickDataProvider::class, $filter),
         ]);
 
-        $this->addDocumentHeaderForNewsletterController();
+        $this->addDocumentHeaderForCurrentController();
         return $this->defaultRendering();
     }
 
@@ -331,7 +331,7 @@ class AnalysisController extends AbstractController
             'search' => $this->searchRepository->findCombinedBySearchIdentifier($filter),
         ]);
 
-        $this->addDocumentHeaderForNewsletterController();
+        $this->addDocumentHeaderForCurrentController();
         return $this->defaultRendering();
     }
 
@@ -588,7 +588,7 @@ class AnalysisController extends AbstractController
      * @throws ExceptionDbal
      * @throws ExceptionDbalDriver
      */
-    protected function addDocumentHeaderForNewsletterController(): void
+    protected function addDocumentHeaderForCurrentController(): void
     {
         $actions = ['dashboard', 'content', 'utm', 'linkListener'];
         if ($this->newsvisitRepository->isTableFilled()) {
