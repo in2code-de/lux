@@ -6,6 +6,7 @@ config.recordLinks.luxlinklistener {
     # Just a dummy URL that will be overwritten later
     parameter = https://www.in2code.de
     title.data = parameters:title
+    extTarget = _self
 
     # Merge existing params with data-attribute
     ATagParams.stdWrap.cObject = COA
