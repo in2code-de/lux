@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Tracker;
 
 use Doctrine\DBAL\DBALException;
+use In2code\Lux\Domain\Repository\FrontendUserRepository;
 use In2code\Lux\Exception\EmailValidationException;
 use In2code\Lux\Utility\CookieUtility;
 use In2code\Lux\Utility\ExtensionUtility;
@@ -34,8 +35,10 @@ class LuxletterlinkAttributeTracker extends AbstractFrontenduserTracker
                 /** @var Link $link */
                 $link = $linkRepository->findOneByHash(CookieUtility::getCookieByName($this->cookieName));
                 if ($link->getUser() !== null) {
-                    $this->addOrUpdateRelation($link->getUser());
-                    $this->addOrUpdateEmail($link->getUser());
+                    $userRepository = GeneralUtility::makeInstance(FrontendUserRepository::class);
+                    $user = $userRepository->findByUid($link->getUser()->getUid());
+                    $this->addOrUpdateRelation($user);
+                    $this->addOrUpdateEmail($user);
                 }
                 CookieUtility::deleteCookie($this->cookieName);
             }

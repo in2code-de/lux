@@ -46,6 +46,7 @@ class FrontendUser extends AbstractEntity
         $this->password = $password;
         $this->usergroup = new ObjectStorage();
         $this->image = new ObjectStorage();
+        $this->lastlogin = null;
     }
 
     public function initializeObject()
