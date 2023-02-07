@@ -81,7 +81,7 @@ class NavigationGroupButton extends AbstractButton
 
     protected function appendEnterprise(string $content): string
     {
-        $content .= '<div style="padding-top: 5px;">';
+        $content .= '<div style="padding: 5px 0 0 5px;">';
         $content .= 'LUX Enterprise Edition';
         $content .= '<a href="' . $this->getInfoUri() . '" style="margin-left: 5px;">';
         $content .= $this->iconFactory->getIcon('actions-info-circle-alt', Icon::SIZE_SMALL);
