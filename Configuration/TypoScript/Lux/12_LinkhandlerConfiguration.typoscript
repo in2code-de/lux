@@ -3,10 +3,8 @@ config.recordLinks.luxlinklistener {
   forceLink = 0
 
   typolink {
-    # Just a dummy URL that will be overwritten later
-    parameter = https://www.in2code.de
+    parameter.data = field:link
     title.data = parameters:title
-    extTarget = _self
 
     # Merge existing params with data-attribute
     ATagParams.stdWrap.cObject = COA
