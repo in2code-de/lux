@@ -847,7 +847,7 @@ class Visitor extends AbstractModel
     /**
      * Default: "Lastname, Firstname"
      * If empty, use: "email@company.org"
-     * If still empty: "unknown"
+     * If still empty: "anonym"
      *
      * @return string
      */
@@ -863,10 +863,22 @@ class Visitor extends AbstractModel
             if (!empty($name)) {
                 $name .= ' [' . LocalizationUtility::translateByKey('notIdentified') . ']';
             } else {
-                $name = LocalizationUtility::translateByKey('anonym');
+                $name = LocalizationUtility::translateByKey('anonym') . $this->getAnonymousPostfix();
             }
         }
         return $name;
+    }
+
+    public function getAnonymousPostfix(): string
+    {
+        $postfix = ' [';
+        $city = $this->getCity();
+        if ($city !== '') {
+            $postfix .= $city . ' ';
+        }
+        $postfix .= substr(md5((string)$this->getUid()), 0, 6);
+        $postfix .= ']';
+        return $postfix;
     }
 
     /**
