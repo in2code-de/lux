@@ -11,20 +11,19 @@ use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
-use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 class SendSummaryService
 {
     protected string $luxLogoPath = 'EXT:lux/Resources/Public/Icons/lux.png';
 
-    protected ?QueryResultInterface $visitors = null;
+    protected array $visitors;
     protected ?ConfigurationService $configurationService = null;
 
     /**
-     * @param QueryResultInterface|array $visitors
+     * @param array $visitors
      */
-    public function __construct($visitors)
+    public function __construct(array $visitors)
     {
         $this->visitors = $visitors;
         $this->configurationService = ObjectUtility::getConfigurationService();
@@ -35,6 +34,7 @@ class SendSummaryService
      * @return bool
      * @throws ConfigurationException
      * @throws EmailValidationException
+     * @throws InvalidConfigurationTypeException
      */
     public function send(array $emails): bool
     {

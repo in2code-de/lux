@@ -12,14 +12,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class LuxAutorelateToFrontendUsersCommand
- */
 class LuxAutorelateToFrontendUsersCommand extends Command
 {
-    /**
-     * @return void
-     */
     public function configure()
     {
         $this->setDescription(
@@ -54,6 +48,6 @@ class LuxAutorelateToFrontendUsersCommand extends Command
             }
         }
         $output->writeln($count . ' visitors updated with relation to fe_user record');
-        return 0;
+        return self::SUCCESS;
     }
 }

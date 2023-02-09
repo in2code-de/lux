@@ -65,7 +65,7 @@ final class BackendSessionFaker
         ];
 
         $queryBuilder = DatabaseUtility::getQueryBuilderForTable(self::TABLE_BACKENDUSERSESSION);
-        $queryBuilder->insert(self::TABLE_BACKENDUSERSESSION)->values($properties)->executeQuery();
+        $queryBuilder->insert(self::TABLE_BACKENDUSERSESSION)->values($properties)->executeStatement();
     }
 
     protected function removeBackendSession(): void
@@ -79,7 +79,7 @@ final class BackendSessionFaker
                     $queryBuilder->createNamedParameter($this->dbSessionBackend->hash($this->getSessionIdentifier()))
                 )
             )
-            ->executeQuery();
+            ->executeStatement();
     }
 
     /**
@@ -95,14 +95,12 @@ final class BackendSessionFaker
      */
     protected function createBackendUserGlobalObject(): void
     {
-        // Set request object (needed since TYPO3 11)
         $request = GeneralUtility::makeInstance(ServerRequest::class);
         $newRequest = $request->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_BE);
-        $GLOBALS['TYPO3_REQUEST'] = $newRequest;
 
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieSecure'] = 0;
         $GLOBALS['BE_USER'] = GeneralUtility::makeInstance(BackendUserAuthentication::class);
-        $GLOBALS['BE_USER']->start();
+        $GLOBALS['BE_USER']->start($newRequest);
         $GLOBALS['BE_USER']->setBeUserByUid($this->getBackendUserAdminIdentifier());
         $GLOBALS['BE_USER']->backendCheckLogin();
         $GLOBALS['BE_USER']->setSessionData('formProtectionSessionToken', $this->getFormProtectionSessionToken());

@@ -3,21 +3,16 @@
 declare(strict_types=1);
 namespace In2code\Lux\Command;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Service\AnonymizeService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class LuxCleanupCommandController
- */
 class LuxAnonymizeCommand extends Command
 {
-    /**
-     * @return void
-     */
     public function configure()
     {
         $description = 'This command will really (!!!) overwrite all your records with dummy values.' . PHP_EOL;
@@ -34,13 +29,14 @@ class LuxAnonymizeCommand extends Command
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int
-     * @throws DBALException
+     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $anonymizeService = GeneralUtility::makeInstance(AnonymizeService::class);
         $anonymizeService->anonymizeAll();
         $output->writeln('Everything was anonymized!');
-        return 0;
+        return self::SUCCESS;
     }
 }
