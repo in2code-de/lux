@@ -3,7 +3,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
-use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\DataProvider\IdentificationMethodsDataProvider;
@@ -51,7 +50,6 @@ class LeadController extends AbstractController
      * @throws InvalidConfigurationTypeException
      * @throws InvalidQueryException
      * @throws UnexpectedValueException
-     * @throws DBALException
      */
     public function dashboardAction(FilterDto $filter): ResponseInterface
     {
@@ -148,7 +146,6 @@ class LeadController extends AbstractController
      *
      * @param Visitor $visitor
      * @return ResponseInterface
-     * @throws DBALException
      */
     public function removeAction(Visitor $visitor): ResponseInterface
     {
@@ -163,7 +160,6 @@ class LeadController extends AbstractController
      * @return ResponseInterface
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
-     * @throws DBALException
      */
     public function deactivateAction(Visitor $visitor): ResponseInterface
     {

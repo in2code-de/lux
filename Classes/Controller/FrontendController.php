@@ -3,7 +3,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
-use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Factory\VisitorFactory;
 use In2code\Lux\Domain\Model\Visitor;
@@ -31,7 +30,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 
@@ -47,7 +45,6 @@ class FrontendController extends ActionController
     /**
      * @return void
      * @throws ActionNotAllowedException
-     * @throws NoSuchArgumentException
      * @noinspection PhpUnused
      */
     public function initializeDispatchRequestAction(): void
@@ -323,7 +320,6 @@ class FrontendController extends ActionController
      * @throws IllegalObjectTypeException
      * @throws InvalidConfigurationTypeException
      * @throws UnknownObjectException
-     * @throws DBALException
      */
     protected function callAdditionalTrackers(Visitor $visitor, array $arguments): void
     {
@@ -386,7 +382,6 @@ class FrontendController extends ActionController
      * @throws UnknownObjectException
      * @throws FileNotFoundException
      * @throws InvalidConfigurationTypeException
-     * @throws DBALException
      */
     protected function getVisitor(string $identificator, bool $tempVisitor = false): Visitor
     {

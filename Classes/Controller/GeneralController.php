@@ -11,8 +11,6 @@ use In2code\Lux\Utility\ExtensionUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -68,8 +66,6 @@ class GeneralController extends AbstractController
     /**
      * @param ServerRequestInterface $request
      * @return ResponseInterface
-     * @throws ExtensionConfigurationExtensionNotConfiguredException
-     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public function getVisitorImageUrlAjax(ServerRequestInterface $request): ResponseInterface
     {

@@ -3,7 +3,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
-use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use Exception;
@@ -42,7 +41,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
-use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
@@ -67,7 +65,6 @@ class AnalysisController extends AbstractController
      * @throws UnexpectedValueException
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
-     * @throws DBALException
      * @throws ExceptionDbalDriver
      */
     public function dashboardAction(FilterDto $filter): ResponseInterface
@@ -115,7 +112,6 @@ class AnalysisController extends AbstractController
      * @return ResponseInterface
      * @throws ExceptionDbal
      * @throws InvalidQueryException
-     * @throws DBALException
      * @throws ExceptionDbalDriver
      */
     public function contentAction(FilterDto $filter, string $export = ''): ResponseInterface
@@ -195,7 +191,7 @@ class AnalysisController extends AbstractController
     /**
      * @param FilterDto $filter
      * @return ResponseInterface
-     * @throws DBALException
+     * @throws ExceptionDbal
      * @throws ExceptionDbalDriver
      */
     public function newsCsvAction(FilterDto $filter): ResponseInterface
@@ -221,7 +217,7 @@ class AnalysisController extends AbstractController
      * @return ResponseInterface
      * @throws ExceptionDbalDriver
      * @throws InvalidQueryException
-     * @throws DBALException
+     * @throws ExceptionDbal
      */
     public function utmAction(FilterDto $filter, string $export = ''): ResponseInterface
     {
@@ -339,7 +335,6 @@ class AnalysisController extends AbstractController
      * @param Linklistener $linkListener
      * @return ResponseInterface
      * @throws IllegalObjectTypeException
-     * @throws StopActionException
      */
     public function deleteLinkListenerAction(LinkListener $linkListener): ResponseInterface
     {
@@ -350,7 +345,7 @@ class AnalysisController extends AbstractController
     /**
      * @param Page $page
      * @return ResponseInterface
-     * @throws DBALException
+     * @throws ExceptionDbal
      * @throws ExceptionDbalDriver
      */
     public function detailPageAction(Page $page): ResponseInterface
@@ -360,14 +355,16 @@ class AnalysisController extends AbstractController
             'pagevisits' => $this->pagevisitsRepository->findByPage($page, 100),
             'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
         ]);
-        return $this->htmlResponse();
+
+        $this->addDocumentHeaderForCurrentController();
+        return $this->defaultRendering();
     }
 
     /**
      * @param News $news
      * @return ResponseInterface
-     * @throws DBALException
      * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function detailNewsAction(News $news): ResponseInterface
     {
@@ -377,12 +374,16 @@ class AnalysisController extends AbstractController
             'newsvisits' => $this->newsvisitRepository->findByNews($news, 100),
             'newsvisitsData' => GeneralUtility::makeInstance(NewsvisistsDataProvider::class, $filter),
         ]);
-        return $this->htmlResponse();
+
+        $this->addDocumentHeaderForCurrentController();
+        return $this->defaultRendering();
     }
 
     /**
      * @param string $href
      * @return ResponseInterface
+     * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      * @throws InvalidQueryException
      */
     public function detailDownloadAction(string $href): ResponseInterface
@@ -392,12 +393,16 @@ class AnalysisController extends AbstractController
             'downloads' => $this->downloadRepository->findByHref($href, 100),
             'numberOfDownloadsData' => GeneralUtility::makeInstance(DownloadsDataProvider::class, $filter),
         ]);
-        return $this->htmlResponse();
+
+        $this->addDocumentHeaderForCurrentController();
+        return $this->defaultRendering();
     }
 
     /**
      * @param Linklistener $linkListener
      * @return ResponseInterface
+     * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      */
     public function detailLinkListenerAction(Linklistener $linkListener): ResponseInterface
     {
@@ -406,12 +411,16 @@ class AnalysisController extends AbstractController
             'linkListener' => $linkListener,
             'allLinkclickData' => GeneralUtility::makeInstance(AllLinkclickDataProvider::class, $filter),
         ]);
-        return $this->htmlResponse();
+
+        $this->addDocumentHeaderForCurrentController();
+        return $this->defaultRendering();
     }
 
     /**
      * @param string $searchterm
      * @return ResponseInterface
+     * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      */
     public function detailSearchAction(string $searchterm): ResponseInterface
     {
@@ -421,7 +430,9 @@ class AnalysisController extends AbstractController
             'searchData' => GeneralUtility::makeInstance(SearchDataProvider::class, $filter),
             'searches' => $this->searchRepository->findBySearchterm(urldecode($searchterm)),
         ]);
-        return $this->htmlResponse();
+
+        $this->addDocumentHeaderForCurrentController();
+        return $this->defaultRendering();
     }
 
     /**
@@ -430,7 +441,6 @@ class AnalysisController extends AbstractController
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      * @noinspection PhpUnused
-     * @throws DBALException
      * @throws ExceptionDbalDriver
      */
     public function detailAjaxPage(ServerRequestInterface $request): ResponseInterface
@@ -460,7 +470,6 @@ class AnalysisController extends AbstractController
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      * @noinspection PhpUnused
-     * @throws DBALException
      * @throws ExceptionDbalDriver
      */
     public function detailNewsAjaxPage(ServerRequestInterface $request): ResponseInterface
