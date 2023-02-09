@@ -57,7 +57,7 @@ class StringUtility
         return $string;
     }
 
-    public static function getRandomString(int $length = 32, bool $lowerAndUpperCase = true)
+    public static function getRandomString(int $length = 32, bool $lowerAndUpperCase = true): string
     {
         $characters = implode('', range(0, 9)) . implode('', range('a', 'z'));
         if ($lowerAndUpperCase) {
@@ -111,5 +111,10 @@ class StringUtility
     {
         $contentObject = ObjectUtility::getContentObject();
         return $contentObject->cropHTML($string, $length . '|' . $append . '|1');
+    }
+
+    public static function shortMd5(string $string, int $length = 6): string
+    {
+        return substr(md5($string), 0, $length);
     }
 }

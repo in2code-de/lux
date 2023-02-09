@@ -15,6 +15,7 @@ use In2code\Lux\Domain\Service\VisitorImageService;
 use In2code\Lux\Exception\FileNotFoundException;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
@@ -871,14 +872,7 @@ class Visitor extends AbstractModel
 
     public function getAnonymousPostfix(): string
     {
-        $postfix = ' [';
-        $city = $this->getCity();
-        if ($city !== '') {
-            $postfix .= $city . ' ';
-        }
-        $postfix .= substr(md5((string)$this->getUid()), 0, 6);
-        $postfix .= ']';
-        return $postfix;
+        return ' [' . StringUtility::shortMd5((string)$this->getUid()) . ']';
     }
 
     /**
