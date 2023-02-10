@@ -25,7 +25,7 @@ class Search extends AbstractModel
         return $this;
     }
 
-    public function getCrdate(): DateTime
+    public function getCrdate(): ?DateTime
     {
         return $this->crdate;
     }

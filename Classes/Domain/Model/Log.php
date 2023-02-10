@@ -109,9 +109,9 @@ class Log extends AbstractModel
         return $this->getPropertyByKey('actionTitle');
     }
 
-    public function getActionExecutionTime(): string
+    public function getActionExecutionTime(): int
     {
-        return $this->getPropertyByKey('executionTime');
+        return (int)$this->getPropertyByKey('executionTime');
     }
 
     public function getShownContentUid(): string
