@@ -11,6 +11,10 @@
             </a>
 
             <lux:pagination.paginate objects="{linkListeners}" as="pagesLinkListeners" itemsPerPage="10">
+                <div style="background-color: #dddddd; border-top: 1px solid #cccccc; border-left: 1px solid #cccccc; border-right: 1px solid #cccccc; color: #5a5a5a; font-weight: bold; padding: 10px;">
+                    Link Listeners
+                    ({linkListeners -> f:count()})
+                </div>
                 <table class="table table-striped table-hover table-pointer">
                     <thead>
                         <tr>

@@ -511,11 +511,17 @@
 			<trans-unit id="module.analysis.search">
 				<source>Search</source>
 			</trans-unit>
+			<trans-unit id="module.analysis.content.pages">
+				<source>Pages</source>
+			</trans-unit>
 			<trans-unit id="module.analysis.content.page">
 				<source>Page</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.content.visits">
 				<source>Visits</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.content.assets">
+				<source>Assets</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.content.asset">
 				<source>Asset</source>
@@ -817,6 +823,9 @@
 			</trans-unit>
 			<trans-unit id="module.list.search.label">
 				<source>Search used</source>
+			</trans-unit>
+			<trans-unit id="module.list.search.queries">
+				<source>Search queries</source>
 			</trans-unit>
 			<trans-unit id="module.list.search.term">
 				<source>Searchterm</source>

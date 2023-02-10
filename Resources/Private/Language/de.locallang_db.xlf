@@ -673,6 +673,10 @@
 				<source>Search</source>
 				<target state="translated">Suche</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.content.pages">
+				<source>Pages</source>
+				<target state="translated">Seiten</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.content.page">
 				<source>Page</source>
 				<target state="translated">Seite</target>
@@ -680,6 +684,10 @@
 			<trans-unit id="module.analysis.content.visits">
 				<source>Visits</source>
 				<target state="translated">Seitenaufrufe</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.content.assets">
+				<source>Assets</source>
+				<target state="translated">Dateien</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.content.asset">
 				<source>Asset</source>
@@ -1077,6 +1085,10 @@
 			<trans-unit id="module.list.search.label">
 				<source>Search used</source>
 				<target state="translated">Suche benutzt</target>
+			</trans-unit>
+			<trans-unit id="module.list.search.queries">
+				<source>Search queries</source>
+				<target state="translated">Suchen</target>
 			</trans-unit>
 			<trans-unit id="module.list.search.term">
 				<source>Searchterm</source>
