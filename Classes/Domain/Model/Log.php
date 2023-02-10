@@ -11,9 +11,6 @@ use In2code\Luxenterprise\Domain\Model\AbTestingPage;
 use In2code\Luxenterprise\Domain\Repository\AbTestingPageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class Log
- */
 class Log extends AbstractModel
 {
     const TABLE_NAME = 'tx_lux_domain_model_log';
@@ -88,7 +85,13 @@ class Log extends AbstractModel
         return (array)json_decode($this->properties, true);
     }
 
-    public function setProperties(array $properties): self
+    public function setProperties(string $properties): self
+    {
+        $this->properties = $properties;
+        return $this;
+    }
+
+    public function setPropertiesArray(array $properties): self
     {
         $this->properties = json_encode($properties);
         return $this;

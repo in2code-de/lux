@@ -281,7 +281,7 @@ class LogService
         $logRepository = GeneralUtility::makeInstance(LogRepository::class);
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
 
-        $log = GeneralUtility::makeInstance(Log::class)->setStatus($status)->setProperties($properties);
+        $log = GeneralUtility::makeInstance(Log::class)->setStatus($status)->setPropertiesArray($properties);
         $logRepository->add($log);
         $visitor->addLog($log);
         if ($visitor->getUid() > 0) {
