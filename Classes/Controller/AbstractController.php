@@ -23,9 +23,13 @@ use In2code\Lux\Domain\Repository\UtmRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\RenderingTimeService;
 use In2code\Lux\Utility\BackendUtility;
+use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Backend\Module\ExtbaseModule;
+use TYPO3\CMS\Backend\Routing\Route;
+use TYPO3\CMS\Backend\Routing\RouteResult;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
@@ -199,6 +203,25 @@ abstract class AbstractController extends ActionController
         return StringUtility::removeStringPostfix($this->actionMethodName, 'Action');
     }
 
+    /**
+     * @return string like "lux_LuxWorkflow"
+     */
+    protected function getRoute(): string
+    {
+        // Todo: Can be removed when TYPO3 11 support is dropped
+        if (ConfigurationUtility::isTypo3Version11()) {
+            /** @var Route $route */
+            $route = $this->request->getAttribute('route');
+            return $route->getOption('moduleName');
+        }
+
+        /** @var RouteResult $routeResult */
+        $routeResult = $this->request->getAttribute('routing');
+        /** @var ExtbaseModule $extbaseModule */
+        $extbaseModule = $routeResult->getRoute()->getOption('module');
+        return $extbaseModule->getIdentifier();
+    }
+
     protected function csvResponse(string $csv = null, string $filename = ''): ResponseInterface
     {
         if ($filename === '') {
@@ -244,7 +267,7 @@ abstract class AbstractController extends ActionController
         $buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
         $shortCutButton = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar()->makeShortcutButton();
         $shortCutButton
-            ->setRouteIdentifier('lux_Lux' . $this->getControllerName())
+            ->setRouteIdentifier($this->getRoute())
             ->setDisplayName('Shortcut')
             ->setArguments(['action' => $this->getActionName(), 'controller' => $this->getControllerName()]);
         $buttonBar->addButton($shortCutButton, ButtonBar::BUTTON_POSITION_RIGHT, 1);
