@@ -233,6 +233,7 @@ abstract class AbstractController extends ActionController
             NavigationGroupButton::class,
             $this->request,
             $this->getActionName(),
+            $this->getControllerName(),
             $configuration,
         );
         $buttonBar->addButton($navigationGroupButton, ButtonBar::BUTTON_POSITION_LEFT, 2);

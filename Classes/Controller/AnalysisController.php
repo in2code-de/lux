@@ -608,9 +608,12 @@ class AnalysisController extends AbstractController
         }
         $menuConfiguration = [];
         foreach ($actions as $action) {
-            $menuConfiguration[$action] = LocalizationUtility::translate(
-                'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.' . $action
-            );
+            $menuConfiguration[] = [
+                'action' => $action,
+                'label' => LocalizationUtility::translate(
+                    'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.' . $action
+                ),
+            ];
         }
         $this->addDocumentHeader($menuConfiguration);
     }

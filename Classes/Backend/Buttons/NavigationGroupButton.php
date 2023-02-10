@@ -14,20 +14,24 @@ use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 
 class NavigationGroupButton extends AbstractButton
 {
-    protected array $configuration = [
-        'actionname' => 'any label',
-    ];
+    protected array $configuration = [];
 
     protected string $currentAction;
+    protected string $currentController;
 
     protected Request $request;
     protected UriBuilder $uriBuilder;
     protected IconFactory $iconFactory;
 
-    public function __construct(Request $request, string $currentAction, array $configuration)
-    {
+    public function __construct(
+        Request $request,
+        string $currentAction,
+        string $currentController,
+        array $configuration
+    ) {
         $this->request = $request;
         $this->currentAction = $currentAction;
+        $this->currentController = $currentController;
         $this->configuration = $configuration;
         $this->uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
         $this->uriBuilder->setRequest($this->request);
@@ -38,13 +42,20 @@ class NavigationGroupButton extends AbstractButton
     {
         $content = $this->prepend();
         $content .= '<div class="lux btn-group" role="group">';
-        foreach ($this->configuration as $action => $label) {
-            $url = $this->uriBuilder->uriFor($action);
+        foreach ($this->configuration as $buttonConfiguration) {
+            $url = $this->uriBuilder->uriFor(
+                $buttonConfiguration['action'],
+                null,
+                $buttonConfiguration['controller'] ?? null
+            );
             $class = 'btn-default';
-            if ($this->currentAction === $action) {
-                $class = 'btn-primary';
+            if ($this->currentAction === $buttonConfiguration['action']) {
+                if (($buttonConfiguration['controller'] ?? null) === null
+                    || $this->currentController === $buttonConfiguration['controller']) {
+                    $class = 'btn-primary';
+                }
             }
-            $content .= '<a href="' . $url . '" class="btn ' . $class . '">' . $label . '</a>';
+            $content .= '<a href="' . $url . '" class="btn ' . $class . '">' . $buttonConfiguration['label'] . '</a>';
         }
         $content .= '</div>';
         $content = $this->append($content);

@@ -217,9 +217,12 @@ class LeadController extends AbstractController
         $actions = ['dashboard', 'list'];
         $menuConfiguration = [];
         foreach ($actions as $action) {
-            $menuConfiguration[$action] = LocalizationUtility::translate(
-                'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.lead.' . $action
-            );
+            $menuConfiguration[] = [
+                'action' => $action,
+                'label' => LocalizationUtility::translate(
+                    'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.lead.' . $action
+                ),
+            ];
         }
         $this->addDocumentHeader($menuConfiguration);
     }
