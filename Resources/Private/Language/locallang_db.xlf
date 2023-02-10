@@ -1570,11 +1570,9 @@
 				<source>Marketing campaigns</source>
 			</trans-unit>
 
-			<trans-unit id="dictionary.lead">
-				<source>Lead</source>
-			</trans-unit>
-			<trans-unit id="dictionary.leads">
-				<source>Leads</source>
+			<!-- General terms that can be used on different places -->
+			<trans-unit id="dictionary.and">
+				<source>and</source>
 			</trans-unit>
 			<trans-unit id="dictionary.campaign">
 				<source>Campaign</source>
@@ -1582,26 +1580,32 @@
 			<trans-unit id="dictionary.campaigns">
 				<source>Campaigns</source>
 			</trans-unit>
+			<trans-unit id="dictionary.content">
+				<source>Content</source>
+			</trans-unit>
+			<trans-unit id="dictionary.lead">
+				<source>Lead</source>
+			</trans-unit>
+			<trans-unit id="dictionary.leads">
+				<source>Leads</source>
+			</trans-unit>
 			<trans-unit id="dictionary.id">
 				<source>Campaign ID</source>
-			</trans-unit>
-			<trans-unit id="dictionary.source">
-				<source>Source</source>
 			</trans-unit>
 			<trans-unit id="dictionary.medium">
 				<source>Medium</source>
 			</trans-unit>
-			<trans-unit id="dictionary.content">
-				<source>Content</source>
+			<trans-unit id="dictionary.referrer">
+				<source>Referrer</source>
+			</trans-unit>
+			<trans-unit id="dictionary.source">
+				<source>Source</source>
 			</trans-unit>
 			<trans-unit id="dictionary.term">
 				<source>Term</source>
 			</trans-unit>
 			<trans-unit id="dictionary.time">
 				<source>Time</source>
-			</trans-unit>
-			<trans-unit id="dictionary.and">
-				<source>and</source>
 			</trans-unit>
 		</body>
 	</file>

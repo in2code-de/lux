@@ -2075,13 +2075,10 @@
 				<target state="translated">Marketing Kampagnen</target>
 			</trans-unit>
 
-			<trans-unit id="dictionary.lead">
-				<source>Lead</source>
-				<target state="translated">Lead</target>
-			</trans-unit>
-			<trans-unit id="dictionary.leads">
-				<source>Leads</source>
-				<target state="translated">Leads</target>
+			<!-- General terms that can be used on different places -->
+			<trans-unit id="dictionary.and">
+				<source>and</source>
+				<target state="translated">und</target>
 			</trans-unit>
 			<trans-unit id="dictionary.campaign">
 				<source>Campaign</source>
@@ -2091,21 +2088,33 @@
 				<source>Campaigns</source>
 				<target state="translated">Kampagnen</target>
 			</trans-unit>
+			<trans-unit id="dictionary.content">
+				<source>Content</source>
+				<target state="translated">Inhalt</target>
+			</trans-unit>
+			<trans-unit id="dictionary.lead">
+				<source>Lead</source>
+				<target state="translated">Lead</target>
+			</trans-unit>
+			<trans-unit id="dictionary.leads">
+				<source>Leads</source>
+				<target state="translated">Leads</target>
+			</trans-unit>
 			<trans-unit id="dictionary.id">
 				<source>Campaign ID</source>
 				<target state="translated">Kampagnenkürzel</target>
-			</trans-unit>
-			<trans-unit id="dictionary.source">
-				<source>Source</source>
-				<target state="translated">Quelle</target>
 			</trans-unit>
 			<trans-unit id="dictionary.medium">
 				<source>Medium</source>
 				<target state="translated">Medium</target>
 			</trans-unit>
-			<trans-unit id="dictionary.content">
-				<source>Content</source>
-				<target state="translated">Inhalt</target>
+			<trans-unit id="dictionary.referrer">
+				<source>Referrer</source>
+				<target state="translated">Referrer</target>
+			</trans-unit>
+			<trans-unit id="dictionary.source">
+				<source>Source</source>
+				<target state="translated">Quelle</target>
 			</trans-unit>
 			<trans-unit id="dictionary.term">
 				<source>Term</source>
@@ -2114,10 +2123,6 @@
 			<trans-unit id="dictionary.time">
 				<source>Time</source>
 				<target state="translated">Zeitpunkt</target>
-			</trans-unit>
-			<trans-unit id="dictionary.and">
-				<source>and</source>
-				<target state="translated">und</target>
 			</trans-unit>
 		</body>
 	</file>
