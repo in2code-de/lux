@@ -2076,6 +2076,14 @@
 			</trans-unit>
 
 			<!-- General terms that can be used on different places -->
+			<trans-unit id="dictionary.ab_test">
+				<source>A/B test</source>
+				<target state="translated">A/B Test</target>
+			</trans-unit>
+			<trans-unit id="dictionary.ab_tests">
+				<source>A/B tests</source>
+				<target state="translated">A/B Tests</target>
+			</trans-unit>
 			<trans-unit id="dictionary.and">
 				<source>and</source>
 				<target state="translated">und</target>

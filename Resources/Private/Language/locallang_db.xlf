@@ -1571,6 +1571,12 @@
 			</trans-unit>
 
 			<!-- General terms that can be used on different places -->
+			<trans-unit id="dictionary.ab_test">
+				<source>A/B test</source>
+			</trans-unit>
+			<trans-unit id="dictionary.ab_tests">
+				<source>A/B tests</source>
+			</trans-unit>
 			<trans-unit id="dictionary.and">
 				<source>and</source>
 			</trans-unit>
