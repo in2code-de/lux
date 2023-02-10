@@ -16,10 +16,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class UtmTracker
 {
-    protected $utmRepository = null;
-    protected $logService = null;
-    protected $utmFactory = null;
-    protected $eventDispatcher = null;
+    protected ?UtmRepository $utmRepository = null;
+    protected ?LogService $logService = null;
+    protected ?UtmFactory $utmFactory = null;
+    protected ?EventDispatcherInterface $eventDispatcher = null;
 
     public function __construct(
         UtmRepository $utmRepository,
@@ -36,7 +36,7 @@ class UtmTracker
     public function trackPage(PageTrackerEvent $event): void
     {
         if ($this->isAnyUtmParameterGiven() && $this->isNewsDetailPage() === false) {
-            $utm = $this->getUtm();
+            $utm = $this->getUtm($event->getArguments());
             $utm->setPagevisit($event->getPagevisit());
             try {
                 $this->utmRepository->add($utm);
@@ -51,7 +51,7 @@ class UtmTracker
     public function trackNews(NewsTrackerEvent $event): void
     {
         if ($this->isAnyUtmParameterGiven()) {
-            $utm = $this->getUtm();
+            $utm = $this->getUtm($event->getArguments());
             $utm->setNewsvisit($event->getNewsvisit());
             try {
                 $this->utmRepository->add($utm);
@@ -63,13 +63,13 @@ class UtmTracker
         }
     }
 
-    protected function getUtm(): Utm
+    protected function getUtm(array $arguments): Utm
     {
         $parameters = [];
         foreach ($this->utmFactory->getUtmKeys() as $key) {
             $parameters[$key] = $this->getArgumentFromCurrentUrl($key);
         }
-        return $this->utmFactory->get($parameters);
+        return $this->utmFactory->get($parameters, $arguments['referrer'] ?? '');
     }
 
     protected function isNewsDetailPage(): bool

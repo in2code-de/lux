@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
 use DateTime;
+use In2code\Lux\Domain\Service\Referrer\Readable;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 class Utm extends AbstractEntity
@@ -20,6 +22,7 @@ class Utm extends AbstractEntity
     protected string $utmId = '';
     protected string $utmTerm = '';
     protected string $utmContent = '';
+    protected string $referrer = '';
 
     public function getPagevisit(): ?Pagevisit
     {
@@ -106,6 +109,23 @@ class Utm extends AbstractEntity
     public function setUtmContent(string $utmContent): Utm
     {
         $this->utmContent = $utmContent;
+        return $this;
+    }
+
+    public function getReferrer(): string
+    {
+        return $this->referrer;
+    }
+
+    public function getReadableReferrer(): string
+    {
+        $referrerService = GeneralUtility::makeInstance(Readable::class, $this->getReferrer());
+        return $referrerService->getReadableReferrer();
+    }
+
+    public function setReferrer(string $referrer): Utm
+    {
+        $this->referrer = $referrer;
         return $this;
     }
 

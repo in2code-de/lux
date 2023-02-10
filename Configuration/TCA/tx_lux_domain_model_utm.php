@@ -25,7 +25,7 @@ return [
     ],
     'types' => [
         '1' => [
-            'showitem' => 'utm_source,utm_medium,utm_campaign,utm_id,utm_term,utm_content,',
+            'showitem' => 'utm_source,utm_medium,utm_campaign,utm_id,utm_term,utm_content,referrer',
         ],
     ],
     'columns' => [
@@ -152,6 +152,16 @@ return [
         'utm_content' => [
             'exclude' => true,
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Utm::TABLE_NAME . '.utm_content',
+            'config' => [
+                'type' => 'text',
+                'cols' => 500,
+                'rows' => 8,
+                'readOnly' => true,
+            ],
+        ],
+        'referrer' => [
+            'exclude' => true,
+            'label' => 'Referrer',
             'config' => [
                 'type' => 'text',
                 'cols' => 500,
