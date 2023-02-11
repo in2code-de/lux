@@ -16,7 +16,7 @@ if (\In2code\Lux\Utility\ConfigurationUtility::isAnalysisModuleDisabled() === fa
         'position' => [],
         'access' => 'user,group',
         'iconIdentifier' => 'extension-lux-module-analysis',
-        'path' => '/module/lux/Analysis',
+        'path' => '/module/lux/LuxAnalysis',
         'labels' => 'LLL:EXT:lux/Resources/Private/Language/locallang_mod_analysis.xlf',
         'extensionName' => 'Lux',
         'controllerActions' => [
@@ -57,7 +57,7 @@ if (\In2code\Lux\Utility\ConfigurationUtility::isLeadModuleDisabled() === false)
         'position' => [],
         'access' => 'user,group',
         'iconIdentifier' => 'extension-lux-module-lead',
-        'path' => '/module/lux/Lead',
+        'path' => '/module/lux/LuxLead',
         'labels' => 'LLL:EXT:lux/Resources/Private/Language/locallang_mod_lead.xlf',
         'extensionName' => 'Lux',
         'controllerActions' => [
@@ -91,7 +91,7 @@ if (\In2code\Lux\Utility\ConfigurationUtility::isWorkflowModuleDisabled() === fa
         'position' => [],
         'access' => 'user,group',
         'iconIdentifier' => 'extension-lux-module-workflow',
-        'path' => '/module/lux/Workflow',
+        'path' => '/module/lux/LuxWorkflow',
         'labels' => 'LLL:EXT:lux/Resources/Private/Language/locallang_mod_workflow.xlf',
         'extensionName' => 'Lux',
         'controllerActions' => [
