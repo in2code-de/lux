@@ -108,6 +108,7 @@ if (\In2code\Lux\Utility\ConfigurationUtility::isWorkflowModuleDisabled() === fa
             ],
             \In2code\Lux\Controller\AbTestingController::class => [
                 'list',
+                'delete',
             ],
             \In2code\Lux\Controller\ShortenerController::class => [
                 'list',
