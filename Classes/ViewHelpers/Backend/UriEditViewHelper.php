@@ -20,7 +20,7 @@ class UriEditViewHelper extends AbstractViewHelper
 
     public function render(): string
     {
-        $editRecord = GeneralUtility::makeInstance(EditRecord::class, $this->arguments['moduleName']);
+        $editRecord = GeneralUtility::makeInstance(EditRecord::class, $this->renderingContext);
         return $editRecord->get(
             $this->arguments['tableName'],
             (int)$this->arguments['identifier'],

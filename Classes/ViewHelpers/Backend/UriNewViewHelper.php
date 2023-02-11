@@ -29,7 +29,7 @@ class UriNewViewHelper extends AbstractViewHelper
      */
     public function render(): string
     {
-        $newRecord = GeneralUtility::makeInstance(NewRecord::class, $this->arguments['moduleName']);
+        $newRecord = GeneralUtility::makeInstance(NewRecord::class, $this->renderingContext);
         return $newRecord->get(
             $this->arguments['tableName'],
             ConfigurationUtility::getPidLinkClickRedords(),

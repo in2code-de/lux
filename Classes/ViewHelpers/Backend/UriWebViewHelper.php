@@ -17,7 +17,7 @@ class UriWebViewHelper extends AbstractViewHelper
 
     public function render(): string
     {
-        $editRecord = GeneralUtility::makeInstance(WebRecord::class, '');
+        $editRecord = GeneralUtility::makeInstance(WebRecord::class, $this->renderingContext);
         return $editRecord->get('', (int)$this->arguments['identifier']);
     }
 }
