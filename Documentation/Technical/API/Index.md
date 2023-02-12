@@ -9,11 +9,11 @@ Since luxenterprise 19.0.0 we introduced a proper interface with reading access 
 First of all you have to check the extension manager configuration of luxenterprise, to turn on the API and to add
 an Api-Key and to define which IP-addresses are allowed to read from the API (optional)
 
-| Title                   | Default value             | Description                                                                                                                        |
-| ----------------------- | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| api                     | 0                         | Enable or disable the API of LUX                                                                                                   |
-| apiKey                  | -                         | You have to enter a random value that will be used then as API-KEY for authentication. Note: Minimum 128 characters are needed!    |
-| apiKeyIpAllowList       | -                         | Define one or more IPs or ranges (optional) for allowing to read the API (e.g. 192.0.0.1,192.168.0.0/24,fc00::,2001:db8::567:89ab) |
+| Title             | Default value | Description                                                                                                                        |
+|-------------------|---------------|------------------------------------------------------------------------------------------------------------------------------------|
+| api               | 0             | Enable or disable the API of LUX                                                                                                   |
+| apiKey            | -             | You have to enter a random value that will be used then as API-KEY for authentication. Note: Minimum 128 characters are needed!    |
+| apiKeyIpAllowList | -             | Define one or more IPs or ranges (optional) for allowing to read the API (e.g. 192.0.0.1,192.168.0.0/24,fc00::,2001:db8::567:89ab) |
 
 **Note:** Take care to add the typenum `1650897821` to your siteconfiguration (see FAQ for more details). In our example `leadapi.json` will be recognized from TYPO3 routing (see CURL examples below).
 

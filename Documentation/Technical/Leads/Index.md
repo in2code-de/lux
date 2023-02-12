@@ -21,14 +21,14 @@ below.
 
 #### Filter
 
-| Field                     | Description                                                                                                              |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| Searchterm                | Use this fulltext search field for filtering (name, email, company, fingerprint, etc...)                                 |
-| Page ID                   | Show only leads that visited a page (Table columns change - pagevisits available now)                                    |
-| Scoring                   | Search for leads with a minimum scoring                                                                                  |
-| Category-Scoring          | Show only leads that have a category-scoring of a given category (Table columns change - Categoryscoring will be available) |
-| Time-From                 | Search for leads that are only known since a defined date and time                                                       |
-| Time-To                   | Search for leads that are only active until a defined date and time                                                      |
+| Field            | Description                                                                                                                 |
+|------------------|-----------------------------------------------------------------------------------------------------------------------------|
+| Searchterm       | Use this fulltext search field for filtering (name, email, company, fingerprint, etc...)                                    |
+| Page ID          | Show only leads that visited a page (Table columns change - pagevisits available now)                                       |
+| Scoring          | Search for leads with a minimum scoring                                                                                     |
+| Category-Scoring | Show only leads that have a category-scoring of a given category (Table columns change - Categoryscoring will be available) |
+| Time-From        | Search for leads that are only known since a defined date and time                                                          |
+| Time-To          | Search for leads that are only active until a defined date and time                                                         |
 
 **Filter Buttons**
 Filter now: Let's filter the table with our properties
