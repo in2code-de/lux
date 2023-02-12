@@ -3,7 +3,7 @@ page {
   includeCSS.lux = EXT:lux/Resources/Public/Css/Frontend.min.css
 
   # Add main JavaScript for lux
-  includeJSFooter {
+  includeJSFooterlibs {
     lux = EXT:lux/Resources/Public/JavaScript/Lux/Lux.min.js
     lux {
       defer = 1
