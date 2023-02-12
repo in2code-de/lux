@@ -45,13 +45,13 @@ module of TYPO3 to any folder page. Those records can be then selected in the ed
 
 <img src="../../../Documentation/Images/screenshot_utmgenerator_edit.png" width="800" />
 
-| Field                                            | Description                                                                                               |
-| ------------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
-| Link target                                      | Choose an internal page or external URL                                                                   |
-| Campaign                                         | Choose an existing campaign record                                                                        |
-| Description                                      | Add an internal description                                                                               |
-| Sources                                          | Choose one or more existing source records                                                                |
-| Media                                            | Choose one or more existing medium records                                                                |
-| Terms                                            | Add one or more terms (one per line)                                                                      |
-| Contents                                         | Add one or more content terms (one per line)                                                              |
+| Field       | Description                                  |
+|-------------|----------------------------------------------|
+| Link target | Choose an internal page or external URL      |
+| Campaign    | Choose an existing campaign record           |
+| Description | Add an internal description                  |
+| Sources     | Choose one or more existing source records   |
+| Media       | Choose one or more existing medium records   |
+| Terms       | Add one or more terms (one per line)         |
+| Contents    | Add one or more content terms (one per line) |
 
