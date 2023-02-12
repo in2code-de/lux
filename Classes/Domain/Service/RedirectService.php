@@ -106,6 +106,6 @@ class RedirectService
                 'tstamp' => time(),
                 'crdate' => time(),
             ])
-            ->executeQuery();
+            ->executeStatement();
     }
 }
