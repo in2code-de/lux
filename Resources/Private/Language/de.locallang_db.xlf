@@ -665,13 +665,17 @@
 				<source>Urchin Tracking Modules (UTM)</source>
 				<target state="translated">Urchin Tracking Modules (UTM)</target>
 			</trans-unit>
-			<trans-unit id="module.analysis.linkListeners">
+			<trans-unit id="module.analysis.linkListener">
 				<source>Link listeners</source>
 				<target state="translated">Link Listeners</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.search">
 				<source>Search</source>
 				<target state="translated">Suche</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.content.pages">
+				<source>Pages</source>
+				<target state="translated">Seiten</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.content.page">
 				<source>Page</source>
@@ -680,6 +684,10 @@
 			<trans-unit id="module.analysis.content.visits">
 				<source>Visits</source>
 				<target state="translated">Seitenaufrufe</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.content.assets">
+				<source>Assets</source>
+				<target state="translated">Dateien</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.content.asset">
 				<source>Asset</source>
@@ -1077,6 +1085,10 @@
 			<trans-unit id="module.list.search.label">
 				<source>Search used</source>
 				<target state="translated">Suche benutzt</target>
+			</trans-unit>
+			<trans-unit id="module.list.search.queries">
+				<source>Search queries</source>
+				<target state="translated">Suchen</target>
 			</trans-unit>
 			<trans-unit id="module.list.search.term">
 				<source>Searchterm</source>
@@ -2063,13 +2075,18 @@
 				<target state="translated">Marketing Kampagnen</target>
 			</trans-unit>
 
-			<trans-unit id="dictionary.lead">
-				<source>Lead</source>
-				<target state="translated">Lead</target>
+			<!-- General terms that can be used on different places -->
+			<trans-unit id="dictionary.ab_test">
+				<source>A/B test</source>
+				<target state="translated">A/B Test</target>
 			</trans-unit>
-			<trans-unit id="dictionary.leads">
-				<source>Leads</source>
-				<target state="translated">Leads</target>
+			<trans-unit id="dictionary.ab_tests">
+				<source>A/B tests</source>
+				<target state="translated">A/B Tests</target>
+			</trans-unit>
+			<trans-unit id="dictionary.and">
+				<source>and</source>
+				<target state="translated">und</target>
 			</trans-unit>
 			<trans-unit id="dictionary.campaign">
 				<source>Campaign</source>
@@ -2079,21 +2096,33 @@
 				<source>Campaigns</source>
 				<target state="translated">Kampagnen</target>
 			</trans-unit>
+			<trans-unit id="dictionary.content">
+				<source>Content</source>
+				<target state="translated">Inhalt</target>
+			</trans-unit>
+			<trans-unit id="dictionary.lead">
+				<source>Lead</source>
+				<target state="translated">Lead</target>
+			</trans-unit>
+			<trans-unit id="dictionary.leads">
+				<source>Leads</source>
+				<target state="translated">Leads</target>
+			</trans-unit>
 			<trans-unit id="dictionary.id">
 				<source>Campaign ID</source>
 				<target state="translated">Kampagnenkürzel</target>
-			</trans-unit>
-			<trans-unit id="dictionary.source">
-				<source>Source</source>
-				<target state="translated">Quelle</target>
 			</trans-unit>
 			<trans-unit id="dictionary.medium">
 				<source>Medium</source>
 				<target state="translated">Medium</target>
 			</trans-unit>
-			<trans-unit id="dictionary.content">
-				<source>Content</source>
-				<target state="translated">Inhalt</target>
+			<trans-unit id="dictionary.referrer">
+				<source>Referrer</source>
+				<target state="translated">Referrer</target>
+			</trans-unit>
+			<trans-unit id="dictionary.source">
+				<source>Source</source>
+				<target state="translated">Quelle</target>
 			</trans-unit>
 			<trans-unit id="dictionary.term">
 				<source>Term</source>
@@ -2102,10 +2131,6 @@
 			<trans-unit id="dictionary.time">
 				<source>Time</source>
 				<target state="translated">Zeitpunkt</target>
-			</trans-unit>
-			<trans-unit id="dictionary.and">
-				<source>and</source>
-				<target state="translated">und</target>
 			</trans-unit>
 		</body>
 	</file>

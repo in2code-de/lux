@@ -3,7 +3,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\Command;
 
-use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use Symfony\Component\Console\Command\Command;
@@ -11,16 +10,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
 
-/**
- * Class LuxCleanupVisitorByUidCommand
- */
 class LuxCleanupVisitorByUidCommand extends Command
 {
-    /**
-     * @return void
-     */
     public function configure()
     {
         $this->setDescription('Remove visitor and all related data from the database');
@@ -38,8 +30,6 @@ class LuxCleanupVisitorByUidCommand extends Command
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int
-     * @throws DBALException
-     * @throws Exception
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -49,6 +39,6 @@ class LuxCleanupVisitorByUidCommand extends Command
         $visitorRepository->removeRelatedTableRowsByVisitor($visitor);
         $visitorRepository->removeVisitor($visitor);
         $output->writeln('Visitor successfully removed');
-        return 0;
+        return self::SUCCESS;
     }
 }

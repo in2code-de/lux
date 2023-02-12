@@ -14,16 +14,8 @@ use TYPO3\CMS\Dashboard\WidgetApi;
 use TYPO3\CMS\Dashboard\Widgets\ChartDataProviderInterface;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
-/**
- * Class LuxDownloadsDataProvider
- * @noinspection PhpUnused
- */
 class LuxDownloadsDataProvider implements ChartDataProviderInterface
 {
-    /**
-     * @return array
-     * @throws InvalidQueryException
-     */
     public function getChartData(): array
     {
         $data = $this->getDownloadData();

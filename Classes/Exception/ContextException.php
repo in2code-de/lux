@@ -5,9 +5,6 @@ namespace In2code\Lux\Exception;
 
 use Exception;
 
-/**
- * Class ContextException
- */
 class ContextException extends Exception
 {
 }

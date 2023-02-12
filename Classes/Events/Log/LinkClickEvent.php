@@ -8,26 +8,11 @@ use In2code\Lux\Domain\Model\Visitor;
 
 final class LinkClickEvent
 {
-    /**
-     * @var Visitor
-     */
-    protected $visitor;
+    protected Visitor $visitor;
+    protected Linklistener $linklistener;
 
-    /**
-     * @var Linklistener
-     */
-    protected $linklistener;
+    protected int $pageUid = 0;
 
-    /**
-     * @var int
-     */
-    protected $pageUid = 0;
-
-    /**
-     * @param Visitor $visitor
-     * @param Linklistener $linklistener
-     * @param int $pageUid
-     */
     public function __construct(Visitor $visitor, Linklistener $linklistener, int $pageUid)
     {
         $this->visitor = $visitor;
@@ -35,25 +20,16 @@ final class LinkClickEvent
         $this->pageUid = $pageUid;
     }
 
-    /**
-     * @return Visitor
-     */
     public function getVisitor(): Visitor
     {
         return $this->visitor;
     }
 
-    /**
-     * @return Linklistener
-     */
     public function getLinklistener(): Linklistener
     {
         return $this->linklistener;
     }
 
-    /**
-     * @return int
-     */
     public function getPageUid(): int
     {
         return $this->pageUid;

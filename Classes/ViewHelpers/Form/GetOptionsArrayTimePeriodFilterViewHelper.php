@@ -7,14 +7,8 @@ use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Utility\LocalizationUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-/**
- * Class GetOptionsArrayTimePeriodFilterViewHelper
- */
 class GetOptionsArrayTimePeriodFilterViewHelper extends AbstractViewHelper
 {
-    /**
-     * @return array
-     */
     public function render(): array
     {
         return [

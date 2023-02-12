@@ -6,24 +6,16 @@ namespace In2code\Lux\Domain\Service\Uri;
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
-/**
- * Class AbstractRecord
- */
 abstract class AbstractRecord implements RecordInterface
 {
-    /**
-     * @var string
-     */
-    protected $moduleName = '';
+    protected RenderingContextInterface $renderingContext;
 
-    /**
-     * AbstractRecord constructor.
-     * @param string $moduleName
-     */
-    public function __construct(string $moduleName)
+    public function __construct(RenderingContextInterface $renderingContext)
     {
-        $this->moduleName = $moduleName;
+        $this->renderingContext = $renderingContext;
     }
 
     /**
@@ -34,7 +26,10 @@ abstract class AbstractRecord implements RecordInterface
      */
     protected function getReturnUrl(): string
     {
-        return $this->getRoute($this->moduleName, $this->getCurrentParameters());
+        /** @var RenderingContext $renderingContext */
+        $renderingContext = $this->renderingContext;
+        $request = $renderingContext->getRequest();
+        return $request->getAttribute('normalizedParams')->getRequestUri();
     }
 
     /**
@@ -47,32 +42,5 @@ abstract class AbstractRecord implements RecordInterface
     {
         $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
         return (string)$uriBuilder->buildUriFromRoute($route, $parameters);
-    }
-
-    /**
-     * Get all GET/POST params without module name and token
-     *
-     * @param array $getParameters
-     * @return array
-     */
-    public function getCurrentParameters(array $getParameters = []): array
-    {
-        if (empty($getParameters)) {
-            $getParameters = GeneralUtility::_GET();
-        }
-        $parameters = [];
-        $ignoreKeys = [
-            'M',
-            'moduleToken',
-            'route',
-            'token',
-        ];
-        foreach ($getParameters as $key => $value) {
-            if (in_array($key, $ignoreKeys)) {
-                continue;
-            }
-            $parameters[$key] = $value;
-        }
-        return $parameters;
     }
 }

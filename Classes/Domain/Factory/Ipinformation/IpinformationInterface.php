@@ -3,9 +3,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Factory\Ipinformation;
 
-/**
- * IpinformationInterface
- */
 interface IpinformationInterface
 {
     /**

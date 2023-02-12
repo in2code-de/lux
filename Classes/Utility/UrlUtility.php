@@ -3,9 +3,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\Utility;
 
-/**
- * Class UrlUtility
- */
 class UrlUtility
 {
     /**
@@ -30,10 +27,6 @@ class UrlUtility
         return $path;
     }
 
-    /**
-     * @param string $uri
-     * @return bool
-     */
     public static function isAbsoluteUri(string $uri): bool
     {
         return StringUtility::startsWith($uri, 'http://') || StringUtility::startsWith($uri, 'https://');
@@ -55,10 +48,6 @@ class UrlUtility
         return '';
     }
 
-    /**
-     * @param string $string
-     * @return string
-     */
     public static function removeSlashPrefixAndPostfix(string $string): string
     {
         $string = ltrim($string, '/');
@@ -66,10 +55,6 @@ class UrlUtility
         return $string;
     }
 
-    /**
-     * @param string $domain
-     * @return string
-     */
     public static function removeProtocolFromDomain(string $domain): string
     {
         return preg_replace('~https?://~', '', $domain);

@@ -21,7 +21,7 @@
                             <f:if condition="{iteration.isLast} && {pagevisit.referrer}">
                                 <div class="timeline__item">
                                     <div style="margin-top: 5px;">
-                                        <a href="{pagevisit.referrer}" target="_blank">{pagevisit.readableReferrer}</a>
+                                        <a href="{pagevisit.referrer}" target="_blank" title="{pagevisit.referrer}">{pagevisit.readableReferrer}</a>
                                         <span class="badge pull-right" title="{f:format.date(date:pagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">{lux:format.readableDate(date:pagevisit.crdate)}</span>
                                     </div>
                                 </div>

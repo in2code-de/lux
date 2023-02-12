@@ -3,7 +3,8 @@
 declare(strict_types=1);
 namespace In2code\Lux\Widgets\DataProvider;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Repository\NewsvisitRepository;
 use In2code\Lux\Utility\LocalizationUtility;
@@ -13,16 +14,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Dashboard\WidgetApi;
 use TYPO3\CMS\Dashboard\Widgets\ChartDataProviderInterface;
 
-/**
- * Class LuxNewsDataProvider
- * @noinspection PhpUnused
- */
 class LuxNewsDataProvider implements ChartDataProviderInterface
 {
-    /**
-     * @return array
-     * @throws DBALException
-     */
     public function getChartData(): array
     {
         $data = $this->getNewsData();
@@ -55,7 +48,8 @@ class LuxNewsDataProvider implements ChartDataProviderInterface
      *  ]
      *
      * @return array
-     * @throws DBALException
+     * @throws Exception
+     * @throws ExceptionDbal
      */
     protected function getNewsData(): array
     {

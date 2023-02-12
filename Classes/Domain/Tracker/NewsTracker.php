@@ -17,25 +17,11 @@ use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 
-/**
- * Class PageTracker
- */
 class NewsTracker
 {
-    /**
-     * @var VisitorRepository
-     */
-    protected $visitorRepository;
+    protected VisitorRepository $visitorRepository;
+    private EventDispatcherInterface $eventDispatcher;
 
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $eventDispatcher;
-
-    /**
-     * @param VisitorRepository $visitorRepository
-     * @param EventDispatcherInterface $eventDispatcher
-     */
     public function __construct(VisitorRepository $visitorRepository, EventDispatcherInterface $eventDispatcher)
     {
         $this->visitorRepository = $visitorRepository;
@@ -64,7 +50,7 @@ class NewsTracker
             $this->visitorRepository->update($visitor);
             $this->visitorRepository->persistAll();
             $this->eventDispatcher->dispatch(
-                GeneralUtility::makeInstance(NewsTrackerEvent::class, $visitor, $newsvisit)
+                GeneralUtility::makeInstance(NewsTrackerEvent::class, $visitor, $newsvisit, $arguments)
             );
         }
     }

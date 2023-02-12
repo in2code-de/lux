@@ -8,39 +8,30 @@ use In2code\Lux\Domain\Model\Visitor;
 
 final class NewsTrackerEvent
 {
-    /**
-     * @var Visitor
-     */
-    protected $visitor;
+    protected Visitor $visitor;
+    protected Newsvisit $newsvisit;
 
-    /**
-     * @var Newsvisit
-     */
-    protected $newsvisit;
+    protected array $arguments;
 
-    /**
-     * @param Visitor $visitor
-     * @param Newsvisit $newsvisit
-     */
-    public function __construct(Visitor $visitor, Newsvisit $newsvisit)
+    public function __construct(Visitor $visitor, Newsvisit $newsvisit, array $arguments)
     {
         $this->visitor = $visitor;
         $this->newsvisit = $newsvisit;
+        $this->arguments = $arguments;
     }
 
-    /**
-     * @return Visitor
-     */
     public function getVisitor(): Visitor
     {
         return $this->visitor;
     }
 
-    /**
-     * @return Newsvisit
-     */
     public function getNewsvisit(): Newsvisit
     {
         return $this->newsvisit;
+    }
+
+    public function getArguments(): array
+    {
+        return $this->arguments;
     }
 }

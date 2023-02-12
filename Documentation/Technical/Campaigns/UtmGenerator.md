@@ -7,14 +7,14 @@ be done with "UTM" GET parameters that are added to a target URL.
 
 General used UTM parameters in marketing automation and analysis:
 
-| Parameter                                        | Description                                       | Example value                                          |
-| ------------------------------------------------ | ------------------------------------------------- | ------------------------------------------------------ |
-| `utm_campaign`                                   | Name of the campaign                              | `Campaign 2023/2`                                      |
-| `utm_id`                                         | Identifier of the campaign                        | `c23-3`                                                |
-| `utm_source`                                     | Source                                            | `newsletter`                                           |
-| `utm_medium`                                     | Technical medium                                  | `mail`                                                 |
-| `utm_term`                                       | Optional: Searchterm (mostly used in ads)         | `productname`                                          |
-| `utm_content`                                    | Optional: Description of the ad                   | `add1`                                                 |
+| Parameter      | Description                               | Example value     |
+|----------------|-------------------------------------------|-------------------|
+| `utm_campaign` | Name of the campaign                      | `Campaign 2023/2` |
+| `utm_id`       | Identifier of the campaign                | `c23-3`           |
+| `utm_source`   | Source                                    | `newsletter`      |
+| `utm_medium`   | Technical medium                          | `mail`            |
+| `utm_term`     | Optional: Searchterm (mostly used in ads) | `productname`     |
+| `utm_content`  | Optional: Description of the ad           | `add1`            |
 
 **Note:** LUX tracks all of those GET parameters automatically and can be analysed in Analyse backend module. This
 means that you don't have to use the build in UTM generator or to add all possible options to your system.

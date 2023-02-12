@@ -10,31 +10,15 @@ use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\IpinformationServiceConnectionFailureException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
-/**
- * Handler
- */
 final class Handler
 {
-    /**
-     * @var ConfigurationService|null
-     */
-    protected $configurationService = null;
+    protected ?ConfigurationService $configurationService = null;
+    protected ?IpinformationRepository $ipinformationRepository = null;
 
-    /**
-     * @var IpinformationRepository|null
-     */
-    protected $ipinformationRepository = null;
-
-    /**
-     * Constructor
-     *
-     * @param ConfigurationService $configurationService
-     * @param IpinformationRepository $ipinformationRepository
-     */
     public function __construct(
         ConfigurationService $configurationService,
         IpinformationRepository $ipinformationRepository
@@ -46,8 +30,8 @@ final class Handler
     /**
      * @return ObjectStorage
      * @throws ConfigurationException
-     * @throws Exception
      * @throws IllegalObjectTypeException
+     * @throws InvalidConfigurationTypeException
      */
     public function getObjectStorage(): ObjectStorage
     {
@@ -77,6 +61,7 @@ final class Handler
     /**
      * @return array
      * @throws ConfigurationException
+     * @throws InvalidConfigurationTypeException
      */
     protected function getServiceObjects(): array
     {
@@ -96,6 +81,7 @@ final class Handler
      * @param int $identifier
      * @return IpinformationInterface
      * @throws ConfigurationException
+     * @throws InvalidConfigurationTypeException
      */
     public function getServiceClassByIdentifier(int $identifier): IpinformationInterface
     {

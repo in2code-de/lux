@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace In2code\Lux\Domain\Cache;
 
+use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Exception\EnvironmentException;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\StringUtility;
@@ -15,30 +17,18 @@ use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\Session\Backend\DatabaseSessionBackend;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class BackendSessionFaker
- */
 final class BackendSessionFaker
 {
     const TABLE_BACKENDUSERS = 'be_users';
     const TABLE_BACKENDUSERSESSION = 'be_sessions';
 
-    /**
-     * @var DatabaseSessionBackend
-     */
-    protected $dbSessionBackend;
+    protected DatabaseSessionBackend $dbSessionBackend;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->dbSessionBackend = GeneralUtility::makeInstance(DatabaseSessionBackend::class);
     }
 
-    /**
-     * Destructor
-     */
     public function __destruct()
     {
         $this->removeBackendSession();
@@ -47,6 +37,8 @@ final class BackendSessionFaker
     /**
      * @return void
      * @throws EnvironmentException
+     * @throws Exception
+     * @throws ExceptionDbal
      * @throws MfaRequiredException
      */
     public function fake(): void
@@ -58,6 +50,8 @@ final class BackendSessionFaker
     /**
      * @return void
      * @throws EnvironmentException
+     * @throws Exception
+     * @throws ExceptionDbal
      */
     protected function createBackendSession(): void
     {
@@ -71,12 +65,9 @@ final class BackendSessionFaker
         ];
 
         $queryBuilder = DatabaseUtility::getQueryBuilderForTable(self::TABLE_BACKENDUSERSESSION);
-        $queryBuilder->insert(self::TABLE_BACKENDUSERSESSION)->values($properties)->execute();
+        $queryBuilder->insert(self::TABLE_BACKENDUSERSESSION)->values($properties)->executeStatement();
     }
 
-    /**
-     * @return void
-     */
     protected function removeBackendSession(): void
     {
         $queryBuilder = DatabaseUtility::getQueryBuilderForTable(self::TABLE_BACKENDUSERSESSION);
@@ -88,7 +79,7 @@ final class BackendSessionFaker
                     $queryBuilder->createNamedParameter($this->dbSessionBackend->hash($this->getSessionIdentifier()))
                 )
             )
-            ->execute();
+            ->executeStatement();
     }
 
     /**
@@ -97,19 +88,19 @@ final class BackendSessionFaker
      *
      * @return void
      * @throws EnvironmentException
+     * @throws Exception
+     * @throws ExceptionDbal
      * @throws MfaRequiredException
      * @SuppressWarnings(PHPMD.Superglobals)
      */
     protected function createBackendUserGlobalObject(): void
     {
-        // Set request object (needed since TYPO3 11)
         $request = GeneralUtility::makeInstance(ServerRequest::class);
         $newRequest = $request->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_BE);
-        $GLOBALS['TYPO3_REQUEST'] = $newRequest;
 
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieSecure'] = 0;
         $GLOBALS['BE_USER'] = GeneralUtility::makeInstance(BackendUserAuthentication::class);
-        $GLOBALS['BE_USER']->start();
+        $GLOBALS['BE_USER']->start($newRequest);
         $GLOBALS['BE_USER']->setBeUserByUid($this->getBackendUserAdminIdentifier());
         $GLOBALS['BE_USER']->backendCheckLogin();
         $GLOBALS['BE_USER']->setSessionData('formProtectionSessionToken', $this->getFormProtectionSessionToken());
@@ -118,6 +109,8 @@ final class BackendSessionFaker
     /**
      * @return int
      * @throws EnvironmentException
+     * @throws Exception
+     * @throws ExceptionDbal
      */
     protected function getBackendUserAdminIdentifier(): int
     {
@@ -128,8 +121,8 @@ final class BackendSessionFaker
                 ->select('uid')
                 ->from(self::TABLE_BACKENDUSERS)
                 ->where('admin=1')
-                ->execute()
-                ->fetchColumn();
+                ->executeQuery()
+                ->fetchOne();
             if ($identifier === 0) {
                 throw new EnvironmentException('No administration backend user found', 1645125690);
             }
@@ -151,9 +144,6 @@ final class BackendSessionFaker
         return $sessionIdentifier;
     }
 
-    /**
-     * @return string
-     */
     protected function getFormProtectionSessionToken(): string
     {
         static $sessionToken = '';

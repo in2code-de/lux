@@ -68,7 +68,7 @@ class VisitorTest extends UnitTestCase
                 '',
                 '',
                 '',
-                'anonym',
+                'anonym [d41d8c]',
             ],
         ];
     }

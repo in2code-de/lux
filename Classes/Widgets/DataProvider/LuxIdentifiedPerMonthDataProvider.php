@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace In2code\Lux\Widgets\DataProvider;
 
 use DateTime;
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Exception;
 use In2code\Lux\Domain\Repository\LogRepository;
 use In2code\Lux\Utility\LocalizationUtility;
@@ -12,15 +12,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Dashboard\WidgetApi;
 use TYPO3\CMS\Dashboard\Widgets\ChartDataProviderInterface;
 
-/**
- * Class LuxIdentifiedPerMonthDataProvider
- * @noinspection PhpUnused
- */
 class LuxIdentifiedPerMonthDataProvider implements ChartDataProviderInterface
 {
     /**
      * @return array
-     * @throws DBALException
      * @throws Exception
      */
     public function getChartData(): array
@@ -51,7 +46,7 @@ class LuxIdentifiedPerMonthDataProvider implements ChartDataProviderInterface
 
     /**
      * @return array
-     * @throws DBALException
+     * @throws ExceptionDbalDriver
      */
     protected function getData(): array
     {

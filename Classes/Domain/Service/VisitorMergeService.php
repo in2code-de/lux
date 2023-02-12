@@ -3,7 +3,8 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Service;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Attribute;
 use In2code\Lux\Domain\Model\Categoryscoring;
 use In2code\Lux\Domain\Model\Download;
@@ -19,14 +20,13 @@ use In2code\Lux\Events\VisitorsMergeEvent;
 use In2code\Lux\Utility\DatabaseUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 /**
  * Merge duplicated visitors to only one visitor. Merge duplicates in these situations:
- * - If more then only one visitor with the same fingerprint are existing
+ * - If more than only one visitor with the same fingerprint are existing
  * - If visitor has a new fingerprint but tells the system a known email address, we have to move all attributes and
  * pagevisits to the existing visitor and add the new fingerprint
  *
@@ -34,43 +34,13 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
  */
 class VisitorMergeService
 {
-    /**
-     * @var Visitor|null
-     */
-    protected $firstVisitor = null;
+    protected ?Visitor $firstVisitor = null;
+    protected VisitorRepository $visitorRepository;
+    protected FingerprintRepository $fingerprintRepository;
+    protected AttributeRepository $attributeRepository;
+    protected LogService $logService;
+    protected EventDispatcherInterface $eventDispatcher;
 
-    /**
-     * @var VisitorRepository
-     */
-    protected $visitorRepository;
-
-    /**
-     * @var FingerprintRepository
-     */
-    protected $fingerprintRepository;
-
-    /**
-     * @var AttributeRepository
-     */
-    protected $attributeRepository;
-
-    /**
-     * @var LogService
-     */
-    protected $logService;
-
-    /**
-     * @var EventDispatcherInterface
-     */
-    protected $eventDispatcher;
-
-    /**
-     * @param VisitorRepository $visitorRepository
-     * @param FingerprintRepository $fingerprintRepository
-     * @param AttributeRepository $attributeRepository
-     * @param LogService $logService
-     * @param EventDispatcherInterface $eventDispatcher
-     */
     public function __construct(
         VisitorRepository $visitorRepository,
         FingerprintRepository $fingerprintRepository,
@@ -88,10 +58,10 @@ class VisitorMergeService
     /**
      * @param string $identificator
      * @return void
-     * @throws DBALException
-     * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function mergeByFingerprint(string $identificator): void
     {
@@ -107,10 +77,9 @@ class VisitorMergeService
     /**
      * @param string $email
      * @return void
-     * @throws DBALException
-     * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws ExceptionDbal
      */
     public function mergeByEmail(string $email): void
     {
@@ -124,10 +93,9 @@ class VisitorMergeService
     /**
      * @param QueryResultInterface $visitors
      * @return void
-     * @throws DBALException
-     * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws ExceptionDbal
      */
     protected function merge(QueryResultInterface $visitors): void
     {
@@ -155,15 +123,15 @@ class VisitorMergeService
      *
      * @param Visitor $newVisitor
      * @return void
-     * @throws DBALException
+     * @throws ExceptionDbal
      */
     protected function mergePagevisits(Visitor $newVisitor): void
     {
         $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
-        $connection->query(
+        $connection->executeQuery(
             'update ' . Pagevisit::TABLE_NAME . ' set visitor = ' . (int)$this->firstVisitor->getUid() . ' ' .
             'where visitor = ' . (int)$newVisitor->getUid()
-        )->execute();
+        );
     }
 
     /**
@@ -171,15 +139,15 @@ class VisitorMergeService
      *
      * @param Visitor $newVisitor
      * @return void
-     * @throws DBALException
+     * @throws ExceptionDbal
      */
     protected function mergeLogs(Visitor $newVisitor): void
     {
         $connection = DatabaseUtility::getConnectionForTable(Log::TABLE_NAME);
-        $connection->query(
+        $connection->executeQuery(
             'update ' . Log::TABLE_NAME . ' set visitor = ' . (int)$this->firstVisitor->getUid() . ' ' .
             'where visitor = ' . (int)$newVisitor->getUid()
-        )->execute();
+        );
     }
 
     /**
@@ -187,10 +155,7 @@ class VisitorMergeService
      *
      * @param Visitor $newVisitor
      * @return void
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
-     * @throws DBALException
-     * @throws Exception
+     * @throws ExceptionDbal
      */
     protected function mergeCategoryscorings(Visitor $newVisitor): void
     {
@@ -201,15 +166,15 @@ class VisitorMergeService
             $connection = DatabaseUtility::getConnectionForTable(Categoryscoring::TABLE_NAME);
             if ($existingCs !== null) {
                 $this->firstVisitor->increaseCategoryscoringByCategory($categoryscoring->getScoring(), $category);
-                $connection->query(
+                $connection->executeQuery(
                     'update ' . Categoryscoring::TABLE_NAME . ' set deleted = 1' .
                     ' where visitor = ' . (int)$newVisitor->getUid() . ' and category = ' . (int)$category->getUid()
-                )->execute();
+                );
             } else {
-                $connection->query(
+                $connection->executeQuery(
                     'update ' . Categoryscoring::TABLE_NAME . ' set visitor = ' . (int)$this->firstVisitor->getUid() .
                     ' where visitor = ' . (int)$newVisitor->getUid() . ' and category = ' . (int)$category->getUid()
-                )->execute();
+                );
             }
         }
     }
@@ -219,15 +184,15 @@ class VisitorMergeService
      *
      * @param Visitor $newVisitor
      * @return void
-     * @throws DBALException
+     * @throws ExceptionDbal
      */
     protected function mergeDownloads(Visitor $newVisitor): void
     {
         $connection = DatabaseUtility::getConnectionForTable(Download::TABLE_NAME);
-        $connection->query(
+        $connection->executeQuery(
             'update ' . Download::TABLE_NAME . ' set visitor = ' . (int)$this->firstVisitor->getUid() . ' ' .
             'where visitor = ' . (int)$newVisitor->getUid()
-        )->execute();
+        );
     }
 
     /**
@@ -235,15 +200,15 @@ class VisitorMergeService
      *
      * @param Visitor $newVisitor
      * @return void
-     * @throws DBALException
+     * @throws ExceptionDbal
      */
     protected function mergeLinkclicks(Visitor $newVisitor): void
     {
         $connection = DatabaseUtility::getConnectionForTable(Linkclick::TABLE_NAME);
-        $connection->query(
+        $connection->executeQuery(
             'update ' . Linkclick::TABLE_NAME . ' set visitor = ' . (int)$this->firstVisitor->getUid() . ' ' .
             'where visitor = ' . (int)$newVisitor->getUid()
-        )->execute();
+        );
     }
 
     /**
@@ -251,17 +216,17 @@ class VisitorMergeService
      *
      * @param Visitor $newVisitor
      * @return void
-     * @throws DBALException
+     * @throws ExceptionDbal
      */
     protected function mergeShortenervisits(Visitor $newVisitor): void
     {
         if (DatabaseUtility::isTableExisting('tx_luxenterprise_domain_model_shortenervisit')) {
             $connection = DatabaseUtility::getConnectionForTable('tx_luxenterprise_domain_model_shortenervisit');
-            $connection->query(
+            $connection->executeQuery(
                 'update tx_luxenterprise_domain_model_shortenervisit ' .
                 'set visitor = ' . (int)$this->firstVisitor->getUid() . ' ' .
                 'where visitor = ' . (int)$newVisitor->getUid()
-            )->execute();
+            );
         }
     }
 
@@ -272,8 +237,7 @@ class VisitorMergeService
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
-     * @throws DBALException
-     * @throws Exception
+     * @throws ExceptionDbal
      */
     protected function mergeAttributes(Visitor $newVisitor): void
     {
@@ -286,10 +250,10 @@ class VisitorMergeService
                 $this->attributeRepository->persistAll();
             } else {
                 $connection = DatabaseUtility::getConnectionForTable(Attribute::TABLE_NAME);
-                $connection->query(
+                $connection->executeQuery(
                     'update ' . Attribute::TABLE_NAME . ' set visitor = ' . $this->firstVisitor->getUid() . ' ' .
                     'where uid = ' . (int)$newAttribute->getUid()
-                )->execute();
+                );
             }
         }
     }
@@ -299,8 +263,7 @@ class VisitorMergeService
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
-     * @throws Exception
-     * @throws DBALException
+     * @throws ExceptionDbal
      */
     protected function updateFingerprints(Visitor $newVisitor): void
     {
@@ -319,7 +282,7 @@ class VisitorMergeService
     /**
      * @param Fingerprint $fingerprint
      * @return void
-     * @throws DBALException
+     * @throws ExceptionDbal
      */
     protected function deleteFingerprint(Fingerprint $fingerprint): void
     {
@@ -331,7 +294,7 @@ class VisitorMergeService
     /**
      * @param Visitor $newVisitor
      * @return void
-     * @throws DBALException
+     * @throws ExceptionDbal
      */
     protected function deleteVisitor(Visitor $newVisitor): void
     {
@@ -340,10 +303,6 @@ class VisitorMergeService
             ->executeQuery('update ' . Visitor::TABLE_NAME . ' set deleted=1 where uid=' . (int)$newVisitor->getUid());
     }
 
-    /**
-     * @param Visitor $visitor
-     * @return void
-     */
     protected function setFirstVisitor(Visitor $visitor): void
     {
         if ($this->firstVisitor === null) {

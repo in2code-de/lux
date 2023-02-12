@@ -44,18 +44,27 @@
     background: #4DE7FF;
 }
 .lux-arrow-up {
+    content: "";
     width: 0;
     height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-
-    border-bottom: 5px solid black;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid $colorGreyDark;
+    display: inline-block;
 }
 .lux-arrow-down {
+    content: "";
     width: 0;
     height: 0;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
+    display: inline-block;
+    margin-bottom: 1px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid $colorGreyDark;
+}
 
-    border-top: 20px solid #f00;
+.lux {
+    .table {
+        border: 1px solid $colorGreyBright;
+    }
 }

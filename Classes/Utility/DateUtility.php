@@ -6,9 +6,6 @@ namespace In2code\Lux\Utility;
 use DateTime;
 use Exception;
 
-/**
- * Class DateUtility
- */
 class DateUtility
 {
     /**
@@ -18,26 +15,15 @@ class DateUtility
 
     /**
      * Define a timeframe in minutes to check if the visitor is still in the same page funnel. Means that when a
-     * visitor opens another page within this timerange, we use this opening as a follow up opening of the page before.
+     * visitor opens another page within this timerange, we use this opening as a follow-up opening of the page before.
      */
     const IS_INSAMEPAGEFUNNEL_TIME = 15;
 
-    /**
-     * Convert timestamp into DateTime object
-     *
-     * @param int $timestamp
-     * @return DateTime
-     */
     public static function convertTimestamp(int $timestamp): DateTime
     {
         return DateTime::createFromFormat('U', (string)$timestamp);
     }
 
-    /**
-     * @param DateTime $date1
-     * @param DateTime $date2
-     * @return int
-     */
     public static function getNumberOfDaysBetweenTwoDates(DateTime $date1, DateTime $date2): int
     {
         $difference = $date1->diff($date2)->days;
@@ -76,11 +62,6 @@ class DateUtility
         return $date;
     }
 
-    /**
-     * @param DateTime $date
-     * @return DateTime
-     * @throws Exception
-     */
     public static function getDayStart(DateTime $date): DateTime
     {
         $start = clone $date;
@@ -88,11 +69,6 @@ class DateUtility
         return $start;
     }
 
-    /**
-     * @param DateTime $date
-     * @return DateTime
-     * @throws Exception
-     */
     public static function getDayEnd(DateTime $date): DateTime
     {
         $end = clone $date;
@@ -100,10 +76,6 @@ class DateUtility
         return $end;
     }
 
-    /**
-     * @param DateTime $date
-     * @return DateTime
-     */
     public static function getPreviousMonday(DateTime $date): DateTime
     {
         $new = clone $date;
@@ -111,10 +83,6 @@ class DateUtility
         return $new;
     }
 
-    /**
-     * @param DateTime $date
-     * @return DateTime
-     */
     public static function getStartOfMonth(DateTime $date): DateTime
     {
         $start = clone $date;
@@ -122,10 +90,6 @@ class DateUtility
         return $start;
     }
 
-    /**
-     * @param DateTime $date
-     * @return DateTime
-     */
     protected static function getEndOfMonth(DateTime $date): DateTime
     {
         $end = clone $date;
@@ -133,10 +97,6 @@ class DateUtility
         return $end;
     }
 
-    /**
-     * @param DateTime $date
-     * @return DateTime
-     */
     public static function getStartOfYear(DateTime $date): DateTime
     {
         $start = clone $date;

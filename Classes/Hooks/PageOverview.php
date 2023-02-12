@@ -2,7 +2,7 @@
 
 namespace In2code\Lux\Hooks;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Cache\CacheLayer;
 use In2code\Lux\Domain\DataProvider\PageOverview\GotinExternalDataProvider;
@@ -21,6 +21,7 @@ use In2code\Lux\Exception\UnexpectedValueException;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Backend\Controller\Event\ModifyPageLayoutContentEvent;
 use TYPO3\CMS\Backend\Controller\PageLayoutController;
 use TYPO3\CMS\Backend\Utility\BackendUtility as BackendUtilityCore;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
@@ -34,93 +35,88 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  */
 class PageOverview
 {
-    /**
-     * @var string
-     */
-    protected $templatePathAndFile = 'EXT:lux/Resources/Private/Templates/Backend/PageOverview.html';
+    protected string $templatePathAndFile = 'EXT:lux/Resources/Private/Templates/Backend/PageOverview.html';
 
-    /**
-     * @var VisitorRepository|null
-     */
-    protected $visitorRepository = null;
+    protected VisitorRepository $visitorRepository;
+    protected PagevisitRepository $pagevisitRepository;
+    protected LinkclickRepository $linkclickRepository;
+    protected DownloadRepository $downloadRepository;
+    protected LogRepository $logRepository;
+    protected RenderingTimeService $renderingTimeService;
+    protected CacheLayer $cacheLayer;
 
-    /**
-     * @var PagevisitRepository|null
-     */
-    protected $pagevisitRepository = null;
-
-    /**
-     * @var LinkclickRepository|null
-     */
-    protected $linkclickRepository = null;
-
-    /**
-     * @var DownloadRepository|null
-     */
-    protected $downloadRepository = null;
-
-    /**
-     * @var LogRepository|null
-     */
-    protected $logRepository = null;
-
-    /**
-     * @var RenderingTimeService
-     */
-    protected $renderingTimeService = null;
-
-    /**
-     * @var CacheLayer
-     */
-    protected $cacheLayer = null;
-
-    /**
-     * PageOverview constructor.
-     * @param VisitorRepository|null $visitorRepository
-     * @param PagevisitRepository|null $pagevisitRepository
-     * @param LinkclickRepository|null $linkclickRepository
-     * @param DownloadRepository|null $downloadRepository
-     * @param LogRepository|null $logRepository
-     * @param RenderingTimeService|null $renderingTimeService to initialize renderingTimes
-     * @param CacheLayer|null $cacheLayer
-     * Todo: Remove Fallback to makeInstance() when TYPO3 10 support is dropped
-     */
     public function __construct(
-        VisitorRepository $visitorRepository = null,
-        PagevisitRepository $pagevisitRepository = null,
-        LinkclickRepository $linkclickRepository = null,
-        DownloadRepository $downloadRepository = null,
-        LogRepository $logRepository = null,
-        RenderingTimeService $renderingTimeService = null,
-        CacheLayer $cacheLayer = null
+        VisitorRepository $visitorRepository,
+        PagevisitRepository $pagevisitRepository,
+        LinkclickRepository $linkclickRepository,
+        DownloadRepository $downloadRepository,
+        LogRepository $logRepository,
+        RenderingTimeService $renderingTimeService,
+        CacheLayer $cacheLayer,
     ) {
-        $this->visitorRepository = $visitorRepository ?: GeneralUtility::makeInstance(VisitorRepository::class);
-        $this->pagevisitRepository = $pagevisitRepository ?: GeneralUtility::makeInstance(PagevisitRepository::class);
-        $this->linkclickRepository = $linkclickRepository ?: GeneralUtility::makeInstance(LinkclickRepository::class);
-        $this->downloadRepository = $downloadRepository ?: GeneralUtility::makeInstance(DownloadRepository::class);
-        $this->logRepository = $logRepository ?: GeneralUtility::makeInstance(LogRepository::class);
-        $this->renderingTimeService = $renderingTimeService;
+        $this->visitorRepository = $visitorRepository;
+        $this->pagevisitRepository = $pagevisitRepository;
+        $this->linkclickRepository = $linkclickRepository;
+        $this->downloadRepository = $downloadRepository;
+        $this->logRepository = $logRepository;
+        $this->renderingTimeService = $renderingTimeService; // initialize renderingTimes
         $this->cacheLayer = $cacheLayer;
     }
 
     /**
-     * @param array $parameters
-     * @param PageLayoutController $plController
-     * @return string
+     * Called from PSR-14 for TYPO3 12
+     *
+     * @param ModifyPageLayoutContentEvent $event
+     * @return void
      * @throws ConfigurationException
-     * @throws DBALException
      * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws UnexpectedValueException
      */
+    public function eventRegistration(ModifyPageLayoutContentEvent $event): void
+    {
+        $queryParams = $event->getRequest()->getQueryParams();
+        $pageIdentifier = (int)($queryParams['id'] ?? 0);
+        $event->addHeaderContent($this->renderContent($pageIdentifier));
+    }
+
+    /**
+     * Called from ext_localconf.php for TYPO3 11
+     * Todo: Can be removed when TYPO3 11 support is dropped
+     *
+     * @param array $parameters
+     * @param PageLayoutController $plController
+     * @return string
+     * @throws ConfigurationException
+     * @throws ExceptionDbal
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     * @throws UnexpectedValueException
+     * @throws ExceptionDbalDriver
+     */
     public function render(array $parameters, PageLayoutController $plController): string
     {
-        $this->cacheLayer->initialize(__CLASS__, __FUNCTION__);
         unset($parameters);
+        return $this->renderContent($plController->id);
+    }
+
+    /**
+     * @param int $pageIdentifier
+     * @return string
+     * @throws ConfigurationException
+     * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     * @throws UnexpectedValueException
+     */
+    protected function renderContent(int $pageIdentifier): string
+    {
+        $this->cacheLayer->initialize(__CLASS__, 'render');
         $content = '';
-        if ($this->isPageOverviewEnabled($plController)) {
-            $pageIdentifier = $plController->id;
+        if ($this->isPageOverviewEnabled($pageIdentifier)) {
             $session = BackendUtility::getSessionValue('toggle', 'PageOverview', 'General');
             $arguments = $this->getArguments(ConfigurationUtility::getPageOverviewView(), $pageIdentifier, $session);
             return $this->getContent($arguments);
@@ -133,12 +129,12 @@ class PageOverview
      * @param int $pageIdentifier
      * @param array $session
      * @return array
-     * @throws DBALException
      * @throws ExceptionDbal
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws ConfigurationException
      * @throws UnexpectedValueException
+     * @throws ExceptionDbalDriver
      */
     protected function getArguments(string $view, int $pageIdentifier, array $session): array
     {
@@ -197,10 +193,6 @@ class PageOverview
         return $arguments;
     }
 
-    /**
-     * @param array $arguments
-     * @return string
-     */
     protected function getContent(array $arguments): string
     {
         $standaloneView = GeneralUtility::makeInstance(StandaloneView::class);
@@ -211,14 +203,14 @@ class PageOverview
     }
 
     /**
-     * @param PageLayoutController $plController
+     * @param int $pageIdentifier
      * @return bool
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      */
-    protected function isPageOverviewEnabled(PageLayoutController $plController): bool
+    protected function isPageOverviewEnabled(int $pageIdentifier): bool
     {
-        $row = BackendUtilityCore::getRecord('pages', $plController->id, 'hidden');
+        $row = BackendUtilityCore::getRecord('pages', $pageIdentifier, 'hidden');
         return ConfigurationUtility::isPageOverviewDisabled() === false && $row['hidden'] !== 1;
     }
 }

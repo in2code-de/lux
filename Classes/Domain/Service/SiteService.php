@@ -8,9 +8,6 @@ use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class SiteService
- */
 class SiteService
 {
     /**
@@ -25,11 +22,6 @@ class SiteService
         return $this->getTwoLetterIsoCodeFromLanguageId($languageId, $site);
     }
 
-    /**
-     * @param int $languageId
-     * @param string $domain
-     * @return string
-     */
     public function getLanguageCodeFromLanguageAndDomain(int $languageId, string $domain): string
     {
         $site = $this->getSiteFromDomain($domain);
@@ -39,9 +31,6 @@ class SiteService
         return '';
     }
 
-    /**
-     * @return Site
-     */
     public function getDefaultSite(): Site
     {
         $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
@@ -49,31 +38,18 @@ class SiteService
         return current($sites);
     }
 
-    /**
-     * @param int $pageIdentifier
-     * @return Site
-     * @throws SiteNotFoundException
-     */
     public function getSiteFromPageIdentifier(int $pageIdentifier): Site
     {
         $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
         return $siteFinder->getSiteByPageId($pageIdentifier);
     }
 
-    /**
-     * @return string
-     */
     public function getFirstDomain(): string
     {
         $site = self::getDefaultSite();
         return $site->getBase()->__toString();
     }
 
-    /**
-     * @param int $languageId
-     * @param Site $site
-     * @return string
-     */
     protected function getTwoLetterIsoCodeFromLanguageId(int $languageId, Site $site): string
     {
         foreach ($site->getLanguages() as $language) {
@@ -84,10 +60,6 @@ class SiteService
         return '';
     }
 
-    /**
-     * @param string $domain
-     * @return Site|null
-     */
     protected function getSiteFromDomain(string $domain): ?Site
     {
         $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);

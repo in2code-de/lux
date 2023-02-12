@@ -1,0 +1,22 @@
+.ck-email4link-form {
+    margin: 20px 15px !important;
+}
+
+.ck-email4link-form > h2 {
+    font-size: 16px !important;
+}
+
+.ck-email4link-form > h2,
+.ck-email4link-form > div,
+.ck-email4link-form > p {
+    margin-bottom: 20px !important;
+}
+
+.ck-email4link-form input:not([type='checkbox']),
+.ck-email4link-form textarea {
+    width: 100% !important;
+}
+
+.ck-email4link-form input[type='checkbox'] {
+    margin-right: 10px !important;
+}

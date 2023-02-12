@@ -26,14 +26,14 @@ shortener record.
 
 <img src="../../../Documentation/Images/screenshot_urlshortener_edit.png" width="800" />
 
-| Field                                            | Description                                                                                               |
-| ------------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
-| Enabled                                          | Toggle the status of this redirect.                                                                       |
-| From                                             | Contains your short url (without a domain). This code must be unique in your system.                      |
-| To                                               | Select the internal or external target for the redirect                                                   |
-| Lux category                                     | Choose a category for better management of your shorteners                                                |
-| Description                                      | You can add an internal description for what campaign this shortener is                                   |
-| QR code                                          | If you need a QR code for your marketing campaign, you can download this PNG                              |
-| Creation date                                    | Note when was this record created                                                                         |
-| Author                                           | Note to see who was creating this record                                                                  |
+| Field         | Description                                                                          |
+|---------------|--------------------------------------------------------------------------------------|
+| Enabled       | Toggle the status of this redirect.                                                  |
+| From          | Contains your short url (without a domain). This code must be unique in your system. |
+| To            | Select the internal or external target for the redirect                              |
+| Lux category  | Choose a category for better management of your shorteners                           |
+| Description   | You can add an internal description for what campaign this shortener is              |
+| QR code       | If you need a QR code for your marketing campaign, you can download this PNG         |
+| Creation date | Note when was this record created                                                    |
+| Author        | Note to see who was creating this record                                             |
 

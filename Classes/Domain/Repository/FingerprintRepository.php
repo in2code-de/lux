@@ -4,25 +4,25 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Exception\ClassDoesNotExistException;
 use In2code\Lux\Utility\DatabaseUtility;
 use WhichBrowser\Parser;
 
-/**
- * Class FingerprintRepository
- */
 class FingerprintRepository extends AbstractRepository
 {
     /**
      * @return int
-     * @throws DBALException
+     * @throws Exception
+     * @throws ExceptionDbal
      */
     public function findAllAmount(): int
     {
         $connection = DatabaseUtility::getConnectionForTable(Fingerprint::TABLE_NAME);
-        return (int)$connection->executeQuery('select count(*) from ' . Fingerprint::TABLE_NAME)->fetchColumn();
+        return (int)$connection->executeQuery('select count(*) from ' . Fingerprint::TABLE_NAME)->fetchOne();
     }
 
     /**
@@ -36,6 +36,7 @@ class FingerprintRepository extends AbstractRepository
      * @return array
      * @throws DBALException
      * @throws ClassDoesNotExistException
+     * @throws Exception
      */
     public function getAmountOfUserAgents(FilterDto $filter): array
     {
@@ -43,7 +44,7 @@ class FingerprintRepository extends AbstractRepository
         $sql = 'select user_agent, count(user_agent) count from ' . Fingerprint::TABLE_NAME
             . ' where user_agent != ""' . $this->extendWhereClauseWithFilterTime($filter)
             . ' group by user_agent having (count > 1) order by count desc limit 1000';
-        $records = (array)$connection->executeQuery($sql)->fetchAll();
+        $records = $connection->executeQuery($sql)->fetchAllAssociative();
         $result = [];
         foreach ($records as $record) {
             if (class_exists(Parser::class)) {
@@ -70,6 +71,8 @@ class FingerprintRepository extends AbstractRepository
     /**
      * @param string $fingerprint
      * @return int
+     * @throws Exception
+     * @throws ExceptionDbal
      */
     public function getFingerprintCountByValue(string $fingerprint): int
     {
@@ -81,7 +84,7 @@ class FingerprintRepository extends AbstractRepository
                 $queryBuilder->expr()->eq('value', $queryBuilder->createNamedParameter($fingerprint)),
                 $queryBuilder->expr()->eq('type', Fingerprint::TYPE_FINGERPRINT)
             )
-            ->execute()
-            ->fetchColumn();
+            ->executeQuery()
+            ->fetchOne();
     }
 }

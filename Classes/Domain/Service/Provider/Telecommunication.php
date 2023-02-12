@@ -10,19 +10,10 @@ use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 
-/**
- * Class Telecommunication
- */
 class Telecommunication
 {
-    /**
-     * @var ConfigurationService|null
-     */
-    protected $configurationService = null;
+    protected ?ConfigurationService $configurationService = null;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->configurationService = ObjectUtility::getConfigurationService();

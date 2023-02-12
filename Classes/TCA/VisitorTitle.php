@@ -5,26 +5,14 @@ namespace In2code\Lux\TCA;
 
 use In2code\Lux\Utility\LocalizationUtility;
 
-/**
- * Class VisitorTitle
- */
 class VisitorTitle
 {
-    /**
-     * @param array $parameters
-     * @param object $parentObject
-     * @return void
-     */
-    public function getContactTitle(array &$parameters, $parentObject)
+    public function getContactTitle(array &$parameters, $parentObject): void
     {
         unset($parentObject);
         $parameters['title'] = $this->getEmail($parameters['row']) . ' (uid' . $parameters['row']['uid'] . ')';
     }
 
-    /**
-     * @param array $properties
-     * @return string
-     */
     protected function getEmail(array $properties): string
     {
         $email = LocalizationUtility::translateByKey('anonym');

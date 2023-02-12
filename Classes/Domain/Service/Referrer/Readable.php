@@ -9,17 +9,14 @@ namespace In2code\Lux\Domain\Service\Referrer;
  */
 class Readable
 {
-    /**
-     * @var string
-     */
-    protected $referrer = '';
+    protected string $referrer = '';
 
     /**
      * Array with mapping for domains (original => Readable)
      *
      * @var array
      */
-    protected $sources = [
+    protected array $sources = [
         't.co' => 'Twitter',
         'www.twitter.com' => 'Twitter',
         'm.twitter.com' => 'Twitter',
@@ -59,19 +56,11 @@ class Readable
         'slack.com' => 'Slack',
     ];
 
-    /**
-     * ReadableReferrerService constructor.
-     *
-     * @param string $referrer
-     */
     public function __construct(string $referrer = '')
     {
         $this->referrer = $referrer;
     }
 
-    /**
-     * @return string
-     */
     public function getReadableReferrer(): string
     {
         $domain = $this->getDomain();
@@ -81,17 +70,11 @@ class Readable
         return $domain;
     }
 
-    /**
-     * @return string
-     */
     public function getOriginalReferrer(): string
     {
         return $this->referrer;
     }
 
-    /**
-     * @return string
-     */
     protected function getDomain(): string
     {
         $domain = '';

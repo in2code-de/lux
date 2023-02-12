@@ -4,13 +4,10 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider;
 
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
 
-/**
- * Class SocialMediaDataProvider
- */
 class SocialMediaDataProvider extends AbstractDataProvider
 {
     /**
@@ -29,8 +26,8 @@ class SocialMediaDataProvider extends AbstractDataProvider
      *  ]
      *
      * @return void
-     * @throws Exception
      * @throws DBALException
+     * @throws ExceptionDbalDriver
      */
     public function prepareData(): void
     {

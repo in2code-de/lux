@@ -9,7 +9,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class UtmFactory
 {
-    protected $utmKeys = [
+    protected array $utmKeys = [
         'utm_source',
         'utm_medium',
         'utm_campaign',
@@ -21,9 +21,10 @@ class UtmFactory
     /**
      * @throws ParametersException
      */
-    public function get(array $parameters): Utm
+    public function get(array $parameters, string $referrer): Utm
     {
         $utm = GeneralUtility::makeInstance(Utm::class);
+        $utm->setReferrer($referrer);
         foreach ($this->getUtmKeys() as $key) {
             if (array_key_exists($key, $parameters) === false) {
                 throw new ParametersException($key . ' is not existing in given array', 1666207599);

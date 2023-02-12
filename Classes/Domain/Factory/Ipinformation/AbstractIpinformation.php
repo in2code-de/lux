@@ -6,12 +6,10 @@ namespace In2code\Lux\Domain\Factory\Ipinformation;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\IpinformationServiceConnectionFailureException;
 use In2code\Lux\Utility\IpUtility;
+use Throwable;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * IpApi
- */
 abstract class AbstractIpinformation
 {
     /**
@@ -19,7 +17,7 @@ abstract class AbstractIpinformation
      *
      * @var array
      */
-    protected $mapping = [
+    protected array $mapping = [
         'org' => 'org', // name of the organisation - like "Company A"
         'country' => 'country', // name of country - like "Germany"
         'countryCode' => 'countryCode', // ISO code of country - like "DE"
@@ -35,20 +33,15 @@ abstract class AbstractIpinformation
      *
      * @var string
      */
-    private $url = '';
+    private string $url = '';
 
     /**
      * Contains configuration from TypoScript (e.g. URL)
      *
      * @var array
      */
-    protected $configuration = [];
+    protected array $configuration = [];
 
-    /**
-     * Constructor
-     *
-     * @param array $configuration
-     */
     public function __construct(array $configuration)
     {
         $this->configuration = $configuration;
@@ -82,7 +75,7 @@ abstract class AbstractIpinformation
                 throw new IpinformationServiceConnectionFailureException($response->getReasonPhrase(), 1631737255);
             }
             $content = $response->getBody()->getContents();
-        } catch (\Exception $exception) {
+        } catch (Throwable $exception) {
             throw new IpinformationServiceConnectionFailureException($exception->getMessage(), 1631742005);
         }
         $array = $this->convertResultToArray($content);
@@ -90,19 +83,11 @@ abstract class AbstractIpinformation
         return $array;
     }
 
-    /**
-     * @param string $content
-     * @return array
-     */
     public function convertResultToArray(string $content): array
     {
         return json_decode($content, true);
     }
 
-    /**
-     * @param array $array
-     * @return array
-     */
     public function mapKeys(array $array): array
     {
         $newArray = [];
@@ -114,10 +99,6 @@ abstract class AbstractIpinformation
         return $newArray;
     }
 
-    /**
-     * @param string $url
-     * @return void
-     */
     public function setUrl(string $url): void
     {
         $url = str_replace('{ip}', IpUtility::getIpAddress(), $url);

@@ -3,13 +3,10 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider;
 
-use Exception;
 use In2code\Lux\Domain\Repository\UtmRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
-/**
- * Class UtmDataProvider
- */
 class UtmDataProvider extends AbstractDynamicFilterDataProvider
 {
     /**
@@ -28,7 +25,7 @@ class UtmDataProvider extends AbstractDynamicFilterDataProvider
      *  ]
      *
      * @return void
-     * @throws Exception
+     * @throws InvalidQueryException
      */
     public function prepareData(): void
     {

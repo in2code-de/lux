@@ -12,22 +12,13 @@ call_user_func(
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
             'Lux',
             'Fe',
-            [
-                \In2code\Lux\Controller\FrontendController::class => 'dispatchRequest'
-            ],
-            [
-                \In2code\Lux\Controller\FrontendController::class => 'dispatchRequest'
-            ]
+            [\In2code\Lux\Controller\FrontendController::class => 'dispatchRequest'],
+            [\In2code\Lux\Controller\FrontendController::class => 'dispatchRequest']
         );
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
             'Lux',
             'Pi1',
-            [
-                \In2code\Lux\Controller\FrontendController::class => 'trackingOptOut'
-            ],
-            [
-                \In2code\Lux\Controller\FrontendController::class => ''
-            ]
+            [\In2code\Lux\Controller\FrontendController::class => 'trackingOptOut']
         );
 
         /**
@@ -53,7 +44,11 @@ call_user_func(
          * CK editor configuration
          */
         if (\In2code\Lux\Utility\ConfigurationUtility::isCkEditorConfigurationNeeded()) {
-            $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['lux'] = 'EXT:lux/Configuration/Yaml/CkEditor.yaml';
+            $ckConfiguration = 'EXT:lux/Configuration/Yaml/CkEditor.yaml';
+            if (\In2code\Lux\Utility\ConfigurationUtility::isTypo3Version11()) {
+                $ckConfiguration = 'EXT:lux/Configuration/Yaml/CkEditorOld.yaml';
+            }
+            $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['lux'] = $ckConfiguration;
 
             \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
                 'RTE.default.preset = lux'

@@ -8,17 +8,11 @@ use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
-/**
- * Class FrontendUtility
- */
 class FrontendUtility
 {
-    /**
-     * @return int
-     */
     public static function getCurrentPageIdentifier(): int
     {
-        return (int)self::getTyposcriptFrontendController()->id;
+        return self::getTyposcriptFrontendController()->id;
     }
 
     /**
@@ -44,18 +38,11 @@ class FrontendUtility
         return GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST');
     }
 
-    /**
-     * @return bool
-     */
     public static function isLoggedInFrontendUser(): bool
     {
         return !empty(self::getTyposcriptFrontendController()->fe_user->user['uid']);
     }
 
-    /**
-     * @param string $propertyName
-     * @return string
-     */
     public static function getPropertyFromLoggedInFrontendUser($propertyName = 'uid'): string
     {
         $tsfe = self::getTyposcriptFrontendController();

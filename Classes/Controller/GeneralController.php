@@ -3,7 +3,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
-use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
@@ -12,24 +11,12 @@ use In2code\Lux\Utility\ExtensionUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class GeneralController
- * to show general information by clicking on the help icon
- * Todo: Return type ": ResponseInterface" and "return $this->htmlResponse();" when TYPO3 10 support is dropped
- *       for all actions
- */
 class GeneralController extends AbstractController
 {
-    /**
-     * @return void
-     * @throws DBALException
-     */
-    public function informationAction(): void
+    public function informationAction(): ResponseInterface
     {
         $filter = ObjectUtility::getFilterDto(FilterDto::PERIOD_THISYEAR);
         $values = [
@@ -59,6 +46,9 @@ class GeneralController extends AbstractController
             ],
         ];
         $this->view->assignMultiple($values);
+
+        $this->addNavigationButtons([]);
+        return $this->defaultRendering();
     }
 
     /**
@@ -76,8 +66,6 @@ class GeneralController extends AbstractController
     /**
      * @param ServerRequestInterface $request
      * @return ResponseInterface
-     * @throws ExtensionConfigurationExtensionNotConfiguredException
-     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public function getVisitorImageUrlAjax(ServerRequestInterface $request): ResponseInterface
     {

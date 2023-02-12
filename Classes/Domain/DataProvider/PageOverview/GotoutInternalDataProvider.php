@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider\PageOverview;
 
+use Doctrine\DBAL\Driver\Exception;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
@@ -17,24 +18,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class GotoutInternalDataProvider extends AbstractDataProvider
 {
-    /**
-     * @var FilterDto|null
-     */
-    protected $filter = null;
+    protected ?FilterDto $filter = null;
+    protected ?PagevisitRepository $pagevisitRepository = null;
+    protected ?PageRepository $pageRepository = null;
 
     /**
-     * @var PagevisitRepository|null
-     */
-    protected $pagevisitRepository = null;
-
-    /**
-     * @var PageRepository|null
-     */
-    protected $pageRepository = null;
-
-    /**
-     * Constructor
-     *
      * @param FilterDto|null $filter contains timeframe and page identifier as searchterm
      */
     public function __construct(FilterDto $filter = null)
@@ -54,6 +42,7 @@ class GotoutInternalDataProvider extends AbstractDataProvider
      *  ]
      * @return array
      * @throws ExceptionDbal
+     * @throws Exception
      */
     public function get(): array
     {
@@ -85,6 +74,7 @@ class GotoutInternalDataProvider extends AbstractDataProvider
      * @param int $crdate
      * @return int
      * @throws ExceptionDbal
+     * @throws Exception
      */
     protected function getGotoutToPagevisit(int $visitor, int $crdate): int
     {
@@ -96,7 +86,7 @@ class GotoutInternalDataProvider extends AbstractDataProvider
             . ' and crdate > ' . $crdate
             . ' and crdate <= ' . ($crdate + $this->getTimelimit())
             . ' order by crdate desc limit 1'
-        )->fetchColumn();
+        )->fetchOne();
         if ($pageIdentifier === false) {
             return 0;
         }

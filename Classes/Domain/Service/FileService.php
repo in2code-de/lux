@@ -6,20 +6,14 @@ namespace In2code\Lux\Domain\Service;
 use In2code\Lux\Domain\Model\File;
 use In2code\Lux\Domain\Repository\FileRepository;
 use In2code\Lux\Utility\StringUtility;
+use Throwable;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class FileService
- */
 class FileService
 {
-    /**
-     * @param string $href
-     * @return File|null
-     */
-    public function getFileFromHref(string $href)
+    public function getFileFromHref(string $href): ?File
     {
         $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
         try {
@@ -31,7 +25,7 @@ class FileService
                 $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
                 $file = $fileRepository->findByUid($file->getUid());
             }
-        } catch (\Exception $exception) {
+        } catch (Throwable $exception) {
             unset($exception);
             $file = null;
         }
@@ -51,19 +45,11 @@ class FileService
         return $storage . ':/' . $fileNameAndPath;
     }
 
-    /**
-     * @param string $href
-     * @return string
-     */
     protected function substitudeBasePathFromHref(string $href): string
     {
         return substr($href, strlen($this->getBasePathFromHref($href)));
     }
 
-    /**
-     * @param string $href
-     * @return int
-     */
     protected function getStorageUidFromPath(string $href): int
     {
         $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
@@ -82,10 +68,6 @@ class FileService
         return $storageUid;
     }
 
-    /**
-     * @param string $href
-     * @return string
-     */
     protected function getBasePathFromHref(string $href): string
     {
         $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);

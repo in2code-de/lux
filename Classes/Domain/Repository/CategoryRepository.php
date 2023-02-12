@@ -7,19 +7,14 @@ namespace In2code\Lux\Domain\Repository;
 
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
+use Doctrine\DBAL\Exception;
 use In2code\Lux\Domain\Model\Category;
 use In2code\Lux\Utility\DatabaseUtility;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
-/**
- * Class CategoryRepository
- */
 class CategoryRepository extends AbstractRepository
 {
-    /**
-     * @return QueryResultInterface
-     */
     public function findAllLuxCategories(): QueryResultInterface
     {
         $query = $this->createQuery();
@@ -32,6 +27,8 @@ class CategoryRepository extends AbstractRepository
      * @param int $pageIdentifier
      * @param int $categoryIdentifier
      * @return bool
+     * @throws Exception
+     * @throws ExceptionDbalDriver
      */
     public function isPageIdentifierRelatedToCategoryIdentifier(int $pageIdentifier, int $categoryIdentifier): bool
     {
@@ -40,27 +37,29 @@ class CategoryRepository extends AbstractRepository
             ->select('*')
             ->from('sys_category_record_mm')
             ->where('tablenames = "pages" and fieldname = "categories" and uid_local = '
-                . (int)$categoryIdentifier . ' and uid_foreign = ' . (int)$pageIdentifier)
-            ->execute()
-            ->fetchAll();
+                . $categoryIdentifier . ' and uid_foreign = ' . $pageIdentifier)
+            ->executeQuery()
+            ->fetchAllAssociative();
         return !empty($relations[0]);
     }
 
     /**
      * @return int
      * @throws DBALException
+     * @throws ExceptionDbalDriver
      */
     public function findAllAmount(): int
     {
         $connection = DatabaseUtility::getConnectionForTable(Category::TABLE_NAME);
         $query = 'select count(uid) from ' . Category::TABLE_NAME . ' where lux_category=1 and deleted=0';
-        return (int)$connection->executeQuery($query)->fetchColumn();
+        return (int)$connection->executeQuery($query)->fetchOne();
     }
 
     /**
      * @param int $newsIdentifier
      * @return array
      * @throws ExceptionDbalDriver
+     * @throws Exception
      */
     public function findAllCategoryIdentifiersToNews(int $newsIdentifier): array
     {
@@ -70,7 +69,7 @@ class CategoryRepository extends AbstractRepository
             ->from('sys_category_record_mm')
             ->where('uid_foreign=' . $newsIdentifier
                 . ' and tablenames="tx_news_domain_model_news" and fieldname="categories"')
-            ->execute()
+            ->executeQuery()
             ->fetchFirstColumn();
     }
 
@@ -78,6 +77,7 @@ class CategoryRepository extends AbstractRepository
      * @param int $identifier
      * @return bool
      * @throws ExceptionDbalDriver
+     * @throws Exception
      */
     public function isLuxCategory(int $identifier): bool
     {
@@ -85,8 +85,8 @@ class CategoryRepository extends AbstractRepository
         return $queryBuilder
             ->select('lux_category')
             ->from(Category::TABLE_NAME)
-            ->where('uid=' . (int)$identifier)
-            ->execute()
+            ->where('uid=' . $identifier)
+            ->executeQuery()
             ->fetchOne() === 1;
     }
 }

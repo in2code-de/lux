@@ -6,27 +6,27 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Ipinformation;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Utility\DatabaseUtility;
 
-/**
- * Class IpinformationRepository
- */
 class IpinformationRepository extends AbstractRepository
 {
     /**
      * @return int
-     * @throws DBALException
+     * @throws Exception
+     * @throws ExceptionDbal
      */
     public function findAllAmount(): int
     {
         $connection = DatabaseUtility::getConnectionForTable(Ipinformation::TABLE_NAME);
-        return (int)$connection->executeQuery('select count(*) from ' . Ipinformation::TABLE_NAME)->fetchColumn();
+        return (int)$connection->executeQuery('select count(*) from ' . Ipinformation::TABLE_NAME)->fetchOne();
     }
 
     /**
-     * Get an array with number of visitors depending to the country where they came from
+     * Get an array with number of visitors depending on the country where they came from
      *  Example return value:
      *  [
      *      'de' => 234,
@@ -37,15 +37,15 @@ class IpinformationRepository extends AbstractRepository
      * @param FilterDto $filter
      * @return array
      * @throws DBALException
-     * @throws \Exception
+     * @throws Exception
      */
     public function findAllCountryCodesGrouped(FilterDto $filter): array
     {
         $connection = DatabaseUtility::getConnectionForTable(Ipinformation::TABLE_NAME);
-        $rows = $connection->query(
+        $rows = $connection->executeQuery(
             'select value from ' . Ipinformation::TABLE_NAME . ' where name = "countryCode"'
             . $this->extendWhereClauseWithFilterTime($filter)
-        )->fetchAll();
+        )->fetchAllAssociative();
 
         $countryCodes = [];
         /** @var Ipinformation $ipinformation */

@@ -25,7 +25,6 @@ use In2code\Lux\Utility\ArrayUtility;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\DateUtility;
 use In2code\Lux\Utility\StringUtility;
-use PDO;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
@@ -34,9 +33,6 @@ use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
-/**
- * Class VisitorRepository
- */
 class VisitorRepository extends AbstractRepository
 {
     /**
@@ -54,7 +50,7 @@ class VisitorRepository extends AbstractRepository
             $query->equals('fingerprints.value', $identificator),
             $query->equals('fingerprints.type', $type),
         ];
-        $query->matching($query->logicalAnd($and));
+        $query->matching($query->logicalAnd(...$and));
         $query->setOrderings(['crdate' => QueryInterface::ORDER_ASCENDING]);
         $query->setLimit(1);
         /** @var Visitor $visitor */
@@ -72,7 +68,7 @@ class VisitorRepository extends AbstractRepository
     {
         $query = $this->createQuery();
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, []);
-        $query->matching($query->logicalAnd($logicalAnd));
+        $query->matching($query->logicalAnd(...$logicalAnd));
         $query->setOrderings($this->getOrderingsArrayByFilterDto($filter));
         $query->setLimit($limit);
         return $query->execute()->toArray();
@@ -154,7 +150,7 @@ class VisitorRepository extends AbstractRepository
                 $property['value']
             );
         }
-        $query->matching($query->logicalAnd($and));
+        $query->matching($query->logicalAnd(...$and));
         $query->setOrderings(ArrayUtility::cleanStringForArrayKeys($orderings));
         $query->setLimit($limit);
         return $query->execute();
@@ -229,7 +225,7 @@ class VisitorRepository extends AbstractRepository
             $query->equals('fingerprints.value', $fingerprint),
             $query->equals('fingerprints.type', Fingerprint::TYPE_FINGERPRINT),
         ];
-        $query->matching($query->logicalAnd($logicalAnd));
+        $query->matching($query->logicalAnd(...$logicalAnd));
         $query->setOrderings(['crdate' => QueryInterface::ORDER_ASCENDING]);
         return $query->execute();
     }
@@ -264,7 +260,7 @@ class VisitorRepository extends AbstractRepository
         $query = $this->createQuery();
         $logicalAnd = [$query->equals('visits', 1)];
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
-        $query->matching($query->logicalAnd($logicalAnd));
+        $query->matching($query->logicalAnd(...$logicalAnd));
         return $query->execute();
     }
 
@@ -278,7 +274,7 @@ class VisitorRepository extends AbstractRepository
         $query = $this->createQuery();
         $logicalAnd = [$query->greaterThan('visits', 1)];
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
-        $query->matching($query->logicalAnd($logicalAnd));
+        $query->matching($query->logicalAnd(...$logicalAnd));
         return $query->execute();
     }
 
@@ -292,7 +288,7 @@ class VisitorRepository extends AbstractRepository
         $query = $this->createQuery();
         $logicalAnd = [$query->equals('identified', true)];
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
-        $query->matching($query->logicalAnd($logicalAnd));
+        $query->matching($query->logicalAnd(...$logicalAnd));
         return $query->execute();
     }
 
@@ -306,7 +302,7 @@ class VisitorRepository extends AbstractRepository
         $query = $this->createQuery();
         $logicalAnd = [$query->equals('identified', false)];
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
-        $query->matching($query->logicalAnd($logicalAnd));
+        $query->matching($query->logicalAnd(...$logicalAnd));
         return $query->execute();
     }
 
@@ -328,7 +324,7 @@ class VisitorRepository extends AbstractRepository
     }
 
     /**
-     * Find visitors where tstamp is older then given timestamp
+     * Find visitors where tstamp is older than given timestamp
      *
      * @param int $timestamp
      * @return QueryResultInterface
@@ -355,74 +351,76 @@ class VisitorRepository extends AbstractRepository
             $query->equals('identified', false),
             $query->lessThan('tstamp', $timestamp),
         ];
-        $query->matching($query->logicalAnd($logicalAnd));
+        $query->matching($query->logicalAnd(...$logicalAnd));
         return $query->execute();
     }
 
     /**
      * @param string $email
      * @return array like [1,3,5]
+     * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      */
     public function findByEmailAndEmptyFrontenduser(string $email): array
     {
         $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Visitor::TABLE_NAME);
-        $result = $queryBuilder
+        return $queryBuilder
             ->select('uid')
             ->from(Visitor::TABLE_NAME)
             ->where(
                 $queryBuilder->expr()->eq('email', $queryBuilder->createNamedParameter($email)),
                 $queryBuilder->expr()->eq('frontenduser', 0)
             )
-            ->execute()
-            ->fetchAll(PDO::FETCH_COLUMN);
-        if ($result !== false) {
-            return $result;
-        }
-        return [];
+            ->executeQuery()
+            ->fetchFirstColumn();
     }
 
     /**
      * @return bool
      * @throws DBALException
+     * @throws ExceptionDbalDriver
      */
     public function isVisitorExistingWithDefaultLanguage(): bool
     {
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
         return (int)$connection->executeQuery(
             'select count(*) from ' . Visitor::TABLE_NAME . ' where sys_language_uid > -1'
-        )->fetchColumn() > 0;
+        )->fetchOne() > 0;
     }
 
     /**
      * @return int
      * @throws DBALException
+     * @throws ExceptionDbalDriver
      */
     public function findAllAmount(): int
     {
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
-        return (int)$connection->executeQuery('select count(uid) from ' . Visitor::TABLE_NAME)->fetchColumn();
+        return (int)$connection->executeQuery('select count(uid) from ' . Visitor::TABLE_NAME)->fetchOne();
     }
 
     /**
      * @return int
      * @throws DBALException
+     * @throws ExceptionDbalDriver
      */
     public function findAllIdentifiedAmount(): int
     {
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
         return (int)$connection->executeQuery('select count(uid) from ' . Visitor::TABLE_NAME . ' where identified = 1')
-            ->fetchColumn();
+            ->fetchOne();
     }
 
     /**
      * @return int
      * @throws DBALException
+     * @throws ExceptionDbalDriver
      */
     public function findAllUnknownAmount(): int
     {
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
         return (int)$connection->executeQuery('select count(uid) from ' . Visitor::TABLE_NAME . ' where identified = 0')
-            ->fetchColumn();
+            ->fetchOne();
     }
 
     /**
@@ -436,7 +434,7 @@ class VisitorRepository extends AbstractRepository
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
         $connection->executeQuery(
             'update ' . Visitor::TABLE_NAME . ' set frontenduser=' . (int)$frontenduserIdentifier
-            . ' where uid=' . (int)$visitorIdentifier
+            . ' where uid=' . $visitorIdentifier
         );
     }
 
@@ -472,7 +470,7 @@ class VisitorRepository extends AbstractRepository
     public function removeVisitor(Visitor $visitor): void
     {
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
-        $connection->query('delete from ' . Visitor::TABLE_NAME . ' where uid=' . (int)$visitor->getUid());
+        $connection->executeQuery('delete from ' . Visitor::TABLE_NAME . ' where uid=' . (int)$visitor->getUid());
     }
 
     /**
@@ -484,7 +482,9 @@ class VisitorRepository extends AbstractRepository
     {
         $connection = DatabaseUtility::getConnectionForTable(Fingerprint::TABLE_NAME);
         foreach ($visitor->getFingerprints() as $fingerprint) {
-            $connection->query('delete from ' . Fingerprint::TABLE_NAME . ' where uid=' . (int)$fingerprint->getUid());
+            $connection->executeQuery(
+                'delete from ' . Fingerprint::TABLE_NAME . ' where uid=' . (int)$fingerprint->getUid()
+            );
         }
         $tables = [
             Attribute::TABLE_NAME,
@@ -499,7 +499,7 @@ class VisitorRepository extends AbstractRepository
         ];
         foreach ($tables as $table) {
             $connection = DatabaseUtility::getConnectionForTable($table);
-            $connection->query('delete from ' . $table . ' where visitor=' . (int)$visitor->getUid());
+            $connection->executeQuery('delete from ' . $table . ' where visitor=' . (int)$visitor->getUid());
         }
     }
 
@@ -539,18 +539,18 @@ class VisitorRepository extends AbstractRepository
         QueryInterface $query,
         array $logicalAnd
     ): array {
-        $logicalAnd[] = $query->logicalOr([
+        $logicalAnd[] = $query->logicalOr(
             // Also find leads without any pagevisits (e.g. with DNT header)
-            $query->logicalAnd([
+            $query->logicalAnd(
                 $query->equals('pagevisits.uid', null),
                 $query->greaterThan('crdate', $filter->getStartTimeForFilter()),
-                $query->lessThan('crdate', $filter->getEndTimeForFilter()),
-            ]),
-            $query->logicalAnd([
+                $query->lessThan('crdate', $filter->getEndTimeForFilter())
+            ),
+            $query->logicalAnd(
                 $query->greaterThan('pagevisits.crdate', $filter->getStartTimeForFilter()),
                 $query->lessThan('pagevisits.crdate', $filter->getEndTimeForFilter()),
-            ]),
-        ]);
+            )
+        );
 
         if ($filter->getSearchterms() !== []) {
             $logicalOr = [];
@@ -564,7 +564,7 @@ class VisitorRepository extends AbstractRepository
                 $logicalOr[] = $query->like('description', '%' . $searchterm . '%');
                 $logicalOr[] = $query->like('attributes.value', '%' . $searchterm . '%');
             }
-            $logicalAnd[] = $query->logicalOr($logicalOr);
+            $logicalAnd[] = $query->logicalOr(...$logicalOr);
         }
         if ($filter->getIdentified() > FilterDto::IDENTIFIED_ALL) {
             $logicalAnd[] = $query->equals('identified', $filter->getIdentified() === FilterDto::IDENTIFIED_IDENTIFIED);

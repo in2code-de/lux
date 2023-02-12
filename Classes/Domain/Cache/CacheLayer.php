@@ -12,38 +12,19 @@ use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 
-/**
- * CacheLayer
- */
 final class CacheLayer
 {
     const CACHE_KEY = 'luxcachelayer';
 
-    /**
-     * @var FrontendInterface
-     */
-    protected $cache;
+    protected FrontendInterface $cache;
 
-    /**
-     * @var string
-     */
-    protected $cacheName = '';
+    protected string $cacheName = '';
 
-    /**
-     * Constructor
-     *
-     * @param FrontendInterface $cache
-     */
     public function __construct(FrontendInterface $cache)
     {
         $this->cache = $cache;
     }
 
-    /**
-     * @param string $class
-     * @param string $function
-     * @return void
-     */
     public function initialize(string $class, string $function): void
     {
         $this->cacheName = $class . '->' . $function;
@@ -94,9 +75,6 @@ final class CacheLayer
             && $this->cache->has($this->getCacheIdentifier($identifier));
     }
 
-    /**
-     * @return void
-     */
     public function flushCaches(): void
     {
         $this->cache->flush();

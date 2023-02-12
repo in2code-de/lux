@@ -5,6 +5,7 @@ namespace In2code\Lux\Domain\Repository;
 
 use DateTime;
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use Exception;
 use In2code\Lux\Domain\Model\Linkclick;
@@ -15,24 +16,24 @@ use In2code\Lux\Utility\DateUtility;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
-/**
- * Class LinkclickRepository
- */
 class LinkclickRepository extends AbstractRepository
 {
     /**
      * @return int
-     * @throws DBALException
+     * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      */
     public function findAllAmount(): int
     {
         $connection = DatabaseUtility::getConnectionForTable(Linkclick::TABLE_NAME);
-        return (int)$connection->executeQuery('select count(*) from ' . Linkclick::TABLE_NAME)->fetchColumn();
+        return (int)$connection->executeQuery('select count(*) from ' . Linkclick::TABLE_NAME)->fetchOne();
     }
 
     /**
      * @param int $linklistener
      * @return int
+     * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      */
     public function getFirstCreationDateFromLinklistenerIdentifier(int $linklistener): int
     {
@@ -43,13 +44,15 @@ class LinkclickRepository extends AbstractRepository
             ->where($queryBuilder->expr()->eq('linklistener', (int)$linklistener))
             ->orderBy('crdate', 'asc')
             ->setMaxResults(1)
-            ->execute()
-            ->fetchColumn();
+            ->executeQuery()
+            ->fetchOne();
     }
 
     /**
      * @param int $linklistener
      * @return int
+     * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      */
     public function getLatestCreationDateFromLinklistenerIdentifier(int $linklistener): int
     {
@@ -60,8 +63,8 @@ class LinkclickRepository extends AbstractRepository
             ->where($queryBuilder->expr()->eq('linklistener', (int)$linklistener))
             ->orderBy('crdate', 'desc')
             ->setMaxResults(1)
-            ->execute()
-            ->fetchColumn();
+            ->executeQuery()
+            ->fetchOne();
     }
 
     /**
@@ -86,7 +89,7 @@ class LinkclickRepository extends AbstractRepository
      * @param FilterDto $filter
      * @return array
      * @throws DBALException
-     * @throws Exception
+     * @throws ExceptionDbalDriver
      */
     public function getAmountOfLinkclicksGroupedByPageUid(FilterDto $filter): array
     {
@@ -98,7 +101,7 @@ class LinkclickRepository extends AbstractRepository
         $sql .= $this->extendWhereClauseWithFilterSearchterms($filter, 'll');
         $sql .= $this->extendWhereClauseWithFilterCategoryScoring($filter, 'll');
         $sql .= ' group by lc.linklistener, lc.page';
-        return (array)$connection->executeQuery($sql)->fetchAll();
+        return $connection->executeQuery($sql)->fetchAllAssociative();
     }
 
     /**
@@ -119,6 +122,7 @@ class LinkclickRepository extends AbstractRepository
      * @return array
      * @throws DBALException
      * @throws Exception
+     * @throws ExceptionDbalDriver
      */
     public function getAmountOfLinkclicksByLinklistenerGroupedByPageUid(int $linklistener): array
     {
@@ -126,7 +130,7 @@ class LinkclickRepository extends AbstractRepository
         return (array)$connection->executeQuery(
             'select count(linklistener) clickcount, page, crdate from ' . Linkclick::TABLE_NAME
             . ' where linklistener=' . (int)$linklistener . ' group by page, crdate order by crdate asc'
-        )->fetchAll();
+        )->fetchAllAssociative();
     }
 
     /**
@@ -135,6 +139,7 @@ class LinkclickRepository extends AbstractRepository
      * @return int
      * @throws ExceptionDbal
      * @throws Exception
+     * @throws ExceptionDbalDriver
      */
     public function getAmountOfLinkclicksByPageIdentifierAndTimeframe(int $pageIdentifier, FilterDto $filter): int
     {
@@ -143,7 +148,7 @@ class LinkclickRepository extends AbstractRepository
             . ' from ' . Linkclick::TABLE_NAME
             . ' where page=' . (int)$pageIdentifier
             . $this->extendWhereClauseWithFilterTime($filter);
-        return (int)$connection->executeQuery($sql)->fetchColumn();
+        return (int)$connection->executeQuery($sql)->fetchOne();
     }
 
     /**
@@ -151,6 +156,7 @@ class LinkclickRepository extends AbstractRepository
      * @param int $page
      * @return DateTime
      * @throws Exception
+     * @throws ExceptionDbalDriver
      */
     public function findLastDateByLinklistenerAndPage(int $linklistener, int $page): DateTime
     {
@@ -161,8 +167,8 @@ class LinkclickRepository extends AbstractRepository
             ->where('linklistener=' . (int)$linklistener . ' and page=' . (int)$page)
             ->orderBy('crdate', 'desc')
             ->setMaxResults(1)
-            ->execute()
-            ->fetchColumn();
+            ->executeQuery()
+            ->fetchOne();
         if ($date > 0) {
             return DateUtility::convertTimestamp($date);
         }
@@ -186,16 +192,18 @@ class LinkclickRepository extends AbstractRepository
     /**
      * @param int $linklistener
      * @return array
+     * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      */
     public function findRawByLinklistenerIdentifier(int $linklistener): array
     {
         $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Linkclick::TABLE_NAME);
-        return (array)$queryBuilder
+        return $queryBuilder
             ->select('*')
             ->from(Linkclick::TABLE_NAME)
             ->where('linklistener=' . (int)$linklistener)
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
     }
 
     /**
@@ -204,6 +212,7 @@ class LinkclickRepository extends AbstractRepository
      * @param FilterDto|null $filter
      * @return int
      * @throws DBALException
+     * @throws ExceptionDbalDriver
      */
     public function findByTimeFrame(DateTime $start, DateTime $end, FilterDto $filter = null): int
     {
@@ -214,6 +223,6 @@ class LinkclickRepository extends AbstractRepository
             . ' where lc.crdate >= ' . $start->getTimestamp() . ' and lc.crdate <= ' . $end->getTimestamp();
         $sql .= $this->extendWhereClauseWithFilterSearchterms($filter, 'll');
         $sql .= $this->extendWhereClauseWithFilterCategoryScoring($filter, 'll');
-        return (int)$connection->executeQuery($sql)->fetchColumn();
+        return (int)$connection->executeQuery($sql)->fetchOne();
     }
 }

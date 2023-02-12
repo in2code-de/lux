@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Widgets\DataProvider;
 
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
@@ -13,18 +14,13 @@ use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Dashboard\WidgetApi;
 use TYPO3\CMS\Dashboard\Widgets\ChartDataProviderInterface;
-use TYPO3\CMS\Extbase\Object\Exception;
 
-/**
- * Class LuxPageVisitsDataProvider
- * @noinspection PhpUnused
- */
 class LuxPageVisitsDataProvider implements ChartDataProviderInterface
 {
     /**
      * @return array
-     * @throws Exception
      * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      */
     public function getChartData(): array
     {
@@ -60,8 +56,8 @@ class LuxPageVisitsDataProvider implements ChartDataProviderInterface
      *  ]
      *
      * @return array
-     * @throws Exception
      * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      */
     protected function getPageData(): array
     {

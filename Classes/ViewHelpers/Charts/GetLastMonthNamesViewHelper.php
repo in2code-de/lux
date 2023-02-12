@@ -3,29 +3,20 @@
 declare(strict_types=1);
 namespace In2code\Lux\ViewHelpers\Charts;
 
+use DateTime;
 use In2code\Lux\Utility\LocalizationUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-/**
- * Class GetLastMonthNamesViewHelper
- */
 class GetLastMonthNamesViewHelper extends AbstractViewHelper
 {
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         $this->registerArgument('months', 'int', 'Number of last months', true);
     }
 
-    /**
-     * @return string
-     * @throws \Exception
-     */
     public function render(): string
     {
-        $now = new \DateTime();
+        $now = new DateTime();
         $monthNames = [
             LocalizationUtility::translateByKey('datetime.month.' . $now->format('n')),
         ];

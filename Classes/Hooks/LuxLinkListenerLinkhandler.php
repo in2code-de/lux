@@ -3,19 +3,20 @@
 declare(strict_types=1);
 namespace In2code\Lux\Hooks;
 
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\UrlUtility;
 
-/**
- * Class LuxLinkClickLinkhandler
- */
 class LuxLinkListenerLinkhandler
 {
     /**
      * @param array $parameters
      * @return void
+     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      * @noinspection PhpUnused
      */
     public function postProcessTypoLink(array &$parameters): void
@@ -33,6 +34,8 @@ class LuxLinkListenerLinkhandler
     /**
      * @param array $parameters
      * @return string
+     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     protected function getTargetUri(array $parameters): string
     {
@@ -46,6 +49,7 @@ class LuxLinkListenerLinkhandler
     /**
      * @param int $linkListenerUid
      * @return string
+     * @throws ExceptionDbal
      */
     protected function getLinkTargetFromLinkListenerIdentifier(int $linkListenerUid): string
     {
@@ -54,14 +58,10 @@ class LuxLinkListenerLinkhandler
             ->select('link')
             ->from(Linklistener::TABLE_NAME)
             ->where('uid=' . (int)$linkListenerUid)
-            ->execute()
-            ->fetchColumn();
+            ->executeQuery()
+            ->fetchOne();
     }
 
-    /**
-     * @param array $parameters
-     * @return int
-     */
     protected function getLinkListenerIdentifier(array $parameters): int
     {
         return (int)UrlUtility::getAttributeValueFromString(
@@ -70,10 +70,6 @@ class LuxLinkListenerLinkhandler
         );
     }
 
-    /**
-     * @param $parameters
-     * @return bool
-     */
     protected function isLinkListenerLink(&$parameters): bool
     {
         return stristr($parameters['finalTagParts']['aTagParams'], 'data-lux-linklistener') !== false;

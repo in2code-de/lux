@@ -3,32 +3,33 @@
 declare(strict_types=1);
 namespace In2code\Lux\Utility;
 
+use In2code\Lux\Controller\AnalysisController;
+use In2code\Lux\Controller\LeadController;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\UnexpectedValueException;
+use In2code\Lux\Hooks\PageOverview;
 
-/**
- * Class ConfigurationUtility
- */
 class CacheLayerUtility
 {
     /**
      * @return void
+     * @SuppressWarnings(PHPMD.Superglobals)
      */
     public static function registerCacheLayers(): void
     {
-        $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'][\In2code\Lux\Controller\AnalysisController::class . '->dashboardAction'] = [
+        $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'][AnalysisController::class . '->dashboardAction'] = [
             'lifetime' => 86400,
             'route' => 'lux_LuxAnalysis',
             'arguments' => [],
             'multiple' => false,
         ];
-        $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'][\In2code\Lux\Controller\LeadController::class . '->dashboardAction'] = [
+        $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'][LeadController::class . '->dashboardAction'] = [
             'lifetime' => 86400,
-            'route' => 'lux_LuxLeads',
+            'route' => 'lux_LuxLead',
             'arguments' => [],
             'multiple' => false,
         ];
-        $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'][\In2code\Lux\Hooks\PageOverview::class . '->render'] = [
+        $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'][PageOverview::class . '->render'] = [
             'lifetime' => 86400,
             'route' => 'web_layout',
             'arguments' => [
@@ -75,9 +76,6 @@ class CacheLayerUtility
         throw new ConfigurationException('No cache configuration to route ' . $route . ' found', 1645176561);
     }
 
-    /**
-     * @return array
-     */
     public static function getCachelayerRoutes(): array
     {
         $layers = self::getCachelayerConfiguration();

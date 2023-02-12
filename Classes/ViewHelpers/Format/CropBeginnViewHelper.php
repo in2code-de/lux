@@ -5,14 +5,8 @@ namespace In2code\Lux\ViewHelpers\Format;
 
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-/**
- * Class CropBeginnViewHelper
- */
 class CropBeginnViewHelper extends AbstractViewHelper
 {
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         parent::initializeArguments();
@@ -20,9 +14,6 @@ class CropBeginnViewHelper extends AbstractViewHelper
         $this->registerArgument('prepend', 'string', 'Any prepend characters', false, '... ');
     }
 
-    /**
-     * @return string
-     */
     public function render(): string
     {
         $value = $this->renderChildren();

@@ -17,6 +17,7 @@ use In2code\Lux\Widgets\DataProvider\LuxSearchtermsDataProvider;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\DependencyInjection\Reference;
+use TYPO3\CMS\Backend\View\BackendViewFactory;
 use TYPO3\CMS\Dashboard\Dashboard;
 use TYPO3\CMS\Dashboard\Widgets\BarChartWidget;
 use TYPO3\CMS\Dashboard\Widgets\DoughnutChartWidget;
@@ -26,10 +27,8 @@ return function (ContainerConfigurator $configurator, ContainerBuilder $containe
     $services = $configurator->services();
 
     if ($containerBuilder->hasDefinition(Dashboard::class)) {
-        $services->set('dashboard.widgets.luxPageVisitsWidget')
+        $configuration = $services->set('dashboard.widgets.luxPageVisitsWidget')
             ->class(BarChartWidget::class)
-            ->arg('$view', new Reference('dashboard.views.widget'))
-            ->arg('$dataProvider', new Reference(LuxPageVisitsDataProvider::class))
             ->tag('dashboard.widget', [
                 'identifier' => 'luxPageVisits',
                 'groupNames' => 'luxgroup',
@@ -38,12 +37,18 @@ return function (ContainerConfigurator $configurator, ContainerBuilder $containe
                 'iconIdentifier' => 'extension-lux-turquoise',
                 'height' => 'medium',
                 'width' => 'medium',
-            ]);
+            ])
+            ->arg('$dataProvider', new Reference(LuxPageVisitsDataProvider::class));
+        if ($containerBuilder->hasDefinition(BackendViewFactory::class)) {
+            // TYPO3 12
+            $configuration->arg('$backendViewFactory', new Reference(BackendViewFactory::class));
+        } else {
+            // Todo: Can be removed when TYPO3 11 support will be dropped
+            $configuration->arg('$view', new Reference('dashboard.views.widget'));
+        }
 
-        $services->set('dashboard.widgets.LuxDownloadsWidget')
+        $configuration = $services->set('dashboard.widgets.LuxDownloadsWidget')
             ->class(BarChartWidget::class)
-            ->arg('$view', new Reference('dashboard.views.widget'))
-            ->arg('$dataProvider', new Reference(LuxDownloadsDataProvider::class))
             ->tag('dashboard.widget', [
                 'identifier' => 'luxDownloads',
                 'groupNames' => 'luxgroup',
@@ -52,12 +57,18 @@ return function (ContainerConfigurator $configurator, ContainerBuilder $containe
                 'iconIdentifier' => 'extension-lux-turquoise',
                 'height' => 'medium',
                 'width' => 'medium',
-            ]);
+            ])
+            ->arg('$dataProvider', new Reference(LuxDownloadsDataProvider::class));
+        if ($containerBuilder->hasDefinition(BackendViewFactory::class)) {
+            // TYPO3 12
+            $configuration->arg('$backendViewFactory', new Reference(BackendViewFactory::class));
+        } else {
+            // Todo: Can be removed when TYPO3 11 support will be dropped
+            $configuration->arg('$view', new Reference('dashboard.views.widget'));
+        }
 
-        $services->set('dashboard.widgets.LuxNewsWidget')
+        $configuration = $services->set('dashboard.widgets.LuxNewsWidget')
             ->class(BarChartWidget::class)
-            ->arg('$view', new Reference('dashboard.views.widget'))
-            ->arg('$dataProvider', new Reference(LuxNewsDataProvider::class))
             ->tag('dashboard.widget', [
                 'identifier' => 'luxNews',
                 'groupNames' => 'luxgroup',
@@ -66,12 +77,18 @@ return function (ContainerConfigurator $configurator, ContainerBuilder $containe
                 'iconIdentifier' => 'extension-lux-turquoise',
                 'height' => 'medium',
                 'width' => 'medium',
-            ]);
+            ])
+            ->arg('$dataProvider', new Reference(LuxNewsDataProvider::class));
+        if ($containerBuilder->hasDefinition(BackendViewFactory::class)) {
+            // TYPO3 12
+            $configuration->arg('$backendViewFactory', new Reference(BackendViewFactory::class));
+        } else {
+            // Todo: Can be removed when TYPO3 11 support will be dropped
+            $configuration->arg('$view', new Reference('dashboard.views.widget'));
+        }
 
-        $services->set('dashboard.widgets.LuxSearchtermsWidget')
+        $configuration = $services->set('dashboard.widgets.LuxSearchtermsWidget')
             ->class(BarChartWidget::class)
-            ->arg('$view', new Reference('dashboard.views.widget'))
-            ->arg('$dataProvider', new Reference(LuxSearchtermsDataProvider::class))
             ->tag('dashboard.widget', [
                 'identifier' => 'luxSearchterms',
                 'groupNames' => 'luxgroup',
@@ -80,12 +97,18 @@ return function (ContainerConfigurator $configurator, ContainerBuilder $containe
                 'iconIdentifier' => 'extension-lux-turquoise',
                 'height' => 'medium',
                 'width' => 'medium',
-            ]);
+            ])
+            ->arg('$dataProvider', new Reference(LuxSearchtermsDataProvider::class));
+        if ($containerBuilder->hasDefinition(BackendViewFactory::class)) {
+            // TYPO3 12
+            $configuration->arg('$backendViewFactory', new Reference(BackendViewFactory::class));
+        } else {
+            // Todo: Can be removed when TYPO3 11 support will be dropped
+            $configuration->arg('$view', new Reference('dashboard.views.widget'));
+        }
 
-        $services->set('dashboard.widgets.LuxIdentifiedWidget')
+        $configuration = $services->set('dashboard.widgets.LuxIdentifiedWidget')
             ->class(BarChartWidget::class)
-            ->arg('$view', new Reference('dashboard.views.widget'))
-            ->arg('$dataProvider', new Reference(LuxIdentifiedDataProvider::class))
             ->tag('dashboard.widget', [
                 'identifier' => 'LuxIdentified',
                 'groupNames' => 'luxgroup',
@@ -94,12 +117,18 @@ return function (ContainerConfigurator $configurator, ContainerBuilder $containe
                 'iconIdentifier' => 'extension-lux-turquoise',
                 'height' => 'medium',
                 'width' => 'small',
-            ]);
+            ])
+            ->arg('$dataProvider', new Reference(LuxIdentifiedDataProvider::class));
+        if ($containerBuilder->hasDefinition(BackendViewFactory::class)) {
+            // TYPO3 12
+            $configuration->arg('$backendViewFactory', new Reference(BackendViewFactory::class));
+        } else {
+            // Todo: Can be removed when TYPO3 11 support will be dropped
+            $configuration->arg('$view', new Reference('dashboard.views.widget'));
+        }
 
-        $services->set('dashboard.widgets.LuxIdentifiedPerMonthWidget')
+        $configuration = $services->set('dashboard.widgets.LuxIdentifiedPerMonthWidget')
             ->class(BarChartWidget::class)
-            ->arg('$view', new Reference('dashboard.views.widget'))
-            ->arg('$dataProvider', new Reference(LuxIdentifiedPerMonthDataProvider::class))
             ->tag('dashboard.widget', [
                 'identifier' => 'LuxIdentifiedPerMonth',
                 'groupNames' => 'luxgroup',
@@ -108,12 +137,18 @@ return function (ContainerConfigurator $configurator, ContainerBuilder $containe
                 'iconIdentifier' => 'extension-lux-turquoise',
                 'height' => 'medium',
                 'width' => 'medium',
-            ]);
+            ])
+            ->arg('$dataProvider', new Reference(LuxIdentifiedPerMonthDataProvider::class));
+        if ($containerBuilder->hasDefinition(BackendViewFactory::class)) {
+            // TYPO3 12
+            $configuration->arg('$backendViewFactory', new Reference(BackendViewFactory::class));
+        } else {
+            // Todo: Can be removed when TYPO3 11 support will be dropped
+            $configuration->arg('$view', new Reference('dashboard.views.widget'));
+        }
 
-        $services->set('dashboard.widgets.LuxRecurringWidget')
+        $configuration = $services->set('dashboard.widgets.LuxRecurringWidget')
             ->class(DoughnutChartWidget::class)
-            ->arg('$view', new Reference('dashboard.views.widget'))
-            ->arg('$dataProvider', new Reference(LuxRecurringDataProvider::class))
             ->tag('dashboard.widget', [
                 'identifier' => 'luxRecurring',
                 'groupNames' => 'luxgroup',
@@ -122,12 +157,18 @@ return function (ContainerConfigurator $configurator, ContainerBuilder $containe
                 'iconIdentifier' => 'extension-lux-turquoise',
                 'height' => 'medium',
                 'width' => 'small',
-            ]);
+            ])
+            ->arg('$dataProvider', new Reference(LuxRecurringDataProvider::class));
+        if ($containerBuilder->hasDefinition(BackendViewFactory::class)) {
+            // TYPO3 12
+            $configuration->arg('$backendViewFactory', new Reference(BackendViewFactory::class));
+        } else {
+            // Todo: Can be removed when TYPO3 11 support will be dropped
+            $configuration->arg('$view', new Reference('dashboard.views.widget'));
+        }
 
-        $services->set('dashboard.widgets.LuxPageVisitsWeekWidget')
+        $configuration = $services->set('dashboard.widgets.LuxPageVisitsWeekWidget')
             ->class(BarChartWidget::class)
-            ->arg('$view', new Reference('dashboard.views.widget'))
-            ->arg('$dataProvider', new Reference(LuxPageVisitsWeekDataProvider::class))
             ->tag('dashboard.widget', [
                 'identifier' => 'luxPageVisitsWeek',
                 'groupNames' => 'luxgroup',
@@ -136,12 +177,18 @@ return function (ContainerConfigurator $configurator, ContainerBuilder $containe
                 'iconIdentifier' => 'extension-lux-turquoise',
                 'height' => 'medium',
                 'width' => 'medium',
-            ]);
+            ])
+            ->arg('$dataProvider', new Reference(LuxPageVisitsWeekDataProvider::class));
+        if ($containerBuilder->hasDefinition(BackendViewFactory::class)) {
+            // TYPO3 12
+            $configuration->arg('$backendViewFactory', new Reference(BackendViewFactory::class));
+        } else {
+            // Todo: Can be removed when TYPO3 11 support will be dropped
+            $configuration->arg('$view', new Reference('dashboard.views.widget'));
+        }
 
-        $services->set('dashboard.widgets.LuxDownloadsWeekWidget')
+        $configuration = $services->set('dashboard.widgets.LuxDownloadsWeekWidget')
             ->class(BarChartWidget::class)
-            ->arg('$view', new Reference('dashboard.views.widget'))
-            ->arg('$dataProvider', new Reference(LuxDownloadsWeekDataProvider::class))
             ->tag('dashboard.widget', [
                 'identifier' => 'luxDownloadsWeek',
                 'groupNames' => 'luxgroup',
@@ -150,12 +197,18 @@ return function (ContainerConfigurator $configurator, ContainerBuilder $containe
                 'iconIdentifier' => 'extension-lux-turquoise',
                 'height' => 'medium',
                 'width' => 'medium',
-            ]);
+            ])
+            ->arg('$dataProvider', new Reference(LuxDownloadsWeekDataProvider::class));
+        if ($containerBuilder->hasDefinition(BackendViewFactory::class)) {
+            // TYPO3 12
+            $configuration->arg('$backendViewFactory', new Reference(BackendViewFactory::class));
+        } else {
+            // Todo: Can be removed when TYPO3 11 support will be dropped
+            $configuration->arg('$view', new Reference('dashboard.views.widget'));
+        }
 
-        $services->set('dashboard.widgets.LuxReferrerWidget')
+        $configuration = $services->set('dashboard.widgets.LuxReferrerWidget')
             ->class(BarChartWidget::class)
-            ->arg('$view', new Reference('dashboard.views.widget'))
-            ->arg('$dataProvider', new Reference(LuxReferrerDataProvider::class))
             ->tag('dashboard.widget', [
                 'identifier' => 'luxReferrer',
                 'groupNames' => 'luxgroup',
@@ -164,12 +217,18 @@ return function (ContainerConfigurator $configurator, ContainerBuilder $containe
                 'iconIdentifier' => 'extension-lux-turquoise',
                 'height' => 'medium',
                 'width' => 'medium',
-            ]);
+            ])
+            ->arg('$dataProvider', new Reference(LuxReferrerDataProvider::class));
+        if ($containerBuilder->hasDefinition(BackendViewFactory::class)) {
+            // TYPO3 12
+            $configuration->arg('$backendViewFactory', new Reference(BackendViewFactory::class));
+        } else {
+            // Todo: Can be removed when TYPO3 11 support will be dropped
+            $configuration->arg('$view', new Reference('dashboard.views.widget'));
+        }
 
-        $services->set('dashboard.widgets.LuxBrowserWidget')
+        $configuration = $services->set('dashboard.widgets.LuxBrowserWidget')
             ->class(DoughnutChartWidget::class)
-            ->arg('$view', new Reference('dashboard.views.widget'))
-            ->arg('$dataProvider', new Reference(LuxBrowserDataProvider::class))
             ->tag('dashboard.widget', [
                 'identifier' => 'luxBrowser',
                 'groupNames' => 'luxgroup',
@@ -178,12 +237,18 @@ return function (ContainerConfigurator $configurator, ContainerBuilder $containe
                 'iconIdentifier' => 'extension-lux-turquoise',
                 'height' => 'medium',
                 'width' => 'small',
-            ]);
+            ])
+            ->arg('$dataProvider', new Reference(LuxBrowserDataProvider::class));
+        if ($containerBuilder->hasDefinition(BackendViewFactory::class)) {
+            // TYPO3 12
+            $configuration->arg('$backendViewFactory', new Reference(BackendViewFactory::class));
+        } else {
+            // Todo: Can be removed when TYPO3 11 support will be dropped
+            $configuration->arg('$view', new Reference('dashboard.views.widget'));
+        }
 
-        $services->set('dashboard.widgets.LuxHottestLeadsWidget')
+        $configuration = $services->set('dashboard.widgets.LuxHottestLeadsWidget')
             ->class(ListWidget::class)
-            ->arg('$view', new Reference('dashboard.views.widget'))
-            ->arg('$dataProvider', new Reference(LuxHottestLeadsDataProvider::class))
             ->tag('dashboard.widget', [
                 'identifier' => 'luxHottestLeads',
                 'groupNames' => 'luxgroup',
@@ -192,6 +257,14 @@ return function (ContainerConfigurator $configurator, ContainerBuilder $containe
                 'iconIdentifier' => 'extension-lux-turquoise',
                 'height' => 'medium',
                 'width' => 'small',
-            ]);
+            ])
+            ->arg('$dataProvider', new Reference(LuxHottestLeadsDataProvider::class));
+        if ($containerBuilder->hasDefinition(BackendViewFactory::class)) {
+            // TYPO3 12
+            $configuration->arg('$backendViewFactory', new Reference(BackendViewFactory::class));
+        } else {
+            // Todo: Can be removed when TYPO3 11 support will be dropped
+            $configuration->arg('$view', new Reference('dashboard.views.widget'));
+        }
     }
 };
