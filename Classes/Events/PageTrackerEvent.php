@@ -8,39 +8,30 @@ use In2code\Lux\Domain\Model\Visitor;
 
 final class PageTrackerEvent
 {
-    /**
-     * @var Visitor
-     */
-    protected $visitor;
+    protected Visitor $visitor;
+    protected Pagevisit $pagevisit;
 
-    /**
-     * @var Pagevisit
-     */
-    protected $pagevisit;
+    protected array $arguments;
 
-    /**
-     * @param Visitor $visitor
-     * @param Pagevisit $pagevisit
-     */
-    public function __construct(Visitor $visitor, Pagevisit $pagevisit)
+    public function __construct(Visitor $visitor, Pagevisit $pagevisit, array $arguments)
     {
         $this->visitor = $visitor;
         $this->pagevisit = $pagevisit;
+        $this->arguments = $arguments;
     }
 
-    /**
-     * @return Visitor
-     */
     public function getVisitor(): Visitor
     {
         return $this->visitor;
     }
 
-    /**
-     * @return Pagevisit
-     */
     public function getPagevisit(): Pagevisit
     {
         return $this->pagevisit;
+    }
+
+    public function getArguments(): array
+    {
+        return $this->arguments;
     }
 }

@@ -3,9 +3,8 @@
 declare(strict_types=1);
 namespace In2code\Lux\Exception;
 
-/**
- * Class ParametersException
- */
-class ParametersException extends \Exception
+use Exception;
+
+class ParametersException extends Exception
 {
 }

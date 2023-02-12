@@ -9,14 +9,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class LuxCleanupAllVisitorsCommand
- */
 class LuxCleanupAllVisitorsCommand extends Command
 {
-    /**
-     * @return void
-     */
     public function configure()
     {
         $this->setDescription('Remove all visitors and all collected data!');
@@ -39,6 +33,6 @@ class LuxCleanupAllVisitorsCommand extends Command
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $visitorRepository->truncateAll();
         $output->writeln('Every lux table successfully truncated');
-        return 0;
+        return self::SUCCESS;
     }
 }

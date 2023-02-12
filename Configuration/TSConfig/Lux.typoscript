@@ -1,17 +1,7 @@
 mod {
   # Hide tables in listview
   web_list.table {
-    tx_lux_domain_model_attribute.hideTable = 1
-    tx_lux_domain_model_pagevisit.hideTable = 1
-    tx_lux_domain_model_newsvisit.hideTable = 1
-    tx_lux_domain_model_ipinformation.hideTable = 1
-    tx_lux_domain_model_categoryscoring.hideTable = 1
-    tx_lux_domain_model_log.hideTable = 1
-    tx_lux_domain_model_download.hideTable = 1
-    tx_lux_domain_model_fingerprint.hideTable = 1
     tx_lux_domain_model_linklistener.hideTable = 1
-    tx_lux_domain_model_linkclick.hideTable = 1
-    tx_lux_domain_model_search.hideTable = 1
   }
 
   # Add wizard icon in backend
@@ -34,7 +24,7 @@ mod {
 # Linkhandler for linkclick records
 TCEMAIN.linkHandler.luxlinklistener {
   handler = TYPO3\CMS\Recordlist\LinkHandler\RecordLinkHandler
-  label = Lux Link Listener
+  label = LUX Link Listener
   configuration {
     table = tx_lux_domain_model_linklistener
     hidePageTree = 1

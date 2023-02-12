@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Tracker;
 
+use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Search;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
@@ -13,25 +14,12 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 
-/**
- * Class SearchTracker
- */
 class SearchTracker
 {
-    /**
-     * @var VisitorRepository
-     */
-    protected $visitorRepository;
+    protected VisitorRepository $visitorRepository;
+    private EventDispatcherInterface $eventDispatcher;
 
-    /**
-     * @var array
-     */
-    protected $settings = [];
-
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $eventDispatcher;
+    protected array $settings = [];
 
     /**
      * @param VisitorRepository $visitorRepository
@@ -50,6 +38,7 @@ class SearchTracker
      * @param Visitor $visitor
      * @param array $arguments
      * @return void
+     * @throws DBALException
      */
     public function track(Visitor $visitor, array $arguments): void
     {
@@ -62,7 +51,7 @@ class SearchTracker
                 'crdate' => time(),
                 'tstamp' => time(),
             ];
-            $queryBuilder->insert(Search::TABLE_NAME)->values($properties)->execute();
+            $queryBuilder->insert(Search::TABLE_NAME)->values($properties)->executeStatement();
             $searchUid = $queryBuilder->getConnection()->lastInsertId();
             $this->eventDispatcher->dispatch(
                 GeneralUtility::makeInstance(SearchEvent::class, $visitor, (int)$searchUid)
@@ -70,11 +59,6 @@ class SearchTracker
         }
     }
 
-    /**
-     * @param Visitor $visitor
-     * @param array $arguments
-     * @return bool
-     */
     protected function isTrackingActivated(Visitor $visitor, array $arguments): bool
     {
         return $visitor->isNotBlacklisted() && $this->isTrackingActivatedInSettings()
@@ -92,10 +76,6 @@ class SearchTracker
             && $this->settings['tracking']['search']['_enable'] === '1';
     }
 
-    /**
-     * @param string $currentUrl
-     * @return bool
-     */
     protected function isSearchTermGiven(string $currentUrl): bool
     {
         return $this->getSearchTerm($currentUrl) !== '';

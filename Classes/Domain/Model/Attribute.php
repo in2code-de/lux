@@ -13,42 +13,22 @@ class Attribute extends AbstractModel
     const TABLE_NAME = 'tx_lux_domain_model_attribute';
     const KEY_NAME = 'email';
 
-    /**
-     * @var \In2code\Lux\Domain\Model\Visitor
-     */
-    protected $visitor = null;
+    protected string $name = '';
+    protected string $value = '';
 
-    /**
-     * @var string
-     */
-    protected $name = '';
+    protected ?Visitor $visitor = null;
 
-    /**
-     * @var string
-     */
-    protected $value = '';
-
-    /**
-     * @return Visitor
-     */
     public function getVisitor(): Visitor
     {
         return $this->visitor;
     }
 
-    /**
-     * @param Visitor $visitor
-     * @return Attribute
-     */
-    public function setVisitor(Visitor $visitor)
+    public function setVisitor(Visitor $visitor): self
     {
         $this->visitor = $visitor;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
@@ -68,29 +48,18 @@ class Attribute extends AbstractModel
         return $label;
     }
 
-    /**
-     * @param string $name
-     * @return Attribute
-     */
-    public function setName(string $name)
+    public function setName(string $name): self
     {
         $this->name = $name;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getValue(): string
     {
         return $this->value;
     }
 
-    /**
-     * @param string $value
-     * @return Attribute
-     */
-    public function setValue(string $value)
+    public function setValue(string $value): self
     {
         $this->value = $value;
         return $this;

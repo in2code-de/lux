@@ -3,22 +3,17 @@
 declare(strict_types=1);
 namespace In2code\Lux\Command;
 
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
-use In2code\Lux\Domain\Repository\FrontenduserRepository;
+use In2code\Lux\Domain\Repository\FrontendUserRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class LuxAutorelateToFrontendUsersCommand
- */
 class LuxAutorelateToFrontendUsersCommand extends Command
 {
-    /**
-     * @return void
-     */
     public function configure()
     {
         $this->setDescription(
@@ -37,12 +32,13 @@ class LuxAutorelateToFrontendUsersCommand extends Command
      * @param OutputInterface $output
      * @return int
      * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $count = 0;
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
-        $feuRepository = GeneralUtility::makeInstance(FrontenduserRepository::class);
+        $feuRepository = GeneralUtility::makeInstance(FrontendUserRepository::class);
         $usersWithEmails = $feuRepository->findFrontendUsersWithEmails();
         foreach ($usersWithEmails as $user) {
             $visitorIdentifiers = $visitorRepository->findByEmailAndEmptyFrontenduser($user['email']);
@@ -52,6 +48,6 @@ class LuxAutorelateToFrontendUsersCommand extends Command
             }
         }
         $output->writeln($count . ' visitors updated with relation to fe_user record');
-        return 0;
+        return self::SUCCESS;
     }
 }

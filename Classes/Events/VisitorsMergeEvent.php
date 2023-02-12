@@ -7,22 +7,13 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 final class VisitorsMergeEvent
 {
-    /**
-     * @var QueryResultInterface
-     */
-    protected $visitors;
+    protected QueryResultInterface $visitors;
 
-    /**
-     * @param QueryResultInterface $visitors
-     */
     public function __construct(QueryResultInterface $visitors)
     {
         $this->visitors = $visitors;
     }
 
-    /**
-     * @return QueryResultInterface
-     */
     public function getVisitors(): QueryResultInterface
     {
         return $this->visitors;

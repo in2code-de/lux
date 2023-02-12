@@ -32,6 +32,9 @@
                     <th title="&utm_content=">
                         <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.content">Content</f:translate>
                     </th>
+                    <th title="&utm_content=">
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.referrer">Referrer</f:translate>
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -67,6 +70,9 @@
                         </td>
                         <td>
                             <span>{utm.utmContent}</span>
+                        </td>
+                        <td>
+                            <span title="{utm.referrer}">{utm.readableReferrer}</span>
 
                             <f:comment>
                                 Invisible link for JS-clicks in preview only

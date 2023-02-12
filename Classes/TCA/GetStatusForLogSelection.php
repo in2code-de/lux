@@ -5,25 +5,13 @@ namespace In2code\Lux\TCA;
 
 use In2code\Lux\Domain\Model\Log;
 
-/**
- * Class GetStatusForLogSelection
- */
 class GetStatusForLogSelection
 {
-    /**
-     * @param array $params
-     * @return void
-     * @throws \ReflectionException
-     */
-    public function addOptions(array &$params)
+    public function addOptions(array &$params): void
     {
         $params['items'] = $this->getStatusItemsFromLogModel();
     }
 
-    /**
-     * @return array
-     * @throws \ReflectionException
-     */
     protected function getStatusItemsFromLogModel(): array
     {
         $log = new \ReflectionClass(Log::class);

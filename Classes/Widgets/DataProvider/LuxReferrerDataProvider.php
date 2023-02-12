@@ -9,15 +9,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Dashboard\WidgetApi;
 use TYPO3\CMS\Dashboard\Widgets\ChartDataProviderInterface;
 
-/**
- * Class LuxReferrerDataProvider
- * @noinspection PhpUnused
- */
 class LuxReferrerDataProvider implements ChartDataProviderInterface
 {
-    /**
-     * @return array
-     */
     public function getChartData(): array
     {
         $referrerAmountDP = GeneralUtility::makeInstance(ReferrerAmountDataProvider::class);
@@ -34,9 +27,6 @@ class LuxReferrerDataProvider implements ChartDataProviderInterface
         ];
     }
 
-    /**
-     * @return string
-     */
     protected function getLabel(): string
     {
         return LocalizationUtility::getLanguageService()->sL(

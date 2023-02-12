@@ -5,14 +5,8 @@ namespace In2code\Lux\ViewHelpers\Backend;
 
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-/**
- * Class GetClassNameOnActionViewHelper
- */
 class GetClassNameOnActionViewHelper extends AbstractViewHelper
 {
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         parent::initializeArguments();

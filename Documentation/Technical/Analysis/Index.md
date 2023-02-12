@@ -134,14 +134,14 @@ any tracking parameter available, LUX will save those parameters to a lead.
 
 Available parameters:
 
-| Title                   | example value             | Description                                                                                                                        |
-| ----------------------- | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| Campaign                | `&utm_campaign=`          | Name of your campaign                                                                                                              |
-| Campaign ID             | `&utm_id=`                | ID of your campaign (similar to utm_campaign - e.g. "campaign2023a")                                                               |
-| Source                  | `&utm_source=`            | Source of this visit (e.g. "email", "google", "facebook", "linkedin", etc...)                                                      |
-| Medium                  | `&utm_medium=`            | The medium that led to the visit (e.g. "mail", "browser", "iphone app", "qr code", etc...)                                         |
-| Term                    | `&utm_term=`              | Optional: e.g. a search term for google ads                                                                                        |
-| Content                 | `&utm_content=`           | Optional: e.g. the name of the google ad that was delivered                                                                        |
+| Title       | example value    | Description                                                                                |
+|-------------|------------------|--------------------------------------------------------------------------------------------|
+| Campaign    | `&utm_campaign=` | Name of your campaign                                                                      |
+| Campaign ID | `&utm_id=`       | ID of your campaign (similar to utm_campaign - e.g. "campaign2023a")                       |
+| Source      | `&utm_source=`   | Source of this visit (e.g. "email", "google", "facebook", "linkedin", etc...)              |
+| Medium      | `&utm_medium=`   | The medium that led to the visit (e.g. "mail", "browser", "iphone app", "qr code", etc...) |
+| Term        | `&utm_term=`     | Optional: e.g. a search term for google ads                                                |
+| Content     | `&utm_content=`  | Optional: e.g. the name of the google ad that was delivered                                |
 
 If there are parameters saved in your LUX, you can analyse the leads to them in this module. All diagrams are
 reacting to your filter settings. Of course you can also use the CSV download if you want to.

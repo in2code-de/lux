@@ -9,9 +9,6 @@ use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 
-/**
- * Class GetCompanyFromIpService
- */
 class GetCompanyFromIpService
 {
     /**

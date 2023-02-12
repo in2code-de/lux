@@ -3,18 +3,13 @@
 declare(strict_types=1);
 namespace In2code\Lux\ViewHelpers\Page;
 
+use Exception;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Visitor;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-/**
- * Class GetLastVisitedPageByPageIdentifierViewHelper
- */
 class GetLastVisitedPageByPageIdentifierViewHelper extends AbstractViewHelper
 {
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         parent::initializeArguments();
@@ -27,7 +22,7 @@ class GetLastVisitedPageByPageIdentifierViewHelper extends AbstractViewHelper
      * return the first that fits to this identifier)
      *
      * @return Pagevisit|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function render()
     {

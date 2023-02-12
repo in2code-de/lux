@@ -68,7 +68,7 @@ CKEDITOR.dialog.add('luxEmail4LinkDialog', function (editor) {
           },
           {
             type: 'html',
-            html: '<p id="poweredbylux"><a href="https://www.in2code.de/produkte/lux-typo3-marketing-automation/" target="_blank" rel="noopener" style="font-weight:bold;text-decoration:underline;cursor:pointer;">' + editor.lang.luxEmail4Link.dialogPoweredBy + '</a></p>'
+            html: '<p id="poweredbylux"><a href="https://www.in2code.de/produkte/lux-typo3-marketing-automation/?utm_campaign=LUX+Community+Version&utm_id=llcv&utm_source=typo3&utm_medium=browser&utm_content=email4link+ckeditor" target="_blank" rel="noopener" style="font-weight:bold;text-decoration:underline;cursor:pointer;">' + editor.lang.luxEmail4Link.dialogPoweredBy + '</a></p>'
           }
         ]
       }

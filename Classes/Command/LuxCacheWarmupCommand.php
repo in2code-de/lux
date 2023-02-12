@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace In2code\Lux\Command;
 
 use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Cache\CacheLayer;
 use In2code\Lux\Domain\Cache\CacheWarmup;
 use In2code\Lux\Domain\Repository\PageRepository;
@@ -23,31 +24,18 @@ use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
-/**
- * LuxCacheWarmupCommand
- */
 class LuxCacheWarmupCommand extends Command
 {
-    /**
-     * @var OutputInterface|null
-     */
-    protected $output = null;
+    protected ?OutputInterface $output = null;
+    protected ?CacheWarmup $cacheWarmup = null;
 
-    /**
-     * @var CacheWarmup|null
-     */
-    protected $cacheWarmup = null;
-
-    /**
-     * @return void
-     */
     public function configure()
     {
         $this->setDescription('Warmup for caches from caching layer (e.g. dashboards).');
         $this->addArgument(
             'routes',
             InputArgument::OPTIONAL,
-            'commaseparated routes like "lux_LuxAnalysis,lux_LuxLeads,web_layout"',
+            'commaseparated routes like "lux_LuxAnalysis,lux_LuxLead,web_layout"',
             implode(',', CacheLayerUtility::getCachelayerRoutes())
         );
         $this->addArgument(
@@ -69,11 +57,12 @@ class LuxCacheWarmupCommand extends Command
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws RouteNotFoundException
      * @throws UnexpectedValueException
+     * @throws ExceptionDbal
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         if (Environment::isCli() === false) {
-            throw new ContextException('This command can only be exected from CLI', 1645378130);
+            throw new ContextException('This command can only be executed from CLI', 1645378130);
         }
 
         $this->output = $output;
@@ -91,7 +80,7 @@ class LuxCacheWarmupCommand extends Command
                 $this->warmupMultipleLayers($route, $input->getArgument('domain'), $configuration);
             }
         }
-        return 0;
+        return self::SUCCESS;
     }
 
     /**
@@ -117,6 +106,7 @@ class LuxCacheWarmupCommand extends Command
      * @throws RouteNotFoundException
      * @throws UnexpectedValueException
      * @throws ConfigurationException
+     * @throws ExceptionDbal
      */
     protected function warmupMultipleLayers(string $route, string $domain, array $configuration): void
     {
@@ -131,11 +121,6 @@ class LuxCacheWarmupCommand extends Command
         }
     }
 
-    /**
-     * @param array $arguments
-     * @param array $row
-     * @return array
-     */
     protected function substituteVariablesInArguments(array $arguments, array $row): array
     {
         foreach ($arguments as $key => $value) {
@@ -149,9 +134,6 @@ class LuxCacheWarmupCommand extends Command
         return $arguments;
     }
 
-    /**
-     * @return void
-     */
     protected function flushCaches(): void
     {
         $cacheLayer = GeneralUtility::makeInstance(CacheLayer::class);

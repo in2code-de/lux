@@ -5,9 +5,6 @@ namespace In2code\Lux\ViewHelpers\Format;
 
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-/**
- * Class PercentViewHelper
- */
 class PercentViewHelper extends AbstractViewHelper
 {
     /**

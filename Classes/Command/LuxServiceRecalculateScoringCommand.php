@@ -9,19 +9,12 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 
-/**
- * Class LuxServiceRecalculateScoringCommand
- */
 class LuxServiceRecalculateScoringCommand extends Command
 {
-    /**
-     * @return void
-     */
     public function configure()
     {
         $this->setDescription(
@@ -41,7 +34,6 @@ class LuxServiceRecalculateScoringCommand extends Command
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int
-     * @throws Exception
      * @throws IllegalObjectTypeException
      * @throws InvalidQueryException
      * @throws UnknownObjectException
@@ -55,6 +47,6 @@ class LuxServiceRecalculateScoringCommand extends Command
             $scoringService->calculateAndSetScoring($visitor);
         }
         $output->writeln('Scoring recalculated of all visitors');
-        return 0;
+        return self::SUCCESS;
     }
 }

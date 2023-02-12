@@ -16,9 +16,6 @@ use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
-/**
- * Class LogService
- */
 class LogService
 {
     /**
@@ -284,7 +281,7 @@ class LogService
         $logRepository = GeneralUtility::makeInstance(LogRepository::class);
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
 
-        $log = GeneralUtility::makeInstance(Log::class)->setStatus($status)->setProperties($properties);
+        $log = GeneralUtility::makeInstance(Log::class)->setStatus($status)->setPropertiesArray($properties);
         $logRepository->add($log);
         $visitor->addLog($log);
         if ($visitor->getUid() > 0) {

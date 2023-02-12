@@ -3,7 +3,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\Command;
 
-use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use Symfony\Component\Console\Command\Command;
@@ -13,14 +12,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
-/**
- * Class LuxCleanupVisitorsByAgeCommand
- */
 class LuxCleanupVisitorsByAgeCommand extends Command
 {
-    /**
-     * @return void
-     */
     public function configure()
     {
         $description = 'Remove all visitors where the last update is older than a given timestamp';
@@ -39,7 +32,6 @@ class LuxCleanupVisitorsByAgeCommand extends Command
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int
-     * @throws DBALException
      * @throws InvalidQueryException
      */
     public function execute(InputInterface $input, OutputInterface $output): int
@@ -52,6 +44,6 @@ class LuxCleanupVisitorsByAgeCommand extends Command
             $visitorRepository->removeVisitor($visitor);
         }
         $output->writeln(count($visitors) . ' successfully removed');
-        return 0;
+        return self::SUCCESS;
     }
 }

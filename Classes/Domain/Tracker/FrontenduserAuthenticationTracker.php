@@ -3,29 +3,24 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Tracker;
 
+use Doctrine\DBAL\DBALException;
+use In2code\Lux\Domain\Model\FrontendUser;
+use In2code\Lux\Domain\Repository\FrontendUserRepository;
 use In2code\Lux\Exception\EmailValidationException;
 use In2code\Lux\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
-use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
-use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
-use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
-use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
 
-/**
- * Class FrontenduserAuthenticationTracker
- */
 class FrontenduserAuthenticationTracker extends AbstractFrontenduserTracker
 {
     /**
      * @return void
+     * @throws DBALException
      * @throws EmailValidationException
-     * @throws Exception
      * @throws IllegalObjectTypeException
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
+     * @throws InvalidConfigurationTypeException
      * @throws UnknownObjectException
      */
     public function trackByFrontenduserAuthentication(): void
@@ -59,11 +54,10 @@ class FrontenduserAuthenticationTracker extends AbstractFrontenduserTracker
      * @param FrontendUser $user
      * @return void
      * @throws EmailValidationException
-     * @throws Exception
      * @throws IllegalObjectTypeException
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
      * @throws UnknownObjectException
+     * @throws DBALException
+     * @throws InvalidConfigurationTypeException
      */
     protected function addEmailAttribute(FrontendUser $user): void
     {

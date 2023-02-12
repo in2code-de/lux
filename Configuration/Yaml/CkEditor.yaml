@@ -4,44 +4,38 @@ imports:
     - { resource: "EXT:rte_ckeditor/Configuration/RTE/Editor/Plugins.yaml" }
 
 editor:
-  externalPlugins:
-    luxEmail4Link:
-      resource: 'EXT:lux/Resources/Public/JavaScript/Static/CkEditorPlugins/luxEmail4Link/plugin.js'
-
   config:
     extraAllowedContent: 'a[data-*];'
-    contentsCss: ['EXT:lux/Resources/Public/Css/Modules.min.css']
+    contentsCss: 'EXT:lux/Resources/Public/Css/Modules.min.css'
 
-    toolbarGroups:
-      - { name: 'styles', groups: [ 'styles' ] }
-      - { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] }
-      - { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] }
-      - { name: 'links', groups: [ 'links', 'Email4Link' ] }
-      - { name: 'document', groups: [ 'document', 'doctools' ] }
-      - { name: 'clipboard', groups: [ 'clipboard', 'undo' ] }
-      - { name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] }
-      - { name: 'forms', groups: [ 'forms' ] }
-      - { name: 'insert', groups: [ 'insert' ] }
-      - { name: 'colors', groups: [ 'colors' ] }
-      - { name: 'tools', groups: [ 'tools' ] }
-      - { name: 'others', groups: [ 'others' ] }
-      - { name: 'about', groups: [ 'about' ] }
-      - { name: 'mode', groups: [ 'mode' ] }
+    importModules:
+      - 'EXT:lux/Resources/Public/JavaScript/Static/CkEditorPlugins/luxEmail4Link/plugin.js'
 
-    # external Config
-    tooltip_class: 'c-tooltip js-tooltip'
-    tooltip_styleSet: 'in2template'
-    tooltip_toolbar:
-      - { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] }
-      - { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] }
-      - { name: 'document', groups: [ 'document', 'doctools' ] }
-      - { name: 'clipboard', groups: [ 'clipboard', 'undo' ] }
-      - { name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] }
-      - { name: 'forms', groups: [ 'forms' ] }
-      - { name: 'colors', groups: [ 'colors' ] }
-      - { name: 'tools', groups: [ 'tools' ] }
-      - { name: 'others', groups: [ 'others' ] }
-      - { name: 'mode', groups: [ 'mode' ] }
+    toolbar:
+      items:
+        - style
+        - heading
+        - '|'
+        - bold
+        - italic
+        - subscript
+        - superscript
+        - '|'
+        - bulletedList
+        - numberedList
+        - blockQuote
+        - alignment
+        - '|'
+        - link
+        - Email4Link
+        - '|'
+        - removeFormat
+        - undo
+        - redo
+        - '|'
+        - insertTable
+        - '|'
+        - sourceEditing
 
     removePlugins:
       - image

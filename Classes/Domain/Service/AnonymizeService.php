@@ -3,7 +3,8 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Service;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Attribute;
 use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Domain\Model\Ipinformation;
@@ -22,7 +23,7 @@ class AnonymizeService
      *
      * @var array
      */
-    protected $firstNames = [
+    protected array $firstNames = [
         'Alex',
         'Alexander',
         'Stefan',
@@ -41,7 +42,7 @@ class AnonymizeService
      *
      * @var array
      */
-    protected $lastNames = [
+    protected array $lastNames = [
         'Müller',
         'Kellner',
         'Pohl',
@@ -60,7 +61,7 @@ class AnonymizeService
      *
      * @var array
      */
-    protected $companies = [
+    protected array $companies = [
         'MMarkt',
         'Agentur XYZ',
         'InstaSeviceAgency',
@@ -78,7 +79,7 @@ class AnonymizeService
     /**
      * @var array
      */
-    protected $toplevelDomains = [
+    protected array $toplevelDomains = [
         'org',
         'de',
         'com',
@@ -92,7 +93,7 @@ class AnonymizeService
     /**
      * @var array
      */
-    protected $referrers = [
+    protected array $referrers = [
         'https://t.co/Mk2LeGhnMJ',
         'https://www.google.de',
         'https://www.google.com',
@@ -109,7 +110,7 @@ class AnonymizeService
     /**
      * @var array
      */
-    protected $descriptions = [
+    protected array $descriptions = [
         'This lead is a good lead because of...',
         '',
         '',
@@ -120,7 +121,7 @@ class AnonymizeService
     /**
      * @var array
      */
-    protected $ipinformations = [
+    protected array $ipinformations = [
         'isp' => [
             'Company A',
             'Company B',
@@ -193,7 +194,8 @@ class AnonymizeService
 
     /**
      * @return void
-     * @throws DBALException
+     * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      */
     public function anonymizeAll()
     {
@@ -205,7 +207,8 @@ class AnonymizeService
 
     /**
      * @return void
-     * @throws DBALException
+     * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      */
     protected function anonymizeIdentifiedVisitors()
     {
@@ -214,8 +217,8 @@ class AnonymizeService
             ->select('*')
             ->from(Visitor::TABLE_NAME)
             ->where('identified=1')
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
         foreach ($rows as $row) {
             $properties = [
                 'email' => $this->getRandomEmail(),
@@ -232,7 +235,8 @@ class AnonymizeService
 
     /**
      * @return void
-     * @throws DBALException
+     * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      */
     protected function anonymizeAttributes()
     {
@@ -240,8 +244,8 @@ class AnonymizeService
         $rows = $queryBuilder
             ->select('*')
             ->from(Attribute::TABLE_NAME)
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
         foreach ($rows as $row) {
             $value = StringUtility::getRandomString(8);
             if ($row['name'] === 'firstname') {
@@ -268,7 +272,8 @@ class AnonymizeService
 
     /**
      * @return void
-     * @throws DBALException
+     * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      */
     protected function anonymizeIpinformation()
     {
@@ -276,8 +281,8 @@ class AnonymizeService
         $rows = $queryBuilder
             ->select('*')
             ->from(Ipinformation::TABLE_NAME)
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
         foreach ($rows as $row) {
             $value = $this->getRandomIpinformation($row['name']);
             $connection = DatabaseUtility::getConnectionForTable(Ipinformation::TABLE_NAME);
@@ -289,7 +294,7 @@ class AnonymizeService
 
     /**
      * @return void
-     * @throws DBALException
+     * @throws ExceptionDbal
      */
     protected function anonymizeAllFingerprints()
     {
@@ -297,10 +302,6 @@ class AnonymizeService
         $connection->executeQuery('update ' . Fingerprint::TABLE_NAME . ' set value="abcrandomvalue12345456";');
     }
 
-    /**
-     * @param array $properties
-     * @return string
-     */
     protected function getUpdateQueryFromProperties(array $properties): string
     {
         $query = '';
@@ -310,10 +311,6 @@ class AnonymizeService
         return rtrim($query, ',');
     }
 
-    /**
-     * @param string $key
-     * @return string
-     */
     protected function getRandomIpinformation(string $key): string
     {
         $value = StringUtility::getRandomString(8);
@@ -324,9 +321,6 @@ class AnonymizeService
         return $value;
     }
 
-    /**
-     * @return string
-     */
     protected function getRandomEmail(): string
     {
         $firstname = StringUtility::cleanString($this->getRandomFirstname(), true);
@@ -336,54 +330,36 @@ class AnonymizeService
         return $firstname . '.' . $lastname . '@' . $company . '.' . $toplevelDomain;
     }
 
-    /**
-     * @return string
-     */
     protected function getRandomFirstname(): string
     {
         $key = rand(0, count($this->firstNames) - 1);
         return $this->firstNames[$key];
     }
 
-    /**
-     * @return string
-     */
     protected function getRandomLastname(): string
     {
         $key = rand(0, count($this->lastNames) - 1);
         return $this->lastNames[$key];
     }
 
-    /**
-     * @return string
-     */
     protected function getRandomCompanyname(): string
     {
         $key = rand(0, count($this->companies) - 1);
         return $this->companies[$key];
     }
 
-    /**
-     * @return string
-     */
     protected function getRandomToplevelDomain(): string
     {
         $key = rand(0, count($this->toplevelDomains) - 1);
         return $this->toplevelDomains[$key];
     }
 
-    /**
-     * @return string
-     */
     protected function getRandomReferrer(): string
     {
         $key = rand(0, count($this->referrers) - 1);
         return $this->referrers[$key];
     }
 
-    /**
-     * @return string
-     */
     protected function getRandomDescription(): string
     {
         $key = rand(0, count($this->descriptions) - 1);

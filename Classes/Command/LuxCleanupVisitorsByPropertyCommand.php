@@ -3,7 +3,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\Command;
 
-use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use Symfony\Component\Console\Command\Command;
@@ -13,14 +12,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
-/**
- * Class LuxCleanupVisitorsByPropertyCommand
- */
 class LuxCleanupVisitorsByPropertyCommand extends Command
 {
-    /**
-     * @return void
-     */
     public function configure()
     {
         $description = 'Remove a visitor by a given property. E.g. removing all google bots with';
@@ -41,7 +34,6 @@ class LuxCleanupVisitorsByPropertyCommand extends Command
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int
-     * @throws DBALException
      * @throws InvalidQueryException
      */
     public function execute(InputInterface $input, OutputInterface $output): int
@@ -58,6 +50,6 @@ class LuxCleanupVisitorsByPropertyCommand extends Command
             $visitorRepository->removeVisitor($visitor);
         }
         $output->writeln(count($visitors) . ' successfully removed');
-        return 0;
+        return self::SUCCESS;
     }
 }

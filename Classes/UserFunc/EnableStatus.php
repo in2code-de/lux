@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\UserFunc;
 
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\DatabaseUtility;
@@ -10,22 +11,16 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
-/**
- * Class EnableStatus
- * @noinspection PhpUnused
- */
 class EnableStatus
 {
-    /**
-     * @var string
-     */
-    protected $templatePathAndFile = 'EXT:lux/Resources/Private/Templates/UserFunc/EnableStatus.html';
+    protected string $templatePathAndFile = 'EXT:lux/Resources/Private/Templates/UserFunc/EnableStatus.html';
 
     /**
      * @return string
+     * @throws ExceptionDbal
      * @noinspection PhpUnused
      */
-    public function showEnableStatus()
+    public function showEnableStatus(): string
     {
         $variables = [
             'status' => ConfigurationUtility::isComposerMode() && ExtensionManagementUtility::isLoaded('lux'),
@@ -36,21 +31,16 @@ class EnableStatus
             ],
             'stats' => [
                 'visitors' => count($this->getVisitors('1=1')),
-                'visitorsIdentified' => count($this->getVisitors('identified=1')),
+                'visitorsIdentified' => count($this->getVisitors()),
                 'visitorsUnidentified' => count($this->getVisitors('identified=0')),
             ],
         ];
         return $this->renderMarkup($variables);
     }
 
-    /**
-     * @param array $variables
-     * @return string
-     */
     protected function renderMarkup(array $variables): string
     {
         $standaloneView = GeneralUtility::makeInstance(StandaloneView::class);
-        $standaloneView->getRequest()->setControllerExtensionName('lux');
         $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($this->templatePathAndFile));
         $standaloneView->assignMultiple($variables);
         return $standaloneView->render();
@@ -59,15 +49,16 @@ class EnableStatus
     /**
      * @param string $where
      * @return array
+     * @throws ExceptionDbal
      */
-    protected function getVisitors(string $where = 'identified=1')
+    protected function getVisitors(string $where = 'identified=1'): array
     {
         $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Visitor::TABLE_NAME);
-        return (array)$queryBuilder
+        return $queryBuilder
             ->select('uid')
             ->from(Visitor::TABLE_NAME)
             ->where($where)
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
     }
 }

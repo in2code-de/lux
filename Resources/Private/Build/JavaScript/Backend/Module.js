@@ -311,11 +311,8 @@ define(['jquery'], function($) {
       const elements = document.querySelectorAll('[data-lux-action-toggleaction]');
       elements.forEach(function(element) {
         element.addEventListener('click', function(event) {
-          console.log(event.target);
-          let identifier = event.target.getAttribute('data-lux-action-toggleaction');
-          console.log(identifier);
+          let identifier = event.currentTarget.getAttribute('data-lux-action-toggleaction');
           let targetElements = document.querySelectorAll('[data-lux-action-togglecontainer="' + identifier + '"]');
-          console.log(targetElements);
           targetElements.forEach(function(targetElement) {
             targetElement.classList.toggle('hidden');
           });

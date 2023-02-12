@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Service\Email;
 
+use Exception;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Service\ConfigurationService;
 use In2code\Lux\Utility\ObjectUtility;
@@ -11,19 +12,10 @@ use TYPO3\CMS\Core\Mail\FluidEmail;
 use TYPO3\CMS\Core\Mail\Mailer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class ErrorService
- */
 class ErrorService
 {
-    /**
-     * @var ConfigurationService
-     */
-    protected $configurationService = null;
+    protected ?ConfigurationService $configurationService = null;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->configurationService = ObjectUtility::getConfigurationService();
@@ -31,12 +23,12 @@ class ErrorService
 
     /**
      * @param string $emails commaseparated email list
-     * @param \Exception $exception
+     * @param Exception $exception
      * @param Visitor $visitor
      * @return void
      * @throws TransportExceptionInterface
      */
-    public function send(string $emails, \Exception $exception, Visitor $visitor): void
+    public function send(string $emails, Exception $exception, Visitor $visitor): void
     {
         foreach (GeneralUtility::trimExplode(',', $emails, true) as $email) {
             if (GeneralUtility::validEmail($email)) {
@@ -46,13 +38,13 @@ class ErrorService
     }
 
     /**
-     * @param string $email
-     * @param \Exception $exception
+     * @param string $emailAddress
+     * @param Exception $exception
      * @param Visitor $visitor
      * @return void
      * @throws TransportExceptionInterface
      */
-    protected function sendEmail(string $email, \Exception $exception, Visitor $visitor): void
+    protected function sendEmail(string $emailAddress, Exception $exception, Visitor $visitor): void
     {
         $message = 'Message: ' . $exception->getMessage() . ' (' . $exception->getCode() . ')';
         $message .= ' ----------------------------------------------------------------------------------------------- ';
@@ -63,7 +55,7 @@ class ErrorService
         $message .= 'Request: ' . print_r($_REQUEST, true);
         /** @var FluidEmail $email */
         $email = GeneralUtility::makeInstance(FluidEmail::class)
-            ->to($email)
+            ->to($emailAddress)
             ->subject('lux failure')
             ->setTemplate('Default')
             ->assignMultiple([

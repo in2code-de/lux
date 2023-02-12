@@ -16,19 +16,10 @@ use TYPO3\CMS\Extbase\Service\ExtensionService;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-/**
- * PaginateViewHelper
- */
 class PaginateViewHelper extends AbstractViewHelper
 {
-    /**
-     * @var bool
-     */
     protected $escapeOutput = false;
 
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         parent::initializeArguments();
@@ -103,15 +94,10 @@ class PaginateViewHelper extends AbstractViewHelper
         );
     }
 
-    /**
-     * @param array $arguments
-     * @param RenderingContextInterface $renderingContext
-     * @return int
-     */
     protected static function getPageNumber(array $arguments, RenderingContextInterface $renderingContext): int
     {
-        $extensionName = $renderingContext->getControllerContext()->getRequest()->getControllerExtensionName();
-        $pluginName = $renderingContext->getControllerContext()->getRequest()->getPluginName();
+        $extensionName = $renderingContext->getRequest()->getControllerExtensionName();
+        $pluginName = $renderingContext->getRequest()->getPluginName();
         $extensionService = GeneralUtility::makeInstance(ExtensionService::class);
         $pluginNamespace = $extensionService->getPluginNamespace($extensionName, $pluginName);
         $variables = GeneralUtility::_GP($pluginNamespace);
@@ -123,10 +109,6 @@ class PaginateViewHelper extends AbstractViewHelper
         return 1;
     }
 
-    /**
-     * @param array $arguments
-     * @return string
-     */
     protected static function getName(array $arguments): string
     {
         return $arguments['name'] ?: $arguments['as'];

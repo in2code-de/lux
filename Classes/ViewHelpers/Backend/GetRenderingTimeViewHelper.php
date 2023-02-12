@@ -14,14 +14,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-/**
- * GetRenderingTimeViewHelper
- */
 class GetRenderingTimeViewHelper extends AbstractViewHelper
 {
-    /**
-     * @var bool
-     */
     protected $escapeOutput = false;
 
     /**

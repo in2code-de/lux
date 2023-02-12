@@ -3,9 +3,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\Utility;
 
-/**
- * Class ArrayUtility
- */
 class ArrayUtility
 {
     /**
@@ -47,10 +44,6 @@ class ArrayUtility
         return $result;
     }
 
-    /**
-     * @param array $array
-     * @return array
-     */
     public static function cleanStringForArrayKeys(array $array): array
     {
         $newArray = [];

@@ -84,8 +84,16 @@ label {
         }
     }
 
-    .badge-primary {
-        background-color: $colorMain;
+    .badge {
+        background-color: #5a5a5a;
+        color: white;
+        border-radius: 10px;
+        font-size: 11px;
+        padding: 3px 7px;
+
+        &.badge-primary {
+            background-color: $colorMain;
+        }
     }
 
     .alert-lux {
@@ -110,23 +118,34 @@ label {
         border: 1px solid $colorGrey;
         height: 100%;
         font-size: 14px;
-        line-height: 125%;
+        line-height: 130%;
     }
 
     .collapse-arrow {
         &:after {
-            content: "\f078";
-            font: normal normal normal 14px/1 FontAwesome;
-            font-size: 14px;
-            font-size: inherit;
-            text-rendering: auto;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            content: "";
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: none;
+            border-top: 5px solid $colorGreyDark;
+            display: inline-block;
         }
 
         &.collapsed:after {
-            content: "\f077";
+            border-top: none;
+            border-bottom: 5px solid $colorGreyDark;
+            margin-bottom: 1px;
         }
+    }
+
+    .pull-right {
+        float: right !important;
+    }
+
+    .pull-left {
+        float: left !important;
     }
 
     /**
@@ -229,6 +248,10 @@ label {
     /**
      * Table classes
      */
+    .table {
+        border: 1px solid $colorGreyBright;
+    }
+
     .table-hover > tbody > tr:hover,
     .table-hover > tbody > tr.lux-action-detail {
         background-color: $colorMain;
@@ -384,6 +407,7 @@ label {
         object-fit: cover;
         border-radius: 50%;
         width: 100%;
+        height: auto;
         aspect-ratio: 1/1;
     }
 }

@@ -8,6 +8,7 @@ use Exception;
 use In2code\Lux\Domain\Model\Category;
 use In2code\Lux\Domain\Repository\CategoryRepository;
 use In2code\Lux\Utility\DateUtility;
+use Throwable;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -30,51 +31,33 @@ class FilterDto
     const IDENTIFIED_UNKNOWN = 0;
     const IDENTIFIED_IDENTIFIED = 1;
 
-    /**
-     * @var string
-     */
-    protected $searchterm = '';
-
-    /**
-     * @var string
-     */
-    protected $pid = '';
+    protected string $searchterm = '';
+    protected string $pid = '';
 
     /**
      * Must be a string like "2021-01-01T15:03:01.012345Z" (date format "c")
      *
      * @var string
      */
-    protected $timeFrom = '';
+    protected string $timeFrom = '';
 
     /**
      * Must be a string like "2021-01-01T15:03:01.012345Z" (date format "c")
      *
      * @var string
      */
-    protected $timeTo = '';
+    protected string $timeTo = '';
 
-    /**
-     * @var int
-     */
-    protected $scoring = 0;
+    protected int $scoring = 0;
+    protected int $timePeriod = 0;
+    protected int $identified = self::IDENTIFIED_ALL;
 
     /**
      * Filter by categoryscoring greater then 0
      *
-     * @var \In2code\Lux\Domain\Model\Category
+     * @var ?Category
      */
-    protected $categoryScoring = null;
-
-    /**
-     * @var int
-     */
-    protected $timePeriod = 0;
-
-    /**
-     * @var int
-     */
-    protected $identified = self::IDENTIFIED_ALL;
+    protected ?Category $categoryScoring = null;
 
     /**
      * If turned on, there is a short timeframe for pagevisits and downloads (the last 7 days) while all other diagrams
@@ -82,107 +65,63 @@ class FilterDto
      *
      * @var bool
      */
-    protected $shortMode = true;
+    protected bool $shortMode = true;
 
     /**
      * Filter for a specific domain
      *
      * @var string
      */
-    protected $domain = '';
+    protected string $domain = '';
 
-    /**
-     * @var string
-     */
-    protected $utmCampaign = '';
+    protected string $utmCampaign = '';
+    protected string $utmSource = '';
+    protected string $utmMedium = '';
 
-    /**
-     * @var string
-     */
-    protected $utmSource = '';
-
-    /**
-     * @var string
-     */
-    protected $utmMedium = '';
-
-    /**
-     * FilterDto constructor.
-     *
-     * @param int $timePeriod
-     */
     public function __construct(int $timePeriod = self::PERIOD_DEFAULT)
     {
         $this->setTimePeriod($timePeriod);
     }
 
-    /**
-     * @return string
-     */
     public function getSearchterm(): string
     {
         return $this->searchterm;
     }
 
-    /**
-     * @return array
-     */
     public function getSearchterms(): array
     {
         return GeneralUtility::trimExplode(' ', $this->getSearchterm(), true);
     }
 
-    /**
-     * @param string $searchterm
-     * @return FilterDto
-     */
-    public function setSearchterm(string $searchterm)
+    public function setSearchterm(string $searchterm): self
     {
         $this->searchterm = $searchterm;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getPid(): string
     {
         return $this->pid;
     }
 
-    /**
-     * @param string $pid
-     * @return $this
-     */
-    public function setPid(string $pid)
+    public function setPid(string $pid): self
     {
         $this->pid = $pid;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getTimeFrom(): string
     {
         return $this->timeFrom;
     }
 
-    /**
-     * @return DateTime
-     * @throws Exception
-     */
     public function getTimeFromDateTime(): DateTime
     {
         /** @noinspection PhpUnhandledExceptionInspection */
         return new DateTime($this->getTimeFrom());
     }
 
-    /**
-     * @param string $timeFrom
-     * @return FilterDto
-     */
-    public function setTimeFrom(string $timeFrom)
+    public function setTimeFrom(string $timeFrom): self
     {
         if (!empty($timeFrom)) {
             $this->removeShortMode();
@@ -191,32 +130,25 @@ class FilterDto
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getTimeTo(): string
     {
         return $this->timeTo;
     }
 
-    /**
-     * @return DateTime
-     * @throws Exception
-     */
     public function getTimeToDateTime(): DateTime
     {
         $timeTo = $this->getTimeTo();
-        if ($timeTo === '') {
-            return new DateTime();
+        if ($timeTo !== '') {
+            try {
+                return new DateTime($timeTo);
+            } catch (Throwable $exception) {
+                // Return default datetime
+            }
         }
-        return new DateTime($timeTo);
+        return new DateTime();
     }
 
-    /**
-     * @param string $timeTo
-     * @return FilterDto
-     */
-    public function setTimeTo(string $timeTo)
+    public function setTimeTo(string $timeTo): self
     {
         if (!empty($timeTo)) {
             $this->removeShortMode();
@@ -225,9 +157,6 @@ class FilterDto
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getTimePeriod(): int
     {
         if ($this->timePeriod === self::PERIOD_DEFAULT) {
@@ -236,29 +165,18 @@ class FilterDto
         return $this->timePeriod;
     }
 
-    /**
-     * @param int $timePeriod
-     * @return FilterDto
-     */
-    public function setTimePeriod(int $timePeriod)
+    public function setTimePeriod(int $timePeriod): self
     {
         $this->timePeriod = $timePeriod;
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getIdentified(): int
     {
         return $this->identified;
     }
 
-    /**
-     * @param int $identified
-     * @return FilterDto
-     */
-    public function setIdentified(int $identified)
+    public function setIdentified(int $identified): self
     {
         $this->identified = $identified;
         return $this;
@@ -271,7 +189,7 @@ class FilterDto
      * @return FilterDto
      * @throws Exception
      */
-    public function setTimeFrame(int $seconds)
+    public function setTimeFrame(int $seconds): self
     {
         /** @noinspection PhpUnhandledExceptionInspection */
         $timeFrom = new DateTime($seconds . ' seconds ago');
@@ -281,37 +199,23 @@ class FilterDto
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getScoring(): int
     {
         return $this->scoring;
     }
 
-    /**
-     * @param int $scoring
-     * @return FilterDto
-     */
-    public function setScoring(int $scoring)
+    public function setScoring(int $scoring): self
     {
         $this->scoring = $scoring;
         return $this;
     }
 
-    /**
-     * @return Category
-     */
-    public function getCategoryScoring()
+    public function getCategoryScoring(): ?Category
     {
         return $this->categoryScoring;
     }
 
-    /**
-     * @param int $categoryUid
-     * @return FilterDto
-     */
-    public function setCategoryScoring(int $categoryUid)
+    public function setCategoryScoring(int $categoryUid): self
     {
         if ($categoryUid > 0) {
             $categoryRepository = GeneralUtility::makeInstance(CategoryRepository::class);
@@ -323,98 +227,61 @@ class FilterDto
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isShortMode(): bool
     {
         return $this->shortMode;
     }
 
-    /**
-     * @return FilterDto
-     */
     public function setShortMode(): self
     {
         $this->shortMode = true;
         return $this;
     }
 
-    /**
-     * @return FilterDto
-     */
     public function removeShortMode(): self
     {
         $this->shortMode = false;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getDomain(): string
     {
         return $this->domain;
     }
 
-    /**
-     * @param string $domain
-     * @return FilterDto
-     */
     public function setDomain(string $domain): self
     {
         $this->domain = $domain;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getUtmCampaign(): string
     {
         return $this->utmCampaign;
     }
 
-    /**
-     * @param string $utmCampaign
-     * @return FilterDto
-     */
     public function setUtmCampaign(string $utmCampaign): FilterDto
     {
         $this->utmCampaign = $utmCampaign;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getUtmSource(): string
     {
         return $this->utmSource;
     }
 
-    /**
-     * @param string $utmSource
-     * @return FilterDto
-     */
     public function setUtmSource(string $utmSource): FilterDto
     {
         $this->utmSource = $utmSource;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getUtmMedium(): string
     {
         return $this->utmMedium;
     }
 
-    /**
-     * @param string $utmMedium
-     * @return FilterDto
-     */
     public function setUtmMedium(string $utmMedium): FilterDto
     {
         $this->utmMedium = $utmMedium;
@@ -708,11 +575,6 @@ class FilterDto
         return $interval;
     }
 
-    /**
-     * Synonym function for $this->__toString() - look at there description
-     *
-     * @return string
-     */
     public function getHash(): string
     {
         return $this->__toString();

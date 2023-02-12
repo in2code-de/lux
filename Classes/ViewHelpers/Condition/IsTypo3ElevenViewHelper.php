@@ -9,7 +9,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractConditionViewHelper;
 /**
  * IsTypo3ElevenViewHelper
  * @noinspection PhpUnused
- * Todo: Remove when TYPO3 10 is dropped
+ * Todo: Can be removed when TYPO3 11 support is dropped
  */
 class IsTypo3ElevenViewHelper extends AbstractConditionViewHelper
 {

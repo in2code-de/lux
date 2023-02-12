@@ -9,9 +9,6 @@ namespace In2code\Lux\Utility;
  */
 class CookieUtility
 {
-    /**
-     * @return string
-     */
     public static function getLuxId(): string
     {
         return self::getCookieByName('luxId');
@@ -43,10 +40,6 @@ class CookieUtility
         setcookie($name, $value, 0, '/');
     }
 
-    /**
-     * @param string $name
-     * @return void
-     */
     public static function deleteCookie(string $name): void
     {
         setcookie($name, '', -1, '/');

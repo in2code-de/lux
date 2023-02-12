@@ -194,10 +194,10 @@ Example usage:
 ./vendor/bin/typo3 lux:cachewarmup
 
 # Warmup specific views
-./vendor/bin/typo3 lux:cachewarmup lux_LuxAnalysis,lux_LuxLeads
+./vendor/bin/typo3 lux:cachewarmup lux_LuxAnalysis,lux_LuxLead
 
 # Warmup all views and pass a domain (if you don't store a domain in siteconfiguration or if you want to use a specific domain for backend requests)
-./vendor/bin/typo3 lux:cachewarmup lux_LuxAnalysis,lux_LuxLeads,web_layout https://domainforbackend.de
+./vendor/bin/typo3 lux:cachewarmup lux_LuxAnalysis,lux_LuxLead,web_layout https://domainforbackend.de
 ```
 
 **Note:** Every call of this command will clean all LUX cachelayer caches at the beginning of the task.

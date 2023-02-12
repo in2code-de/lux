@@ -20,10 +20,8 @@ jobs:
       fail-fast: false
       matrix:
         php-version:
-          - 7.2
-          - 7.3
-          - 7.4
           - 8.0
+          - 8.1
   typoscript-lint:
     name: "TypoScript linter"
     runs-on: ubuntu-20.04
@@ -45,7 +43,7 @@ jobs:
       - name: "Install PHP"
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.4
+          php-version: 8.0
       - name: "Composer Install"
         run: "composer install"
       - name: "Run PHP CS Fixer"
@@ -71,4 +69,5 @@ jobs:
       fail-fast: false
       matrix:
         php-version:
-          - 7.4
+          - 8.0
+          - 8.1

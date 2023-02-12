@@ -7,14 +7,14 @@ be done with "UTM" GET parameters that are added to a target URL.
 
 General used UTM parameters in marketing automation and analysis:
 
-| Parameter                                        | Description                                       | Example value                                          |
-| ------------------------------------------------ | ------------------------------------------------- | ------------------------------------------------------ |
-| `utm_campaign`                                   | Name of the campaign                              | `Campaign 2023/2`                                      |
-| `utm_id`                                         | Identifier of the campaign                        | `c23-3`                                                |
-| `utm_source`                                     | Source                                            | `newsletter`                                           |
-| `utm_medium`                                     | Technical medium                                  | `mail`                                                 |
-| `utm_term`                                       | Optional: Searchterm (mostly used in ads)         | `productname`                                          |
-| `utm_content`                                    | Optional: Description of the ad                   | `add1`                                                 |
+| Parameter      | Description                               | Example value     |
+|----------------|-------------------------------------------|-------------------|
+| `utm_campaign` | Name of the campaign                      | `Campaign 2023/2` |
+| `utm_id`       | Identifier of the campaign                | `c23-3`           |
+| `utm_source`   | Source                                    | `newsletter`      |
+| `utm_medium`   | Technical medium                          | `mail`            |
+| `utm_term`     | Optional: Searchterm (mostly used in ads) | `productname`     |
+| `utm_content`  | Optional: Description of the ad           | `add1`            |
 
 **Note:** LUX tracks all of those GET parameters automatically and can be analysed in Analyse backend module. This
 means that you don't have to use the build in UTM generator or to add all possible options to your system.
@@ -45,13 +45,13 @@ module of TYPO3 to any folder page. Those records can be then selected in the ed
 
 <img src="../../../Documentation/Images/screenshot_utmgenerator_edit.png" width="800" />
 
-| Field                                            | Description                                                                                               |
-| ------------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
-| Link target                                      | Choose an internal page or external URL                                                                   |
-| Campaign                                         | Choose an existing campaign record                                                                        |
-| Description                                      | Add an internal description                                                                               |
-| Sources                                          | Choose one or more existing source records                                                                |
-| Media                                            | Choose one or more existing medium records                                                                |
-| Terms                                            | Add one or more terms (one per line)                                                                      |
-| Contents                                         | Add one or more content terms (one per line)                                                              |
+| Field       | Description                                  |
+|-------------|----------------------------------------------|
+| Link target | Choose an internal page or external URL      |
+| Campaign    | Choose an existing campaign record           |
+| Description | Add an internal description                  |
+| Sources     | Choose one or more existing source records   |
+| Media       | Choose one or more existing medium records   |
+| Terms       | Add one or more terms (one per line)         |
+| Contents    | Add one or more content terms (one per line) |
 

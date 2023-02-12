@@ -118,7 +118,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.identified
 
         # Classname for implementation of the trigger itself
-        className = In2code\Luxenterprise\Domain\Trigger\IdentifiedTrigger
+        className = In2code\Luxenterprise\Domain\Workflow\Trigger\IdentifiedTrigger
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Identified.html
@@ -135,7 +135,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.scoring
 
         # Classname for implementation of the trigger itself
-        className = In2code\Luxenterprise\Domain\Trigger\ScoringTrigger
+        className = In2code\Luxenterprise\Domain\Workflow\Trigger\ScoringTrigger
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Scoring.html
@@ -152,7 +152,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.categoryscoring
 
         # Classname for implementation of the trigger itself
-        className = In2code\Luxenterprise\Domain\Trigger\CategoryScoringTrigger
+        className = In2code\Luxenterprise\Domain\Workflow\Trigger\CategoryScoringTrigger
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/CategoryScoring.html
@@ -169,7 +169,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.mobile
 
         # Classname for implementation of the trigger itself
-        className = In2code\Luxenterprise\Domain\Trigger\MobileTrigger
+        className = In2code\Luxenterprise\Domain\Workflow\Trigger\MobileTrigger
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Mobile.html
@@ -186,7 +186,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.company
 
         # Classname for implementation of the trigger itself
-        className = In2code\Luxenterprise\Domain\Trigger\CompanyTrigger
+        className = In2code\Luxenterprise\Domain\Workflow\Trigger\CompanyTrigger
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Company.html
@@ -203,7 +203,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.property
 
         # Classname for implementation of the trigger itself
-        className = In2code\Luxenterprise\Domain\Trigger\PropertyTrigger
+        className = In2code\Luxenterprise\Domain\Workflow\Trigger\PropertyTrigger
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Property.html
@@ -220,7 +220,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.symfonyExpression
 
         # Classname for implementation of the trigger itself
-        className = In2code\Luxenterprise\Domain\Trigger\SymfonyExpressionTrigger
+        className = In2code\Luxenterprise\Domain\Workflow\Trigger\SymfonyExpressionTrigger
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/SymfonyExpression.html
@@ -239,7 +239,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.pagevisit
 
         # Classname for implementation of the trigger itself
-        className = In2code\Luxenterprise\Domain\Trigger\PageVisitTrigger
+        className = In2code\Luxenterprise\Domain\Workflow\Trigger\PageVisitTrigger
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/PageVisit.html
@@ -256,7 +256,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.newsvisit
 
         # Classname for implementation of the trigger itself
-        className = In2code\Luxenterprise\Domain\Trigger\NewsVisitTrigger
+        className = In2code\Luxenterprise\Domain\Workflow\Trigger\NewsVisitTrigger
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/NewsVisit.html
@@ -273,7 +273,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.category
 
         # Classname for implementation of the trigger itself
-        className = In2code\Luxenterprise\Domain\Trigger\CategoryTrigger
+        className = In2code\Luxenterprise\Domain\Workflow\Trigger\CategoryTrigger
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Category.html
@@ -290,7 +290,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.language
 
         # Classname for implementation of the trigger itself
-        className = In2code\Luxenterprise\Domain\Trigger\LanguageTrigger
+        className = In2code\Luxenterprise\Domain\Workflow\Trigger\LanguageTrigger
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Language.html
@@ -307,7 +307,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.site
 
         # Classname for implementation of the trigger itself
-        className = In2code\Luxenterprise\Domain\Trigger\SiteTrigger
+        className = In2code\Luxenterprise\Domain\Workflow\Trigger\SiteTrigger
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Site.html
@@ -325,7 +325,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.referrer
 
         # Classname for implementation of the trigger itself
-        className = In2code\Luxenterprise\Domain\Trigger\ReferrerTrigger
+        className = In2code\Luxenterprise\Domain\Workflow\Trigger\ReferrerTrigger
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Referrer.html
@@ -348,7 +348,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.utmparameter
 
         # Classname for implementation of the trigger itself
-        className = In2code\Luxenterprise\Domain\Trigger\UtmParameterTrigger
+        className = In2code\Luxenterprise\Domain\Workflow\Trigger\UtmParameterTrigger
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/UtmParameter.html
@@ -374,7 +374,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.timeframe
 
         # Classname for implementation of the trigger itself
-        className = In2code\Luxenterprise\Domain\Trigger\TimeFrameTrigger
+        className = In2code\Luxenterprise\Domain\Workflow\Trigger\TimeFrameTrigger
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/TimeFrame.html
@@ -391,7 +391,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.startaction
 
         # Classname for implementation of the trigger itself
-        className = In2code\Luxenterprise\Domain\Trigger\StartactionTrigger
+        className = In2code\Luxenterprise\Domain\Workflow\Trigger\StartactionTrigger
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Startaction.html
@@ -416,7 +416,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.context
 
         # Classname for implementation of the trigger itself
-        className = In2code\Luxenterprise\Domain\Trigger\ContextTrigger
+        className = In2code\Luxenterprise\Domain\Workflow\Trigger\ContextTrigger
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Context.html
@@ -456,7 +456,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.popupcontentelement
 
         # Classname for implementation of the action itself
-        className = In2code\Luxenterprise\Domain\Action\PopupContentElementAction
+        className = In2code\Luxenterprise\Domain\Workflow\Action\PopupContentElementAction
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/PopupContentElement.html
@@ -473,7 +473,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.ajaxcontent
 
         # Classname for implementation of the action itself
-        className = In2code\Luxenterprise\Domain\Action\AjaxContentElementAction
+        className = In2code\Luxenterprise\Domain\Workflow\Action\AjaxContentElementAction
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/AjaxContentElement.html
@@ -490,7 +490,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.showOrHide
 
         # Classname for implementation of the action itself
-        className = In2code\Luxenterprise\Domain\Action\ShowOrHideAction
+        className = In2code\Luxenterprise\Domain\Workflow\Action\ShowOrHideAction
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/ShowOrHide.html
@@ -507,7 +507,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.redirect
 
         # Classname for implementation of the action itself
-        className = In2code\Luxenterprise\Domain\Action\RedirectAction
+        className = In2code\Luxenterprise\Domain\Workflow\Action\RedirectAction
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Redirect.html
@@ -524,7 +524,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.title
 
         # Classname for implementation of the action itself
-        className = In2code\Luxenterprise\Domain\Action\TitleAction
+        className = In2code\Luxenterprise\Domain\Workflow\Action\TitleAction
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Title.html
@@ -543,7 +543,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.email
 
         # Classname for implementation of the action itself
-        className = In2code\Luxenterprise\Domain\Action\EmailAction
+        className = In2code\Luxenterprise\Domain\Workflow\Action\EmailAction
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Email.html
@@ -564,7 +564,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.slack
 
         # Classname for implementation of the action itself
-        className = In2code\Luxenterprise\Domain\Action\SlackAction
+        className = In2code\Luxenterprise\Domain\Workflow\Action\SlackAction
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Slack.html
@@ -595,7 +595,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.sms
 
         # Classname for implementation of the action itself
-        className = In2code\Luxenterprise\Domain\Action\SmsAction
+        className = In2code\Luxenterprise\Domain\Workflow\Action\SmsAction
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Sms.html
@@ -636,7 +636,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.push
 
         # Classname for implementation of the action itself
-        className = In2code\Luxenterprise\Domain\Action\PushAction
+        className = In2code\Luxenterprise\Domain\Workflow\Action\PushAction
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Push.html
@@ -656,7 +656,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.property
 
         # Classname for implementation of the action itself
-        className = In2code\Luxenterprise\Domain\Action\PropertyAction
+        className = In2code\Luxenterprise\Domain\Workflow\Action\PropertyAction
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Property.html
@@ -673,7 +673,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.doubleoptin
 
         # Classname for implementation of the action itself
-        className = In2code\Luxenterprise\Domain\Action\DoubleOptInAction
+        className = In2code\Luxenterprise\Domain\Workflow\Action\DoubleOptInAction
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/DoubleOptIn.html
@@ -694,7 +694,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.blacklist
 
         # Classname for implementation of the action itself
-        className = In2code\Luxenterprise\Domain\Action\BlacklistAction
+        className = In2code\Luxenterprise\Domain\Workflow\Action\BlacklistAction
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Blacklist.html
@@ -713,7 +713,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.saveToTable
 
         # Classname for implementation of the action itself
-        className = In2code\Luxenterprise\Domain\Action\SaveToTableAction
+        className = In2code\Luxenterprise\Domain\Workflow\Action\SaveToTableAction
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/SaveToTable.html
@@ -755,7 +755,7 @@ lib.lux.settings {
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.sendtointerface
 
         # Classname for implementation of the action itself
-        className = In2code\Luxenterprise\Domain\Action\SendToInterfaceAction
+        className = In2code\Luxenterprise\Domain\Workflow\Action\SendToInterfaceAction
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/SendToInterface.html
@@ -860,7 +860,7 @@ EXT:luxextension/Resources/Private/Templates/Workflow/Trigger/FrontendUser.html:
             </label>
             <input
                type="number"
-               name="tx_lux_lux_luxworkflow[trigger][{index}][configuration][page]"
+               name="trigger[{index}][configuration][page]"
                class="form-control"
                id="trigger_{index}_page"
                placeholder="123"
@@ -1007,7 +1007,7 @@ EXT:luxextension/Resources/Private/Templates/Workflow/Action/Curl.html:
                         Recurring/Single
                     </f:translate>
                 </label>
-                <select name="tx_lux_lux_luxworkflow[actions][{index}][configuration][recurring]" class="form-control" id="trigger_{index}_recurring">
+                <select name="actions[{index}][configuration][recurring]" class="form-control" id="trigger_{index}_recurring">
                     <option value="single"{f:if(condition:'{configuration.recurring} == "single"',then:' selected="selected"')}>{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:action.label.recurring.single')}</option>
                     <option value="recurring"{f:if(condition:'{configuration.recurring} == "recurring"',then:' selected="selected"')}>{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:action.label.recurring.recurring')}</option>
                 </select>
@@ -1020,7 +1020,7 @@ EXT:luxextension/Resources/Private/Templates/Workflow/Action/Curl.html:
                 </label>
                 <input
                     type="text"
-                    name="tx_lux_lux_luxworkflow[actions][{index}][configuration][uri]"
+                    name="actions[{index}][configuration][uri]"
                     class="form-control"
                     value="{configuration.uri}"
                     id="action_{index}_uri" />
@@ -1032,7 +1032,7 @@ EXT:luxextension/Resources/Private/Templates/Workflow/Action/Curl.html:
             </div>
         </div>
 
-        <input type="hidden" name="tx_lux_lux_luxworkflow[actions][{index}][className]" value="{actionSettings.className}" />
+        <input type="hidden" name="actions[actions][{index}][className]" value="{actionSettings.className}" />
     </div>
 </f:spaceless>
 ```

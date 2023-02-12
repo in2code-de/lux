@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Command;
 
+use Exception;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\Email\SendSummaryService;
@@ -12,17 +13,10 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
-/**
- * Class LuxLeadSendSummaryOfLuxCategoryCommand
- */
 class LuxLeadSendSummaryOfLuxCategoryCommand extends Command
 {
-    /**
-     * @return void
-     */
     public function configure()
     {
         $description = 'Send a summary of leads to one or more email addresses as a table.' .
@@ -45,9 +39,8 @@ class LuxLeadSendSummaryOfLuxCategoryCommand extends Command
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int
-     * @throws Exception
      * @throws InvalidQueryException
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -70,6 +63,6 @@ class LuxLeadSendSummaryOfLuxCategoryCommand extends Command
         } else {
             $output->writeln('No active leads found in given timeframe');
         }
-        return 0;
+        return self::SUCCESS;
     }
 }

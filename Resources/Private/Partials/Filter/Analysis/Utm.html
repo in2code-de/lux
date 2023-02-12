@@ -15,16 +15,9 @@
                                 id="searchterm"
                                 class="form-control"
                                 placeholder="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.searchterm')}" />
-                        <lux:condition.isTypo3Eleven>
-                            <f:then>
-                                <label class="btn btn-default" for="searchterm">
-                                    <span class="fa fa-search"></span>
-                                </label>
-                            </f:then>
-                            <f:else>
-                                <label class="input-group-addon fa fa-search" for="searchterm"></label>
-                            </f:else>
-                        </lux:condition.isTypo3Eleven>
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#searchterm">
+                            <core:icon identifier="actions-search" />
+                        </button>
                     </div>
 
                     <div class="input-group form-group">
@@ -33,18 +26,9 @@
                             property="timeFrom"
                             id="timeFrom"
                             class="form-control" />
-                        <lux:condition.isTypo3Eleven>
-                            <f:then>
-                                <label class="btn btn-default" for="timeFrom">
-                                    {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeFrom')}
-                                </label>
-                            </f:then>
-                            <f:else>
-                                <label class="input-group-addon" for="timeFrom">
-                                    {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeFrom')}
-                                </label>
-                            </f:else>
-                        </lux:condition.isTypo3Eleven>
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#timeFrom">
+                            {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeFrom')}
+                        </button>
                     </div>
                 </div>
 
@@ -60,18 +44,9 @@
                             prependOptionLabel=""
                             class="form-control form-select"
                             id="utmCampaign"/>
-                        <lux:condition.isTypo3Eleven>
-                            <f:then>
-                                <label class="btn btn-default" for="utmCampaign">
-                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.campaign">Campaign</f:translate>
-                                </label>
-                            </f:then>
-                            <f:else>
-                                <label class="input-group-addon" for="utmCampaign">
-                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.campaign">Campaign</f:translate>
-                                </label>
-                            </f:else>
-                        </lux:condition.isTypo3Eleven>
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#utmCampaign">
+                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.campaign">Campaign</f:translate>
+                        </button>
                     </div>
 
                     <div class="input-group form-group">
@@ -80,18 +55,9 @@
                             property="timeTo"
                             id="timeTo"
                             class="form-control" />
-                        <lux:condition.isTypo3Eleven>
-                            <f:then>
-                                <label class="btn btn-default" for="timeTo">
-                                    {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeTo')}
-                                </label>
-                            </f:then>
-                            <f:else>
-                                <label class="input-group-addon" for="timeTo">
-                                    {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeTo')}
-                                </label>
-                            </f:else>
-                        </lux:condition.isTypo3Eleven>
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#timeTo">
+                            {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeTo')}
+                        </button>
                     </div>
                 </div>
 
@@ -113,18 +79,9 @@
                             prependOptionLabel=""
                             class="form-control form-select"
                             id="utmSource"/>
-                        <lux:condition.isTypo3Eleven>
-                            <f:then>
-                                <label class="btn btn-default" for="utmSource">
-                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.source">Source</f:translate>
-                                </label>
-                            </f:then>
-                            <f:else>
-                                <label class="input-group-addon" for="utmSource">
-                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.source">Source</f:translate>
-                                </label>
-                            </f:else>
-                        </lux:condition.isTypo3Eleven>
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#utmSource">
+                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.source">Source</f:translate>
+                        </button>
                     </div>
 
                     <div class="input-group form-group">
@@ -137,18 +94,9 @@
                             prependOptionLabel=""
                             class="form-control form-select"
                             id="utmMedium"/>
-                        <lux:condition.isTypo3Eleven>
-                            <f:then>
-                                <label class="btn btn-default" for="utmMedium">
-                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.medium">Medium</f:translate>
-                                </label>
-                            </f:then>
-                            <f:else>
-                                <label class="input-group-addon" for="utmMedium">
-                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.medium">Medium</f:translate>
-                                </label>
-                            </f:else>
-                        </lux:condition.isTypo3Eleven>
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#utmMedium">
+                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.medium">Medium</f:translate>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -171,16 +119,9 @@
 
                     <f:comment>CSV download</f:comment>
                     <f:form.submit class="fa fa-download" name="export" id="download" value="csv" style="visibility:hidden;width:1px;padding:0;margin:0;"/>
-                    <lux:condition.isTypo3Eleven>
-                        <f:then>
-                            <label class="btn btn-default" for="download" style="margin-right: 10px;">
-                                <span class="fa fa-download" title="CSV Download"></span>
-                            </label>
-                        </f:then>
-                        <f:else>
-                            <label class="btn btn-default fa fa-download" for="download" style="margin-right: 10px;" title="CSV Download"></label>
-                        </f:else>
-                    </lux:condition.isTypo3Eleven>
+                    <label class="btn btn-default" for="download" style="margin-right: 10px;">
+                        <core:icon identifier="actions-download" size="small" />
+                    </label>
 
                     <f:comment>Submit filter</f:comment>
                     <f:form.submit

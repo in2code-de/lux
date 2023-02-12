@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider;
 
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use In2code\Lux\Domain\Repository\FingerprintRepository;
 use In2code\Lux\Exception\ClassDoesNotExistException;
 use In2code\Lux\Utility\LocalizationUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
  * Class BrowserAmountDataProvider
@@ -29,9 +29,9 @@ class BrowserAmountDataProvider extends AbstractDataProvider
      *  ]
      *
      * @return void
-     * @throws Exception
      * @throws DBALException
      * @throws ClassDoesNotExistException
+     * @throws ExceptionDbalDriver
      */
     public function prepareData(): void
     {
@@ -55,9 +55,6 @@ class BrowserAmountDataProvider extends AbstractDataProvider
         $this->data = ['amounts' => $amounts, 'titles' => $titles];
     }
 
-    /**
-     * @return string
-     */
     protected function getFurtherLabel(): string
     {
         return LocalizationUtility::getLanguageService()->sL(

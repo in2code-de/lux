@@ -3,6 +3,8 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Service;
 
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\ParametersException;
 use In2code\Lux\Utility\DatabaseUtility;
@@ -32,8 +34,10 @@ class RedirectService
     /**
      * @param string $hash
      * @return string
-     * @throws ParametersException
      * @throws ConfigurationException
+     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
+     * @throws ParametersException
      */
     public function getParsedTargetByHash(string $hash): string
     {
@@ -52,6 +56,8 @@ class RedirectService
     /**
      * @param string $hash
      * @return array
+     * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      * @throws ParametersException
      */
     public function getArgumentsByHash(string $hash): array
@@ -67,6 +73,7 @@ class RedirectService
      * @param string $hash
      * @return array
      * @throws ParametersException
+     * @throws ExceptionDbal
      */
     protected function findByHash(string $hash): array
     {
@@ -79,20 +86,14 @@ class RedirectService
                 $queryBuilder->expr()->eq('deleted', 0)
             )
             ->setMaxResults(1)
-            ->execute()
-            ->fetch();
+            ->executeQuery()
+            ->fetchAssociative();
         if ($result === false) {
             throw new ParametersException('Redirect not found', 1593073397);
         }
-        return (array)$result;
+        return $result;
     }
 
-    /**
-     * @param string $target
-     * @param string $hash
-     * @param array $arguments
-     * @return void
-     */
     protected function persistRedirect(string $target, string $hash, array $arguments = []): void
     {
         $queryBuilder = DatabaseUtility::getQueryBuilderForTable($this::TABLE_NAME);
@@ -105,6 +106,6 @@ class RedirectService
                 'tstamp' => time(),
                 'crdate' => time(),
             ])
-            ->execute();
+            ->executeStatement();
     }
 }

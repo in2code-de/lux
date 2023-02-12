@@ -4,169 +4,99 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
 use DateTime;
-use Doctrine\DBAL\DBALException;
 use In2code\Lux\Domain\Repository\LinkclickRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Utility\DateUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
-/**
- * Class Linklistener
- */
 class Linklistener extends AbstractEntity
 {
     const TABLE_NAME = 'tx_lux_domain_model_linklistener';
 
-    /**
-     * @var DateTime|null
-     */
-    protected $crdate = null;
+    protected ?DateTime $crdate = null;
+    protected ?User $cruserId = null;
+    protected ?Category $category = null;
+
+    protected string $title = '';
+    protected string $description = '';
+    protected string $link = '';
 
     /**
-     * @var User|null
+     * @var ?ObjectStorage<Linkclick>
+     * @Lazy
      */
-    protected $cruserId = null;
+    protected ?ObjectStorage $linkclicks = null;
 
-    /**
-     * @var string
-     */
-    protected $title = '';
-
-    /**
-     * @var string
-     */
-    protected $description = '';
-
-    /**
-     * @var string
-     */
-    protected $link = '';
-
-    /**
-     * @var Category
-     */
-    protected $category = null;
-
-    /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\In2code\Lux\Domain\Model\Linkclick>
-     * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
-     */
-    protected $linkclicks = null;
-
-    /**
-     * @return DateTime|null
-     */
     public function getCrdate(): ?DateTime
     {
         return $this->crdate;
     }
 
-    /**
-     * @param DateTime|null $crdate
-     * @return Linklistener
-     */
     public function setCrdate(?DateTime $crdate): self
     {
         $this->crdate = $crdate;
         return $this;
     }
 
-    /**
-     * @return User|null
-     */
     public function getCruserId(): ?User
     {
         return $this->cruserId;
     }
 
-    /**
-     * @param User|null $cruserId
-     * @return Linklistener
-     */
-    public function setCruserId(?User $cruserId): Linklistener
+    public function setCruserId(?User $cruserId): self
     {
         $this->cruserId = $cruserId;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     * @return Linklistener
-     */
     public function setTitle(string $title): self
     {
         $this->title = $title;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * @param string $description
-     * @return Linklistener
-     */
-    public function setDescription(string $description): Linklistener
+    public function setDescription(string $description): self
     {
         $this->description = $description;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getLink(): string
     {
         return $this->link;
     }
 
-    /**
-     * @param string $link
-     * @return Linklistener
-     */
     public function setLink(string $link): self
     {
         $this->link = $link;
         return $this;
     }
 
-    /**
-     * @return Category
-     */
     public function getCategory(): ?Category
     {
         return $this->category;
     }
 
-    /**
-     * @param Category $category
-     * @return Linklistener
-     */
     public function setCategory(Category $category): self
     {
         $this->category = $category;
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getLinkclicks(): array
     {
         $linkclicks = $this->linkclicks;
@@ -179,10 +109,6 @@ class Linklistener extends AbstractEntity
         return $linkclickArray;
     }
 
-    /**
-     * @param ObjectStorage $linkclicks
-     * @return Linklistener
-     */
     public function setLinkclicks(ObjectStorage $linkclicks): self
     {
         $this->linkclicks = $linkclicks;
@@ -192,20 +118,12 @@ class Linklistener extends AbstractEntity
     /**
      * Calculated properties
      */
-
-    /**
-     * @return array
-     */
     public function getLinkclicksRaw(): array
     {
         $linkclickRepository = GeneralUtility::makeInstance(LinkclickRepository::class);
         return $linkclickRepository->findRawByLinklistenerIdentifier($this->getUid());
     }
 
-    /**
-     * @return float
-     * @throws DBALException
-     */
     public function getPerformance(): float
     {
         if (count($this->getLinkclicksRaw()) === 0) {
@@ -223,11 +141,6 @@ class Linklistener extends AbstractEntity
         return $groupedLinkclicks['clickcount'] / $groupedLinkclicks['pagevisits'];
     }
 
-    /**
-     * @param array $groupedLinkclicks
-     * @return array
-     * @throws DBALException
-     */
     protected function extendGroupedLinkclicksWithDateAndPagevisits(array $groupedLinkclicks): array
     {
         $linkclickRepository = GeneralUtility::makeInstance(LinkclickRepository::class);
@@ -248,10 +161,6 @@ class Linklistener extends AbstractEntity
         return $groupedLinkclicks;
     }
 
-    /**
-     * @param array $groupedLinkclicks
-     * @return array
-     */
     protected function combineMultipleGroupedLinkclicks(array $groupedLinkclicks): array
     {
         foreach ($groupedLinkclicks as $key => $groupedLinkclick) {

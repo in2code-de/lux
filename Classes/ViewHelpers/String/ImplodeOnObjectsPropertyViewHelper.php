@@ -3,17 +3,12 @@
 declare(strict_types=1);
 namespace In2code\Lux\ViewHelpers\String;
 
+use TYPO3\CMS\Extbase\Reflection\Exception\PropertyNotAccessibleException;
 use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-/**
- * Class ImplodeOnObjectsPropertyViewHelper
- */
 class ImplodeOnObjectsPropertyViewHelper extends AbstractViewHelper
 {
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         $this->registerArgument('objects', 'mixed', 'Any object', true);
@@ -23,6 +18,7 @@ class ImplodeOnObjectsPropertyViewHelper extends AbstractViewHelper
 
     /**
      * @return string
+     * @throws PropertyNotAccessibleException
      */
     public function render(): string
     {

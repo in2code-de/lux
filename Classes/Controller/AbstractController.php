@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
 use DateTime;
+use In2code\Lux\Backend\Buttons\NavigationGroupButton;
 use In2code\Lux\Domain\Cache\CacheLayer;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Repository\CategoryRepository;
@@ -26,118 +27,40 @@ use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Backend\Module\ExtbaseModule;
+use TYPO3\CMS\Backend\Routing\Route;
+use TYPO3\CMS\Backend\Routing\RouteResult;
+use TYPO3\CMS\Backend\Template\Components\ButtonBar;
+use TYPO3\CMS\Backend\Template\ModuleTemplate;
+use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
-use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
-use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 
-/**
- * Class AbstractController
- */
 abstract class AbstractController extends ActionController
 {
-    /**
-     * @var VisitorRepository
-     */
-    protected $visitorRepository = null;
+    protected ?VisitorRepository $visitorRepository = null;
+    protected ?IpinformationRepository $ipinformationRepository = null;
+    protected ?LogRepository $logRepository = null;
+    protected ?PagevisitRepository $pagevisitsRepository = null;
+    protected ?PageRepository $pageRepository = null;
+    protected ?DownloadRepository $downloadRepository = null;
+    protected ?NewsvisitRepository $newsvisitRepository = null;
+    protected ?NewsRepository $newsRepository = null;
+    protected ?CategoryRepository $categoryRepository = null;
+    protected ?LinkclickRepository $linkclickRepository = null;
+    protected ?LinklistenerRepository $linklistenerRepository = null;
+    protected ?FingerprintRepository $fingerprintRepository = null;
+    protected ?SearchRepository $searchRepository = null;
+    protected ?UtmRepository $utmRepository = null;
+    protected ?RenderingTimeService $renderingTimeService = null;
+    protected ?CacheLayer $cacheLayer = null;
+    protected ModuleTemplateFactory $moduleTemplateFactory;
+    protected ModuleTemplate $moduleTemplate;
 
-    /**
-     * @var IpinformationRepository
-     */
-    protected $ipinformationRepository = null;
-
-    /**
-     * @var LogRepository
-     */
-    protected $logRepository = null;
-
-    /**
-     * @var PagevisitRepository
-     */
-    protected $pagevisitsRepository = null;
-
-    /**
-     * @var PageRepository
-     */
-    protected $pageRepository = null;
-
-    /**
-     * @var DownloadRepository
-     */
-    protected $downloadRepository = null;
-
-    /**
-     * @var NewsvisitRepository
-     */
-    protected $newsvisitRepository = null;
-
-    /**
-     * @var NewsRepository
-     */
-    protected $newsRepository = null;
-
-    /**
-     * @var CategoryRepository
-     */
-    protected $categoryRepository = null;
-
-    /**
-     * @var LinkclickRepository
-     */
-    protected $linkclickRepository = null;
-
-    /**
-     * @var LinklistenerRepository
-     */
-    protected $linklistenerRepository = null;
-
-    /**
-     * @var FingerprintRepository
-     */
-    protected $fingerprintRepository = null;
-
-    /**
-     * @var SearchRepository
-     */
-    protected $searchRepository = null;
-
-    /**
-     * @var UtmRepository
-     */
-    protected $utmRepository = null;
-
-    /**
-     * @var RenderingTimeService
-     */
-    protected $renderingTimeService = null;
-
-    /**
-     * @var CacheLayer
-     */
-    protected $cacheLayer = null;
-
-    /**
-     * AbstractController constructor.
-     * @param VisitorRepository $visitorRepository
-     * @param IpinformationRepository $ipinformationRepository
-     * @param LogRepository $logRepository
-     * @param PagevisitRepository $pagevisitsRepository
-     * @param PageRepository $pageRepository
-     * @param DownloadRepository $downloadRepository
-     * @param NewsvisitRepository $newsvisitRepository
-     * @param NewsRepository $newsRepository
-     * @param CategoryRepository $categoryRepository
-     * @param LinkclickRepository $linkclickRepository
-     * @param LinklistenerRepository $linklistenerRepository
-     * @param FingerprintRepository $fingerprintRepository
-     * @param SearchRepository $searchRepository
-     * @param RenderingTimeService $renderingTimeService to initialize renderingTimes
-     * @param CacheLayer $cacheLayer
-     */
     public function __construct(
         VisitorRepository $visitorRepository,
         IpinformationRepository $ipinformationRepository,
@@ -154,7 +77,8 @@ abstract class AbstractController extends ActionController
         SearchRepository $searchRepository,
         UtmRepository $utmRepository,
         RenderingTimeService $renderingTimeService,
-        CacheLayer $cacheLayer
+        CacheLayer $cacheLayer,
+        ModuleTemplateFactory $moduleTemplateFactory,
     ) {
         $this->visitorRepository = $visitorRepository;
         $this->ipinformationRepository = $ipinformationRepository;
@@ -172,19 +96,19 @@ abstract class AbstractController extends ActionController
         $this->utmRepository = $utmRepository;
         $this->renderingTimeService = $renderingTimeService;
         $this->cacheLayer = $cacheLayer;
+        $this->moduleTemplateFactory = $moduleTemplateFactory;
     }
 
     /**
      * Pass some important variables to all views
      *
-     * @param ViewInterface $view
+     * @param \TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view (Todo: Param is only needed in TYPO3 11)
      * @return void
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      */
-    public function initializeView(ViewInterface $view)
+    public function initializeView($view)
     {
-        parent::initializeView($view);
         $this->view->assignMultiple([
             'view' => [
                 'controller' => $this->getControllerName(),
@@ -195,8 +119,13 @@ abstract class AbstractController extends ActionController
         ]);
     }
 
+    public function initializeAction()
+    {
+        $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+    }
+
     /**
-     * Always set a default FilterDto even if there are no filter params. In addition remove categoryScoring with 0 to
+     * Always set a default FilterDto even if there are no filter params. In addition, remove categoryScoring with 0 to
      * avoid propertymapping exceptions
      *
      * @param int $timePeriod
@@ -225,14 +154,9 @@ abstract class AbstractController extends ActionController
         if (isset($filter['identified']) && $filter['identified'] === '') {
             $filter['identified'] = FilterDto::IDENTIFIED_ALL;
         }
-        $this->request->setArgument('filter', $filter);
+        $this->request = $this->request->withArgument('filter', $filter);
     }
 
-    /**
-     * @param string $action
-     * @param string $searchterm
-     * @return FilterDto
-     */
     protected function getFilterFromSessionForAjaxRequests(string $action, string $searchterm = ''): FilterDto
     {
         $filterValues = BackendUtility::getSessionValue('filter', $action, $this->getControllerName());
@@ -255,15 +179,10 @@ abstract class AbstractController extends ActionController
         return $filter;
     }
 
-    /**
-     * @param string $redirectAction
-     * @return void
-     * @throws StopActionException
-     */
-    public function resetFilterAction(string $redirectAction): void
+    public function resetFilterAction(string $redirectAction): ResponseInterface
     {
         BackendUtility::saveValueToSession('filter', $redirectAction, $this->getControllerName(), []);
-        $this->redirect($redirectAction);
+        return $this->redirect($redirectAction);
     }
 
     /**
@@ -285,10 +204,24 @@ abstract class AbstractController extends ActionController
     }
 
     /**
-     * @param string|null $csv
-     * @param string $filename
-     * @return ResponseInterface
+     * @return string like "lux_LuxWorkflow"
      */
+    protected function getRoute(): string
+    {
+        // Todo: Can be removed when TYPO3 11 support is dropped
+        if (ConfigurationUtility::isTypo3Version11()) {
+            /** @var Route $route */
+            $route = $this->request->getAttribute('route');
+            return $route->getOption('moduleName');
+        }
+
+        /** @var RouteResult $routeResult */
+        $routeResult = $this->request->getAttribute('routing');
+        /** @var ExtbaseModule $extbaseModule */
+        $extbaseModule = $routeResult->getRoute()->getOption('module');
+        return $extbaseModule->getIdentifier();
+    }
+
     protected function csvResponse(string $csv = null, string $filename = ''): ResponseInterface
     {
         if ($filename === '') {
@@ -297,20 +230,46 @@ abstract class AbstractController extends ActionController
                 . '_' . $date->format('Y-m-d') . '.csv';
         }
 
-        // Todo: Remove when TYPO3 10 is dropped
-        if (ConfigurationUtility::isTypo3Version11() === false) {
-            $this->response->setHeader('Content-Type', 'text/x-csv');
-            $this->response->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"');
-            $this->response->setHeader('Pragma', 'no-cache');
-            $this->response->sendHeaders();
-            echo $this->view->render();
-            exit;
-        }
-
         return $this->responseFactory->createResponse()
             ->withHeader('Content-Type', 'text/x-csv; charset=utf-8')
             ->withHeader('Content-Disposition', 'attachment; filename="' . $filename . '"')
             ->withHeader('Pragma', 'no-cache')
             ->withBody($this->streamFactory->createStream($csv ?? $this->view->render()));
+    }
+
+    protected function defaultRendering(): ResponseInterface
+    {
+        $this->moduleTemplate->setContent($this->view->render());
+        return $this->htmlResponse($this->moduleTemplate->renderContent());
+    }
+
+    protected function addDocumentHeader(array $configuration): void
+    {
+        $this->addNavigationButtons($configuration);
+        $this->addShortcutButton();
+    }
+
+    protected function addNavigationButtons(array $configuration): void
+    {
+        $buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
+        $navigationGroupButton = GeneralUtility::makeInstance(
+            NavigationGroupButton::class,
+            $this->request,
+            $this->getActionName(),
+            $this->getControllerName(),
+            $configuration,
+        );
+        $buttonBar->addButton($navigationGroupButton, ButtonBar::BUTTON_POSITION_LEFT, 2);
+    }
+
+    protected function addShortcutButton(): void
+    {
+        $buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
+        $shortCutButton = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar()->makeShortcutButton();
+        $shortCutButton
+            ->setRouteIdentifier($this->getRoute())
+            ->setDisplayName('Shortcut')
+            ->setArguments(['action' => $this->getActionName(), 'controller' => $this->getControllerName()]);
+        $buttonBar->addButton($shortCutButton, ButtonBar::BUTTON_POSITION_RIGHT, 1);
     }
 }

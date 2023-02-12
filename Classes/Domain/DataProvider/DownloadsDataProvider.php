@@ -5,10 +5,8 @@ namespace In2code\Lux\Domain\DataProvider;
 
 use In2code\Lux\Domain\Repository\DownloadRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
-/**
- * Class DownloadsDataProvider
- */
 class DownloadsDataProvider extends AbstractDynamicFilterDataProvider
 {
     /**
@@ -27,7 +25,7 @@ class DownloadsDataProvider extends AbstractDynamicFilterDataProvider
      *  ]
      *
      * @return void
-     * @throws \Exception
+     * @throws InvalidQueryException
      */
     public function prepareData(): void
     {

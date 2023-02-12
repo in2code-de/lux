@@ -12,10 +12,6 @@ use TYPO3\CMS\Dashboard\WidgetApi;
 use TYPO3\CMS\Dashboard\Widgets\ChartDataProviderInterface;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
-/**
- * Class LuxRecurringDataProvider
- * @noinspection PhpUnused
- */
 class LuxRecurringDataProvider implements ChartDataProviderInterface
 {
     /**

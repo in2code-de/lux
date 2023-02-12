@@ -7,24 +7,14 @@ use In2code\Lux\Domain\Model\Categoryscoring;
 use In2code\Lux\Domain\Model\Visitor;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-/**
- * Class GetCategoryScoringListFromVisitorViewHelper
- * @noinspection ALL
- */
 class GetCategoryScoringListFromVisitorViewHelper extends AbstractViewHelper
 {
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         $this->registerArgument('visitor', Visitor::class, 'visitor', true);
         $this->registerArgument('property', 'string', 'Scoring or title from category(scoring)', false, 'scoring');
     }
 
-    /**
-     * @return string
-     */
     public function render(): string
     {
         $list = [];

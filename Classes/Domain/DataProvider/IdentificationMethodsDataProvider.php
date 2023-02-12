@@ -4,14 +4,12 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider;
 
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Repository\LogRepository;
 use In2code\Lux\Utility\LocalizationUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class IdentificationMethodsDataProvider
- */
 class IdentificationMethodsDataProvider extends AbstractDataProvider
 {
     /**
@@ -31,6 +29,7 @@ class IdentificationMethodsDataProvider extends AbstractDataProvider
      *
      * @return void
      * @throws DBALException
+     * @throws ExceptionDbalDriver
      */
     public function prepareData(): void
     {
@@ -53,10 +52,6 @@ class IdentificationMethodsDataProvider extends AbstractDataProvider
         ];
     }
 
-    /**
-     * @param string $key
-     * @return string
-     */
     protected function getStatisticsLabel(string $key): string
     {
         return LocalizationUtility::getLanguageService()->sL(

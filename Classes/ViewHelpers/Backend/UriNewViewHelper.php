@@ -11,14 +11,8 @@ use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExis
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-/**
- * Class UriNewViewHelper
- */
 class UriNewViewHelper extends AbstractViewHelper
 {
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         parent::initializeArguments();
@@ -35,7 +29,7 @@ class UriNewViewHelper extends AbstractViewHelper
      */
     public function render(): string
     {
-        $newRecord = GeneralUtility::makeInstance(NewRecord::class, $this->arguments['moduleName']);
+        $newRecord = GeneralUtility::makeInstance(NewRecord::class, $this->renderingContext);
         return $newRecord->get(
             $this->arguments['tableName'],
             ConfigurationUtility::getPidLinkClickRedords(),

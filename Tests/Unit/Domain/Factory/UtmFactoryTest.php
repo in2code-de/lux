@@ -45,7 +45,7 @@ class UtmFactoryTest extends UnitTestCase
     public function testGetUtmKeysEmptyArray(): void
     {
         $this->expectExceptionCode(1666207599);
-        $this->generalValidatorMock->_call('get', []);
+        $this->generalValidatorMock->_call('get', [], '');
     }
 
     /**
@@ -62,7 +62,7 @@ class UtmFactoryTest extends UnitTestCase
             'utm_term' => 'term',
             'utm_content' => 'content',
         ];
-        $utm = $this->generalValidatorMock->_call('get', $parameters);
+        $utm = $this->generalValidatorMock->_call('get', $parameters, 'foo');
         self::assertInstanceOf(Utm::class, $utm);
         self::assertSame($parameters['utm_source'], $utm->getUtmSource());
         self::assertSame($parameters['utm_medium'], $utm->getUtmMedium());
@@ -70,6 +70,7 @@ class UtmFactoryTest extends UnitTestCase
         self::assertSame($parameters['utm_id'], $utm->getUtmId());
         self::assertSame($parameters['utm_term'], $utm->getUtmTerm());
         self::assertSame($parameters['utm_content'], $utm->getUtmContent());
+        self::assertSame('foo', $utm->getReferrer());
     }
 
     /**

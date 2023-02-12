@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider\PageOverview;
 
+use Doctrine\DBAL\Driver\Exception;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
@@ -84,6 +85,7 @@ class GotinInternalDataProvider extends AbstractDataProvider
      * @param int $crdate
      * @return int
      * @throws ExceptionDbal
+     * @throws Exception
      */
     protected function getGotinToPagevisit(int $visitor, int $crdate): int
     {
@@ -95,7 +97,7 @@ class GotinInternalDataProvider extends AbstractDataProvider
             . ' and crdate < ' . $crdate
             . ' and crdate <= ' . ($crdate + $this->getTimelimit())
             . ' order by crdate desc limit 1'
-        )->fetchColumn();
+        )->fetchOne();
         if ($pageIdentifier === false) {
             return 0;
         }

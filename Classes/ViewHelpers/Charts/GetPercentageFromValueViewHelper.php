@@ -5,14 +5,8 @@ namespace In2code\Lux\ViewHelpers\Charts;
 
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-/**
- * Class GetPercentageFromValueViewHelper
- */
 class GetPercentageFromValueViewHelper extends AbstractViewHelper
 {
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         $this->registerArgument('countries', 'array', 'Countries', true);
@@ -40,7 +34,7 @@ class GetPercentageFromValueViewHelper extends AbstractViewHelper
         if (isset($this->arguments['countries'])) {
             $countries = $this->arguments['countries'];
             $values = array_values($countries);
-            $highestValue = $values[0];
+            $highestValue = $values[0] ?? 0;
             if ($highestValue > 0) {
                 foreach ($countries as $countryCode => $visits) {
                     $percentuage = (int)($visits / $highestValue * 100);
