@@ -30,7 +30,7 @@
 		"ext-pdo": "*",
 		"typo3/cms-core": "^11.5 || ^12.0",
 		"symfony/expression-language": ">=4.0",
-		"whichbrowser/parser": "^2.0",
+		"buzz/which-browser-parser": "dev-master#236e0e1285968e2a3618ff123b5e417c589beb62",
 		"buchin/google-image-grabber": "^1.0"
 	},
 	"replace": {
