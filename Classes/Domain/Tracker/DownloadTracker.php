@@ -18,29 +18,12 @@ use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 
-/**
- * Class DownloadTracker add a download record to a visitor
- */
 class DownloadTracker
 {
-    /**
-     * @var Visitor|null
-     */
-    protected $visitor = null;
+    protected ?Visitor $visitor = null;
+    protected ?VisitorRepository $visitorRepository = null;
+    private EventDispatcherInterface $eventDispatcher;
 
-    /**
-     * @var VisitorRepository|null
-     */
-    protected $visitorRepository = null;
-
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $eventDispatcher;
-
-    /**
-     * @param Visitor $visitor
-     */
     public function __construct(Visitor $visitor)
     {
         $this->visitor = $visitor;
@@ -83,10 +66,7 @@ class DownloadTracker
         $downloadRepository = GeneralUtility::makeInstance(DownloadRepository::class);
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
         $page = $pageRepository->findByIdentifier($pageIdentifier);
-        $download = GeneralUtility::makeInstance(Download::class)
-            ->setHref($href)
-            ->setPage($page)
-            ->setDomain();
+        $download = GeneralUtility::makeInstance(Download::class)->setHref($href)->setPage($page)->setDomain();
         if ($file !== null) {
             $download->setFile($file);
         }
