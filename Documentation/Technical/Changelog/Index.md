@@ -20,6 +20,7 @@
 
 | Version    | Date       | State    | Description                                                                                                                                                                                           |
 |------------|------------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 27.1.1     | 2023-02-17 | Bugfix   | Fix "Property lastLogin must not be accessed before initialization" in FrontendUser model                                                                                                             |
 | 27.1.0     | 2023-02-15 | Bugfix   | Updated disallowed mail provider list, Fixed PHP 8.2 issue with package whichbrowser/parser, small code cleanup                                                                                       |
 | 27.0.0 !!! | 2023-02-12 | Task     | Support TYPO3 11+12 and drop support for TYPO3 10. Add id to anonym names. Track referrer with UTM tracking. A/B testing with a cleanup function now. Make linklisteners selectable in backend again. |
 | 26.4.2     | 2023-02-07 | Bugfix   | Make linklisteners selectable for editors again                                                                                                                                                       |
