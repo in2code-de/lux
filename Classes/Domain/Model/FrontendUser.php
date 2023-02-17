@@ -38,7 +38,7 @@ class FrontendUser extends AbstractEntity
      */
     protected ObjectStorage $image;
 
-    protected ?DateTime $lastlogin;
+    protected ?DateTime $lastlogin = null;
 
     public function __construct(string $username = '', string $password = '')
     {
@@ -46,7 +46,6 @@ class FrontendUser extends AbstractEntity
         $this->password = $password;
         $this->usergroup = new ObjectStorage();
         $this->image = new ObjectStorage();
-        $this->lastlogin = null;
     }
 
     public function initializeObject()
