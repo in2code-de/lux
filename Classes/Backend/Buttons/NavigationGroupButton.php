@@ -103,7 +103,7 @@ class NavigationGroupButton extends AbstractButton
     protected function getInfoUri(): string
     {
         $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
-        return $uriBuilder->uriFor('information', [], 'General', 'Lux', 'analysis');
+        return $uriBuilder->uriFor('information', [], 'General', 'Lux', 'lux_LuxAnalysis');
     }
 
     public function __toString()

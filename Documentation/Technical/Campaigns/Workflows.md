@@ -644,7 +644,7 @@ lib.lux.settings {
         # Additional configuration
         configuration {
           # Icon for push notification
-          icon = /typo3conf/ext/lux/Resources/Public/Icons/lux.svg
+          icon = EXT:lux/Resources/Public/Icons/lux.svg
         }
       }
 
