@@ -7,7 +7,6 @@ use Buchin\GoogleImageGrabber\GoogleImageGrabber;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\FileUtility;
-use In2code\Lux\Utility\StringUtility;
 use Throwable;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
@@ -15,6 +14,7 @@ use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotCon
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Extbase\Service\ImageService;
 
 class VisitorImageService
@@ -23,7 +23,7 @@ class VisitorImageService
 
     protected ?Visitor $visitor = null;
 
-    protected string $defaultFile = 'typo3conf/ext/lux/Resources/Public/Images/AvatarDefault.svg';
+    protected string $defaultFile = 'EXT:lux/Resources/Public/Images/AvatarDefault.svg';
 
     /**
      * Size in px
@@ -154,7 +154,7 @@ class VisitorImageService
     protected function getDefaultUrl(string $url): string
     {
         if (empty($url)) {
-            $url = StringUtility::getCurrentUri() . $this->defaultFile;
+            $url = PathUtility::getAbsoluteWebPath(GeneralUtility::getFileAbsFileName($this->defaultFile));
         }
         return $url;
     }
