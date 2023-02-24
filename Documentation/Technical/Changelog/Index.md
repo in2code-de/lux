@@ -20,6 +20,7 @@
 
 | Version    | Date       | State    | Description                                                                                                                                                                                           |
 |------------|------------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 27.1.5     | 2023-02-24 | Bugfix   | Fix link on i-icon in backend modules in TYPO3 11 (again and on all places)                                                                                                                           |
 | 27.1.4     | 2023-02-23 | Bugfix   | Fix link on i-icon in backend modules in TYPO3 11, small documentation update                                                                                                                         |
 | 27.1.3     | 2023-02-23 | Bugfix   | Fix for ajax loading of default visitor images and CSS in workflow backend module (when extension is located in vendor folder instead of typo3conf/ext)                                               |
 | 27.1.2     | 2023-02-20 | Bugfix   | Small fix for possible SQL exceptions in Lead dashboard, updated disallowed mail provider list                                                                                                        |
