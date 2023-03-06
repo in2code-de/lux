@@ -49,7 +49,7 @@ class FingerprintRepository extends AbstractRepository
         foreach ($records as $record) {
             if (class_exists(Parser::class)) {
                 $parser = new Parser($record['user_agent']);
-                $osBrowser = $parser->os->name . ' ' . $parser->browser->name;
+                $osBrowser = ($parser->os->getName() ?? '') . ' ' . ($parser->browser->getName() ?? '');
                 if (array_key_exists($osBrowser, $result)) {
                     $result[$osBrowser] += $record['count'];
                 } else {
