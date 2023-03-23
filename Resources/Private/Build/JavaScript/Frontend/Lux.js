@@ -903,7 +903,7 @@ function LuxMain() {
         'tx_lux_fe[arguments][sendEmail]': sendEmail === 'true',
         'tx_lux_fe[arguments][href]': href,
         'tx_lux_fe[arguments][pageUid]': getPageUid(),
-        'tx_lux_fe[arguments][values]': JSON.stringify(formArguments)
+        'tx_lux_fe[arguments][values]': encodeURIComponent(JSON.stringify(formArguments))
       }, getRequestUri(), 'email4LinkLightboxSubmitCallback', {sendEmail: (sendEmail === 'true'), href: href, target: target});
     } else {
       showElement(that.lightboxInstance.element().querySelector('[data-lux-email4link="errorEmailAddress"]'));
@@ -981,7 +981,7 @@ function LuxMain() {
     ajaxConnection({
       'tx_lux_fe[dispatchAction]': 'formListeningRequest',
       'tx_lux_fe[identificator]': identification.getIdentificator(),
-      'tx_lux_fe[arguments][values]': JSON.stringify(formArguments),
+      'tx_lux_fe[arguments][values]': encodeURIComponent(JSON.stringify(formArguments)),
       'tx_lux_fe[arguments][pageUid]': getPageUid()
     }, getRequestUri(), 'generalWorkflowActionCallback', null);
   };

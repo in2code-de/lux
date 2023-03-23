@@ -20,6 +20,7 @@
 
 | Version    | Date       | State    | Description                                                                                                                                                                                           |
 |------------|------------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 27.1.7     | 2023-03-23 | Bugfix   | Support special characters in form and email4link request now                                                                                                                                         |
 | 27.1.6     | 2023-03-06 | Task     | Prevent exception in log undefined property Browser::name, Update to chart.js 2.9.4 for security reasons                                                                                              |
 | 27.1.5     | 2023-02-24 | Bugfix   | Fix link on i-icon in backend modules in TYPO3 11 (again and on all places)                                                                                                                           |
 | 27.1.4     | 2023-02-23 | Bugfix   | Fix link on i-icon in backend modules in TYPO3 11, small documentation update                                                                                                                         |
