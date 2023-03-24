@@ -12,7 +12,6 @@ use In2code\Lux\Domain\Service\GetCompanyFromIpService;
 use In2code\Lux\Domain\Service\Provider\Telecommunication;
 use In2code\Lux\Domain\Service\ScoringService;
 use In2code\Lux\Domain\Service\VisitorImageService;
-use In2code\Lux\Exception\FileNotFoundException;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
@@ -326,8 +325,6 @@ class Visitor extends AbstractModel
      * Set company from IP information if possible (on visitor creation)
      *
      * @return $this
-     * @throws FileNotFoundException
-     * @throws InvalidConfigurationTypeException
      */
     public function setCompanyAutomatic(): self
     {
@@ -779,17 +776,17 @@ class Visitor extends AbstractModel
     public function setBlacklistedStatus(): void
     {
         $this->setScoring(0);
-        $this->setEmail('');
-        $this->setIdentified(false);
         $this->setVisits(0);
         $this->setIpAddress('');
 
-        $this->categoryscorings = new ObjectStorage();
-        $this->pagevisits = new ObjectStorage();
         $this->attributes = new ObjectStorage();
-        $this->ipinformations = new ObjectStorage();
+        $this->categoryscorings = new ObjectStorage();
         $this->downloads = new ObjectStorage();
+        $this->ipinformations = new ObjectStorage();
+        $this->linkclicks = new ObjectStorage();
         $this->logs = new ObjectStorage();
+        $this->newsvisits = new ObjectStorage();
+        $this->pagevisits = new ObjectStorage();
 
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $visitorRepository->removeRelatedTableRowsByVisitor($this);

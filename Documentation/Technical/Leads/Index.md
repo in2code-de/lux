@@ -134,7 +134,7 @@ You need also to see this information. And this view shows you all collected att
 
 ##### Profiles
 
-Because your lead could use more then just one device, all fingerprints + legacy cookies and devices are listed here
+Because your lead could use more than just one device, all fingerprints + legacy cookies and devices are listed here
 with some additional information.
 
 ##### Interaction Buttons
@@ -142,5 +142,5 @@ with some additional information.
 On the bottom of the detail view, you will find three buttons.
 
 * Go back: Browser will show the previous page
-* Blacklist: This lead will be blacklisted on. This means, the lead is not visible in any view any more. This is helpful, if you identify a searchengine crawler (maybe with a high scoring). In addition all properties and related tables are cleaned!
+* Blacklist: This lead will be blacklisted. This means, the lead is not visible in any view anymore. This is helpful, if you identify a searchengine crawler (maybe with a high scoring). In addition, all properties and related tables are cleaned!
 * Remove completely: This will remove all information about this lead from your system. Remove means that the records are really remove - not only a deleted=1!

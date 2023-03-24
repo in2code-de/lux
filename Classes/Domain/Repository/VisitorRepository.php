@@ -45,8 +45,9 @@ class VisitorRepository extends AbstractRepository
     public function findOneAndAlsoBlacklistedByFingerprint(string $identificator, int $type): ?Visitor
     {
         $query = $this->createQuery();
-        $query->getQuerySettings()->setIgnoreEnableFields(true)->setEnableFieldsToBeIgnored(['blacklisted']);
+        $query->getQuerySettings()->setIgnoreEnableFields(true);
         $and = [
+            $query->equals('deleted', false),
             $query->equals('fingerprints.value', $identificator),
             $query->equals('fingerprints.type', $type),
         ];
@@ -203,13 +204,16 @@ class VisitorRepository extends AbstractRepository
     }
 
     /**
+     * Find duplicates (also blacklisted records) by given email
+     *
      * @param string $email
      * @return QueryResultInterface
      */
     public function findDuplicatesByEmail(string $email): QueryResultInterface
     {
         $query = $this->createQuery();
-        $query->matching($query->equals('email', $email));
+        $query->getQuerySettings()->setIgnoreEnableFields(true);
+        $query->matching($query->logicalAnd($query->equals('deleted', false), $query->equals('email', $email)));
         $query->setOrderings(['crdate' => QueryInterface::ORDER_ASCENDING]);
         return $query->execute();
     }
