@@ -313,7 +313,7 @@ class FrontendController extends ActionController
                 'title' => $title,
                 'text' => $text,
                 'href' => $href,
-            ]
+            ],
         ]);
         return $this->jsonResponse(json_encode(['html' => $this->view->render()]));
     }

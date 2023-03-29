@@ -135,70 +135,70 @@ luxRedirect {
 # Typenum to get field mapping configuration in a dynamic JS file
 [{$plugin.tx_lux.settings.fieldandformidentification} == 1]
 
-  page {
-    # Add JavaScript URL for field identification configuration
-    1517985223 = TEXT
-    1517985223 {
-      typolink {
-        parameter.data = TSFE:id
-        additionalParams = &type=1517985223
-        returnLast = url
-      }
-
-      wrap = <script type="text/javascript" src="|"></script>
+page {
+  # Add JavaScript URL for field identification configuration
+  1517985223 = TEXT
+  1517985223 {
+    typolink {
+      parameter.data = TSFE:id
+      additionalParams = &type=1517985223
+      returnLast = url
     }
 
-    # Add JavaScript URL for form identification configuration
-    1560095529 = TEXT
-    1560095529 {
-      typolink {
-        parameter.data = TSFE:id
-        additionalParams = &type=1560095529
-        returnLast = url
-      }
-
-      wrap = <script type="text/javascript" src="|"></script>
-    }
+    wrap = <script type="text/javascript" src="|"></script>
   }
 
-  # Add JavaScript for field identification configuration
-  luxConfigurationFieldIdentification = PAGE
-  luxConfigurationFieldIdentification {
-    typeNum = 1517985223
-    config {
-      additionalHeaders.10 {
-        header = Content-Type: text/javascript
-        replace = 1
-      }
-      disableAllHeaderCode = 1
-      disablePrefixComment = 1
-      xhtml_cleaning = 0
-      admPanel = 0
-      debug = 0
+  # Add JavaScript URL for form identification configuration
+  1560095529 = TEXT
+  1560095529 {
+    typolink {
+      parameter.data = TSFE:id
+      additionalParams = &type=1560095529
+      returnLast = url
     }
 
-    10 = FLUIDTEMPLATE
-    10 {
-      file = EXT:lux/Resources/Private/Templates/Configuration/JavaScriptFieldMappingConfiguration.js
-      settings < plugin.tx_lux_fe.settings
-      dataProcessing {
-        10 = In2code\Lux\DataProcessing\FieldMappingProcessor
-      }
+    wrap = <script type="text/javascript" src="|"></script>
+  }
+}
+
+# Add JavaScript for field identification configuration
+luxConfigurationFieldIdentification = PAGE
+luxConfigurationFieldIdentification {
+  typeNum = 1517985223
+  config {
+    additionalHeaders.10 {
+      header = Content-Type: text/javascript
+      replace = 1
     }
+    disableAllHeaderCode = 1
+    disablePrefixComment = 1
+    xhtml_cleaning = 0
+    admPanel = 0
+    debug = 0
   }
 
-  # Add JavaScript for form identification configuration
-  luxConfigurationFormIdentification < luxConfigurationFieldIdentification
-  luxConfigurationFormIdentification {
-    typeNum = 1560095529
-
-    10 = FLUIDTEMPLATE
-    10 {
-      file = EXT:lux/Resources/Private/Templates/Configuration/JavaScriptFormFieldMappingConfiguration.js
-      settings < plugin.tx_lux_fe.settings
-      dataProcessing {
-        10 = In2code\Lux\DataProcessing\FormFieldMappingProcessor
-      }
+  10 = FLUIDTEMPLATE
+  10 {
+    file = EXT:lux/Resources/Private/Templates/Configuration/JavaScriptFieldMappingConfiguration.js
+    settings < plugin.tx_lux_fe.settings
+    dataProcessing {
+      10 = In2code\Lux\DataProcessing\FieldMappingProcessor
     }
   }
+}
+
+# Add JavaScript for form identification configuration
+luxConfigurationFormIdentification < luxConfigurationFieldIdentification
+luxConfigurationFormIdentification {
+  typeNum = 1560095529
+
+  10 = FLUIDTEMPLATE
+  10 {
+    file = EXT:lux/Resources/Private/Templates/Configuration/JavaScriptFormFieldMappingConfiguration.js
+    settings < plugin.tx_lux_fe.settings
+    dataProcessing {
+      10 = In2code\Lux\DataProcessing\FormFieldMappingProcessor
+    }
+  }
+}
 [end]

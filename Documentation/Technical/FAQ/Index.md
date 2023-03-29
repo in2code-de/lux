@@ -260,101 +260,100 @@ routeEnhancers:
 Let's say you want to add some fields where you also ask for the name or company or for a newsletter subscription.
 This can be done very quick.
 
-First of all, you can copy the Email4Link html template and adjust the new path via TypoScript:
+First of all, you can copy the Email4Link html template from LUX (in Private/Templates/Lux/Email4Link.html) and
+adjust the new path via TypoScript:
 
 ```
-page.1518545003.file = EXT:mysitepackage/Resources/Private/Templates/Lux/Email4Link.html
+plugin.tx_lux_email4link.view.templateRootPaths.1 = EXT:mysitepackage/Resources/Private/Templates/Extensions/Lux/
 ```
 
 Example change with a new field where you ask for a name, email, company and if the visitor wants to receive a
 newsletter:
 
 ```
-<div class="lux_container_email4link" data-lux-container="email4link">
-    <div class="lux_lightbox_container">
-        <h3>###EMAIL4LINK_TITLE###</h3>
-        <p>###EMAIL4LINK_TEXT###</p>
+<div class="lux_lightbox_container">
+    <h3>{download.title}</h3>
+    <p>{download.text}</p>
 
-        <form data-lux-email4link="form">
-            <div class="form-group">
-                <label for="lux_email4link_name" style="display: none;">Name</label>
+    <form data-lux-email4link="form">
+        <div class="form-group">
+            <label for="lux_email4link_name" style="display: none;">Name</label>
+            <input
+                    type="text"
+                    id="lux_email4link_name"
+                    class="form-control"
+                    required="required"
+                    placeholder="Max Muster"
+                    name="email4link[name]">
+        </div>
+
+
+        <div class="form-group">
+            <label for="lux_email4link_email" style="display: none;">Email</label>
+            <input
+                    type="email"
+                    id="lux_email4link_email"
+                    class="form-control"
+                    required="required"
+                    placeholder="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:frontend.email4link.lightbox.email')}"
+                    name="email4link[email]">
+        </div>
+
+
+        <div class="form-group">
+            <label for="lux_email4link_company" style="display: none;">Company</label>
+            <input
+                    type="text"
+                    id="lux_email4link_company"
+                    class="form-control"
+                    placeholder="Company name"
+                    name="email4link[company]">
+        </div>
+
+
+        <div class="form-check">
+            <label>
                 <input
-                        type="text"
-                        id="lux_email4link_name"
-                        class="form-control"
-                        required="required"
-                        placeholder="Max Muster"
-                        name="email4link[name]">
-            </div>
+                    type="checkbox"
+                    class="form-check-input"
+                    name="email4link[newsletter]"
+                    value="1" />
+                I want to get hottest news from you
+            </label>
+        </div>
 
 
-            <div class="form-group">
-                <label for="lux_email4link_email" style="display: none;">Email</label>
-                <input
-                        type="email"
-                        id="lux_email4link_email"
-                        class="form-control"
-                        required="required"
-                        placeholder="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:frontend.email4link.lightbox.email')}"
-                        name="email4link[email]">
-            </div>
-
-
-            <div class="form-group">
-                <label for="lux_email4link_company" style="display: none;">Company</label>
-                <input
-                        type="text"
-                        id="lux_email4link_company"
-                        class="form-control"
-                        placeholder="Company name"
-                        name="email4link[company]">
-            </div>
-
-
+        <f:if condition="{settings.addPrivacyLink}">
             <div class="form-check">
                 <label>
                     <input
-                        type="checkbox"
-                        class="form-check-input"
-                        name="email4link[newsletter]"
-                        value="1" />
-                    I want to get hottest news from you
+                            type="checkbox"
+                            class="form-check-input"
+                            required="required"
+                            name="email4link[privacyChecked]"
+                            value="1" />
+                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:frontend.email4link.lightbox.privacy" />
+                    <f:link.typolink parameter="{settings.pidPrivacyPage}" target="_blank" />
                 </label>
             </div>
+        </f:if>
 
 
-            <f:if condition="{settings.addPrivacyLink}">
-                <div class="form-check">
-                    <label>
-                        <input
-                                type="checkbox"
-                                class="form-check-input"
-                                required="required"
-                                name="email4link[privacyChecked]"
-                                value="1" />
-                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:frontend.email4link.lightbox.privacy" />
-                        <f:link.typolink parameter="{settings.pidPrivacyPage}" target="_blank" />
-                    </label>
-                </div>
-            </f:if>
+        <input
+                type="submit"
+                class="btn btn-primary"
+                value="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:frontend.email4link.lightbox.submit')}" />
 
+    </form>
 
-            <input
-                    type="submit"
-                    class="btn btn-primary"
-                    value="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:frontend.email4link.lightbox.submit')}" />
+    <p class="lux_smalltext">{download.href}</p>
 
-        </form>
+    <div data-lux-email4link="successMessageSendEmail" style="display:none;" class="alert alert-success">
+        {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:frontend.email4link.lightbox.success')}
+    </div>
 
-        <p class="lux_smalltext">###EMAIL4LINK_HREF###</p>
-
-        <div data-lux-email4link="successMessageSendEmail" style="display:none;" class="alert alert-success">
-            {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:frontend.email4link.lightbox.success')}
-        </div>
-
-        <div data-lux-email4link="errorEmailAddress" style="display:none;" class="alert alert-danger">
-            {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:frontend.email4link.lightbox.emailerror')}
-        </div>
+    <div data-lux-email4link="errorEmailAddress" style="display:none;" class="alert alert-danger">
+        {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:frontend.email4link.lightbox.emailerror')}
     </div>
 </div>
 ```
