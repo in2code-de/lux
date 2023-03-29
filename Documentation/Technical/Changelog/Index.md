@@ -22,6 +22,7 @@
 
 | Version    | Date       | State    | Description                                                                                                                                                                                           |
 |------------|------------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 28.0.0 !!! | 2023-03-29 | Feature  | Email4link html template is now loaded via AJAX instead of keeping it in invisible in DOM on every page.                                                                                              |
 | 27.2.0     | 2023-03-24 | Task     | Change blacklisted behaviour: We now keep the email address, so re-identified visitors with the same email but different fingerprints are automatically blacklisted again.                            |
 | 27.1.7     | 2023-03-23 | Bugfix   | Support special characters in form and email4link request now                                                                                                                                         |
 | 27.1.6     | 2023-03-06 | Task     | Prevent exception in log undefined property Browser::name, Update to chart.js 2.9.4 for security reasons                                                                                              |
