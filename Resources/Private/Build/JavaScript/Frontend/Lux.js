@@ -849,24 +849,32 @@ function LuxMain() {
       // show popup
       event.preventDefault();
 
-      var title = link.getAttribute('data-lux-email4link-title') || '';
-      var text = link.getAttribute('data-lux-email4link-text') || '';
-      var href = link.getAttribute('data-lux-href');
-      var containers = document.querySelectorAll('[data-lux-container="email4link"]');
-      if (containers.length > 0) {
-        var container = containers[0].cloneNode(true);
-        var html = container.innerHTML;
-        html = html.replace('###EMAIL4LINK_TITLE###', title);
-        html = html.replace('###EMAIL4LINK_TEXT###', text);
-        html = html.replace('###EMAIL4LINK_HREF###', getFilenameFromHref(href));
-        that.lightboxInstance = basicLightbox.create(html);
-        that.lightboxInstance.element().querySelector('[data-lux-email4link="form"]').addEventListener('submit', function(event) {
-          email4LinkLightboxSubmitListener(this, event, link);
-        });
-        that.lightboxInstance.show();
+      if (document.body.classList.contains('lux_waiting') === false) {
+        addWaitClassToBodyTag();
+        ajaxConnection({
+          'tx_lux_email4link[title]': link.getAttribute('data-lux-email4link-title') || '',
+          'tx_lux_email4link[text]': link.getAttribute('data-lux-email4link-text') || '',
+          'tx_lux_email4link[href]': getFilenameFromHref(link.getAttribute('data-lux-href'))
+        }, getContainer().getAttribute('data-lux-email4linktemplate'), 'email4linkTemplateCallback', {link: link});
       }
     }
   };
+
+  /**
+   * Callback for email4LinkListener to get html template for email4link lightbox
+   *
+   * @param response
+   * @param callbackArguments
+   * @returns {void}
+   */
+  this.email4linkTemplateCallback = function(response, callbackArguments) {
+    that.lightboxInstance = basicLightbox.create(response.html);
+    that.lightboxInstance.element().querySelector('[data-lux-email4link="form"]').addEventListener('submit', function(event) {
+      email4LinkLightboxSubmitListener(this, event, callbackArguments.link);
+    });
+    that.lightboxInstance.show();
+    removeWaitClassToBodyTag();
+  }
 
   /**
    * Callback function if lightbox should be submitted
@@ -1309,7 +1317,7 @@ function LuxMain() {
    * @returns {void}
    */
   var addWaitClassToBodyTag = function() {
-    document.body.className += ' ' + 'lux_waiting';
+    document.body.classList.add('lux_waiting');
   };
 
   /**

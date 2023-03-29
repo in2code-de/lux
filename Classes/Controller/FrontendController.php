@@ -300,6 +300,25 @@ class FrontendController extends ActionController
     }
 
     /**
+     * @param string $title
+     * @param string $text
+     * @param string $href
+     * @return ResponseInterface
+     * @noinspection PhpUnused
+     */
+    public function email4linkAction(string $title, string $text, string $href): ResponseInterface
+    {
+        $this->view->assignMultiple([
+            'download' => [
+                'title' => $title,
+                'text' => $text,
+                'href' => $href,
+            ]
+        ]);
+        return $this->jsonResponse(json_encode(['html' => $this->view->render()]));
+    }
+
+    /**
      * @return ResponseInterface
      * @noinspection PhpUnused
      */
