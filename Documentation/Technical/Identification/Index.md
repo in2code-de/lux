@@ -336,11 +336,11 @@ lib.lux.settings {
 After that, you can change every link in the CK editor:
 <img src="../../../Documentation/Images/screenshot_email4link_ckeditor_plugin.png" width="800" />
 
-| Field                     | Description                                                                                            |
-| ------------------------- | ------------------------------------------------------------------------------------------------------ |
-| Title                     | Show a title in the lightbox that opens on click in frontend                                           |
-| Description               | Show a description in the lightbox that opens on click in frontend (optional)                          |
-| Send asset via email      | Try to send asset as attachment via email (only possible for allowed file extensions - see TypoScript) |
+| Field                | Description                                                                                            |
+|----------------------|--------------------------------------------------------------------------------------------------------|
+| Title                | Show a title in the lightbox that opens on click in frontend                                           |
+| Description          | Show a description in the lightbox that opens on click in frontend (optional)                          |
+| Send asset via email | Try to send asset as attachment via email (only possible for allowed file extensions - see TypoScript) |
 
 All clicks in frontend will be catched now by JavaScript and opens a lightbox:
 <img src="../../../Documentation/Images/screenshot_email4link.png" width="800" />

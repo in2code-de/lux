@@ -12,8 +12,12 @@ call_user_func(
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
             'Lux',
             'Fe',
-            [\In2code\Lux\Controller\FrontendController::class => 'dispatchRequest'],
             [\In2code\Lux\Controller\FrontendController::class => 'dispatchRequest']
+        );
+        \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+            'Lux',
+            'Email4link',
+            [\In2code\Lux\Controller\FrontendController::class => 'email4link']
         );
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
             'Lux',

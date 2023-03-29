@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@fingerprintjs/fingerprintjs": "^2.1.0",
-    "basiclightbox": "^4.0.0",
+    "basiclightbox": "^5.0.0",
     "ua-parser-js": "^0.7.31"
   }
 }
