@@ -6,6 +6,7 @@ namespace In2code\Lux\Controller;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Factory\VisitorFactory;
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Domain\Service\ConfigurationService;
 use In2code\Lux\Domain\Service\Email\SendAssetEmail4LinkService;
 use In2code\Lux\Domain\Tracker\AbTestingTracker;
 use In2code\Lux\Domain\Tracker\AttributeTracker;
@@ -83,8 +84,12 @@ class FrontendController extends ActionController
         string $identificator,
         array $arguments
     ): ResponseInterface {
-        return (new ForwardResponse($dispatchAction))
-            ->withArguments(['identificator' => $identificator, 'arguments' => $arguments]);
+        $configurationService = GeneralUtility::makeInstance(ConfigurationService::class);
+        if ($configurationService->getTypoScriptSettingsByPath('general.enable') !== '0') {
+            return (new ForwardResponse($dispatchAction))
+                ->withArguments(['identificator' => $identificator, 'arguments' => $arguments]);
+        }
+        return $this->jsonResponse(json_encode(['error' => true, 'status' => 'disabled']));
     }
 
     /**
