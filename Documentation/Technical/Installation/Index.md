@@ -77,6 +77,9 @@ Look at the default settings of your lux in TypoScript constants:
 
 ```
 plugin.tx_lux.settings {
+  # cat=lux//00ß5; type=boolean; label= Activate frontend functionality: All frontend functionalities can be toggled for testing or against flooding
+  enableFrontendController = 1
+
   # cat=lux//0010; type=boolean; label= Activate autoenable: Decide if user tracking is turned on by default (no opt-in needed here). If you turn autoenable off, you have to build an opt-in.
   autoenable = 1
 

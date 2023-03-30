@@ -1,5 +1,8 @@
 lib.lux.settings {
   general {
+    # All frontend functionalities can be toggled for testing or against flooding
+    enable = {$plugin.tx_lux.settings.enableFrontendController}
+
     # Wildcard matches: Path to a simple csv files (comma separate more files) with general telecom providers (to not show them as company in lead list)
     telecommunicationProviderTermList = EXT:lux/Resources/Private/Static/TelecommunicationProviderTerms.txt
 

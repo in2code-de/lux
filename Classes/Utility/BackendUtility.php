@@ -19,6 +19,11 @@ class BackendUtility
         return '';
     }
 
+    public static function isBackendAuthentication(): bool
+    {
+        return self::getBackendUserAuthentication() !== null;
+    }
+
     public static function isAdministrator(): bool
     {
         if (self::getBackendUserAuthentication() !== null) {

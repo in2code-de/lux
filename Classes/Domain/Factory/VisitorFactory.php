@@ -16,6 +16,7 @@ use In2code\Lux\Events\VisitorFactoryBeforeCreateNewEvent;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\FileNotFoundException;
 use In2code\Lux\Exception\FingerprintMustNotBeEmptyException;
+use In2code\Lux\Exception\Validation\IdentificatorFormatException;
 use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\CookieUtility;
 use In2code\Lux\Utility\IpUtility;
@@ -44,6 +45,7 @@ class VisitorFactory
      */
     public function __construct(string $identificator, bool $tempVisitor = false)
     {
+        $this->checkIdentificator($identificator);
         if ($identificator === '' && $tempVisitor === true) {
             $identificator = StringUtility::getRandomString(32, false);
         }
@@ -179,5 +181,16 @@ class VisitorFactory
             $ipAddress = implode('.', $parts);
         }
         return $ipAddress;
+    }
+
+    protected function checkIdentificator(string $identificator): void
+    {
+        $length = [0, 32, 33];
+        if (in_array(strlen($identificator), $length) === false) {
+            throw new IdentificatorFormatException('Identificator is in wrong format: ' . $identificator, 1680203759);
+        }
+        if (preg_replace('/[a-z0-9]{32,33}/', '', $identificator) !== '') {
+            throw new IdentificatorFormatException('Identificator is in wrong format: ' . $identificator, 1680204272);
+        }
     }
 }
