@@ -20,9 +20,12 @@ use In2code\Lux\Events\AfterTrackingEvent;
 use In2code\Lux\Exception\ActionNotAllowedException;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\EmailValidationException;
+use In2code\Lux\Exception\FakeException;
 use In2code\Lux\Exception\FileNotFoundException;
+use In2code\Lux\Utility\BackendUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
 use Throwable;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
@@ -36,10 +39,12 @@ use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 class FrontendController extends ActionController
 {
     protected $eventDispatcher;
+    protected LoggerInterface $logger;
 
-    public function __construct(EventDispatcherInterface $eventDispatcher)
+    public function __construct(EventDispatcherInterface $eventDispatcher, LoggerInterface $logger)
     {
         $this->eventDispatcher = $eventDispatcher;
+        $this->logger = $logger;
     }
 
     /**
@@ -381,6 +386,14 @@ class FrontendController extends ActionController
         $this->eventDispatcher->dispatch(
             GeneralUtility::makeInstance(AfterTrackingEvent::class, new Visitor(), 'error', ['error' => $exception])
         );
+        if (BackendUtility::isBackendAuthentication() === false) {
+            // Log error to var/log/typo3_[hash].log
+            $this->logger->warning('Error in FrontendController happened', [
+                'code' => $exception->getCode(),
+                'message' => $exception->getMessage(),
+            ]);
+            $exception = new FakeException('Error happened', 1680200937);
+        }
         return [
             'error' => true,
             'exception' => [
