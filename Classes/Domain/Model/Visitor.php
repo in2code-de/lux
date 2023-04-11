@@ -107,6 +107,7 @@ class Visitor extends AbstractModel
 
     public function __construct()
     {
+        parent::__construct();
         $this->categoryscorings = new ObjectStorage();
         $this->fingerprints = new ObjectStorage();
         $this->pagevisits = new ObjectStorage();
