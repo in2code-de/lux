@@ -41,6 +41,8 @@ class CategoryScoringService
                 $this->calculateCategoryScoringForDownload($event->getVisitor());
             } elseif ($event->getActionMethodName() === 'linkClickRequestAction') {
                 $this->calculateCategoryScoringForLinkClick($event->getVisitor());
+            } elseif ($event->getActionMethodName() === 'email4LinkRequestAction') {
+                $this->calculateCategoryScoringForEmail4link($event->getVisitor());
             }
         }
     }
@@ -150,6 +152,28 @@ class CategoryScoringService
                 ConfigurationUtility::getCategoryScoringLinkListenerClick(),
                 $linkListener->getCategory()
             );
+        }
+    }
+
+    /**
+     * @param Visitor $visitor
+     * @return void
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     */
+    protected function calculateCategoryScoringForEmail4link(Visitor $visitor): void
+    {
+        $variables = GeneralUtility::_GP('tx_lux_fe');
+        $href = $variables['arguments']['href'] ?? '';
+        $fileService = GeneralUtility::makeInstance(FileService::class);
+        $file = $fileService->getFileFromHref($href);
+        if ($file !== null) {
+            foreach ($file->getMetadata()->getLuxCategories() as $category) {
+                $visitor->increaseCategoryscoringByCategory(
+                    ConfigurationUtility::getCategoryScoringAddDownload(),
+                    $category
+                );
+            }
         }
     }
 }
