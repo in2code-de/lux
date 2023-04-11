@@ -44,6 +44,7 @@ class Fingerprint extends AbstractModel
      */
     public function __construct(string $domain = '', string $userAgent = '')
     {
+        parent::__construct();
         if ($this->domain === '') {
             $this->domain = ($domain !== '' ? $domain : GeneralUtility::getIndpEnv('HTTP_HOST'));
         }
