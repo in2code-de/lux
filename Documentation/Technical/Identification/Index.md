@@ -32,7 +32,7 @@ The possibilities to identify a lead in lux:
 * Identify via Luxletter extension
 
 
-#### Field mapping
+#### 1. Field mapping
 
 The easiest way for an identification is to offer some forms on your website where you listen to the values that your
 visitors add there. Lux will help you to listen on any webform (no matter if it is powermail, femanager, form,
@@ -114,7 +114,7 @@ Example lead identification in dashboard:
 <img src="../../../Documentation/Images/documentation_identification_fieldmapping_dashboard.png" width="800" />
 
 
-#### FormFieldMapping
+#### 2. FormFieldMapping
 
 Another way for identifications is to listen to complete form submits of any forms on your website.
 If you want to send all field informations of a form to lux, just add a `data-lux-form-identification="true"` to the
@@ -255,10 +255,16 @@ Example lead identification in dashboard:
 <img src="../../../Documentation/Images/documentation_identification_formmapping_dashboard.png" width="800" />
 
 
-#### Email4link
+#### 3. Email4link
 
 There is another build in feature, where you can simply ask for email addresses if a lead wants to download something.
 A plugin for the CKEditor helps you to change every link into a lux email4link-link.
+
+Per default, Lux will not ask the visitor twice for his email. Nevertheless, if you want to ask everytime for an email,
+you can configure this via TypoScript constants:
+`plugin.tx_lux.settings.disableEmail4DownloadForIdentifiedVisitors=1`
+
+##### CKEditor plugin
 
 Example configuration yaml file for your CK Editor with lux email4link:
 
@@ -285,6 +291,8 @@ editor:
       - { name: 'links', groups: [ 'links', 'Email4Link' ] }
 ...
 ```
+
+##### Configuration of email4link
 
 See the related default TypoScript configuration:
 ```
@@ -331,7 +339,9 @@ lib.lux.settings {
 }
 ```
 
-**Note:** Take care that your lib.lux configuration is recognized by lux (see FAQ section how to copy it to plugin.tx_lux_fe)
+**Note:** Take care that your `lib.lux` configuration is recognized by lux (see FAQ section how to copy it to plugin.tx_lux_fe)
+
+##### Example frontend output
 
 After that, you can change every link in the CK editor:
 <img src="../../../Documentation/Images/screenshot_email4link_ckeditor_plugin.png" width="800" />
@@ -342,10 +352,12 @@ After that, you can change every link in the CK editor:
 | Description          | Show a description in the lightbox that opens on click in frontend (optional)                          |
 | Send asset via email | Try to send asset as attachment via email (only possible for allowed file extensions - see TypoScript) |
 
-All clicks in frontend will be catched now by JavaScript and opens a lightbox:
+All clicks in frontend will be caught now by JavaScript and opens a lightbox:
 <img src="../../../Documentation/Images/screenshot_email4link.png" width="800" />
 
-**Note:** If you want to also use the email4link feature in your HTML-Templates, you can simply add some data-attributes
+##### Hardcode an email4link in your template
+
+If you want to also use the email4link feature in your HTML-Templates, you can simply add some data-attributes
 to your links.
 
 ```
@@ -354,20 +366,29 @@ to your links.
     href="/fileadmin/whitepaper.pdf"
     data-lux-email4link-sendemail="true"
     data-lux-email4link-text="Please give us your email-address, we're going to send you the asset."
-    data-lux-email4link-title="Receive document via email.">Download our whitepaper</a>
+    data-lux-email4link-title="Receive document via email."
+    data-lux-email4link-arguments-foo="bar">Download our whitepaper</a>
 ```
 
-**Note:** Per default, Lux will not ask twice for the email. But you can configure this via TypoScript constants
-`plugin.tx_lux.settings.disableEmail4DownloadForIdentifiedVisitors=1`
+##### Change HTML template of the lightbox content
+
+You can also adjust the template that should be rendered via email4link. That can be done by overwriting the template
+in your TypoScript setup in your sitepackage like:
+`plugin.tx_lux_email4link.view.templateRootPaths.1 = EXT:mysitepackage/Resources/Private/Templates/Extensions/Lux/`
+After that, you can copy the original file from `EXT:lux/Resources/Private/Templates/Frontend/Email4link.html` to
+`EXT:mysitepackage/Resources/Private/Templates/Extensions/Lux/Frontend/Email4link.html` and modify it to your needs.
+
+**Note:** Generic variables: All arguments in the link build like `data-lux-email4link-arguments-foo="bar"` are passed
+to the template and can be re-used there with `{download.arguments.foo}`
 
 
-#### Frontend login of a frontend user
+#### 4. Frontend login of a frontend user
 
 If a frontend user logs in into TYPO3, lux automatically creates a relation to this user. If the field
 fe_users.email is filled, lux take over this field property and identification is resolved.
 
 
-#### Luxletter
+#### 5. Luxletter
 
 The extension [Extension luxletter](https://github.com/in2code-de/luxletter) is a email marketing extension that
 allows you to send newsletters to your users.
