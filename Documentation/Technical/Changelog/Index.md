@@ -23,6 +23,7 @@
 
 | Version    | Date       | State    | Description                                                                                                                                                                                           |
 |------------|------------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 28.3.0     | 2023-04-19 | Feature  | Allow generic variables in email4link lightbox now                                                                                                                                                    |
 | 28.2.0     | 2023-04-11 | Feature  | Increase categoryscorings also if a file with a LUX category is downloaded via email4link now                                                                                                         |
 | 28.1.1     | 2023-04-11 | Task     | Prevent exception in TYPO3 12.3 with $_languageUid                                                                                                                                                    |
 | 28.1.0     | 2023-03-30 | Task     | Added a switch for frontend functionality, add identificator format check, show exceptions in AJAX requests only if logged in to backend at the same time                                             |
