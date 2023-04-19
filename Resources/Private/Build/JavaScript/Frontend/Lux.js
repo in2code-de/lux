@@ -851,11 +851,25 @@ function LuxMain() {
 
       if (document.body.classList.contains('lux_waiting') === false) {
         addWaitClassToBodyTag();
-        ajaxConnection({
+
+        var parameters = {
           'tx_lux_email4link[title]': link.getAttribute('data-lux-email4link-title') || '',
           'tx_lux_email4link[text]': link.getAttribute('data-lux-email4link-text') || '',
           'tx_lux_email4link[href]': getFilenameFromHref(link.getAttribute('data-lux-href'))
-        }, getContainer().getAttribute('data-lux-email4linktemplate'), 'email4linkTemplateCallback', {link: link});
+        };
+
+        // add any parameters to request from data-lux-email4link-arguments-key="value"
+        for (var key in link.dataset) {
+          if (key.indexOf('luxEmail4linkArguments') === 0) {
+            parameters['tx_lux_email4link[arguments][' + key.substring('luxEmail4linkArguments'.length).toLowerCase() + ']'] = link.dataset[key];
+          }
+        }
+        ajaxConnection(
+          parameters,
+          getContainer().getAttribute('data-lux-email4linktemplate'),
+          'email4linkTemplateCallback',
+          {link: link}
+        );
       }
     }
   };

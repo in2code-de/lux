@@ -63,8 +63,9 @@ Remove means in this case not deleted=1 but really remove from database.
 Example usage:
 
 ```
-# Remove unknown visitors (and all there related data) where the last activity is older then one year
-./vendor/bin/typo3 lux:cleanupVisitorsByAge 31536000
+# Remove unknown visitors (and all there related data) older than the given timestamp 
+# (1640995200 = 2022/01/01 00:00)
+./vendor/bin/typo3 lux:cleanupVisitorsByAge 1640995200
 ```
 
 ##### \In2code\Lux\Command\LuxCleanupUnknownVisitorsByAgeCommand
@@ -75,8 +76,9 @@ Remove means in this case not deleted=1 but really remove from database.
 Example usage:
 
 ```
-# Remove unknown visitors (and all there related data) where the last activity is older then one year
-/vendor/bin/typo3 lux:cleanupUnknownVisitorsByAge 31536000
+# Remove unknown visitors (and all there related data) older than the given timestamp 
+# (1640995200 = 2022/01/01 00:00)
+/vendor/bin/typo3 lux:cleanupUnknownVisitorsByAge 1640995200
 ```
 
 ##### \In2code\Lux\Command\LuxCleanupVisitorByUidCommand
