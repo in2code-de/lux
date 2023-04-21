@@ -23,6 +23,7 @@
 
 | Version    | Date       | State    | TYPO3         | Description                                                                                                                                                                                           |
 |------------|------------|----------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 28.3.1     | 2023-04-21 | Bugfix   | `11.5 + 12.4` | Prevent Formfieldmapping.js and Fieldmapping.js from indexed in indexed_search                                                                                                                        |
 | 28.3.0     | 2023-04-19 | Feature  | `11.5 + 12.4` | Allow generic variables in email4link lightbox now                                                                                                                                                    |
 | 28.2.0     | 2023-04-11 | Feature  | `11.5 + 12.4` | Increase categoryscorings also if a file with a LUX category is downloaded via email4link now                                                                                                         |
 | 28.1.1     | 2023-04-11 | Task     | `11.5 + 12.4` | Prevent exception in TYPO3 12.3 with $_languageUid                                                                                                                                                    |
