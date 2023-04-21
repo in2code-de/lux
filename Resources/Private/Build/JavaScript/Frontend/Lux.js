@@ -987,6 +987,8 @@ function LuxMain() {
   };
 
   /**
+   * FormListener submit function
+   *
    * @param {Node} form
    * @returns {void}
    */
