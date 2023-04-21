@@ -12,6 +12,7 @@ luxPageRequestAjax {
     xhtml_cleaning = 0
     admPanel = 0
     debug = 0
+    index_enable = 0
   }
 
   10 = USER_INT
@@ -175,6 +176,7 @@ luxConfigurationFieldIdentification {
     xhtml_cleaning = 0
     admPanel = 0
     debug = 0
+    index_enable = 0
   }
 
   10 = FLUIDTEMPLATE
