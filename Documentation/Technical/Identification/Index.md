@@ -117,16 +117,19 @@ Example lead identification in dashboard:
 #### 2. FormFieldMapping
 
 Another way for identifications is to listen to complete form submits of any forms on your website.
-If you want to send all field informations of a form to lux, just add a `data-lux-form-identification="true"` to the
+If you want to send all field information of a form to lux, just add a `data-lux-form-identification="true"` to the
 form-tag itself.
 
 There some different things when comparing FormFieldMappinng with FieldMapping (see above):
-* The data will be send to lux when the visitor submits the form and not before
-* The complete form will be send to lux (but only the fields that are defined in mapping configuration)
+* The data will be sent to lux when the visitor submits the form and not before
+* The complete form will be sent to lux (but only the fields that are defined in mapping configuration)
 * You have to change the markup of the forms with a data-attribute to the form tag
 
 The default field-mapping is similar to the FieldMapping: E.g. map a field with name `tx_form_formframework[e-mail]`
 to the lead property *email* (see TypoScript below).
+
+**Note:** A `*` as wildcard character symbols a placeholder for any string so `*[email]` is matching for fieldnames like
+`tx_form_formframework[test-99][email]`, `tx_powermail_pi1[field][email]` and also `tx_femanager_pi1[email]`
 
 
 ```
@@ -194,11 +197,15 @@ lib.lux.settings {
 
 ```
 
-**Note:** Take care that your lib.lux configuration is recognized by lux (see FAQ section how to copy it to plugin.tx_lux_fe)
+**Note:** Take care that your lib.lux configuration is recognized by lux (see FAQ section how to copy it to
+plugin.tx_lux_fe)
 
 **Note:** If you want to stop the submit process, because lux had a workflow for the submit action (show text on form
 submit, etc..), you can use `data-lux-form-identification="preventDefault"`
 instead of `data-lux-form-identification="true"`
+
+**Note:** If you are using a JavaScript based validation in your form, it's possible that there are conflicts with
+FormFieldMapping
 
 Example form (added via content element html):
 
