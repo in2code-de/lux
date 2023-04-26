@@ -105,8 +105,9 @@ label {
         color: $black;
     }
 
-    .input-lg {
-        line-height: 1.3 !important;
+    .form-select.form-control-lg {
+        font-size: 0.9375rem;
+        padding: 0.5rem 1rem;
     }
 
     .input-group-addon {
@@ -114,11 +115,8 @@ label {
         background-color: #eee;
     }
 
-    .form-control:not(.form-select) {
+    .form-control {
         border: 1px solid $colorGrey;
-        height: 100%;
-        font-size: 14px;
-        line-height: 130%;
     }
 
     .collapse-arrow {
