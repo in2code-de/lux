@@ -23,6 +23,7 @@
 
 | Version    | Date       | State    | TYPO3         | Description                                                                                                                                                                                           |
 |------------|------------|----------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 28.3.3     | 2023-04-27 | Bugfix   | `11.5 + 12.4` | Fix link to info module, fix pagebrowser functionality in TYPO3 12                                                                                                                                    |
 | 28.3.2     | 2023-04-26 | Bugfix   | `11.5 + 12.4` | Fix some optical issues for bootstrap 5 in workflow module under Chrome                                                                                                                               |
 | 28.3.1     | 2023-04-21 | Bugfix   | `11.5 + 12.4` | Prevent Formfieldmapping.js and Fieldmapping.js from indexed in indexed_search                                                                                                                        |
 | 28.3.0     | 2023-04-19 | Feature  | `11.5 + 12.4` | Allow generic variables in email4link lightbox now                                                                                                                                                    |
