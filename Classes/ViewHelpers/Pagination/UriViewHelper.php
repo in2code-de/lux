@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\ViewHelpers\Pagination;
 
+use In2code\Lux\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 use TYPO3\CMS\Extbase\Service\ExtensionService;
@@ -26,11 +27,16 @@ class UriViewHelper extends AbstractTagBasedViewHelper
     {
         $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
         $uriBuilder->setRequest($this->renderingContext->getRequest());
+        $uriBuilder->setAddQueryString(true);
         $extensionName = $this->renderingContext->getRequest()->getControllerExtensionName();
         $pluginName = $this->renderingContext->getRequest()->getPluginName();
         $extensionService = GeneralUtility::makeInstance(ExtensionService::class);
         $pluginNamespace = $extensionService->getPluginNamespace($extensionName, $pluginName);
         $argumentPrefix = $pluginNamespace . '[' . $this->arguments['name'] . ']';
+        if (ConfigurationUtility::isTypo3Version11()) {
+            // Todo: Can be removed in TYPO3 11 support is dropped
+            $argumentPrefix = $this->arguments['name'];
+        }
         $arguments = $this->hasArgument('arguments') ? $this->arguments['arguments'] : [];
         if ($this->hasArgument('action')) {
             $arguments['action'] = $this->arguments['action'];
@@ -38,14 +44,11 @@ class UriViewHelper extends AbstractTagBasedViewHelper
         if ($this->hasArgument('format') && $this->arguments['format'] !== '') {
             $arguments['format'] = $this->arguments['format'];
         }
-        $uriBuilder->reset()
-            ->setArguments([$argumentPrefix => $arguments])
-            ->setAddQueryString(true)
-            ->setArgumentsToBeExcludedFromQueryString([$argumentPrefix, 'cHash']);
-        $addQueryStringMethod = $this->arguments['addQueryStringMethod'] ?? null;
-        if (is_string($addQueryStringMethod)) {
-            $uriBuilder->setAddQueryStringMethod($addQueryStringMethod);
-        }
-        return $uriBuilder->build();
+
+        return $uriBuilder->uriFor(
+            $this->renderingContext->getControllerAction(),
+            [$argumentPrefix => $arguments],
+            $this->renderingContext->getControllerName()
+        );
     }
 }

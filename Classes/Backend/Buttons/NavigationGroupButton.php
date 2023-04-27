@@ -102,9 +102,7 @@ class NavigationGroupButton extends AbstractButton
 
     protected function getInfoUri(): string
     {
-        $uriBuilder = GeneralUtility::makeInstance(\TYPO3\CMS\Backend\Routing\UriBuilder::class);
-        $parameters = ['tx_lux_lux_LuxAnalysis' => ['controller' => 'General', 'action' => 'information']];
-        return (string)$uriBuilder->buildUriFromRoute('lux_LuxAnalysis', $parameters);
+        return $this->uriBuilder->uriFor('information', null, 'General');
     }
 
     public function __toString(): string
