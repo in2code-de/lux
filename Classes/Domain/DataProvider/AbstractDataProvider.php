@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider;
 
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
+use In2code\Lux\Utility\ArrayUtility;
 use In2code\Lux\Utility\ObjectUtility;
 
 /**
@@ -11,6 +12,12 @@ use In2code\Lux\Utility\ObjectUtility;
  */
 abstract class AbstractDataProvider implements DataProviderInterface
 {
+    /**
+     * Add a number bigger than 0 if you want to crop titles after those number of characters
+     *
+     * @var int
+     */
+    protected int $cropTitles = 0;
     protected array $data = [];
 
     protected ?FilterDto $filter = null;
@@ -34,7 +41,11 @@ abstract class AbstractDataProvider implements DataProviderInterface
 
     public function getTitlesFromData(): array
     {
-        return (array)$this->getData()['titles'];
+        $titles = (array)$this->getData()['titles'];
+        if ($this->cropTitles > 0) {
+            $titles = ArrayUtility::cropStringInArray($titles, $this->cropTitles);
+        }
+        return $titles;
     }
 
     public function getTitlesList(): string

@@ -3,6 +3,8 @@
 declare(strict_types=1);
 namespace In2code\Lux\Utility;
 
+use In2code\Lux\Exception\ParametersException;
+
 class ArrayUtility
 {
     /**
@@ -76,5 +78,16 @@ class ArrayUtility
             $newArray[$value] = $value;
         }
         return $newArray;
+    }
+
+    public static function cropStringInArray(array $array, int $length = 20, string $append = '...'): array
+    {
+        foreach ($array as &$string) {
+            if (is_string($string) === false) {
+                throw new ParametersException('Only strings allowed in ' . __FUNCTION__, 1682685855);
+            }
+            $string = StringUtility::cropString($string, $length, $append);
+        }
+        return $array;
     }
 }
