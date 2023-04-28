@@ -20,16 +20,16 @@ define(['jquery'], function($) {
      * @returns {void}
      */
     this.initialize = function() {
-      addLeadListDetailViewListener();
-      addAnalysisContentDetailPageViewListener();
-      addAnalysisNewsDetailPageViewListener();
-      addAnalysisUtmDetailPageViewListener();
-      addAnalysisSearchDetailPageViewListener();
-      addAnalysisContentDetailDownloadViewListener();
-      addAnalysisLinkListenerDetailViewListener();
-      addWorkflowDetailViewListener();
-      addAbTestingDetailViewListener();
-      addWorkflowUrlShortenerDetailViewListener();
+      addDetailViewListener('leadlistdetail', 'visitor');
+      addDetailViewListener('analysiscontentdetailpage', 'page');
+      addDetailViewListener('analysisnewsdetailpage', 'news');
+      addDetailViewListener('analysisutmdetailpage', 'visitor');
+      addDetailViewListener('analysissearchdetailpage', 'searchterm');
+      addDetailViewListener('analysiscontentdetaildownload', 'download');
+      addDetailViewListener('analysislinklistenerdetail', 'linkListener');
+      addDetailViewListener('workflowdetail', 'workflow', 'luxenterprise');
+      addDetailViewListener('abtestingdetail', 'abTesting', 'luxenterprise');
+      addDetailViewListener('workflowurlshortenerdetail', 'urlShortener', 'luxenterprise');
       addDescriptionListener();
       addLinkMockListener();
       addConfirmListeners();
@@ -38,211 +38,23 @@ define(['jquery'], function($) {
     };
 
     /**
-     * Add listener for lead/list detail ajax view
+     * Add listener for different detail ajax views
      *
+     * @params {string} name e.g. "detail" for "lux-action-detail"
+     * @params {string} propertyName e.g. "visitor"
      * @returns {void}
      */
-    var addLeadListDetailViewListener = function() {
-      var elements = document.querySelectorAll('[data-lux-action-leadlistdetail]');
+    var addDetailViewListener = function(name, propertyName, extension) {
+      extension = extension || 'lux';
+      var elements = document.querySelectorAll('[data-lux-action-' + name + ']');
       for (var i = 0; i < elements.length; i++) {
         var element = elements[i];
         element.addEventListener('click', function() {
           removeClassFromElements(elements, 'lux-action-detail');
           this.classList.add('lux-action-detail');
-          var visitor = this.getAttribute('data-lux-action-leadlistdetail');
-
-          ajaxConnection(TYPO3.settings.ajaxUrls['/lux/leadlistdetail'], {
-            visitor: visitor
-          }, 'generalDetailCallback');
-        });
-      }
-    };
-
-    /**
-     * Add listener for analysis/content (page) detail ajax view
-     *
-     * @returns {void}
-     */
-    var addAnalysisContentDetailPageViewListener = function() {
-      var elements = document.querySelectorAll('[data-lux-action-analysiscontentdetailpage]');
-      for (var i = 0; i < elements.length; i++) {
-        var element = elements[i];
-        element.addEventListener('click', function() {
-          removeClassFromElements(elements, 'lux-action-detail');
-          this.classList.add('lux-action-detail');
-          var page = this.getAttribute('data-lux-action-analysiscontentdetailpage');
-
-          ajaxConnection(TYPO3.settings.ajaxUrls['/lux/analysiscontentdetailpage'], {
-            page: page
-          }, 'generalDetailCallback');
-        });
-      }
-    };
-
-    /**
-     * Add listener for analysis/content (news) detail ajax view
-     *
-     * @returns {void}
-     */
-    var addAnalysisNewsDetailPageViewListener = function() {
-      var elements = document.querySelectorAll('[data-lux-action-analysisnewsdetailpage]');
-      for (var i = 0; i < elements.length; i++) {
-        var element = elements[i];
-        element.addEventListener('click', function() {
-          removeClassFromElements(elements, 'lux-action-detail');
-          this.classList.add('lux-action-detail');
-          var news = this.getAttribute('data-lux-action-analysisnewsdetailpage');
-
-          ajaxConnection(TYPO3.settings.ajaxUrls['/lux/analysisnewsdetailpage'], {
-            news: news
-          }, 'generalDetailCallback');
-        });
-      }
-    };
-
-    /**
-     * Add listener for analysis/utm detail ajax view
-     *
-     * @returns {void}
-     */
-    var addAnalysisUtmDetailPageViewListener = function() {
-      var elements = document.querySelectorAll('[data-lux-action-analysisutmdetailpage]');
-      for (var i = 0; i < elements.length; i++) {
-        var element = elements[i];
-        element.addEventListener('click', function() {
-          removeClassFromElements(elements, 'lux-action-detail');
-          this.classList.add('lux-action-detail');
-          var visitor = this.getAttribute('data-lux-action-analysisutmdetailpage');
-
-          ajaxConnection(TYPO3.settings.ajaxUrls['/lux/analysisutmdetailpage'], {
-            visitor: visitor
-          }, 'generalDetailCallback');
-        });
-      }
-    };
-
-    /**
-     * Add listener for analysis/content (search) detail ajax view
-     *
-     * @returns {void}
-     */
-    var addAnalysisSearchDetailPageViewListener = function() {
-      var elements = document.querySelectorAll('[data-lux-action-analysissearchdetailpage]');
-      for (var i = 0; i < elements.length; i++) {
-        var element = elements[i];
-        element.addEventListener('click', function() {
-          removeClassFromElements(elements, 'lux-action-detail');
-          this.classList.add('lux-action-detail');
-          var searchterm = this.getAttribute('data-lux-action-analysissearchdetailpage');
-
-          ajaxConnection(TYPO3.settings.ajaxUrls['/lux/analysissearchdetailpage'], {
-            searchterm: searchterm
-          }, 'generalDetailCallback');
-        });
-      }
-    };
-
-    /**
-     * Add listener for analysis/content (download) detail ajax view
-     *
-     * @returns {void}
-     */
-    var addAnalysisContentDetailDownloadViewListener = function() {
-      var elements = document.querySelectorAll('[data-lux-action-analysiscontentdetaildownload]');
-      for (var i = 0; i < elements.length; i++) {
-        var element = elements[i];
-        element.addEventListener('click', function() {
-          removeClassFromElements(elements, 'lux-action-detail');
-          this.classList.add('lux-action-detail');
-          var download = this.getAttribute('data-lux-action-analysiscontentdetaildownload');
-
-          ajaxConnection(TYPO3.settings.ajaxUrls['/lux/analysiscontentdetaildownload'], {
-            download: download
-          }, 'generalDetailCallback');
-        });
-      }
-    };
-
-    /**
-     * Add listener for analysis/linklistener detail ajax view
-     *
-     * @returns {void}
-     */
-    var addAnalysisLinkListenerDetailViewListener = function() {
-      var elements = document.querySelectorAll('[data-lux-action-analysislinklistenerdetail]');
-      for (var i = 0; i < elements.length; i++) {
-        var element = elements[i];
-        element.addEventListener('click', function() {
-          removeClassFromElements(elements, 'lux-action-detail');
-          this.classList.add('lux-action-detail');
-          var linkListener = this.getAttribute('data-lux-action-analysislinklistenerdetail');
-
-          ajaxConnection(TYPO3.settings.ajaxUrls['/lux/analysislinklistenerdetail'], {
-            linkListener: linkListener
-          }, 'generalDetailCallback');
-        });
-      }
-    };
-
-    /**
-     * Add listener for workflow/list detail ajax view
-     *
-     * @returns {void}
-     */
-    var addWorkflowDetailViewListener = function() {
-      var elements = document.querySelectorAll('[data-lux-action-workflowdetail]');
-      for (var i = 0; i < elements.length; i++) {
-        var element = elements[i];
-        element.addEventListener('click', function() {
-          removeClassFromElements(elements, 'lux-action-detail');
-          this.classList.add('lux-action-detail');
-          var workflow = this.getAttribute('data-lux-action-workflowdetail');
-
-          ajaxConnection(TYPO3.settings.ajaxUrls['/luxenterprise/workflowdetail'], {
-            workflow: workflow
-          }, 'generalDetailCallback');
-        });
-      }
-    };
-
-    /**
-     * Add listener for abtesting/list detail ajax view
-     *
-     * @returns {void}
-     */
-    var addAbTestingDetailViewListener = function() {
-      var elements = document.querySelectorAll('[data-lux-action-abtestingdetail]');
-      for (var i = 0; i < elements.length; i++) {
-        var element = elements[i];
-        element.addEventListener('click', function() {
-          removeClassFromElements(elements, 'lux-action-detail');
-          this.classList.add('lux-action-detail');
-          var abTesting = this.getAttribute('data-lux-action-abtestingdetail');
-
-          ajaxConnection(TYPO3.settings.ajaxUrls['/luxenterprise/abtestingdetail'], {
-            abTesting: abTesting
-          }, 'generalDetailCallback');
-        });
-      }
-    };
-
-    /**
-     * Add listener for workflow/urlshortener detail ajax view
-     *
-     * @returns {void}
-     */
-    var addWorkflowUrlShortenerDetailViewListener = function() {
-      var elements = document.querySelectorAll('[data-lux-action-workflowurlshortenerdetail]');
-      for (var i = 0; i < elements.length; i++) {
-        var element = elements[i];
-        element.addEventListener('click', function() {
-          removeClassFromElements(elements, 'lux-action-detail');
-          this.classList.add('lux-action-detail');
-          var urlShortener = this.getAttribute('data-lux-action-workflowurlshortenerdetail');
-
-          ajaxConnection(TYPO3.settings.ajaxUrls['/luxenterprise/workflowurlshortenerdetail'], {
-            urlShortener: urlShortener
-          }, 'generalDetailCallback');
+          var parameters = {};
+          parameters[propertyName] = this.getAttribute('data-lux-action-' + name);
+          ajaxConnection(TYPO3.settings.ajaxUrls['/' + extension + '/' + name], parameters, 'generalDetailCallback');
         });
       }
     };
