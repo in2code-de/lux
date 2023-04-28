@@ -97,6 +97,7 @@ if (\In2code\Lux\Utility\ConfigurationUtility::isWorkflowModuleDisabled() === fa
         'controllerActions' => [
             \In2code\Lux\Controller\WorkflowController::class => [
                 'list',
+                'detail',
                 'new',
                 'create',
                 'edit',
@@ -108,6 +109,7 @@ if (\In2code\Lux\Utility\ConfigurationUtility::isWorkflowModuleDisabled() === fa
             ],
             \In2code\Lux\Controller\AbTestingController::class => [
                 'list',
+                'detail',
                 'delete',
             ],
             \In2code\Lux\Controller\ShortenerController::class => [

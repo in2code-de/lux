@@ -27,6 +27,8 @@ define(['jquery'], function($) {
       addAnalysisSearchDetailPageViewListener();
       addAnalysisContentDetailDownloadViewListener();
       addAnalysisLinkListenerDetailViewListener();
+      addWorkflowDetailViewListener();
+      addAbTestingDetailViewListener();
       addWorkflowUrlShortenerDetailViewListener();
       addDescriptionListener();
       addLinkMockListener();
@@ -177,6 +179,48 @@ define(['jquery'], function($) {
 
           ajaxConnection(TYPO3.settings.ajaxUrls['/lux/analysislinklistenerdetail'], {
             linkListener: linkListener
+          }, 'generalDetailCallback');
+        });
+      }
+    };
+
+    /**
+     * Add listener for workflow/list detail ajax view
+     *
+     * @returns {void}
+     */
+    var addWorkflowDetailViewListener = function() {
+      var elements = document.querySelectorAll('[data-lux-action-workflowdetail]');
+      for (var i = 0; i < elements.length; i++) {
+        var element = elements[i];
+        element.addEventListener('click', function() {
+          removeClassFromElements(elements, 'lux-action-detail');
+          this.classList.add('lux-action-detail');
+          var workflow = this.getAttribute('data-lux-action-workflowdetail');
+
+          ajaxConnection(TYPO3.settings.ajaxUrls['/luxenterprise/workflowdetail'], {
+            workflow: workflow
+          }, 'generalDetailCallback');
+        });
+      }
+    };
+
+    /**
+     * Add listener for abtesting/list detail ajax view
+     *
+     * @returns {void}
+     */
+    var addAbTestingDetailViewListener = function() {
+      var elements = document.querySelectorAll('[data-lux-action-abtestingdetail]');
+      for (var i = 0; i < elements.length; i++) {
+        var element = elements[i];
+        element.addEventListener('click', function() {
+          removeClassFromElements(elements, 'lux-action-detail');
+          this.classList.add('lux-action-detail');
+          var abTesting = this.getAttribute('data-lux-action-abtestingdetail');
+
+          ajaxConnection(TYPO3.settings.ajaxUrls['/luxenterprise/abtestingdetail'], {
+            abTesting: abTesting
           }, 'generalDetailCallback');
         });
       }
