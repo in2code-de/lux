@@ -15,6 +15,8 @@ use In2code\Lux\Widgets\DataProvider\LuxRecurringDataProvider;
 use In2code\Lux\Widgets\DataProvider\LuxReferrerDataProvider;
 use In2code\Lux\Widgets\DataProvider\LuxSearchtermsDataProvider;
 use In2code\Lux\Widgets\DataProvider\LuxUtmCampaignDataProvider;
+use In2code\Lux\Widgets\DataProvider\LuxUtmMediaDataProvider;
+use In2code\Lux\Widgets\DataProvider\LuxUtmSourceDataProvider;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\DependencyInjection\Reference;
@@ -281,6 +283,46 @@ return function (ContainerConfigurator $configurator, ContainerBuilder $containe
                 'width' => 'medium',
             ])
             ->arg('$dataProvider', new Reference(LuxUtmCampaignDataProvider::class));
+        if ($containerBuilder->hasDefinition(BackendViewFactory::class)) {
+            // TYPO3 12
+            $configuration->arg('$backendViewFactory', new Reference(BackendViewFactory::class));
+        } else {
+            // Todo: Can be removed when TYPO3 11 support will be dropped
+            $configuration->arg('$view', new Reference('dashboard.views.widget'));
+        }
+
+        $configuration = $services->set('dashboard.widgets.LuxUtmSourceWidget')
+            ->class(DoughnutChartWidget::class)
+            ->tag('dashboard.widget', [
+                'identifier' => 'luxUtmSource',
+                'groupNames' => 'luxgroup',
+                'title' => $llPrefix . 'module.dashboard.widget.luxutmsource.title',
+                'description' => $llPrefix . 'module.dashboard.widget.luxutmsource.description',
+                'iconIdentifier' => 'extension-lux-turquoise',
+                'height' => 'medium',
+                'width' => 'small',
+            ])
+            ->arg('$dataProvider', new Reference(LuxUtmSourceDataProvider::class));
+        if ($containerBuilder->hasDefinition(BackendViewFactory::class)) {
+            // TYPO3 12
+            $configuration->arg('$backendViewFactory', new Reference(BackendViewFactory::class));
+        } else {
+            // Todo: Can be removed when TYPO3 11 support will be dropped
+            $configuration->arg('$view', new Reference('dashboard.views.widget'));
+        }
+
+        $configuration = $services->set('dashboard.widgets.LuxUtmMediaWidget')
+            ->class(DoughnutChartWidget::class)
+            ->tag('dashboard.widget', [
+                'identifier' => 'luxUtmMedia',
+                'groupNames' => 'luxgroup',
+                'title' => $llPrefix . 'module.dashboard.widget.luxutmmedia.title',
+                'description' => $llPrefix . 'module.dashboard.widget.luxutmmedia.description',
+                'iconIdentifier' => 'extension-lux-turquoise',
+                'height' => 'medium',
+                'width' => 'small',
+            ])
+            ->arg('$dataProvider', new Reference(LuxUtmMediaDataProvider::class));
         if ($containerBuilder->hasDefinition(BackendViewFactory::class)) {
             // TYPO3 12
             $configuration->arg('$backendViewFactory', new Reference(BackendViewFactory::class));

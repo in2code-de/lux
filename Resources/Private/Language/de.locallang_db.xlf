@@ -1620,6 +1620,22 @@
 				<source>Show best UTM campaigns</source>
 				<target state="translated">Zeige die beisten UTM Kampagnen</target>
 			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxutmsource.title">
+				<source>UTM sources</source>
+				<target state="translated">UTM Sources</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxutmsource.description">
+				<source>Show best UTM sources</source>
+				<target state="translated">Zeige die beisten UTM Sources</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxutmmedia.title">
+				<source>UTM media</source>
+				<target state="translated">UTM Media</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxutmmedia.description">
+				<source>Show best UTM media</source>
+				<target state="translated">Zeige die beisten UTM Media</target>
+			</trans-unit>
 
 			<trans-unit id="luxletter.module.newsletter.receiver.title">
 				<source>Receiver analysis</source>
