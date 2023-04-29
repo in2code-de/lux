@@ -52,7 +52,7 @@ class PageOverview
         DownloadRepository $downloadRepository,
         LogRepository $logRepository,
         RenderingTimeService $renderingTimeService,
-        CacheLayer $cacheLayer,
+        CacheLayer $cacheLayer
     ) {
         $this->visitorRepository = $visitorRepository;
         $this->pagevisitRepository = $pagevisitRepository;
