@@ -78,7 +78,7 @@ abstract class AbstractController extends ActionController
         UtmRepository $utmRepository,
         RenderingTimeService $renderingTimeService,
         CacheLayer $cacheLayer,
-        ModuleTemplateFactory $moduleTemplateFactory,
+        ModuleTemplateFactory $moduleTemplateFactory
     ) {
         $this->visitorRepository = $visitorRepository;
         $this->ipinformationRepository = $ipinformationRepository;
