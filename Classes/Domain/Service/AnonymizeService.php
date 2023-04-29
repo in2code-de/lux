@@ -9,8 +9,8 @@ use In2code\Lux\Domain\Model\Attribute;
 use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Domain\Model\Ipinformation;
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Utility\DatabaseUtility;
-use In2code\Lux\Utility\StringUtility;
 
 /**
  * Class AnonymizeService to really anonymize and overwrite all privacy values (for local development or for a
@@ -19,181 +19,8 @@ use In2code\Lux\Utility\StringUtility;
 class AnonymizeService
 {
     /**
-     * Dummy firstnames
-     *
-     * @var array
-     */
-    protected array $firstNames = [
-        'Alex',
-        'Alexander',
-        'Stefan',
-        'Sebastian',
-        'Martin',
-        'Markus',
-        'Sandra',
-        'Sybille',
-        'Andrea',
-        'Michael',
-        'Melanie',
-    ];
-
-    /**
-     * Dummy lastnames
-     *
-     * @var array
-     */
-    protected array $lastNames = [
-        'Müller',
-        'Kellner',
-        'Pohl',
-        'Busemann',
-        'Herrmann',
-        'Köhler',
-        'Muster',
-        'Schmidt',
-        'Meier',
-        'Horn',
-        'Ochs',
-    ];
-
-    /**
-     * Dummy company names
-     *
-     * @var array
-     */
-    protected array $companies = [
-        'MMarkt',
-        'Agentur XYZ',
-        'InstaSeviceAgency',
-        'in2code GmbH',
-        'Master Ltd.',
-        'Meier Wurstwaren & Co. Kg',
-        'Holzverarbeitung Müller',
-        'Friseur Hairbert',
-        'Batman - A Marketing Agency',
-        'University Gotham City',
-        'Metropolis College',
-        'Metropolis University',
-    ];
-
-    /**
-     * @var array
-     */
-    protected array $toplevelDomains = [
-        'org',
-        'de',
-        'com',
-        'at',
-        'ch',
-        'org',
-        'fr',
-        'co.uk',
-    ];
-
-    /**
-     * @var array
-     */
-    protected array $referrers = [
-        'https://t.co/Mk2LeGhnMJ',
-        'https://www.google.de',
-        'https://www.google.com',
-        'https://typo3.org',
-        'https://www.in2code.de',
-        'https://www.bing.com',
-        'https://www.forum.net',
-        'https://www.heise.de',
-        '',
-        '',
-        '',
-    ];
-
-    /**
-     * @var array
-     */
-    protected array $descriptions = [
-        'This lead is a good lead because of...',
-        '',
-        '',
-        '',
-        '',
-    ];
-
-    /**
-     * @var array
-     */
-    protected array $ipinformations = [
-        'isp' => [
-            'Company A',
-            'Company B',
-            'Company C',
-            'Univerity A',
-            'Univerity B',
-            'Univerity C',
-            'Verein e.V.',
-            'Stiftung ABC',
-        ],
-        'org' => [
-            'Company A',
-            'Company B',
-            'Company C',
-            'Univerity A',
-            'Univerity B',
-            'Univerity C',
-            'Verein e.V.',
-            'Stiftung ABC',
-        ],
-        'city' => [
-            'Nürnberg',
-            'München',
-            'Berlin',
-            'Köln',
-            'Frankfurt am Main',
-            'London',
-            'Paris',
-            'Bukarest',
-            'Hamburg',
-            'Bordeaux',
-        ],
-        'country' => [
-            'Germany',
-            'Germany',
-            'Germany',
-            'Germany',
-            'Germany',
-            'Germany',
-            'Germany',
-            'France',
-            'Great Britain',
-            'Egypt',
-        ],
-        'countryCode' => [
-            'DE',
-            'DE',
-            'DE',
-            'DE',
-            'DE',
-            'DE',
-            'NL',
-            'FR',
-            'AT',
-            'IT',
-            'US',
-            'RU',
-        ],
-        'lon' => [
-            '12.3301',
-            '9.9116',
-            '12.1026',
-        ],
-        'lat' => [
-            '51.2187',
-            '53.566',
-            '47.8391',
-        ],
-    ];
-
-    /**
      * @return void
+     * @throws ConfigurationException
      * @throws ExceptionDbal
      * @throws ExceptionDbalDriver
      */
@@ -208,87 +35,78 @@ class AnonymizeService
     /**
      * @return void
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     protected function anonymizeIdentifiedVisitors()
     {
-        $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Visitor::TABLE_NAME, true);
-        $rows = $queryBuilder
-            ->select('*')
-            ->from(Visitor::TABLE_NAME)
-            ->where('identified=1')
-            ->executeQuery()
-            ->fetchAllAssociative();
-        foreach ($rows as $row) {
-            $properties = [
-                'email' => $this->getRandomEmail(),
-                'ip_address' => '127.0.0.***',
-                'description' => $this->getRandomDescription(),
-            ];
-            $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
-            $connection->executeQuery(
-                'update ' . Visitor::TABLE_NAME . ' set ' . $this->getUpdateQueryFromProperties($properties)
-                . ' where uid=' . $row['uid']
-            );
-        }
+        $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
+        $sql = 'update ' . Visitor::TABLE_NAME
+            . ' set email=' . $this->getRandomEmailClause()
+            . ', ip_address="127.0.0.***"'
+            . ', description=' . $this->getRandomStringClause(10, 'Random Description ')
+            . ', company=' . $this->getRandomStringClause(10, 'Company ')
+            . ', frontenduser=0'
+            . ' where identified=1';
+        $connection->executeQuery($sql);
     }
 
     /**
      * @return void
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     protected function anonymizeAttributes()
     {
-        $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Attribute::TABLE_NAME, true);
-        $rows = $queryBuilder
-            ->select('*')
-            ->from(Attribute::TABLE_NAME)
-            ->executeQuery()
-            ->fetchAllAssociative();
-        foreach ($rows as $row) {
-            $value = StringUtility::getRandomString(8);
-            if ($row['name'] === 'firstname') {
-                $value = $this->getRandomFirstname();
-            }
-            if ($row['name'] === 'lastname') {
-                $value = $this->getRandomLastname();
-            }
-            if ($row['name'] === 'email') {
-                $value = $this->getRandomEmail();
-            }
-            if ($row['name'] === 'company') {
-                $value = $this->getRandomCompanyname();
-            }
-            if ($row['value'] === '') {
-                $value = '';
-            }
-            $connection = DatabaseUtility::getConnectionForTable(Attribute::TABLE_NAME);
-            $connection->executeQuery(
-                'update ' . Attribute::TABLE_NAME . ' set value="' . $value . '" where uid=' . $row['uid']
-            );
+        $connection = DatabaseUtility::getConnectionForTable(Attribute::TABLE_NAME);
+        $statements = [
+            'update ' . Attribute::TABLE_NAME
+            . ' set value=' . $this->getRandomStringClause(6, 'Firstname ')
+            . ' where name = "firstname" and value != \'\'',
+            'update ' . Attribute::TABLE_NAME
+            . ' set value=' . $this->getRandomStringClause(6, 'Lastname ')
+            . ' where name = "lastname" and value != \'\'',
+            'update ' . Attribute::TABLE_NAME
+            . ' set value=' . $this->getRandomStringClause(6, 'Company ')
+            . ' where name = "company" and value != \'\'',
+            'update ' . Attribute::TABLE_NAME
+            . ' set value=' . $this->getRandomEmailClause()
+            . ' where name = "email" and value != \'\'',
+            'update ' . Attribute::TABLE_NAME
+            . ' set value=' . $this->getRandomStringClause(6, 'Random ')
+            . ' where name not in ("firstname","lastname","company","email") and value != \'\'',
+        ];
+        foreach ($statements as $sql) {
+            $connection->executeQuery($sql);
         }
     }
 
     /**
      * @return void
+     * @throws ConfigurationException
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     protected function anonymizeIpinformation()
     {
-        $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Ipinformation::TABLE_NAME, true);
-        $rows = $queryBuilder
-            ->select('*')
-            ->from(Ipinformation::TABLE_NAME)
-            ->executeQuery()
-            ->fetchAllAssociative();
-        foreach ($rows as $row) {
-            $value = $this->getRandomIpinformation($row['name']);
-            $connection = DatabaseUtility::getConnectionForTable(Ipinformation::TABLE_NAME);
-            $connection->executeQuery(
-                'update ' . Ipinformation::TABLE_NAME . ' set value="' . $value . '" where uid=' . $row['uid']
-            );
+        $connection = DatabaseUtility::getConnectionForTable(Ipinformation::TABLE_NAME);
+        $statements = [
+            'update ' . Ipinformation::TABLE_NAME
+            . ' set value=' . $this->getRandomStringClause(6, 'Country ')
+            . ' where name = "country"',
+            'update ' . Ipinformation::TABLE_NAME
+            . ' set value=' . $this->getRandomStringClause(2)
+            . ' where name = "region"',
+            'update ' . Ipinformation::TABLE_NAME
+            . ' set value=' . $this->getRandomStringClause(6, 'City ')
+            . ' where name = "city"',
+            'update ' . Ipinformation::TABLE_NAME
+            . ' set value=' . $this->getRandomNumberClause(5)
+            . ' where name = "zip"',
+            'update ' . Ipinformation::TABLE_NAME . ' set value=47.8479687 where name = "lat"',
+            'update ' . Ipinformation::TABLE_NAME . ' set value=12.1110311 where name = "lon"',
+            'update ' . Ipinformation::TABLE_NAME
+            . ' set value=' . $this->getRandomStringClause(6, 'Company ')
+            . ' where name in ("isp","org")',
+        ];
+        foreach ($statements as $sql) {
+            $connection->executeQuery($sql);
         }
     }
 
@@ -299,70 +117,43 @@ class AnonymizeService
     protected function anonymizeAllFingerprints()
     {
         $connection = DatabaseUtility::getConnectionForTable(Fingerprint::TABLE_NAME);
-        $connection->executeQuery('update ' . Fingerprint::TABLE_NAME . ' set value="abcrandomvalue12345456";');
+        $connection->executeQuery(
+            'update ' . Fingerprint::TABLE_NAME . ' set value=' . $this->getRandomStringClause(6, 'Fingerprint ') . ';'
+        );
     }
 
-    protected function getUpdateQueryFromProperties(array $properties): string
+    protected function getRandomStringClause(int $length, string $prefix = ''): string
     {
-        $query = '';
-        foreach ($properties as $field => $value) {
-            $query .= $field . '="' . $value . '",';
+        return 'CONCAT(
+            "' . $prefix . '",
+            SUBSTR(MD5(FLOOR(RAND() * (100 - 1 + 1)) + 1), 1, ' . $length . ')
+        )';
+    }
+
+    protected function getRandomEmailClause(): string
+    {
+        return 'CONCAT(
+            SUBSTR(MD5(FLOOR(RAND() * (100 - 1 + 1)) + 1), 1, 10),
+            "@mail.org"
+        )';
+    }
+
+    /**
+     * @param int $length
+     * @param string $prefix
+     * @return string
+     * @throws ConfigurationException
+     */
+    protected function getRandomNumberClause(int $length, string $prefix = ''): string
+    {
+        if ($length < 1) {
+            throw new ConfigurationException('length must be bigger then 0', 1682775629);
         }
-        return rtrim($query, ',');
-    }
-
-    protected function getRandomIpinformation(string $key): string
-    {
-        $value = StringUtility::getRandomString(8);
-        if (array_key_exists($key, $this->ipinformations)) {
-            $subkey = rand(0, count($this->ipinformations[$key]) - 1);
-            $value = $this->ipinformations[$key][$subkey];
-        }
-        return $value;
-    }
-
-    protected function getRandomEmail(): string
-    {
-        $firstname = StringUtility::cleanString($this->getRandomFirstname(), true);
-        $lastname = StringUtility::cleanString($this->getRandomLastname(), true);
-        $company = StringUtility::cleanString($this->getRandomLastname(), true);
-        $toplevelDomain = StringUtility::cleanString($this->getRandomToplevelDomain(), true);
-        return $firstname . '.' . $lastname . '@' . $company . '.' . $toplevelDomain;
-    }
-
-    protected function getRandomFirstname(): string
-    {
-        $key = rand(0, count($this->firstNames) - 1);
-        return $this->firstNames[$key];
-    }
-
-    protected function getRandomLastname(): string
-    {
-        $key = rand(0, count($this->lastNames) - 1);
-        return $this->lastNames[$key];
-    }
-
-    protected function getRandomCompanyname(): string
-    {
-        $key = rand(0, count($this->companies) - 1);
-        return $this->companies[$key];
-    }
-
-    protected function getRandomToplevelDomain(): string
-    {
-        $key = rand(0, count($this->toplevelDomains) - 1);
-        return $this->toplevelDomains[$key];
-    }
-
-    protected function getRandomReferrer(): string
-    {
-        $key = rand(0, count($this->referrers) - 1);
-        return $this->referrers[$key];
-    }
-
-    protected function getRandomDescription(): string
-    {
-        $key = rand(0, count($this->descriptions) - 1);
-        return $this->descriptions[$key];
+        $maximum = 10 ** $length;
+        $minimum = $maximum / 10;
+        return 'CONCAT(
+            "' . $prefix . '",
+            FLOOR(RAND() * (' . $maximum . ' - ' . $minimum . ') + ' . $minimum . ')
+        )';
     }
 }
