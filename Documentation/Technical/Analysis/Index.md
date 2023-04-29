@@ -10,7 +10,7 @@ be automaticly loaded if you choose the main LUX static template in the root tem
 The file [01_TrackingConfiguration.typoscript](../../../Configuration/TypoScript/Lux/01_TrackingConfiguration.typoscript)
 contains all relevant settings for the visitor tracking.
 
-LUX basicly tracks every vistors page request with the current time. In addition it's possible to also track asset
+LUX basicly tracks every vistors page request with the current time. In addition, it's possible to also track asset
 downloads.
 
 See the inline comments for a description in TypoScript:
@@ -46,7 +46,8 @@ lib.lux.settings {
 }
 ```
 
-**Note:** Take care that your lib.lux configuration is recognized by LUX (see FAQ section how to copy it to plugin.tx_lux_fe)
+**Note:** Take care that your lib.lux configuration is recognized by LUX
+(see FAQ section how to copy it to plugin.tx_lux_fe)
 
 Constants to this TypoScript part:
 ```
@@ -107,7 +108,8 @@ lib.lux.settings {
 }
 ```
 
-**Note:** Take care that your lib.lux configuration is recognized by LUX (see FAQ section how to copy it to plugin.tx_lux_fe)
+**Note:** Take care that your lib.lux configuration is recognized by LUX
+(see FAQ section how to copy it to plugin.tx_lux_fe)
 
 #### Pagevisits and Downloads
 
@@ -144,7 +146,7 @@ Available parameters:
 | Content     | `&utm_content=`  | Optional: e.g. the name of the google ad that was delivered                                |
 
 If there are parameters saved in your LUX, you can analyse the leads to them in this module. All diagrams are
-reacting to your filter settings. Of course you can also use the CSV download if you want to.
+reacting to your filter settings. Of course, you can also use the CSV download if you want to.
 
 Clicking on a lead will open a detail page to this lead.
 
@@ -176,7 +178,7 @@ new Listener. That's all. Now all clicks on this link are tracked now.
 
 #### Search
 
-With LUX 16 we started to introduce a own search view.
+With LUX 16 we started to introduce an own search view.
 
 If there are entries in the search table, editors can see and click the search view button in analysis backend module.
 The view starts with a list of used searchterms of your websearch.
@@ -194,11 +196,31 @@ modified in TypoScript configuration.
 
 ### TYPO3 Dashboard Module
 
-In addition to the build in dashboard, since TYPO3 10 it is possible to install another dashboard for system wide
+In addition to the build in dashboard, since TYPO3 10 it is possible to install another dashboard for system-wide
 diagrams in TYPO3.
 You could do this simply with `composer require typo3/cms-dashboard`. Once it is available, you can add some widgets
 from LUX.
 
-This is a screenshot fom default values:
+This is a screenshot from default values:
 
 <img src="../../../Documentation/Images/screenshot_typo3dashboard.png" width="800" />
+
+Available widgets:
+
+| Title               | Type             | Size   | Description                          |
+|---------------------|------------------|--------|--------------------------------------|
+| Page visits         | `bar chart`      | medium | Top page visits of the current year  |
+| Downloads           | `bar chart`      | medium | Top downloads of the current year    |
+| News vists          | `bar chart`      | medium | Top news visits of the current year  |
+| Searchterms         | `bar chart`      | medium | Top search terms of the current year |
+| Identified          | `bar chart`      | small  | Identified vs. anonymous leads       |
+| Identified by month | `bar chart`      | medium | Identified leads grouped by month    |
+| Recurring visitors  | `doughnut chart` | small  | Recurring vs. unique visitors        |
+| Page visits week    | `bar chart`      | medium | Page visits of the current week      |
+| Downloads week      | `bar chart`      | medium | Downloads of the current week        |
+| Referrers           | `bar chart`      | medium | Show external referrer domains       |
+| Browsers            | `doughnut chart` | small  | Show visitor browsers                |
+| Hottest leads       | `list view`      | small  | Show hottest visitors                |
+| UTM campaign        | `bar view`       | medium | Show best UTM campaigns              |
+| UTM sources         | `doughnut chart` | small  | Show best UTM sources                |
+| UTM media           | `doughnut chart` | small  | Show best UTM media                  |
