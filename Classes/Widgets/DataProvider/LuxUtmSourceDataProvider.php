@@ -3,7 +3,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\Widgets\DataProvider;
 
-use In2code\Lux\Domain\DataProvider\UtmCampaignDataProvider;
 use In2code\Lux\Domain\DataProvider\UtmSourceDataProvider;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
