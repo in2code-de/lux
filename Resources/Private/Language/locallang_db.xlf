@@ -1220,6 +1220,12 @@
 			<trans-unit id="module.dashboard.widget.hottestleads.description">
 				<source>Show hottest leads from LUX</source>
 			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxutmcampaign.title">
+				<source>Top UTM campaigns</source>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxutmcampaign.description">
+				<source>Show best UTM campaigns</source>
+			</trans-unit>
 
 			<trans-unit id="luxletter.module.newsletter.receiver.title">
 				<source>Receiver analysis</source>

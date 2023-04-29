@@ -1612,6 +1612,14 @@
 				<source>Show hottest leads from LUX</source>
 				<target state="translated">Zeige "Hottest Leads" von LUX</target>
 			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxutmcampaign.title">
+				<source>Top UTM campaigns</source>
+				<target state="translated">Top UTM Kampagnen</target>
+			</trans-unit>
+			<trans-unit id="module.dashboard.widget.luxutmcampaign.description">
+				<source>Show best UTM campaigns</source>
+				<target state="translated">Zeige die beisten UTM Kampagnen</target>
+			</trans-unit>
 
 			<trans-unit id="luxletter.module.newsletter.receiver.title">
 				<source>Receiver analysis</source>
