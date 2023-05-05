@@ -62,7 +62,9 @@
                                 <f:if condition="{linkListener.cruserId.name}">({linkListener.cruserId.username})</f:if>
                             </td>
                             <td><lux:format.readableNumber>{linkListener.linkclicksRaw -> f:count()}</lux:format.readableNumber></td>
-                            <td>{linkListener.performance -> lux:format.percent()}</td>
+                            <td data-lux-getlinklistenerperformance="{linkListener.uid}">
+                                <span class="luxspinner"></span>
+                            </td>
                             <td>
                                 <div class="btn-group">
                                     <a href="{lux:backend.uriEdit(tableName:'tx_lux_domain_model_linklistener',identifier:linkListener.uid,moduleName:'lux_LuxAnalysis')}" class="btn btn-default" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:edit')}">
