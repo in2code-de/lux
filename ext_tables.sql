@@ -14,12 +14,12 @@ CREATE TABLE tx_lux_domain_model_visitor (
 	downloads int(11) DEFAULT '0' NOT NULL,
 	logs int(11) DEFAULT '0' NOT NULL,
 	frontenduser int(11) DEFAULT '0' NOT NULL,
+	fingerprints varchar(255) DEFAULT '' NOT NULL,
 
 	identified tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	blacklisted tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	email varchar(255) DEFAULT '' NOT NULL,
 	company varchar(255) DEFAULT '' NOT NULL,
-	fingerprints varchar(255) DEFAULT '' NOT NULL,
 	ip_address varchar(255) DEFAULT '' NOT NULL,
 	visits int(11) unsigned DEFAULT '0' NOT NULL,
 	scoring int(11) unsigned DEFAULT '0' NOT NULL,
@@ -39,10 +39,18 @@ CREATE TABLE tx_lux_domain_model_visitor (
 
 	PRIMARY KEY (uid),
 	KEY parent (pid),
-	KEY email (email(20)),
 	KEY frontenduser (frontenduser),
 	KEY fingerprints (fingerprints(20)),
+	KEY identified (identified),
+	KEY blacklisted (blacklisted),
+	KEY email (email(20)),
+	KEY company (company(20)),
 	KEY scoring (scoring),
+	KEY description (description(30)),
+	KEY tstamp (tstamp),
+	KEY crdate (crdate),
+	KEY deleted (deleted),
+	KEY hidden (hidden),
 	KEY language (l10n_parent,sys_language_uid)
 );
 
@@ -73,6 +81,7 @@ CREATE TABLE tx_lux_domain_model_fingerprint (
 	KEY domain (domain(50)),
 	KEY user_agent (user_agent(50)),
 	KEY type (type),
+	KEY crdate (crdate),
 	KEY language (l10n_parent,sys_language_uid)
 );
 
@@ -132,8 +141,10 @@ CREATE TABLE tx_lux_domain_model_pagevisit (
 	KEY parent (pid),
 	KEY visitor (visitor),
 	KEY page (page),
+	KEY language_lux (language),
 	KEY referrer (referrer(50)),
 	KEY domain (domain(50)),
+	KEY crdate (crdate),
 	KEY language (l10n_parent,sys_language_uid)
 );
 
@@ -165,7 +176,9 @@ CREATE TABLE tx_lux_domain_model_newsvisit (
 	KEY visitor (visitor),
 	KEY news (news),
 	KEY pagevisit (pagevisit),
+	KEY languagelux (language),
 	KEY domain (domain(50)),
+	KEY crdate (crdate),
 	KEY language (l10n_parent,sys_language_uid)
 );
 
@@ -196,6 +209,7 @@ CREATE TABLE tx_lux_domain_model_download (
 	KEY href (href(50)),
 	KEY page (page),
 	KEY domain (domain(50)),
+	KEY crdate (crdate),
 	KEY language (l10n_parent,sys_language_uid)
 );
 
@@ -225,6 +239,7 @@ CREATE TABLE tx_lux_domain_model_ipinformation (
 	KEY visitor (visitor),
 	KEY name (name(20)),
 	KEY value (value(50)),
+	KEY crdate (crdate),
 	KEY language (l10n_parent,sys_language_uid)
 );
 
@@ -249,6 +264,7 @@ CREATE TABLE tx_lux_domain_model_search (
 	KEY parent (pid),
 	KEY visitor (visitor),
 	KEY searchterm (searchterm(20)),
+	KEY crdate (crdate),
 	KEY language (l10n_parent,sys_language_uid)
 );
 
@@ -275,6 +291,8 @@ CREATE TABLE tx_lux_domain_model_linklistener (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY linkclicks (linkclicks),
+	KEY title (title(30)),
+	KEY description (description(50)),
 	KEY category (category),
 	KEY language (l10n_parent,sys_language_uid)
 );
@@ -327,6 +345,7 @@ CREATE TABLE tx_lux_domain_model_linkclick (
 	KEY visitor (visitor),
 	KEY page (page),
 	KEY linklistener (linklistener),
+	KEY crdate (crdate),
 	KEY language (l10n_parent,sys_language_uid)
 );
 
@@ -372,6 +391,13 @@ CREATE TABLE tx_lux_domain_model_utm (
 	KEY parent (pid),
 	KEY pagevisit (pagevisit),
 	KEY newsvisit (newsvisit),
+	KEY utm_source (utm_source(30)),
+	KEY utm_medium (utm_medium(30)),
+	KEY utm_campaign (utm_campaign(30)),
+	KEY utm_id (utm_id(10)),
+	KEY utm_term (utm_term(30)),
+	KEY utm_content (utm_content(30)),
+	KEY crdate (crdate),
 	KEY language (l10n_parent,sys_language_uid)
 );
 
@@ -398,9 +424,27 @@ CREATE TABLE tx_lux_domain_model_log (
 	KEY visitor (visitor),
 	KEY status (status),
 	KEY properties (properties(80)),
+	KEY crdate (crdate),
 	KEY language (l10n_parent,sys_language_uid)
 );
 
+CREATE TABLE fe_users (
+	KEY email (email(30))
+);
+
 CREATE TABLE sys_category (
-	lux_category tinyint(4) unsigned DEFAULT '0' NOT NULL
+	lux_category tinyint(4) unsigned DEFAULT '0' NOT NULL,
+
+	KEY deleted (deleted),
+	KEY lux_category (lux_category),
+	KEY title (title(20))
+);
+
+CREATE TABLE sys_category_record_mm (
+	KEY tablenames (tablenames(30)),
+	KEY fieldname (fieldname(20))
+);
+
+CREATE TABLE sys_file (
+	KEY name (name(30))
 );
