@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
+use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
@@ -77,5 +78,21 @@ class GeneralController extends AbstractController
             $url = $visitor->getImageUrl();
         }
         return GeneralUtility::makeInstance(JsonResponse::class, ['url' => $url]);
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     */
+    public function getLinkListenerPerformanceAjax(ServerRequestInterface $request): ResponseInterface
+    {
+        $linkListenerIdentifier = $request->getQueryParams()['linkListener'] ?? 0;
+        /** @var Linklistener $linkListener */
+        $linkListener = $this->linklistenerRepository->findByUid($linkListenerIdentifier);
+        $performance = '';
+        if ($linkListener !== null) {
+            $performance = $linkListener->getPerformance();
+        }
+        return GeneralUtility::makeInstance(JsonResponse::class, ['performance' => $performance]);
     }
 }

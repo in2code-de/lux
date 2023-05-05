@@ -34,6 +34,7 @@ define(['jquery'], function($) {
       addLinkMockListener();
       addConfirmListeners();
       asynchronousImageLoading();
+      asynchronousLinkListenerPerformanceLoading();
       addToggleListener();
     };
 
@@ -154,6 +155,31 @@ define(['jquery'], function($) {
       }
     };
 
+    /**
+     * Because performance column in linklistener list view table is a real downside for the web performance, we try
+     * to load those values via AJAX
+     *
+     * @returns {void}
+     */
+    const asynchronousLinkListenerPerformanceLoading = function() {
+      const elements = document.querySelectorAll('[data-lux-getlinklistenerperformance]');
+      elements.forEach(function(element) {
+        let linkListener = element.getAttribute('data-lux-getlinklistenerperformance');
+        if (linkListener > 0) {
+          ajaxConnection(TYPO3.settings.ajaxUrls['/lux/linklistenerperformance'], {
+            linkListener: linkListener
+          }, 'asynchronousLinkListenerPerformanceLoadingCallback', {element: element});
+        }
+      });
+    };
+
+    /**
+     * @params {Json} response
+     */
+    this.asynchronousLinkListenerPerformanceLoadingCallback = function(response, callbackArguments) {
+      const performance = (response.performance * 100).toFixed(1);
+      callbackArguments.element.innerHTML = performance + ' %';
+    };
 
     /**
      * Toggle elements

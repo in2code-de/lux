@@ -41,6 +41,10 @@ return [
         'path' => '/lux/visitorimage',
         'target' => GeneralController::class . '::getVisitorImageUrlAjax',
     ],
+    '/lux/linklistenerperformance' => [
+        'path' => '/lux/linklistenerperformance',
+        'target' => GeneralController::class . '::getLinkListenerPerformanceAjax',
+    ],
     '/lux/pageoverview' => [
         'path' => '/lux/pageoverview',
         'target' => GeneralController::class . '::showOrHidePageOverviewAjax',

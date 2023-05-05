@@ -23,6 +23,7 @@
 
 | Version    | Date       | State    | TYPO3         | Description                                                                                                                                                                                           |
 |------------|------------|----------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 30.0.0     | 2023-05-05 | Feature  | `11.5 + 12.4` | Add some more SQL indices to improve performance, Improve LinkListener list view by loading performance via AJAX                                                                                      |
 | 29.0.0     | 2023-04-29 | Feature  | `11.5 + 12.4` | Performance upgrade of AnonymousService, add 3 new TYPO3 dashboard widgets for UTM analysis, allow PHP 7.4 again, shrink size of Module.js, preparations for LUXenterprise 34                         |
 | 28.3.3     | 2023-04-27 | Bugfix   | `11.5 + 12.4` | Fix link to info module, fix pagebrowser functionality in TYPO3 12                                                                                                                                    |
 | 28.3.2     | 2023-04-26 | Bugfix   | `11.5 + 12.4` | Fix some optical issues for bootstrap 5 in workflow module under Chrome                                                                                                                               |
