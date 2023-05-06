@@ -117,4 +117,9 @@ class StringUtility
     {
         return substr(md5($string), 0, $length);
     }
+
+    public static function isShortMd5(string $string, int $length = 6): bool
+    {
+        return preg_replace('~[a-f0-9]{' . $length . '}~', '', $string) === '';
+    }
 }

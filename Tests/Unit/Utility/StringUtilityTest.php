@@ -162,4 +162,22 @@ class StringUtilityTest extends UnitTestCase
         self::assertSame('acbd18db4cc2f85cedef654fccc4a4d8', StringUtility::shortMd5('foo', 32));
         self::assertSame('c4ca42', StringUtility::shortMd5('1'));
     }
+
+    /**
+     * @return void
+     * @covers ::isShortMd5
+     */
+    public function testIsShortMd5(): void
+    {
+        self::assertFalse(StringUtility::isShortMd5('foo'));
+        self::assertFalse(StringUtility::isShortMd5('acbd18db4cc2f85cedef654fccc4a4d8'));
+        self::assertFalse(StringUtility::isShortMd5('abc1234'));
+        self::assertFalse(StringUtility::isShortMd5('abc12'));
+        self::assertFalse(StringUtility::isShortMd5('~abcde'));
+        self::assertFalse(StringUtility::isShortMd5('a8793cf9abc', 10));
+        self::assertFalse(StringUtility::isShortMd5('a8793c 9abc', 10));
+        self::assertTrue(StringUtility::isShortMd5('abc123'));
+        self::assertTrue(StringUtility::isShortMd5('a8793cf9ab', 10));
+        self::assertTrue(StringUtility::isShortMd5('acbd18db4cc2f85cedef654fccc4a4d8', 32));
+    }
 }

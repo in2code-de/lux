@@ -67,6 +67,14 @@ class VisitorRepository extends AbstractRepository
      */
     public function findAllWithIdentifiedFirst(FilterDto $filter, int $limit = 750): array
     {
+        // Search for calculated hash
+        if ($filter->getSearchterm() !== '' && StringUtility::isShortMd5($filter->getSearchterm())) {
+            $visitor = $this->findByHash($filter->getSearchterm());
+            if ($visitor !== null) {
+                return [$visitor];
+            }
+        }
+
         $query = $this->createQuery();
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, []);
         $query->matching($query->logicalAnd(...$logicalAnd));
@@ -342,7 +350,7 @@ class VisitorRepository extends AbstractRepository
     }
 
     /**
-     * Find unknown visitors where tstamp is older then given timestamp
+     * Find unknown visitors where tstamp is older than given timestamp
      *
      * @param int $timestamp
      * @return QueryResultInterface
@@ -425,6 +433,25 @@ class VisitorRepository extends AbstractRepository
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
         return (int)$connection->executeQuery('select count(uid) from ' . Visitor::TABLE_NAME . ' where identified = 0')
             ->fetchOne();
+    }
+
+    public function findByHash(string $hash): ?Visitor
+    {
+        if (StringUtility::isShortMd5($hash) === false) {
+            return null;
+        }
+
+        $sql = 'select uid from ' . Visitor::TABLE_NAME . ' where SUBSTR(MD5(uid), 1, 6) = "' . $hash . '"';
+        $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
+        $identifier = $connection->executeQuery($sql)->fetchOne() ?: 0;
+
+        if ($identifier > 0) {
+            $query = $this->createQuery();
+            $query->matching($query->equals('uid', $identifier));
+            return $query->execute()->getFirst();
+        }
+
+        return null;
     }
 
     /**
