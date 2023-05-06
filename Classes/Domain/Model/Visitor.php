@@ -939,6 +939,9 @@ class Visitor extends AbstractModel
         if (empty($country)) {
             $country = $this->getPropertyFromIpinformations('country');
         }
+        if (empty($country)) {
+            $country = $this->getPropertyFromIpinformations('countryCode');
+        }
         return $country;
     }
 
