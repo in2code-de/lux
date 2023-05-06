@@ -1,6 +1,6 @@
 <?php
 
-namespace In2code\Lux\Tests\Unit\Domain\Model;
+namespace In2code\Lux\Tests\Unit\Domain\Service;
 
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Tests\Helper\TestingHelper;
