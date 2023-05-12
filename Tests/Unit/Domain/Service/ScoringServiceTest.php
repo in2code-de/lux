@@ -5,34 +5,23 @@ namespace In2code\Lux\Tests\Unit\Domain\Service;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Tests\Helper\TestingHelper;
 use In2code\Lux\Tests\Unit\Fixtures\Domain\Service\ScoringServiceFixture;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * Class BackendUserUtilityTest
  * @coversDefaultClass \In2code\Lux\Domain\Service\ScoringService
  */
 class ScoringServiceTest extends UnitTestCase
 {
-    /**
-     * @var array
-     */
-    protected $testFilesToDelete = [];
+    protected array $testFilesToDelete = [];
 
-    /**
-     * @return void
-     */
     public function setUp(): void
     {
+        parent::setUp();
         TestingHelper::setDefaultConstants();
     }
 
-    /**
-     * @return array
-     */
-    public function calculateScoringDataProvider()
+    public static function calculateScoringDataProvider(): array
     {
         return [
             [
@@ -83,11 +72,9 @@ class ScoringServiceTest extends UnitTestCase
      * @dataProvider calculateScoringDataProvider
      * @covers ::calculateScoring
      * @covers ::calculateAndSetScoring
-     * @throws ExtensionConfigurationExtensionNotConfiguredException
-     * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws InvalidQueryException#
      */
-    public function testCalculateScoring(int $nod, int $nodslv, int $nov, int $nosv, int $expected)
+    public function testCalculateScoring(int $nod, int $nodslv, int $nov, int $nosv, int $expected): void
     {
         $scoringService = new ScoringServiceFixture();
         $scoringService->numberOfDownloads = $nod;

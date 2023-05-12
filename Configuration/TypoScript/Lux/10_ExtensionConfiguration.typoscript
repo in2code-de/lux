@@ -19,9 +19,11 @@ plugin {
 }
 
 # Copy plugin configuration to module configuration to just use one configuration for both places.
-module.tx_lux < plugin.tx_lux_fe
-module.tx_lux.view {
-  templateRootPaths.1 = EXT:luxenterprise/Resources/Private/Templates/
-  partialRootPaths.1 = EXT:luxenterprise/Resources/Private/Partials/
-  layoutRootPaths.1 = EXT:luxenterprise/Resources/Private/Layouts/
+module {
+  tx_lux < plugin.tx_lux_fe
+  tx_lux.view {
+    templateRootPaths.1 = EXT:luxenterprise/Resources/Private/Templates/
+    partialRootPaths.1 = EXT:luxenterprise/Resources/Private/Partials/
+    layoutRootPaths.1 = EXT:luxenterprise/Resources/Private/Layouts/
+  }
 }

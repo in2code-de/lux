@@ -34,6 +34,7 @@ class ScoringServiceFixture extends ScoringService
 
     public function setCalculation(): void
     {
-        $this->calculation = '(10 * numberOfSiteVisits) + (1 * numberOfPageVisits) + (20 * downloads) - (1 * lastVisitDaysAgo)';
+        $this->calculation =
+            '(10 * numberOfSiteVisits) + (1 * numberOfPageVisits) + (20 * downloads) - (1 * lastVisitDaysAgo)';
     }
 }

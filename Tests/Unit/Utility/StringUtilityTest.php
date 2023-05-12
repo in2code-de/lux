@@ -3,14 +3,15 @@
 namespace In2code\Lux\Tests\Unit\Utility;
 
 use In2code\Lux\Utility\StringUtility;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * Class StringUtilityTest
  * @coversDefaultClass \In2code\Lux\Utility\StringUtility
  */
 class StringUtilityTest extends UnitTestCase
 {
+    protected bool $resetSingletonInstances = true;
+
     /**
      * @return void
      * @covers ::getExtensionFromPathAndFilename

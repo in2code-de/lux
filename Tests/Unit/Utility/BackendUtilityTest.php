@@ -4,25 +4,19 @@ namespace In2code\Lux\Tests\Unit\Utility;
 
 use In2code\Lux\Tests\Helper\TestingHelper;
 use In2code\Lux\Tests\Unit\Fixtures\Utility\BackendUtilityFixture;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * Class BackendUserUtilityTest
  * @coversDefaultClass \In2code\Lux\Utility\BackendUtility
  */
 class BackendUtilityTest extends UnitTestCase
 {
-    /**
-     * @var array
-     */
-    protected $testFilesToDelete = [];
+    protected array $testFilesToDelete = [];
 
-    /**
-     * @return void
-     */
     public function setUp(): void
     {
+        parent::setUp();
         TestingHelper::setDefaultConstants();
     }
 
@@ -30,7 +24,7 @@ class BackendUtilityTest extends UnitTestCase
      * @return void
      * @covers ::getPropertyFromBackendUser
      */
-    public function testGetPropertyFromBackendUser()
+    public function testGetPropertyFromBackendUser(): void
     {
         $uidTest = rand();
         $this->initializeAuthentication(['uid' => $uidTest], ['username' => 'lux_user']);
@@ -44,7 +38,7 @@ class BackendUtilityTest extends UnitTestCase
      * @return void
      * @covers ::isAdministrator
      */
-    public function testIsAdministrator()
+    public function testIsAdministrator(): void
     {
         self::assertFalse(BackendUtilityFixture::isAdministrator());
         $this->initializeAuthentication(['uid' => 123], ['username' => 'lux_user'], ['admin' => 1]);
@@ -55,7 +49,7 @@ class BackendUtilityTest extends UnitTestCase
      * @return void
      * @covers ::getSessionValue
      */
-    public function testGetSessionValue()
+    public function testGetSessionValue(): void
     {
         $this->initializeAuthentication(['uid' => 123], ['username' => 'lux_user'], ['admin' => 1]);
         self::assertSame([], BackendUtilityFixture::getSessionValue('foo', 'bar', 'baz'));
@@ -65,7 +59,7 @@ class BackendUtilityTest extends UnitTestCase
      * @return void
      * @covers ::getBackendUserAuthentication
      */
-    public function testGetBackendUserAuthentication()
+    public function testGetBackendUserAuthentication(): void
     {
         $this->initializeAuthentication(['uid' => 123], ['username' => 'lux_user']);
         self::assertTrue(
@@ -78,7 +72,7 @@ class BackendUtilityTest extends UnitTestCase
      * @SuppressWarnings(PHPMD.Superglobals)
      * @return void
      */
-    protected function initializeAuthentication(array ...$properties)
+    protected function initializeAuthentication(array ...$properties): void
     {
         $authentication = new BackendUserAuthentication();
         foreach ($properties as $property) {

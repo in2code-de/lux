@@ -4,35 +4,27 @@ namespace In2code\Lux\Tests\Unit\Domain\Factory;
 
 use In2code\Lux\Domain\Factory\UtmFactory;
 use In2code\Lux\Domain\Model\Utm;
-use Nimut\TestingFramework\MockObject\AccessibleMockObjectInterface;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use TYPO3\TestingFramework\Core\AccessibleObjectInterface;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * Class ArrayUtilityTest
  * @coversDefaultClass \In2code\Lux\Domain\Factory\UtmFactory
  */
 class UtmFactoryTest extends UnitTestCase
 {
     /**
-     * @var UtmFactory|AccessibleMockObjectInterface|MockObject
+     * @var AccessibleObjectInterface|MockObject|UtmFactory
+     * Todo: Add typehints to variable when PHP 7.4 is dropped
      */
     protected $generalValidatorMock;
 
-    /**
-     * @return void
-     */
     public function setUp(): void
     {
-        $this->generalValidatorMock = $this->getAccessibleMock(
-            UtmFactory::class,
-            ['dummy']
-        );
+        parent::setUp();
+        $this->generalValidatorMock = $this->getAccessibleMock(UtmFactory::class, null);
     }
 
-    /**
-     * @return void
-     */
     public function tearDown(): void
     {
         unset($this->generalValidatorMock);
