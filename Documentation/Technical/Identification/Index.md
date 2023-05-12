@@ -4,7 +4,7 @@
 
 This part of the documentation describes different possibilities to **identify your leads**.
 Identification means that you are able to know the person behind the lead.
-And this needs an unique identification-property from the lead.
+And this needs a unique identification-property from the lead.
 E.g. firstname would be - of course - not a good property because this is not unique.
 Marketing Automation tools are going to use the **email-address** as unique property of the user.
 And... emails are great because, you can:
@@ -16,7 +16,7 @@ And... emails are great because, you can:
 * having an url (company) where you can simply find more interesting stuff of your lead
 * send marketing relevant information in newsletters
 
-So, if email-addresses are great and we want to collect the email from our unknown leads - how can we do this? The
+So, if email-addresses are great, and we want to collect the email from our unknown leads - how can we do this? The
 answer is simple: We have to deal a bit with our visitors. Let them download an interesting asset (e.g. a whitepaper)
 but ask for their email address first. Another way would be to offer a callback-form where you offer to call the
 visitor - also ask for the email address here. Is there a form, where the visitor can get access to a software?
@@ -50,8 +50,10 @@ lib.lux.settings {
         # En- or Disable field and form identification
         _enable = {$plugin.tx_lux.settings.fieldandformidentification}
 
-        # Auto identify with EVERY input field of your website.
-        # Disabled for forms with [data-lux-form-identification] and also disabled for fields with [data-lux-disable]
+        # Identify by complete form submits with '<form data-lux-form-identification="true">'
+        # - data-lux-form-identification="true" will catch submit, track values and does a form.submit()
+        # - data-lux-form-identification="submitButton" will catch submit, track values and does a submitButton.click(). This is needed for "typo3/cms-form"
+        # - data-lux-form-identification="preventDefault" will catch submit and track values without a further submit
         # Using a * as wildcard will search for a string in a string while using a key without * will search for the exact match.
         fieldMapping {
             # "email" is the key-field for visitor identification and merging.
@@ -117,12 +119,18 @@ Example lead identification in dashboard:
 #### FormFieldMapping
 
 Another way for identifications is to listen to complete form submits of any forms on your website.
-If you want to send all field informations of a form to lux, just add a `data-lux-form-identification="true"` to the
-form-tag itself.
+If you want to send all field information of a form to lux, just add a `data-lux-form-identification` attribute to the
+form-tag itself. See table for data-attribute value:
+
+| Field                                           | Description                                                             | Explanation                                                            |
+|-------------------------------------------------|-------------------------------------------------------------------------|------------------------------------------------------------------------|
+| `data-lux-form-identification="true"`           | Catch submit, track values and do a form.submit() at the end            | Default usage                                                          |
+| `data-lux-form-identification="submitButton"`   | Catch submit, track values and do a lastSubmitButton.click() at the end | Important if submit button click is needed (e.g. for "typo3/cms-form") |
+| `data-lux-form-identification="preventDefault"` | Catch submit, track values and don't submit                             | When you don't need a submit (e.g. for LUXenterprise workflows)        |
 
 There some different things when comparing FormFieldMappinng with FieldMapping (see above):
-* The data will be send to lux when the visitor submits the form and not before
-* The complete form will be send to lux (but only the fields that are defined in mapping configuration)
+* The data will be sent to lux when the visitor submits the form and not before
+* The complete form will be sent to lux (but only the fields that are defined in mapping configuration)
 * You have to change the markup of the forms with a data-attribute to the form tag
 
 The default field-mapping is similar to the FieldMapping: E.g. map a field with name `tx_form_formframework[e-mail]`
