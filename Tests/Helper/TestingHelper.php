@@ -88,6 +88,6 @@ class TestingHelper
      */
     public static function getWebRoot(): string
     {
-        return realpath(__DIR__ . '/../../.Build/Web') . '/';
+        return realpath(__DIR__ . '/../../.Build/public') . '/';
     }
 }

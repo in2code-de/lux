@@ -155,6 +155,8 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
   * Lead action: When lead enters a page of a given site
   * Lead source: Check for a given referrer
   * Lead source: Check for a given UTM parameter
+  * Lead source: Check for lead country
+  * Lead source: Check for distance to a location
   * Miscellaneous: On a defined time
   * Miscellaneous: Limit to a start action (page visit, download, form submit, etc...)
   * Miscellaneous: TYPO3 context

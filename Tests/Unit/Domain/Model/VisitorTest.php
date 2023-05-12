@@ -6,32 +6,24 @@ use In2code\Lux\Domain\Model\Attribute;
 use In2code\Lux\Domain\Model\Categoryscoring;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Tests\Helper\TestingHelper;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * Class BackendUserUtilityTest
  * @coversDefaultClass \In2code\Lux\Domain\Model\Visitor
  */
 class VisitorTest extends UnitTestCase
 {
-    /**
-     * @var array
-     */
-    protected $testFilesToDelete = [];
+    protected array $testFilesToDelete = [];
+    protected bool $resetSingletonInstances = true;
 
-    /**
-     * @return void
-     */
     public function setUp(): void
     {
+        parent::setUp();
         TestingHelper::setDefaultConstants();
     }
 
-    /**
-     * @return array
-     */
-    public function getFullNameDataProvider()
+    public static function getFullNameDataProvider(): array
     {
         return [
             [
@@ -83,7 +75,7 @@ class VisitorTest extends UnitTestCase
      * @covers ::getFullName
      * @covers ::getNameCombination
      */
-    public function testGetFullName(string $firstname, string $lastname, string $email, string $expectedResult)
+    public function testGetFullName(string $firstname, string $lastname, string $email, string $expectedResult): void
     {
         $visitor = new Visitor();
         $attributeA = new Attribute();
@@ -99,10 +91,7 @@ class VisitorTest extends UnitTestCase
         self::assertSame($expectedResult, $visitor->getFullName());
     }
 
-    /**
-     * @return array
-     */
-    public function getCategoryscoringsSortedByScoringDataProvider()
+    public static function getCategoryscoringsSortedByScoringDataProvider(): array
     {
         return [
             [
@@ -125,7 +114,7 @@ class VisitorTest extends UnitTestCase
      * @dataProvider getCategoryscoringsSortedByScoringDataProvider
      * @covers ::getCategoryscoringsSortedByScoring
      */
-    public function testGetCategoryscoringsSortedByScoring(array $sortings, array $expectedSortings)
+    public function testGetCategoryscoringsSortedByScoring(array $sortings, array $expectedSortings): void
     {
         $objectStorage = new ObjectStorage();
         foreach ($sortings as $scoring) {

@@ -52,6 +52,8 @@ Possible triggers by default are:
 * Lead action: When lead enters a page of a given site
 * Lead source: Check for a given referrer
 * Lead source: Check for a given UTM parameter
+* Lead source: Check for lead country
+* Lead source: Check for distance to a location
 * Miscellaneous: On a defined time
 * Miscellaneous: Limit to a start action (page visit, download, form submit, etc...)
 * Miscellaneous: TYPO3 context
@@ -363,6 +365,54 @@ lib.lux.settings {
             3 = utm_medium
             4 = utm_term
             5 = utm_content
+          }
+        }
+      }
+
+      # Check for visitors country
+      620 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.country
+
+        # Classname for implementation of the trigger itself
+        className = In2code\Luxenterprise\Domain\Workflow\Trigger\CountryTrigger
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Country.html
+
+        # Additional configuration
+        configuration {
+          # Any configuration - available as array in Template File and Trigger class for some own magic
+        }
+      }
+
+      # Check for location by distance
+      630 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.location
+
+        # Classname for implementation of the trigger itself
+        className = In2code\Luxenterprise\Domain\Workflow\Trigger\LocationTrigger
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Location.html
+
+        # Additional configuration
+        configuration {
+          # Any configuration - available as array in Template File and Trigger class for some own magic
+          distance.values {
+            10 = 10 km
+            25 = 25 km
+            50 = 50 km
+            100 = 100 km
+            150 = 150 km
+            200 = 200 km
+            250 = 250 km
+            300 = 300 km
+            400 = 400 km
+            500 = 500 km
+            750 = 750 km
+            1000 = 1000 km
           }
         }
       }

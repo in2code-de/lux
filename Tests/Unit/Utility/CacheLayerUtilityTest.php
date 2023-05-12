@@ -8,24 +8,18 @@ use In2code\Lux\Exception\UnexpectedValueException;
 use In2code\Lux\Tests\Helper\TestingHelper;
 use In2code\Lux\Tests\Unit\Fixtures\Utility\CacheLayerUtilityFixture;
 use In2code\Lux\Utility\CacheLayerUtility;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * Class CacheLayerUtilityTest
  * @coversDefaultClass \In2code\Lux\Utility\CacheLayerUtility
  */
 class CacheLayerUtilityTest extends UnitTestCase
 {
-    /**
-     * @var array
-     */
-    protected $testFilesToDelete = [];
+    protected array $testFilesToDelete = [];
 
-    /**
-     * @return void
-     */
     public function setUp(): void
     {
+        parent::setUp();
         TestingHelper::setDefaultConstants();
     }
 
@@ -34,7 +28,7 @@ class CacheLayerUtilityTest extends UnitTestCase
      * @SuppressWarnings(PHPMD.Superglobals)
      * @covers ::registerCacheLayers
      */
-    public function testGetPropertyFromBackendUser()
+    public function testGetPropertyFromBackendUser(): void
     {
         CacheLayerUtility::registerCacheLayers();
         self::assertGreaterThan(0, count($GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer']));
@@ -51,7 +45,7 @@ class CacheLayerUtilityTest extends UnitTestCase
      * @throws UnexpectedValueException
      * @covers ::getCachelayerLifetimeByCacheName
      */
-    public function testGetCachelayerLifetimeByCacheName()
+    public function testGetCachelayerLifetimeByCacheName(): void
     {
         CacheLayerUtility::registerCacheLayers();
         $key = AnalysisController::class . '->dashboardAction';
@@ -63,7 +57,7 @@ class CacheLayerUtilityTest extends UnitTestCase
      * @throws ConfigurationException
      * @covers ::getCacheLayerConfigurationByRoute
      */
-    public function testGetCacheLayerConfigurationByRoute()
+    public function testGetCacheLayerConfigurationByRoute(): void
     {
         CacheLayerUtility::registerCacheLayers();
         self::assertGreaterThan(0, count(CacheLayerUtility::getCacheLayerConfigurationByRoute('lux_LuxAnalysis')));
@@ -74,7 +68,7 @@ class CacheLayerUtilityTest extends UnitTestCase
      * @throws ConfigurationException
      * @covers ::getCacheLayerConfigurationByRoute
      */
-    public function testGetCacheLayerConfigurationByRouteEmptyRoute()
+    public function testGetCacheLayerConfigurationByRouteEmptyRoute(): void
     {
         $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['cachelayer'][AnalysisController::class . '->dashboardAction'] = [
             'lifetime' => 86400,
@@ -90,7 +84,7 @@ class CacheLayerUtilityTest extends UnitTestCase
      * @throws ConfigurationException
      * @covers ::getCacheLayerConfigurationByRoute
      */
-    public function testGetCacheLayerConfigurationByRouteNoRouteFound()
+    public function testGetCacheLayerConfigurationByRouteNoRouteFound(): void
     {
         CacheLayerUtility::registerCacheLayers();
         $this->expectExceptionCode(1645176561);
@@ -101,7 +95,7 @@ class CacheLayerUtilityTest extends UnitTestCase
      * @return void
      * @covers ::getCachelayerRoutes
      */
-    public function testGetCachelayerRoutes()
+    public function testGetCachelayerRoutes(): void
     {
         CacheLayerUtility::registerCacheLayers();
         self::assertGreaterThan(0, count(CacheLayerUtility::getCachelayerRoutes()));
@@ -111,7 +105,7 @@ class CacheLayerUtilityTest extends UnitTestCase
      * @return void
      * @covers ::getCachelayerConfiguration
      */
-    public function testGetCachelayerConfiguration()
+    public function testGetCachelayerConfiguration(): void
     {
         CacheLayerUtility::registerCacheLayers();
         self::assertGreaterThan(0, count(CacheLayerUtilityFixture::getCachelayerConfiguration()));

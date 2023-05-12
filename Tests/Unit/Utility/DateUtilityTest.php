@@ -5,10 +5,9 @@ namespace In2code\Lux\Tests\Unit\Utility;
 use DateTime;
 use Exception;
 use In2code\Lux\Utility\DateUtility;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * Class DateUtilityTest
  * @coversDefaultClass DateUtility
  */
 class DateUtilityTest extends UnitTestCase

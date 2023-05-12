@@ -3,18 +3,14 @@
 namespace In2code\Lux\Tests\Unit\Utility;
 
 use In2code\Lux\Utility\ArrayUtility;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * Class FileUtilityTest
  * @coversDefaultClass \In2code\Lux\Utility\ArrayUtility
  */
 class ArrayUtilityTest extends UnitTestCase
 {
-    /**
-     * @return array
-     */
-    public function sumAmountArraysDataProvider(): array
+    public static function sumAmountArraysDataProvider(): array
     {
         return [
             [
@@ -60,11 +56,14 @@ class ArrayUtilityTest extends UnitTestCase
     }
 
     /**
+     * @param array $array1
+     * @param array $array2
+     * @param array $expectedArray
      * @return void
      * @dataProvider sumAmountArraysDataProvider
      * @covers ::sumAmountArrays
      */
-    public function testSumAmountArrays(array $array1, array $array2, array $expectedArray)
+    public function testSumAmountArrays(array $array1, array $array2, array $expectedArray): void
     {
         self::assertSame($expectedArray, ArrayUtility::sumAmountArrays($array1, $array2));
     }
@@ -73,7 +72,7 @@ class ArrayUtilityTest extends UnitTestCase
      * @return void
      * @covers ::cleanStringForArrayKeys
      */
-    public function testCleanStringForArrayKeys()
+    public function testCleanStringForArrayKeys(): void
     {
         $arrayActual = [
             '<1>' => 'foo',
@@ -92,7 +91,7 @@ class ArrayUtilityTest extends UnitTestCase
      * @return void
      * @covers ::copyValuesToKeys
      */
-    public function testCopyValuesToKeys()
+    public function testCopyValuesToKeys(): void
     {
         $arrayActual = [
             'foo',

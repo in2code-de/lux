@@ -441,7 +441,7 @@ class VisitorRepository extends AbstractRepository
             return null;
         }
 
-        $sql = 'select uid from ' . Visitor::TABLE_NAME . ' where SUBSTR(MD5(uid), 1, 6) = "' . $hash . '"';
+        $sql = 'select uid from ' . Visitor::TABLE_NAME . ' where SUBSTR(MD5(uid), 1, 6) = "' . $hash . '" limit 1';
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
         $identifier = $connection->executeQuery($sql)->fetchOne() ?: 0;
 

@@ -98,10 +98,27 @@ export default class Email4LinkView extends UI.View {
   }
 
   _createTextarea(label) {
-    const textarea = new TextareaView(this.locale);
+    const textarea = new UI.LabeledFieldView(this.locale, this.createLabeledTextarea);
     textarea.set({
       label
     });
     return textarea;
+  }
+
+  createLabeledTextarea(labeledFieldView, viewUid, statusUid) {
+    const inputView = new TextareaView(labeledFieldView.locale);
+    inputView.set({
+      id: viewUid,
+      ariaDescribedById: statusUid
+    });
+    inputView.bind('isReadOnly').to(labeledFieldView, 'isEnabled', value => !value);
+    inputView.bind('hasError').to(labeledFieldView, 'errorText', value => !!value);
+    inputView.on('input', () => {
+      // UX: Make the error text disappear and disable the error indicator as the user
+      // starts fixing the errors.
+      labeledFieldView.errorText = null;
+    });
+    labeledFieldView.bind('isEmpty', 'isFocused', 'placeholder').to(inputView);
+    return inputView;
   }
 }

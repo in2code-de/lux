@@ -23,6 +23,7 @@
 
 | Version    | Date       | State    | TYPO3         | Description                                                                                                                                                                                           |
 |------------|------------|----------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 31.0.0     | 2023-05-12 | Feature  | `11.5 + 12.4` | Add relevant arguments to excluded cHash params, add local docker testing environment for TYPO3 12, update Tests for TYPO3 12, fix some open issues in email4link for TYPO3 12                        |
 | 30.1.0     | 2023-05-06 | Feature  | `11.5 + 12.4` | Allow search for visitor hash values, introduce country and geolocation service classes                                                                                                               |
 | 30.0.0     | 2023-05-05 | Feature  | `11.5 + 12.4` | Add some more SQL indices to improve performance, Improve LinkListener list view by loading performance via AJAX                                                                                      |
 | 29.0.0     | 2023-04-29 | Feature  | `11.5 + 12.4` | Performance upgrade of AnonymousService, add 3 new TYPO3 dashboard widgets for UTM analysis, allow PHP 7.4 again, shrink size of Module.js, preparations for LUXenterprise 34                         |
