@@ -44,7 +44,7 @@ export default class Email4LinkUI extends Core.Plugin {
         const value = {
           sendEmail: String(formView.checkboxInputView.isChecked),
           title: String(formView.titleInputView.fieldView.element.value),
-          text: String(formView.descriptionInputView.textareaView.element.value)
+          text: String(formView.descriptionInputView.fieldView.element.value)
         }
 
         editor.execute('email4link', value);
@@ -79,7 +79,7 @@ export default class Email4LinkUI extends Core.Plugin {
 
     if (link) {
       this.formView.titleInputView.fieldView.element.value = link.getAttribute('emailTitle') || '';
-      this.formView.descriptionInputView.textareaView.element.value = link.getAttribute('emailText') || '';
+      this.formView.descriptionInputView.fieldView.element.value = link.getAttribute('emailText') || '';
       this.formView.checkboxInputView.isChecked = link.getAttribute('sendEmail') || false;
     }
 
@@ -88,7 +88,7 @@ export default class Email4LinkUI extends Core.Plugin {
 
   _hideUI() {
     this.formView.titleInputView.fieldView.element.value = '';
-    this.formView.descriptionInputView.textareaView.element.value = '';
+    this.formView.descriptionInputView.fieldView.element.value = '';
     this.formView.checkboxInputView.isChecked = false;
     this.formView.element.reset();
 
