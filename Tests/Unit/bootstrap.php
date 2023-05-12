@@ -14,13 +14,13 @@ if (!file_exists($autoload)) {
 }
 
 $bootstrapLoaded = false;
-$bootstrap = $webRoot . '/typo3/sysext/core/Build/UnitTestsBootstrap.php';
-$bootstrapNimut = $buildRoot . '/vendor/nimut/testing-framework/res/Configuration/UnitTestsBootstrap.php';
-if (file_exists($bootstrap)) {
-    require($bootstrap);
+$bootstrapOldschool = $webRoot . 'typo3/sysext/core/Build/UnitTestsBootstrap.php';
+$bootstrapVendor = $buildRoot . '/vendor/typo3/testing-framework/Resources/Core/Build/UnitTestsBootstrap.php';
+if (file_exists($bootstrapOldschool)) {
+    require($bootstrapOldschool);
     $bootstrapLoaded = true;
-} elseif (file_exists($bootstrapNimut)) {
-    require($bootstrapNimut);
+} elseif (file_exists($bootstrapVendor)) {
+    require($bootstrapVendor);
     $bootstrapLoaded = true;
 }
 if ($bootstrapLoaded === false) {

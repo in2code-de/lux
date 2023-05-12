@@ -3,23 +3,16 @@
 namespace In2code\Lux\Tests\Unit\Utility;
 
 use In2code\Lux\Utility\UrlUtility;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * Class FileUtilityTest
  * @coversDefaultClass \In2code\Lux\Utility\UrlUtility
  */
 class UrlUtilityTest extends UnitTestCase
 {
-    /**
-     * @var array
-     */
-    protected $testFilesToDelete = [];
+    protected array $testFilesToDelete = [];
 
-    /**
-     * @return array
-     */
-    public function convertToRelativeDataProvider(): array
+    public static function convertToRelativeDataProvider(): array
     {
         return [
             [
@@ -104,7 +97,7 @@ class UrlUtilityTest extends UnitTestCase
     /**
      * @return array
      */
-    public function removeProtocolFromDomainDataProvider(): array
+    public static function removeProtocolFromDomainDataProvider(): array
     {
         return [
             [
@@ -129,7 +122,7 @@ class UrlUtilityTest extends UnitTestCase
      * @dataProvider removeProtocolFromDomainDataProvider
      * @covers ::removeProtocolFromDomain
      */
-    public function testRemoveProtocolFromDomain(string $domain, string $expectedDomain)
+    public function testRemoveProtocolFromDomain(string $domain, string $expectedDomain): void
     {
         self::assertEquals($expectedDomain, UrlUtility::removeProtocolFromDomain($domain));
     }

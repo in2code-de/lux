@@ -3,27 +3,25 @@
 namespace In2code\Lux\Tests\Unit\Domain\Service;
 
 use In2code\Lux\Domain\Service\CountryService;
-use Nimut\TestingFramework\MockObject\AccessibleMockObjectInterface;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use TYPO3\TestingFramework\Core\AccessibleObjectInterface;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * Class CountryServiceTest
  * @coversDefaultClass \In2code\Lux\Domain\Service\CountryService
  */
 class CountryServiceTest extends UnitTestCase
 {
     /**
-     * @var CountryService|AccessibleMockObjectInterface|MockObject
+     * @var AccessibleObjectInterface|MockObject|CountryService
+     * Todo: Add typehints to variable when PHP 7.4 is dropped
      */
     protected $generalValidatorMock;
 
     public function setUp(): void
     {
-        $this->generalValidatorMock = $this->getAccessibleMock(
-            CountryService::class,
-            ['dummy']
-        );
+        parent::setUp();
+        $this->generalValidatorMock = $this->getAccessibleMock(CountryService::class, null);
     }
 
     /**
