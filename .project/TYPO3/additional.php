@@ -1,6 +1,6 @@
 <?php
 
-return [
+$additional = [
     'BE' => [
         'installToolPassword' => '$argon2i$v=19$m=65536,t=16,p=1$RmZtaE5LQU1rSGw2NUZiWQ$YdU5on+xJ4lI6Gwd4LWpbddeAEu88cctS2dnO+r9ty0',
         'lockSSL' => '0',
@@ -16,6 +16,26 @@ return [
                 'host' => getenv('MYSQL_HOST'),
                 'user' => getenv('MYSQL_USER'),
                 'password' => getenv('MYSQL_PASSWORD'),
+            ],
+        ],
+    ],
+    'FE' => [
+        'cacheHash' => [
+            'enforceValidation' => true,
+            'excludedParameters' => [
+                'L',
+                'mtm_campaign',
+                'mtm_keyword',
+                'pk_campaign',
+                'pk_kwd',
+                'utm_source',
+                'utm_medium',
+                'utm_campaign',
+                'utm_term',
+                'utm_content',
+                'gclid',
+                'fbclid',
+                'msclkid',
             ],
         ],
     ],
@@ -49,3 +69,4 @@ return [
         'exceptionalErrors' => '28674'
     ]
 ];
+$GLOBALS['TYPO3_CONF_VARS'] = array_replace_recursive($GLOBALS['TYPO3_CONF_VARS'], $additional);
