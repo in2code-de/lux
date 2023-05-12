@@ -77,5 +77,10 @@ call_user_func(
             }
         }
         \In2code\Lux\Utility\CacheLayerUtility::registerCacheLayers();
+
+        /**
+         * CacheHash: Add LUX paramters to excluded variables
+         */
+        \In2code\Lux\Utility\CacheHashUtility::addLuxArgumentsToExcludedVariables();
     }
 );
