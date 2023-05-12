@@ -4,6 +4,9 @@ imports:
 
 editor:
   config:
+    height: 300
+    width: 'auto'
+
     extraAllowedContent: 'a[data-*];'
     contentsCss: 'EXT:lux/Resources/Public/Css/Modules.min.css'
 
