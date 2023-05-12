@@ -299,6 +299,9 @@ editor:
 ...
 ```
 
+**Note:** For the older **TYPO3 11** there is a different path to
+plugin.js: `EXT:lux/Resources/Public/JavaScript/Static/CkEditorPlugins/luxEmail4LinkOld/plugin.js`
+
 ##### Configuration of email4link
 
 See the related default TypoScript configuration:
