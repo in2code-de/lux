@@ -56,7 +56,9 @@ lib.lux.settings {
     }
 
     # Identify by complete form submits with '<form data-lux-form-identification="true">'
-    # If you want to stop the submit process (pagereload or redirect), you can use data-lux-form-identification="preventDefault"
+    # - data-lux-form-identification="true" will catch submit, track values and does a form.submit()
+    # - data-lux-form-identification="submitButton" will catch submit, track values and does a submitButton.click(). This is needed for "typo3/cms-form"
+    # - data-lux-form-identification="preventDefault" will catch submit and track values without a further submit
     # Using a * as wildcard will search for a string in a string while using a key without * will search for the exact match.
     formFieldMapping {
       email {

@@ -4,7 +4,7 @@
 
 This part of the documentation describes different possibilities to **identify your leads**.
 Identification means that you are able to know the person behind the lead.
-And this needs an unique identification-property from the lead.
+And this needs a unique identification-property from the lead.
 E.g. firstname would be - of course - not a good property because this is not unique.
 Marketing Automation tools are going to use the **email-address** as unique property of the user.
 And... emails are great because, you can:
@@ -16,7 +16,7 @@ And... emails are great because, you can:
 * having an url (company) where you can simply find more interesting stuff of your lead
 * send marketing relevant information in newsletters
 
-So, if email-addresses are great and we want to collect the email from our unknown leads - how can we do this? The
+So, if email-addresses are great, and we want to collect the email from our unknown leads - how can we do this? The
 answer is simple: We have to deal a bit with our visitors. Let them download an interesting asset (e.g. a whitepaper)
 but ask for their email address first. Another way would be to offer a callback-form where you offer to call the
 visitor - also ask for the email address here. Is there a form, where the visitor can get access to a software?
@@ -117,8 +117,14 @@ Example lead identification in dashboard:
 #### 2. FormFieldMapping
 
 Another way for identifications is to listen to complete form submits of any forms on your website.
-If you want to send all field information of a form to lux, just add a `data-lux-form-identification="true"` to the
-form-tag itself.
+If you want to send all field information of a form to lux, just add a `data-lux-form-identification` attribute to the
+form-tag itself. See table for data-attribute value:
+
+| Field                                           | Description                                                             | Explanation                                                            |
+|-------------------------------------------------|-------------------------------------------------------------------------|------------------------------------------------------------------------|
+| `data-lux-form-identification="true"`           | Catch submit, track values and do a form.submit() at the end            | Default usage                                                          |
+| `data-lux-form-identification="submitButton"`   | Catch submit, track values and do a lastSubmitButton.click() at the end | Important if submit button click is needed (e.g. for "typo3/cms-form") |
+| `data-lux-form-identification="preventDefault"` | Catch submit, track values and don't submit                             | When you don't need a submit (e.g. for LUXenterprise workflows)        |
 
 There some different things when comparing FormFieldMappinng with FieldMapping (see above):
 * The data will be sent to lux when the visitor submits the form and not before
@@ -141,7 +147,9 @@ lib.lux.settings {
         _enable = {$plugin.tx_lux.settings.fieldandformidentification}
 
         # Identify by complete form submits with '<form data-lux-form-identification="true">'
-        # If you want to stop the submit process (pagereload or redirect), you can use data-lux-form-identification="preventDefault"
+        # - data-lux-form-identification="true" will catch submit, track values and does a form.submit()
+        # - data-lux-form-identification="submitButton" will catch submit, track values and does a submitButton.click(). This is needed for "typo3/cms-form"
+        # - data-lux-form-identification="preventDefault" will catch submit and track values without a further submit
         # Using a * as wildcard will search for a string in a string while using a key without * will search for the exact match.
         formFieldMapping {
             email {
@@ -298,6 +306,9 @@ editor:
       - { name: 'links', groups: [ 'links', 'Email4Link' ] }
 ...
 ```
+
+**Note:** For the older **TYPO3 11** there is a different path to
+plugin.js: `EXT:lux/Resources/Public/JavaScript/Static/CkEditorPlugins/luxEmail4LinkOld/plugin.js`
 
 ##### Configuration of email4link
 

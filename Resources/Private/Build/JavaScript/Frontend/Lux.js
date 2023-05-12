@@ -44,6 +44,13 @@ function LuxMain() {
   var trackIteration = 0;
 
   /**
+   * Save form for formfieldlistening so submit is not triggered twice
+   *
+   * @type {null}
+   */
+  var formDelayStop = null;
+
+  /**
    * @returns {void}
    */
   this.initialize = function() {
@@ -669,8 +676,8 @@ function LuxMain() {
    */
   var addFormListeners = function() {
     var forms = document.querySelectorAll('form[data-lux-form-identification]');
-    for (var i = 0; i < forms.length; i++) {
-      forms[i].addEventListener('submit', function(event) {
+    forms.forEach(function(form) {
+      form.addEventListener('submit', function(event) {
         sendFormValues(event.target);
         delaySubmit(
           event,
@@ -678,7 +685,7 @@ function LuxMain() {
           event.target.getAttribute('data-lux-form-identification') !== 'preventDefault'
         );
       });
-    }
+    });
   };
 
   /**
@@ -807,26 +814,45 @@ function LuxMain() {
   };
 
   /**
-   * Delay a form submit to give AJAX some time to do a bit magic
+   * Delay a form submit to give AJAX some time for tracking requests
+   *    data-lux-form-identification="true" does a form.submit() while
+   *    data-lux-form-identification="submitButton" does a lastSubmitButton.click()
    *
-   * @param event triggered form
+   * @param event triggered form element
    * @param status debugging name
-   * @param submit
+   * @param {boolean} submit Form must be submitted?
    * @returns {void}
    */
   var delaySubmit = function(event, status, submit) {
-    event.preventDefault();
-    var delay = 400;
-    if (isDebugMode()) {
-      console.log(status + ' triggered. Form submit delayed');
-      delay = 5000;
-    }
-    if (submit === true) {
-      setTimeout(
-        function() {
-          event.target.submit();
-        }, delay
-      );
+    var form = event.target;
+    if (formDelayStop !== form) {
+      formDelayStop = form;
+      event.preventDefault();
+      var delay = 500;
+      var sendBySubmitButton = form.getAttribute('data-lux-form-identification') === 'submitButton';
+
+      if (isDebugMode()) {
+        console.log(status + ' triggered. Form submit delayed');
+        delay = 5000;
+      }
+
+      if (submit === true) {
+        setTimeout(
+          function() {
+            form.removeAttribute('data-lux-form-identification');
+
+            // Submit by clicking submit button
+            if (sendBySubmitButton === true) {
+              var submitButtons = form.querySelectorAll('[type="submit"], button:not([type="button"])');
+              var submitButton = submitButtons[submitButtons.length - 1]; // take last button in form if there is a previous button
+              submitButton.click();
+            } else {
+              // Default form submit
+              form.submit();
+            }
+          }, delay
+        );
+      }
     }
   };
 
