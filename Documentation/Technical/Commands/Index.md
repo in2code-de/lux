@@ -8,7 +8,9 @@ Most of the Commands can be called via CLI or via Scheduler Backend Module (dire
 
 **Overview**
 
-* Anonymize leads (for presentations or local development)
+* Data protection
+  * Anonymize leads (e.g. for local development)
+  * Demo data (truncate all leads and add some demonstration records)
 * Cleanup commands (to really erase data from database)
   * Remove all visitors
   * Remove all visitors by age
@@ -41,6 +43,16 @@ Example usage:
 ./vendor/bin/typo3 lux:anonymize
 ```
 
+##### \In2code\Luxenterprise\Command\LuxDemoDataCommand
+
+Only for luxenterprise: This command truncates all visitor data and adds a couble of demo visitors for presentations
+
+Example usage:
+
+```
+./vendor/bin/typo3 lux:demodata
+```
+
 
 #### Cleanup Commands
 
@@ -63,7 +75,7 @@ Remove means in this case not deleted=1 but really remove from database.
 Example usage:
 
 ```
-# Remove unknown visitors (and all there related data) older than the given timestamp 
+# Remove unknown visitors (and all there related data) older than the given timestamp
 # (1640995200 = 2022/01/01 00:00)
 ./vendor/bin/typo3 lux:cleanupVisitorsByAge 1640995200
 ```
@@ -76,7 +88,7 @@ Remove means in this case not deleted=1 but really remove from database.
 Example usage:
 
 ```
-# Remove unknown visitors (and all there related data) older than the given timestamp 
+# Remove unknown visitors (and all there related data) older than the given timestamp
 # (1640995200 = 2022/01/01 00:00)
 /vendor/bin/typo3 lux:cleanupUnknownVisitorsByAge 1640995200
 ```

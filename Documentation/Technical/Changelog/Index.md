@@ -23,6 +23,7 @@
 
 | Version    | Date       | State    | TYPO3         | Description                                                                                                                                                                                           |
 |------------|------------|----------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 31.1.1     | 2023-05-15 | Task     | `11.5 + 12.4` | Add UTM table to truncateAll() function, Show correct "latest visit" time if there is no related log record                                                                                           |
 | 31.1.0     | 2023-05-13 | Feature  | `11.5 + 12.4` | Allow formFieldListening with "typo3/cms-form" by supporting `data-lux-form-identification="submitButton"`                                                                                            |
 | 31.0.0     | 2023-05-12 | Feature  | `11.5 + 12.4` | Add relevant arguments to excluded cHash params, add local docker testing environment for TYPO3 12, update Tests for TYPO3 12, fix some open issues in email4link for TYPO3 12                        |
 | 30.1.0     | 2023-05-06 | Feature  | `11.5 + 12.4` | Allow search for visitor hash values, introduce country and geolocation service classes                                                                                                               |
