@@ -18,6 +18,7 @@ use In2code\Lux\Domain\Model\Newsvisit;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Search;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
+use In2code\Lux\Domain\Model\Utm;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Exception\FileNotFoundException;
 use In2code\Lux\Exception\ParametersException;
@@ -551,6 +552,7 @@ class VisitorRepository extends AbstractRepository
             Visitor::TABLE_NAME,
             Linkclick::TABLE_NAME,
             Search::TABLE_NAME,
+            Utm::TABLE_NAME,
         ];
         foreach ($tables as $table) {
             DatabaseUtility::getConnectionForTable($table)->truncate($table);
