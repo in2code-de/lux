@@ -566,7 +566,13 @@ function LuxMain() {
    * @returns {void}
    */
   var track = function() {
-    if (identification.isIdentificatorSet()) {
+    // if the interval checking for the fingerprint is still active
+    let isIntervalActive = true;
+
+    const interval = setInterval(() => {
+      const isFingerprintCalculated = identification.isIdentificatorSet();
+      if (!isFingerprintCalculated) return;
+
       pageRequest();
       addFieldListeners();
       addFormListeners();
@@ -574,14 +580,17 @@ function LuxMain() {
       addLinkListenerListener();
       addRedirectListener();
       addAbTestingListener();
-    } else {
-      trackIteration++;
-      if (trackIteration < 200) {
-        setTimeout(track, 100);
-      } else {
-        console.log('Fingerprint could not be calculated within 20s');
-      }
-    }
+
+      clearInterval(interval);
+      isIntervalActive = false;
+    }, 500);
+
+    // if after 8s the fingerprint is still not calculated, stop waiting and log error
+    setTimeout(() => {
+      if (!isIntervalActive) return;
+      clearInterval(interval);
+      console.log('Fingerprint could not be calculated within 8s');
+    }, 8000);
   };
 
   /**
