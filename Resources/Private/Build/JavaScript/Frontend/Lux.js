@@ -201,29 +201,27 @@ function LuxMain() {
    * @param response
    */
   this.ajaxContentWorkflowAction = function(response) {
-    var uri = document.querySelector('[data-lux-contenturiwithoutheader]')
+    var uri = document
+      .querySelector('[data-lux-contenturiwithoutheader]')
       .getAttribute('data-lux-contenturiwithoutheader') || '/index.php?id=1&type=1560175278';
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-      if (this.readyState === 4 && this.status === 200) {
+
+    const url = mergeUriWithParameters(uri, {'luxContent': parseInt(response['configuration']['contentElement'])});
+
+    fetch(url, { method: 'POST' })
+      .then(response => response.text())
+      .then(responseText => {
         var domSelection = document.querySelector(response['configuration']['domselection']);
         if (domSelection !== null) {
           delayFunctionDispatcher(
             response['configuration']['delay'],
             'showAjaxContent',
-            {domSelection: domSelection, responseText: this.responseText}
+            {domSelection: domSelection, responseText: responseText}
           );
         } else {
           console.log('Element ' + response['configuration']['domselection'] + ' could not be found in HTML');
         }
-      }
-    };
-    xhttp.open(
-      'POST',
-      mergeUriWithParameters(uri, {'luxContent': parseInt(response['configuration']['contentElement'])}),
-      true
-    );
-    xhttp.send();
+      })
+      .catch(console.error);
   };
 
   /**
@@ -1275,16 +1273,24 @@ function LuxMain() {
   var ajaxConnection = function(parameters, uri, callback, callbackArguments) {
     callbackArguments = callbackArguments || {};
     if (uri !== '') {
-      var xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-          if (callback !== null) {
-            that[callback](JSON.parse(this.responseText), callbackArguments);
+      const url = mergeUriWithParameters(uri, parameters);
+
+      fetch(url, { method: 'POST' })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Lux: Fetch request failed!');
           }
-        }
-      };
-      xhttp.open('POST', mergeUriWithParameters(uri, parameters), true);
-      xhttp.send();
+
+          return response;
+        })
+        .then((response) => response.json())
+        .then((data) => {
+          if (callback !== null) {
+            that[callback](data, callbackArguments);
+          }
+        })
+        .catch(console.error);
+
     } else {
       console.log('No ajax URI given!');
     }
