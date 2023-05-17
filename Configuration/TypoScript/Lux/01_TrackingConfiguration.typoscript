@@ -26,5 +26,13 @@ lib.lux.settings {
       # Define GET params for searchterms (e.g. "tx_solr[q]")
       getParameters = tx_solr[q],tx_indexedsearch[sword],tx_indexedsearch_pi2[search][sword],tx_kesearch_pi1[sword]
     }
+
+    company {
+      # Toggle tracking of company details from wiredmind.com via IP address (on/off)
+      _enable = {$plugin.tx_lux.settings.tracking.company}
+
+      # Wiredminds token
+      token =
+    }
   }
 }

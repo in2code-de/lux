@@ -87,6 +87,9 @@ services:
   In2code\Lux\Domain\Service\VisitorMergeService:
     public: true
 
+  In2code\Lux\Domain\Tracker\CompanyTracker:
+    public: true
+
   In2code\Lux\Domain\Tracker\NewsTracker:
     public: true
 

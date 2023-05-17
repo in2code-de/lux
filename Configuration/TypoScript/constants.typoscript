@@ -20,6 +20,9 @@ plugin.tx_lux.settings {
 
     # cat=lux//0060; type=boolean; label= Activate searchterm tracking: (De)Activate tracking searchterms if user searched for someone on your website.
     search = 1
+
+    # cat=lux//0070; type=boolean; label= Activate tracking via wiredminds: (De)Activate tracking enrichment of lead data via wiredminds.com
+    company = 1
   }
 
   # cat=lux//0100; type=boolean; label= Activate field and form identification: (De)Activate identification by filling out web forms.

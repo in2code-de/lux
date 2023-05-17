@@ -10,6 +10,7 @@ use In2code\Lux\Domain\Service\ConfigurationService;
 use In2code\Lux\Domain\Service\Email\SendAssetEmail4LinkService;
 use In2code\Lux\Domain\Tracker\AbTestingTracker;
 use In2code\Lux\Domain\Tracker\AttributeTracker;
+use In2code\Lux\Domain\Tracker\CompanyTracker;
 use In2code\Lux\Domain\Tracker\DownloadTracker;
 use In2code\Lux\Domain\Tracker\FrontenduserAuthenticationTracker;
 use In2code\Lux\Domain\Tracker\LinkClickTracker;
@@ -109,6 +110,8 @@ class FrontendController extends ActionController
             $newsTracker->track($visitor, $arguments, $pagevisit);
             $searchTracker = GeneralUtility::makeInstance(SearchTracker::class);
             $searchTracker->track($visitor, $arguments);
+            $companyTracker = GeneralUtility::makeInstance(CompanyTracker::class);
+            $companyTracker->track($visitor);
             return $this->jsonResponse(json_encode($this->afterAction($visitor)));
         } catch (Throwable $exception) {
             return $this->jsonResponse(json_encode($this->getError($exception)));

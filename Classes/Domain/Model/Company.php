@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
 use DateTime;
+use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 class Company extends AbstractEntity
@@ -78,6 +79,15 @@ class Company extends AbstractEntity
     public function getContacts(): string
     {
         return $this->contacts;
+    }
+
+    public function getContactsArray(): array
+    {
+        $contactsJson = $this->contacts;
+        if (StringUtility::isJsonArray($contactsJson)) {
+            return json_decode($contactsJson, true);
+        }
+        return [];
     }
 
     public function setContacts(string $contacts): self

@@ -19,6 +19,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
+use TYPO3\CMS\Extbase\Persistence\Generic\LazyLoadingProxy;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
@@ -50,10 +51,12 @@ class Visitor extends AbstractModel
     protected string $company = '';
 
     /**
-     * @var ?Company
      * @Lazy
+     * @var Company|null
+     * @phpstan-var Company|LazyLoadingProxy|null
+     * Todo: Type can be changed to Company|LazyLoadingProxy|null when PHP 7.4 is dropped
      */
-    protected ?Company $companyrecord = null;
+    protected ?object $companyrecord = null;
 
     protected bool $identified = false;
 
@@ -344,7 +347,9 @@ class Visitor extends AbstractModel
 
     public function getCompanyrecord(): ?Company
     {
-        return $this->companyrecord;
+        return $this->companyrecord instanceof LazyLoadingProxy
+            ? $this->companyrecord->_loadRealInstance()
+            : $this->companyrecord;
     }
 
     public function setCompanyrecord(?Company $companyrecord): self
