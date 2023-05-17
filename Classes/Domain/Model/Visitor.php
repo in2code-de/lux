@@ -49,6 +49,12 @@ class Visitor extends AbstractModel
     protected string $email = '';
     protected string $company = '';
 
+    /**
+     * @var ?Company
+     * @Lazy
+     */
+    protected ?Company $companyrecord = null;
+
     protected bool $identified = false;
 
     protected int $visits = 0;
@@ -333,6 +339,17 @@ class Visitor extends AbstractModel
         if ($company !== '') {
             $this->company = $company;
         }
+        return $this;
+    }
+
+    public function getCompanyrecord(): ?Company
+    {
+        return $this->companyrecord;
+    }
+
+    public function setCompanyrecord(?Company $companyrecord): self
+    {
+        $this->companyrecord = $companyrecord;
         return $this;
     }
 

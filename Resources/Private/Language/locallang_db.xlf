@@ -404,6 +404,67 @@
 				<source>Content</source>
 			</trans-unit>
 
+			<trans-unit id="tx_lux_domain_model_company">
+				<source>Company</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.crdate">
+				<source>Creation date</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.tstamp">
+				<source>Change date</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.title">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.branch">
+				<source>Branch</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.branch_code">
+				<source>Branch code</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.city">
+				<source>City</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.contacts">
+				<source>Contacts</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.continent">
+				<source>Continent</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.country_code">
+				<source>Country code</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.region">
+				<source>Region</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.street">
+				<source>Street</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.street">
+				<source>Zip</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.domain">
+				<source>Domain</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.founding_year">
+				<source>Founding year</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.phone">
+				<source>Phone</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.revenue">
+				<source>Revenue</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.revenue_class">
+				<source>Revenue class</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.size">
+				<source>Size</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.size_class">
+				<source>Size class</source>
+			</trans-unit>
+
 			<trans-unit id="sys_category.lux_category">
 				<source>Is LUX category?</source>
 			</trans-unit>

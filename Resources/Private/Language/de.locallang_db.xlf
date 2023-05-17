@@ -531,6 +531,87 @@
 				<target state="translated">Inhalt</target>
 			</trans-unit>
 
+			<trans-unit id="tx_lux_domain_model_company">
+				<source>Company</source>
+				<target state="translated">Firma</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.crdate">
+				<source>Creation date</source>
+				<target state="translated">Erstellungsdatum</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.tstamp">
+				<source>Change date</source>
+				<target state="translated">Änderungsdatum</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.title">
+				<source>Name</source>
+				<target state="translated">Name</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.branch">
+				<source>Branch</source>
+				<target state="translated">Branche</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.branch_code">
+				<source>Branch code</source>
+				<target state="translated">Branchencode</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.city">
+				<source>City</source>
+				<target state="translated">Stadt</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.contacts">
+				<source>Contacts</source>
+				<target state="translated">Kontakte</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.continent">
+				<source>Continent</source>
+				<target state="translated">Kontinent</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.country_code">
+				<source>Country code</source>
+				<target state="translated">Ländercode</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.region">
+				<source>Region</source>
+				<target state="translated">Region</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.street">
+				<source>Street</source>
+				<target state="translated">Straße</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.street">
+				<source>Zip</source>
+				<target state="translated">PLZ</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.domain">
+				<source>Domain</source>
+				<target state="translated">Domain</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.founding_year">
+				<source>Founding year</source>
+				<target state="translated">Gründungsjahr</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.phone">
+				<source>Phone</source>
+				<target state="translated">Telefon</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.revenue">
+				<source>Revenue</source>
+				<target state="translated">Jahresumsatz</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.revenue_class">
+				<source>Revenue class</source>
+				<target state="translated">Umsatzklasse</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.size">
+				<source>Size</source>
+				<target state="translated">Größe</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.size_class">
+				<source>Size class</source>
+				<target state="translated">Größenklasse</target>
+			</trans-unit>
+
 			<trans-unit id="sys_category.lux_category">
 				<source>Is LUX category?</source>
 				<target state="translated">Ist eine LUX-Kategorie?</target>

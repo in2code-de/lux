@@ -5,6 +5,7 @@ CREATE TABLE tx_lux_domain_model_visitor (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 
+	companyrecord int(11) DEFAULT '0' NOT NULL,
 	pagevisits int(11) DEFAULT '0' NOT NULL,
 	newsvisits int(11) DEFAULT '0' NOT NULL,
 	linkclicks int(11) DEFAULT '0' NOT NULL,
@@ -398,6 +399,42 @@ CREATE TABLE tx_lux_domain_model_utm (
 	KEY utm_term (utm_term(30)),
 	KEY utm_content (utm_content(30)),
 	KEY crdate (crdate),
+	KEY language (l10n_parent,sys_language_uid)
+);
+
+CREATE TABLE tx_lux_domain_model_company (
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+
+	title varchar(255) DEFAULT '' NOT NULL,
+	branch varchar(255) DEFAULT '' NOT NULL,
+	branch_code varchar(255) DEFAULT '' NOT NULL,
+	city varchar(255) DEFAULT '' NOT NULL,
+	contacts text DEFAULT '' NOT NULL,
+	continent varchar(255) DEFAULT '' NOT NULL,
+	country_code varchar(255) DEFAULT '' NOT NULL,
+	region varchar(255) DEFAULT '' NOT NULL,
+	street varchar(255) DEFAULT '' NOT NULL,
+	zip varchar(255) DEFAULT '' NOT NULL,
+	domain varchar(255) DEFAULT '' NOT NULL,
+	founding_year varchar(255) DEFAULT '' NOT NULL,
+	phone varchar(255) DEFAULT '' NOT NULL,
+	revenue varchar(255) DEFAULT '' NOT NULL,
+	revenue_class varchar(255) DEFAULT '' NOT NULL,
+	size varchar(255) DEFAULT '' NOT NULL,
+	size_class varchar(255) DEFAULT '' NOT NULL,
+
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
+
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l10n_parent int(11) DEFAULT '0' NOT NULL,
+	l10n_diffsource mediumblob,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid),
 	KEY language (l10n_parent,sys_language_uid)
 );
 
