@@ -3,7 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Tracker;
 
-use In2code\Lux\Domain\Model\Company;
+use In2code\Lux\Domain\Factory\CompanyFactory;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\CompanyRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
@@ -12,7 +12,6 @@ use In2code\Lux\Utility\IpUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use Throwable;
 use TYPO3\CMS\Core\Http\RequestFactory;
-use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 
 /**
  * Class CompanyTracker
@@ -21,22 +20,19 @@ use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 class CompanyTracker
 {
     protected VisitorRepository $visitorRepository;
-    protected CompanyRepository $companyRepository;
     protected RequestFactory $requestFactory;
-    protected DataMapper $dataMapper;
+    protected CompanyFactory $companyFactory;
 
     protected array $settings = [];
 
     public function __construct(
         VisitorRepository $visitorRepository,
-        CompanyRepository $companyRepository,
         RequestFactory $requestFactory,
-        DataMapper $dataMapper
+        CompanyFactory $companyFactory
     ) {
         $this->visitorRepository = $visitorRepository;
-        $this->companyRepository = $companyRepository;
         $this->requestFactory = $requestFactory;
-        $this->dataMapper = $dataMapper;
+        $this->companyFactory = $companyFactory;
         $configurationService = ObjectUtility::getConfigurationService();
         $this->settings = $configurationService->getTypoScriptSettings();
     }
@@ -60,30 +56,10 @@ class CompanyTracker
 
     protected function persistCompany(Visitor $visitor, array $properties): void
     {
-        $properties['title'] = $properties['name']; // map title
-        $company = $this->companyRepository->findByTitleAndDomain($properties['title'], $properties['domain']);
-        if ($company === null) {
-            $company = $this->getNewCompany($properties);
-        }
+        $company = $this->companyFactory->getExistingOrNewPersistedCompany($properties);
         $visitor->setCompanyrecord($company);
         $this->visitorRepository->update($visitor);
         $this->visitorRepository->persistAll();
-    }
-
-    protected function getNewCompany(array $properties): Company
-    {
-        $properties['uid'] = 0; // avoid missing array key error in extbase
-        $properties['contacts'] = json_encode($properties['contacts']);
-
-        /** @var Company $company */
-        $company = $this->dataMapper->map(Company::class, [$properties])[0];
-        $company->_setProperty('uid', null); // reset uid from 0 to null
-        $company->_memorizePropertyCleanState('uid'); // tell datamapper that this is a new record
-
-        $this->companyRepository->add($company);
-        $this->companyRepository->persistAll();
-
-        return $company;
     }
 
     /**

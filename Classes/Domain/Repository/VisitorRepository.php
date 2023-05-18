@@ -456,6 +456,30 @@ class VisitorRepository extends AbstractRepository
     }
 
     /**
+     * Example result:
+     *  [
+     *      123 => '123.456.0.1', // visitor uid => ip address
+     *      2456 => '127.0.0.1',
+     *  ]
+     *
+     * @param int $limit get X latest records
+     * @param bool $noCompaniesOnly get only visitors without company relation
+     * @return array
+     * @throws ExceptionDbal
+     */
+    public function findLatestVisitorsWithIpAddress(int $limit, bool $noCompaniesOnly = true): array
+    {
+        $sql = 'select uid,ip_address from ' . Visitor::TABLE_NAME
+            . ' where ip_address not like "%***" and ip_address != \'\'';
+        if ($noCompaniesOnly === true) {
+            $sql .= ' and companyrecord = 0';
+        }
+        $sql .= ' order by uid desc limit ' . $limit;
+        $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
+        return $connection->executeQuery($sql)->fetchAllKeyValue();
+    }
+
+    /**
      * @param int $visitorIdentifier
      * @param int $frontenduserIdentifier
      * @return void

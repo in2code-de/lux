@@ -22,7 +22,7 @@ plugin.tx_lux.settings {
     search = 1
 
     # cat=lux//0070; type=boolean; label= Activate tracking via wiredminds: (De)Activate tracking enrichment of lead data via wiredminds.com
-    company = 1
+    company = 0
   }
 
   # cat=lux//0100; type=boolean; label= Activate field and form identification: (De)Activate identification by filling out web forms.
