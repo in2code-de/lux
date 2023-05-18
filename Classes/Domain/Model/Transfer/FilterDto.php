@@ -78,6 +78,7 @@ class FilterDto
     protected string $utmCampaign = '';
     protected string $utmSource = '';
     protected string $utmMedium = '';
+    protected int $branchCode = 0;
     protected ?Visitor $visitor = null;
 
     public function __construct(int $timePeriod = self::PERIOD_DEFAULT)
@@ -290,6 +291,17 @@ class FilterDto
         return $this;
     }
 
+    public function getBranchCode(): int
+    {
+        return $this->branchCode;
+    }
+
+    public function setBranchCode(int $branchCode): self
+    {
+        $this->branchCode = $branchCode;
+        return $this;
+    }
+
     public function getVisitor(): ?Visitor
     {
         return $this->visitor;
@@ -313,7 +325,12 @@ class FilterDto
         return $this->searchterm !== '' || $this->pid !== '' || $this->scoring > 0 || $this->categoryScoring !== null
             || $this->timeFrom !== '' || $this->timeTo !== '' || $this->timePeriod !== self::PERIOD_DEFAULT
             || $this->identified !== self::IDENTIFIED_ALL || $this->domain !== ''
-            || $this->utmCampaign !== '' || $this->utmMedium !== '' || $this->utmSource !== '';
+            || $this->utmCampaign !== '' || $this->utmMedium !== '' || $this->utmSource !== '' || $this->branchCode > 0;
+    }
+
+    public function isTimeFromOrTimeToSet(): bool
+    {
+        return $this->timeFrom !== '' || $this->timeTo !== '';
     }
 
     /**

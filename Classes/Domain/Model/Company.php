@@ -4,7 +4,11 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
 use DateTime;
+use In2code\Lux\Domain\Repository\CompanyRepository;
+use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Domain\Service\CountryService;
 use In2code\Lux\Utility\StringUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 class Company extends AbstractEntity
@@ -28,6 +32,13 @@ class Company extends AbstractEntity
     protected string $revenue_class = '';
     protected string $size = '';
     protected string $sizeClass = '';
+
+    /**
+     * Calculated value
+     *
+     * @var int
+     */
+    protected int $scoring = 0;
 
     protected ?DateTime $crdate = null;
     protected ?DateTime $tstamp = null;
@@ -110,6 +121,12 @@ class Company extends AbstractEntity
     public function getCountryCode(): string
     {
         return $this->countryCode;
+    }
+
+    public function getCountry(): string
+    {
+        $countryService = GeneralUtility::makeInstance(CountryService::class);
+        return $countryService->getPropertyByAlpha2($this->getCountryCode());
     }
 
     public function setCountryCode(string $countryCode): self
@@ -248,5 +265,38 @@ class Company extends AbstractEntity
     {
         $this->tstamp = $tstamp;
         return $this;
+    }
+
+    public function getScoring(): int
+    {
+        if ($this->scoring > 0) {
+            return $this->scoring;
+        }
+        $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
+        return $visitorRepository->getScoringSumFromCompany($this);
+    }
+
+    public function setScoring(int $scoring): self
+    {
+        $this->scoring = $scoring;
+        return $this;
+    }
+
+    public function getLastVisit(): ?DateTime
+    {
+        $companyRepository = GeneralUtility::makeInstance(CompanyRepository::class);
+        return $companyRepository->findLatestPageVisitToCompany($this);
+    }
+
+    public function getNumberOfVisits(): int
+    {
+        $companyRepository = GeneralUtility::makeInstance(CompanyRepository::class);
+        return $companyRepository->findNumberOfPagevisitsByCompany($this);
+    }
+
+    public function getNumberOfVisitors(): int
+    {
+        $companyRepository = GeneralUtility::makeInstance(CompanyRepository::class);
+        return $companyRepository->findNumberOfVisitorsByCompany($this);
     }
 }

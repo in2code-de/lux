@@ -9,6 +9,7 @@ use Doctrine\DBAL\Exception as ExceptionDbal;
 use Exception;
 use In2code\Lux\Domain\Model\Attribute;
 use In2code\Lux\Domain\Model\Categoryscoring;
+use In2code\Lux\Domain\Model\Company;
 use In2code\Lux\Domain\Model\Download;
 use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Domain\Model\Ipinformation;
@@ -477,6 +478,14 @@ class VisitorRepository extends AbstractRepository
         $sql .= ' order by uid desc limit ' . $limit;
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
         return $connection->executeQuery($sql)->fetchAllKeyValue();
+    }
+
+    public function getScoringSumFromCompany(Company $company): int
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
+        $sql = 'select sum(scoring) scoring from tx_lux_domain_model_visitor where companyrecord = '
+            . $company->getUid();
+        return (int)$connection->executeQuery($sql)->fetchOne();
     }
 
     /**

@@ -8,6 +8,7 @@ use In2code\Lux\Backend\Buttons\NavigationGroupButton;
 use In2code\Lux\Domain\Cache\CacheLayer;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Repository\CategoryRepository;
+use In2code\Lux\Domain\Repository\CompanyRepository;
 use In2code\Lux\Domain\Repository\DownloadRepository;
 use In2code\Lux\Domain\Repository\FingerprintRepository;
 use In2code\Lux\Domain\Repository\IpinformationRepository;
@@ -56,6 +57,7 @@ abstract class AbstractController extends ActionController
     protected ?FingerprintRepository $fingerprintRepository = null;
     protected ?SearchRepository $searchRepository = null;
     protected ?UtmRepository $utmRepository = null;
+    protected ?CompanyRepository $companyRepository = null;
     protected ?RenderingTimeService $renderingTimeService = null;
     protected ?CacheLayer $cacheLayer = null;
     protected ModuleTemplateFactory $moduleTemplateFactory;
@@ -76,6 +78,7 @@ abstract class AbstractController extends ActionController
         FingerprintRepository $fingerprintRepository,
         SearchRepository $searchRepository,
         UtmRepository $utmRepository,
+        CompanyRepository $companyRepository,
         RenderingTimeService $renderingTimeService,
         CacheLayer $cacheLayer,
         ModuleTemplateFactory $moduleTemplateFactory
@@ -94,6 +97,7 @@ abstract class AbstractController extends ActionController
         $this->fingerprintRepository = $fingerprintRepository;
         $this->searchRepository = $searchRepository;
         $this->utmRepository = $utmRepository;
+        $this->companyRepository = $companyRepository;
         $this->renderingTimeService = $renderingTimeService;
         $this->cacheLayer = $cacheLayer;
         $this->moduleTemplateFactory = $moduleTemplateFactory;
@@ -150,6 +154,10 @@ abstract class AbstractController extends ActionController
         if (array_key_exists('categoryScoring', $filter)
             && (is_array($filter['categoryScoring']) || $filter['categoryScoring'] === '')) {
             $filter['categoryScoring'] = 0;
+        }
+        if (array_key_exists('branchCode', $filter)
+            && (is_array($filter['branchCode']) || $filter['branchCode'] === '')) {
+            $filter['branchCode'] = 0;
         }
         if (isset($filter['identified']) && $filter['identified'] === '') {
             $filter['identified'] = FilterDto::IDENTIFIED_ALL;

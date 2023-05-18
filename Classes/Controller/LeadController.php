@@ -177,6 +177,26 @@ class LeadController extends AbstractController
     }
 
     /**
+     * @return void
+     * @throws NoSuchArgumentException
+     */
+    public function initializeCompaniesAction(): void
+    {
+        $this->setFilter();
+    }
+
+    public function companiesAction(FilterDto $filter, string $export = ''): ResponseInterface
+    {
+        $this->view->assignMultiple([
+            'companies' => $this->companyRepository->findByFilter($filter),
+            'branches' => $this->companyRepository->findAllBranches($filter),
+            'filter' => $filter,
+        ]);
+        $this->addDocumentHeaderForCurrentController();
+        return $this->defaultRendering();
+    }
+
+    /**
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      * @noinspection PhpUnused
@@ -221,7 +241,7 @@ class LeadController extends AbstractController
      */
     protected function addDocumentHeaderForCurrentController(): void
     {
-        $actions = ['dashboard', 'list'];
+        $actions = ['dashboard', 'list', 'companies'];
         $menuConfiguration = [];
         foreach ($actions as $action) {
             $menuConfiguration[] = [

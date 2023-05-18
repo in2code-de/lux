@@ -69,6 +69,7 @@ if (\In2code\Lux\Utility\ConfigurationUtility::isLeadModuleDisabled() === false)
                 'remove',
                 'deactivate',
                 'resetFilter',
+                'companies',
             ],
             \In2code\Lux\Controller\AnalysisController::class => [
                 'dashboard',

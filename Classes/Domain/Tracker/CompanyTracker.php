@@ -5,7 +5,6 @@ namespace In2code\Lux\Domain\Tracker;
 
 use In2code\Lux\Domain\Factory\CompanyFactory;
 use In2code\Lux\Domain\Model\Visitor;
-use In2code\Lux\Domain\Repository\CompanyRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Utility\IpUtility;

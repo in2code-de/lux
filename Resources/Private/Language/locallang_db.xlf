@@ -897,14 +897,23 @@
 			<trans-unit id="module.list.filter">
 				<source>Filter Leads</source>
 			</trans-unit>
+			<trans-unit id="module.list.filter.companies">
+				<source>Filter Companies</source>
+			</trans-unit>
 			<trans-unit id="module.list.filter.header.search">
 				<source>Search</source>
 			</trans-unit>
 			<trans-unit id="module.list.filter.header.scoring">
 				<source>General Scoring of Visitors</source>
 			</trans-unit>
+			<trans-unit id="module.list.filter.header.scoringcompany">
+				<source>Scoring Sum of Companies</source>
+			</trans-unit>
 			<trans-unit id="module.list.filter.header.categoryscoring">
 				<source>Category Scoring of Visitors</source>
+			</trans-unit>
+			<trans-unit id="module.list.filter.header.branches">
+				<source>Branches</source>
 			</trans-unit>
 			<trans-unit id="module.list.filter.firstoption.domain">
 				<source>Filter for domain...</source>
@@ -979,6 +988,9 @@
 			</trans-unit>
 			<trans-unit id="module.lead.list">
 				<source>Leads</source>
+			</trans-unit>
+			<trans-unit id="module.lead.companies">
+				<source>Companies</source>
 			</trans-unit>
 
 			<trans-unit id="module.linklistener.new">

@@ -1183,6 +1183,10 @@
 				<source>Filter Leads</source>
 				<target state="translated">Lead Filter</target>
 			</trans-unit>
+			<trans-unit id="module.list.filter.companies">
+				<source>Filter Companies</source>
+				<target state="translated">Company Filter</target>
+			</trans-unit>
 			<trans-unit id="module.list.filter.header.search">
 				<source>Search</source>
 				<target state="translated">Suche</target>
@@ -1191,9 +1195,17 @@
 				<source>General Scoring of Visitors</source>
 				<target state="translated">Allgemeines Scoring des Besuchers</target>
 			</trans-unit>
+			<trans-unit id="module.list.filter.header.scoringcompany">
+				<source>Scoring Sum of Companies</source>
+				<target state="translated">Kumuliertes Firmenscoring</target>
+			</trans-unit>
 			<trans-unit id="module.list.filter.header.categoryscoring">
 				<source>Category Scoring of Visitors</source>
 				<target state="translated">Kategorie-Scoring des Besuchers</target>
+			</trans-unit>
+			<trans-unit id="module.list.filter.header.branches">
+				<source>Branches</source>
+				<target state="translated">Branche</target>
 			</trans-unit>
 			<trans-unit id="module.list.filter.firstoption.domain">
 				<source>Filter for domain...</source>
@@ -1292,6 +1304,10 @@
 			<trans-unit id="module.lead.list">
 				<source>Leads</source>
 				<target state="translated">Leads</target>
+			</trans-unit>
+			<trans-unit id="module.lead.companies">
+				<source>Companies</source>
+				<target state="translated">Firmen</target>
 			</trans-unit>
 
 			<trans-unit id="module.linklistener.new">
