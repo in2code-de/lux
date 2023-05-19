@@ -200,9 +200,12 @@ class NewsvisitRepository extends AbstractRepository
      */
     public function isTableFilled(): bool
     {
-        $connection = DatabaseUtility::getConnectionForTable(News::TABLE_NAME);
-        $sql = 'select count(*) from ' . News::TABLE_NAME . ' where deleted=0';
-        return $connection->executeQuery($sql)->fetchOne() > 0;
+        if (DatabaseUtility::isTableExisting(News::TABLE_NAME)) {
+            $connection = DatabaseUtility::getConnectionForTable(News::TABLE_NAME);
+            $sql = 'select count(*) from ' . News::TABLE_NAME . ' where deleted=0';
+            return $connection->executeQuery($sql)->fetchOne() > 0;
+        }
+        return false;
     }
 
     /**
