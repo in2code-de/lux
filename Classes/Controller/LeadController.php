@@ -187,6 +187,9 @@ class LeadController extends AbstractController
 
     public function companiesAction(FilterDto $filter, string $export = ''): ResponseInterface
     {
+        if ($export === 'csv') {
+            return (new ForwardResponse('downloadCsvCompanies'))->withArguments(['filter' => $filter]);
+        }
         $this->view->assignMultiple([
             'companies' => $this->companyRepository->findByFilter($filter),
             'branches' => $this->companyRepository->findAllBranches($filter),
@@ -194,6 +197,19 @@ class LeadController extends AbstractController
         ]);
         $this->addDocumentHeaderForCurrentController();
         return $this->defaultRendering();
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @return ResponseInterface
+     * @throws InvalidQueryException
+     */
+    public function downloadCsvCompaniesAction(FilterDto $filter): ResponseInterface
+    {
+        $this->view->assignMultiple([
+            'companies' => $this->companyRepository->findByFilter($filter),
+        ]);
+        return $this->csvResponse($this->view->render());
     }
 
     /**

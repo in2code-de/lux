@@ -29,7 +29,7 @@ class Company extends AbstractEntity
     protected string $foundingYear = '';
     protected string $phone = '';
     protected string $revenue = '';
-    protected string $revenue_class = '';
+    protected string $revenueClass = '';
     protected string $size = '';
     protected string $sizeClass = '';
 
@@ -214,12 +214,12 @@ class Company extends AbstractEntity
 
     public function getRevenueClass(): string
     {
-        return $this->revenue_class;
+        return $this->revenueClass;
     }
 
-    public function setRevenueClass(string $revenue_class): self
+    public function setRevenueClass(string $revenueClass): self
     {
-        $this->revenue_class = $revenue_class;
+        $this->revenueClass = $revenueClass;
         return $this;
     }
 

@@ -100,8 +100,8 @@ call_user_func(
                 'lead',
                 '',
                 [
-                    \In2code\Lux\Controller\LeadController::class =>
-                        'dashboard,list,detail,downloadCsv,remove,deactivate,resetFilter,companies',
+                    \In2code\Lux\Controller\LeadController::class => 'dashboard,list,detail,downloadCsv,remove,' .
+                        'deactivate,resetFilter,companies,downloadCsvCompanies',
                     \In2code\Lux\Controller\AnalysisController::class =>
                         'dashboard,content,linkClicks,detailPage,detailDownload,resetFilter',
                     \In2code\Lux\Controller\GeneralController::class => 'information'
