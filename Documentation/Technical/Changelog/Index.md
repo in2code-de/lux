@@ -23,6 +23,7 @@
 
 | Version    | Date       | State    | TYPO3         | Description                                                                                                                                                                                           |
 |------------|------------|----------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 31.1.3     | 2023-05-19 | Bugfix   | `11.5 + 12.4` | Prevent error in analysis dashboard if there is no news table                                                                                                                                         |
 | 31.1.2     | 2023-05-15 | Task     | `11.5 + 12.4` | Fix minimum stability error by changing requirements from branch to tag for package "buzz/which-browser-parser"                                                                                       |
 | 31.1.1     | 2023-05-15 | Task     | `11.5 + 12.4` | Add UTM table to truncateAll() function, Show correct "latest visit" time if there is no related log record                                                                                           |
 | 31.1.0     | 2023-05-13 | Feature  | `11.5 + 12.4` | Allow formFieldListening with "typo3/cms-form" by supporting `data-lux-form-identification="submitButton"`                                                                                            |
