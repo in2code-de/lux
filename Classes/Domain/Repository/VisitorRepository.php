@@ -483,9 +483,27 @@ class VisitorRepository extends AbstractRepository
     public function getScoringSumFromCompany(Company $company): int
     {
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
-        $sql = 'select sum(scoring) scoring from tx_lux_domain_model_visitor where companyrecord = '
-            . $company->getUid();
+        $sql = 'select sum(scoring) scoring from ' . Visitor::TABLE_NAME
+            . ' where deleted=0 and blacklisted=0 and companyrecord = ' . $company->getUid();
         return (int)$connection->executeQuery($sql)->fetchOne();
+    }
+
+    public function findByCompany(Company $company, int $limit = 10): array
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
+        $sql = 'select uid from ' . Visitor::TABLE_NAME
+            . ' where deleted=0 and blacklisted=0 and companyrecord = ' . $company->getUid()
+            . ' order by identified desc, uid desc limit ' . $limit;
+        $results = $connection->executeQuery($sql)->fetchAllAssociative();
+
+        $visitors = [];
+        foreach ($results as $result) {
+            $visitor = $this->findByUid($result['uid']);
+            if ($visitor !== null) {
+                $visitors[] = $visitor;
+            }
+        }
+        return $visitors;
     }
 
     /**

@@ -993,6 +993,10 @@
 				<source>Companies</source>
 			</trans-unit>
 
+			<trans-unit id="module.lead.company.detail">
+				<source>Company</source>
+			</trans-unit>
+
 			<trans-unit id="module.linklistener.new">
 				<source>Add new Link Listener</source>
 			</trans-unit>

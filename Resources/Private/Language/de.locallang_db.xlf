@@ -1310,6 +1310,11 @@
 				<target state="translated">Firmen</target>
 			</trans-unit>
 
+			<trans-unit id="module.lead.company.detail">
+				<source>Company</source>
+				<target state="translated">Firma</target>
+			</trans-unit>
+
 			<trans-unit id="module.linklistener.new">
 				<source>Add new Link Listener</source>
 				<target state="translated">Neuen Link Listener hinzufügen</target>

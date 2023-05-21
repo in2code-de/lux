@@ -1,0 +1,158 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.lead.company.detail">Preview</f:translate>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-3">
+                <img src="{company.imageUrl}" alt="{company.title}" class="img-circle" />
+            </div>
+            <div class="col-md-9">
+                <h3>{company.title}</h3>
+                <p>
+                    {company.zip} {company.city}, {company.country}
+                    <f:if condition="{company.street}"><br/></f:if>
+                    {company.street}
+                    <a href="https://www.google.com/maps/?q={company.address -> f:format.urlencode()}" target="_blank" title="View on google maps">
+                        <img src="{f:uri.resource(path:'Images/LogoGoogleMaps.svg',extensionName:'Lux')}" width="16" />
+                    </a>
+                </p>
+                <f:if condition="{company.phone}">
+                    <p>
+                        {company.phone}
+                    </p>
+                </f:if>
+                <p>
+                    <f:link.typolink parameter="https://{company.domain}" target="_blank">{company.domain}</f:link.typolink>
+                </p>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 3rem;">
+            <div class="col-md-12">
+                <table class="table table-striped">
+                    <tr>
+                        <td title="Branch code {company.branchCode}" colspan="2">
+                            <strong>{company.branch}</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_company.revenue">Revenue</f:translate>
+                        </td>
+                        <td title="Revenue class {company.revenueClass}">
+                            {company.revenue}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_company.size">Size</f:translate>
+                        </td>
+                        <td title="Size class {company.sizeClass}">
+                            {company.size}
+                        </td>
+                    </tr>
+                    <f:if condition="{company.foundingYear}">
+                        <tr>
+                            <td>
+                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_company.founding_year">Founding year</f:translate>
+                            </td>
+                            <td>
+                                {company.foundingYear}
+                            </td>
+                        </tr>
+                    </f:if>
+                    <tr>
+                        <td>
+                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.crdate">First visit</f:translate>
+                        </td>
+                        <td>
+                            <span title="{f:format.date(date:company.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
+                                <lux:format.readableDate>{company.crdate}</lux:format.readableDate>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<f:if condition="{company.contacts}">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_company.contacts">Contacts</f:translate>
+            </h3>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped">
+                <f:for each="{company.contactsArray}" as="contact">
+                    <tr>
+                        <td>
+                            <f:if condition="{contact.pos}">{contact.pos}</f:if>
+                        </td>
+                        <td>
+                            <f:if condition="{contact.sal}">{contact.sal}</f:if>
+                            <f:if condition="{contact.first}">{contact.first}</f:if>
+                            <f:if condition="{contact.last}">{contact.last}</f:if>
+                        </td>
+                    </tr>
+                </f:for>
+            </table>
+        </div>
+    </div>
+</f:if>
+
+<f:variable name="visitors" value="{company.visitors}" />
+<f:if condition="{visitors}">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.leads">Leads</f:translate>
+                ({company.numberOfVisitors})
+            </h3>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>
+                        Lead
+                    </th>
+                    <th>
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.tstamp">Last visit</f:translate>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <f:for each="{visitors}" as="visitor">
+                    <tr>
+                        <td>
+                            <span title="UID{visitor.uid}">
+                                <f:be.link
+                                    route="lux_LuxLead"
+                                    title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview.link',arguments:'{0:visitor.fullName}')}"
+                                    parameters="{tx_lux_lux_luxlead:'{visitor:visitor.uid,action:\'detail\',controller:\'Lead\'}'}">
+                                    {visitor.fullName}
+                                </f:be.link>
+                            </span>
+                        </td>
+                        <td>
+                            <f:variable name="lastPagevisit" value="{visitor.lastPagevisit}"/>
+                            <f:if condition="{lastPagevisit}">
+                                <span title="{f:format.date(date:lastPagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
+                                    <lux:format.readableDate>{lastPagevisit.crdate}</lux:format.readableDate>
+                                </span>
+                            </f:if>
+                        </td>
+                    </tr>
+                </f:for>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</f:if>

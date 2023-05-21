@@ -169,6 +169,14 @@ class Company extends AbstractEntity
         return $this;
     }
 
+    /**
+     * @return string like "Kunstmühlstr. 12a, 83026 Rosenheim, Germany"
+     */
+    public function getAddress(): string
+    {
+        return $this->getStreet() . ', ' . $this->getZip() . ' ' . $this->getCity() . ', ' . $this->getCountry();
+    }
+
     public function getDomain(): string
     {
         return $this->domain;
@@ -281,6 +289,12 @@ class Company extends AbstractEntity
     {
         $this->scoring = $scoring;
         return $this;
+    }
+
+    public function getVisitors(): array
+    {
+        $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
+        return $visitorRepository->findByCompany($this);
     }
 
     public function getLastVisit(): ?DateTime

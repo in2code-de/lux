@@ -21,6 +21,7 @@ define(['jquery'], function($) {
      */
     this.initialize = function() {
       addDetailViewListener('leadlistdetail', 'visitor');
+      addDetailViewListener('companydetail', 'company');
       addDetailViewListener('analysiscontentdetailpage', 'page');
       addDetailViewListener('analysisnewsdetailpage', 'news');
       addDetailViewListener('analysisutmdetailpage', 'visitor');
@@ -42,7 +43,7 @@ define(['jquery'], function($) {
     /**
      * Add listener for different detail ajax views
      *
-     * @params {string} name e.g. "detail" for "lux-action-detail"
+     * @params {string} name e.g. "detail" for "data-lux-action-detail"
      * @params {string} propertyName e.g. "visitor"
      * @returns {void}
      */

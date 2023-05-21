@@ -33,6 +33,10 @@ return [
         'path' => '/lux/companiesinformation',
         'target' => LeadController::class . '::companiesInformationAjax',
     ],
+    '/lux/companydetail' => [
+        'path' => '/lux/companydetail',
+        'target' => LeadController::class . '::detailCompaniesAjax',
+    ],
     '/lux/leadlistdetail' => [
         'path' => '/lux/leadlistdetail',
         'target' => LeadController::class . '::detailAjax',

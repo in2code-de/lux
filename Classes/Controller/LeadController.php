@@ -242,6 +242,25 @@ class LeadController extends AbstractController
      * @return ResponseInterface
      * @noinspection PhpUnused
      */
+    public function detailCompaniesAjax(ServerRequestInterface $request): ResponseInterface
+    {
+        $companyRepository = GeneralUtility::makeInstance(CompanyRepository::class);
+        $standaloneView = GeneralUtility::makeInstance(StandaloneView::class);
+        $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
+            'EXT:lux/Resources/Private/Templates/Lead/CompanyListDetailAjax.html'
+        ));
+        $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
+        $standaloneView->assignMultiple([
+            'company' => $companyRepository->findByUid((int)$request->getQueryParams()['company']),
+        ]);
+        return $this->jsonResponse(json_encode(['html' => $standaloneView->render()]));
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     * @noinspection PhpUnused
+     */
     public function companiesInformationAjax(ServerRequestInterface $request): ResponseInterface
     {
         $companyRepository = GeneralUtility::makeInstance(CompanyRepository::class);
