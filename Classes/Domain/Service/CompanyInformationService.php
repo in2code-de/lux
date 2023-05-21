@@ -70,7 +70,7 @@ class CompanyInformationService
     protected function persistCompany(int $visitorIdentifier, array $properties): void
     {
         $company = $this->companyFactory->getExistingOrNewPersistedCompany($properties);
-        /** @var Visitor $gtsbgtdbgvtrsbgvr svvisitor */
+        /** @var Visitor $visitor */
         $visitor = $this->visitorRepository->findByUid($visitorIdentifier);
         $visitor->setCompanyrecord($company);
         $this->visitorRepository->update($visitor);

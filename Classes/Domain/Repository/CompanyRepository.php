@@ -6,7 +6,9 @@ namespace In2code\Lux\Domain\Repository;
 use DateTime;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Company;
+use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
+use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\DatabaseUtility;
 
 class CompanyRepository extends AbstractRepository
@@ -19,9 +21,9 @@ class CompanyRepository extends AbstractRepository
     public function findByFilter(FilterDto $filter): array
     {
         $sql = 'select c.uid,sum(v.scoring) companyscoring'
-            . ' from tx_lux_domain_model_company c'
-            . ' left join tx_lux_domain_model_visitor v on v.companyrecord = c.uid'
-            . ' left join tx_lux_domain_model_pagevisit pv on pv.visitor = v.uid'
+            . ' from ' . Company::TABLE_NAME . ' c'
+            . ' left join ' . Visitor::TABLE_NAME . ' v on v.companyrecord = c.uid'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.visitor = v.uid'
             . ' where c.deleted=0 and v.deleted=0 and v.blacklisted=0';
         $sql .= $this->extendWhereClauseWithFilterSearchterms($filter, 'c');
         $sql .= $this->extendWhereClauseWithFilterBranchCode($filter);
@@ -65,9 +67,9 @@ class CompanyRepository extends AbstractRepository
     public function findLatestPageVisitToCompany(Company $company): ?DateTime
     {
         $sql = 'select pv.crdate'
-            . ' from tx_lux_domain_model_company c'
-            . ' left join tx_lux_domain_model_visitor v on v.companyrecord = c.uid'
-            . ' left join tx_lux_domain_model_pagevisit pv on pv.visitor = v.uid'
+            . ' from ' . Company::TABLE_NAME . ' c'
+            . ' left join ' . Visitor::TABLE_NAME . ' v on v.companyrecord = c.uid'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.visitor = v.uid'
             . ' where c.uid=' . $company->getUid() . ' and c.deleted=0 and v.deleted=0'
             . ' and v.blacklisted=0 and pv.deleted=0'
             . ' order by pv.crdate desc'
@@ -83,9 +85,9 @@ class CompanyRepository extends AbstractRepository
     public function findNumberOfPagevisitsByCompany(Company $company): int
     {
         $sql = 'select count(pv.uid)'
-            . ' from tx_lux_domain_model_company c'
-            . ' left join tx_lux_domain_model_visitor v on v.companyrecord = c.uid'
-            . ' left join tx_lux_domain_model_pagevisit pv on pv.visitor = v.uid'
+            . ' from ' . Company::TABLE_NAME . ' c'
+            . ' left join ' . Visitor::TABLE_NAME . ' v on v.companyrecord = c.uid'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.visitor = v.uid'
             . ' where c.uid=' . $company->getUid() . ' and c.deleted=0 and v.deleted=0'
             . ' and v.blacklisted=0 and pv.deleted=0'
             . ' limit 1';
@@ -96,8 +98,8 @@ class CompanyRepository extends AbstractRepository
     public function findNumberOfVisitorsByCompany(Company $company): int
     {
         $sql = 'select count(c.uid)'
-            . ' from tx_lux_domain_model_company c'
-            . ' left join tx_lux_domain_model_visitor v on v.companyrecord = c.uid'
+            . ' from ' . Company::TABLE_NAME . ' c'
+            . ' left join ' . Visitor::TABLE_NAME . ' v on v.companyrecord = c.uid'
             . ' where c.uid=' . $company->getUid() . ' and c.deleted=0 and v.deleted=0 and v.blacklisted=0'
             . ' limit 1';
         $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);
@@ -118,12 +120,41 @@ class CompanyRepository extends AbstractRepository
     public function findAllBranches(FilterDto $filter): array
     {
         $sql = 'select c.branch_code, c.branch'
-            . ' from tx_lux_domain_model_company c'
+            . ' from ' . Company::TABLE_NAME . ' c'
             . ' where c.deleted=0 and c.branch != \'\' and c.branch_code != 0'
             . ' group by c.branch_code,c.branch'
             . ' order by c.branch asc';
         $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);
         return $connection->executeQuery($sql)->fetchAllKeyValue();
+    }
+
+    /**
+     *  [
+     *      '1' => 234,
+     *      '2' => 123,
+     *      '3' => 5,
+     *      '4' => 33,
+     *      '5' => 45,
+     *      '6' => 876,
+     *  ]
+     *
+     * @param FilterDto $filter
+     * @param int $limit
+     * @return array
+     * @throws ExceptionDbal
+     */
+    public function findRevenueClasses(FilterDto $filter, int $limit = 6): array
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);
+        $sql = 'select c.revenue_class, count(c.revenue_class) count'
+            . ' from ' . Company::TABLE_NAME . ' c'
+            . ' left join ' . Visitor::TABLE_NAME . ' v on v.companyrecord = c.uid'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.visitor = v.uid'
+            . ' where c.revenue_class != \'\''
+            . $this->extendWhereClauseWithFilterCompanyTime($filter)
+            . ' group by revenue_class having (count > 1) order by count desc limit 100';
+        $records = $connection->executeQuery($sql)->fetchAllKeyValue();
+        return array_slice($records, 0, $limit);
     }
 
     protected function extendWhereClauseWithFilterBranchCode(FilterDto $filter): string

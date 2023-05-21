@@ -9,6 +9,7 @@ use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\DataProvider\IdentificationMethodsDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
 use In2code\Lux\Domain\DataProvider\ReferrerAmountDataProvider;
+use In2code\Lux\Domain\DataProvider\RevenueClassDataProvider;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
@@ -193,6 +194,7 @@ class LeadController extends AbstractController
         $this->view->assignMultiple([
             'companies' => $this->companyRepository->findByFilter($filter),
             'branches' => $this->companyRepository->findAllBranches($filter),
+            'revenueClassData' => GeneralUtility::makeInstance(RevenueClassDataProvider::class, $filter),
             'filter' => $filter,
         ]);
         $this->addDocumentHeaderForCurrentController();

@@ -2253,6 +2253,46 @@
 				<source>Time</source>
 				<target state="translated">Zeitpunkt</target>
 			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.00">
+				<source>Without indication</source>
+				<target state="translated">Ohne Angabe</target>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.01">
+				<source>100-250K €</source>
+				<target state="translated">100K bis 250K €</target>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.02">
+				<source>100 - 250K €</source>
+				<target state="translated">100 - 250K €</target>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.03">
+				<source>250 - 500K €</source>
+				<target state="translated">250 - 500K €</target>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.04">
+				<source>500K - 2.5M €</source>
+				<target state="translated">500K - 2.5M €</target>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.05">
+				<source>2.5M - 5M €</source>
+				<target state="translated">2.5M - 5M €</target>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.06">
+				<source>5M - 25M €</source>
+				<target state="translated">5M bis 25M €</target>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.07">
+				<source>25M - 50M €</source>
+				<target state="translated">25M - 50M €</target>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.08">
+				<source>50M - 500M €</source>
+				<target state="translated">50M - 500M €</target>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.09">
+				<source>more than 500M €</source>
+				<target state="translated">mehr als 500M €</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
