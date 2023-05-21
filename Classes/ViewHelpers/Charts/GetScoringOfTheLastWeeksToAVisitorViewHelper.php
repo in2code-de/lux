@@ -25,17 +25,20 @@ class GetScoringOfTheLastWeeksToAVisitorViewHelper extends AbstractViewHelper
     {
         /** @var Visitor $visitor */
         $visitor = $this->arguments['visitor'];
-        /** @noinspection PhpUnhandledExceptionInspection */
-        $scorings = [
-            $visitor->getScoring(),
-            $visitor->getScoringByDate(new DateTime('7 days ago midnight')),
-            $visitor->getScoringByDate(new DateTime('14 days ago midnight')),
-            $visitor->getScoringByDate(new DateTime('21 days ago midnight')),
-            $visitor->getScoringByDate(new DateTime('28 days ago midnight')),
-            $visitor->getScoringByDate(new DateTime('35 days ago midnight')),
-            $visitor->getScoringByDate(new DateTime('42 days ago midnight')),
-        ];
-        $scorings = array_reverse($scorings);
-        return implode(',', $scorings);
+        if ($visitor !== null) {
+            /** @noinspection PhpUnhandledExceptionInspection */
+            $scorings = [
+                $visitor->getScoring(),
+                $visitor->getScoringByDate(new DateTime('7 days ago midnight')),
+                $visitor->getScoringByDate(new DateTime('14 days ago midnight')),
+                $visitor->getScoringByDate(new DateTime('21 days ago midnight')),
+                $visitor->getScoringByDate(new DateTime('28 days ago midnight')),
+                $visitor->getScoringByDate(new DateTime('35 days ago midnight')),
+                $visitor->getScoringByDate(new DateTime('42 days ago midnight')),
+            ];
+            $scorings = array_reverse($scorings);
+            return implode(',', $scorings);
+        }
+        return '';
     }
 }
