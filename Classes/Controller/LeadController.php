@@ -6,6 +6,7 @@ namespace In2code\Lux\Controller;
 use DateTime;
 use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
+use In2code\Lux\Domain\DataProvider\CompanyAmountPerMonthDataProvider;
 use In2code\Lux\Domain\DataProvider\IdentificationMethodsDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
 use In2code\Lux\Domain\DataProvider\ReferrerAmountDataProvider;
@@ -195,6 +196,7 @@ class LeadController extends AbstractController
             'companies' => $this->companyRepository->findByFilter($filter),
             'branches' => $this->companyRepository->findAllBranches($filter),
             'revenueClassData' => GeneralUtility::makeInstance(RevenueClassDataProvider::class, $filter),
+            'companyAmountPerMonthData' => GeneralUtility::makeInstance(CompanyAmountPerMonthDataProvider::class),
             'filter' => $filter,
         ]);
         $this->addDocumentHeaderForCurrentController();

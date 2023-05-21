@@ -1419,6 +1419,10 @@
 				<source>Amount of leads</source>
 				<target state="translated">Anzahl Leads</target>
 			</trans-unit>
+			<trans-unit id="module.box.leads.companyamountpermonth">
+				<source>Amount of companies</source>
+				<target state="translated">Anzahl Firmen</target>
+			</trans-unit>
 			<trans-unit id="module.box.headerpostfix">
 				<source>(all)</source>
 				<target state="translated">(alle)</target>

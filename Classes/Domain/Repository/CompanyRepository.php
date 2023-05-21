@@ -5,11 +5,13 @@ namespace In2code\Lux\Domain\Repository;
 
 use DateTime;
 use Doctrine\DBAL\Exception as ExceptionDbal;
+use Exception;
 use In2code\Lux\Domain\Model\Company;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\DatabaseUtility;
+use In2code\Lux\Utility\DateUtility;
 
 class CompanyRepository extends AbstractRepository
 {
@@ -155,6 +157,34 @@ class CompanyRepository extends AbstractRepository
             . ' group by revenue_class having (count > 1) order by count desc limit 100';
         $records = $connection->executeQuery($sql)->fetchAllKeyValue();
         return array_slice($records, 0, $limit);
+    }
+
+    /**
+     *  [
+     *      9 => 97, // September
+     *      10 => 113, // October
+     *      11 => 123, // November
+     *  ]
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function findCompanyAmountOfLastSixMonths(): array
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);
+        $months = DateUtility::getLatestMonthDatesMultiple(6);
+        $amounts = [];
+        foreach ($months as $month) {
+            $sql = 'select count(distinct c.uid)'
+                . ' from ' . Company::TABLE_NAME . ' c'
+                . ' left join ' . Visitor::TABLE_NAME . ' v on v.companyrecord = c.uid'
+                . ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.visitor = v.uid'
+                . ' where pv.crdate <= ' . $month[1]->format('U')
+                . ' and c.deleted=0 and v.deleted=0 and v.blacklisted=0 and pv.deleted=0';
+            $amounts[$month[0]->format('n')] = $connection->executeQuery($sql)->fetchOne();
+        }
+        $amounts = array_reverse($amounts, true);
+        return $amounts;
     }
 
     protected function extendWhereClauseWithFilterBranchCode(FilterDto $filter): string

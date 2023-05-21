@@ -1075,6 +1075,9 @@
 			<trans-unit id="module.box.countrylist.amount">
 				<source>Amount of leads</source>
 			</trans-unit>
+			<trans-unit id="module.box.leads.companyamountpermonth">
+				<source>Amount of companies</source>
+			</trans-unit>
 			<trans-unit id="module.box.headerpostfix">
 				<source>(all)</source>
 			</trans-unit>
