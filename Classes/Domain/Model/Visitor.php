@@ -9,9 +9,9 @@ use In2code\Lux\Domain\Repository\CategoryscoringRepository;
 use In2code\Lux\Domain\Repository\FrontendUserRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\GetCompanyFromIpService;
+use In2code\Lux\Domain\Service\Image\VisitorImageService;
 use In2code\Lux\Domain\Service\Provider\Telecommunication;
 use In2code\Lux\Domain\Service\ScoringService;
-use In2code\Lux\Domain\Service\VisitorImageService;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
@@ -871,8 +871,8 @@ class Visitor extends AbstractModel
 
     public function getImageUrl(): string
     {
-        $visitorImageService = GeneralUtility::makeInstance(VisitorImageService::class, $this);
-        return $visitorImageService->getUrl();
+        $visitorImageService = GeneralUtility::makeInstance(VisitorImageService::class);
+        return $visitorImageService->getUrl(['visitor' => $this]);
     }
 
     /**

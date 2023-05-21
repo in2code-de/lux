@@ -68,7 +68,8 @@ call_user_func(
          * Caching framework
          */
         $cacheKeys = [
-            \In2code\Lux\Domain\Service\VisitorImageService::CACHE_KEY,
+            \In2code\Lux\Domain\Service\Image\VisitorImageService::CACHE_KEY,
+            \In2code\Lux\Domain\Service\Image\CompanyImageService::CACHE_KEY,
             \In2code\Lux\Domain\Cache\CacheLayer::CACHE_KEY
         ];
         foreach ($cacheKeys as $cacheKey) {

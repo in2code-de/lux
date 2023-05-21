@@ -7,6 +7,7 @@ use DateTime;
 use In2code\Lux\Domain\Repository\CompanyRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\CountryService;
+use In2code\Lux\Domain\Service\Image\CompanyImageService;
 use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
@@ -298,5 +299,11 @@ class Company extends AbstractEntity
     {
         $companyRepository = GeneralUtility::makeInstance(CompanyRepository::class);
         return $companyRepository->findNumberOfVisitorsByCompany($this);
+    }
+
+    public function getImageUrl(): string
+    {
+        $visitorImageService = GeneralUtility::makeInstance(CompanyImageService::class);
+        return $visitorImageService->getUrl(['company' => $this]);
     }
 }
