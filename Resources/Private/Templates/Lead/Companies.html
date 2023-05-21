@@ -97,11 +97,13 @@
                 <lux:format.readableDate>{company.lastVisit}</lux:format.readableDate>
             </span>
         </td>
-        <td>
-            {company.numberOfVisits}
+        <td data-lux-getcompaniesinformation-numberofvisits="{company.uid}" class="relative">
+            <span class="luxspinner"></span>
         </td>
         <td>
-            {company.numberOfVisitors}
+            <span data-lux-getcompaniesinformation-numberofvisitors="{company.uid}">
+                <span class="luxspinner"></span>
+            </span>
 
             <f:comment>
                 Invisible link for JS-clicks in preview only

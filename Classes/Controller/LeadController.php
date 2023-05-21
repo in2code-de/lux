@@ -11,8 +11,10 @@ use In2code\Lux\Domain\DataProvider\IdentificationMethodsDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
 use In2code\Lux\Domain\DataProvider\ReferrerAmountDataProvider;
 use In2code\Lux\Domain\DataProvider\RevenueClassDataProvider;
+use In2code\Lux\Domain\Model\Company;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Domain\Repository\CompanyRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\UnexpectedValueException;
@@ -223,7 +225,6 @@ class LeadController extends AbstractController
      */
     public function detailAjax(ServerRequestInterface $request): ResponseInterface
     {
-        $response = GeneralUtility::makeInstance(JsonResponse::class);
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $standaloneView = GeneralUtility::makeInstance(StandaloneView::class);
         $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
@@ -233,8 +234,24 @@ class LeadController extends AbstractController
         $standaloneView->assignMultiple([
             'visitor' => $visitorRepository->findByUid((int)$request->getQueryParams()['visitor']),
         ]);
-        $response->getBody()->write(json_encode(['html' => $standaloneView->render()]));
-        return $response;
+        return $this->jsonResponse(json_encode(['html' => $standaloneView->render()]));
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     * @noinspection PhpUnused
+     */
+    public function companiesInformationAjax(ServerRequestInterface $request): ResponseInterface
+    {
+        $companyRepository = GeneralUtility::makeInstance(CompanyRepository::class);
+        /** @var Company $company */
+        $company = $companyRepository->findByUid((int)$request->getQueryParams()['company']);
+        $result = [
+            'numberOfVisits' => $company->getNumberOfVisits(),
+            'numberOfVisitors' => $company->getNumberOfVisitors(),
+        ];
+        return $this->jsonResponse(json_encode($result));
     }
 
     /**
@@ -246,14 +263,13 @@ class LeadController extends AbstractController
      */
     public function detailDescriptionAjax(ServerRequestInterface $request): ResponseInterface
     {
-        $response = GeneralUtility::makeInstance(JsonResponse::class);
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         /** @var Visitor $visitor */
         $visitor = $visitorRepository->findByUid((int)$request->getQueryParams()['visitor']);
         $visitor->setDescription($request->getQueryParams()['value']);
         $visitorRepository->update($visitor);
         $visitorRepository->persistAll();
-        return $response;
+        return $this->jsonResponse();
     }
 
     /**

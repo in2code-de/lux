@@ -35,6 +35,7 @@ define(['jquery'], function($) {
       addConfirmListeners();
       asynchronousImageLoading();
       asynchronousLinkListenerPerformanceLoading();
+      asynchronousCompaniesInformationLoading();
       addToggleListener();
     };
 
@@ -179,6 +180,31 @@ define(['jquery'], function($) {
     this.asynchronousLinkListenerPerformanceLoadingCallback = function(response, callbackArguments) {
       const performance = (response.performance * 100).toFixed(1);
       callbackArguments.element.innerHTML = performance + ' %';
+    };
+
+    /**
+     * @returns {void}
+     */
+    const asynchronousCompaniesInformationLoading = function() {
+      const elements = document.querySelectorAll('[data-lux-getcompaniesinformation-numberofvisits]');
+      elements.forEach(function(element) {
+        let company = element.getAttribute('data-lux-getcompaniesinformation-numberofvisits');
+        if (company > 0) {
+          ajaxConnection(TYPO3.settings.ajaxUrls['/lux/companiesinformation'], {
+            company: company
+          }, 'asynchronousCompaniesInformationLoadingCallback', {element: element});
+        }
+      });
+    };
+
+    /**
+     * @params {Json} response
+     */
+    this.asynchronousCompaniesInformationLoadingCallback = function(response, callbackArguments) {
+      const target = callbackArguments.element;
+      target.innerHTML = response.numberOfVisits;
+      const target2 = target.closest('tr').querySelector('[data-lux-getcompaniesinformation-numberofvisitors]');
+      target2.innerHTML = response.numberOfVisitors;
     };
 
     /**
