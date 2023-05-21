@@ -1680,6 +1680,12 @@
 			<trans-unit id="dictionary.content">
 				<source>Content</source>
 			</trans-unit>
+			<trans-unit id="dictionary.company">
+				<source>Company</source>
+			</trans-unit>
+			<trans-unit id="dictionary.companies">
+				<source>Companies</source>
+			</trans-unit>
 			<trans-unit id="dictionary.lead">
 				<source>Lead</source>
 			</trans-unit>

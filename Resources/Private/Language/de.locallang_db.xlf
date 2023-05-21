@@ -2221,6 +2221,14 @@
 				<source>Content</source>
 				<target state="translated">Inhalt</target>
 			</trans-unit>
+			<trans-unit id="dictionary.company">
+				<source>Company</source>
+				<target state="translated">Firma</target>
+			</trans-unit>
+			<trans-unit id="dictionary.companies">
+				<source>Companies</source>
+				<target state="translated">Firmen</target>
+			</trans-unit>
 			<trans-unit id="dictionary.lead">
 				<source>Lead</source>
 				<target state="translated">Lead</target>
