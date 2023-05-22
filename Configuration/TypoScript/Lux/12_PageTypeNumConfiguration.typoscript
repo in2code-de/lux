@@ -146,7 +146,7 @@ page {
       returnLast = url
     }
 
-    wrap = <script type="text/javascript" src="|"></script>
+    wrap = <script type="text/javascript" src="|" defer=""></script>
   }
 
   # Add JavaScript URL for form identification configuration
@@ -158,7 +158,7 @@ page {
       returnLast = url
     }
 
-    wrap = <script type="text/javascript" src="|"></script>
+    wrap = <script type="text/javascript" src="|" defer=""></script>
   }
 }
 
