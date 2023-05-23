@@ -271,7 +271,7 @@ label {
         border: 1px solid $colorGreyBright;
     }
 
-    .table {
+    .table.min-height-50 {
         td {
             height: 50px; // height works as min-height for td
         }
