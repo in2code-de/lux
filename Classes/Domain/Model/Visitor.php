@@ -312,6 +312,9 @@ class Visitor extends AbstractModel
             $company = $this->getPropertyFromAttributes('company');
         }
         if (empty($company)) {
+            $company = $this->getPropertyFromCompanyrecord('title');
+        }
+        if (empty($company)) {
             $companyFromIp = GeneralUtility::makeInstance(GetCompanyFromIpService::class);
             $company = $companyFromIp->get($this);
             if (empty($company)) {
@@ -356,6 +359,15 @@ class Visitor extends AbstractModel
     {
         $this->companyrecord = $companyrecord;
         return $this;
+    }
+
+    public function getPropertyFromCompanyrecord(string $property): string
+    {
+        $companyrecord = $this->getCompanyrecord();
+        if ($companyrecord !== null) {
+            return (string)$companyrecord->_getProperty($property);
+        }
+        return '';
     }
 
     public function isIdentified(): bool
