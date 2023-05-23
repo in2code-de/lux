@@ -138,7 +138,11 @@ class Linklistener extends AbstractEntity
         if ($groupedLinkclicks['pagevisits'] === 0) {
             return 0.0;
         }
-        return $groupedLinkclicks['clickcount'] / $groupedLinkclicks['pagevisits'];
+        $performance = $groupedLinkclicks['clickcount'] / $groupedLinkclicks['pagevisits'];
+        if ($performance > 1) {
+            $performance = 1.0;
+        }
+        return $performance;
     }
 
     protected function extendGroupedLinkclicksWithDateAndPagevisits(array $groupedLinkclicks): array
