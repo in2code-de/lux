@@ -24,6 +24,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
+use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
@@ -145,6 +146,7 @@ class LeadController extends AbstractController
         $this->view->assignMultiple([
             'visitor' => $visitor,
             'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
+            'companies' => $this->companyRepository->findAll(),
         ]);
 
         $this->addDocumentHeaderForCurrentController();
@@ -287,7 +289,28 @@ class LeadController extends AbstractController
         $visitor->setDescription($request->getQueryParams()['value']);
         $visitorRepository->update($visitor);
         $visitorRepository->persistAll();
-        return $this->jsonResponse();
+        return GeneralUtility::makeInstance(JsonResponse::class);
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     * @noinspection PhpUnused
+     */
+    public function detailCompanyrecordAjax(ServerRequestInterface $request): ResponseInterface
+    {
+        $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
+        /** @var Visitor $visitor */
+        $visitor = $visitorRepository->findByUid((int)$request->getQueryParams()['visitor']);
+        $company = $this->companyRepository->findByUid((int)$request->getQueryParams()['value']);
+        if ($visitor !== null && $company !== null) {
+            $visitor->setCompanyrecord($company);
+            $visitorRepository->update($visitor);
+            $visitorRepository->persistAll();
+        }
+        return GeneralUtility::makeInstance(JsonResponse::class);
     }
 
     /**

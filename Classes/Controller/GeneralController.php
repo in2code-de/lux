@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
+use In2code\Lux\Domain\Model\Company;
 use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
@@ -76,6 +77,22 @@ class GeneralController extends AbstractController
         $url = '';
         if ($visitor !== null) {
             $url = $visitor->getImageUrl();
+        }
+        return GeneralUtility::makeInstance(JsonResponse::class, ['url' => $url]);
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     */
+    public function getCompanyImageUrlAjax(ServerRequestInterface $request): ResponseInterface
+    {
+        $companyIdentifier = $request->getQueryParams()['company'] ?? 0;
+        /** @var Company $company */
+        $company = $this->companyRepository->findByUid($companyIdentifier);
+        $url = '';
+        if ($company !== null) {
+            $url = $company->getImageUrl();
         }
         return GeneralUtility::makeInstance(JsonResponse::class, ['url' => $url]);
     }

@@ -37,6 +37,10 @@ return [
         'path' => '/lux/companydetail',
         'target' => LeadController::class . '::detailCompaniesAjax',
     ],
+    '/lux/companyimage' => [
+        'path' => '/lux/companyimage',
+        'target' => GeneralController::class . '::getCompanyImageUrlAjax',
+    ],
     '/lux/leadlistdetail' => [
         'path' => '/lux/leadlistdetail',
         'target' => LeadController::class . '::detailAjax',
@@ -48,6 +52,10 @@ return [
     '/lux/pageoverview' => [
         'path' => '/lux/pageoverview',
         'target' => GeneralController::class . '::showOrHidePageOverviewAjax',
+    ],
+    '/lux/visitorcompany' => [
+        'path' => '/lux/visitorcompany',
+        'target' => LeadController::class . '::detailCompanyrecordAjax',
     ],
     '/lux/visitordescription' => [
         'path' => '/lux/visitordescription',

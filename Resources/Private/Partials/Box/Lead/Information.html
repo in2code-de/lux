@@ -30,7 +30,20 @@
 
                 <div class="row">
                     <div class="col-md-12" style="margin-top: 2rem">
-                        <textarea class="lux-textarea{f:if(condition:'{visitor.description}',else:' lux-textarea__default')}" data-lux-visitor-description="{visitor.uid}"><f:if condition="{visitor.description}"><f:then>{visitor.description}</f:then><f:else><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.description">Add text...</f:translate></f:else></f:if></textarea>
+                        <f:if condition="{companies}">
+                            <select class="form-select" data-lux-visitor-company="{visitor.uid}">
+                                <option value="0">Keine Firma</option>
+                                <f:for each="{companies}" as="company">
+                                    <option value="{company.uid}"{f:if(condition:'{company.uid} == {visitor.companyrecord.uid}',then:'selected="selected"')}>{company.title}</option>
+                                </f:for>
+                            </select>
+                        </f:if>
+
+                        <textarea
+                            style="margin-top: 0.5rem;"
+                            class="lux-textarea{f:if(condition:'{visitor.description}',else:' lux-textarea__default')}"
+                            data-lux-visitor-description="{visitor.uid}"
+                        ><f:if condition="{visitor.description}"><f:then>{visitor.description}</f:then><f:else><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.description">Add text...</f:translate></f:else></f:if></textarea>
                     </div>
                 </div>
             </div>
@@ -51,7 +64,8 @@
             <f:if condition="{visitor.unimportantAttributes}">
                 <tr>
                     <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.moreattributes">More attributes</f:translate></td>
-                    <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:seebelow">See below...</f:translate></td></tr>
+                    <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:seebelow">See below...</f:translate></td>
+                </tr>
             </f:if>
         </table>
     </f:if>
@@ -130,41 +144,49 @@
         </div>
     </div>
 
-    <div class="row" style="margin-top: 2rem;">
-        <div class="col-md-12">
-            <table class="table table-striped">
-                <tr>
-                    <td title="Branch code {company.branchCode}" colspan="2">
-                        <strong>{company.branch}</strong>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_company.revenue">Revenue</f:translate>
-                    </td>
-                    <td title="Revenue class {company.revenueClass}">
-                        {company.revenue}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_company.size">Size</f:translate>
-                    </td>
-                    <td title="Size class {company.sizeClass}">
-                        {company.size}
-                    </td>
-                </tr>
-                <f:if condition="{company.foundingYear}">
-                    <tr>
-                        <td>
-                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_company.founding_year">Founding year</f:translate>
-                        </td>
-                        <td>
-                            {company.foundingYear}
-                        </td>
-                    </tr>
-                </f:if>
-            </table>
+    <f:if condition="{company.branchCode} && {company.revenueClass} && {company.sizeClass} && {company.foundingYear}">
+        <div class="row" style="margin-top: 2rem;">
+            <div class="col-md-12">
+                <table class="table table-striped">
+                    <f:if condition="{company.branchCode}">
+                        <tr>
+                            <td title="Branch code {company.branchCode}" colspan="2">
+                                <strong>{company.branch}</strong>
+                            </td>
+                        </tr>
+                    </f:if>
+                    <f:if condition="{company.revenueClass}">
+                        <tr>
+                            <td>
+                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_company.revenue">Revenue</f:translate>
+                            </td>
+                            <td title="Revenue class {company.revenueClass}">
+                                {company.revenue}
+                            </td>
+                        </tr>
+                    </f:if>
+                    <f:if condition="{company.sizeClass}">
+                        <tr>
+                            <td>
+                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_company.size">Size</f:translate>
+                            </td>
+                            <td title="Size class {company.sizeClass}">
+                                {company.size}
+                            </td>
+                        </tr>
+                    </f:if>
+                    <f:if condition="{company.foundingYear}">
+                        <tr>
+                            <td>
+                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_company.founding_year">Founding year</f:translate>
+                            </td>
+                            <td>
+                                {company.foundingYear}
+                            </td>
+                        </tr>
+                    </f:if>
+                </table>
+            </div>
         </div>
-    </div>
+    </f:if>
 </f:section>

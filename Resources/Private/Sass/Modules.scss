@@ -337,6 +337,7 @@ label {
 .lux-textarea {
     width: 100%;
     padding: 10px;
+    border: 1px solid $colorGreyBright;
 
     &__default {
         color: $colorGrey;

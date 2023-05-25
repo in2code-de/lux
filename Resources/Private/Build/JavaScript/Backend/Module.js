@@ -31,7 +31,8 @@ define(['jquery'], function($) {
       addDetailViewListener('workflowdetail', 'workflow', 'luxenterprise');
       addDetailViewListener('abtestingdetail', 'abTesting', 'luxenterprise');
       addDetailViewListener('workflowurlshortenerdetail', 'urlShortener', 'luxenterprise');
-      addDescriptionListener();
+      addDescriptionTextareaListener();
+      addCompanySelectListener();
       addLinkMockListener();
       addConfirmListeners();
       asynchronousImageLoading();
@@ -65,7 +66,7 @@ define(['jquery'], function($) {
     /**
      * @returns {void}
      */
-    var addDescriptionListener = function() {
+    var addDescriptionTextareaListener = function() {
       var container = document.querySelector('[data-lux-container="detail"]');
       if (container !== null) {
         container.addEventListener('click', function(event) {
@@ -85,6 +86,29 @@ define(['jquery'], function($) {
           }
         });
       }
+    };
+
+    /**
+     * @returns {void}
+     */
+    var addCompanySelectListener = function() {
+      var select = document.querySelector('[data-lux-visitor-company]');
+      if (select !== null) {
+        var visitor = select.getAttribute('data-lux-visitor-company');
+        select.addEventListener('change', function(event) {
+          ajaxConnection(TYPO3.settings.ajaxUrls['/lux/visitorcompany'], {
+            visitor: visitor,
+            value: this.value
+          }, 'reloadCallback');
+        });
+      }
+    };
+
+    /**
+     * @params {Json} response
+     */
+    this.reloadCallback = function(response) {
+      location.reload();
     };
 
     /**
@@ -111,6 +135,7 @@ define(['jquery'], function($) {
      */
     this.generalDetailCallback = function(response) {
       document.querySelector('[data-lux-container="detail"]').innerHTML = response.html;
+      asynchronousImageLoading();
       window.LuxDiagramObject.initialize();
     };
 
@@ -130,19 +155,26 @@ define(['jquery'], function($) {
     };
 
     /**
-     * This allows to get visitor images (maybe from google or gravatar) as asynchronous request, to not block page
-     * rendering.
+     * This allows to get visitor or company images (maybe from google or gravatar) as asynchronous request,
+     * to not block page rendering.
      * This function is used in LUX backend modules and also in PageOverview.html
      *
      * @returns {void}
      */
     const asynchronousImageLoading = function() {
-      const elements = document.querySelectorAll('[data-lux-asynchronous-image]');
+      const elements = document.querySelectorAll('[data-lux-asynchronous-image],[data-lux-asynchronous-companyimage]');
       for (let i = 0; i < elements.length; i++) {
-        let visitorIdentifier = elements[i].getAttribute('data-lux-asynchronous-image');
-        if (visitorIdentifier > 0) {
+        const visitorIdentifier = elements[i].getAttribute('data-lux-asynchronous-image');
+        if (visitorIdentifier !== null) {
           ajaxConnection(TYPO3.settings.ajaxUrls['/lux/visitorimage'], {
             visitor: visitorIdentifier
+          }, 'asynchronousImageLoadingCallback', {element: elements[i]});
+        }
+
+        const companyIdentifier = elements[i].getAttribute('data-lux-asynchronous-companyimage');
+        if (companyIdentifier !== null) {
+          ajaxConnection(TYPO3.settings.ajaxUrls['/lux/companyimage'], {
+            company: companyIdentifier
           }, 'asynchronousImageLoadingCallback', {element: elements[i]});
         }
       }

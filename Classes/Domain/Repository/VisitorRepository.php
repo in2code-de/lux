@@ -488,7 +488,7 @@ class VisitorRepository extends AbstractRepository
         return (int)$connection->executeQuery($sql)->fetchOne();
     }
 
-    public function findByCompany(Company $company, int $limit = 10): array
+    public function findByCompany(Company $company, int $limit = 6): array
     {
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
         $sql = 'select uid from ' . Visitor::TABLE_NAME

@@ -12,9 +12,14 @@ use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\DateUtility;
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 class CompanyRepository extends AbstractRepository
 {
+    protected $defaultOrderings = [
+        'title' => QueryInterface::ORDER_ASCENDING,
+    ];
+
     /**
      * @param FilterDto $filter
      * @return array
