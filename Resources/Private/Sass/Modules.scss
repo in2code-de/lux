@@ -188,6 +188,11 @@ label {
         }
     }
 
+    .btn-secondary {
+        background-color: #eeeeee;
+        border-color: #bbbbbb;
+    }
+
     .btn-primary-extra {
         appearance: none;
         -moz-appearance: none;
@@ -340,7 +345,7 @@ label {
     border: 1px solid $colorGreyBright;
 
     &__default {
-        color: $colorGrey;
+        color: $colorGreyBright;
     }
 }
 

@@ -14,6 +14,7 @@ use In2code\Lux\Domain\DataProvider\RevenueClassDataProvider;
 use In2code\Lux\Domain\Model\Company;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Domain\Repository\CategoryRepository;
 use In2code\Lux\Domain\Repository\CompanyRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Exception\ConfigurationException;
@@ -135,10 +136,6 @@ class LeadController extends AbstractController
         return $this->csvResponse($this->view->render());
     }
 
-    /**
-     * @param Visitor $visitor
-     * @return ResponseInterface
-     */
     public function detailAction(Visitor $visitor): ResponseInterface
     {
         $filter = ObjectUtility::getFilterDtoFromStartAndEnd($visitor->getPagevisitFirst()->getCrdate(), new DateTime())
@@ -200,17 +197,19 @@ class LeadController extends AbstractController
             'branches' => $this->companyRepository->findAllBranches($filter),
             'revenueClassData' => GeneralUtility::makeInstance(RevenueClassDataProvider::class, $filter),
             'companyAmountPerMonthData' => GeneralUtility::makeInstance(CompanyAmountPerMonthDataProvider::class),
+            'categories' => $this->categoryRepository->findAllLuxCompanyCategories(),
             'filter' => $filter,
         ]);
         $this->addDocumentHeaderForCurrentController();
         return $this->defaultRendering();
     }
 
-    /**
-     * @param FilterDto $filter
-     * @return ResponseInterface
-     * @throws InvalidQueryException
-     */
+    public function companyAction(Company $company): ResponseInterface
+    {
+        $this->addDocumentHeaderForCurrentController();
+        return $this->defaultRendering();
+    }
+
     public function downloadCsvCompaniesAction(FilterDto $filter): ResponseInterface
     {
         $this->view->assignMultiple([
@@ -227,13 +226,18 @@ class LeadController extends AbstractController
     public function detailAjax(ServerRequestInterface $request): ResponseInterface
     {
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
+        $companyRepository = GeneralUtility::makeInstance(CompanyRepository::class);
         $standaloneView = GeneralUtility::makeInstance(StandaloneView::class);
         $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
             'EXT:lux/Resources/Private/Templates/Lead/ListDetailAjax.html'
         ));
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
+        /** @var Visitor $visitor */
+        $visitor = $visitorRepository->findByUid((int)$request->getQueryParams()['visitor']);
         $standaloneView->assignMultiple([
-            'visitor' => $visitorRepository->findByUid((int)$request->getQueryParams()['visitor']),
+            'visitor' => $visitor,
+            'company' => $visitor->getCompanyrecord(),
+            'companies' => $companyRepository->findAll(),
         ]);
         return $this->jsonResponse(json_encode(['html' => $standaloneView->render()]));
     }
@@ -246,6 +250,7 @@ class LeadController extends AbstractController
     public function detailCompaniesAjax(ServerRequestInterface $request): ResponseInterface
     {
         $companyRepository = GeneralUtility::makeInstance(CompanyRepository::class);
+        $categoryRepository = GeneralUtility::makeInstance(CategoryRepository::class);
         $standaloneView = GeneralUtility::makeInstance(StandaloneView::class);
         $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
             'EXT:lux/Resources/Private/Templates/Lead/CompanyListDetailAjax.html'
@@ -253,6 +258,8 @@ class LeadController extends AbstractController
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         $standaloneView->assignMultiple([
             'company' => $companyRepository->findByUid((int)$request->getQueryParams()['company']),
+            'companies' => $companyRepository->findAll(),
+            'categories' => $categoryRepository->findAllLuxCompanyCategories(),
         ]);
         return $this->jsonResponse(json_encode(['html' => $standaloneView->render()]));
     }
@@ -299,6 +306,24 @@ class LeadController extends AbstractController
      * @throws UnknownObjectException
      * @noinspection PhpUnused
      */
+    public function detailCompanydescriptionAjax(ServerRequestInterface $request): ResponseInterface
+    {
+        $companyRepository = GeneralUtility::makeInstance(CompanyRepository::class);
+        /** @var Company $company */
+        $company = $companyRepository->findByUid((int)$request->getQueryParams()['company']);
+        $company->setDescription($request->getQueryParams()['value']);
+        $companyRepository->update($company);
+        $companyRepository->persistAll();
+        return GeneralUtility::makeInstance(JsonResponse::class);
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     * @noinspection PhpUnused
+     */
     public function detailCompanyrecordAjax(ServerRequestInterface $request): ResponseInterface
     {
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
@@ -314,8 +339,25 @@ class LeadController extends AbstractController
     }
 
     /**
-     * @return void
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     * @noinspection PhpUnused
      */
+    public function setCategoryToCompanyAjax(ServerRequestInterface $request): ResponseInterface
+    {
+        /** @var Company $company */
+        $company = $this->companyRepository->findByUid((int)$request->getQueryParams()['company']);
+        $category = $this->categoryRepository->findByUid((int)$request->getQueryParams()['value']);
+        if ($company !== null && $category !== null) {
+            $company->setCategory($category);
+            $this->companyRepository->update($company);
+            $this->companyRepository->persistAll();
+        }
+        return GeneralUtility::makeInstance(JsonResponse::class);
+    }
+
     protected function addDocumentHeaderForCurrentController(): void
     {
         $actions = ['dashboard', 'list', 'companies'];

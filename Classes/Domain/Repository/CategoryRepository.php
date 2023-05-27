@@ -23,6 +23,14 @@ class CategoryRepository extends AbstractRepository
         return $query->execute();
     }
 
+    public function findAllLuxCompanyCategories(): QueryResultInterface
+    {
+        $query = $this->createQuery();
+        $query->matching($query->equals('lux_company_category', true));
+        $query->setOrderings(['title' => QueryInterface::ORDER_ASCENDING]);
+        return $query->execute();
+    }
+
     /**
      * @param int $pageIdentifier
      * @param int $categoryIdentifier

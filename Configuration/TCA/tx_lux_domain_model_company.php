@@ -23,7 +23,8 @@ return [
     ],
     'types' => [
         '1' => [
-            'showitem' => '',
+            'showitem' => 'title,branch,branch_code,city,contacts,continent,country_code,region,street,zip,domain,' .
+                'founding_year,phone,revenue,revenue_class,size,size_class,description,category',
         ],
     ],
     'columns' => [
@@ -242,6 +243,31 @@ return [
                 'type' => 'input',
                 'size' => 100,
                 'eval' => 'trim',
+                'readOnly' => true,
+            ],
+        ],
+        'description' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Company::TABLE_NAME . '.description',
+            'config' => [
+                'type' => 'input',
+                'size' => 100,
+                'eval' => 'trim',
+                'readOnly' => true,
+            ],
+        ],
+        'category' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Company::TABLE_NAME . '.category',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'items' => [
+                    ['', 0],
+                ],
+                'foreign_table' => 'sys_category',
+                'foreign_table_where' => 'lux_company_category=1 ORDER BY title ASC',
+                'default' => 0,
                 'readOnly' => true,
             ],
         ],

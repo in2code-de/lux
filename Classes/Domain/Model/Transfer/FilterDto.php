@@ -59,6 +59,7 @@ class FilterDto
      * @var ?Category
      */
     protected ?Category $categoryScoring = null;
+    protected ?Category $category = null;
 
     /**
      * If turned on, there is a short timeframe for pagevisits and downloads (the last 7 days) while all other diagrams
@@ -230,6 +231,17 @@ class FilterDto
         return $this;
     }
 
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
+        return $this;
+    }
+
     public function isShortMode(): bool
     {
         return $this->shortMode;
@@ -323,6 +335,7 @@ class FilterDto
     public function isSet(): bool
     {
         return $this->searchterm !== '' || $this->pid !== '' || $this->scoring > 0 || $this->categoryScoring !== null
+            || $this->category !== null
             || $this->timeFrom !== '' || $this->timeTo !== '' || $this->timePeriod !== self::PERIOD_DEFAULT
             || $this->identified !== self::IDENTIFIED_ALL || $this->domain !== ''
             || $this->utmCampaign !== '' || $this->utmMedium !== '' || $this->utmSource !== '' || $this->branchCode > 0;

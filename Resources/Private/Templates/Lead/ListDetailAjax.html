@@ -26,7 +26,6 @@
                         </f:if>
                     </h3>
 
-                    <f:variable name="company" value="{visitor.companyrecord}"/>
                     <f:if condition="{company}">
                         <div class="row" style="margin-top: 2rem;">
                             <div class="col-md-12">
@@ -121,11 +120,37 @@
             </div>
         </f:if>
 
+        <div class="row" style="margin-top: 2rem;">
+            <div class="col-md-12">
+                <f:if condition="{companies}">
+                    <select class="form-select" data-lux-visitor-company="{visitor.uid}">
+                        <option value="0"><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.company.nocompany">No company</f:translate></option>
+                        <f:for each="{companies}" as="companyRecord">
+                            <option value="{companyRecord.uid}"{f:if(condition:'{companyRecord.uid} == {visitor.companyrecord.uid}',then:'selected="selected"')}>{companyRecord.title}</option>
+                        </f:for>
+                    </select>
+                </f:if>
+
+                <textarea class="lux-textarea{f:if(condition:'{visitor.description}',else:' lux-textarea__default')}" data-lux-description="visitor:{visitor.uid}" style="margin-top: 0.5rem;"><f:if condition="{visitor.description}"><f:then>{visitor.description}</f:then><f:else><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.description">Add text...</f:translate></f:else></f:if></textarea>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-md-12">
-                <button style="margin-top: 2rem" class="btn btn-primary pull-right" data-lux-linkmock-event="detail{visitor.uid}">
+                <button style="margin-top: 1rem" class="btn btn-primary pull-right" data-lux-linkmock-event="detail{visitor.uid}">
                     <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.linkdetail">show</f:translate>
                 </button>
+
+                <f:if condition="{company}">
+                    <f:be.link
+                        route="lux_LuxLead"
+                        title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview.link',arguments:'{0:visitor.fullName}')}"
+                        style="margin: 1rem 0.5rem 0 0;"
+                        class="btn btn-secondary pull-right"
+                        parameters="{tx_lux_lux_luxlead:'{company:company.uid,action:\'company\',controller:\'Lead\'}'}">
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.companylink">show</f:translate>
+                    </f:be.link>
+                </f:if>
             </div>
         </div>
     </div>

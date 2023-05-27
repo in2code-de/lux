@@ -34,6 +34,7 @@ class CompanyRepository extends AbstractRepository
             . ' where c.deleted=0 and v.deleted=0 and v.blacklisted=0';
         $sql .= $this->extendWhereClauseWithFilterSearchterms($filter, 'c');
         $sql .= $this->extendWhereClauseWithFilterBranchCode($filter);
+        $sql .= $this->extendWhereClauseWithFilterCategory($filter, 'c');
         $sql .= $this->extendWhereClauseWithFilterCompanyTime($filter, true, 'pv');
         $sql .= ' group by c.uid';
         $sql .= $this->extendWhereClauseWithFilterCompanyscoring($filter);
@@ -197,6 +198,18 @@ class CompanyRepository extends AbstractRepository
         $sql = '';
         if ($filter->getBranchCode() > 0) {
             $sql .= ' and branch_code = ' . $filter->getBranchCode();
+        }
+        return $sql;
+    }
+
+    protected function extendWhereClauseWithFilterCategory(FilterDto $filter, string $table = ''): string
+    {
+        $sql = '';
+        if ($filter->getCategory() !== null) {
+            if ($table !== '') {
+                $table .= '.';
+            }
+            $sql .= ' and ' . $table . 'category = ' . $filter->getCategory()->getUid();
         }
         return $sql;
     }

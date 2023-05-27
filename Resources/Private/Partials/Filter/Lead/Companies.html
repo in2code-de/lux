@@ -64,17 +64,32 @@
 
 
                 <div class="col-md-4">
-                    <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.header.branches">Branch</f:translate></h5>
+                    <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.segmentation">Segmentation</f:translate></h5>
 
                     <div class="input-group form-group">
                         <f:form.select
                             property="branchCode"
                             options="{branches}"
                             prependOptionValue=""
-                            prependOptionLabel=""
+                            prependOptionLabel="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.header.branches')}"
                             class="form-control form-select"
                             id="branchCode"/>
                         <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#branchCode">
+                            <core:icon identifier="actions-building" />
+                        </button>
+                    </div>
+
+                    <div class="input-group form-group">
+                        <f:form.select
+                            property="category"
+                            options="{categories}"
+                            prependOptionValue=""
+                            prependOptionLabel="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.category')}"
+                            optionLabelField="title"
+                            optionValueField="uid"
+                            class="form-control form-select"
+                            id="category"/>
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#category">
                             <core:icon identifier="actions-tag" />
                         </button>
                     </div>

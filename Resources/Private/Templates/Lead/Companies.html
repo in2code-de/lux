@@ -108,7 +108,9 @@
             <f:comment>
                 Invisible link for JS-clicks in preview only
             </f:comment>
-            <f:link.action action="detail" controller="Lead" class="btn btn-primary pull-right hidden" arguments="{visitor:visitor}" data="{lux-linkmock-link:'detail{visitor.uid}'}"><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.linkdetail">show</f:translate></f:link.action>
+            <f:link.action action="company" controller="Lead" class="btn btn-primary pull-right hidden" arguments="{company:company}" data="{lux-linkmock-link:'company{company.uid}'}">
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.linkdetail">show</f:translate>
+            </f:link.action>
         </td>
     </tr>
 </f:section>

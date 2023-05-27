@@ -141,7 +141,7 @@ class VisitorFactory
         $visitor = GeneralUtility::makeInstance(Visitor::class);
         $visitor->addFingerprint($this->fingerprint);
         $this->enrichNewVisitorWithIpInformation($visitor);
-        $visitor->setCompanyAutomatic(); // must be after enrichNewVisitorWithIpInformation()
+        $visitor->resetCompanyAutomatic(); // must be after enrichNewVisitorWithIpInformation()
         /** @var LogVisitorEvent $event */
         $event = $this->eventDispatcher->dispatch(GeneralUtility::makeInstance(LogVisitorEvent::class, $visitor));
         return $event->getVisitor();

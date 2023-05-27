@@ -335,12 +335,13 @@ class Visitor extends AbstractModel
     }
 
     /**
-     * Set company from IP information if possible (on visitor creation)
+     * Set visitor.company property from attribute, companyrecord or IP information if possible
      *
      * @return $this
      */
-    public function setCompanyAutomatic(): self
+    public function resetCompanyAutomatic(): self
     {
+        $this->company = '';
         $company = $this->getCompany();
         if ($company !== '') {
             $this->company = $company;
@@ -358,6 +359,10 @@ class Visitor extends AbstractModel
     public function setCompanyrecord(?Company $companyrecord): self
     {
         $this->companyrecord = $companyrecord;
+
+        // New calculation of visitor.company property if a companyrecord was set
+        $this->resetCompanyAutomatic();
+
         return $this;
     }
 

@@ -42,7 +42,7 @@
                         <textarea
                             style="margin-top: 0.5rem;"
                             class="lux-textarea{f:if(condition:'{visitor.description}',else:' lux-textarea__default')}"
-                            data-lux-visitor-description="{visitor.uid}"
+                            data-lux-description="visitor:{visitor.uid}"
                         ><f:if condition="{visitor.description}"><f:then>{visitor.description}</f:then><f:else><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.description">Add text...</f:translate></f:else></f:if></textarea>
                     </div>
                 </div>

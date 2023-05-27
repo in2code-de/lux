@@ -33,6 +33,7 @@ define(['jquery'], function($) {
       addDetailViewListener('workflowurlshortenerdetail', 'urlShortener', 'luxenterprise');
       addDescriptionTextareaListener();
       addCompanySelectListener();
+      addCategorySelectListener();
       addLinkMockListener();
       addConfirmListeners();
       asynchronousImageLoading();
@@ -71,17 +72,25 @@ define(['jquery'], function($) {
       if (container !== null) {
         container.addEventListener('click', function(event) {
           var clickedElement = event.target;
-          if (clickedElement.getAttribute('data-lux-visitor-description') > 0) {
+          if (clickedElement.getAttribute('data-lux-description') !== null) {
             if (clickedElement.classList.contains('lux-textarea__default')) {
               clickedElement.classList.remove('lux-textarea__default');
               clickedElement.value = '';
             }
-            var visitor = clickedElement.getAttribute('data-lux-visitor-description');
+            const [object, identifier] = clickedElement.getAttribute('data-lux-description').split(':');
             clickedElement.addEventListener('blur', function() {
-              ajaxConnection(TYPO3.settings.ajaxUrls['/lux/visitordescription'], {
-                visitor: visitor,
-                value: this.value
-              }, null);
+              if (object === 'visitor') {
+                ajaxConnection(TYPO3.settings.ajaxUrls['/lux/visitordescription'], {
+                  visitor: identifier,
+                  value: this.value
+                }, null);
+              }
+              if (object === 'company') {
+                ajaxConnection(TYPO3.settings.ajaxUrls['/lux/companydescription'], {
+                  company: identifier,
+                  value: this.value
+                }, null);
+              }
             });
           }
         });
@@ -100,6 +109,22 @@ define(['jquery'], function($) {
             visitor: visitor,
             value: this.value
           }, 'reloadCallback');
+        });
+      }
+    };
+
+    /**
+     * @returns {void}
+     */
+    var addCategorySelectListener = function() {
+      var select = document.querySelector('[data-lux-company-category]');
+      if (select !== null) {
+        var company = select.getAttribute('data-lux-company-category');
+        select.addEventListener('change', function(event) {
+          ajaxConnection(TYPO3.settings.ajaxUrls['/lux/companycategory'], {
+            company: company,
+            value: this.value
+          });
         });
       }
     };
@@ -136,6 +161,8 @@ define(['jquery'], function($) {
     this.generalDetailCallback = function(response) {
       document.querySelector('[data-lux-container="detail"]').innerHTML = response.html;
       asynchronousImageLoading();
+      addCompanySelectListener();
+      addCategorySelectListener();
       window.LuxDiagramObject.initialize();
     };
 

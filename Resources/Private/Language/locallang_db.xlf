@@ -464,9 +464,27 @@
 			<trans-unit id="tx_lux_domain_model_company.size_class">
 				<source>Size class</source>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.description">
+				<source>Internal description</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.category">
+				<source>Category</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.category.nocategory">
+				<source>No category</source>
+			</trans-unit>
 
 			<trans-unit id="sys_category.lux_category">
-				<source>Is LUX category?</source>
+				<source>Is LUX scoring category?</source>
+			</trans-unit>
+			<trans-unit id="sys_category.lux_category.description">
+				<source>This is a data set used for segmentation by category scoring for leads</source>
+			</trans-unit>
+			<trans-unit id="sys_category.lux_company_category">
+				<source>Is LUX company category?</source>
+			</trans-unit>
+			<trans-unit id="sys_category.lux_company_category.description">
+				<source>This is a data set used for grouping companies by a category</source>
 			</trans-unit>
 
 			<trans-unit id="anonym">
@@ -798,6 +816,9 @@
 			<trans-unit id="module.analysis.detailpage.company">
 				<source>Company</source>
 			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.companylink">
+				<source>Show company</source>
+			</trans-unit>
 			<trans-unit id="module.analysis.detailpage.time">
 				<source>Time</source>
 			</trans-unit>
@@ -971,7 +992,7 @@
 				<source>Lead scoring</source>
 			</trans-unit>
 			<trans-unit id="module.detail.description">
-				<source>Add an individual description (only internal) ...</source>
+				<source>Internal description (e.g. "[SalesId] 6/6/24: Follow up mail")</source>
 			</trans-unit>
 			<trans-unit id="module.detail.pagefunnel">
 				<source>Conversion Funnel / Page Visits</source>
@@ -981,6 +1002,9 @@
 			</trans-unit>
 			<trans-unit id="module.detail.moreattributes">
 				<source>More attributes</source>
+			</trans-unit>
+			<trans-unit id="module.detail.company.nocompany">
+				<source>No company</source>
 			</trans-unit>
 
 			<trans-unit id="module.lead.dashboard">
@@ -1684,6 +1708,9 @@
 			<trans-unit id="dictionary.campaigns">
 				<source>Campaigns</source>
 			</trans-unit>
+			<trans-unit id="dictionary.category">
+				<source>Category</source>
+			</trans-unit>
 			<trans-unit id="dictionary.content">
 				<source>Content</source>
 			</trans-unit>
@@ -1710,6 +1737,9 @@
 			</trans-unit>
 			<trans-unit id="dictionary.source">
 				<source>Source</source>
+			</trans-unit>
+			<trans-unit id="dictionary.segmentation">
+				<source>Segmentation</source>
 			</trans-unit>
 			<trans-unit id="dictionary.term">
 				<source>Term</source>

@@ -611,10 +611,34 @@
 				<source>Size class</source>
 				<target state="translated">Größenklasse</target>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.description">
+				<source>Internal description</source>
+				<target state="translated">Interne Beschreibung</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.category">
+				<source>Category</source>
+				<target state="translated">Kategorie</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.category.nocategory">
+				<source>No category</source>
+				<target state="translated">Keine Kategorie</target>
+			</trans-unit>
 
 			<trans-unit id="sys_category.lux_category">
-				<source>Is LUX category?</source>
-				<target state="translated">Ist eine LUX-Kategorie?</target>
+				<source>Is LUX scoring category?</source>
+				<target state="translated">Ist eine LUX-Scoring-Kategorie?</target>
+			</trans-unit>
+			<trans-unit id="sys_category.lux_category.description">
+				<source>This is a data set used for segmentation by category scoring for leads</source>
+				<target state="translated">Es handelt sich hierbei um einen Datensatz, der zur Segmentierung durch Kategoriescoring für Leads dient</target>
+			</trans-unit>
+			<trans-unit id="sys_category.lux_company_category">
+				<source>Is LUX company category?</source>
+				<target state="translated">Ist eine LUX-Firmen-Kategorie</target>
+			</trans-unit>
+			<trans-unit id="sys_category.lux_company_category.description">
+				<source>This is a data set used for grouping companies by a category</source>
+				<target state="translated">Es handelt sich hierbei um einen Datensatz, der zur Gruppierung von Firmen dient</target>
 			</trans-unit>
 
 			<trans-unit id="anonym">
@@ -1055,6 +1079,10 @@
 				<source>Company</source>
 				<target state="translated">Firma</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.companylink">
+				<source>Show company</source>
+				<target state="translated">Zeige Firma</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.detailpage.time">
 				<source>Time</source>
 				<target state="translated">Zeitpunkt</target>
@@ -1281,8 +1309,8 @@
 				<target state="translated">Lead Scoring</target>
 			</trans-unit>
 			<trans-unit id="module.detail.description">
-				<source>Add an individual description (only internal) ...</source>
-				<target state="translated">Individuelle Beschreibung hinzufügen (nur intern)...</target>
+				<source>Internal description (e.g. "[SalesId] 6/6/24: Follow up mail")</source>
+				<target state="translated">Interne Beschreibung (z.B. "[Saleskürzel] 6.6.24: Follow-up mail")</target>
 			</trans-unit>
 			<trans-unit id="module.detail.pagefunnel">
 				<source>Conversion Funnel / Page Visits</source>
@@ -1295,6 +1323,10 @@
 			<trans-unit id="module.detail.moreattributes">
 				<source>More attributes</source>
 				<target state="translated">Weitere Eigenschaften</target>
+			</trans-unit>
+			<trans-unit id="module.detail.company.nocompany">
+				<source>No company</source>
+				<target state="translated">Keine Firma</target>
 			</trans-unit>
 
 			<trans-unit id="module.lead.dashboard">
@@ -2226,6 +2258,10 @@
 				<source>Campaigns</source>
 				<target state="translated">Kampagnen</target>
 			</trans-unit>
+			<trans-unit id="dictionary.category">
+				<source>Category</source>
+				<target state="translated">Kategorie</target>
+			</trans-unit>
 			<trans-unit id="dictionary.content">
 				<source>Content</source>
 				<target state="translated">Inhalt</target>
@@ -2261,6 +2297,10 @@
 			<trans-unit id="dictionary.source">
 				<source>Source</source>
 				<target state="translated">Quelle</target>
+			</trans-unit>
+			<trans-unit id="dictionary.segmentation">
+				<source>Segmentation</source>
+				<target state="translated">Segmentierung</target>
 			</trans-unit>
 			<trans-unit id="dictionary.term">
 				<source>Term</source>

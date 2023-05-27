@@ -85,6 +85,29 @@
                 </div>
             </div>
         </f:if>
+
+        <div class="row" style="margin-top: 2rem;">
+            <div class="col-md-12">
+                <f:if condition="{categories}">
+                    <select class="form-select" data-lux-company-category="{company.uid}">
+                        <option value="0"><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_company.category.nocategory">No category</f:translate></option>
+                        <f:for each="{categories}" as="category">
+                            <option value="{category.uid}"{f:if(condition:'{category.uid} == {company.category.uid}',then:'selected="selected"')}>{category.title}</option>
+                        </f:for>
+                    </select>
+                </f:if>
+
+                <textarea class="lux-textarea{f:if(condition:'{company.description}',else:' lux-textarea__default')}" data-lux-description="company:{company.uid}" style="margin-top: 0.5rem;"><f:if condition="{company.description}"><f:then>{company.description}</f:then><f:else><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.description">Add text...</f:translate></f:else></f:if></textarea>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <button style="margin-top: 1rem" class="btn btn-primary pull-right" data-lux-linkmock-event="company{company.uid}">
+                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.companylink">show</f:translate>
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 

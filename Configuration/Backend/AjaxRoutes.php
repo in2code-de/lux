@@ -33,9 +33,17 @@ return [
         'path' => '/lux/companiesinformation',
         'target' => LeadController::class . '::companiesInformationAjax',
     ],
+    '/lux/companycategory' => [
+        'path' => '/lux/companycategory',
+        'target' => LeadController::class . '::setCategoryToCompanyAjax',
+    ],
     '/lux/companydetail' => [
         'path' => '/lux/companydetail',
         'target' => LeadController::class . '::detailCompaniesAjax',
+    ],
+    '/lux/companydescription' => [
+        'path' => '/lux/companydescription',
+        'target' => LeadController::class . '::detailCompanydescriptionAjax',
     ],
     '/lux/companyimage' => [
         'path' => '/lux/companyimage',
