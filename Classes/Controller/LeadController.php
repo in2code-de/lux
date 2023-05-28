@@ -11,6 +11,8 @@ use In2code\Lux\Domain\DataProvider\IdentificationMethodsDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
 use In2code\Lux\Domain\DataProvider\ReferrerAmountDataProvider;
 use In2code\Lux\Domain\DataProvider\RevenueClassDataProvider;
+use In2code\Lux\Domain\DataProvider\VisitorCategoryScoringsDataProvider;
+use In2code\Lux\Domain\DataProvider\VisitorScoringWeeksDataProvider;
 use In2code\Lux\Domain\Model\Company;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
@@ -142,8 +144,10 @@ class LeadController extends AbstractController
             ->setVisitor($visitor);
         $this->view->assignMultiple([
             'visitor' => $visitor,
-            'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
             'companies' => $this->companyRepository->findAll(),
+            'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
+            'scoringWeeks' => GeneralUtility::makeInstance(VisitorScoringWeeksDataProvider::class, $filter),
+            'categoryScorings' => GeneralUtility::makeInstance(VisitorCategoryScoringsDataProvider::class, $filter),
         ]);
 
         $this->addDocumentHeaderForCurrentController();

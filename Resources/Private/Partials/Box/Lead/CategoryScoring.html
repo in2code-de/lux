@@ -8,13 +8,13 @@
         </h3>
     </div>
     <div class="panel-body">
-        <f:if condition="{visitor.categoryscorings}">
+        <f:if condition="{categoryScorings.dataAvailable}">
             <f:then>
                 <canvas width="750"
                         height="250"
                         data-chart="bar"
-                        data-chart-data="{lux:visitor.getCategoryScoringListFromVisitor(visitor:visitor)}"
-                        data-chart-labels="{lux:visitor.getCategoryScoringListFromVisitor(visitor:visitor,property:'title')}"></canvas>
+                        data-chart-data="{categoryScorings.amountsList}"
+                        data-chart-labels="{categoryScorings.titlesList}"></canvas>
             </f:then>
             <f:else>
                 <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
