@@ -6,6 +6,7 @@ namespace In2code\Lux\Domain\Model\Transfer;
 use DateTime;
 use Exception;
 use In2code\Lux\Domain\Model\Category;
+use In2code\Lux\Domain\Model\Company;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\CategoryRepository;
 use In2code\Lux\Utility\DateUtility;
@@ -81,6 +82,7 @@ class FilterDto
     protected string $utmMedium = '';
     protected int $branchCode = 0;
     protected ?Visitor $visitor = null;
+    protected ?Company $company = null;
 
     public function __construct(int $timePeriod = self::PERIOD_DEFAULT)
     {
@@ -322,6 +324,17 @@ class FilterDto
     public function setVisitor(?Visitor $visitor): self
     {
         $this->visitor = $visitor;
+        return $this;
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): self
+    {
+        $this->company = $company;
         return $this;
     }
 

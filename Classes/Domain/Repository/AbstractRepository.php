@@ -184,17 +184,34 @@ abstract class AbstractRepository extends Repository
      *
      * @param FilterDto $filter
      * @param string $table table name of the visitor table
+     * @param string $field
      * @return string
      */
-    protected function extendWhereClauseWithFilterVisitor(FilterDto $filter, string $table = ''): string
-    {
+    protected function extendWhereClauseWithFilterVisitor(
+        FilterDto $filter,
+        string $table = '',
+        string $field = 'uid'
+    ): string {
         $sql = '';
+        if ($table !== '') {
+            $field = $table . '.' . $field;
+        }
         if ($filter->getVisitor() !== null) {
-            $field = 'uid';
-            if ($table !== '') {
-                $field = $table . '.' . $field;
+            $sql = ' and ' . $field . ' = ' . $filter->getVisitor()->getUid();
+        }
+        if ($filter->getCompany() !== null) {
+            $sql = '';
+            foreach ($filter->getCompany()->getVisitors() as $visitor) {
+                if ($visitor !== null) {
+                    if ($sql === '') {
+                        $sql = ' and (';
+                    } else {
+                        $sql .= ' or ';
+                    }
+                    $sql .= $field . ' = ' . $visitor->getUid();
+                }
             }
-            $sql .= ' and ' . $field . ' = ' . $filter->getVisitor()->getUid();
+            $sql .= ')';
         }
         return $sql;
     }

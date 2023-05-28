@@ -22,42 +22,14 @@
     </div>
 
     <div class="row flex" data-lux-container="detail">
-        <div class="col-md-6 flex">
-            <div class="panel panel-default flex">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        Todo Pagevisits
-                    </h3>
-                </div>
-                <div class="panel-body" style="height: 450px; overflow: auto;">
-                </div>
-            </div>
+        <div class="col-md-4 flex">
+            <f:render partial="Box/Lead/Scoring" arguments="{_all}"/>
         </div>
-        <div class="col-md-6 flex">
-            <div class="row flex" data-lux-container="detail">
-                <div class="col-md-6 flex">
-                    <div class="panel panel-default flex">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">
-                                Todo Company Scoring
-                            </h3>
-                        </div>
-                        <div class="panel-body" style="height: 450px; overflow: auto;">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 flex">
-                    <div class="panel panel-default flex">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">
-                                Todo Company Category Scoring
-                            </h3>
-                        </div>
-                        <div class="panel-body" style="height: 450px; overflow: auto;">
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="col-md-4 flex">
+            <f:render partial="Box/Lead/CategoryScoring" arguments="{_all}"/>
+        </div>
+        <div class="col-md-4 flex">
+            <f:render partial="Box/Analysis/Pagevisits" arguments="{_all}"/>
         </div>
     </div>
 

@@ -7,6 +7,8 @@ use DateTime;
 use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\DataProvider\CompanyAmountPerMonthDataProvider;
+use In2code\Lux\Domain\DataProvider\CompanyCategoryScoringsDataProvider;
+use In2code\Lux\Domain\DataProvider\CompanyScoringWeeksDataProvider;
 use In2code\Lux\Domain\DataProvider\IdentificationMethodsDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
 use In2code\Lux\Domain\DataProvider\ReferrerAmountDataProvider;
@@ -145,9 +147,9 @@ class LeadController extends AbstractController
         $this->view->assignMultiple([
             'visitor' => $visitor,
             'companies' => $this->companyRepository->findAll(),
-            'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
             'scoringWeeks' => GeneralUtility::makeInstance(VisitorScoringWeeksDataProvider::class, $filter),
             'categoryScorings' => GeneralUtility::makeInstance(VisitorCategoryScoringsDataProvider::class, $filter),
+            'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
         ]);
 
         $this->addDocumentHeaderForCurrentController();
@@ -210,10 +212,17 @@ class LeadController extends AbstractController
 
     public function companyAction(Company $company): ResponseInterface
     {
+        $filter = ObjectUtility::getFilterDtoFromStartAndEnd(
+            $company->getFirstPagevisit()->getCrdate(),
+            new DateTime()
+        )->setCompany($company);
         $this->view->assignMultiple([
             'company' => $company,
             'categories' => $this->categoryRepository->findAllLuxCompanyCategories(),
             'interestingLogs' => $this->logRepository->findInterestingLogsByCompany($company),
+            'scoringWeeks' => GeneralUtility::makeInstance(CompanyScoringWeeksDataProvider::class, $filter),
+            'categoryScorings' => GeneralUtility::makeInstance(CompanyCategoryScoringsDataProvider::class, $filter),
+            'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
         ]);
         $this->addDocumentHeaderForCurrentController();
         return $this->defaultRendering();
