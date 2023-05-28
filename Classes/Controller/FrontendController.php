@@ -104,14 +104,14 @@ class FrontendController extends ActionController
         try {
             $visitor = $this->getVisitor($identificator);
             $this->callAdditionalTrackers($visitor, $arguments);
+            $companyTracker = GeneralUtility::makeInstance(CompanyTracker::class);
+            $companyTracker->track($visitor);
             $pageTracker = GeneralUtility::makeInstance(PageTracker::class);
             $pagevisit = $pageTracker->track($visitor, $arguments);
             $newsTracker = GeneralUtility::makeInstance(NewsTracker::class);
             $newsTracker->track($visitor, $arguments, $pagevisit);
             $searchTracker = GeneralUtility::makeInstance(SearchTracker::class);
             $searchTracker->track($visitor, $arguments);
-            $companyTracker = GeneralUtility::makeInstance(CompanyTracker::class);
-            $companyTracker->track($visitor);
             return $this->jsonResponse(json_encode($this->afterAction($visitor)));
         } catch (Throwable $exception) {
             return $this->jsonResponse(json_encode($this->getError($exception)));
