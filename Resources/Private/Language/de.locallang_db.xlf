@@ -1083,6 +1083,14 @@
 				<source>Show company</source>
 				<target state="translated">Zeige Firma</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.remove">
+				<source>Remove company</source>
+				<target state="translated">Firma löschen</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.removewithvisitors">
+				<source>Remove company and visitors</source>
+				<target state="translated">Firma und Leads löschen</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.detailpage.time">
 				<source>Time</source>
 				<target state="translated">Zeitpunkt</target>

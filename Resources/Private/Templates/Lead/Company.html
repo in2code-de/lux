@@ -178,8 +178,12 @@
                 <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:back">go back</f:translate>
             </button>
 
-            <f:link.action action="remove" arguments="{visitor:visitor}" class="btn btn-default" onclick="return confirm('{f:translate(key:\"LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:areYouSure\")}')">
-                TODO: <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.link.remove">delete</f:translate>
+            <f:link.action action="removeCompany" arguments="{company:company}" class="btn btn-default" onclick="return confirm('{f:translate(key:\"LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:areYouSure\")}')">
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.remove">delete</f:translate>
+            </f:link.action>
+
+            <f:link.action action="removeCompany" arguments="{company:company,removeVisitors:1}" class="btn btn-default" onclick="return confirm('{f:translate(key:\"LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:areYouSure\")}')">
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.removewithvisitors">delete and visitors</f:translate>
             </f:link.action>
         </div>
     </div>

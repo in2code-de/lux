@@ -819,6 +819,12 @@
 			<trans-unit id="module.analysis.detailpage.companylink">
 				<source>Show company</source>
 			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.remove">
+				<source>Remove company</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.removewithvisitors">
+				<source>Remove company and visitors</source>
+			</trans-unit>
 			<trans-unit id="module.analysis.detailpage.time">
 				<source>Time</source>
 			</trans-unit>

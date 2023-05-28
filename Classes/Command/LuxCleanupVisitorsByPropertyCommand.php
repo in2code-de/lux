@@ -46,7 +46,6 @@ class LuxCleanupVisitorsByPropertyCommand extends Command
         );
         /** @var Visitor $visitor */
         foreach ($visitors as $visitor) {
-            $visitorRepository->removeRelatedTableRowsByVisitor($visitor);
             $visitorRepository->removeVisitor($visitor);
         }
         $output->writeln(count($visitors) . ' successfully removed');

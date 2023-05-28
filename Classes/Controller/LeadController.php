@@ -127,19 +127,6 @@ class LeadController extends AbstractController
         return $this->defaultRendering();
     }
 
-    /**
-     * @param FilterDto $filter
-     * @return ResponseInterface
-     * @throws InvalidQueryException
-     */
-    public function downloadCsvAction(FilterDto $filter): ResponseInterface
-    {
-        $this->view->assignMultiple([
-            'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter),
-        ]);
-        return $this->csvResponse($this->view->render());
-    }
-
     public function detailAction(Visitor $visitor): ResponseInterface
     {
         $filter = ObjectUtility::getFilterDtoFromStartAndEnd($visitor->getPagevisitFirst()->getCrdate(), new DateTime())
@@ -157,6 +144,19 @@ class LeadController extends AbstractController
     }
 
     /**
+     * @param FilterDto $filter
+     * @return ResponseInterface
+     * @throws InvalidQueryException
+     */
+    public function downloadCsvAction(FilterDto $filter): ResponseInterface
+    {
+        $this->view->assignMultiple([
+            'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter),
+        ]);
+        return $this->csvResponse($this->view->render());
+    }
+
+    /**
      * Really remove visitor completely from db (not only deleted=1)
      *
      * @param Visitor $visitor
@@ -165,7 +165,6 @@ class LeadController extends AbstractController
     public function removeAction(Visitor $visitor): ResponseInterface
     {
         $this->visitorRepository->removeVisitor($visitor);
-        $this->visitorRepository->removeRelatedTableRowsByVisitor($visitor);
         $this->addFlashMessage('Visitor completely removed from database');
         return $this->redirect('list');
     }
@@ -234,6 +233,21 @@ class LeadController extends AbstractController
             'companies' => $this->companyRepository->findByFilter($filter),
         ]);
         return $this->csvResponse($this->view->render());
+    }
+
+    /**
+     * Really remove visitor completely from db (not only deleted=1)
+     *
+     * @param Company $company
+     * @param bool $removeVisitors
+     * @return ResponseInterface
+     * @throws ExceptionDbal
+     */
+    public function removeCompanyAction(Company $company, bool $removeVisitors = false): ResponseInterface
+    {
+        $this->companyRepository->removeCompany($company, $removeVisitors);
+        $this->addFlashMessage('Company completely removed from database');
+        return $this->redirect('companies');
     }
 
     /**

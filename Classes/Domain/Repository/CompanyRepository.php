@@ -11,6 +11,7 @@ use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\DateUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 class CompanyRepository extends AbstractRepository
@@ -167,6 +168,25 @@ class CompanyRepository extends AbstractRepository
         }
         $amounts = array_reverse($amounts, true);
         return $amounts;
+    }
+
+    /**
+     * @param Company $company
+     * @param bool $removeVisitors
+     * @return void
+     * @throws ExceptionDbal
+     */
+    public function removeCompany(Company $company, bool $removeVisitors): void
+    {
+        if ($removeVisitors) {
+            $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
+            foreach ($company->getVisitors() as $visitor) {
+                $visitorRepository->removeVisitor($visitor);
+            }
+        }
+
+        $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);
+        $connection->executeQuery('delete from ' . Company::TABLE_NAME . ' where uid=' . (int)$company->getUid());
     }
 
     protected function extendWhereClauseWithFilterBranchCode(FilterDto $filter): string

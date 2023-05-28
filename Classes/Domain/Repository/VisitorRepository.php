@@ -552,6 +552,8 @@ class VisitorRepository extends AbstractRepository
      */
     public function removeVisitor(Visitor $visitor): void
     {
+        $this->removeRelatedTableRowsByVisitor($visitor);
+
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
         $connection->executeQuery('delete from ' . Visitor::TABLE_NAME . ' where uid=' . (int)$visitor->getUid());
     }
