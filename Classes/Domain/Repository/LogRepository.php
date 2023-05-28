@@ -8,6 +8,7 @@ namespace In2code\Lux\Domain\Repository;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Exception;
+use In2code\Lux\Domain\Model\Company;
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Utility\DatabaseUtility;
@@ -45,6 +46,23 @@ class LogRepository extends AbstractRepository
         $query = $this->createQuery();
         $logicalAnd = $this->interestingLogsLogicalAnd($query);
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
+        $query->matching($query->logicalAnd(...$logicalAnd));
+        $query->setLimit($limit);
+        return $query->execute();
+    }
+
+    /**
+     * @param Company $company
+     * @param int $limit
+     * @return QueryResultInterface
+     * @throws InvalidConfigurationTypeException
+     * @throws InvalidQueryException
+     */
+    public function findInterestingLogsByCompany(Company $company, int $limit = 250): QueryResultInterface
+    {
+        $query = $this->createQuery();
+        $logicalAnd = $this->interestingLogsLogicalAnd($query);
+        $logicalAnd[] = $query->equals('visitor.companyrecord', $company);
         $query->matching($query->logicalAnd(...$logicalAnd));
         $query->setLimit($limit);
         return $query->execute();

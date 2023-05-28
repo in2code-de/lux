@@ -137,14 +137,14 @@
 
         <div class="row">
             <div class="col-md-12">
-                <button style="margin-top: 1rem" class="btn btn-primary pull-right" data-lux-linkmock-event="detail{visitor.uid}">
+                <button style="margin-top: 1rem" class="btn btn-primary pull-right" data-lux-linkmock-event="detail{visitor.uid}" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview.link',arguments:'{0:visitor.fullName}')}">
                     <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.linkdetail">show</f:translate>
                 </button>
 
                 <f:if condition="{company}">
                     <f:be.link
                         route="lux_LuxLead"
-                        title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview.link',arguments:'{0:visitor.fullName}')}"
+                        title="{company.title}"
                         style="margin: 1rem 0.5rem 0 0;"
                         class="btn btn-secondary pull-right"
                         parameters="{tx_lux_lux_luxlead:'{company:company.uid,action:\'company\',controller:\'Lead\'}'}">

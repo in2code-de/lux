@@ -71,16 +71,6 @@
                                 </td>
                             </tr>
                         </f:if>
-                        <tr>
-                            <td>
-                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.crdate">First visit</f:translate>
-                            </td>
-                            <td>
-                                <span title="{f:format.date(date:company.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
-                                    <lux:format.readableDate>{company.crdate}</lux:format.readableDate>
-                                </span>
-                            </td>
-                        </tr>
                     </table>
                 </div>
             </div>
@@ -138,7 +128,6 @@
     </div>
 </f:if>
 
-<f:variable name="visitors" value="{company.visitors}" />
 <f:if condition="{visitors}">
     <div class="panel panel-default">
         <div class="panel-heading">

@@ -5,6 +5,7 @@ namespace In2code\Lux\Domain\Model;
 
 use DateTime;
 use In2code\Lux\Domain\Repository\CompanyRepository;
+use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\CountryService;
 use In2code\Lux\Domain\Service\Image\CompanyImageService;
@@ -321,10 +322,24 @@ class Company extends AbstractEntity
         return $visitorRepository->findByCompany($this);
     }
 
-    public function getLastVisit(): ?DateTime
+    public function getFirstPagevisit(): ?Pagevisit
     {
-        $companyRepository = GeneralUtility::makeInstance(CompanyRepository::class);
-        return $companyRepository->findLatestPageVisitToCompany($this);
+        static $pagevisit = null;
+        if ($pagevisit === null) {
+            $companyRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
+            $pagevisit = $companyRepository->findFirstForCompany($this);
+        }
+        return $pagevisit;
+    }
+
+    public function getLatestPagevisit(): ?Pagevisit
+    {
+        static $pagevisit = null;
+        if ($pagevisit === null) {
+            $companyRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
+            $pagevisit = $companyRepository->findLatestForCompany($this);
+        }
+        return $pagevisit;
     }
 
     public function getNumberOfVisits(): int

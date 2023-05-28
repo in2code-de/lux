@@ -206,6 +206,11 @@ class LeadController extends AbstractController
 
     public function companyAction(Company $company): ResponseInterface
     {
+        $this->view->assignMultiple([
+            'company' => $company,
+            'categories' => $this->categoryRepository->findAllLuxCompanyCategories(),
+            'interestingLogs' => $this->logRepository->findInterestingLogsByCompany($company),
+        ]);
         $this->addDocumentHeaderForCurrentController();
         return $this->defaultRendering();
     }
@@ -251,13 +256,16 @@ class LeadController extends AbstractController
     {
         $companyRepository = GeneralUtility::makeInstance(CompanyRepository::class);
         $categoryRepository = GeneralUtility::makeInstance(CategoryRepository::class);
+        $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $standaloneView = GeneralUtility::makeInstance(StandaloneView::class);
         $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
             'EXT:lux/Resources/Private/Templates/Lead/CompanyListDetailAjax.html'
         ));
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
+        $company = $companyRepository->findByUid((int)$request->getQueryParams()['company']);
         $standaloneView->assignMultiple([
-            'company' => $companyRepository->findByUid((int)$request->getQueryParams()['company']),
+            'company' => $company,
+            'visitors' => $visitorRepository->findByCompany($company, 6),
             'companies' => $companyRepository->findAll(),
             'categories' => $categoryRepository->findAllLuxCompanyCategories(),
         ]);

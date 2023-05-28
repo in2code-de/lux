@@ -488,12 +488,12 @@ class VisitorRepository extends AbstractRepository
         return (int)$connection->executeQuery($sql)->fetchOne();
     }
 
-    public function findByCompany(Company $company, int $limit = 6): array
+    public function findByCompany(Company $company, int $limit = 200): array
     {
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
-        $sql = 'select uid from ' . Visitor::TABLE_NAME
+        $sql = 'select uid,scoring from ' . Visitor::TABLE_NAME
             . ' where deleted=0 and blacklisted=0 and companyrecord = ' . $company->getUid()
-            . ' order by identified desc, uid desc limit ' . $limit;
+            . ' order by identified desc, scoring desc limit ' . $limit;
         $results = $connection->executeQuery($sql)->fetchAllAssociative();
 
         $visitors = [];

@@ -3,7 +3,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
-use DateTime;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use Exception;
 use In2code\Lux\Domain\Model\Company;
@@ -65,29 +64,6 @@ class CompanyRepository extends AbstractRepository
         );
         $query->setLimit(1);
         return $query->execute()->getFirst();
-    }
-
-    /**
-     * @param Company $company
-     * @return void
-     * @throws ExceptionDbal
-     */
-    public function findLatestPageVisitToCompany(Company $company): ?DateTime
-    {
-        $sql = 'select pv.crdate'
-            . ' from ' . Company::TABLE_NAME . ' c'
-            . ' left join ' . Visitor::TABLE_NAME . ' v on v.companyrecord = c.uid'
-            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.visitor = v.uid'
-            . ' where c.uid=' . $company->getUid() . ' and c.deleted=0 and v.deleted=0'
-            . ' and v.blacklisted=0 and pv.deleted=0'
-            . ' order by pv.crdate desc'
-            . ' limit 1';
-        $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);
-        $timestamp = $connection->executeQuery($sql)->fetchOne();
-        if ($timestamp !== false) {
-            return DateTime::createFromFormat('U', (string)$timestamp);
-        }
-        return null;
     }
 
     public function findNumberOfPagevisitsByCompany(Company $company): int

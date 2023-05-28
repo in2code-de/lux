@@ -58,16 +58,24 @@
             </f:translate>
         </th>
         <th>
-            Country
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.country">
+                Country
+            </f:translate>
         </th>
         <th>
-            Last visit
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.tstamp">
+                Last visit
+            </f:translate>
         </th>
         <th>
-            Number of visits
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.visits">
+                Number of visits
+            </f:translate>
         </th>
         <th>
-            Number of leads
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.box.countrylist.amount">
+                Number of leads
+            </f:translate>
         </th>
     </tr>
     </thead>
@@ -93,8 +101,8 @@
             {company.country}
         </td>
         <td>
-            <span title="{f:format.date(date:company.lastVisit,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
-                <lux:format.readableDate>{company.lastVisit}</lux:format.readableDate>
+            <span title="{f:format.date(date:company.latestPagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
+                <lux:format.readableDate>{company.latestPagevisit.crdate}</lux:format.readableDate>
             </span>
         </td>
         <td data-lux-getcompaniesinformation-numberofvisits="{company.uid}" class="relative">

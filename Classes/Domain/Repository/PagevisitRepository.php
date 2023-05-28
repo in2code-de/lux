@@ -9,6 +9,7 @@ use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use Exception;
 use In2code\Lux\Domain\Model\Categoryscoring;
+use In2code\Lux\Domain\Model\Company;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
@@ -440,6 +441,31 @@ class PagevisitRepository extends AbstractRepository
             }
         }
         return $abondons;
+    }
+
+    public function findFirstForCompany(Company $company): ?Pagevisit
+    {
+        return $this->findOneByCompany($company);
+    }
+
+    public function findLatestForCompany(Company $company): ?Pagevisit
+    {
+        return $this->findOneByCompany($company, 'desc');
+    }
+
+    protected function findOneByCompany(Company $company, string $orderings = 'asc'): ?Pagevisit
+    {
+        $sql = 'select pv.uid'
+            . ' from ' . Company::TABLE_NAME . ' c'
+            . ' left join ' . Visitor::TABLE_NAME . ' v on v.companyrecord = c.uid'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.visitor = v.uid'
+            . ' where c.uid=' . $company->getUid() . ' and c.deleted=0 and v.deleted=0'
+            . ' and v.blacklisted=0 and pv.deleted=0'
+            . ' order by pv.crdate ' . $orderings
+            . ' limit 1';
+        $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);
+        $identifier = $connection->executeQuery($sql)->fetchOne();
+        return $this->findByUid($identifier);
     }
 
     /**

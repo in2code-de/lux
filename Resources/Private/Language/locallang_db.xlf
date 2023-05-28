@@ -1720,6 +1720,9 @@
 			<trans-unit id="dictionary.companies">
 				<source>Companies</source>
 			</trans-unit>
+			<trans-unit id="dictionary.country">
+				<source>Country</source>
+			</trans-unit>
 			<trans-unit id="dictionary.lead">
 				<source>Lead</source>
 			</trans-unit>
