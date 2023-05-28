@@ -468,11 +468,14 @@ class Visitor extends AbstractModel
 
     public function getLastPagevisit(): ?Pagevisit
     {
-        $pagevisits = $this->getPagevisits();
-        $lastPagevisit = null;
-        foreach ($pagevisits as $pagevisit) {
-            $lastPagevisit = $pagevisit;
-            break;
+        static $lastPagevisit = null;
+        if ($lastPagevisit === null) {
+            $pagevisits = $this->getPagevisits();
+            $lastPagevisit = null;
+            foreach ($pagevisits as $pagevisit) {
+                $lastPagevisit = $pagevisit;
+                break;
+            }
         }
         return $lastPagevisit;
     }
