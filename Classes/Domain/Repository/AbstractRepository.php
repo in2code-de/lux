@@ -180,6 +180,27 @@ abstract class AbstractRepository extends Repository
 
     /**
      * Returns part of a where clause like
+     *      " and v.uid = 123"
+     *
+     * @param FilterDto $filter
+     * @param string $table table name of the visitor table
+     * @return string
+     */
+    protected function extendWhereClauseWithFilterVisitor(FilterDto $filter, string $table = ''): string
+    {
+        $sql = '';
+        if ($filter->getVisitor() !== null) {
+            $field = 'uid';
+            if ($table !== '') {
+                $field = $table . '.' . $field;
+            }
+            $sql .= ' and ' . $field . ' = ' . $filter->getVisitor()->getUid();
+        }
+        return $sql;
+    }
+
+    /**
+     * Returns part of a where clause like
      *      " and cs.category = 4"
      *
      * @param FilterDto $filter

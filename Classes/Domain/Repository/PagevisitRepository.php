@@ -101,7 +101,6 @@ class PagevisitRepository extends AbstractRepository
      * @param FilterDto|null $filter
      * @return int
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     public function getNumberOfVisitsInTimeFrame(DateTime $start, DateTime $end, FilterDto $filter = null): int
     {
@@ -112,6 +111,7 @@ class PagevisitRepository extends AbstractRepository
             . $this->extendWhereClauseWithFilterSearchterms($filter, 'p')
             . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
+            . $this->extendWhereClauseWithFilterVisitor($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs');
         return $connection->executeQuery($sql)->fetchOne();
     }

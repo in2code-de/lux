@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
+use DateTime;
 use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\DataProvider\IdentificationMethodsDataProvider;
@@ -14,6 +15,7 @@ use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\UnexpectedValueException;
 use In2code\Lux\Utility\LocalizationUtility;
+use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
@@ -135,7 +137,12 @@ class LeadController extends AbstractController
      */
     public function detailAction(Visitor $visitor): ResponseInterface
     {
-        $this->view->assign('visitor', $visitor);
+        $filter = ObjectUtility::getFilterDtoFromStartAndEnd($visitor->getPagevisitFirst()->getCrdate(), new DateTime())
+            ->setVisitor($visitor);
+        $this->view->assignMultiple([
+            'visitor' => $visitor,
+            'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
+        ]);
 
         $this->addDocumentHeaderForCurrentController();
         return $this->defaultRendering();

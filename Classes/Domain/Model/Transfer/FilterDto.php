@@ -6,6 +6,7 @@ namespace In2code\Lux\Domain\Model\Transfer;
 use DateTime;
 use Exception;
 use In2code\Lux\Domain\Model\Category;
+use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\CategoryRepository;
 use In2code\Lux\Utility\DateUtility;
 use Throwable;
@@ -77,6 +78,7 @@ class FilterDto
     protected string $utmCampaign = '';
     protected string $utmSource = '';
     protected string $utmMedium = '';
+    protected ?Visitor $visitor = null;
 
     public function __construct(int $timePeriod = self::PERIOD_DEFAULT)
     {
@@ -285,6 +287,17 @@ class FilterDto
     public function setUtmMedium(string $utmMedium): FilterDto
     {
         $this->utmMedium = $utmMedium;
+        return $this;
+    }
+
+    public function getVisitor(): ?Visitor
+    {
+        return $this->visitor;
+    }
+
+    public function setVisitor(?Visitor $visitor): self
+    {
+        $this->visitor = $visitor;
         return $this;
     }
 
