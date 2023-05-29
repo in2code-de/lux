@@ -30,12 +30,11 @@ class CompanyRepository extends AbstractRepository
         $sql = 'select c.uid,sum(v.scoring) companyscoring'
             . ' from ' . Company::TABLE_NAME . ' c'
             . ' left join ' . Visitor::TABLE_NAME . ' v on v.companyrecord = c.uid'
-            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.visitor = v.uid'
+            . $this->extendJoinToPagevisitsForPagevisitTimeFilter($filter)
             . ' where c.deleted=0 and v.deleted=0 and v.blacklisted=0';
         $sql .= $this->extendWhereClauseWithFilterSearchterms($filter, 'c');
         $sql .= $this->extendWhereClauseWithFilterBranchCode($filter);
         $sql .= $this->extendWhereClauseWithFilterCategory($filter, 'c');
-        $sql .= $this->extendWhereClauseWithFilterCompanyTime($filter, true, 'pv');
         $sql .= ' group by c.uid';
         $sql .= $this->extendWhereClauseWithFilterCompanyscoring($filter);
         $sql .= ' order by companyscoring desc';
@@ -206,6 +205,25 @@ class CompanyRepository extends AbstractRepository
                 $table .= '.';
             }
             $sql .= ' and ' . $table . 'category = ' . $filter->getCategory()->getUid();
+        }
+        return $sql;
+    }
+
+    /**
+     * Building subquery for filter by time to keep scoring as it is
+     *
+     * @param FilterDto $filter
+     * @return string
+     */
+    protected function extendJoinToPagevisitsForPagevisitTimeFilter(FilterDto $filter): string
+    {
+        $sql = '';
+        if ($filter->isTimeFromOrTimeToSet()) {
+            $sql = ' left join (
+                select distinct pv.visitor
+                from ' . Pagevisit::TABLE_NAME . ' pv
+                where 1' . $this->extendWhereClauseWithFilterCompanyTime($filter) . '
+            ) subquery ON subquery.visitor = v.uid';
         }
         return $sql;
     }
