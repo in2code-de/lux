@@ -62,9 +62,11 @@
                     <f:if condition="{company.phone} || {company.domain}">
                         <p>
                             {company.phone}
-                            <span style="padding-left: 1rem;">
-                                <f:link.typolink parameter="https://{company.domain}" target="_blank">{company.domain}</f:link.typolink>
-                            </span>
+                            <f:if condition="{company.domain}">
+                                <span style="padding-left: 1rem;">
+                                    <f:link.typolink parameter="https://{company.domain}" target="_blank">{company.domain}</f:link.typolink>
+                                </span>
+                            </f:if>
                         </p>
                     </f:if>
 

@@ -138,9 +138,11 @@
                     {company.phone}
                 </p>
             </f:if>
-            <p>
-                <f:link.typolink parameter="https://{company.domain}" target="_blank">{company.domain}</f:link.typolink>
-            </p>
+            <f:if condition="{company.domain}">
+                <p>
+                    <f:link.typolink parameter="https://{company.domain}" target="_blank">{company.domain}</f:link.typolink>
+                </p>
+            </f:if>
         </div>
     </div>
 
