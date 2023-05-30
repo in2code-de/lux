@@ -56,7 +56,7 @@
     <f:if condition="{visitor.attributes}">
         <table class="table table-striped">
             <f:for each="{visitor.importantAttributes}" as="attribute">
-                <tr>
+                <tr data-attribute-uid="{attribute.uid}">
                     <td><strong>{attribute.label}</strong></td>
                     <td>{attribute.value}</td>
                 </tr>
@@ -97,21 +97,23 @@
         <div class="col-md-12">
             <table class="table table-striped">
                 <f:for each="{visitor.importantIpinformations}" as="information">
-                    <tr>
-                        <td>
-                            <f:variable name="informationvalue" value="{information.value}"/>
-                            <f:if condition="{information.name} == 'org'">
-                                <f:variable name="informationvalue" value="{visitor.company}"/>
-                            </f:if>
+                    <f:variable name="informationvalue" value="{information.value}"/>
+                    <f:if condition="{information.name} == 'org'">
+                        <f:variable name="informationvalue" value="{visitor.company}"/>
+                    </f:if>
 
-                            {informationvalue}
-                            <f:if condition="{information.name} == 'city'">
-                                <a href="https://www.google.com/maps/?q={visitor.latitude},{visitor.longitude}" target="_blank" title="View on google maps">
-                                    <img src="{f:uri.resource(path:'Images/LogoGoogleMaps.svg',extensionName:'Lux')}" width="16" />
-                                </a>
-                            </f:if>
-                        </td>
-                    </tr>
+                    <f:if condition="{informationvalue}">
+                        <tr data-information-uid="{information.uid}">
+                            <td>
+                                {informationvalue}
+                                <f:if condition="{information.name} == 'city'">
+                                    <a href="https://www.google.com/maps/?q={visitor.latitude},{visitor.longitude}" target="_blank" title="View on google maps">
+                                        <img src="{f:uri.resource(path:'Images/LogoGoogleMaps.svg',extensionName:'Lux')}" width="16" />
+                                    </a>
+                                </f:if>
+                            </td>
+                        </tr>
+                    </f:if>
                 </f:for>
             </table>
         </div>
