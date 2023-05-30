@@ -324,22 +324,14 @@ class Company extends AbstractEntity
 
     public function getFirstPagevisit(): ?Pagevisit
     {
-        static $pagevisit = null;
-        if ($pagevisit === null) {
-            $companyRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
-            $pagevisit = $companyRepository->findFirstForCompany($this);
-        }
-        return $pagevisit;
+        $companyRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
+        return $companyRepository->findFirstForCompany($this);
     }
 
     public function getLatestPagevisit(): ?Pagevisit
     {
-        static $pagevisit = null;
-        if ($pagevisit === null) {
-            $companyRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
-            $pagevisit = $companyRepository->findLatestForCompany($this);
-        }
-        return $pagevisit;
+        $companyRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
+        return $companyRepository->findLatestForCompany($this);
     }
 
     public function getNumberOfVisits(): int
