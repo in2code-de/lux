@@ -9,6 +9,7 @@ use In2code\Lux\Domain\Model\Company;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Domain\Service\BranchService;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\DateUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -93,23 +94,29 @@ class CompanyRepository extends AbstractRepository
     /**
      * Example result:
      *  [
-     *      8421 => 'Auswärtige Angelegenheiten',
+     *      84 => 'Auswärtige Angelegenheiten',
      *      72 => 'Forschung und Entwicklung',
      *  ]
      *
-     * @param FilterDto $filter
      * @return array
      * @throws ExceptionDbal
      */
-    public function findAllBranches(FilterDto $filter): array
+    public function findAllBranches(): array
     {
-        $sql = 'select c.branch_code, c.branch'
+        $branches = [];
+        $sql = 'select c.branch_code'
             . ' from ' . Company::TABLE_NAME . ' c'
-            . ' where c.deleted=0 and c.branch != \'\' and c.branch_code != 0'
-            . ' group by c.branch_code,c.branch'
-            . ' order by c.branch asc';
+            . ' where c.deleted=0 and c.branch_code != "00" and c.branch_code != \'\''
+            . ' group by c.branch_code';
         $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);
-        return $connection->executeQuery($sql)->fetchAllKeyValue();
+        $result = $connection->executeQuery($sql)->fetchAllAssociative();
+
+        $branchService = GeneralUtility::makeInstance(BranchService::class);
+        foreach ($result as $row) {
+            $branches[$row['branch_code']] = $branchService->getBranchNameByCode($row['branch_code']);
+        }
+        asort($branches);
+        return $branches;
     }
 
     /**

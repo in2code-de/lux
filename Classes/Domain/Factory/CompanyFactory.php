@@ -5,6 +5,7 @@ namespace In2code\Lux\Domain\Factory;
 
 use In2code\Lux\Domain\Model\Company;
 use In2code\Lux\Domain\Repository\CompanyRepository;
+use In2code\Lux\Domain\Service\BranchService;
 use In2code\Lux\Exception\ConfigurationException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
@@ -13,11 +14,16 @@ class CompanyFactory
 {
     protected CompanyRepository $companyRepository;
     protected DataMapper $dataMapper;
+    protected BranchService $branchService;
 
-    public function __construct(CompanyRepository $companyRepository, DataMapper $dataMapper)
-    {
+    public function __construct(
+        CompanyRepository $companyRepository,
+        DataMapper $dataMapper,
+        BranchService $branchService
+    ) {
         $this->companyRepository = $companyRepository;
         $this->dataMapper = $dataMapper;
+        $this->branchService = $branchService;
     }
 
     /**
@@ -53,6 +59,7 @@ class CompanyFactory
          */
         $properties['uid'] = md5(serialize($properties));
         $properties['contacts'] = json_encode($properties['contacts'] ?? '');
+        $properties['branch_code'] = $this->branchService->getMainBranchCodeFromAnyCode($properties['branch_code']);
 
         /** @var Company $company */
         $company = $this->dataMapper->map(Company::class, [$properties])[0];

@@ -199,7 +199,7 @@ class LeadController extends AbstractController
         }
         $this->view->assignMultiple([
             'companies' => $this->companyRepository->findByFilter($filter),
-            'branches' => $this->companyRepository->findAllBranches($filter),
+            'branches' => $this->companyRepository->findAllBranches(),
             'revenueClassData' => GeneralUtility::makeInstance(RevenueClassDataProvider::class, $filter),
             'companyAmountPerMonthData' => GeneralUtility::makeInstance(CompanyAmountPerMonthDataProvider::class),
             'categories' => $this->categoryRepository->findAllLuxCompanyCategories(),

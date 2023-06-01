@@ -7,6 +7,7 @@ use DateTime;
 use In2code\Lux\Domain\Repository\CompanyRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Domain\Service\BranchService;
 use In2code\Lux\Domain\Service\CountryService;
 use In2code\Lux\Domain\Service\Image\CompanyImageService;
 use In2code\Lux\Utility\StringUtility;
@@ -18,7 +19,6 @@ class Company extends AbstractEntity
     const TABLE_NAME = 'tx_lux_domain_model_company';
 
     protected string $title = '';
-    protected string $branch = '';
     protected string $branchCode = '';
     protected string $city = '';
     protected string $contacts = '';
@@ -58,17 +58,6 @@ class Company extends AbstractEntity
         return $this;
     }
 
-    public function getBranch(): string
-    {
-        return $this->branch;
-    }
-
-    public function setBranch(string $branch): self
-    {
-        $this->branch = $branch;
-        return $this;
-    }
-
     public function getBranchCode(): string
     {
         return $this->branchCode;
@@ -78,6 +67,12 @@ class Company extends AbstractEntity
     {
         $this->branchCode = $branchCode;
         return $this;
+    }
+
+    public function getBranch(): string
+    {
+        $branchService = GeneralUtility::makeInstance(BranchService::class);
+        return $branchService->getBranchNameByCode($this->getBranchCode());
     }
 
     public function getCity(): string

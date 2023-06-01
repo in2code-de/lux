@@ -23,7 +23,7 @@ return [
     ],
     'types' => [
         '1' => [
-            'showitem' => 'title,branch,branch_code,city,contacts,continent,country_code,region,street,zip,domain,' .
+            'showitem' => 'title,branch_code,city,contacts,continent,country_code,region,street,zip,domain,' .
                 'founding_year,phone,revenue,revenue_class,size,size_class,description,category',
         ],
     ],
@@ -79,16 +79,6 @@ return [
         'title' => [
             'exclude' => true,
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Company::TABLE_NAME . '.title',
-            'config' => [
-                'type' => 'input',
-                'size' => 100,
-                'eval' => 'trim',
-                'readOnly' => true,
-            ],
-        ],
-        'branch' => [
-            'exclude' => true,
-            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Company::TABLE_NAME . '.branch',
             'config' => [
                 'type' => 'input',
                 'size' => 100,
