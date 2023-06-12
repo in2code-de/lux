@@ -6,11 +6,9 @@ namespace In2code\Lux\Domain\Tracker;
 use DateTime;
 use In2code\Lux\Domain\Factory\CompanyFactory;
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Domain\Repository\Remote\WiredmindsRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
-use In2code\Lux\Exception\ConfigurationException;
-use In2code\Lux\Utility\IpUtility;
 use In2code\Lux\Utility\ObjectUtility;
-use Throwable;
 use TYPO3\CMS\Core\Http\RequestFactory;
 
 /**
@@ -24,9 +22,8 @@ use TYPO3\CMS\Core\Http\RequestFactory;
  */
 class CompanyTracker
 {
-    private const INTERFACE_URL = 'https://ip2c.wiredminds.com/';
-
     protected VisitorRepository $visitorRepository;
+    protected WiredmindsRepository $wiredmindsRepository;
     protected RequestFactory $requestFactory;
     protected CompanyFactory $companyFactory;
 
@@ -42,10 +39,12 @@ class CompanyTracker
 
     public function __construct(
         VisitorRepository $visitorRepository,
+        WiredmindsRepository $wiredmindsRepository,
         RequestFactory $requestFactory,
         CompanyFactory $companyFactory
     ) {
         $this->visitorRepository = $visitorRepository;
+        $this->wiredmindsRepository = $wiredmindsRepository;
         $this->requestFactory = $requestFactory;
         $this->companyFactory = $companyFactory;
         $configurationService = ObjectUtility::getConfigurationService();
@@ -55,14 +54,9 @@ class CompanyTracker
     public function track(Visitor $visitor): void
     {
         if ($this->isTrackingActivated($visitor)) {
-            try {
-                $result = $this->requestFactory->request($this->getUri());
-                if ($result->getStatusCode() === 200) {
-                    $properties = json_decode($result->getBody()->getContents(), true);
-                    $this->persistCompany($visitor, $properties);
-                }
-            } catch (Throwable $exception) {
-                // Don't persist company on (e.g.) 404 if IP could not be dissolved
+            $properties = $this->wiredmindsRepository->getPropertiesForIpAddress();
+            if ($properties !== []) {
+                $this->persistCompany($visitor, $properties);
             }
         }
     }
@@ -73,19 +67,6 @@ class CompanyTracker
         $visitor->setCompanyrecord($company);
         $this->visitorRepository->update($visitor);
         $this->visitorRepository->persistAll();
-    }
-
-    /**
-     * @return string
-     * @throws ConfigurationException
-     */
-    protected function getUri(): string
-    {
-        $token = trim($this->settings['tracking']['company']['token'] ?? '');
-        if ($token === '') {
-            throw new ConfigurationException('No wiredminds token defined in TypoScript', 1684433462);
-        }
-        return self::INTERFACE_URL . $token . '/' . IpUtility::getIpAddress();
     }
 
     protected function isTrackingActivated(Visitor $visitor): bool

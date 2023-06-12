@@ -6,10 +6,10 @@ namespace In2code\Lux\Domain\Service;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Factory\CompanyFactory;
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Domain\Repository\Remote\WiredmindsRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Utility\ObjectUtility;
-use Throwable;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
@@ -17,6 +17,7 @@ use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 class CompanyInformationService
 {
     protected VisitorRepository $visitorRepository;
+    protected WiredmindsRepository $wiredmindsRepository;
     protected RequestFactory $requestFactory;
     protected CompanyFactory $companyFactory;
 
@@ -24,10 +25,12 @@ class CompanyInformationService
 
     public function __construct(
         VisitorRepository $visitorRepository,
+        WiredmindsRepository $wiredmindsRepository,
         RequestFactory $requestFactory,
         CompanyFactory $companyFactory
     ) {
         $this->visitorRepository = $visitorRepository;
+        $this->wiredmindsRepository = $wiredmindsRepository;
         $this->requestFactory = $requestFactory;
         $this->companyFactory = $companyFactory;
         $configurationService = ObjectUtility::getConfigurationService();
@@ -38,22 +41,20 @@ class CompanyInformationService
      * @param int $limit
      * @param bool $overwriteExisting
      * @return int
+     * @throws ConfigurationException
      * @throws ExceptionDbal
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
     public function setCompaniesToExistingVisitors(int $limit, bool $overwriteExisting): int
     {
         $records = $this->visitorRepository->findLatestVisitorsWithIpAddress($limit, !$overwriteExisting);
         $counter = 0;
         foreach ($records as $visitorIdentifier => $ipAddress) {
-            try {
-                $result = $this->requestFactory->request($this->getUri($ipAddress));
-                if ($result->getStatusCode() === 200) {
-                    $properties = json_decode($result->getBody()->getContents(), true);
-                    $this->persistCompany($visitorIdentifier, $properties);
-                    $counter++;
-                }
-            } catch (Throwable $exception) {
-                // Don't persist company on (e.g.) 404 if IP could not be dissolved
+            $properties = $this->wiredmindsRepository->getPropertiesForIpAddress($ipAddress);
+            if ($properties !== []) {
+                $this->persistCompany($visitorIdentifier, $properties);
+                $counter++;
             }
         }
         return $counter;
@@ -75,19 +76,5 @@ class CompanyInformationService
         $visitor->setCompanyrecord($company);
         $this->visitorRepository->update($visitor);
         $this->visitorRepository->persistAll();
-    }
-
-    /**
-     * @param string $ipAddress
-     * @return string
-     * @throws ConfigurationException
-     */
-    protected function getUri(string $ipAddress): string
-    {
-        $token = trim($this->settings['tracking']['company']['token'] ?? '');
-        if ($token === '') {
-            throw new ConfigurationException('No wiredminds token defined in TypoScript', 1684437124);
-        }
-        return 'https://ip2c.wiredminds.com/' . $token . '/' . $ipAddress;
     }
 }
