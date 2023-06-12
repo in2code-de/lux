@@ -6,6 +6,7 @@ namespace In2code\Lux\Domain\Tracker;
 use DateTime;
 use In2code\Lux\Domain\Factory\CompanyFactory;
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Domain\Repository\LogRepository;
 use In2code\Lux\Domain\Repository\Remote\WiredmindsRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Utility\ObjectUtility;
@@ -24,6 +25,7 @@ class CompanyTracker
 {
     protected VisitorRepository $visitorRepository;
     protected WiredmindsRepository $wiredmindsRepository;
+    protected LogRepository $logRepository;
     protected RequestFactory $requestFactory;
     protected CompanyFactory $companyFactory;
 
@@ -40,11 +42,13 @@ class CompanyTracker
     public function __construct(
         VisitorRepository $visitorRepository,
         WiredmindsRepository $wiredmindsRepository,
+        LogRepository $logRepository,
         RequestFactory $requestFactory,
         CompanyFactory $companyFactory
     ) {
         $this->visitorRepository = $visitorRepository;
         $this->wiredmindsRepository = $wiredmindsRepository;
+        $this->logRepository = $logRepository;
         $this->requestFactory = $requestFactory;
         $this->companyFactory = $companyFactory;
         $configurationService = ObjectUtility::getConfigurationService();
@@ -85,7 +89,7 @@ class CompanyTracker
 
     protected function isWaitPeriodRespected(Visitor $visitor): bool
     {
-        return $visitor->getLastPagevisit() === null ||
-            $visitor->getLastPagevisit()->getCrdate() < (new DateTime())->modify($this->interfaceWaitPeriod);
+        $log = $this->logRepository->findWiredmindsLogByVisitor($visitor);
+        return $log === null || $log->getCrdate() < (new DateTime($this->interfaceWaitPeriod));
     }
 }
