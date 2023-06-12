@@ -29,10 +29,13 @@ lib.lux.settings {
 
     company {
       # Toggle tracking of company details from wiredmind.com via IP address (on/off)
-      _enable = {$plugin.tx_lux.settings.tracking.company}
+      _enable = {$plugin.tx_lux.settings.tracking.company.enable}
 
       # Wiredminds token
-      token =
+      token = {$plugin.tx_lux.settings.tracking.company.token}
+
+      # Limit per month
+      connectionLimit = {$plugin.tx_lux.settings.tracking.company.connectionLimit}
     }
   }
 }

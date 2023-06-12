@@ -145,6 +145,16 @@ class LogRepository extends AbstractRepository
         return $query->execute()->getFirst();
     }
 
+    public function findAmountOfWiredmindsLogsOfCurrentMonth(): int
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Log::TABLE_NAME);
+        $sql = 'select count(uid)'
+            . ' from ' . Log::TABLE_NAME
+            . ' where crdate > ' . (new \DateTime('first day of this month'))->getTimestamp()
+            . ' and status=' . Log::STATUS_WIREDMINDS_CONNECTION . ' and deleted=0';
+        return (int)$connection->executeQuery($sql)->fetchOne();
+    }
+
     /**
      * Get minimum status from TypoScript settings.backendview.analysis.activity.statusGreaterThen
      *
