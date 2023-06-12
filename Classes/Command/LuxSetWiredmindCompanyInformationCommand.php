@@ -43,9 +43,10 @@ class LuxSetWiredmindCompanyInformationCommand extends Command
             $companyInformationService = GeneralUtility::makeInstance(CompanyInformationService::class);
             $count = $companyInformationService->setCompaniesToExistingVisitors(
                 (int)$input->getArgument('limit') ?: 10000,
-                (bool)$input->getArgument('overwriteexisting')
+                (bool)$input->getArgument('overwriteexisting'),
+                $output
             );
-            $output->writeln($count . ' leads extended with company records');
+            $output->writeln(PHP_EOL . $count . ' hits! Leads extended with company records');
             return self::SUCCESS;
         } catch (Throwable $exception) {
             $output->writeln($exception->getMessage());

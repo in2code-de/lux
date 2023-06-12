@@ -11,6 +11,8 @@ use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\DisabledException;
 use In2code\Lux\Utility\ObjectUtility;
+use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
@@ -41,13 +43,15 @@ class CompanyInformationService
     /**
      * @param int $limit
      * @param bool $overwriteExisting
+     * @param OutputInterface $output
      * @return int
      * @throws ConfigurationException
+     * @throws DisabledException
      * @throws ExceptionDbal
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
-    public function setCompaniesToExistingVisitors(int $limit, bool $overwriteExisting): int
+    public function setCompaniesToExistingVisitors(int $limit, bool $overwriteExisting, OutputInterface $output): int
     {
         if ($this->isEnabled() === false) {
             throw new DisabledException('Wiredminds connection is not enabled in TypoScript setup', 1686585329);
@@ -55,6 +59,8 @@ class CompanyInformationService
 
         $records = $this->visitorRepository->findLatestVisitorsWithIpAddress($limit, !$overwriteExisting);
         $counter = 0;
+        $progress = new ProgressBar($output, count($records));
+        $progress->start();
         foreach ($records as $visitorIdentifier => $ipAddress) {
             $visitor = $this->visitorRepository->findByUid($visitorIdentifier);
             if ($visitor !== null) {
@@ -64,6 +70,7 @@ class CompanyInformationService
                     $counter++;
                 }
             }
+            $progress->advance();
         }
         return $counter;
     }
