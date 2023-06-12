@@ -5,20 +5,25 @@ namespace In2code\Lux\Domain\Model;
 
 use DateTime;
 use Exception;
+use In2code\Lux\Domain\Factory\CompanyFactory;
 use In2code\Lux\Domain\Repository\CategoryscoringRepository;
 use In2code\Lux\Domain\Repository\FrontendUserRepository;
+use In2code\Lux\Domain\Repository\Remote\WiredmindsRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\GetCompanyFromIpService;
 use In2code\Lux\Domain\Service\Image\VisitorImageService;
 use In2code\Lux\Domain\Service\Provider\Telecommunication;
 use In2code\Lux\Domain\Service\ScoringService;
+use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
+use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
+use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\Persistence\Generic\LazyLoadingProxy;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
@@ -364,6 +369,29 @@ class Visitor extends AbstractModel
         $this->resetCompanyAutomatic();
 
         return $this;
+    }
+
+    /**
+     * @param string $ipAddress use current IP address when empty
+     * @return bool return if there was a hit on wiredminds
+     * @throws ConfigurationException
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    public function setCompanyrecordByIpAdressFromInterface(string $ipAddress = ''): bool
+    {
+        $wiredmindsRepository = GeneralUtility::makeInstance(WiredmindsRepository::class);
+        $properties = $wiredmindsRepository->getPropertiesForIpAddress($this, $ipAddress);
+        if ($properties !== []) {
+            $companyFactory = GeneralUtility::makeInstance(CompanyFactory::class);
+            $company = $companyFactory->getExistingOrNewPersistedCompany($properties);
+            $this->setCompanyrecord($company);
+            $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
+            $visitorRepository->update($this);
+            $visitorRepository->persistAll();
+            return true;
+        }
+        return false;
     }
 
     public function getPropertyFromCompanyrecord(string $property): string

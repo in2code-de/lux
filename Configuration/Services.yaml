@@ -89,6 +89,9 @@ services:
   In2code\Lux\Domain\Factory\Ipinformation\Handler:
     public: true
 
+  In2code\Lux\Domain\Repository\Remote\WiredmindsRepository:
+    public: true
+
   In2code\Lux\Domain\Service\CompanyInformationService:
     public: true
 

@@ -68,35 +68,17 @@ class CompanyInformationService
         $progress = new ProgressBar($output, count($records));
         $progress->start();
         foreach ($records as $visitorIdentifier => $ipAddress) {
+            /** @var Visitor $visitor */
             $visitor = $this->visitorRepository->findByUid($visitorIdentifier);
             if ($visitor !== null) {
-                $properties = $this->wiredmindsRepository->getPropertiesForIpAddress($visitor, $ipAddress);
-                if ($properties !== []) {
-                    $this->persistCompany($visitorIdentifier, $properties);
+                $hit = $visitor->setCompanyrecordByIpAdressFromInterface($ipAddress);
+                if ($hit === true) {
                     $counter++;
                 }
             }
             $progress->advance();
         }
         return $counter;
-    }
-
-    /**
-     * @param int $visitorIdentifier
-     * @param array $properties
-     * @return void
-     * @throws ConfigurationException
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
-     */
-    protected function persistCompany(int $visitorIdentifier, array $properties): void
-    {
-        $company = $this->companyFactory->getExistingOrNewPersistedCompany($properties);
-        /** @var Visitor $visitor */
-        $visitor = $this->visitorRepository->findByUid($visitorIdentifier);
-        $visitor->setCompanyrecord($company);
-        $this->visitorRepository->update($visitor);
-        $this->visitorRepository->persistAll();
     }
 
     protected function isEnabled(): bool

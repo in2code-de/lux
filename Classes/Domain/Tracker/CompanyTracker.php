@@ -58,19 +58,8 @@ class CompanyTracker
     public function track(Visitor $visitor): void
     {
         if ($this->isTrackingActivated($visitor)) {
-            $properties = $this->wiredmindsRepository->getPropertiesForIpAddress($visitor);
-            if ($properties !== []) {
-                $this->persistCompany($visitor, $properties);
-            }
+            $visitor->setCompanyrecordByIpAdressFromInterface();
         }
-    }
-
-    protected function persistCompany(Visitor $visitor, array $properties): void
-    {
-        $company = $this->companyFactory->getExistingOrNewPersistedCompany($properties);
-        $visitor->setCompanyrecord($company);
-        $this->visitorRepository->update($visitor);
-        $this->visitorRepository->persistAll();
     }
 
     protected function isTrackingActivated(Visitor $visitor): bool
