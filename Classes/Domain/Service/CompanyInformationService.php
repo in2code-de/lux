@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Service;
 
+use DateTime;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Factory\CompanyFactory;
 use In2code\Lux\Domain\Model\Visitor;
@@ -43,21 +44,26 @@ class CompanyInformationService
     /**
      * @param int $limit
      * @param bool $overwriteExisting
+     * @param DateTime $time
      * @param OutputInterface $output
-     * @return int
+     * @return int return hits
      * @throws ConfigurationException
      * @throws DisabledException
      * @throws ExceptionDbal
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
-    public function setCompaniesToExistingVisitors(int $limit, bool $overwriteExisting, OutputInterface $output): int
-    {
+    public function setCompaniesToExistingVisitors(
+        int $limit,
+        bool $overwriteExisting,
+        DateTime $time,
+        OutputInterface $output
+    ): int {
         if ($this->isEnabled() === false) {
             throw new DisabledException('Wiredminds connection is not enabled in TypoScript setup', 1686585329);
         }
 
-        $records = $this->visitorRepository->findLatestVisitorsWithIpAddress($limit, !$overwriteExisting);
+        $records = $this->visitorRepository->findLatestVisitorsWithIpAddress($limit, $time, !$overwriteExisting);
         $counter = 0;
         $progress = new ProgressBar($output, count($records));
         $progress->start();

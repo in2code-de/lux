@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
+use DateTime;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
@@ -464,14 +465,15 @@ class VisitorRepository extends AbstractRepository
      *  ]
      *
      * @param int $limit get X latest records
+     * @param DateTime $time
      * @param bool $noCompaniesOnly get only visitors without company relation
      * @return array
      * @throws ExceptionDbal
      */
-    public function findLatestVisitorsWithIpAddress(int $limit, bool $noCompaniesOnly = true): array
+    public function findLatestVisitorsWithIpAddress(int $limit, DateTime $time, bool $noCompaniesOnly = true): array
     {
         $sql = 'select uid,ip_address from ' . Visitor::TABLE_NAME
-            . ' where ip_address not like "%***" and ip_address != \'\'';
+            . ' where ip_address not like "%***" and ip_address != \'\' and crdate >= ' . $time->getTimestamp();
         if ($noCompaniesOnly === true) {
             $sql .= ' and companyrecord = 0';
         }
