@@ -9,6 +9,7 @@ use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\Remote\WiredmindsRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Exception\ConfigurationException;
+use In2code\Lux\Exception\DisabledException;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
@@ -48,6 +49,10 @@ class CompanyInformationService
      */
     public function setCompaniesToExistingVisitors(int $limit, bool $overwriteExisting): int
     {
+        if ($this->isEnabled() === false) {
+            throw new DisabledException('Wiredminds connection is not enabled in TypoScript setup', 1686585329);
+        }
+
         $records = $this->visitorRepository->findLatestVisitorsWithIpAddress($limit, !$overwriteExisting);
         $counter = 0;
         foreach ($records as $visitorIdentifier => $ipAddress) {
@@ -79,5 +84,10 @@ class CompanyInformationService
         $visitor->setCompanyrecord($company);
         $this->visitorRepository->update($visitor);
         $this->visitorRepository->persistAll();
+    }
+
+    protected function isEnabled(): bool
+    {
+        return ($this->settings['tracking']['company']['_enable'] ?? '0') === '1';
     }
 }

@@ -58,10 +58,10 @@ services:
       - name: 'console.command'
         command: 'lux:cleanupVisitorsByProperty'
 
-  In2code\Lux\Command\LuxGetWiredmindCompanyInformationCommand:
+  In2code\Lux\Command\LuxSetWiredmindCompanyInformationCommand:
     tags:
       - name: 'console.command'
-        command: 'lux:getWiredmindCompanyInformation'
+        command: 'lux:setWiredmindCompanyInformation'
 
   In2code\Lux\Command\LuxLeadSendSummaryCommand:
     tags:

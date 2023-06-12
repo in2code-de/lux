@@ -25,10 +25,18 @@ plugin.tx_lux.settings {
       # cat=lux//0100; type=boolean; label= Activate tracking via wiredminds: (De)Activate tracking enrichment of lead data via wiredminds.com
       enable = 0
 
-      # cat=lux//0100; type=text; label= Wiredminds token: Add token from Wiredminds
+      autoConvert {
+        # cat=lux//0110; type=boolean; label= Activate automatic tracking: (De)Activate tracking of new and unknown leads
+        enable = 0
+
+        # cat=lux//0120; type=int+; label= Scoring for automatic tracking: Start automatic tracking only of lead has a minimum scoring of this value
+        minimumScoring = 0
+      }
+
+      # cat=lux//0130; type=text; label= Wiredminds token: Add token from Wiredminds
       token =
 
-      # cat=lux//0100; type=text; label= Wiredminds limit per month: Define a limit for requests per month (for best cost control)
+      # cat=lux//0140; type=text; label= Wiredminds limit per month: Define a limit for requests per month (for best cost control)
       connectionLimit = 5000
     }
   }

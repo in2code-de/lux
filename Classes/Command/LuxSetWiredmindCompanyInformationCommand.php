@@ -3,15 +3,15 @@
 declare(strict_types=1);
 namespace In2code\Lux\Command;
 
-use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Service\CompanyInformationService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Throwable;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class LuxGetWiredmindCompanyInformationCommand extends Command
+class LuxSetWiredmindCompanyInformationCommand extends Command
 {
     public function configure()
     {
@@ -36,16 +36,20 @@ class LuxGetWiredmindCompanyInformationCommand extends Command
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int
-     * @throws ExceptionDbal
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $companyInformationService = GeneralUtility::makeInstance(CompanyInformationService::class);
-        $count = $companyInformationService->setCompaniesToExistingVisitors(
-            (int)$input->getArgument('limit') ?: 10000,
-            (bool)$input->getArgument('overwriteexisting')
-        );
-        $output->writeln($count . ' leads extended with company records');
-        return self::SUCCESS;
+        try {
+            $companyInformationService = GeneralUtility::makeInstance(CompanyInformationService::class);
+            $count = $companyInformationService->setCompaniesToExistingVisitors(
+                (int)$input->getArgument('limit') ?: 10000,
+                (bool)$input->getArgument('overwriteexisting')
+            );
+            $output->writeln($count . ' leads extended with company records');
+            return self::SUCCESS;
+        } catch (Throwable $exception) {
+            $output->writeln($exception->getMessage());
+        }
+        return self::FAILURE;
     }
 }

@@ -77,7 +77,9 @@ class CompanyTracker
     {
         return $visitor->isNotBlacklisted()
             && $this->isTrackingActivatedInSettings()
+            && $this->isAutoConvertActivatedInSettings()
             && $visitor->getCompanyrecord() === null
+            && $this->isScoringValueReached($visitor)
             && $this->isWaitPeriodRespected($visitor);
     }
 
@@ -85,6 +87,18 @@ class CompanyTracker
     {
         return isset($this->settings['tracking']['company']['_enable'])
             && $this->settings['tracking']['company']['_enable'] === '1';
+    }
+
+    protected function isAutoConvertActivatedInSettings(): bool
+    {
+        return isset($this->settings['tracking']['company']['autoConvert']['_enable'])
+            && $this->settings['tracking']['company']['autoConvert']['_enable'] === '1';
+    }
+
+    protected function isScoringValueReached(Visitor $visitor): bool
+    {
+        $scoring = $this->settings['tracking']['company']['autoConvert']['minimumScoring'] ?? 0;
+        return $visitor->getScoring() >= $scoring;
     }
 
     protected function isWaitPeriodRespected(Visitor $visitor): bool
