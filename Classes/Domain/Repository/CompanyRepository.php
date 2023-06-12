@@ -176,6 +176,14 @@ class CompanyRepository extends AbstractRepository
         return $amounts;
     }
 
+    public function getAllAmount(): int
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);
+        return (int)$connection->executeQuery(
+            'select count(uid) from ' . Company::TABLE_NAME . ' where hidden=0 and deleted=0;'
+        )->fetchOne();
+    }
+
     /**
      * @param Company $company
      * @param bool $removeVisitors

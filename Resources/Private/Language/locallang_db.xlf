@@ -708,6 +708,33 @@
 			<trans-unit id="module.analysis.statistics.log">
 				<source>Number of log records</source>
 			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.amount">
+				<source>Overall companies in database</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.enabled">
+				<source>Wiredminds connection activated</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.token">
+				<source>Token added</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.result">
+				<source>Successful connection</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.statistics.hits">
+				<source>IP hits</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.statistics.misses">
+				<source>IP misses</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.statistics.req_available">
+				<source>Connections remaining</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.statistics.req_used">
+				<source>Connections used</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.statistics.req_limit">
+				<source>Connection limit</source>
+			</trans-unit>
 			<trans-unit id="module.analysis.bestvisitors">
 				<source>Hottest leads</source>
 			</trans-unit>

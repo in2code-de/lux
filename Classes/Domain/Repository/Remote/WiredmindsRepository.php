@@ -31,7 +31,22 @@ class WiredmindsRepository
     public function getPropertiesForIpAddress(string $ipAddress = ''): array
     {
         try {
-            $result = $this->requestFactory->request($this->getUri($ipAddress));
+            $result = $this->requestFactory->request($this->getUriForIpAddress($ipAddress));
+            if ($result->getStatusCode() === 200) {
+                $properties = json_decode($result->getBody()->getContents(), true);
+                if (is_array($properties)) {
+                    return $properties;
+                }
+            }
+        } catch (Throwable $exception) {
+        }
+        return [];
+    }
+
+    public function getStatus(): array
+    {
+        try {
+            $result = $this->requestFactory->request($this->getUriForStatus());
             if ($result->getStatusCode() === 200) {
                 $properties = json_decode($result->getBody()->getContents(), true);
                 if (is_array($properties)) {
@@ -48,7 +63,7 @@ class WiredmindsRepository
      * @return string
      * @throws ConfigurationException
      */
-    protected function getUri(string $ipAddress): string
+    protected function getUriForIpAddress(string $ipAddress): string
     {
         if ($ipAddress === '') {
             $ipAddress = IpUtility::getIpAddress();
@@ -58,5 +73,18 @@ class WiredmindsRepository
             throw new ConfigurationException('No wiredminds token defined in TypoScript', 1684433462);
         }
         return self::INTERFACE_URL . $token . '/' . $ipAddress;
+    }
+
+    /**
+     * @return string
+     * @throws ConfigurationException
+     */
+    protected function getUriForStatus(): string
+    {
+        $token = trim($this->settings['tracking']['company']['token'] ?? '');
+        if ($token === '') {
+            throw new ConfigurationException('No wiredminds token defined in TypoScript', 1686560916);
+        }
+        return self::INTERFACE_URL . $token . '/status';
     }
 }

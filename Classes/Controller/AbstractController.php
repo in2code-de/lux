@@ -19,6 +19,7 @@ use In2code\Lux\Domain\Repository\NewsRepository;
 use In2code\Lux\Domain\Repository\NewsvisitRepository;
 use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
+use In2code\Lux\Domain\Repository\Remote\WiredmindsRepository;
 use In2code\Lux\Domain\Repository\SearchRepository;
 use In2code\Lux\Domain\Repository\UtmRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
@@ -58,6 +59,7 @@ abstract class AbstractController extends ActionController
     protected ?SearchRepository $searchRepository = null;
     protected ?UtmRepository $utmRepository = null;
     protected ?CompanyRepository $companyRepository = null;
+    protected ?WiredmindsRepository $wiredmindsRepository = null;
     protected ?RenderingTimeService $renderingTimeService = null;
     protected ?CacheLayer $cacheLayer = null;
     protected ModuleTemplateFactory $moduleTemplateFactory;
@@ -79,6 +81,7 @@ abstract class AbstractController extends ActionController
         SearchRepository $searchRepository,
         UtmRepository $utmRepository,
         CompanyRepository $companyRepository,
+        WiredmindsRepository $wiredmindsRepository,
         RenderingTimeService $renderingTimeService,
         CacheLayer $cacheLayer,
         ModuleTemplateFactory $moduleTemplateFactory
@@ -98,6 +101,7 @@ abstract class AbstractController extends ActionController
         $this->searchRepository = $searchRepository;
         $this->utmRepository = $utmRepository;
         $this->companyRepository = $companyRepository;
+        $this->wiredmindsRepository = $wiredmindsRepository;
         $this->renderingTimeService = $renderingTimeService;
         $this->cacheLayer = $cacheLayer;
         $this->moduleTemplateFactory = $moduleTemplateFactory;

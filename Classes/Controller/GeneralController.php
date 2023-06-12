@@ -45,6 +45,14 @@ class GeneralController extends AbstractController
                 'fingerprints' => $this->fingerprintRepository->findAllAmount(),
                 'ipinformations' => $this->ipinformationRepository->findAllAmount(),
                 'logs' => $this->logRepository->findAllAmount(),
+                'wiredminds' => [
+                    'amount' => $this->companyRepository->getAllAmount(),
+                    'status' => [
+                        'token' => ($this->settings['tracking']['company']['token'] ?? '') !== '',
+                        'result' => $this->wiredmindsRepository->getStatus() !== [],
+                        'statistics' => $this->wiredmindsRepository->getStatus(),
+                    ],
+                ],
             ],
         ];
         $this->view->assignMultiple($values);
