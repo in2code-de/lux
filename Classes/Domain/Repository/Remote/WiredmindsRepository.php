@@ -3,7 +3,9 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository\Remote;
 
+use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Domain\Service\LogService;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Utility\IpUtility;
 use In2code\Lux\Utility\ObjectUtility;
@@ -15,26 +17,31 @@ class WiredmindsRepository
     private const INTERFACE_URL = 'https://ip2c.wiredminds.com/';
     protected VisitorRepository $visitorRepository;
     protected RequestFactory $requestFactory;
+    protected LogService $logService;
 
     protected array $settings = [];
 
     public function __construct(
         VisitorRepository $visitorRepository,
-        RequestFactory $requestFactory
+        RequestFactory $requestFactory,
+        LogService $logService
     ) {
         $this->visitorRepository = $visitorRepository;
         $this->requestFactory = $requestFactory;
+        $this->logService = $logService;
         $configurationService = ObjectUtility::getConfigurationService();
         $this->settings = $configurationService->getTypoScriptSettings();
     }
 
-    public function getPropertiesForIpAddress(string $ipAddress = ''): array
+    public function getPropertiesForIpAddress(Visitor $visitor, string $ipAddress = ''): array
     {
         try {
+            $this->logService->logWiredmindsConnection($visitor);
             $result = $this->requestFactory->request($this->getUriForIpAddress($ipAddress));
             if ($result->getStatusCode() === 200) {
                 $properties = json_decode($result->getBody()->getContents(), true);
                 if (is_array($properties)) {
+                    $this->logService->logWiredmindsConnectionSuccess($visitor);
                     return $properties;
                 }
             }

@@ -54,7 +54,7 @@ class CompanyTracker
     public function track(Visitor $visitor): void
     {
         if ($this->isTrackingActivated($visitor)) {
-            $properties = $this->wiredmindsRepository->getPropertiesForIpAddress();
+            $properties = $this->wiredmindsRepository->getPropertiesForIpAddress($visitor);
             if ($properties !== []) {
                 $this->persistCompany($visitor, $properties);
             }

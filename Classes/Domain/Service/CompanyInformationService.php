@@ -51,10 +51,13 @@ class CompanyInformationService
         $records = $this->visitorRepository->findLatestVisitorsWithIpAddress($limit, !$overwriteExisting);
         $counter = 0;
         foreach ($records as $visitorIdentifier => $ipAddress) {
-            $properties = $this->wiredmindsRepository->getPropertiesForIpAddress($ipAddress);
-            if ($properties !== []) {
-                $this->persistCompany($visitorIdentifier, $properties);
-                $counter++;
+            $visitor = $this->visitorRepository->findByUid($visitorIdentifier);
+            if ($visitor !== null) {
+                $properties = $this->wiredmindsRepository->getPropertiesForIpAddress($visitor, $ipAddress);
+                if ($properties !== []) {
+                    $this->persistCompany($visitorIdentifier, $properties);
+                    $counter++;
+                }
             }
         }
         return $counter;

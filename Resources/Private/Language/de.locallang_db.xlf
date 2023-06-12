@@ -1095,6 +1095,14 @@
 				<source>UTM parameters tracked</source>
 				<target state="translated">UTM Parameter getrackt</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.log.status.400">
+				<source>Tried to convert via Wiredminds</source>
+				<target state="translated">Wiredminds Konvertierung versucht</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.410">
+				<source>Successfully converted company to lead via Wiredminds</source>
+				<target state="translated">Firma erfolgreich ermittelt mittels Wiredminds</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.map">
 				<source>Lead source</source>
 				<target state="translated">Lead Ursprung</target>
