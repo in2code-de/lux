@@ -1793,7 +1793,7 @@
 				<source>Without indication</source>
 			</trans-unit>
 			<trans-unit id="dictionary.revenue_class.01">
-				<source>100-250K €</source>
+				<source>0 - 100K €</source>
 			</trans-unit>
 			<trans-unit id="dictionary.revenue_class.02">
 				<source>100 - 250K €</source>
@@ -1818,6 +1818,39 @@
 			</trans-unit>
 			<trans-unit id="dictionary.revenue_class.09">
 				<source>more than 500M €</source>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.00">
+				<source>Without indication</source>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.01">
+				<source>1 - 4 employees</source>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.02">
+				<source>5 - 9 employees</source>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.03">
+				<source>10 - 19 employees</source>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.04">
+				<source>20 - 49 employees</source>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.05">
+				<source>50 - 99 employees</source>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.06">
+				<source>100 - 199 employees</source>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.07">
+				<source>200 - 499 employees</source>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.08">
+				<source>500 - 999 employees</source>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.09">
+				<source>1K - 2K employees</source>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.10">
+				<source>more then 2K employees</source>
 			</trans-unit>
 		</body>
 	</file>
