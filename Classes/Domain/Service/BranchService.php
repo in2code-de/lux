@@ -395,6 +395,16 @@ class BranchService
         return $this->getBranchNameByCodeForLanguage($code, 'de');
     }
 
+    public function getAllBranches(): array
+    {
+        $languageKey = $this->getLanguageKey();
+        $branches = [];
+        foreach ($this->branches as $key => $values) {
+            $branches[$key] = $values[$languageKey] ?? $values['default'];
+        }
+        return $branches;
+    }
+
     protected function getBranchNameByCodeForLanguage(string $code, string $language): string
     {
         if (array_key_exists($code, $this->branches)) {
