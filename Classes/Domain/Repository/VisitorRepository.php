@@ -563,7 +563,7 @@ class VisitorRepository extends AbstractRepository
     /**
      * @param Visitor $visitor
      * @return void
-     * @throws DBALException
+     * @throws ExceptionDbal
      */
     public function removeRelatedTableRowsByVisitor(Visitor $visitor): void
     {
@@ -590,24 +590,22 @@ class VisitorRepository extends AbstractRepository
         }
     }
 
-    /**
-     * @return void
-     */
-    public function truncateAll()
+    public function truncateAll(): void
     {
         $tables = [
             Attribute::TABLE_NAME,
             Categoryscoring::TABLE_NAME,
+            Company::TABLE_NAME,
             Download::TABLE_NAME,
             Fingerprint::TABLE_NAME,
             Ipinformation::TABLE_NAME,
             Log::TABLE_NAME,
+            Linkclick::TABLE_NAME,
             Newsvisit::TABLE_NAME,
             Pagevisit::TABLE_NAME,
-            Visitor::TABLE_NAME,
-            Linkclick::TABLE_NAME,
             Search::TABLE_NAME,
             Utm::TABLE_NAME,
+            Visitor::TABLE_NAME,
         ];
         foreach ($tables as $table) {
             DatabaseUtility::getConnectionForTable($table)->truncate($table);
