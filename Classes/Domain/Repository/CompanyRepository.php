@@ -14,6 +14,7 @@ use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\DateUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 class CompanyRepository extends AbstractRepository
 {
@@ -174,6 +175,14 @@ class CompanyRepository extends AbstractRepository
         }
         $amounts = array_reverse($amounts, true);
         return $amounts;
+    }
+
+    public function findLatest(int $limit = 8): QueryResultInterface
+    {
+        $query = $this->createQuery();
+        $query->setOrderings(['crdate' => QueryInterface::ORDER_DESCENDING]);
+        $query->setLimit($limit);
+        return $query->execute();
     }
 
     public function getAllAmount(): int

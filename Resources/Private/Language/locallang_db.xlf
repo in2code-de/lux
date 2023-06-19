@@ -1382,6 +1382,10 @@
 				<source>Show best UTM media</source>
 			</trans-unit>
 
+			<trans-unit id="module.company.box.newest">
+				<source>Latest companies</source>
+			</trans-unit>
+
 			<trans-unit id="module.companiesDisabled.title">
 				<source>GDPR conform Wiredminds integration into TYPO3</source>
 			</trans-unit>

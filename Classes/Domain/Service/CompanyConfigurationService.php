@@ -55,7 +55,8 @@ class CompanyConfigurationService
             ->update(self::TEMPLATE_TABLE)
             ->where(
                 $queryBuilder->expr()->eq(
-                    'uid', $queryBuilder->createNamedParameter($identifier, Connection::PARAM_INT)
+                    'uid',
+                    $queryBuilder->createNamedParameter($identifier, Connection::PARAM_INT)
                 )
             )
             ->set('constants', $constants)

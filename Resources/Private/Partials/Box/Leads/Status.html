@@ -1,0 +1,31 @@
+<table class="table">
+    <tr>
+        <th>
+            Interface Status
+            <f:if condition="{wiredminds.statistics.0}">{wiredminds.statistics.0.year}/{wiredminds.statistics.0.month}</f:if>
+
+            <f:if condition="{wiredminds.status}">
+                <f:then>
+                    <core:icon identifier="actions-check-circle-alt" size="small" />
+                </f:then>
+                <f:else>
+                    <core:icon identifier="apps-pagetree-drag-place-denied" size="small" />
+                </f:else>
+            </f:if>
+        </th>
+    </tr>
+    <f:if condition="{wiredminds.status}">
+        <tr>
+            <td>
+                <f:for each="{wiredminds.statistics.0}" key="key" as="value">
+                    <f:if condition="{key} != 'year' && {key} != 'month'">
+                        <p>
+                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.wiredminds.statistics.{key}">{key}</f:translate>
+                            <span class="badge pull-right">{value}</span>
+                        </p>
+                    </f:if>
+                </f:for>
+            </td>
+        </tr>
+    </f:if>
+</table>

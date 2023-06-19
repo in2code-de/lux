@@ -204,7 +204,7 @@ class LeadController extends AbstractController
     public function companiesAction(FilterDto $filter, string $export = ''): ResponseInterface
     {
         if ($this->isCompaniesViewDisabled()) {
-            return (new ForwardResponse('companiesDisabled'));
+            return new ForwardResponse('companiesDisabled');
         }
         if ($export === 'csv') {
             return (new ForwardResponse('downloadCsvCompanies'))->withArguments(['filter' => $filter]);
@@ -215,6 +215,11 @@ class LeadController extends AbstractController
             'revenueClassData' => GeneralUtility::makeInstance(RevenueClassDataProvider::class, $filter),
             'companyAmountPerMonthData' => GeneralUtility::makeInstance(CompanyAmountPerMonthDataProvider::class),
             'categories' => $this->categoryRepository->findAllLuxCompanyCategories(),
+            'latestCompanies' => $this->companyRepository->findLatest(),
+            'wiredminds' => [
+                'status' => $this->wiredmindsRepository->getStatus() !== [],
+                'statistics' => $this->wiredmindsRepository->getStatus(),
+            ],
             'filter' => $filter,
         ]);
         $this->addDocumentHeaderForCurrentController();

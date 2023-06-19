@@ -1827,6 +1827,11 @@
 				<target state="translated">Zeige die beisten UTM Media</target>
 			</trans-unit>
 
+			<trans-unit id="module.company.box.newest">
+				<source>Latest companies</source>
+				<target state="translated">Neueste Firmen</target>
+			</trans-unit>
+
 			<trans-unit id="module.companiesDisabled.title">
 				<source>GDPR conform Wiredminds integration into TYPO3</source>
 				<target state="translated">DSGVO konforme TYPO3 Wiredminds Integration</target>
