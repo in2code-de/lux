@@ -70,6 +70,7 @@ if (\In2code\Lux\Utility\ConfigurationUtility::isLeadModuleDisabled() === false)
                 'deactivate',
                 'resetFilter',
                 'companies',
+                'companiesDisabled',
                 'company',
                 'downloadCsvCompanies',
                 'removeCompany',

@@ -92,6 +92,9 @@ services:
   In2code\Lux\Domain\Repository\Remote\WiredmindsRepository:
     public: true
 
+  In2code\Lux\Domain\Service\CompanyConfigurationService:
+    public: true
+
   In2code\Lux\Domain\Service\CompanyInformationService:
     public: true
 

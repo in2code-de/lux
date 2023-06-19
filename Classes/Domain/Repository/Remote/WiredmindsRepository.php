@@ -75,6 +75,21 @@ class WiredmindsRepository
         return [];
     }
 
+    public function getStatusForToken(string $token): array
+    {
+        try {
+            $result = $this->requestFactory->request($this->getUriForStatus($token));
+            if ($result->getStatusCode() === 200) {
+                $properties = json_decode($result->getBody()->getContents(), true);
+                if (is_array($properties)) {
+                    return $properties;
+                }
+            }
+        } catch (Throwable $exception) {
+        }
+        return [];
+    }
+
     /**
      * @param string $ipAddress
      * @return string
@@ -93,12 +108,15 @@ class WiredmindsRepository
     }
 
     /**
+     * @param string $token
      * @return string
      * @throws ConfigurationException
      */
-    protected function getUriForStatus(): string
+    protected function getUriForStatus(string $token = ''): string
     {
-        $token = trim($this->settings['tracking']['company']['token'] ?? '');
+        if ($token === '') {
+            $token = trim($this->settings['tracking']['company']['token'] ?? '');
+        }
         if ($token === '') {
             throw new ConfigurationException('No wiredminds token defined in TypoScript', 1686560916);
         }

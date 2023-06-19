@@ -1827,6 +1827,55 @@
 				<target state="translated">Zeige die beisten UTM Media</target>
 			</trans-unit>
 
+			<trans-unit id="module.companiesDisabled.title">
+				<source>GDPR conform Wiredminds integration into TYPO3</source>
+				<target state="translated">DSGVO konforme TYPO3 Wiredminds Integration</target>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.token1">
+				<source>Just add a</source>
+				<target state="translated">Einfach einen</target>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.token2">
+				<source>and convert your visitors to companies automatically</source>
+				<target state="translated">hinzufügen und Firmenbesuche anzeigen lassen</target>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.note">
+				<source>Adding and submitting a valid token will add these TypoScript constants to your root templates</source>
+				<target state="translated">Beim Absenden dieses Formulares werden diese TypoScript Konstanten in den Root Templates gesetzt</target>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.titleImages">
+				<source>Valuable B2B sales information</source>
+				<target state="translated">Wertvolle B2B Sales Informationen</target>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.image1.title">
+				<source>See visitor companies</source>
+				<target state="translated">Zeige Firmen der Besucher</target>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.image1.description">
+				<source>GDPR conform service to convert IP-addresses automatically to company information</source>
+				<target state="translated">DSGVO konformer Service um IP-Adressen mit wertvollen Firmeninformationen anzureichern</target>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.image2.title">
+				<source>Company with details</source>
+				<target state="translated">Details zu Firma</target>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.image2.description">
+				<source>See revenue, size, contacts and more B2B relevant information to a company</source>
+				<target state="translated">Zeige Umsatz, Branche, Größe, Kontakte und weitere relevante B2B Informationen</target>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.token.success">
+				<source>Welcome to the new company view. From now on, your visitors will be converted through Wiredminds to real companies. Come back later and check the latest visits.</source>
+				<target state="translated">Willkommen in der neuen Unternehmensansicht. Von nun an werden Besucher durch Wiredminds in echte Unternehmen umgewandelt. Komm später noch einmal vorbei und schau dir die letzten Besuche an.</target>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.token.failureSpelling">
+				<source>Invalid token given, please check spelling</source>
+				<target state="translated">Ungültiger Token, bitte schreibweise überprüfen</target>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.token.failureInterface">
+				<source>Could not connect to interface ip2c.wiredminds.com successfully or invalid token given</source>
+				<target state="translated">Verbindung zu ip2c.wiredminds.com fehlgeschlagen oder ungültiger Token</target>
+			</trans-unit>
+
 			<trans-unit id="luxletter.module.newsletter.receiver.title">
 				<source>Receiver analysis</source>
 				<target state="translated">Empfänger Analyse</target>

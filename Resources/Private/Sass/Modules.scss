@@ -96,9 +96,11 @@ label {
 
     .bg-primary {
         background-color: $colorSoft;
+        border: 1px solid $colorMain;
 
         li {
-            color: white;
+            //color: white;
+            //color: $colorMain;
         }
     }
 
@@ -423,6 +425,7 @@ label {
 
 .lux-messages {
     padding: 15px 0;
+    margin: 1rem 0 2rem 0;
     list-style-type: none;
 
     > li {

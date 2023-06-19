@@ -21,15 +21,18 @@ use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\CategoryRepository;
 use In2code\Lux\Domain\Repository\CompanyRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Domain\Service\CompanyConfigurationService;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\UnexpectedValueException;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Throwable;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Http\JsonResponse;
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
@@ -192,8 +195,17 @@ class LeadController extends AbstractController
         $this->setFilter();
     }
 
+    /**
+     * @param FilterDto $filter
+     * @param string $export
+     * @return ResponseInterface
+     * @throws ExceptionDbal
+     */
     public function companiesAction(FilterDto $filter, string $export = ''): ResponseInterface
     {
+        if ($this->isCompaniesViewDisabled()) {
+            return (new ForwardResponse('companiesDisabled'));
+        }
         if ($export === 'csv') {
             return (new ForwardResponse('downloadCsvCompanies'))->withArguments(['filter' => $filter]);
         }
@@ -209,6 +221,29 @@ class LeadController extends AbstractController
         return $this->defaultRendering();
     }
 
+    public function companiesDisabledAction(string $token = ''): ResponseInterface
+    {
+        if ($token !== '') {
+            try {
+                $companyConfigurationService = GeneralUtility::makeInstance(CompanyConfigurationService::class);
+                $companyConfigurationService->add($token);
+                $this->addFlashMessage(LocalizationUtility::translateByKey('module.companiesDisabled.token.success'));
+            } catch (Throwable $exception) {
+                // Todo: AbstractMessage::ERROR can be replaced with ContextualFeedbackSeverity::ERROR when TYPO3 11 support is dropped
+                $this->addFlashMessage($exception->getMessage(), '', AbstractMessage::ERROR);
+            }
+            return $this->redirect('companies');
+        }
+        $this->addDocumentHeaderForCurrentController();
+        return $this->defaultRendering();
+    }
+
+    /**
+     * @param Company $company
+     * @return ResponseInterface
+     * @throws InvalidConfigurationTypeException
+     * @throws InvalidQueryException
+     */
     public function companyAction(Company $company): ResponseInterface
     {
         $filter = ObjectUtility::getFilterDtoFromStartAndEnd(
@@ -227,6 +262,11 @@ class LeadController extends AbstractController
         return $this->defaultRendering();
     }
 
+    /**
+     * @param FilterDto $filter
+     * @return ResponseInterface
+     * @throws ExceptionDbal
+     */
     public function downloadCsvCompaniesAction(FilterDto $filter): ResponseInterface
     {
         $this->view->assignMultiple([
@@ -406,5 +446,11 @@ class LeadController extends AbstractController
             ];
         }
         $this->addDocumentHeader($menuConfiguration);
+    }
+
+    protected function isCompaniesViewDisabled(): bool
+    {
+        return ($this->settings['tracking']['company']['_enable'] ?? '') !== '1' ||
+            ($this->settings['tracking']['company']['token'] ?? '') === '';
     }
 }

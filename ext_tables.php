@@ -101,7 +101,7 @@ call_user_func(
                 '',
                 [
                     \In2code\Lux\Controller\LeadController::class => 'dashboard,list,detail,downloadCsv,remove,' .
-                        'deactivate,resetFilter,companies,company,downloadCsvCompanies,removeCompany',
+                        'deactivate,resetFilter,companies,companiesDisabled,company,downloadCsvCompanies,removeCompany',
                     \In2code\Lux\Controller\AnalysisController::class =>
                         'dashboard,content,linkClicks,detailPage,detailDownload,resetFilter',
                     \In2code\Lux\Controller\GeneralController::class => 'information'

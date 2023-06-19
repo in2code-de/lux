@@ -1382,6 +1382,43 @@
 				<source>Show best UTM media</source>
 			</trans-unit>
 
+			<trans-unit id="module.companiesDisabled.title">
+				<source>GDPR conform Wiredminds integration into TYPO3</source>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.token1">
+				<source>Just add a</source>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.token2">
+				<source>and convert your visitors to companies automatically</source>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.note">
+				<source>Adding and submitting a valid token will add these TypoScript constants to your root templates</source>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.titleImages">
+				<source>Valuable B2B sales information</source>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.image1.title">
+				<source>See visitor companies</source>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.image1.description">
+				<source>GDPR conform service to convert IP-addresses automatically to company information</source>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.image2.title">
+				<source>Company with details</source>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.image2.description">
+				<source>See revenue, size, contacts and more B2B relevant information to a company</source>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.token.success">
+				<source>Welcome to the new company view. From now on, your visitors will be converted through Wiredminds to real companies. Come back later and check the latest visits.</source>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.token.failureSpelling">
+				<source>Invalid token given, please check spelling</source>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.token.failureInterface">
+				<source>Could not connect to interface ip2c.wiredminds.com successfully or invalid token given</source>
+			</trans-unit>
+
 			<trans-unit id="luxletter.module.newsletter.receiver.title">
 				<source>Receiver analysis</source>
 			</trans-unit>
