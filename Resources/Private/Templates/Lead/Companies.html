@@ -88,7 +88,7 @@
     <tr data-lux-action-companydetail="{company.uid}">
         <td>
             <span title="{company.title} (UID{company.uid})">
-                <f:format.crop maxCharacters="30" append="...">{company.title}</f:format.crop>
+                <f:format.crop maxCharacters="40" append="...">{company.title}</f:format.crop>
             </span>
         </td>
         <td>
@@ -100,7 +100,7 @@
             </span>
         </td>
         <td>
-            {company.country}
+            <img src="{f:uri.resource(path:'Icons/Flags/{company.countryCodeUpper}.png',extensionName:'Core')}" alt="{company.countryCode}" title="{company.country}" style="width: 20px; height: 15px;" />
         </td>
         <td>
             <span title="{f:format.date(date:company.latestPagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">

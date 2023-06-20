@@ -122,6 +122,11 @@ class Company extends AbstractEntity
         return $this->countryCode;
     }
 
+    public function getCountryCodeUpper(): string
+    {
+        return strtoupper($this->getCountryCode());
+    }
+
     public function getCountry(): string
     {
         $countryService = GeneralUtility::makeInstance(CountryService::class);
