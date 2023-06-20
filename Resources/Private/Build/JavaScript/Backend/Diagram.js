@@ -47,10 +47,14 @@ define(['jquery', 'TYPO3/CMS/Lux/Vendor/Chart.min'], function($) {
             backgroundColor: [
               'rgba(77, 231, 255, 1)',
               'rgba(221, 221, 221, 1)',
-              'rgba(77, 231, 255, 0.8)',
+              'rgba(255, 233, 51, 1)',
               'rgba(77, 231, 255, 0.6)',
+              'rgba(255, 233, 51, 0.6)',
               'rgba(77, 231, 255, 0.4)',
-              'rgba(77, 231, 255, 0.2)'
+              'rgba(255, 233, 51, 0.4)',
+              'rgba(77, 231, 255, 0.2)',
+              'rgba(255, 233, 51, 0.2)',
+              'rgba(77, 231, 255, 0.1)'
             ]
           }],
           labels: element.getAttribute('data-chart-labels').split(',')
