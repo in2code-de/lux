@@ -1874,7 +1874,7 @@
 			</trans-unit>
 			<trans-unit id="module.companiesDisabled.token.failureSpelling">
 				<source>Invalid token given, please check spelling</source>
-				<target state="translated">Ungültiger Token, bitte schreibweise überprüfen</target>
+				<target state="translated">Ungültiger Token, bitte Schreibweise überprüfen</target>
 			</trans-unit>
 			<trans-unit id="module.companiesDisabled.token.failureInterface">
 				<source>Could not connect to interface ip2c.wiredminds.com successfully or invalid token given</source>

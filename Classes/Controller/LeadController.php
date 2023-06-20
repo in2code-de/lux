@@ -236,12 +236,12 @@ class LeadController extends AbstractController
         return $this->defaultRendering();
     }
 
-    public function companiesDisabledAction(string $token = ''): ResponseInterface
+    public function companiesDisabledAction(string $tokenWiredminds = ''): ResponseInterface
     {
-        if ($token !== '') {
+        if ($tokenWiredminds !== '') {
             try {
                 $companyConfigurationService = GeneralUtility::makeInstance(CompanyConfigurationService::class);
-                $companyConfigurationService->add($token);
+                $companyConfigurationService->add($tokenWiredminds);
                 $this->addFlashMessage(LocalizationUtility::translateByKey('module.companiesDisabled.token.success'));
             } catch (Throwable $exception) {
                 // Todo: AbstractMessage::ERROR can be replaced with ContextualFeedbackSeverity::ERROR when TYPO3 11 support is dropped
