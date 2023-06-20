@@ -960,8 +960,8 @@
 				<target state="translated">Unerkannte IP-Adressen</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.wiredminds.statistics.req_available">
-				<source>Connections remaining</source>
-				<target state="translated">Verbleibende Verbindungen</target>
+				<source>Queries remaining</source>
+				<target state="translated">Verbleibende Abfragen</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.wiredminds.statistics.req_used">
 				<source>Connections used</source>

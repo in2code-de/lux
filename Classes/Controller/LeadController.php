@@ -209,6 +209,13 @@ class LeadController extends AbstractController
         if ($export === 'csv') {
             return (new ForwardResponse('downloadCsvCompanies'))->withArguments(['filter' => $filter]);
         }
+
+        $limit = (int)($this->settings['tracking']['company']['connectionLimit'] ?? 0);
+        $statistics = $this->wiredmindsRepository->getStatus()[0] ?? ['hits' => 0, 'misses' => 0];
+        $available = $limit - $statistics['hits'] - $statistics['misses'];
+        if ($available < 0) {
+            $available = 0;
+        }
         $this->view->assignMultiple([
             'companies' => $this->companyRepository->findByFilter($filter),
             'branches' => $this->companyRepository->findAllBranches(),
@@ -218,7 +225,10 @@ class LeadController extends AbstractController
             'latestCompanies' => $this->companyRepository->findLatest(),
             'wiredminds' => [
                 'status' => $this->wiredmindsRepository->getStatus() !== [],
-                'statistics' => $this->wiredmindsRepository->getStatus(),
+                'statistics' => $statistics,
+                'limit' => $limit,
+                'overall' => $limit,
+                'available' => $available,
             ],
             'filter' => $filter,
         ]);
