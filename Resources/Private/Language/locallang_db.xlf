@@ -493,6 +493,9 @@
 			<trans-unit id="notIdentified">
 				<source>not identified</source>
 			</trans-unit>
+			<trans-unit id="readabledate.now">
+				<source>now</source>
+			</trans-unit>
 			<trans-unit id="readabledate.minutes">
 				<source>%s minutes ago</source>
 			</trans-unit>
