@@ -45,10 +45,11 @@ Once you added a valid token, you are able to convert visitors to companies.
 | Constant                                                                | Description                                                                                                                                                                      |
 |-------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `{$plugin.tx_lux.settings.tracking.company.enable}`                     | Enable or disable Wiredminds connection in general.                                                                                                                              |
-| `{$plugin.tx_lux.settings.tracking.company.autoConvert.enable}`         | Turn on, that visitors are automatically extended with company information. So, the first visit of a visitor will call the Wiredminds interface and ask for company information. |
-| `{$plugin.tx_lux.settings.tracking.company.autoConvert.minimumScoring}` | Use autoConvert only for visitors with a minimum scoring value.                                                                                                                  |
 | `{$plugin.tx_lux.settings.tracking.company.token}`                      | Add a valid and working wiredmind token.                                                                                                                                         |
 | `{$plugin.tx_lux.settings.tracking.company.connectionLimit}`            | Define a limit for monthly requests against wiredmind for full cost control.                                                                                                     |
+| `{$plugin.tx_lux.settings.tracking.company.connectionLimitPerHour}`     | Define a limit for hourly requests against wiredmind for savety reasons (e.g. to prevent unneeded requests in case of a DoS attack)                                              |
+| `{$plugin.tx_lux.settings.tracking.company.autoConvert.enable}`         | Turn on, that visitors are automatically extended with company information. So, the first visit of a visitor will call the Wiredminds interface and ask for company information. |
+| `{$plugin.tx_lux.settings.tracking.company.autoConvert.minimumScoring}` | Use autoConvert only for visitors with a minimum scoring value.                                                                                                                  |
 
 ##### User Interface
 

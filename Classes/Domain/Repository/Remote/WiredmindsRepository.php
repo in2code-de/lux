@@ -16,7 +16,7 @@ use TYPO3\CMS\Core\Http\RequestFactory;
 class WiredmindsRepository
 {
     private const INTERFACE_URL = 'https://ip2c.wiredminds.com/';
-    private const LIMIT_MONTH_ABSOLUTE = 1000000;
+    private const LIMIT_MONTH_ABSOLUTE = 100000;
 
     protected VisitorRepository $visitorRepository;
     protected LogRepository $logRepository;
@@ -123,15 +123,27 @@ class WiredmindsRepository
         return self::INTERFACE_URL . $token . '/status';
     }
 
-    /**
-     * Check for limit per month (defined in TypoScript) and a general maximum limit
-     *
-     * @return bool
-     */
     protected function isConnectionLimitReached(): bool
     {
         $logsOfCurrentMonth = $this->logRepository->findAmountOfWiredmindsLogsOfCurrentMonth();
-        return $logsOfCurrentMonth >= self::LIMIT_MONTH_ABSOLUTE
-            || $logsOfCurrentMonth >= (int)($this->settings['tracking']['company']['connectionLimit'] ?? 0);
+        return $this->isAbsoluteConnectionLimitReached($logsOfCurrentMonth)
+            || $this->isConnectionLimitPerMonthReached($logsOfCurrentMonth)
+            || $this->isConnectionLimitPerHourReached();
+    }
+
+    protected function isAbsoluteConnectionLimitReached(int $logsOfCurrentMonth): bool
+    {
+        return $logsOfCurrentMonth >= self::LIMIT_MONTH_ABSOLUTE;
+    }
+
+    protected function isConnectionLimitPerMonthReached(int $logsOfCurrentMonth): bool
+    {
+        return $logsOfCurrentMonth >= (int)($this->settings['tracking']['company']['connectionLimit'] ?? 0);
+    }
+
+    protected function isConnectionLimitPerHourReached(): bool
+    {
+        $logsOfCurrentHour = $this->logRepository->findAmountOfWiredmindsLogsOfCurrentHour();
+        return $logsOfCurrentHour >= (int)($this->settings['tracking']['company']['connectionLimitPerHour'] ?? 0);
     }
 }

@@ -107,6 +107,16 @@ class DateUtility
         return $start;
     }
 
+    public static function getHourStart(DateTime $date = null): DateTime
+    {
+        if ($date === null) {
+            $date = new DateTime();
+        }
+        $start = clone $date;
+        $start->setTime((int)$date->format('G'), 0);
+        return $start;
+    }
+
     public static function getDayEnd(DateTime $date): DateTime
     {
         $end = clone $date;

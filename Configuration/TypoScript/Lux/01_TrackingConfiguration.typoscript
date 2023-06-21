@@ -43,6 +43,9 @@ lib.lux.settings {
 
       # Limit per month
       connectionLimit = {$plugin.tx_lux.settings.tracking.company.connectionLimit}
+
+      # Limit per hour
+      connectionLimitPerHour = {$plugin.tx_lux.settings.tracking.company.connectionLimitPerHour}
     }
   }
 }

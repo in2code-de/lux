@@ -155,6 +155,16 @@ class LogRepository extends AbstractRepository
         return (int)$connection->executeQuery($sql)->fetchOne();
     }
 
+    public function findAmountOfWiredmindsLogsOfCurrentHour(): int
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Log::TABLE_NAME);
+        $sql = 'select count(uid)'
+            . ' from ' . Log::TABLE_NAME
+            . ' where crdate > ' . DateUtility::getHourStart()->getTimestamp()
+            . ' and status=' . Log::STATUS_WIREDMINDS_CONNECTION . ' and deleted=0';
+        return (int)$connection->executeQuery($sql)->fetchOne();
+    }
+
     /**
      * Get minimum status from TypoScript settings.backendview.analysis.activity.statusGreaterThen
      *
