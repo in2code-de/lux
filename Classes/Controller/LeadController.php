@@ -321,10 +321,13 @@ class LeadController extends AbstractController
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         /** @var Visitor $visitor */
         $visitor = $visitorRepository->findByUid((int)$request->getQueryParams()['visitor']);
+        $filter = ObjectUtility::getFilterDtoFromStartAndEnd($visitor->getPagevisitFirst()->getCrdate(), new DateTime())
+            ->setVisitor($visitor);
         $standaloneView->assignMultiple([
             'visitor' => $visitor,
             'company' => $visitor->getCompanyrecord(),
             'companies' => $companyRepository->findAll(),
+            'scoringWeeks' => GeneralUtility::makeInstance(VisitorScoringWeeksDataProvider::class, $filter),
         ]);
         return $this->jsonResponse(json_encode(['html' => $standaloneView->render()]));
     }
