@@ -22,8 +22,9 @@ class CompanyConfigurationService
 
     protected array $configuration = [
         'plugin.tx_lux.settings.tracking.company.enable = 1',
-        'plugin.tx_lux.settings.tracking.company.autoConvert.enable = 1',
         'plugin.tx_lux.settings.tracking.company.token = %s',
+        'plugin.tx_lux.settings.tracking.company.connectionLimit = 5000',
+        'plugin.tx_lux.settings.tracking.company.autoConvert.enable = 1',
     ];
 
     protected WiredmindsRepository $wiredmindsRepository;

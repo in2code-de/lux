@@ -1849,8 +1849,8 @@
 				<target state="translated">hinzufügen und Firmenbesuche anzeigen lassen</target>
 			</trans-unit>
 			<trans-unit id="module.companiesDisabled.note">
-				<source>Adding and submitting a valid token will add these TypoScript constants to your root templates</source>
-				<target state="translated">Beim Absenden dieses Formulares werden diese TypoScript Konstanten in den Root Templates gesetzt</target>
+				<source>Adding and submitting a valid token will add these TypoScript constants to your root templates (check TypoScript or documentation for more information about the settings)</source>
+				<target state="translated">Beim Absenden dieses Formulares werden diese TypoScript Konstanten in den Root Templates gesetzt (bitte TypoScript oder Dokumentation für eine detaillierte Erklärung beachten)</target>
 			</trans-unit>
 			<trans-unit id="module.companiesDisabled.titleImages">
 				<source>Valuable B2B sales information</source>

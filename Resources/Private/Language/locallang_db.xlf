@@ -1399,7 +1399,7 @@
 				<source>and convert your visitors to companies automatically</source>
 			</trans-unit>
 			<trans-unit id="module.companiesDisabled.note">
-				<source>Adding and submitting a valid token will add these TypoScript constants to your root templates</source>
+				<source>Adding and submitting a valid token will add these TypoScript constants to your root templates (check TypoScript or documentation for more information about the settings)</source>
 			</trans-unit>
 			<trans-unit id="module.companiesDisabled.titleImages">
 				<source>Valuable B2B sales information</source>
