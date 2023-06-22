@@ -96,6 +96,20 @@ class PagevisitRepository extends AbstractRepository
         return $query->execute();
     }
 
+    public function findLatestPagevisitsWithCompanies(int $limit = 8): QueryResultInterface
+    {
+        $query = $this->createQuery();
+        $logicalAnd = [
+            $query->greaterThan('visitor.companyrecord', 0),
+        ];
+        $query->matching(
+            $query->logicalAnd(...$logicalAnd)
+        );
+        $query->setLimit($limit);
+        $query->setOrderings(['crdate' => QueryInterface::ORDER_DESCENDING]);
+        return $query->execute();
+    }
+
     /**
      * @param DateTime $start
      * @param DateTime $end

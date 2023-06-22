@@ -1832,8 +1832,8 @@
 			</trans-unit>
 
 			<trans-unit id="module.company.box.newest">
-				<source>Latest companies</source>
-				<target state="translated">Neueste Firmen</target>
+				<source>Latest companies on your website</source>
+				<target state="translated">Letzte Firmen auf der Website</target>
 			</trans-unit>
 
 			<trans-unit id="module.companiesDisabled.title">

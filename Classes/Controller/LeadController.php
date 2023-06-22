@@ -222,7 +222,7 @@ class LeadController extends AbstractController
             'revenueClassData' => GeneralUtility::makeInstance(RevenueClassDataProvider::class, $filter),
             'companyAmountPerMonthData' => GeneralUtility::makeInstance(CompanyAmountPerMonthDataProvider::class),
             'categories' => $this->categoryRepository->findAllLuxCompanyCategories(),
-            'latestCompanies' => $this->companyRepository->findLatest(),
+            'latestPagevisitsWithCompanies' => $this->pagevisitsRepository->findLatestPagevisitsWithCompanies(),
             'wiredminds' => [
                 'status' => $this->wiredmindsRepository->getStatus() !== [],
                 'statistics' => $statistics,

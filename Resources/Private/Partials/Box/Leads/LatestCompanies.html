@@ -5,10 +5,11 @@
         </h3>
     </div>
     <div class="panel-body" style="height: 100%;">
-        <f:if condition="{latestCompanies}">
+        <f:if condition="{latestPagevisitsWithCompanies}">
             <f:then>
                 <ol class="lux-group">
-                    <f:for each="{latestCompanies}" as="company">
+                    <f:for each="{latestPagevisitsWithCompanies}" as="pagevisit">
+                        <f:variable name="company" value="{pagevisit.visitor.companyrecord}"/>
                         <li data-lux-identifier="UID{company.uid}" style="margin-bottom: 1rem;">
                             <div class="row">
                                 <div class="col-md-3" style="padding:10px;">

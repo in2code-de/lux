@@ -1386,7 +1386,7 @@
 			</trans-unit>
 
 			<trans-unit id="module.company.box.newest">
-				<source>Latest companies</source>
+				<source>Latest companies on your website</source>
 			</trans-unit>
 
 			<trans-unit id="module.companiesDisabled.title">
