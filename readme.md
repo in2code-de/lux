@@ -1,4 +1,5 @@
-![LUX](Resources/Public/Icons/lux.svg "LUX")
+![LUX](/Documentation/Images/logo_claim.svg#gh-light-mode-only "LUX")
+![LUX](/Documentation/Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
 
 # Living User eXperience - LUX - the Marketing Automation tool for TYPO3
 
