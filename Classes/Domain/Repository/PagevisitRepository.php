@@ -98,9 +98,23 @@ class PagevisitRepository extends AbstractRepository
 
     public function findLatestPagevisitsWithCompanies(int $limit = 8): QueryResultInterface
     {
+        $sql = 'select c.uid companyuid, max(pv.uid) AS uid'
+            . ' from ' . Pagevisit::TABLE_NAME . ' pv'
+            . ' left join ' . Visitor::TABLE_NAME . ' v on pv.visitor = v.uid'
+            . ' left join ' . Company::TABLE_NAME . ' c on v.companyrecord = c.uid'
+            . ' where pv.deleted=0 and v.deleted=0 and c.deleted=0'
+            . ' and v.blacklisted=0'
+            . ' group by c.uid'
+            . ' order by uid desc, pv.crdate desc'
+            . ' limit ' . $limit;
+        $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);
+        $identifiers = ArrayUtility::convertFetchedAllArrayToNumericArray(
+            $connection->executeQuery($sql)->fetchAllAssociative()
+        );
+
         $query = $this->createQuery();
         $logicalAnd = [
-            $query->greaterThan('visitor.companyrecord', 0),
+            $query->in('uid', $identifiers),
         ];
         $query->matching(
             $query->logicalAnd(...$logicalAnd)

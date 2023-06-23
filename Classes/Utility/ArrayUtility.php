@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Utility;
 
+use In2code\Lux\Exception\ArgumentsException;
 use In2code\Lux\Exception\ParametersException;
 
 class ArrayUtility
@@ -89,5 +90,41 @@ class ArrayUtility
             $string = StringUtility::cropString($string, $length, $append);
         }
         return $array;
+    }
+
+    /**
+     *  [
+     *      [
+     *          'uid' => 123,
+     *      ],
+     *      [
+     *          'uid' => 234,
+     *      ]
+     *  ]
+     *
+     *  =>
+     *
+     *  [
+     *      123,
+     *      234,
+     *  ]
+     *
+     * @param array $rows
+     * @param string $fieldName
+     * @return array
+     * @throws ArgumentsException
+     */
+    public static function convertFetchedAllArrayToNumericArray(array $rows, string $fieldName = 'uid'): array
+    {
+        $new = [];
+        foreach ($rows as $row) {
+            if (is_array($row) === false) {
+                throw new ArgumentsException('Given array must be 2-dimensional', 1687525394);
+            }
+            if (array_key_exists($fieldName, $row)) {
+                $new[] = $row[$fieldName];
+            }
+        }
+        return $new;
     }
 }
