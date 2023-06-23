@@ -6,6 +6,7 @@ namespace In2code\Lux\Controller;
 use DateTime;
 use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
+use Exception;
 use In2code\Lux\Domain\DataProvider\CompanyAmountPerMonthDataProvider;
 use In2code\Lux\Domain\DataProvider\CompanyCategoryScoringsDataProvider;
 use In2code\Lux\Domain\DataProvider\CompanyScoringWeeksDataProvider;
@@ -132,7 +133,7 @@ class LeadController extends AbstractController
 
     public function detailAction(Visitor $visitor): ResponseInterface
     {
-        $filter = ObjectUtility::getFilterDtoFromStartAndEnd($visitor->getPagevisitFirst()->getCrdate(), new DateTime())
+        $filter = ObjectUtility::getFilterDtoFromStartAndEnd($visitor->getDateOfPagevisitFirst(), new DateTime())
             ->setVisitor($visitor);
         $this->view->assignMultiple([
             'visitor' => $visitor,
@@ -309,6 +310,7 @@ class LeadController extends AbstractController
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      * @noinspection PhpUnused
+     * @throws Exception
      */
     public function detailAjax(ServerRequestInterface $request): ResponseInterface
     {
@@ -321,7 +323,7 @@ class LeadController extends AbstractController
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         /** @var Visitor $visitor */
         $visitor = $visitorRepository->findByUid((int)$request->getQueryParams()['visitor']);
-        $filter = ObjectUtility::getFilterDtoFromStartAndEnd($visitor->getPagevisitFirst()->getCrdate(), new DateTime())
+        $filter = ObjectUtility::getFilterDtoFromStartAndEnd($visitor->getDateOfPagevisitFirst(), new DateTime())
             ->setVisitor($visitor);
         $standaloneView->assignMultiple([
             'visitor' => $visitor,

@@ -476,6 +476,21 @@ class Visitor extends AbstractModel
         return null;
     }
 
+    /**
+     * Always return a date object
+     *
+     * @return DateTime
+     * @throws Exception
+     */
+    public function getDateOfPagevisitFirst(): DateTime
+    {
+        $date = new DateTime('-30 days');
+        if ($this->getPagevisitFirst() !== null) {
+            $date = $this->getPagevisitFirst()->getCrdate();
+        }
+        return $date;
+    }
+
     public function setPagevisits(ObjectStorage $pagevisits): self
     {
         $this->pagevisits = $pagevisits;
