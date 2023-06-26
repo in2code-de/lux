@@ -81,6 +81,8 @@ class FilterDto
     protected string $utmSource = '';
     protected string $utmMedium = '';
     protected int $branchCode = 0;
+    protected string $revenueClass = '';
+    protected string $sizeClass = '';
     protected ?Visitor $visitor = null;
     protected ?Company $company = null;
 
@@ -316,6 +318,28 @@ class FilterDto
         return $this;
     }
 
+    public function getRevenueClass(): string
+    {
+        return $this->revenueClass;
+    }
+
+    public function setRevenueClass(string $revenueClass): self
+    {
+        $this->revenueClass = $revenueClass;
+        return $this;
+    }
+
+    public function getSizeClass(): string
+    {
+        return $this->sizeClass;
+    }
+
+    public function setSizeClass(string $sizeClass): self
+    {
+        $this->sizeClass = $sizeClass;
+        return $this;
+    }
+
     public function getVisitor(): ?Visitor
     {
         return $this->visitor;
@@ -351,7 +375,8 @@ class FilterDto
             || $this->category !== null
             || $this->timeFrom !== '' || $this->timeTo !== '' || $this->timePeriod !== self::PERIOD_DEFAULT
             || $this->identified !== self::IDENTIFIED_ALL || $this->domain !== ''
-            || $this->utmCampaign !== '' || $this->utmMedium !== '' || $this->utmSource !== '' || $this->branchCode > 0;
+            || $this->utmCampaign !== '' || $this->utmMedium !== '' || $this->utmSource !== '' || $this->branchCode > 0
+            || $this->revenueClass !== '' || $this->sizeClass !== '';
     }
 
     public function isTimeFromOrTimeToSet(): bool

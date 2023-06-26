@@ -2360,6 +2360,10 @@
 				<source>and</source>
 				<target state="translated">und</target>
 			</trans-unit>
+			<trans-unit id="dictionary.branch">
+				<source>Branch</source>
+				<target state="translated">Branche</target>
+			</trans-unit>
 			<trans-unit id="dictionary.campaign">
 				<source>Campaign</source>
 				<target state="translated">Kampagne</target>
@@ -2408,13 +2412,17 @@
 				<source>Referrer</source>
 				<target state="translated">Referrer</target>
 			</trans-unit>
-			<trans-unit id="dictionary.source">
-				<source>Source</source>
-				<target state="translated">Quelle</target>
-			</trans-unit>
 			<trans-unit id="dictionary.segmentation">
 				<source>Segmentation</source>
 				<target state="translated">Segmentierung</target>
+			</trans-unit>
+			<trans-unit id="dictionary.size">
+				<source>Size</source>
+				<target state="translated">Größe</target>
+			</trans-unit>
+			<trans-unit id="dictionary.source">
+				<source>Source</source>
+				<target state="translated">Quelle</target>
 			</trans-unit>
 			<trans-unit id="dictionary.term">
 				<source>Term</source>
@@ -2423,6 +2431,10 @@
 			<trans-unit id="dictionary.time">
 				<source>Time</source>
 				<target state="translated">Zeitpunkt</target>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue">
+				<source>Revenue</source>
+				<target state="translated">Umsatz</target>
 			</trans-unit>
 			<trans-unit id="dictionary.revenue_class.00">
 				<source>Without indication</source>

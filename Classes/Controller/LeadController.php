@@ -201,6 +201,7 @@ class LeadController extends AbstractController
      * @param string $export
      * @return ResponseInterface
      * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      */
     public function companiesAction(FilterDto $filter, string $export = ''): ResponseInterface
     {
@@ -220,9 +221,9 @@ class LeadController extends AbstractController
         $this->view->assignMultiple([
             'companies' => $this->companyRepository->findByFilter($filter),
             'branches' => $this->companyRepository->findAllBranches(),
+            'categories' => $this->categoryRepository->findAllLuxCompanyCategories(),
             'revenueClassData' => GeneralUtility::makeInstance(RevenueClassDataProvider::class, $filter),
             'companyAmountPerMonthData' => GeneralUtility::makeInstance(CompanyAmountPerMonthDataProvider::class),
-            'categories' => $this->categoryRepository->findAllLuxCompanyCategories(),
             'latestPagevisitsWithCompanies' => $this->pagevisitsRepository->findLatestPagevisitsWithCompanies(),
             'wiredminds' => [
                 'status' => $this->wiredmindsRepository->getStatus() !== [],

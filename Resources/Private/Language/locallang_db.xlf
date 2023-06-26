@@ -1785,6 +1785,9 @@
 			<trans-unit id="dictionary.and">
 				<source>and</source>
 			</trans-unit>
+			<trans-unit id="dictionary.branch">
+				<source>Branch</source>
+			</trans-unit>
 			<trans-unit id="dictionary.campaign">
 				<source>Campaign</source>
 			</trans-unit>
@@ -1821,17 +1824,23 @@
 			<trans-unit id="dictionary.referrer">
 				<source>Referrer</source>
 			</trans-unit>
-			<trans-unit id="dictionary.source">
-				<source>Source</source>
-			</trans-unit>
 			<trans-unit id="dictionary.segmentation">
 				<source>Segmentation</source>
+			</trans-unit>
+			<trans-unit id="dictionary.size">
+				<source>Size</source>
+			</trans-unit>
+			<trans-unit id="dictionary.source">
+				<source>Source</source>
 			</trans-unit>
 			<trans-unit id="dictionary.term">
 				<source>Term</source>
 			</trans-unit>
 			<trans-unit id="dictionary.time">
 				<source>Time</source>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue">
+				<source>Revenue</source>
 			</trans-unit>
 			<trans-unit id="dictionary.revenue_class.00">
 				<source>Without indication</source>

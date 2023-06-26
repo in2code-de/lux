@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use Exception;
 use In2code\Lux\Domain\Model\Company;
@@ -25,17 +26,19 @@ class CompanyRepository extends AbstractRepository
      * @param FilterDto $filter
      * @return array
      * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      */
     public function findByFilter(FilterDto $filter): array
     {
         $sql = 'select c.uid,sum(v.scoring) companyscoring'
             . ' from ' . Company::TABLE_NAME . ' c'
             . ' left join ' . Visitor::TABLE_NAME . ' v on v.companyrecord = c.uid'
-            . $this->extendJoinToPagevisitsForPagevisitTimeFilter($filter)
             . ' where c.deleted=0 and v.deleted=0 and v.blacklisted=0';
         $sql .= $this->extendWhereClauseWithFilterSearchterms($filter, 'c');
         $sql .= $this->extendWhereClauseWithFilterBranchCode($filter);
         $sql .= $this->extendWhereClauseWithFilterCategory($filter, 'c');
+        $sql .= $this->extendWhereClauseWithFilterSizeClass($filter, 'c');
+        $sql .= $this->extendWhereClauseWithFilterRevenueClass($filter, 'c');
         $sql .= ' group by c.uid';
         $sql .= $this->extendWhereClauseWithFilterCompanyscoring($filter);
         $sql .= ' order by companyscoring desc';
@@ -220,6 +223,30 @@ class CompanyRepository extends AbstractRepository
                 $table .= '.';
             }
             $sql .= ' and ' . $table . 'category = ' . $filter->getCategory()->getUid();
+        }
+        return $sql;
+    }
+
+    protected function extendWhereClauseWithFilterSizeClass(FilterDto $filter, string $table = ''): string
+    {
+        $sql = '';
+        if ($filter->getSizeClass() !== '') {
+            if ($table !== '') {
+                $table .= '.';
+            }
+            $sql .= ' and ' . $table . 'size_class = ' . $filter->getSizeClass();
+        }
+        return $sql;
+    }
+
+    protected function extendWhereClauseWithFilterRevenueClass(FilterDto $filter, string $table = ''): string
+    {
+        $sql = '';
+        if ($filter->getRevenueClass() !== '') {
+            if ($table !== '') {
+                $table .= '.';
+            }
+            $sql .= ' and ' . $table . 'revenue_class = ' . $filter->getRevenueClass();
         }
         return $sql;
     }

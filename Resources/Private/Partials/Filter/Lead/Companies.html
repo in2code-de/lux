@@ -8,35 +8,7 @@
         <f:form name="filter" class="form" action="companies" object="{filter}">
             <div class="row">
                 <div class="col-md-4">
-                    <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.header.search">Suche</f:translate></h5>
-
-                    <div class="input-group form-group">
-                        <f:form.textfield
-                            type="text"
-                            property="searchterm"
-                            id="searchterm"
-                            class="form-control"
-                            placeholder="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.searchterm')}" />
-                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#searchterm">
-                            <core:icon identifier="actions-search" />
-                        </button>
-                    </div>
-
-                    <div class="input-group form-group">
-                        <f:form.textfield
-                            type="datetime-local"
-                            property="timeFrom"
-                            id="timeFrom"
-                            class="form-control" />
-                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#timeFrom">
-                            {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeFrom')}
-                        </button>
-                    </div>
-                </div>
-
-
-                <div class="col-md-4">
-                    <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.header.scoringcompany">Scoring</f:translate></h5>
+                    <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.scoring">Scoring</f:translate></h5>
 
                     <div class="input-group form-group">
                         <f:form.textfield
@@ -52,12 +24,13 @@
 
                     <div class="input-group form-group">
                         <f:form.textfield
-                            type="datetime-local"
-                            property="timeTo"
-                            id="timeTo"
-                            class="form-control" />
-                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#timeTo">
-                            {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeTo')}
+                            type="text"
+                            property="searchterm"
+                            id="searchterm"
+                            class="form-control"
+                            placeholder="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.searchterm')}" />
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#searchterm">
+                            <core:icon identifier="actions-search" />
                         </button>
                     </div>
                 </div>
@@ -65,6 +38,43 @@
 
                 <div class="col-md-4">
                     <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.segmentation">Segmentation</f:translate></h5>
+
+                    <div class="input-group form-group">
+                        <f:form.select property="sizeClass" class="form-control form-select" id="size">
+                            <option value="">
+                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.size" />
+                            </option>
+                            <f:for each="{lux:string.getRange(length:10,start:1,characterLength:2)}" as="value">
+                                <option value="{value}"{f:if(condition:'{filter.sizeClass} == {value}',then:' selected="selected"')}>
+                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.size_class.{value}" />
+                                </option>
+                            </f:for>
+                        </f:form.select>
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#size">
+                            <core:icon identifier="actions-search" />
+                        </button>
+                    </div>
+
+                    <div class="input-group form-group">
+                        <f:form.select property="revenueClass" class="form-control form-select" id="revenue">
+                            <option value="">
+                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.revenue" />
+                            </option>
+                            <f:for each="{lux:string.getRange(length:9,start:1,characterLength:2)}" as="value">
+                                <option value="{value}"{f:if(condition:'{filter.revenueClass} == {value}',then:' selected="selected"')}>
+                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.revenue_class.{value}" />
+                                </option>
+                            </f:for>
+                        </f:form.select>
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#revenue">
+                            <core:icon identifier="actions-search" />
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.branch">Branch</f:translate></h5>
 
                     <div class="input-group form-group">
                         <f:form.select
