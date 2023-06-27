@@ -629,7 +629,7 @@ figure.effect-oscar img {
 
 figure.effect-oscar figcaption {
 	padding: 3em;
-	background-color: rgba(58,52,42,0.7);
+	background-color: rgba(58,52,42,0.2);
 	-webkit-transition: background-color 0.35s;
 	transition: background-color 0.35s;
 }
@@ -783,7 +783,7 @@ figure.effect-ruby p {
 	transition: opacity 0.35s, transform 0.35s;
 	-webkit-transform: translate3d(0,20px,0) scale(1.1);
 	transform: translate3d(0,20px,0) scale(1.1);
-} 
+}
 
 figure.effect-ruby:hover h2 {
 	-webkit-transform: translate3d(0,0,0);
@@ -854,7 +854,7 @@ figure.effect-milo:hover p {
 
 figure.effect-dexter {
 	background: -webkit-linear-gradient(top, rgba(37,141,200,1) 0%, rgba(104,60,19,1) 100%);
-	background: linear-gradient(to bottom, rgba(37,141,200,1) 0%,rgba(104,60,19,1) 100%); 
+	background: linear-gradient(to bottom, rgba(37,141,200,1) 0%,rgba(104,60,19,1) 100%);
 }
 
 figure.effect-dexter img {

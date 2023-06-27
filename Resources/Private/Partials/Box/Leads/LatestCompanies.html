@@ -1,0 +1,40 @@
+<div class="panel panel-default flex">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.company.box.newest">Newest Companies</f:translate>
+        </h3>
+    </div>
+    <div class="panel-body" style="height: 100%;">
+        <f:if condition="{latestPagevisitsWithCompanies}">
+            <f:then>
+                <ol class="lux-group">
+                    <f:for each="{latestPagevisitsWithCompanies}" as="pagevisit">
+                        <f:variable name="company" value="{pagevisit.visitor.companyrecord}"/>
+                        <li data-lux-identifier="UID{company.uid}" style="margin-bottom: 1rem;">
+                            <div class="row">
+                                <div class="col-md-3" style="padding:10px;">
+                                    <span title="{f:format.date(date:pagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
+                                        <img src="{f:uri.resource(path:'Images/AvatarDefault.svg',extensionName:'lux')}" alt="Logo" class="img-circle" data-lux-asynchronous-companyimage="{company.uid}" />
+                                    </span>
+                                </div>
+                                <div class="col-md-9">
+                                    <f:link.action action="company" controller="Lead" arguments="{company:company.uid}">
+                                        <strong title="{company.title}">
+                                            <f:format.crop maxCharacters="40" append="..." respectWordBoundaries="0">{company.title}</f:format.crop>
+                                        </strong>
+                                    </f:link.action>
+                                    <span style="display:block;margin-top:5px;" title="{company.branch} ({company.branchCode})">
+                                        <f:format.crop maxCharacters="40" append="..." respectWordBoundaries="0">{company.branch}</f:format.crop>
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                    </f:for>
+                </ol>
+            </f:then>
+            <f:else>
+                <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+            </f:else>
+        </f:if>
+    </div>
+</div>

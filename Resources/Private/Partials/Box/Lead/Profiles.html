@@ -8,7 +8,9 @@
                     Profiles
                 </f:translate>
             </a>
-            <span class="badge" style="float: right;" title="Number of profiles"><f:count>{visitor.fingerprints}</f:count></span>
+            <span class="badge" style="float: right;" title="Number of profiles">
+                <f:count>{visitor.fingerprints}</f:count>
+            </span>
         </h3>
     </div>
     <div class="panel-body">
@@ -18,42 +20,42 @@
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <td>
+                            <th>
                                 <f:translate
                                     key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.domain">
                                     Domain
                                 </f:translate>
-                            </td>
-                            <td>
+                            </th>
+                            <th>
                                 <f:translate
                                     key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.browser">
                                     Browser
                                 </f:translate>
-                            </td>
-                            <td>
+                            </th>
+                            <th>
                                 <f:translate
                                     key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.os">
                                     OS
                                 </f:translate>
-                            </td>
-                            <td>
+                            </th>
+                            <th>
                                 <f:translate
                                     key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.device">
                                     Device
                                 </f:translate>
-                            </td>
-                            <td>
+                            </th>
+                            <th>
                                 <f:translate
                                     key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.type">
                                     Type
                                 </f:translate>
-                            </td>
-                            <td>
+                            </th>
+                            <th>
                                 <f:translate
                                     key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.profiles.value">
                                     Value
                                 </f:translate>
-                            </td>
+                            </th>
                         </tr>
                         </thead>
                         <f:for each="{visitor.fingerprintsSorted}" as="fingerprint">

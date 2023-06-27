@@ -22,6 +22,9 @@ class ReadableDateViewHelper extends AbstractViewHelper
         $deltaTimestamp = time() - $date->getTimestamp();
         $delta = $date->diff(new DateTime());
 
+        if ($deltaTimestamp <= 60) {
+            return $this->renderNow();
+        }
         if ($deltaTimestamp < 3600) {
             return $this->renderMinutes($delta);
         }
@@ -32,6 +35,11 @@ class ReadableDateViewHelper extends AbstractViewHelper
             return $this->renderDays($delta);
         }
         return $this->renderDate($date);
+    }
+
+    protected function renderNow(): string
+    {
+        return (string)LocalizationUtility::translateByKey('readabledate.now');
     }
 
     protected function renderMinutes(DateInterval $date): string

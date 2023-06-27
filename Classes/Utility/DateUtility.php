@@ -34,7 +34,45 @@ class DateUtility
     }
 
     /**
+     * Get a couple of start and end datetime objects (beginning and ending of a month) by a given number of months
+     *
+     *  Example result for 3 (3 months back - February 2023 - when we would currently have April 2023):
+     *  [
+     *      [
+     *          [DateTime 1.4.2023 0:00],
+     *          [DateTime 30.4.2023 23:59],
+     *      ],
+     *      [
+     *          [DateTime 1.3.2023 0:00],
+     *          [DateTime 31.3.2023 23:59],
+     *      ],
+     *      [
+     *          [DateTime 1.2.2023 0:00],
+     *          [DateTime 28.2.2023 23:59],
+     *      ],
+     *  ]
+     *
+     * @param int $back
+     * @return array
+     * @throws Exception
+     */
+    public static function getLatestMonthDatesMultiple(int $back): array
+    {
+        $dates = [];
+        for ($iteration = 0; $iteration < $back; $iteration++) {
+            $dates[] = self::getLatestMonthDates($iteration);
+        }
+        return $dates;
+    }
+
+    /**
      * Get a number of months and then the beginning date and the ending date of this month
+     *
+     *  Example result for 3 (3 months back - January 2023 - when we would currently have April 2023):
+     *  [
+     *      [DateTime 1.1.2023 0:00],
+     *      [DateTime 31.1.2023 23:59],
+     *  ]
      *
      * @param int $back 0 means this month, 1 last month and so on... (must be a positive value)
      * @return DateTime[] 0=>start, 1=>end
@@ -66,6 +104,16 @@ class DateUtility
     {
         $start = clone $date;
         $start->setTime(0, 0);
+        return $start;
+    }
+
+    public static function getHourStart(DateTime $date = null): DateTime
+    {
+        if ($date === null) {
+            $date = new DateTime();
+        }
+        $start = clone $date;
+        $start->setTime((int)$date->format('G'), 0);
         return $start;
     }
 

@@ -3,12 +3,14 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
+use DateTime;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use Exception;
 use In2code\Lux\Domain\Model\Attribute;
 use In2code\Lux\Domain\Model\Categoryscoring;
+use In2code\Lux\Domain\Model\Company;
 use In2code\Lux\Domain\Model\Download;
 use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Domain\Model\Ipinformation;
@@ -456,6 +458,57 @@ class VisitorRepository extends AbstractRepository
     }
 
     /**
+     * Example result:
+     *  [
+     *      123 => '123.456.0.1', // visitor uid => ip address
+     *      2456 => '127.0.0.1',
+     *  ]
+     *
+     * @param int $limit get X latest records
+     * @param DateTime $time
+     * @param bool $noCompaniesOnly get only visitors without company relation
+     * @return array
+     * @throws ExceptionDbal
+     */
+    public function findLatestVisitorsWithIpAddress(int $limit, DateTime $time, bool $noCompaniesOnly = true): array
+    {
+        $sql = 'select uid,ip_address from ' . Visitor::TABLE_NAME
+            . ' where ip_address not like "%***" and ip_address != \'\' and crdate >= ' . $time->getTimestamp();
+        if ($noCompaniesOnly === true) {
+            $sql .= ' and companyrecord = 0';
+        }
+        $sql .= ' order by uid desc limit ' . $limit;
+        $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
+        return $connection->executeQuery($sql)->fetchAllKeyValue();
+    }
+
+    public function getScoringSumFromCompany(Company $company): int
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
+        $sql = 'select sum(scoring) scoring from ' . Visitor::TABLE_NAME
+            . ' where deleted=0 and blacklisted=0 and companyrecord = ' . $company->getUid();
+        return (int)$connection->executeQuery($sql)->fetchOne();
+    }
+
+    public function findByCompany(Company $company, int $limit = 200): array
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
+        $sql = 'select uid,scoring from ' . Visitor::TABLE_NAME
+            . ' where deleted=0 and blacklisted=0 and companyrecord = ' . $company->getUid()
+            . ' order by identified desc, scoring desc limit ' . $limit;
+        $results = $connection->executeQuery($sql)->fetchAllAssociative();
+
+        $visitors = [];
+        foreach ($results as $result) {
+            $visitor = $this->findByUid($result['uid']);
+            if ($visitor !== null) {
+                $visitors[] = $visitor;
+            }
+        }
+        return $visitors;
+    }
+
+    /**
      * @param int $visitorIdentifier
      * @param int $frontenduserIdentifier
      * @return void
@@ -501,6 +554,8 @@ class VisitorRepository extends AbstractRepository
      */
     public function removeVisitor(Visitor $visitor): void
     {
+        $this->removeRelatedTableRowsByVisitor($visitor);
+
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
         $connection->executeQuery('delete from ' . Visitor::TABLE_NAME . ' where uid=' . (int)$visitor->getUid());
     }
@@ -508,7 +563,7 @@ class VisitorRepository extends AbstractRepository
     /**
      * @param Visitor $visitor
      * @return void
-     * @throws DBALException
+     * @throws ExceptionDbal
      */
     public function removeRelatedTableRowsByVisitor(Visitor $visitor): void
     {
@@ -535,24 +590,22 @@ class VisitorRepository extends AbstractRepository
         }
     }
 
-    /**
-     * @return void
-     */
-    public function truncateAll()
+    public function truncateAll(): void
     {
         $tables = [
             Attribute::TABLE_NAME,
             Categoryscoring::TABLE_NAME,
+            Company::TABLE_NAME,
             Download::TABLE_NAME,
             Fingerprint::TABLE_NAME,
             Ipinformation::TABLE_NAME,
             Log::TABLE_NAME,
+            Linkclick::TABLE_NAME,
             Newsvisit::TABLE_NAME,
             Pagevisit::TABLE_NAME,
-            Visitor::TABLE_NAME,
-            Linkclick::TABLE_NAME,
             Search::TABLE_NAME,
             Utm::TABLE_NAME,
+            Visitor::TABLE_NAME,
         ];
         foreach ($tables as $table) {
             DatabaseUtility::getConnectionForTable($table)->truncate($table);

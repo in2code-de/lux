@@ -404,8 +404,87 @@
 				<source>Content</source>
 			</trans-unit>
 
+			<trans-unit id="tx_lux_domain_model_company">
+				<source>Company</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.crdate">
+				<source>Creation date</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.tstamp">
+				<source>Change date</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.title">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.branch">
+				<source>Branch</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.branch_code">
+				<source>Branch code</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.city">
+				<source>City</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.contacts">
+				<source>Contacts</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.continent">
+				<source>Continent</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.country_code">
+				<source>Country code</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.region">
+				<source>Region</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.street">
+				<source>Street</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.street">
+				<source>Zip</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.domain">
+				<source>Domain</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.founding_year">
+				<source>Founding year</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.phone">
+				<source>Phone</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.revenue">
+				<source>Revenue</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.revenue_class">
+				<source>Revenue class</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.size">
+				<source>Size</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.size_class">
+				<source>Size class</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.description">
+				<source>Internal description</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.category">
+				<source>Category</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.category.nocategory">
+				<source>No category</source>
+			</trans-unit>
+
 			<trans-unit id="sys_category.lux_category">
-				<source>Is LUX category?</source>
+				<source>Is LUX scoring category?</source>
+			</trans-unit>
+			<trans-unit id="sys_category.lux_category.description">
+				<source>This is a data set used for segmentation by category scoring for leads</source>
+			</trans-unit>
+			<trans-unit id="sys_category.lux_company_category">
+				<source>Is LUX company category?</source>
+			</trans-unit>
+			<trans-unit id="sys_category.lux_company_category.description">
+				<source>This is a data set used for grouping companies by a category</source>
 			</trans-unit>
 
 			<trans-unit id="anonym">
@@ -413,6 +492,9 @@
 			</trans-unit>
 			<trans-unit id="notIdentified">
 				<source>not identified</source>
+			</trans-unit>
+			<trans-unit id="readabledate.now">
+				<source>now</source>
 			</trans-unit>
 			<trans-unit id="readabledate.minutes">
 				<source>%s minutes ago</source>
@@ -629,6 +711,33 @@
 			<trans-unit id="module.analysis.statistics.log">
 				<source>Number of log records</source>
 			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.amount">
+				<source>Overall companies in database</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.enabled">
+				<source>Wiredminds connection activated</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.token">
+				<source>Token added</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.result">
+				<source>Successful connection</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.statistics.hits">
+				<source>IP hits</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.statistics.misses">
+				<source>IP misses</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.statistics.req_available">
+				<source>Queries remaining</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.statistics.req_used">
+				<source>Connections used</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.statistics.req_limit">
+				<source>Connection limit</source>
+			</trans-unit>
 			<trans-unit id="module.analysis.bestvisitors">
 				<source>Hottest leads</source>
 			</trans-unit>
@@ -722,6 +831,12 @@
 			<trans-unit id="module.analysis.log.status.300">
 				<source>UTM parameters tracked</source>
 			</trans-unit>
+			<trans-unit id="module.analysis.log.status.400">
+				<source>Tried to convert via Wiredminds</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.410">
+				<source>Successfully converted company to lead via Wiredminds</source>
+			</trans-unit>
 			<trans-unit id="module.analysis.map">
 				<source>Lead source</source>
 			</trans-unit>
@@ -736,6 +851,15 @@
 			</trans-unit>
 			<trans-unit id="module.analysis.detailpage.company">
 				<source>Company</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.companylink">
+				<source>Show company</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.remove">
+				<source>Remove company</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.removewithvisitors">
+				<source>Remove company and visitors</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.detailpage.time">
 				<source>Time</source>
@@ -836,14 +960,23 @@
 			<trans-unit id="module.list.filter">
 				<source>Filter Leads</source>
 			</trans-unit>
+			<trans-unit id="module.list.filter.companies">
+				<source>Filter Companies</source>
+			</trans-unit>
 			<trans-unit id="module.list.filter.header.search">
 				<source>Search</source>
 			</trans-unit>
 			<trans-unit id="module.list.filter.header.scoring">
 				<source>General Scoring of Visitors</source>
 			</trans-unit>
+			<trans-unit id="module.list.filter.header.scoringcompany">
+				<source>Scoring Sum of Companies</source>
+			</trans-unit>
 			<trans-unit id="module.list.filter.header.categoryscoring">
 				<source>Category Scoring of Visitors</source>
+			</trans-unit>
+			<trans-unit id="module.list.filter.header.branches">
+				<source>Branches</source>
 			</trans-unit>
 			<trans-unit id="module.list.filter.firstoption.domain">
 				<source>Filter for domain...</source>
@@ -901,7 +1034,7 @@
 				<source>Lead scoring</source>
 			</trans-unit>
 			<trans-unit id="module.detail.description">
-				<source>Add an individual description (only internal) ...</source>
+				<source>Internal description (e.g. "[SalesId] 6/6/24: Follow up mail")</source>
 			</trans-unit>
 			<trans-unit id="module.detail.pagefunnel">
 				<source>Conversion Funnel / Page Visits</source>
@@ -912,12 +1045,22 @@
 			<trans-unit id="module.detail.moreattributes">
 				<source>More attributes</source>
 			</trans-unit>
+			<trans-unit id="module.detail.company.nocompany">
+				<source>No company</source>
+			</trans-unit>
 
 			<trans-unit id="module.lead.dashboard">
 				<source>Dashboard</source>
 			</trans-unit>
 			<trans-unit id="module.lead.list">
 				<source>Leads</source>
+			</trans-unit>
+			<trans-unit id="module.lead.companies">
+				<source>Companies</source>
+			</trans-unit>
+
+			<trans-unit id="module.lead.company.detail">
+				<source>Company</source>
 			</trans-unit>
 
 			<trans-unit id="module.linklistener.new">
@@ -1001,6 +1144,9 @@
 			</trans-unit>
 			<trans-unit id="module.box.countrylist.amount">
 				<source>Amount of leads</source>
+			</trans-unit>
+			<trans-unit id="module.box.leads.companyamountpermonth">
+				<source>Amount of companies</source>
 			</trans-unit>
 			<trans-unit id="module.box.headerpostfix">
 				<source>(all)</source>
@@ -1237,6 +1383,47 @@
 			</trans-unit>
 			<trans-unit id="module.dashboard.widget.luxutmmedia.description">
 				<source>Show best UTM media</source>
+			</trans-unit>
+
+			<trans-unit id="module.company.box.newest">
+				<source>Latest companies on your website</source>
+			</trans-unit>
+
+			<trans-unit id="module.companiesDisabled.title">
+				<source>GDPR conform Wiredminds integration into TYPO3</source>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.token1">
+				<source>Just add a</source>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.token2">
+				<source>and convert your visitors to companies automatically</source>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.note">
+				<source>Adding and submitting a valid token will add these TypoScript constants to your root templates (check TypoScript or documentation for more information about the settings)</source>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.titleImages">
+				<source>Valuable B2B sales information</source>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.image1.title">
+				<source>See visitor companies</source>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.image1.description">
+				<source>GDPR conform service to convert IP-addresses automatically to company information</source>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.image2.title">
+				<source>Company with details</source>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.image2.description">
+				<source>See revenue, size, contacts and more B2B relevant information to a company</source>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.token.success">
+				<source>Welcome to the new company view. From now on, your visitors will be converted through Wiredminds to real companies. Come back later and check the latest visits.</source>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.token.failureSpelling">
+				<source>Invalid token given, please check spelling</source>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.token.failureInterface">
+				<source>Could not connect to interface ip2c.wiredminds.com successfully or invalid token given</source>
 			</trans-unit>
 
 			<trans-unit id="luxletter.module.newsletter.receiver.title">
@@ -1598,14 +1785,29 @@
 			<trans-unit id="dictionary.and">
 				<source>and</source>
 			</trans-unit>
+			<trans-unit id="dictionary.branch">
+				<source>Branch</source>
+			</trans-unit>
 			<trans-unit id="dictionary.campaign">
 				<source>Campaign</source>
 			</trans-unit>
 			<trans-unit id="dictionary.campaigns">
 				<source>Campaigns</source>
 			</trans-unit>
+			<trans-unit id="dictionary.category">
+				<source>Category</source>
+			</trans-unit>
 			<trans-unit id="dictionary.content">
 				<source>Content</source>
+			</trans-unit>
+			<trans-unit id="dictionary.company">
+				<source>Company</source>
+			</trans-unit>
+			<trans-unit id="dictionary.companies">
+				<source>Companies</source>
+			</trans-unit>
+			<trans-unit id="dictionary.country">
+				<source>Country</source>
 			</trans-unit>
 			<trans-unit id="dictionary.lead">
 				<source>Lead</source>
@@ -1622,6 +1824,12 @@
 			<trans-unit id="dictionary.referrer">
 				<source>Referrer</source>
 			</trans-unit>
+			<trans-unit id="dictionary.segmentation">
+				<source>Segmentation</source>
+			</trans-unit>
+			<trans-unit id="dictionary.size">
+				<source>Size</source>
+			</trans-unit>
 			<trans-unit id="dictionary.source">
 				<source>Source</source>
 			</trans-unit>
@@ -1630,6 +1838,72 @@
 			</trans-unit>
 			<trans-unit id="dictionary.time">
 				<source>Time</source>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue">
+				<source>Revenue</source>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.00">
+				<source>Without indication</source>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.01">
+				<source>0 - 100K €</source>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.02">
+				<source>100 - 250K €</source>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.03">
+				<source>250 - 500K €</source>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.04">
+				<source>500K - 2.5M €</source>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.05">
+				<source>2.5M - 5M €</source>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.06">
+				<source>5M - 25M €</source>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.07">
+				<source>25M - 50M €</source>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.08">
+				<source>50M - 500M €</source>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.09">
+				<source>more than 500M €</source>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.00">
+				<source>Without indication</source>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.01">
+				<source>1 - 4 employees</source>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.02">
+				<source>5 - 9 employees</source>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.03">
+				<source>10 - 19 employees</source>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.04">
+				<source>20 - 49 employees</source>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.05">
+				<source>50 - 99 employees</source>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.06">
+				<source>100 - 199 employees</source>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.07">
+				<source>200 - 499 employees</source>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.08">
+				<source>500 - 999 employees</source>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.09">
+				<source>1K - 2K employees</source>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.10">
+				<source>more then 2K employees</source>
 			</trans-unit>
 		</body>
 	</file>

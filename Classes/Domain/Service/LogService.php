@@ -248,6 +248,28 @@ class LogService
 
     /**
      * @param Visitor $visitor
+     * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    public function logWiredmindsConnection(Visitor $visitor): void
+    {
+        $this->log(Log::STATUS_WIREDMINDS_CONNECTION, $visitor);
+    }
+
+    /**
+     * @param Visitor $visitor
+     * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    public function logWiredmindsConnectionSuccess(Visitor $visitor): void
+    {
+        $this->log(Log::STATUS_WIREDMINDS_SUCCESSFUL, $visitor);
+    }
+
+    /**
+     * @param Visitor $visitor
      * @param string $message exception message
      * @param int $code an exception timestamp
      * @param string $source path + file and line of error - like /var/www/file.php:123

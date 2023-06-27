@@ -96,9 +96,11 @@ label {
 
     .bg-primary {
         background-color: $colorSoft;
+        border: 1px solid $colorMain;
 
         li {
-            color: white;
+            //color: white;
+            //color: $colorMain;
         }
     }
 
@@ -188,6 +190,11 @@ label {
         }
     }
 
+    .btn-secondary {
+        background-color: #eeeeee;
+        border-color: #bbbbbb;
+    }
+
     .btn-primary-extra {
         appearance: none;
         -moz-appearance: none;
@@ -271,6 +278,12 @@ label {
         border: 1px solid $colorGreyBright;
     }
 
+    .table.min-height-50 {
+        td {
+            height: 50px; // height works as min-height for td
+        }
+    }
+
     .table-hover > tbody > tr:hover,
     .table-hover > tbody > tr.lux-action-detail {
         background-color: $colorMain;
@@ -331,9 +344,10 @@ label {
 .lux-textarea {
     width: 100%;
     padding: 10px;
+    border: 1px solid $colorGreyBright;
 
     &__default {
-        color: $colorGrey;
+        color: $colorGreyBright;
     }
 }
 
@@ -411,6 +425,7 @@ label {
 
 .lux-messages {
     padding: 15px 0;
+    margin: 1rem 0 2rem 0;
     list-style-type: none;
 
     > li {

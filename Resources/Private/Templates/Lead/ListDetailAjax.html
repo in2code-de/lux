@@ -8,19 +8,100 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-md-3">
-                <img src="{visitor.imageUrl}" alt="{visitor.fullName}" style="margin-top: 20px;" class="img-circle" />
+                <img src="{f:uri.resource(path:'Images/AvatarDefault.svg',extensionName:'lux')}" alt="{visitor.fullName}" data-lux-asynchronous-image="{visitor.uid}" style="margin-top: 1rem;" class="img-circle img-responsive" />
             </div>
-            <div class="col-md-9">
-                <h3>
-                    {visitor.fullName}
-                    <span class="badge" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.scoring')}">{visitor.scoring}</span>
-                    <f:if condition="{visitor.hottestCategoryscoring}">
-                        <span class="badge badge-primary" title="{visitor.hottestCategoryscoring.category.title}">{visitor.hottestCategoryscoring.scoring}</span>
-                    </f:if>
-                    <f:if condition="{visitor.identified}"><a href="http://www.google.com/search?q={visitor.fullName}" target="_blank" title="Search on google"><img src="{f:uri.resource(path:'Images/LogoGoogle.svg',extensionName:'Lux')}" width="16" /></a></f:if>
-                </h3>
+            <div class="col-md-9" style="display: flex; align-items: center;">
+                <div>
+                    <h3>
+                        {visitor.fullName}
 
-                <f:if condition="{visitor.importantAttributes} || {visitor.location}">
+                        <span class="badge" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.scoring')}">{visitor.scoring}</span>
+                        <f:if condition="{visitor.hottestCategoryscoring}">
+                            <span class="badge badge-primary" title="{visitor.hottestCategoryscoring.category.title}">{visitor.hottestCategoryscoring.scoring}</span>
+                        </f:if>
+                        <f:if condition="{visitor.identified}">
+                            <a href="http://www.google.com/search?q={visitor.fullName}" target="_blank" title="Search on google">
+                                <img src="{f:uri.resource(path:'Images/LogoGoogle.svg',extensionName:'Lux')}" width="16" />
+                            </a>
+                        </f:if>
+                    </h3>
+
+                    <f:if condition="{company}">
+                        <div class="row" style="margin-top: 2rem;">
+                            <div class="col-md-12">
+                                <h4>{company.title}</h4>
+                                <p>
+                                    {company.zip} {company.city}, {company.country}
+                                    <f:if condition="{company.street}"><br/></f:if>
+                                    {company.street}
+                                    <a href="https://www.google.com/maps/?q={company.address -> f:format.urlencode()}" target="_blank" title="View on google maps">
+                                        <img src="{f:uri.resource(path:'Images/LogoGoogleMaps.svg',extensionName:'Lux')}" width="16" />
+                                    </a>
+                                </p>
+                                <f:if condition="{company.phone}">
+                                    <p>
+                                        {company.phone}
+                                    </p>
+                                </f:if>
+                                <p>
+                                    <f:link.typolink parameter="https://{company.domain}" target="_blank">{company.domain}</f:link.typolink>
+                                </p>
+                            </div>
+                        </div>
+                    </f:if>
+                </div>
+            </div>
+        </div>
+
+        <f:if condition="{company.branchCode} && {company.revenueClass} && {company.sizeClass} && {company.foundingYear}">
+            <div class="row" style="margin-top: 2rem">
+                <div class="col-md-12">
+                    <table class="table table-striped">
+                        <f:if condition="{company.branchCode}">
+                            <tr>
+                                <td title="Branch code {company.branchCode}" colspan="2">
+                                    <strong>{company.branch}</strong>
+                                </td>
+                            </tr>
+                        </f:if>
+                        <f:if condition="{company.revenueClass}">
+                            <tr>
+                                <td>
+                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_company.revenue">Revenue</f:translate>
+                                </td>
+                                <td title="Revenue class {company.revenueClass}">
+                                    {company.revenue}
+                                </td>
+                            </tr>
+                        </f:if>
+                        <f:if condition="{company.sizeClass}">
+                            <tr>
+                                <td>
+                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_company.size">Size</f:translate>
+                                </td>
+                                <td title="Size class {company.sizeClass}">
+                                    {company.size}
+                                </td>
+                            </tr>
+                        </f:if>
+                        <f:if condition="{company.foundingYear}">
+                            <tr>
+                                <td>
+                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_company.founding_year">Founding year</f:translate>
+                                </td>
+                                <td>
+                                    {company.foundingYear}
+                                </td>
+                            </tr>
+                        </f:if>
+                    </table>
+                </div>
+            </div>
+        </f:if>
+
+        <f:if condition="{visitor.importantAttributes} || {visitor.location}">
+            <div class="row" style="margin-top: 2rem;">
+                <div class="col-md-12">
                     <table class="table table-striped">
                         <f:for each="{visitor.importantAttributes}" as="attribute">
                             <tr>
@@ -35,19 +116,41 @@
                             </tr>
                         </f:if>
                     </table>
+                </div>
+            </div>
+        </f:if>
+
+        <div class="row" style="margin-top: 2rem;">
+            <div class="col-md-12">
+                <f:if condition="{companies}">
+                    <select class="form-select" data-lux-visitor-company="{visitor.uid}">
+                        <option value="0"><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.company.nocompany">No company</f:translate></option>
+                        <f:for each="{companies}" as="companyRecord">
+                            <option value="{companyRecord.uid}"{f:if(condition:'{companyRecord.uid} == {visitor.companyrecord.uid}',then:'selected="selected"')}>{companyRecord.title}</option>
+                        </f:for>
+                    </select>
                 </f:if>
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <textarea class="lux-textarea{f:if(condition:'{visitor.description}',else:' lux-textarea__default')}" data-lux-visitor-description="{visitor.uid}"><f:if condition="{visitor.description}"><f:then>{visitor.description}</f:then><f:else><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.description">Add text...</f:translate></f:else></f:if></textarea>
-                    </div>
-                </div>
+                <textarea class="lux-textarea{f:if(condition:'{visitor.description}',else:' lux-textarea__default')}" data-lux-description="visitor:{visitor.uid}" style="margin-top: 0.5rem;"><f:if condition="{visitor.description}"><f:then>{visitor.description}</f:then><f:else><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.description">Add text...</f:translate></f:else></f:if></textarea>
+            </div>
+        </div>
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <button style="margin-top: 15px" class="btn btn-primary pull-right" data-lux-linkmock-event="detail{visitor.uid}"><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.linkdetail">show</f:translate></button>
-                    </div>
-                </div>
+        <div class="row">
+            <div class="col-md-12">
+                <button style="margin-top: 1rem" class="btn btn-primary pull-right" data-lux-linkmock-event="detail{visitor.uid}" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview.link',arguments:'{0:visitor.fullName}')}">
+                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.linkdetail">show</f:translate>
+                </button>
+
+                <f:if condition="{company}">
+                    <f:be.link
+                        route="lux_LuxLead"
+                        title="{company.title}"
+                        style="margin: 1rem 0.5rem 0 0;"
+                        class="btn btn-secondary pull-right"
+                        parameters="{tx_lux_lux_luxlead:'{company:company.uid,action:\'company\',controller:\'Lead\'}'}">
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.companylink">show</f:translate>
+                    </f:be.link>
+                </f:if>
             </div>
         </div>
     </div>

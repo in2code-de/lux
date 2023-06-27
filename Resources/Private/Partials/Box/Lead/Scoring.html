@@ -1,15 +1,25 @@
 <div class="panel panel-default">
-	<div class="panel-heading">
-		<h3 class="panel-title">
-			<f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.scoring">Scoring</f:translate>
-		</h3>
-	</div>
-	<div class="panel-body">
-		<canvas width="750"
-				height="250"
-				data-chart="line"
-				data-chart-data="{lux:charts.getScoringOfTheLastWeeksToAVisitor(visitor:visitor)}"
-				data-chart-label="Scoring"
-				data-chart-labels="{lux:charts.getLastWeekNames()}"></canvas>
-	</div>
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <f:translate
+                key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.scoring">
+                Scoring
+            </f:translate>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <f:if condition="{scoringWeeks.dataAvailable}">
+            <f:then>
+                <canvas width="750"
+                        height="250"
+                        data-chart="line"
+                        data-chart-data="{scoringWeeks.amountsList}"
+                        data-chart-label="Scoring"
+                        data-chart-labels="{scoringWeeks.titlesList}"></canvas>
+            </f:then>
+            <f:else>
+                <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+            </f:else>
+        </f:if>
+    </div>
 </div>

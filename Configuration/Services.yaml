@@ -58,6 +58,11 @@ services:
       - name: 'console.command'
         command: 'lux:cleanupVisitorsByProperty'
 
+  In2code\Lux\Command\LuxSetWiredmindCompanyInformationCommand:
+    tags:
+      - name: 'console.command'
+        command: 'lux:setWiredmindCompanyInformation'
+
   In2code\Lux\Command\LuxLeadSendSummaryCommand:
     tags:
       - name: 'console.command'
@@ -78,13 +83,28 @@ services:
       - name: 'console.command'
         command: 'lux:serviceRecalculateScoring'
 
+  In2code\Lux\Domain\Factory\CompanyFactory:
+    public: true
+
   In2code\Lux\Domain\Factory\Ipinformation\Handler:
+    public: true
+
+  In2code\Lux\Domain\Repository\Remote\WiredmindsRepository:
+    public: true
+
+  In2code\Lux\Domain\Service\CompanyConfigurationService:
+    public: true
+
+  In2code\Lux\Domain\Service\CompanyInformationService:
     public: true
 
   In2code\Lux\Domain\Service\VisitorImageService:
     public: true
 
   In2code\Lux\Domain\Service\VisitorMergeService:
+    public: true
+
+  In2code\Lux\Domain\Tracker\CompanyTracker:
     public: true
 
   In2code\Lux\Domain\Tracker\NewsTracker:

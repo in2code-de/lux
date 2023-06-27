@@ -2,11 +2,14 @@
 
 <f:section name="content">
     <div class="row flex">
-        <div class="col-md-6">
-            <f:render partial="Box/Miscellaneous/LuxStatistics1" arguments="{_all}"/>
+        <div class="col-md-4">
+            <f:render section="Statistics1" arguments="{_all}"/>
         </div>
-        <div class="col-md-6">
-            <f:render partial="Box/Miscellaneous/LuxStatistics2" arguments="{_all}"/>
+        <div class="col-md-4">
+            <f:render section="Statistics2" arguments="{_all}"/>
+        </div>
+        <div class="col-md-4">
+            <f:render section="StatisticsWiredminds" arguments="{_all}"/>
         </div>
     </div>
 
@@ -18,4 +21,191 @@
     <button onclick="window.history.back();" class="btn btn-primary">
         <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:back">go back</f:translate>
     </button>
+</f:section>
+
+
+<f:section name="Statistics1">
+    <div class="panel panel-default flex">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics">Statistics</f:translate> I
+            </h3>
+        </div>
+        <div class="panel-body">
+            <ol class="list-group">
+                <li class="list-group-item">
+                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.pagevisits">Page visits</f:translate>
+                    <span class="badge">{statistics.pagevisits}</span>
+                </li>
+                <li class="list-group-item">
+                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.downloads">Downloads</f:translate>
+                    <span class="badge">{statistics.downloads}</span>
+                </li>
+                <li class="list-group-item">
+                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.identified">Identified</f:translate>
+                    <span class="badge">{statistics.identified}</span>
+                </li>
+                <li class="list-group-item">
+                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.unknown">Unknown</f:translate>
+                    <span class="badge">{statistics.unknown}</span>
+                </li>
+                <li class="list-group-item">
+                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.identifiedemail4link">Identified per Email4Link</f:translate>
+                    <span class="badge">{statistics.identifiedEmail4Link}</span>
+                </li>
+                <li class="list-group-item">
+                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.identifiedfieldlistening">Identified per Fieldlistening</f:translate>
+                    <span class="badge">{statistics.identifiedFieldListening}</span>
+                </li>
+                <li class="list-group-item">
+                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.identifiedformlistening">Identified per Formlistening</f:translate>
+                    <span class="badge">{statistics.identifiedFormListening}</span>
+                </li>
+                <li class="list-group-item">
+                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.identifiedfrontendlogin">Identified per Frontend Login</f:translate>
+                    <span class="badge">{statistics.identifiedFrontendLogin}</span>
+                </li>
+                <li class="list-group-item">
+                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.identifiedluxletter">Identified per Luxletter</f:translate>
+                    <span class="badge">{statistics.identifiedLuxletter}</span>
+                </li>
+            </ol>
+        </div>
+    </div>
+</f:section>
+
+
+<f:section name="Statistics2">
+    <div class="panel panel-default flex">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics">Statistics</f:translate> II
+            </h3>
+        </div>
+        <div class="panel-body">
+            <ol class="list-group">
+                <li class="list-group-item">
+                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.linkclicks">Tracked link clicks</f:translate>
+                    <span class="badge">{statistics.linkclicks}</span>
+                </li>
+                <li class="list-group-item">
+                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.visitors">Number of visitors</f:translate>
+                    <span class="badge">{statistics.visitors}</span>
+                </li>
+                <li class="list-group-item">
+                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.luxcategories">Identified per Luxletter</f:translate>
+                    <span class="badge">{statistics.luxcategories}</span>
+                </li>
+                <li class="list-group-item">
+                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.fingerprints">Fingerprint records</f:translate>
+                    <span class="badge">{statistics.fingerprints}</span>
+                </li>
+                <li class="list-group-item">
+                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.ipinformation">IP Information records</f:translate>
+                    <span class="badge">{statistics.ipinformations}</span>
+                </li>
+                <li class="list-group-item">
+                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.log">Log records</f:translate>
+                    <span class="badge">{statistics.logs}</span>
+                </li>
+                <li class="list-group-item">
+                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.versionlux">LUX Version</f:translate>
+                    <span class="badge">{statistics.versionLux}</span>
+                </li>
+                <li class="list-group-item">
+                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.versionluxenterprise">Luxenterprise Version</f:translate>
+                    <span class="badge"><f:if condition="{statistics.versionLuxenterprise} == ''"><f:then>not installed</f:then><f:else>{statistics.versionLuxenterprise}</f:else></f:if></span>
+                </li>
+                <li class="list-group-item">
+                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.versionluxletter">Luxletter Version</f:translate>
+                    <span class="badge"><f:if condition="{statistics.versionLuxletter} == ''"><f:then>not installed</f:then><f:else>{statistics.versionLuxletter}</f:else></f:if></span>
+                </li>
+            </ol>
+        </div>
+    </div>
+</f:section>
+
+
+<f:section name="StatisticsWiredminds">
+    <div class="panel panel-default flex">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                Wiredminds API
+            </h3>
+        </div>
+        <div class="panel-body">
+            <ol class="list-group" style="max-height: 400px; overflow: auto;">
+                <li class="list-group-item">
+                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.wiredminds.amount">amount of companies</f:translate>
+                    <span class="badge pull-right">{statistics.wiredminds.amount}</span>
+                </li>
+                <li class="list-group-item">
+                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.wiredminds.enabled">enabled</f:translate>
+                    <span class="pull-right">
+                        <f:if condition="{settings.tracking.company._enable}">
+                            <f:then>
+                                <core:icon identifier="actions-check-circle-alt" size="small" />
+                            </f:then>
+                            <f:else>
+                                <core:icon identifier="apps-pagetree-drag-place-denied" size="small" />
+                            </f:else>
+                        </f:if>
+                    </span>
+                </li>
+                <f:if condition="{settings.tracking.company._enable}">
+                    <li class="list-group-item">
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.wiredminds.token">token</f:translate>
+                        <span class="pull-right">
+                            <f:if condition="{statistics.wiredminds.status.token}">
+                                <f:then>
+                                    <core:icon identifier="actions-check-circle-alt" size="small" />
+                                </f:then>
+                                <f:else>
+                                    <core:icon identifier="apps-pagetree-drag-place-denied" size="small" />
+                                </f:else>
+                            </f:if>
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.wiredminds.result">result</f:translate>
+                        <span class="pull-right">
+                            <f:if condition="{statistics.wiredminds.status.result}">
+                                <f:then>
+                                    <core:icon identifier="actions-check-circle-alt" size="small" />
+                                </f:then>
+                                <f:else>
+                                    <core:icon identifier="apps-pagetree-drag-place-denied" size="small" />
+                                </f:else>
+                            </f:if>
+                        </span>
+                    </li>
+                    <f:if condition="{statistics.wiredminds.status.result}">
+                        <f:for each="{statistics.wiredminds.status.statistics}" as="month">
+                            <li class="list-group-item">
+                                <table class="table">
+                                    <tr>
+                                        <th>
+                                            {month.year}/{month.month}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <f:for each="{month}" key="key" as="value">
+                                                <f:if condition="{key} != 'year' && {key} != 'month'">
+                                                    <p>
+                                                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.wiredminds.statistics.{key}">{key}</f:translate>
+                                                        <span class="badge pull-right">{value}</span>
+                                                    </p>
+                                                </f:if>
+                                            </f:for>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </li>
+                        </f:for>
+                    </f:if>
+                </f:if>
+            </ol>
+        </div>
+    </div>
 </f:section>

@@ -1,0 +1,138 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            Filter
+        </h3>
+    </div>
+    <div class="panel-body">
+        <f:form name="filter" class="form" action="companies" object="{filter}">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.scoring">Scoring</f:translate></h5>
+
+                    <div class="input-group form-group">
+                        <f:form.textfield
+                            type="range"
+                            property="scoring"
+                            class="form-control"
+                            additionalAttributes="{min:0, max:200, onchange:'document.getElementById(\'scoring_label\').innerHTML = this.value;'}"
+                            id="scoring"/>
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#scoring">
+                            Min: <strong id="scoring_label">{filter.scoring}</strong>
+                        </button>
+                    </div>
+
+                    <div class="input-group form-group">
+                        <f:form.textfield
+                            type="text"
+                            property="searchterm"
+                            id="searchterm"
+                            class="form-control"
+                            placeholder="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.searchterm')}" />
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#searchterm">
+                            <core:icon identifier="actions-search" />
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.segmentation">Segmentation</f:translate></h5>
+
+                    <div class="input-group form-group">
+                        <f:form.select property="sizeClass" class="form-control form-select" id="size">
+                            <option value="">
+                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.size" />
+                            </option>
+                            <f:for each="{lux:string.getRange(length:10,start:1,characterLength:2)}" as="value">
+                                <option value="{value}"{f:if(condition:'{filter.sizeClass} == {value}',then:' selected="selected"')}>
+                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.size_class.{value}" />
+                                </option>
+                            </f:for>
+                        </f:form.select>
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#size">
+                            <core:icon identifier="actions-search" />
+                        </button>
+                    </div>
+
+                    <div class="input-group form-group">
+                        <f:form.select property="revenueClass" class="form-control form-select" id="revenue">
+                            <option value="">
+                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.revenue" />
+                            </option>
+                            <f:for each="{lux:string.getRange(length:9,start:1,characterLength:2)}" as="value">
+                                <option value="{value}"{f:if(condition:'{filter.revenueClass} == {value}',then:' selected="selected"')}>
+                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.revenue_class.{value}" />
+                                </option>
+                            </f:for>
+                        </f:form.select>
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#revenue">
+                            <core:icon identifier="actions-search" />
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.branch">Branch</f:translate></h5>
+
+                    <div class="input-group form-group">
+                        <f:form.select
+                            property="branchCode"
+                            options="{branches}"
+                            prependOptionValue=""
+                            prependOptionLabel="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.header.branches')}"
+                            class="form-control form-select"
+                            id="branchCode"/>
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#branchCode">
+                            <core:icon identifier="actions-building" />
+                        </button>
+                    </div>
+
+                    <div class="input-group form-group">
+                        <f:form.select
+                            property="category"
+                            options="{categories}"
+                            prependOptionValue=""
+                            prependOptionLabel="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.category')}"
+                            optionLabelField="title"
+                            optionValueField="uid"
+                            class="form-control form-select"
+                            id="category"/>
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#category">
+                            <core:icon identifier="actions-tag" />
+                        </button>
+                    </div>
+
+                    <div class="input-group form-group" style="display: block">
+                        <div class="pull-right" style="white-space: nowrap; max-width: 260px;">
+                            <f:comment>This submit is not visible. Nevertheless it will be triggered when pressing return in an input field because it is the first submit.</f:comment>
+                            <f:form.submit
+                                class="btn btn-primary"
+                                value="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.submit')}"
+                                style="visibility:hidden;width:1px;padding:0;margin:0;"/>
+
+                            <f:comment>CSV Download</f:comment>
+                            <f:form.submit class="fa fa-download" name="export" id="download" value="csv" style="visibility:hidden;width:1px;padding:0;margin:0;"/>
+                            <label class="btn btn-default" for="download" style="margin-right: 10px;">
+                                <core:icon identifier="actions-download" size="small" />
+                            </label>
+
+                            <f:comment>Clear filter</f:comment>
+                            <f:if condition="{filter.set}">
+                                <f:link.action class="btn btn-default" style="margin-right: 10px" action="resetFilter" arguments="{redirectAction:view.action}">
+                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.reset">Reset</f:translate>
+                                </f:link.action>
+                            </f:if>
+
+                            <f:comment>Submit filter</f:comment>
+                            <f:form.submit
+                                class="btn btn-primary"
+                                value="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.submit')}" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </f:form>
+    </div>
+</div>

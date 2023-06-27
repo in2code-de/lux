@@ -531,9 +531,114 @@
 				<target state="translated">Inhalt</target>
 			</trans-unit>
 
+			<trans-unit id="tx_lux_domain_model_company">
+				<source>Company</source>
+				<target state="translated">Firma</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.crdate">
+				<source>Creation date</source>
+				<target state="translated">Erstellungsdatum</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.tstamp">
+				<source>Change date</source>
+				<target state="translated">Änderungsdatum</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.title">
+				<source>Name</source>
+				<target state="translated">Name</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.branch">
+				<source>Branch</source>
+				<target state="translated">Branche</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.branch_code">
+				<source>Branch code</source>
+				<target state="translated">Branchencode</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.city">
+				<source>City</source>
+				<target state="translated">Stadt</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.contacts">
+				<source>Contacts</source>
+				<target state="translated">Kontakte</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.continent">
+				<source>Continent</source>
+				<target state="translated">Kontinent</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.country_code">
+				<source>Country code</source>
+				<target state="translated">Ländercode</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.region">
+				<source>Region</source>
+				<target state="translated">Region</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.street">
+				<source>Street</source>
+				<target state="translated">Straße</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.street">
+				<source>Zip</source>
+				<target state="translated">PLZ</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.domain">
+				<source>Domain</source>
+				<target state="translated">Domain</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.founding_year">
+				<source>Founding year</source>
+				<target state="translated">Gründungsjahr</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.phone">
+				<source>Phone</source>
+				<target state="translated">Telefon</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.revenue">
+				<source>Revenue</source>
+				<target state="translated">Jahresumsatz</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.revenue_class">
+				<source>Revenue class</source>
+				<target state="translated">Umsatzklasse</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.size">
+				<source>Size</source>
+				<target state="translated">Größe</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.size_class">
+				<source>Size class</source>
+				<target state="translated">Größenklasse</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.description">
+				<source>Internal description</source>
+				<target state="translated">Interne Beschreibung</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.category">
+				<source>Category</source>
+				<target state="translated">Kategorie</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_company.category.nocategory">
+				<source>No category</source>
+				<target state="translated">Keine Kategorie</target>
+			</trans-unit>
+
 			<trans-unit id="sys_category.lux_category">
-				<source>Is LUX category?</source>
-				<target state="translated">Ist eine LUX-Kategorie?</target>
+				<source>Is LUX scoring category?</source>
+				<target state="translated">Ist eine LUX-Scoring-Kategorie?</target>
+			</trans-unit>
+			<trans-unit id="sys_category.lux_category.description">
+				<source>This is a data set used for segmentation by category scoring for leads</source>
+				<target state="translated">Es handelt sich hierbei um einen Datensatz, der zur Segmentierung durch Kategoriescoring für Leads dient</target>
+			</trans-unit>
+			<trans-unit id="sys_category.lux_company_category">
+				<source>Is LUX company category?</source>
+				<target state="translated">Ist eine LUX-Firmen-Kategorie</target>
+			</trans-unit>
+			<trans-unit id="sys_category.lux_company_category.description">
+				<source>This is a data set used for grouping companies by a category</source>
+				<target state="translated">Es handelt sich hierbei um einen Datensatz, der zur Gruppierung von Firmen dient</target>
 			</trans-unit>
 
 			<trans-unit id="anonym">
@@ -543,6 +648,10 @@
 			<trans-unit id="notIdentified">
 				<source>not identified</source>
 				<target state="translated">nicht identifiziert</target>
+			</trans-unit>
+			<trans-unit id="readabledate.now">
+				<source>now</source>
+				<target state="translated">jetzt</target>
 			</trans-unit>
 			<trans-unit id="readabledate.minutes">
 				<source>%s minutes ago</source>
@@ -830,6 +939,42 @@
 				<source>Number of log records</source>
 				<target state="translated">Anzahl Log Datensätze</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.amount">
+				<source>Overall companies in database</source>
+				<target state="translated">Gesamte Firmen in Datenbank</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.enabled">
+				<source>Wiredminds connection activated</source>
+				<target state="translated">Wiredminds Verbindung aktiviert</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.token">
+				<source>Token added</source>
+				<target state="translated">Token hinterlegt</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.result">
+				<source>Successful connection</source>
+				<target state="translated">Verbindung erfolgreich</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.statistics.hits">
+				<source>IP hits</source>
+				<target state="translated">Erkannte IP-Adressen</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.statistics.misses">
+				<source>IP misses</source>
+				<target state="translated">Unerkannte IP-Adressen</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.statistics.req_available">
+				<source>Queries remaining</source>
+				<target state="translated">Verbleibende Abfragen</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.statistics.req_used">
+				<source>Connections used</source>
+				<target state="translated">Genutzte Verbindungen</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.statistics.req_limit">
+				<source>Connection limit</source>
+				<target state="translated">Verbindungslimit</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.bestvisitors">
 				<source>Hottest leads</source>
 				<target state="translated">Hottest Leads</target>
@@ -954,6 +1099,14 @@
 				<source>UTM parameters tracked</source>
 				<target state="translated">UTM Parameter getrackt</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.log.status.400">
+				<source>Tried to convert via Wiredminds</source>
+				<target state="translated">Wiredminds Konvertierung versucht</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.410">
+				<source>Successfully converted company to lead via Wiredminds</source>
+				<target state="translated">Firma erfolgreich ermittelt mittels Wiredminds</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.map">
 				<source>Lead source</source>
 				<target state="translated">Lead Ursprung</target>
@@ -973,6 +1126,18 @@
 			<trans-unit id="module.analysis.detailpage.company">
 				<source>Company</source>
 				<target state="translated">Firma</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.companylink">
+				<source>Show company</source>
+				<target state="translated">Zeige Firma</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.remove">
+				<source>Remove company</source>
+				<target state="translated">Firma löschen</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.detailpage.removewithvisitors">
+				<source>Remove company and visitors</source>
+				<target state="translated">Firma und Leads löschen</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.detailpage.time">
 				<source>Time</source>
@@ -1102,6 +1267,10 @@
 				<source>Filter Leads</source>
 				<target state="translated">Lead Filter</target>
 			</trans-unit>
+			<trans-unit id="module.list.filter.companies">
+				<source>Filter Companies</source>
+				<target state="translated">Company Filter</target>
+			</trans-unit>
 			<trans-unit id="module.list.filter.header.search">
 				<source>Search</source>
 				<target state="translated">Suche</target>
@@ -1110,9 +1279,17 @@
 				<source>General Scoring of Visitors</source>
 				<target state="translated">Allgemeines Scoring des Besuchers</target>
 			</trans-unit>
+			<trans-unit id="module.list.filter.header.scoringcompany">
+				<source>Scoring Sum of Companies</source>
+				<target state="translated">Kumuliertes Firmenscoring</target>
+			</trans-unit>
 			<trans-unit id="module.list.filter.header.categoryscoring">
 				<source>Category Scoring of Visitors</source>
 				<target state="translated">Kategorie-Scoring des Besuchers</target>
+			</trans-unit>
+			<trans-unit id="module.list.filter.header.branches">
+				<source>Branches</source>
+				<target state="translated">Branche</target>
 			</trans-unit>
 			<trans-unit id="module.list.filter.firstoption.domain">
 				<source>Filter for domain...</source>
@@ -1188,8 +1365,8 @@
 				<target state="translated">Lead Scoring</target>
 			</trans-unit>
 			<trans-unit id="module.detail.description">
-				<source>Add an individual description (only internal) ...</source>
-				<target state="translated">Individuelle Beschreibung hinzufügen (nur intern)...</target>
+				<source>Internal description (e.g. "[SalesId] 6/6/24: Follow up mail")</source>
+				<target state="translated">Interne Beschreibung (z.B. "[Saleskürzel] 6.6.24: Follow-up mail")</target>
 			</trans-unit>
 			<trans-unit id="module.detail.pagefunnel">
 				<source>Conversion Funnel / Page Visits</source>
@@ -1203,6 +1380,10 @@
 				<source>More attributes</source>
 				<target state="translated">Weitere Eigenschaften</target>
 			</trans-unit>
+			<trans-unit id="module.detail.company.nocompany">
+				<source>No company</source>
+				<target state="translated">Keine Firma</target>
+			</trans-unit>
 
 			<trans-unit id="module.lead.dashboard">
 				<source>Dashboard</source>
@@ -1211,6 +1392,15 @@
 			<trans-unit id="module.lead.list">
 				<source>Leads</source>
 				<target state="translated">Leads</target>
+			</trans-unit>
+			<trans-unit id="module.lead.companies">
+				<source>Companies</source>
+				<target state="translated">Firmen</target>
+			</trans-unit>
+
+			<trans-unit id="module.lead.company.detail">
+				<source>Company</source>
+				<target state="translated">Firma</target>
 			</trans-unit>
 
 			<trans-unit id="module.linklistener.new">
@@ -1321,6 +1511,10 @@
 			<trans-unit id="module.box.countrylist.amount">
 				<source>Amount of leads</source>
 				<target state="translated">Anzahl Leads</target>
+			</trans-unit>
+			<trans-unit id="module.box.leads.companyamountpermonth">
+				<source>Amount of companies</source>
+				<target state="translated">Anzahl Firmen</target>
 			</trans-unit>
 			<trans-unit id="module.box.headerpostfix">
 				<source>(all)</source>
@@ -1635,6 +1829,60 @@
 			<trans-unit id="module.dashboard.widget.luxutmmedia.description">
 				<source>Show best UTM media</source>
 				<target state="translated">Zeige die beisten UTM Media</target>
+			</trans-unit>
+
+			<trans-unit id="module.company.box.newest">
+				<source>Latest companies on your website</source>
+				<target state="translated">Letzte Firmen auf der Website</target>
+			</trans-unit>
+
+			<trans-unit id="module.companiesDisabled.title">
+				<source>GDPR conform Wiredminds integration into TYPO3</source>
+				<target state="translated">DSGVO konforme TYPO3 Wiredminds Integration</target>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.token1">
+				<source>Just add a</source>
+				<target state="translated">Einfach einen</target>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.token2">
+				<source>and convert your visitors to companies automatically</source>
+				<target state="translated">hinzufügen und Firmenbesuche anzeigen lassen</target>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.note">
+				<source>Adding and submitting a valid token will add these TypoScript constants to your root templates (check TypoScript or documentation for more information about the settings)</source>
+				<target state="translated">Beim Absenden dieses Formulares werden diese TypoScript Konstanten in den Root Templates gesetzt (bitte TypoScript oder Dokumentation für eine detaillierte Erklärung beachten)</target>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.titleImages">
+				<source>Valuable B2B sales information</source>
+				<target state="translated">Wertvolle B2B Sales Informationen</target>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.image1.title">
+				<source>See visitor companies</source>
+				<target state="translated">Zeige Firmen der Besucher</target>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.image1.description">
+				<source>GDPR conform service to convert IP-addresses automatically to company information</source>
+				<target state="translated">DSGVO konformer Service um IP-Adressen mit wertvollen Firmeninformationen anzureichern</target>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.image2.title">
+				<source>Company with details</source>
+				<target state="translated">Details zu Firma</target>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.image2.description">
+				<source>See revenue, size, contacts and more B2B relevant information to a company</source>
+				<target state="translated">Zeige Umsatz, Branche, Größe, Kontakte und weitere relevante B2B Informationen</target>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.token.success">
+				<source>Welcome to the new company view. From now on, your visitors will be converted through Wiredminds to real companies. Come back later and check the latest visits.</source>
+				<target state="translated">Willkommen in der neuen Unternehmensansicht. Von nun an werden Besucher durch Wiredminds in echte Unternehmen umgewandelt. Komm später noch einmal vorbei und schau dir die letzten Besuche an.</target>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.token.failureSpelling">
+				<source>Invalid token given, please check spelling</source>
+				<target state="translated">Ungültiger Token, bitte Schreibweise überprüfen</target>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.token.failureInterface">
+				<source>Could not connect to interface ip2c.wiredminds.com successfully or invalid token given</source>
+				<target state="translated">Verbindung zu ip2c.wiredminds.com fehlgeschlagen oder ungültiger Token</target>
 			</trans-unit>
 
 			<trans-unit id="luxletter.module.newsletter.receiver.title">
@@ -2112,6 +2360,10 @@
 				<source>and</source>
 				<target state="translated">und</target>
 			</trans-unit>
+			<trans-unit id="dictionary.branch">
+				<source>Branch</source>
+				<target state="translated">Branche</target>
+			</trans-unit>
 			<trans-unit id="dictionary.campaign">
 				<source>Campaign</source>
 				<target state="translated">Kampagne</target>
@@ -2120,9 +2372,25 @@
 				<source>Campaigns</source>
 				<target state="translated">Kampagnen</target>
 			</trans-unit>
+			<trans-unit id="dictionary.category">
+				<source>Category</source>
+				<target state="translated">Kategorie</target>
+			</trans-unit>
 			<trans-unit id="dictionary.content">
 				<source>Content</source>
 				<target state="translated">Inhalt</target>
+			</trans-unit>
+			<trans-unit id="dictionary.company">
+				<source>Company</source>
+				<target state="translated">Firma</target>
+			</trans-unit>
+			<trans-unit id="dictionary.companies">
+				<source>Companies</source>
+				<target state="translated">Firmen</target>
+			</trans-unit>
+			<trans-unit id="dictionary.country">
+				<source>Country</source>
+				<target state="translated">Land</target>
 			</trans-unit>
 			<trans-unit id="dictionary.lead">
 				<source>Lead</source>
@@ -2144,6 +2412,14 @@
 				<source>Referrer</source>
 				<target state="translated">Referrer</target>
 			</trans-unit>
+			<trans-unit id="dictionary.segmentation">
+				<source>Segmentation</source>
+				<target state="translated">Segmentierung</target>
+			</trans-unit>
+			<trans-unit id="dictionary.size">
+				<source>Size</source>
+				<target state="translated">Größe</target>
+			</trans-unit>
 			<trans-unit id="dictionary.source">
 				<source>Source</source>
 				<target state="translated">Quelle</target>
@@ -2155,6 +2431,94 @@
 			<trans-unit id="dictionary.time">
 				<source>Time</source>
 				<target state="translated">Zeitpunkt</target>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue">
+				<source>Revenue</source>
+				<target state="translated">Umsatz</target>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.00">
+				<source>Without indication</source>
+				<target state="translated">Ohne Angabe</target>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.01">
+				<source>0 - 100K €</source>
+				<target state="translated">0 bis 100K €</target>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.02">
+				<source>100 - 250K €</source>
+				<target state="translated">100K bis 250K €</target>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.03">
+				<source>250 - 500K €</source>
+				<target state="translated">250K - 500K €</target>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.04">
+				<source>500K - 2.5M €</source>
+				<target state="translated">500K - 2.5M €</target>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.05">
+				<source>2.5M - 5M €</source>
+				<target state="translated">2.5M - 5M €</target>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.06">
+				<source>5M - 25M €</source>
+				<target state="translated">5M bis 25M €</target>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.07">
+				<source>25M - 50M €</source>
+				<target state="translated">25M - 50M €</target>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.08">
+				<source>50M - 500M €</source>
+				<target state="translated">50M - 500M €</target>
+			</trans-unit>
+			<trans-unit id="dictionary.revenue_class.09">
+				<source>more than 500M €</source>
+				<target state="translated">mehr als 500M €</target>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.00">
+				<source>Without indication</source>
+				<target state="translated">Ohne Angabe</target>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.01">
+				<source>1 - 4 employees</source>
+				<target state="translated">1 - 4 Beschäftigte</target>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.02">
+				<source>5 - 9 employees</source>
+				<target state="translated">5 - 9 Beschäftigte</target>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.03">
+				<source>10 - 19 employees</source>
+				<target state="translated">10 - 19 Beschäftigte</target>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.04">
+				<source>20 - 49 employees</source>
+				<target state="translated">20 - 49 Beschäftigte</target>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.05">
+				<source>50 - 99 employees</source>
+				<target state="translated">50 - 99 Beschäftigte</target>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.06">
+				<source>100 - 199 employees</source>
+				<target state="translated">100 - 199 Beschäftigte</target>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.07">
+				<source>200 - 499 employees</source>
+				<target state="translated">200 - 499 Beschäftigte</target>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.08">
+				<source>500 - 999 employees</source>
+				<target state="translated">500 - 999 Beschäftigte</target>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.09">
+				<source>1K - 2K employees</source>
+				<target state="translated">1K - 2K Beschäftigte</target>
+			</trans-unit>
+			<trans-unit id="dictionary.size_class.10">
+				<source>more then 2K employees</source>
+				<target state="translated">mehr als 2K Beschäftigte</target>
 			</trans-unit>
 		</body>
 	</file>

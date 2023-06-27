@@ -9,6 +9,7 @@ use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use Exception;
 use In2code\Lux\Domain\Model\Categoryscoring;
+use In2code\Lux\Domain\Model\Company;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
@@ -92,6 +93,34 @@ class PagevisitRepository extends AbstractRepository
             $query->logicalAnd(...$logicalAnd)
         );
         $query->setLimit(5);
+        return $query->execute();
+    }
+
+    public function findLatestPagevisitsWithCompanies(int $limit = 8): QueryResultInterface
+    {
+        $sql = 'select c.uid companyuid, max(pv.uid) AS uid'
+            . ' from ' . Pagevisit::TABLE_NAME . ' pv'
+            . ' left join ' . Visitor::TABLE_NAME . ' v on pv.visitor = v.uid'
+            . ' left join ' . Company::TABLE_NAME . ' c on v.companyrecord = c.uid'
+            . ' where pv.deleted=0 and v.deleted=0 and c.deleted=0'
+            . ' and v.blacklisted=0'
+            . ' group by c.uid'
+            . ' order by uid desc, pv.crdate desc'
+            . ' limit ' . $limit;
+        $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);
+        $identifiers = ArrayUtility::convertFetchedAllArrayToNumericArray(
+            $connection->executeQuery($sql)->fetchAllAssociative()
+        );
+
+        $query = $this->createQuery();
+        $logicalAnd = [
+            $query->in('uid', $identifiers),
+        ];
+        $query->matching(
+            $query->logicalAnd(...$logicalAnd)
+        );
+        $query->setLimit($limit);
+        $query->setOrderings(['crdate' => QueryInterface::ORDER_DESCENDING]);
         return $query->execute();
     }
 
@@ -440,6 +469,31 @@ class PagevisitRepository extends AbstractRepository
             }
         }
         return $abondons;
+    }
+
+    public function findFirstForCompany(Company $company): ?Pagevisit
+    {
+        return $this->findOneByCompany($company);
+    }
+
+    public function findLatestForCompany(Company $company): ?Pagevisit
+    {
+        return $this->findOneByCompany($company, 'desc');
+    }
+
+    protected function findOneByCompany(Company $company, string $orderings = 'asc'): ?Pagevisit
+    {
+        $sql = 'select pv.uid'
+            . ' from ' . Company::TABLE_NAME . ' c'
+            . ' left join ' . Visitor::TABLE_NAME . ' v on v.companyrecord = c.uid'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.visitor = v.uid'
+            . ' where c.uid=' . $company->getUid() . ' and c.deleted=0 and v.deleted=0'
+            . ' and v.blacklisted=0 and pv.deleted=0'
+            . ' order by pv.crdate ' . $orderings
+            . ' limit 1';
+        $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);
+        $identifier = $connection->executeQuery($sql)->fetchOne();
+        return $this->findByUid($identifier);
     }
 
     /**

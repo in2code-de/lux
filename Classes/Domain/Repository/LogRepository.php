@@ -5,11 +5,12 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use Exception;
+use In2code\Lux\Domain\Model\Company;
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
+use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\DateUtility;
 use In2code\Lux\Utility\ObjectUtility;
@@ -24,8 +25,7 @@ class LogRepository extends AbstractRepository
 {
     /**
      * @return int
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function findAllAmount(): int
     {
@@ -51,6 +51,23 @@ class LogRepository extends AbstractRepository
     }
 
     /**
+     * @param Company $company
+     * @param int $limit
+     * @return QueryResultInterface
+     * @throws InvalidConfigurationTypeException
+     * @throws InvalidQueryException
+     */
+    public function findInterestingLogsByCompany(Company $company, int $limit = 250): QueryResultInterface
+    {
+        $query = $this->createQuery();
+        $logicalAnd = $this->interestingLogsLogicalAnd($query);
+        $logicalAnd[] = $query->equals('visitor.companyrecord', $company);
+        $query->matching($query->logicalAnd(...$logicalAnd));
+        $query->setLimit($limit);
+        return $query->execute();
+    }
+
+    /**
      * Return a result of identified logs for the last months
      *  e.g. for the last 2:
      *      [
@@ -60,8 +77,7 @@ class LogRepository extends AbstractRepository
      *
      * @param int $months
      * @return array
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function findIdentifiedLogsFromMonths(int $months = 6): array
     {
@@ -83,9 +99,7 @@ class LogRepository extends AbstractRepository
      * @param int $status
      * @param FilterDto $filter
      * @return int
-     * @throws DBALException
      * @throws Exception
-     * @throws ExceptionDbalDriver
      */
     public function findByStatusAmount(int $status, FilterDto $filter): int
     {
@@ -95,11 +109,6 @@ class LogRepository extends AbstractRepository
         return (int)$connection->executeQuery($query)->fetchOne();
     }
 
-    /**
-     * @param int $pageIdentifier
-     * @param FilterDto $filter
-     * @return int
-     */
     public function findAmountOfIdentifiedLogsByPageIdentifierAndTimeFrame(int $pageIdentifier, FilterDto $filter): int
     {
         $identifiedStatus = [
@@ -120,6 +129,40 @@ class LogRepository extends AbstractRepository
             // Catch if JSON_EXTRACT() is not possible as database operation
             return 0;
         }
+    }
+
+    public function findWiredmindsLogByVisitor(Visitor $visitor): ?Log
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->logicalAnd(
+                $query->equals('visitor', $visitor),
+                $query->equals('status', Log::STATUS_WIREDMINDS_CONNECTION)
+            )
+        );
+        $query->setLimit(1);
+        $query->setOrderings(['crdate' => QueryInterface::ORDER_DESCENDING]);
+        return $query->execute()->getFirst();
+    }
+
+    public function findAmountOfWiredmindsLogsOfCurrentMonth(): int
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Log::TABLE_NAME);
+        $sql = 'select count(uid)'
+            . ' from ' . Log::TABLE_NAME
+            . ' where crdate > ' . (new \DateTime('first day of this month'))->getTimestamp()
+            . ' and status=' . Log::STATUS_WIREDMINDS_CONNECTION . ' and deleted=0';
+        return (int)$connection->executeQuery($sql)->fetchOne();
+    }
+
+    public function findAmountOfWiredmindsLogsOfCurrentHour(): int
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Log::TABLE_NAME);
+        $sql = 'select count(uid)'
+            . ' from ' . Log::TABLE_NAME
+            . ' where crdate > ' . DateUtility::getHourStart()->getTimestamp()
+            . ' and status=' . Log::STATUS_WIREDMINDS_CONNECTION . ' and deleted=0';
+        return (int)$connection->executeQuery($sql)->fetchOne();
     }
 
     /**

@@ -21,6 +21,7 @@ define(['jquery'], function($) {
      */
     this.initialize = function() {
       addDetailViewListener('leadlistdetail', 'visitor');
+      addDetailViewListener('companydetail', 'company');
       addDetailViewListener('analysiscontentdetailpage', 'page');
       addDetailViewListener('analysisnewsdetailpage', 'news');
       addDetailViewListener('analysisutmdetailpage', 'visitor');
@@ -30,18 +31,21 @@ define(['jquery'], function($) {
       addDetailViewListener('workflowdetail', 'workflow', 'luxenterprise');
       addDetailViewListener('abtestingdetail', 'abTesting', 'luxenterprise');
       addDetailViewListener('workflowurlshortenerdetail', 'urlShortener', 'luxenterprise');
-      addDescriptionListener();
+      addDescriptionTextareaListener();
+      addCompanySelectListener();
+      addCategorySelectListener();
       addLinkMockListener();
       addConfirmListeners();
       asynchronousImageLoading();
       asynchronousLinkListenerPerformanceLoading();
+      asynchronousCompaniesInformationLoading();
       addToggleListener();
     };
 
     /**
      * Add listener for different detail ajax views
      *
-     * @params {string} name e.g. "detail" for "lux-action-detail"
+     * @params {string} name e.g. "detail" for "data-lux-action-detail"
      * @params {string} propertyName e.g. "visitor"
      * @returns {void}
      */
@@ -63,26 +67,73 @@ define(['jquery'], function($) {
     /**
      * @returns {void}
      */
-    var addDescriptionListener = function() {
+    var addDescriptionTextareaListener = function() {
       var container = document.querySelector('[data-lux-container="detail"]');
       if (container !== null) {
         container.addEventListener('click', function(event) {
           var clickedElement = event.target;
-          if (clickedElement.getAttribute('data-lux-visitor-description') > 0) {
+          if (clickedElement.getAttribute('data-lux-description') !== null) {
             if (clickedElement.classList.contains('lux-textarea__default')) {
               clickedElement.classList.remove('lux-textarea__default');
               clickedElement.value = '';
             }
-            var visitor = clickedElement.getAttribute('data-lux-visitor-description');
+            const [object, identifier] = clickedElement.getAttribute('data-lux-description').split(':');
             clickedElement.addEventListener('blur', function() {
-              ajaxConnection(TYPO3.settings.ajaxUrls['/lux/visitordescription'], {
-                visitor: visitor,
-                value: this.value
-              }, null);
+              if (object === 'visitor') {
+                ajaxConnection(TYPO3.settings.ajaxUrls['/lux/visitordescription'], {
+                  visitor: identifier,
+                  value: this.value
+                }, null);
+              }
+              if (object === 'company') {
+                ajaxConnection(TYPO3.settings.ajaxUrls['/lux/companydescription'], {
+                  company: identifier,
+                  value: this.value
+                }, null);
+              }
             });
           }
         });
       }
+    };
+
+    /**
+     * @returns {void}
+     */
+    var addCompanySelectListener = function() {
+      var select = document.querySelector('[data-lux-visitor-company]');
+      if (select !== null) {
+        var visitor = select.getAttribute('data-lux-visitor-company');
+        select.addEventListener('change', function(event) {
+          ajaxConnection(TYPO3.settings.ajaxUrls['/lux/visitorcompany'], {
+            visitor: visitor,
+            value: this.value
+          }, 'reloadCallback');
+        });
+      }
+    };
+
+    /**
+     * @returns {void}
+     */
+    var addCategorySelectListener = function() {
+      var select = document.querySelector('[data-lux-company-category]');
+      if (select !== null) {
+        var company = select.getAttribute('data-lux-company-category');
+        select.addEventListener('change', function(event) {
+          ajaxConnection(TYPO3.settings.ajaxUrls['/lux/companycategory'], {
+            company: company,
+            value: this.value
+          });
+        });
+      }
+    };
+
+    /**
+     * @params {Json} response
+     */
+    this.reloadCallback = function(response) {
+      location.reload();
     };
 
     /**
@@ -109,6 +160,9 @@ define(['jquery'], function($) {
      */
     this.generalDetailCallback = function(response) {
       document.querySelector('[data-lux-container="detail"]').innerHTML = response.html;
+      asynchronousImageLoading();
+      addCompanySelectListener();
+      addCategorySelectListener();
       window.LuxDiagramObject.initialize();
     };
 
@@ -128,19 +182,26 @@ define(['jquery'], function($) {
     };
 
     /**
-     * This allows to get visitor images (maybe from google or gravatar) as asynchronous request, to not block page
-     * rendering.
+     * This allows to get visitor or company images (maybe from google or gravatar) as asynchronous request,
+     * to not block page rendering.
      * This function is used in LUX backend modules and also in PageOverview.html
      *
      * @returns {void}
      */
     const asynchronousImageLoading = function() {
-      const elements = document.querySelectorAll('[data-lux-asynchronous-image]');
+      const elements = document.querySelectorAll('[data-lux-asynchronous-image],[data-lux-asynchronous-companyimage]');
       for (let i = 0; i < elements.length; i++) {
-        let visitorIdentifier = elements[i].getAttribute('data-lux-asynchronous-image');
-        if (visitorIdentifier > 0) {
+        const visitorIdentifier = elements[i].getAttribute('data-lux-asynchronous-image');
+        if (visitorIdentifier !== null) {
           ajaxConnection(TYPO3.settings.ajaxUrls['/lux/visitorimage'], {
             visitor: visitorIdentifier
+          }, 'asynchronousImageLoadingCallback', {element: elements[i]});
+        }
+
+        const companyIdentifier = elements[i].getAttribute('data-lux-asynchronous-companyimage');
+        if (companyIdentifier !== null) {
+          ajaxConnection(TYPO3.settings.ajaxUrls['/lux/companyimage'], {
+            company: companyIdentifier
           }, 'asynchronousImageLoadingCallback', {element: elements[i]});
         }
       }
@@ -179,6 +240,31 @@ define(['jquery'], function($) {
     this.asynchronousLinkListenerPerformanceLoadingCallback = function(response, callbackArguments) {
       const performance = (response.performance * 100).toFixed(1);
       callbackArguments.element.innerHTML = performance + ' %';
+    };
+
+    /**
+     * @returns {void}
+     */
+    const asynchronousCompaniesInformationLoading = function() {
+      const elements = document.querySelectorAll('[data-lux-getcompaniesinformation-numberofvisits]');
+      elements.forEach(function(element) {
+        let company = element.getAttribute('data-lux-getcompaniesinformation-numberofvisits');
+        if (company > 0) {
+          ajaxConnection(TYPO3.settings.ajaxUrls['/lux/companiesinformation'], {
+            company: company
+          }, 'asynchronousCompaniesInformationLoadingCallback', {element: element});
+        }
+      });
+    };
+
+    /**
+     * @params {Json} response
+     */
+    this.asynchronousCompaniesInformationLoadingCallback = function(response, callbackArguments) {
+      const target = callbackArguments.element;
+      target.innerHTML = response.numberOfVisits;
+      const target2 = target.closest('tr').querySelector('[data-lux-getcompaniesinformation-numberofvisitors]');
+      target2.innerHTML = response.numberOfVisitors;
     };
 
     /**

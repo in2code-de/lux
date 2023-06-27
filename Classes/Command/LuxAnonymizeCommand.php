@@ -21,8 +21,8 @@ class LuxAnonymizeCommand extends Command
     }
 
     /**
-     * This command will really (!!!) overwrite all your identified-visitor-records with dummy values.
-     * This command is e.g. for local development or for a presentation!
+     * This command will really (!!!) overwrite all your identified-visitor-records and companies with dummy values.
+     * This command is e.g. for a gdpr respecting environment, local development or for a presentation!
      *
      *      Example command: ./vendor/bin/typo3 lux:anonymize
      *
