@@ -339,6 +339,7 @@ class FrontendController extends ActionController
         $authTracker = GeneralUtility::makeInstance(
             FrontenduserAuthenticationTracker::class,
             $visitor,
+            AttributeTracker::CONTEXT_FRONTENDUSER,
             (int)$arguments['pageUid']
         );
         $authTracker->trackByFrontenduserAuthentication();
