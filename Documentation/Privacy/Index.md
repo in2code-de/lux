@@ -1,4 +1,5 @@
-<img align="left" src="../../Resources/Public/Icons/lux.svg" width="50" />
+![LUX](/Documentation/Images/logo_claim.svg#gh-light-mode-only "LUX")
+![LUX](/Documentation/Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
 
 This part of the documentation gives you some information about privacy on websites in general.
 

@@ -1,86 +1,234 @@
 <div class="panel panel-default flex">
-	<div class="panel-heading">
-		<h3 class="panel-title">
-			<f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail">Preview</f:translate>
-		</h3>
-	</div>
-	<div class="panel-body">
-		<div class="row">
-			<div class="col-md-3">
-				<img src="{f:uri.resource(path:'Images/AvatarDefault.svg',extensionName:'lux')}" alt="{visitor.fullName}" data-lux-asynchronous-image="{visitor.uid}" width="150" height="150" style="max-width: 100%; margin-top: 20px;" class="img-circle img-responsive" />
-			</div>
-			<div class="col-md-9">
-				<h3 title="UID{visitor.uid}">
-					{visitor.fullName}
-					<span class="badge" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.scoring')}">{visitor.scoring}</span>
-					<f:if condition="{visitor.hottestCategoryscoring}">
-						<span class="badge badge-primary" title="{visitor.hottestCategoryscoring.category.title}">{visitor.hottestCategoryscoring.scoring}</span>
-					</f:if>
-					<f:if condition="{visitor.identified}"><a href="http://www.google.com/search?q={visitor.fullName}" target="_blank" title="Search on google"><img src="{f:uri.resource(path:'Images/LogoGoogle.svg',extensionName:'Lux')}" width="16" /></a></f:if>
-				</h3>
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail">Preview</f:translate>
+        </h3>
+    </div>
+    <div class="panel-body" style="height: 450px; overflow: auto;">
+        <div class="row">
+            <div class="col-md-3">
+                <img src="{f:uri.resource(path:'Images/AvatarDefault.svg',extensionName:'lux')}" alt="{visitor.fullName}" data-lux-asynchronous-image="{visitor.uid}" width="150" height="150" style="max-width: 100%; margin-top: 20px;" class="img-circle img-responsive" />
+            </div>
+            <div class="col-md-9">
+                <h3 title="UID{visitor.uid}">
+                    {visitor.fullName}
+                    <span class="badge" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.scoring')}">{visitor.scoring}</span>
+                    <f:if condition="{visitor.hottestCategoryscoring}">
+                        <span class="badge badge-primary" title="{visitor.hottestCategoryscoring.category.title}">{visitor.hottestCategoryscoring.scoring}</span>
+                    </f:if>
+                    <f:if condition="{visitor.identified}"><a href="http://www.google.com/search?q={visitor.fullName}" target="_blank" title="Search on google"><img src="{f:uri.resource(path:'Images/LogoGoogle.svg',extensionName:'Lux')}" width="16" /></a></f:if>
+                </h3>
 
-				<f:if condition="{visitor.attributes}">
-					<table class="table table-striped">
-						<f:for each="{visitor.importantAttributes}" as="attribute">
-							<tr>
-								<td><strong>{attribute.label}</strong></td>
-								<td>{attribute.value}</td>
-							</tr>
-						</f:for>
-						<f:if condition="{visitor.unimportantAttributes}">
-							<tr>
-								<td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.moreattributes">More attributes</f:translate></td>
-								<td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:seebelow">See below...</f:translate></td></tr>
-						</f:if>
-					</table>
-				</f:if>
+                <div style="margin-top: 2rem;">
+                    <f:if condition="{visitor.companyrecord}">
+                        <f:then>
+                            <f:render section="WithCompanyRecord" arguments="{_all}"/>
+                        </f:then>
+                        <f:else>
+                            <f:render section="WithoutCompanyRecord" arguments="{_all}"/>
+                        </f:else>
+                    </f:if>
+                </div>
+            </div>
+        </div>
 
-				<div class="row">
-					<div class="col-md-12">
-						<table class="table table-striped">
-							<tr>
-								<th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.crdate">First visit</f:translate></th>
-								<td>{lux:format.readableDate(date:visitor.crdate)} ({f:format.date(date:visitor.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')})</td>
-							</tr>
-							<tr>
-								<th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.tstamp">Last visit</f:translate></th>
-								<td>{lux:format.readableDate(date:visitor.dateOfLastVisit)} ({f:format.date(date:visitor.dateOfLastVisit,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')})</td>
-							</tr>
-							<f:if condition="{visitor.pagevisitFirst.referrer}">
-								<tr>
-									<th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.referrer">Source</f:translate></th>
-									<td>
-										<a href="{visitor.pagevisitFirst.referrer}" target="_blank" title="{visitor.pagevisitFirst.referrer}">{visitor.pagevisitFirst.readableReferrer}</a>
-									</td>
-								</tr>
-							</f:if>
-						</table>
-					</div>
-				</div>
+        <div class="row">
+            <div class="col-md-12" style="margin-top: 2rem">
+                <f:if condition="{companies}">
+                    <select class="form-select" data-lux-visitor-company="{visitor.uid}">
+                        <option value="0">Keine Firma</option>
+                        <f:for each="{companies}" as="company">
+                            <option value="{company.uid}"{f:if(condition:'{company.uid} == {visitor.companyrecord.uid}',then:'selected="selected"')}>{company.title}</option>
+                        </f:for>
+                    </select>
+                </f:if>
 
-				<div class="row">
-					<div class="col-md-12">
-						<table class="table table-striped">
-							<f:for each="{visitor.importantIpinformations}" as="information">
-								<tr>
-									<td>
-										{information.value}
-										<f:if condition="{information.name} == 'city'">
-											<a href="https://www.google.com/maps/?q={visitor.latitude},{visitor.longitude}" target="_blank" title="View on google maps"><img src="{f:uri.resource(path:'Images/LogoGoogleMaps.svg',extensionName:'Lux')}" width="16" /></a>
-										</f:if>
-									</td>
-								</tr>
-							</f:for>
-						</table>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-12">
-						<textarea class="lux-textarea{f:if(condition:'{visitor.description}',else:' lux-textarea__default')}" data-lux-visitor-description="{visitor.uid}"><f:if condition="{visitor.description}"><f:then>{visitor.description}</f:then><f:else><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.description">Add text...</f:translate></f:else></f:if></textarea>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                <textarea
+                    style="margin-top: 0.5rem;"
+                    class="lux-textarea{f:if(condition:'{visitor.description}',else:' lux-textarea__default')}"
+                    data-lux-description="visitor:{visitor.uid}"
+                ><f:if condition="{visitor.description}"><f:then>{visitor.description}</f:then><f:else><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.description">Add text...</f:translate></f:else></f:if></textarea>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+<f:section name="WithoutCompanyRecord">
+    <f:if condition="{visitor.attributes}">
+        <table class="table table-striped">
+            <f:for each="{visitor.importantAttributes}" as="attribute">
+                <tr data-attribute-uid="{attribute.uid}">
+                    <td style="width:30%;"><strong>{attribute.label}</strong></td>
+                    <td>{attribute.value}</td>
+                </tr>
+            </f:for>
+            <f:if condition="{visitor.unimportantAttributes}">
+                <tr>
+                    <td style="width:30%;"><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.moreattributes">More attributes</f:translate></td>
+                    <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:seebelow">See below...</f:translate></td>
+                </tr>
+            </f:if>
+        </table>
+    </f:if>
+
+    <table class="table table-striped">
+        <tr>
+            <th style="width:30%;"><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.crdate">First visit</f:translate></th>
+            <td>{lux:format.readableDate(date:visitor.crdate)} ({f:format.date(date:visitor.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')})</td>
+        </tr>
+        <tr>
+            <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.tstamp">Last visit</f:translate></th>
+            <td>{lux:format.readableDate(date:visitor.dateOfLastVisit)} ({f:format.date(date:visitor.dateOfLastVisit,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')})</td>
+        </tr>
+        <f:if condition="{visitor.pagevisitFirst.referrer}">
+            <tr>
+                <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.referrer">Source</f:translate></th>
+                <td>
+                    <a href="{visitor.pagevisitFirst.referrer}" target="_blank" title="{visitor.pagevisitFirst.referrer}">{visitor.pagevisitFirst.readableReferrer}</a>
+                </td>
+            </tr>
+        </f:if>
+    </table>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <f:for each="{visitor.importantIpinformations}" as="information">
+                    <f:variable name="informationvalue" value="{information.value}"/>
+                    <f:if condition="{information.name} == 'org'">
+                        <f:variable name="informationvalue" value="{visitor.company}"/>
+                    </f:if>
+
+                    <f:if condition="{informationvalue}">
+                        <tr data-information-uid="{information.uid}">
+                            <td>
+                                {informationvalue}
+                                <f:if condition="{information.name} == 'city'">
+                                    <a href="https://www.google.com/maps/?q={visitor.latitude},{visitor.longitude}" target="_blank" title="View on google maps">
+                                        <img src="{f:uri.resource(path:'Images/LogoGoogleMaps.svg',extensionName:'Lux')}" width="16" />
+                                    </a>
+                                </f:if>
+                            </td>
+                        </tr>
+                    </f:if>
+                </f:for>
+            </table>
+        </div>
+    </div>
+</f:section>
+
+
+<f:section name="WithCompanyRecord">
+    <f:variable name="company" value="{visitor.companyrecord}"/>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h4>{company.title}</h4>
+            <p>
+                {company.zip} {company.city}, {company.country}
+                <f:if condition="{company.street}"><br/></f:if>
+                {company.street}
+                <a href="https://www.google.com/maps/?q={company.address -> f:format.urlencode()}" target="_blank" title="View on google maps">
+                    <img src="{f:uri.resource(path:'Images/LogoGoogleMaps.svg',extensionName:'Lux')}" width="16" />
+                </a>
+            </p>
+            <f:if condition="{company.phone}">
+                <p>
+                    {company.phone}
+                </p>
+            </f:if>
+            <f:if condition="{company.domain}">
+                <p>
+                    <f:link.typolink parameter="https://{company.domain}" target="_blank">{company.domain}</f:link.typolink>
+                </p>
+            </f:if>
+        </div>
+    </div>
+
+    <f:if condition="{company.branchCode} && {company.revenueClass} && {company.sizeClass} && {company.foundingYear}">
+        <div class="row" style="margin-top: 2rem;">
+            <div class="col-md-12">
+                <table class="table table-striped">
+                    <f:if condition="{company.branchCode}">
+                        <tr>
+                            <td title="Branch code {company.branchCode}" colspan="2">
+                                <strong>{company.branch}</strong>
+                            </td>
+                        </tr>
+                    </f:if>
+                    <f:if condition="{company.revenueClass}">
+                        <tr>
+                            <td style="width: 30%;">
+                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_company.revenue">Revenue</f:translate>
+                            </td>
+                            <td title="Revenue class {company.revenueClass}">
+                                {company.revenue}
+                            </td>
+                        </tr>
+                    </f:if>
+                    <f:if condition="{company.sizeClass}">
+                        <tr>
+                            <td>
+                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_company.size">Size</f:translate>
+                            </td>
+                            <td title="Size class {company.sizeClass}">
+                                {company.size}
+                            </td>
+                        </tr>
+                    </f:if>
+                    <f:if condition="{company.foundingYear}">
+                        <tr>
+                            <td>
+                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_company.founding_year">Founding year</f:translate>
+                            </td>
+                            <td>
+                                {company.foundingYear}
+                            </td>
+                        </tr>
+                    </f:if>
+                </table>
+            </div>
+        </div>
+    </f:if>
+
+    <div class="row">
+        <div class="col-md-12">
+            <f:if condition="{visitor.attributes}">
+                <table class="table table-striped" style="margin-top: 2rem;">
+                    <f:for each="{visitor.importantAttributes}" as="attribute">
+                        <tr data-attribute-uid="{attribute.uid}">
+                            <td style="width:30%;"><strong>{attribute.label}</strong></td>
+                            <td>{attribute.value}</td>
+                        </tr>
+                    </f:for>
+                    <f:if condition="{visitor.unimportantAttributes}">
+                        <tr>
+                            <td style="width:30%;"><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.moreattributes">More attributes</f:translate></td>
+                            <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:seebelow">See below...</f:translate></td>
+                        </tr>
+                    </f:if>
+                </table>
+            </f:if>
+
+            <table class="table table-striped">
+                <tr>
+                    <th style="width: 30%;"><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.crdate">First visit</f:translate></th>
+                    <td>{lux:format.readableDate(date:visitor.crdate)} ({f:format.date(date:visitor.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')})</td>
+                </tr>
+                <tr>
+                    <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.tstamp">Last visit</f:translate></th>
+                    <td>{lux:format.readableDate(date:visitor.dateOfLastVisit)} ({f:format.date(date:visitor.dateOfLastVisit,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')})</td>
+                </tr>
+                <f:if condition="{visitor.pagevisitFirst.referrer}">
+                    <tr>
+                        <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.referrer">Source</f:translate></th>
+                        <td>
+                            <a href="{visitor.pagevisitFirst.referrer}" target="_blank" title="{visitor.pagevisitFirst.referrer}">{visitor.pagevisitFirst.readableReferrer}</a>
+                        </td>
+                    </tr>
+                </f:if>
+            </table>
+        </div>
+    </div>
+</f:section>

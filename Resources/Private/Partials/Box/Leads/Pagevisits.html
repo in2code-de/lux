@@ -15,7 +15,14 @@
                                     <lux:format.readableDate>{pagevisit.crdate}</lux:format.readableDate>
                                 </span>
                                 Page <strong title="PID{pagevisit.page.uid}: {pagevisit.pageTitleWithLanguage}"><f:format.crop maxCharacters="50" append="..." respectWordBoundaries="0">{pagevisit.pageTitleWithLanguage}</f:format.crop></strong> visited from<br />
-                                <span title="UID{pagevisit.visitor.uid}"><f:link.action action="detail" controller="Lead" arguments="{visitor:pagevisit.visitor}">{pagevisit.visitor.fullName}</f:link.action></span>
+                                <span title="UID{pagevisit.visitor.uid}">
+                                    <f:be.link
+                                        route="lux_LuxLead"
+                                        title="{visitor.companyrecord.title}"
+                                        parameters="{tx_lux_lux_luxlead:'{visitor:pagevisit.visitor.uid,action:\'detail\',controller:\'Lead\'}'}">
+                                        {pagevisit.visitor.fullName}
+                                    </f:be.link>
+                                </span>
                                 <f:if condition="{pagevisit.visitor.company}">({pagevisit.visitor.company})</f:if>
                             </li>
                         </f:if>

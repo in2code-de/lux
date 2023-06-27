@@ -31,7 +31,7 @@
 		"typo3/cms-core": "^11.5 || ^12.0",
 		"symfony/expression-language": ">=4.0",
 		"buzz/which-browser-parser": "^2.1",
-		"buchin/google-image-grabber": "^1.0"
+		"buchin/google-image-grabber": "dev-master#fdf091ad9ef00169369b3f5be9dececf04b07ae8 as 1.0.4"
 	},
 	"replace": {
 		"typo3-ter/lux": "self.version"

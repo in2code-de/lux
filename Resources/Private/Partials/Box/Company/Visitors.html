@@ -1,0 +1,42 @@
+<div class="panel panel-default flex">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.leads">Leads</f:translate>
+            ({visitors -> f:count()})
+        </h3>
+    </div>
+    <div class="panel-body">
+        <f:if condition="{visitors}">
+            <f:then>
+                <ol class="lux-group" style="{style}">
+                    <f:for each="{visitors}" as="visitor">
+                        <li data-lux-identifier="UID{visitor.uid}">
+                            <div class="row">
+                                <div class="col-md-3" style="padding:10px;">
+                                    <img src="{f:uri.resource(path:'Images/AvatarDefault.svg',extensionName:'lux')}" alt="{visitor.fullName}" class="img-circle" data-lux-asynchronous-image="{visitor.uid}" />
+                                </div>
+                                <div class="col-md-9">
+                                    <f:link.action action="detail" controller="Lead" arguments="{visitor:visitor}">
+                                        <strong title="{visitor.location}">{visitor.fullName}</strong>
+                                    </f:link.action>
+                                    <f:if condition="{visitor.company}">({visitor.company})</f:if>
+                                    <br>
+
+                                    <span style="display:inline-block;margin-top: 5px;">
+                                        <span class="badge" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.scoring')}">{visitor.scoring}</span>
+                                        <f:if condition="{visitor.hottestCategoryscoring}">
+                                            <span class="badge badge-primary" title="{visitor.hottestCategoryscoring.category.title}">{visitor.hottestCategoryscoring.scoring}</span>
+                                        </f:if>
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                    </f:for>
+                </ol>
+            </f:then>
+            <f:else>
+                <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+            </f:else>
+        </f:if>
+    </div>
+</div>

@@ -2,6 +2,7 @@
 
 namespace In2code\Lux\Tests\Unit\Utility;
 
+use In2code\Lux\Exception\ArgumentsException;
 use In2code\Lux\Utility\ArrayUtility;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
@@ -106,5 +107,65 @@ class ArrayUtilityTest extends UnitTestCase
             '123test' => '123test',
         ];
         self::assertSame($arrayExpected, ArrayUtility::copyValuesToKeys($arrayActual));
+    }
+
+    public static function convertFetchedAllArrayToNumericArrayDataProvider(): array
+    {
+        return [
+            [
+                [
+                    [
+                        'uid' => 123,
+                        'pid' => 1,
+                    ],
+                    [
+                        'uid' => 234,
+                        'pid' => 1,
+                    ],
+                ],
+                'uid',
+                [123, 234],
+            ],
+            [
+                [
+                    [
+                        'uid' => 123,
+                        'pid' => 1,
+                    ],
+                    [
+                        'uid' => 234,
+                        'pid' => 2,
+                    ],
+                ],
+                'pid',
+                [1, 2],
+            ],
+            [
+                [
+                    [
+                        'foo' => 123,
+                    ],
+                    [
+                        'foo' => 234,
+                    ],
+                ],
+                'uid',
+                [],
+            ],
+        ];
+    }
+
+    /**
+     * @param array $given
+     * @param string $fieldName
+     * @param array $expected
+     * @return void
+     * @throws ArgumentsException
+     * @dataProvider convertFetchedAllArrayToNumericArrayDataProvider
+     * @covers ::convertFetchedAllArrayToNumericArray
+     */
+    public function testConvertFetchedAllArrayToNumericArray(array $given, string $fieldName, array $expected): void
+    {
+        self::assertSame($expected, ArrayUtility::convertFetchedAllArrayToNumericArray($given, $fieldName));
     }
 }

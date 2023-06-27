@@ -6,6 +6,8 @@ namespace In2code\Lux\Domain\Model\Transfer;
 use DateTime;
 use Exception;
 use In2code\Lux\Domain\Model\Category;
+use In2code\Lux\Domain\Model\Company;
+use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\CategoryRepository;
 use In2code\Lux\Utility\DateUtility;
 use Throwable;
@@ -58,6 +60,7 @@ class FilterDto
      * @var ?Category
      */
     protected ?Category $categoryScoring = null;
+    protected ?Category $category = null;
 
     /**
      * If turned on, there is a short timeframe for pagevisits and downloads (the last 7 days) while all other diagrams
@@ -77,6 +80,11 @@ class FilterDto
     protected string $utmCampaign = '';
     protected string $utmSource = '';
     protected string $utmMedium = '';
+    protected int $branchCode = 0;
+    protected string $revenueClass = '';
+    protected string $sizeClass = '';
+    protected ?Visitor $visitor = null;
+    protected ?Company $company = null;
 
     public function __construct(int $timePeriod = self::PERIOD_DEFAULT)
     {
@@ -227,6 +235,17 @@ class FilterDto
         return $this;
     }
 
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
+        return $this;
+    }
+
     public function isShortMode(): bool
     {
         return $this->shortMode;
@@ -288,6 +307,61 @@ class FilterDto
         return $this;
     }
 
+    public function getBranchCode(): int
+    {
+        return $this->branchCode;
+    }
+
+    public function setBranchCode(int $branchCode): self
+    {
+        $this->branchCode = $branchCode;
+        return $this;
+    }
+
+    public function getRevenueClass(): string
+    {
+        return $this->revenueClass;
+    }
+
+    public function setRevenueClass(string $revenueClass): self
+    {
+        $this->revenueClass = $revenueClass;
+        return $this;
+    }
+
+    public function getSizeClass(): string
+    {
+        return $this->sizeClass;
+    }
+
+    public function setSizeClass(string $sizeClass): self
+    {
+        $this->sizeClass = $sizeClass;
+        return $this;
+    }
+
+    public function getVisitor(): ?Visitor
+    {
+        return $this->visitor;
+    }
+
+    public function setVisitor(?Visitor $visitor): self
+    {
+        $this->visitor = $visitor;
+        return $this;
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): self
+    {
+        $this->company = $company;
+        return $this;
+    }
+
     /**
      * Calculated values
      */
@@ -298,9 +372,16 @@ class FilterDto
     public function isSet(): bool
     {
         return $this->searchterm !== '' || $this->pid !== '' || $this->scoring > 0 || $this->categoryScoring !== null
+            || $this->category !== null
             || $this->timeFrom !== '' || $this->timeTo !== '' || $this->timePeriod !== self::PERIOD_DEFAULT
             || $this->identified !== self::IDENTIFIED_ALL || $this->domain !== ''
-            || $this->utmCampaign !== '' || $this->utmMedium !== '' || $this->utmSource !== '';
+            || $this->utmCampaign !== '' || $this->utmMedium !== '' || $this->utmSource !== '' || $this->branchCode > 0
+            || $this->revenueClass !== '' || $this->sizeClass !== '';
+    }
+
+    public function isTimeFromOrTimeToSet(): bool
+    {
+        return $this->timeFrom !== '' || $this->timeTo !== '';
     }
 
     /**

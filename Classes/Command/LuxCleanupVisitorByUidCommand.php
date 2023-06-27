@@ -36,7 +36,6 @@ class LuxCleanupVisitorByUidCommand extends Command
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         /** @var Visitor $visitor */
         $visitor = $visitorRepository->findByUid((int)$input->getArgument('visitorUid'));
-        $visitorRepository->removeRelatedTableRowsByVisitor($visitor);
         $visitorRepository->removeVisitor($visitor);
         $output->writeln('Visitor successfully removed');
         return self::SUCCESS;

@@ -15,70 +15,11 @@
                     Link Listeners
                     ({linkListeners -> f:count()})
                 </div>
-                <table class="table table-striped table-hover table-pointer">
-                    <thead>
-                        <tr>
-                            <th>
-                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.title">title</f:translate>
-                            </th>
-                            <th>
-                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.description">description</f:translate>
-                            </th>
-                            <th>
-                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.category">category</f:translate>
-                            </th>
-                            <th>
-                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.created">created</f:translate>
-                            </th>
-                            <th>
-                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.author">author</f:translate>
-                            </th>
-                            <th>
-                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.clicks">clicks</f:translate>
-                            </th>
-                            <th>
-                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.performance">performance</f:translate>
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
+                <table class="table table-striped table-hover table-pointer min-height-50">
+                    <f:render section="TableHeader" arguments="{_all}"/>
                     <tbody>
                     <f:for each="{pagesLinkListeners.paginator.paginatedItems}" as="linkListener">
-                        <tr data-lux-action-analysislinklistenerdetail="{linkListener.uid}">
-                            <td><span title="UID{linkListener.uid}">{linkListener.title}</span></td>
-                            <td>
-                                <span title="{linkListener.description}">
-                                    <f:format.nl2br><f:format.crop maxCharacters="50" append="..." respectWordBoundaries="0">{linkListener.description}</f:format.crop></f:format.nl2br>
-                                </span>
-                            </td>
-                            <td>{linkListener.category.title}</td>
-                            <td>
-                                <span class="badge" title="{f:format.date(date:linkListener.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
-                                    <lux:format.readableDate>{linkListener.crdate}</lux:format.readableDate>
-                                </span>
-                            </td>
-                            <td>
-                                {linkListener.cruserId.username}
-                                <f:if condition="{linkListener.cruserId.name}">({linkListener.cruserId.username})</f:if>
-                            </td>
-                            <td><lux:format.readableNumber>{linkListener.linkclicksRaw -> f:count()}</lux:format.readableNumber></td>
-                            <td data-lux-getlinklistenerperformance="{linkListener.uid}">
-                                <span class="luxspinner"></span>
-                            </td>
-                            <td>
-                                <div class="btn-group">
-                                    <a href="{lux:backend.uriEdit(tableName:'tx_lux_domain_model_linklistener',identifier:linkListener.uid,moduleName:'lux_LuxAnalysis')}" class="btn btn-default" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:edit')}">
-                                        <core:icon identifier="actions-open" />
-                                    </a>
-
-                                    <f:link.action action="deleteLinkListener" arguments="{linkListener:linkListener}" class="btn btn-default" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:delete')}" additionalAttributes="{data-lux-confirm:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:deleteconfirm\')}'}">
-                                        <core:icon identifier="actions-edit-delete" />
-                                    </f:link.action>
-                                </div>
-
-                                <f:link.action action="detailLinkListener" arguments="{linkListener:linkListener}" class="btn btn-primary pull-right hidden" data="{lux-linkmock-link:linkListener.uid}">Details</f:link.action>
-                            </td>
-                        </tr>
+                        <f:render section="TableRow" arguments="{_all}"/>
                     </f:for>
                     </tbody>
                 </table>
@@ -95,4 +36,73 @@
             </div>
         </div>
     </div>
+</f:section>
+
+
+<f:section name="TableHeader">
+    <thead>
+    <tr>
+        <th>
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.title">title</f:translate>
+        </th>
+        <th>
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.description">description</f:translate>
+        </th>
+        <th>
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.category">category</f:translate>
+        </th>
+        <th>
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.created">created</f:translate>
+        </th>
+        <th>
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.author">author</f:translate>
+        </th>
+        <th>
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.clicks">clicks</f:translate>
+        </th>
+        <th>
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.performance">performance</f:translate>
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+</f:section>
+
+
+<f:section name="TableRow">
+    <tr data-lux-action-analysislinklistenerdetail="{linkListener.uid}">
+        <td><span title="UID{linkListener.uid}">{linkListener.title}</span></td>
+        <td>
+            <span title="{linkListener.description}">
+                <f:format.nl2br><f:format.crop maxCharacters="50" append="..." respectWordBoundaries="0">{linkListener.description}</f:format.crop></f:format.nl2br>
+            </span>
+        </td>
+        <td>{linkListener.category.title}</td>
+        <td>
+            <span class="badge" title="{f:format.date(date:linkListener.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
+                <lux:format.readableDate>{linkListener.crdate}</lux:format.readableDate>
+            </span>
+        </td>
+        <td>
+            {linkListener.cruserId.username}
+            <f:if condition="{linkListener.cruserId.name}">({linkListener.cruserId.username})</f:if>
+        </td>
+        <td><lux:format.readableNumber>{linkListener.linkclicksRaw -> f:count()}</lux:format.readableNumber></td>
+        <td data-lux-getlinklistenerperformance="{linkListener.uid}">
+            <span class="luxspinner"></span>
+        </td>
+        <td>
+            <div class="btn-group">
+                <a href="{lux:backend.uriEdit(tableName:'tx_lux_domain_model_linklistener',identifier:linkListener.uid,moduleName:'lux_LuxAnalysis')}" class="btn btn-default" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:edit')}">
+                    <core:icon identifier="actions-open" />
+                </a>
+
+                <f:link.action action="deleteLinkListener" arguments="{linkListener:linkListener}" class="btn btn-default" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:delete')}" additionalAttributes="{data-lux-confirm:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:deleteconfirm\')}'}">
+                    <core:icon identifier="actions-edit-delete" />
+                </f:link.action>
+            </div>
+
+            <f:link.action action="detailLinkListener" arguments="{linkListener:linkListener}" class="btn btn-primary pull-right hidden" data="{lux-linkmock-link:linkListener.uid}">Details</f:link.action>
+        </td>
+    </tr>
 </f:section>

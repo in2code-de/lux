@@ -2,6 +2,7 @@
 
 use In2code\Lux\Domain\Model\Attribute;
 use In2code\Lux\Domain\Model\Categoryscoring;
+use In2code\Lux\Domain\Model\Company;
 use In2code\Lux\Domain\Model\Download;
 use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Domain\Model\Ipinformation;
@@ -212,6 +213,19 @@ return [
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Visitor::TABLE_NAME . '.company',
             'config' => [
                 'type' => 'input',
+                'readOnly' => true,
+            ],
+        ],
+        'companyrecord' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Company::TABLE_NAME,
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectMultipleSideBySide',
+                'foreign_table' => Company::TABLE_NAME,
+                'foreign_table_where' => 'ORDER BY ' . Company::TABLE_NAME . '.uid DESC',
+                'max_size' => 100,
+                'minitems' => 0,
                 'readOnly' => true,
             ],
         ],

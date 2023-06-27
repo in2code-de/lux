@@ -17,10 +17,10 @@ class LuxCleanupAllVisitorsCommand extends Command
     }
 
     /**
-     * Remove all visitors!
+     * Remove all visitors and companies!
      *
-     *      Remove all visitors
-     *      !!! Really removes visitors and all rows from related tables from the database
+     *      Remove all visitors and companies
+     *      !!! Really removes visitors and companies and all rows from related tables from the database
      *
      *      Example command: ./vendor/bin/typo3 lux:cleanupAllVisitors
      *

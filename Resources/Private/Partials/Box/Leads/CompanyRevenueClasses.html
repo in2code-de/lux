@@ -1,0 +1,21 @@
+<div class="panel panel-default flex">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_company.revenue">Revenue</f:translate>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <f:if condition="{revenueClassData.dataAvailable}">
+            <f:then>
+                <canvas width="750"
+                        height="350"
+                        data-chart="bar"
+                        data-chart-data="{revenueClassData.amountsList}"
+                        data-chart-labels="{revenueClassData.titlesList}"></canvas>
+            </f:then>
+            <f:else>
+                <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+            </f:else>
+        </f:if>
+    </div>
+</div>

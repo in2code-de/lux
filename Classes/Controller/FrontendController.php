@@ -10,6 +10,7 @@ use In2code\Lux\Domain\Service\ConfigurationService;
 use In2code\Lux\Domain\Service\Email\SendAssetEmail4LinkService;
 use In2code\Lux\Domain\Tracker\AbTestingTracker;
 use In2code\Lux\Domain\Tracker\AttributeTracker;
+use In2code\Lux\Domain\Tracker\CompanyTracker;
 use In2code\Lux\Domain\Tracker\DownloadTracker;
 use In2code\Lux\Domain\Tracker\FrontenduserAuthenticationTracker;
 use In2code\Lux\Domain\Tracker\LinkClickTracker;
@@ -103,6 +104,8 @@ class FrontendController extends ActionController
         try {
             $visitor = $this->getVisitor($identificator);
             $this->callAdditionalTrackers($visitor, $arguments);
+            $companyTracker = GeneralUtility::makeInstance(CompanyTracker::class);
+            $companyTracker->track($visitor);
             $pageTracker = GeneralUtility::makeInstance(PageTracker::class);
             $pagevisit = $pageTracker->track($visitor, $arguments);
             $newsTracker = GeneralUtility::makeInstance(NewsTracker::class);

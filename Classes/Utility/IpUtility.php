@@ -34,4 +34,13 @@ class IpUtility
         }
         return $ipAddress;
     }
+
+    public static function getIpAddressAnonymized(string $testIp = ''): string
+    {
+        return preg_replace(
+            ['/\.\d*$/', '/[\da-f]*:[\da-f]*$/'],
+            ['.***', '****:****'],
+            self::getIpAddress($testIp)
+        );
+    }
 }

@@ -6,6 +6,7 @@ namespace In2code\Lux\Domain\Service;
 use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Attribute;
+use In2code\Lux\Domain\Model\Company;
 use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Domain\Model\Ipinformation;
 use In2code\Lux\Domain\Model\Visitor;
@@ -27,6 +28,7 @@ class AnonymizeService
     public function anonymizeAll()
     {
         $this->anonymizeIdentifiedVisitors();
+        $this->anonymizeCompanies();
         $this->anonymizeAttributes();
         $this->anonymizeIpinformation();
         $this->anonymizeAllFingerprints();
@@ -46,6 +48,27 @@ class AnonymizeService
             . ', company=' . $this->getRandomStringClause(10, 'Company ')
             . ', frontenduser=0'
             . ' where identified=1';
+        $connection->executeQuery($sql);
+    }
+
+    /**
+     * @return void
+     * @throws ConfigurationException
+     * @throws ExceptionDbal
+     */
+    protected function anonymizeCompanies()
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);
+        $sql = 'update ' . Company::TABLE_NAME
+            . ' set title=' . $this->getRandomStringClause(10, 'Company ')
+            . ', domain=' . $this->getRandomStringClause(6, 'domain_')
+            . ', description=""'
+            . ', region=""'
+            . ', contacts=""'
+            . ', street=' . $this->getRandomStringClause(10, 'Street ')
+            . ', zip=' . $this->getRandomNumberClause(5)
+            . ', phone=' . $this->getRandomNumberClause(10)
+            . ' where uid>0';
         $connection->executeQuery($sql);
     }
 
