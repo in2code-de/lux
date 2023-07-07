@@ -38,32 +38,32 @@
     }
     &__close {
         border: none;
-        background: none;
+        background-color: #333;
         position: absolute;
         top: 20px;
         right: 20px;
         width: 32px;
         height: 32px;
-        opacity: 0.3;
         font-size: 0;
+        z-index: 2;
 
         &:hover {
-            opacity: 1;
+            opacity: 0.6;
         }
-        &:before,
-        &:after {
+        &::before,
+        &::after {
             position: absolute;
             left: 15px;
             content: ' ';
-            height: 33px;
+            height: 23px;
             width: 2px;
-            background-color: #333;
-            top: 0;
+            background-color: $white;
+            top: 5px;
         }
-        &:before {
+        &::before {
             transform: rotate(45deg);
         }
-        &:after {
+        &::after {
             transform: rotate(-45deg);
         }
     }

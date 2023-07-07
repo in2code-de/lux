@@ -4,7 +4,7 @@
  */
 // Vars ---------------------------------------------------------------- //
 $basicLightbox__background: rgba(0, 0, 0, .8) !default;
-$basicLightbox__zIndex: 1000 !default;
+$basicLightbox__zIndex: 99999 !default;
 $basicLightbox__duration: .4s !default;
 $basicLightbox__timing: ease !default;
 
@@ -17,8 +17,8 @@ $basicLightbox__timing: ease !default;
   align-items: center;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100vh;
+  right: 0;
+  bottom: 0;
   background: $basicLightbox__background;
   opacity: .01; // Start with .01 to avoid the repaint that happens from 0 to .01
   transition: opacity $basicLightbox__duration $basicLightbox__timing;
@@ -29,6 +29,10 @@ $basicLightbox__timing: ease !default;
     opacity: 1;
   }
 
+  &__close {
+    cursor: pointer;
+  }
+
   &__placeholder {
     max-width: 100%;
     transform: scale(.9);
@@ -36,9 +40,9 @@ $basicLightbox__timing: ease !default;
     z-index: 1;
     will-change: transform;
 
-    > img:first-child:last-child,
-    > video:first-child:last-child,
-    > iframe:first-child:last-child {
+    > img,
+    > video,
+    > iframe {
       display: block;
       position: absolute;
       top: 0;
@@ -50,8 +54,8 @@ $basicLightbox__timing: ease !default;
       max-height: 95%;
     }
 
-    > img:first-child:last-child,
-    > video:first-child:last-child {
+    > img,
+    > video {
       width: auto;
       height: auto;
     }
