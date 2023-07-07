@@ -147,7 +147,9 @@ function LuxMain() {
     }
     var html = '<button class="basicLightbox__close" data-lux-action-lightbox="close">close</button>';
     html += '<iframe src="' + uri + parseInt(contentElementUid) + '" width="1000" height="800"></iframe>';
-    that.lightboxInstance = basicLightbox.create(html);
+    that.lightboxInstance = basicLightbox.create(html, {
+      className: 'basicLightbox--iframe',
+    });
     delayFunctionDispatcher(response['configuration']['delay'], 'lightboxOpen', response);
   };
 
