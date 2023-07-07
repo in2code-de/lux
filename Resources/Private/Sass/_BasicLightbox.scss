@@ -4,7 +4,7 @@
  */
 // Vars ---------------------------------------------------------------- //
 $basicLightbox__background: rgba(0, 0, 0, .8) !default;
-$basicLightbox__zIndex: 1000 !default;
+$basicLightbox__zIndex: 99999 !default;
 $basicLightbox__duration: .4s !default;
 $basicLightbox__timing: ease !default;
 
@@ -27,6 +27,10 @@ $basicLightbox__timing: ease !default;
 
   &--visible {
     opacity: 1;
+  }
+
+  &__close {
+    cursor: pointer;
   }
 
   &__placeholder {
