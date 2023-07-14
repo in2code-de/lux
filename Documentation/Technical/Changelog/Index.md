@@ -25,6 +25,7 @@
 
 | Version    | Date       | State    | TYPO3         | Description                                                                                                                                                                                           |
 |------------|------------|----------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 32.1.1     | 2023-07-14 | Task     | `11.5 + 12.4` | Change label of privacy notice in email4link to take care of latest GDPR recommendations                                                                                                              |
 | 32.1.0     | 2023-07-07 | Task     | `11.5 + 12.4` | Use a better close button and responsive view for lightboxes now in frontend, add defer attribute to formmapping.js and fieldmapping.js                                                               |
 | 32.0.0     | 2023-06-27 | Feature  | `11.5 + 12.4` | Add WiredMinds integration with new company views, information view and convert command, fix image grabber from google, update doughnut colors, anonymize also IPv6 IPs if wanted                     |
 | 31.2.4     | 2023-05-23 | Bugfix   | `11.5 + 12.4` | Linklistener performance should not be greater then 100%, Updated disallowed mail provider list                                                                                                       |
