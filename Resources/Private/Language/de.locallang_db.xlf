@@ -2093,8 +2093,8 @@
 				<target state="translated">E-Mail</target>
 			</trans-unit>
 			<trans-unit id="frontend.email4link.lightbox.privacy">
-				<source>I accept the terms and conditions of the privacy policy - see</source>
-				<target state="translated">Ich habe die Datenschutzerklärung gelesen und akzeptiert - siehe</target>
+				<source>I have read the Privacy Policy note - see</source>
+				<target state="translated">Ich habe die Datenschutzerklärung zur Kenntnis genommen - siehe</target>
 			</trans-unit>
 			<trans-unit id="frontend.email4link.lightbox.submit">
 				<source>Submit</source>
