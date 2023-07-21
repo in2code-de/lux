@@ -124,7 +124,7 @@ class CategoryScoringService
     {
         $download = $visitor->getLastDownload();
         if ($download !== null) {
-            if ($download->getFile() !== null) {
+            if ($download->getFile() !== null && $download->getFile()->getMetadata() !== null) {
                 foreach ($download->getFile()->getMetadata()->getLuxCategories() as $category) {
                     $visitor->increaseCategoryscoringByCategory(
                         ConfigurationUtility::getCategoryScoringAddDownload(),
@@ -167,7 +167,7 @@ class CategoryScoringService
         $href = $variables['arguments']['href'] ?? '';
         $fileService = GeneralUtility::makeInstance(FileService::class);
         $file = $fileService->getFileFromHref($href);
-        if ($file !== null) {
+        if ($file !== null && $file->getMetadata() !== null) {
             foreach ($file->getMetadata()->getLuxCategories() as $category) {
                 $visitor->increaseCategoryscoringByCategory(
                     ConfigurationUtility::getCategoryScoringAddDownload(),

@@ -42,6 +42,7 @@ class UtmRepository extends AbstractRepository
         $results = $queryBuilder
             ->select('utm_campaign')
             ->from(Utm::TABLE_NAME)
+            ->where('utm_campaign != ""')
             ->groupBy('utm_campaign')
             ->executeQuery()
             ->fetchFirstColumn();
@@ -59,6 +60,7 @@ class UtmRepository extends AbstractRepository
         $results = $queryBuilder
             ->select('utm_source')
             ->from(Utm::TABLE_NAME)
+            ->where('utm_source != ""')
             ->groupBy('utm_source')
             ->executeQuery()
             ->fetchFirstColumn();
@@ -76,6 +78,7 @@ class UtmRepository extends AbstractRepository
         $results = $queryBuilder
             ->select('utm_medium')
             ->from(Utm::TABLE_NAME)
+            ->where('utm_medium != ""')
             ->groupBy('utm_medium')
             ->executeQuery()
             ->fetchFirstColumn();

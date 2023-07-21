@@ -11,20 +11,22 @@
                 <div style="height: 450px; overflow: auto; ">
                     <nav class="timeline timeline--vertical">
                         <f:for each="{visitor.pagevisits}" as="pagevisit" iteration="iteration">
-                            <div class="timeline__item" title="" data-identifier-pagevisit="{pagevisit.uid}">
-                                <div style="margin-top: 5px;">
-                                    <span title="PID{pagevisit.page.uid}: {pagevisit.pageTitleWithLanguage}"><f:format.crop maxCharacters="30" append="..." respectWordBoundaries="0">{pagevisit.pageTitleWithLanguage}</f:format.crop></span>
-                                    <span class="badge pull-right" title="{f:format.date(date:pagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">{lux:format.readableDate(date:pagevisit.crdate)}</span>
-                                </div>
-                            </div>
-
-                            <f:if condition="{iteration.isLast} && {pagevisit.referrer}">
-                                <div class="timeline__item">
+                            <f:if condition="{pagevisit.page}">
+                                <div class="timeline__item" title="" data-identifier-pagevisit="{pagevisit.uid}">
                                     <div style="margin-top: 5px;">
-                                        <a href="{pagevisit.referrer}" target="_blank" title="{pagevisit.referrer}">{pagevisit.readableReferrer}</a>
+                                        <span title="PID{pagevisit.page.uid}: {pagevisit.pageTitleWithLanguage}"><f:format.crop maxCharacters="30" append="..." respectWordBoundaries="0">{pagevisit.pageTitleWithLanguage}</f:format.crop></span>
                                         <span class="badge pull-right" title="{f:format.date(date:pagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">{lux:format.readableDate(date:pagevisit.crdate)}</span>
                                     </div>
                                 </div>
+
+                                <f:if condition="{iteration.isLast} && {pagevisit.referrer}">
+                                    <div class="timeline__item">
+                                        <div style="margin-top: 5px;">
+                                            <a href="{pagevisit.referrer}" target="_blank" title="{pagevisit.referrer}">{pagevisit.readableReferrer}</a>
+                                            <span class="badge pull-right" title="{f:format.date(date:pagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">{lux:format.readableDate(date:pagevisit.crdate)}</span>
+                                        </div>
+                                    </div>
+                                </f:if>
                             </f:if>
                         </f:for>
                     </nav>
