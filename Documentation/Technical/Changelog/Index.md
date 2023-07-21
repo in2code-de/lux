@@ -25,6 +25,7 @@
 
 | Version    | Date       | State    | TYPO3         | Description                                                                                                                                                                                           |
 |------------|------------|----------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 32.2.0     | 2023-07-21 | Task     | `11.5 + 12.4` | Prevent refindex records of LUX or LUXenterprise records, Fix empty options in UTM filter, Don't show empty pagevisits in page funnel diagram, Allow null value of metadata objects                   |
 | 32.1.1     | 2023-07-14 | Task     | `11.5 + 12.4` | Change label of privacy notice in email4link to take care of latest GDPR recommendations                                                                                                              |
 | 32.1.0     | 2023-07-07 | Task     | `11.5 + 12.4` | Use a better close button and responsive view for lightboxes now in frontend, add defer attribute to formmapping.js and fieldmapping.js                                                               |
 | 32.0.0     | 2023-06-27 | Feature  | `11.5 + 12.4` | Add WiredMinds integration with new company views, information view and convert command, fix image grabber from google, update doughnut colors, anonymize also IPv6 IPs if wanted                     |
