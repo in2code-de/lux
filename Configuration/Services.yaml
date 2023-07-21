@@ -123,6 +123,12 @@ services:
         identifier: 'lux/modifyPageModule'
         method: 'eventRegistration'
 
+  In2code\Lux\TCA\PreventReferenceIndex:
+    public: true
+    tags:
+      - name: event.listener
+        identifier: 'lux/preventReferenceIndex'
+
   In2code\Lux\ViewHelpers\Lead\GetDateOfLatestPageVisitAndPageViewHelper:
     public: true
 
