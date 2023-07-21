@@ -13,7 +13,7 @@ class File extends AbstractEntity
 
     protected ?Metadata $metadata = null;
 
-    public function getMetadata(): Metadata
+    public function getMetadata(): ?Metadata
     {
         return $this->metadata;
     }
