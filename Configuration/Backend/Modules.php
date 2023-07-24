@@ -1,17 +1,11 @@
 <?php
 
-$configuration = [];
-
-if (\In2code\Lux\Utility\ConfigurationUtility::isAnalysisModuleDisabled() === false
-    || \In2code\Lux\Utility\ConfigurationUtility::isWorkflowModuleDisabled() === false) {
-    $configuration['lux_module'] = [
+return [
+    'lux_module' => [
         'labels' => 'LLL:EXT:lux/Resources/Private/Language/locallang_mod.xlf',
         'iconIdentifier' => 'extension-lux-module',
-    ];
-}
-
-if (\In2code\Lux\Utility\ConfigurationUtility::isAnalysisModuleDisabled() === false) {
-    $configuration['lux_LuxAnalysis'] = [
+    ],
+    'lux_LuxAnalysis' => [
         'parent' => 'lux_module',
         'position' => [],
         'access' => 'user,group',
@@ -48,11 +42,8 @@ if (\In2code\Lux\Utility\ConfigurationUtility::isAnalysisModuleDisabled() === fa
                 'information',
             ],
         ],
-    ];
-}
-
-if (\In2code\Lux\Utility\ConfigurationUtility::isLeadModuleDisabled() === false) {
-    $configuration['lux_LuxLead'] = [
+    ],
+    'lux_LuxLead' => [
         'parent' => 'lux_module',
         'position' => [],
         'access' => 'user,group',
@@ -87,11 +78,8 @@ if (\In2code\Lux\Utility\ConfigurationUtility::isLeadModuleDisabled() === false)
                 'information',
             ],
         ],
-    ];
-}
-
-if (\In2code\Lux\Utility\ConfigurationUtility::isWorkflowModuleDisabled() === false) {
-    $configuration['lux_LuxWorkflow'] = [
+    ],
+    'lux_LuxWorkflow' => [
         'parent' => 'lux_module',
         'position' => [],
         'access' => 'user,group',
@@ -133,7 +121,5 @@ if (\In2code\Lux\Utility\ConfigurationUtility::isWorkflowModuleDisabled() === fa
                 'information',
             ],
         ],
-    ];
-}
-
-return $configuration;
+    ]
+];
