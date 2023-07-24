@@ -121,5 +121,5 @@ return [
                 'information',
             ],
         ],
-    ]
+    ],
 ];
