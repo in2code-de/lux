@@ -19,6 +19,8 @@ class LanguageRepository implements SingletonInterface
      */
     protected array $languages = [];
 
+    protected bool $allLanguagesSet = false;
+
     protected SiteService $siteService;
 
     public function __construct(SiteService $siteService)
@@ -37,5 +39,17 @@ class LanguageRepository implements SingletonInterface
             }
         }
         return $this->languages[$identifier] ?? 'undefined';
+    }
+
+    public function getAllLanguages(): array
+    {
+        if ($this->allLanguagesSet === false) {
+            $languages = $this->siteService->getDefaultSite()->getLanguages();
+            foreach ($languages as $language) {
+                $this->languages[$language->getLanguageId()] = $language->getTitle();
+            }
+            $this->allLanguagesSet = true;
+        }
+        return $this->languages;
     }
 }
