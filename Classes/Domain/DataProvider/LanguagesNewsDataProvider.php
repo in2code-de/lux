@@ -5,6 +5,7 @@ namespace In2code\Lux\Domain\DataProvider;
 
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
+use In2code\Lux\Domain\Repository\LanguageRepository;
 use In2code\Lux\Domain\Repository\NewsvisitRepository;
 use In2code\Lux\Utility\LocalizationUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -47,10 +48,11 @@ class LanguagesNewsDataProvider extends AbstractDataProvider
     protected function getLanguagesFromSystem(): array
     {
         $newsvisitRepository = GeneralUtility::makeInstance(NewsvisitRepository::class);
+        $languageRepository = GeneralUtility::makeInstance(LanguageRepository::class);
         $rows = $newsvisitRepository->getAllLanguages($this->filter);
 
         foreach ($rows as &$row) {
-            $row['label'] = $row['title'] ?: 'Standard';
+            $row['label'] = $languageRepository->getLabelToLanguageIdentifier($row['language']);
             $row['label'] = LocalizationUtility::translateByKey('dataprovider.languages.label', [$row['label']]);
         }
         return $rows;

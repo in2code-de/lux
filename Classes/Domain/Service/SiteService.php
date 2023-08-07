@@ -31,6 +31,11 @@ class SiteService
         return '';
     }
 
+    /**
+     * Return first Site as default site (ordered alphabetical)
+     *
+     * @return Site
+     */
     public function getDefaultSite(): Site
     {
         $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);

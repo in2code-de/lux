@@ -426,16 +426,15 @@ class PagevisitRepository extends AbstractRepository
      */
     public function getAllLanguages(FilterDto $filter): array
     {
-        $connection = DatabaseUtility::getConnectionForTable('sys_language');
-        $sql = 'SELECT count(*) as count, pv.language, l.title FROM ' . Pagevisit::TABLE_NAME . ' pv'
-            . ' left join sys_language l on l.uid = pv.language'
+        $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
+        $sql = 'SELECT count(*) as count, pv.language FROM ' . Pagevisit::TABLE_NAME . ' pv'
             . ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = pv.visitor'
             . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
             . ' where ' . $this->extendWhereClauseWithFilterTime($filter, false, 'pv')
             . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
-            . ' group by pv.language, l.title order by count desc ';
+            . ' group by pv.language order by count desc ';
         return $connection->executeQuery($sql)->fetchAllAssociative();
     }
 
