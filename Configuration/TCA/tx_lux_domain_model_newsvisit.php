@@ -111,10 +111,7 @@ return [
             'exclude' => true,
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Newsvisit::TABLE_NAME . '.language',
             'config' => [
-                'type' => 'select',
-                'renderType' => 'selectSingle',
-                'foreign_table' => 'sys_language',
-                'foreign_table_where' => 'ORDER BY sys_language.title',
+                'type' => 'language',
                 'default' => 0,
                 'readOnly' => true,
             ],

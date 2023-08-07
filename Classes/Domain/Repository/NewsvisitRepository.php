@@ -178,9 +178,8 @@ class NewsvisitRepository extends AbstractRepository
      */
     public function getAllLanguages(FilterDto $filter): array
     {
-        $connection = DatabaseUtility::getConnectionForTable('sys_language');
-        $sql = 'SELECT count(distinct nv.uid) as count, nv.language, l.title FROM ' . Newsvisit::TABLE_NAME . ' nv'
-            . ' left join sys_language l on l.uid = nv.language'
+        $connection = DatabaseUtility::getConnectionForTable(Newsvisit::TABLE_NAME);
+        $sql = 'SELECT count(distinct nv.uid) as count, nv.language FROM ' . Newsvisit::TABLE_NAME . ' nv'
             . ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.uid = nv.pagevisit'
             . ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = nv.visitor'
             . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
@@ -189,7 +188,7 @@ class NewsvisitRepository extends AbstractRepository
             . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
-            . ' group by nv.language, l.title order by count desc ';
+            . ' group by nv.language order by count desc';
         return $connection->executeQuery($sql)->fetchAllAssociative();
     }
 
