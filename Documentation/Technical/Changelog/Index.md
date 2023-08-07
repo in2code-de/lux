@@ -25,6 +25,7 @@
 
 | Version    | Date       | State    | TYPO3         | Description                                                                                                                                                                                           |
 |------------|------------|----------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 32.2.2     | 2023-08-07 | Bugfix   | `11.5 + 12.4` | Don't use table "sys_language" any more because it was removed in TYPO3 12                                                                                                                            |
 | 32.2.1     | 2023-07-24 | Bugfix   | `11.5 + 12.4` | Prevent error "Unable to generate a URL for the named route" when a module should be hidden by configuration                                                                                          |
 | 32.2.0     | 2023-07-21 | Task     | `11.5 + 12.4` | Prevent refindex records of LUX or LUXenterprise records, Fix empty options in UTM filter, Don't show empty pagevisits in page funnel diagram, Allow null value of metadata objects                   |
 | 32.1.1     | 2023-07-14 | Task     | `11.5 + 12.4` | Change label of privacy notice in email4link to take care of latest GDPR recommendations                                                                                                              |
