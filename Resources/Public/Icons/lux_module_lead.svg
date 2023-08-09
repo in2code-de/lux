@@ -1,5 +1,5 @@
 <svg data-name="lux User" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70.87 70.87">
-    <path fill="#4de7ff" d="M0 0h70.87v70.87H0z"/>
+    <path fill="#007C8F" d="M0 0h70.87v70.87H0z"/>
     <path d="M12.61 62.75a18.5 18.5 0 0 1-.38-4.17 23.2 23.2 0 1 1 46 4.17" fill="#fff"/>
-    <circle cx="35.43" cy="25.5" r="17.39" stroke="#4de7ff" stroke-miterlimit="10" stroke-width="3" fill="#fff"/>
+    <circle cx="35.43" cy="25.5" r="17.39" stroke="#007C8F" stroke-miterlimit="10" stroke-width="3" fill="#fff"/>
 </svg>
