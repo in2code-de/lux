@@ -45,15 +45,15 @@ define(['jquery', 'TYPO3/CMS/Lux/Vendor/Chart.min'], function($) {
           datasets: [{
             data: element.getAttribute('data-chart-data').split(','),
             backgroundColor: [
-              'rgba(0, 124, 143, 1)',
+              'rgba(2, 122, 202, 1)',
               'rgba(221, 221, 221, 1)',
-              'rgba(231, 156, 60, 1)',
-              'rgba(0, 124, 143, 0.6)',
-              'rgba(231, 156, 60, 0.6)',
-              'rgba(0, 124, 143, 0.4)',
-              'rgba(231, 156, 60, 0.4)',
-              'rgba(0, 124, 143, 0.2)',
-              'rgba(231, 156, 60, 0.2)',
+              'rgba(253, 201, 33, 1)',
+              'rgba(2, 122, 202, 0.6)',
+              'rgba(253, 201, 33, 0.6)',
+              'rgba(2, 122, 202, 0.4)',
+              'rgba(253, 201, 33, 0.4)',
+              'rgba(2, 122, 202, 0.2)',
+              'rgba(253, 201, 33, 0.2)',
               'rgba(0, 124, 143, 0.1)'
             ]
           }],
@@ -82,7 +82,7 @@ define(['jquery', 'TYPO3/CMS/Lux/Vendor/Chart.min'], function($) {
             label: element.getAttribute('data-chart-label') || 'Leads',
             data: element.getAttribute('data-chart-data').split(','),
             backgroundColor: [
-              'rgba(0, 124, 143, 1)',
+              'rgba(2, 122, 202, 1)',
               'rgba(221, 221, 221, 1)'
             ]
           }],
@@ -119,8 +119,8 @@ define(['jquery', 'TYPO3/CMS/Lux/Vendor/Chart.min'], function($) {
               label: element.getAttribute('data-chart-labelbottom'),
               data: element.getAttribute('data-chart-databottom').split(','),
               backgroundColor: [
-                'rgba(0, 124, 143, 1)',
-                'rgba(0, 124, 143, 1)'
+                'rgba(2, 122, 202, 1)',
+                'rgba(2, 122, 202, 1)'
               ]
             },
             {
@@ -167,7 +167,7 @@ define(['jquery', 'TYPO3/CMS/Lux/Vendor/Chart.min'], function($) {
       var datasets = [{
         label: element.getAttribute('data-chart-label'),
         data: element.getAttribute('data-chart-data').split(','),
-        borderColor: 'rgba(0, 124, 143, 1)',
+        borderColor: 'rgba(2, 122, 202, 1)',
         "lineTension": 0.5
       }];
       for (var i = 2; i < 7; i++) {
@@ -175,7 +175,7 @@ define(['jquery', 'TYPO3/CMS/Lux/Vendor/Chart.min'], function($) {
           datasets.push({
             label: element.getAttribute('data-chart-label' + i),
             data: element.getAttribute('data-chart-data' + i).split(','),
-            borderColor: '#e79c3c'
+            borderColor: '#fdc921'
           });
         }
       }
