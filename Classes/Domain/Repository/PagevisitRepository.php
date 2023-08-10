@@ -340,7 +340,7 @@ class PagevisitRepository extends AbstractRepository
         $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
         $result = [];
         foreach ($socialMedia->getDomainsForQuery() as $name => $domains) {
-            $sql = 'select count(*) count from ' . Pagevisit::TABLE_NAME . ' where referrer like "' . $domains . '"';
+            $sql = 'select count(*) count from ' . Pagevisit::TABLE_NAME . ' where referrer rlike "' . $domains . '"';
             $sql .= $this->extendWhereClauseWithFilterTime($filter);
             $count = (int)$connection->executeQuery($sql)->fetchOne();
             if ($count > 0) {
