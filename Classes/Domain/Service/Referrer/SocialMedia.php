@@ -27,6 +27,7 @@ class SocialMedia
         [
             'name' => 'Instagram',
             'domains' => [
+                'instagram.com',
                 'www.instagram.com',
                 'm.instagram.com',
                 'l.instagram.com',
