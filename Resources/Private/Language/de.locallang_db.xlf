@@ -653,13 +653,25 @@
 				<source>now</source>
 				<target state="translated">jetzt</target>
 			</trans-unit>
+			<trans-unit id="readabledate.minute">
+				<source>%s minute ago</source>
+				<target state="translated">vor %s Minute</target>
+			</trans-unit>
 			<trans-unit id="readabledate.minutes">
 				<source>%s minutes ago</source>
 				<target state="translated">vor %s Minuten</target>
 			</trans-unit>
+			<trans-unit id="readabledate.hour">
+				<source>%s hour ago</source>
+				<target state="translated">vor %s Stunde</target>
+			</trans-unit>
 			<trans-unit id="readabledate.hours">
 				<source>%s hours ago</source>
 				<target state="translated">vor %s Stunden</target>
+			</trans-unit>
+			<trans-unit id="readabledate.day">
+				<source>%s day ago</source>
+				<target state="translated">vor %s Tag</target>
 			</trans-unit>
 			<trans-unit id="readabledate.days">
 				<source>%s days ago</source>

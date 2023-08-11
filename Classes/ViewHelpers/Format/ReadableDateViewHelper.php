@@ -45,19 +45,31 @@ class ReadableDateViewHelper extends AbstractViewHelper
     protected function renderMinutes(DateInterval $date): string
     {
         $minutes = $date->i;
-        return (string)LocalizationUtility::translateByKey('readabledate.minutes', [$minutes]);
+        $key = 'readabledate.minute';
+        if ($minutes > 1) {
+            $key .= 's';
+        }
+        return (string)LocalizationUtility::translateByKey($key, [$minutes]);
     }
 
     protected function renderHours(DateInterval $date): string
     {
         $hours = $date->h;
-        return (string)LocalizationUtility::translateByKey('readabledate.hours', [$hours]);
+        $key = 'readabledate.hour';
+        if ($hours > 1) {
+            $key .= 's';
+        }
+        return (string)LocalizationUtility::translateByKey($key, [$hours]);
     }
 
     protected function renderDays(DateInterval $date): string
     {
         $days = $date->d;
-        return (string)LocalizationUtility::translateByKey('readabledate.days', [$days]);
+        $key = 'readabledate.day';
+        if ($days > 1) {
+            $key .= 's';
+        }
+        return (string)LocalizationUtility::translateByKey($key, [$days]);
     }
 
     protected function renderDate(DateTime $date): string
