@@ -46,15 +46,16 @@ define(['jquery', 'TYPO3/CMS/Lux/Vendor/Chart.min'], function($) {
             data: element.getAttribute('data-chart-data').split(','),
             backgroundColor: [
               'rgba(2, 122, 202, 1)',
-              'rgba(221, 221, 221, 1)',
-              'rgba(253, 201, 33, 1)',
-              'rgba(2, 122, 202, 0.6)',
-              'rgba(253, 201, 33, 0.6)',
-              'rgba(2, 122, 202, 0.4)',
-              'rgba(253, 201, 33, 0.4)',
-              'rgba(2, 122, 202, 0.2)',
-              'rgba(253, 201, 33, 0.2)',
-              'rgba(0, 124, 143, 0.1)'
+              'rgba(242, 182, 2, 1)',
+              'rgba(209, 35, 53, 1)',
+              'rgba(73, 159, 104, 1)',
+              'rgba(18, 38, 58, 1)',
+              'rgba(242, 182, 2, 0.6)',
+              'rgba(209, 35, 53, 0.6)',
+              'rgba(73, 159, 104, 0.6)',
+              'rgba(242, 182, 2, 0.3)',
+              'rgba(209, 35, 53, 0.3)',
+              'rgba(73, 159, 104, 0.3)',
             ]
           }],
           labels: element.getAttribute('data-chart-labels').split(',')
@@ -175,7 +176,7 @@ define(['jquery', 'TYPO3/CMS/Lux/Vendor/Chart.min'], function($) {
           datasets.push({
             label: element.getAttribute('data-chart-label' + i),
             data: element.getAttribute('data-chart-data' + i).split(','),
-            borderColor: '#fdc921'
+            borderColor: '#F2B602'
           });
         }
       }
