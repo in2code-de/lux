@@ -496,11 +496,20 @@
 			<trans-unit id="readabledate.now">
 				<source>now</source>
 			</trans-unit>
+			<trans-unit id="readabledate.minute">
+				<source>%s minute ago</source>
+			</trans-unit>
 			<trans-unit id="readabledate.minutes">
 				<source>%s minutes ago</source>
 			</trans-unit>
+			<trans-unit id="readabledate.hour">
+				<source>%s hour ago</source>
+			</trans-unit>
 			<trans-unit id="readabledate.hours">
 				<source>%s hours ago</source>
+			</trans-unit>
+			<trans-unit id="readabledate.day">
+				<source>%s day ago</source>
 			</trans-unit>
 			<trans-unit id="readabledate.days">
 				<source>%s days ago</source>

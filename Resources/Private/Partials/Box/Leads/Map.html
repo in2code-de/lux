@@ -3,7 +3,7 @@
         <f:for each="{lux:charts.getPercentageFromValue(countries:countries)}" key="countryCode" as="visitPercentage">
             #{countryCode} {
                 <f:comment>Hey Fluid, listen to the following variable</f:comment>
-                fill: rgba(77, 231, 255, 1);
+                fill: rgba(2, 122, 202, 1);
                 filter: saturate({visitPercentage}%);
             }
         </f:for>

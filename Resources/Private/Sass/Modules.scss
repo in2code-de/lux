@@ -276,6 +276,10 @@ label {
      */
     .table {
         border: 1px solid $colorGreyBright;
+
+        .soft {
+            color: $colorGreySoft;
+        }
     }
 
     .table.min-height-50 {
@@ -290,6 +294,10 @@ label {
 
         > td {
             color: $white;
+
+            .soft {
+                color: $colorGreyBright;
+            }
         }
     }
 
