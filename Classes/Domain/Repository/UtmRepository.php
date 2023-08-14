@@ -115,8 +115,8 @@ class UtmRepository extends AbstractRepository
     {
         $connection = DatabaseUtility::getConnectionForTable(Utm::TABLE_NAME);
         $sql = 'select count(utm.' . $field . ') count, utm.' . $field . ' from ' . Utm::TABLE_NAME . ' utm'
-            . ' where '
-            . $this->extendWhereClauseWithFilterTime($filter, false, 'utm')
+            . ' where ' . $field . ' != \'\''
+            . $this->extendWhereClauseWithFilterTime($filter, true, 'utm')
             . $this->extendWhereClauseWithFilterSearchterms($filter, 'utm', 'utm_source')
             . $this->extendWhereClauseWithFilterSearchterms($filter, 'utm', 'utm_medium', 'or')
             . $this->extendWhereClauseWithFilterSearchterms($filter, 'utm', 'utm_campaign', 'or')
@@ -126,7 +126,7 @@ class UtmRepository extends AbstractRepository
             . $this->extendWhereClauseWithFilterCampaign($filter, 'utm')
             . $this->extendWhereClauseWithFilterSource($filter, 'utm')
             . $this->extendWhereClauseWithFilterMedium($filter, 'utm')
-            . ' group by utm.' . $field . ' order by count desc limit 10';
+            . ' group by utm.' . $field . ' order by count desc limit 8';
         return $connection->executeQuery($sql)->fetchAllAssociative();
     }
 
