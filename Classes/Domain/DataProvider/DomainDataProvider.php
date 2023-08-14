@@ -32,10 +32,10 @@ class DomainDataProvider extends AbstractDataProvider
      */
     public function prepareData(): void
     {
-        $languages = $this->getDomains();
-        foreach ($languages as $language) {
-            $this->data['amounts'][] = $language['count'];
-            $this->data['titles'][] = $language['label'];
+        $domains = $this->getDomains();
+        foreach ($domains as $domain) {
+            $this->data['amounts'][] = $domain['count'];
+            $this->data['titles'][] = $domain['label'];
         }
     }
 
