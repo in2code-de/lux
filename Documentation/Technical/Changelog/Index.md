@@ -25,6 +25,7 @@
 
 | Version    | Date       | State    | TYPO3         | Description                                                                                                                                                                                           |
 |------------|------------|----------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 33.0.1     | 2023-08-19 | Bugfix   | `11.5 + 12.4` | Fix backend module configuration for TYPO3 12 (to set correct editor permissions)                                                                                                                     |
 | 33.0.0     | 2023-08-14 | Feature  | `11.5 + 12.4` | Color adjustments of LUX for a better readability, small improvements of readabledate viewhelper, don't show empty values in UTM diagrams                                                             |
 | 32.2.3     | 2023-08-10 | Bugfix   | `11.5 + 12.4` | Fix socialmedia diagram in analysis dashboard                                                                                                                                                         |
 | 32.2.2     | 2023-08-07 | Bugfix   | `11.5 + 12.4` | Don't use table "sys_language" any more because it was removed in TYPO3 12                                                                                                                            |
