@@ -8,7 +8,7 @@ return [
     'lux_LuxAnalysis' => [
         'parent' => 'lux_module',
         'position' => [],
-        'access' => 'user,group',
+        'access' => 'user',
         'iconIdentifier' => 'extension-lux-module-analysis',
         'path' => '/module/lux/LuxAnalysis',
         'labels' => 'LLL:EXT:lux/Resources/Private/Language/locallang_mod_analysis.xlf',
@@ -46,7 +46,7 @@ return [
     'lux_LuxLead' => [
         'parent' => 'lux_module',
         'position' => [],
-        'access' => 'user,group',
+        'access' => 'user',
         'iconIdentifier' => 'extension-lux-module-lead',
         'path' => '/module/lux/LuxLead',
         'labels' => 'LLL:EXT:lux/Resources/Private/Language/locallang_mod_lead.xlf',
@@ -82,7 +82,7 @@ return [
     'lux_LuxWorkflow' => [
         'parent' => 'lux_module',
         'position' => [],
-        'access' => 'user,group',
+        'access' => 'user',
         'iconIdentifier' => 'extension-lux-module-workflow',
         'path' => '/module/lux/LuxWorkflow',
         'labels' => 'LLL:EXT:lux/Resources/Private/Language/locallang_mod_workflow.xlf',
