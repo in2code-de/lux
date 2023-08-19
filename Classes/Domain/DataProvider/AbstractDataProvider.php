@@ -55,11 +55,11 @@ abstract class AbstractDataProvider implements DataProviderInterface
 
     public function getAmountsFromData(): array
     {
-        $amouts = [];
+        $amounts = [];
         if (isset($this->getData()['amounts'])) {
-            $amouts = $this->getData()['amounts'];
+            $amounts = $this->getData()['amounts'];
         }
-        return (array)$amouts;
+        return (array)$amounts;
     }
 
     public function getAmountsList(): string
@@ -69,7 +69,7 @@ abstract class AbstractDataProvider implements DataProviderInterface
 
     public function getAmounts2FromData(): array
     {
-        return (array)$this->getData()['amounts2'];
+        return (array)($this->getData()['amounts2'] ?? []);
     }
 
     public function getAmounts2List(): string

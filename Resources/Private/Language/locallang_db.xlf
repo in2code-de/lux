@@ -1394,6 +1394,16 @@
 				<source>Show best UTM media</source>
 			</trans-unit>
 
+			<trans-unit id="module.leadlist.box.timeframes">
+				<source>Leads per time</source>
+			</trans-unit>
+			<trans-unit id="module.leadlist.box.timeframes.label.new">
+				<source>New leads</source>
+			</trans-unit>
+			<trans-unit id="module.leadlist.box.timeframes.label.any">
+				<source>Any leads</source>
+			</trans-unit>
+
 			<trans-unit id="module.company.box.newest">
 				<source>Latest companies on your website</source>
 			</trans-unit>

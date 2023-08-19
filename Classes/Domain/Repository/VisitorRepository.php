@@ -186,7 +186,7 @@ class VisitorRepository extends AbstractRepository
     }
 
     /**
-     * Find a small couple of hottest visitors
+     * Find a small couple of the hottest visitors
      *
      * @param FilterDto $filter
      * @param int $limit
@@ -480,6 +480,27 @@ class VisitorRepository extends AbstractRepository
         $sql .= ' order by uid desc limit ' . $limit;
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
         return $connection->executeQuery($sql)->fetchAllKeyValue();
+    }
+
+    public function findAmountOfVisitorsInTimeFrame(DateTime $start, DateTime $end): int
+    {
+        $sql = 'select distinct v.uid from ' . Visitor::TABLE_NAME . ' v'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on v.uid = pv.visitor'
+            . ' where v.deleted=0 and v.blacklisted=0'
+            . ' and pv.crdate >= ' . $start->getTimestamp() . ' and pv.crdate <= ' . $end->getTimestamp()
+            . ' group by v.uid';
+        $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
+        $rows = $connection->executeQuery($sql)->fetchAllNumeric();
+        return count($rows);
+    }
+
+    public function findAmountOfNewVisitorsInTimeFrame(DateTime $start, DateTime $end): int
+    {
+        $sql = 'select count(uid) from ' . Visitor::TABLE_NAME
+            . ' where deleted=0 and blacklisted=0'
+            . ' and crdate >= ' . $start->getTimestamp() . ' and crdate <= ' . $end->getTimestamp();
+        $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
+        return (int)$connection->executeQuery($sql)->fetchOne();
     }
 
     public function getScoringSumFromCompany(Company $company): int

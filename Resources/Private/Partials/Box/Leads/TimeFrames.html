@@ -1,0 +1,26 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.leadlist.box.timeframes">Leads per time</f:translate>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <f:if condition="{visitorsPerTimeData.dataAvailable}">
+            <f:then>
+                <div>
+                    <canvas width="750"
+                            height="350"
+                            data-chart="line"
+                            data-chart-data="{visitorsPerTimeData.amountsList}"
+                            data-chart-data2="{visitorsPerTimeData.amounts2List}"
+                            data-chart-label="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.leadlist.box.timeframes.label.new')}"
+                            data-chart-label2="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.leadlist.box.timeframes.label.any')}"
+                            data-chart-labels="{visitorsPerTimeData.titlesList}"></canvas>
+                </div>
+            </f:then>
+            <f:else>
+                <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+            </f:else>
+        </f:if>
+    </div>
+</div>

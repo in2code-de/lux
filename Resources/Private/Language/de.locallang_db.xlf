@@ -1843,6 +1843,19 @@
 				<target state="translated">Zeige die beisten UTM Media</target>
 			</trans-unit>
 
+			<trans-unit id="module.leadlist.box.timeframes">
+				<source>Leads per time</source>
+				<target state="translated">Leads pro Zeitraum</target>
+			</trans-unit>
+			<trans-unit id="module.leadlist.box.timeframes.label.new">
+				<source>New leads</source>
+				<target state="translated">Neue Leads</target>
+			</trans-unit>
+			<trans-unit id="module.leadlist.box.timeframes.label.any">
+				<source>Any leads</source>
+				<target state="translated">Alle Leads</target>
+			</trans-unit>
+
 			<trans-unit id="module.company.box.newest">
 				<source>Latest companies on your website</source>
 				<target state="translated">Letzte Firmen auf der Website</target>
