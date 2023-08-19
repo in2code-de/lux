@@ -11,6 +11,7 @@ use In2code\Lux\Domain\DataProvider\CompanyAmountPerMonthDataProvider;
 use In2code\Lux\Domain\DataProvider\CompanyCategoryScoringsDataProvider;
 use In2code\Lux\Domain\DataProvider\CompanyScoringWeeksDataProvider;
 use In2code\Lux\Domain\DataProvider\IdentificationMethodsDataProvider;
+use In2code\Lux\Domain\DataProvider\LeadsPerTimeDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
 use In2code\Lux\Domain\DataProvider\ReferrerAmountDataProvider;
 use In2code\Lux\Domain\DataProvider\RevenueClassDataProvider;
@@ -122,6 +123,7 @@ class LeadController extends AbstractController
         $this->view->assignMultiple([
             'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
             'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter, 8),
+            'visitorsPerTimeData' => GeneralUtility::makeInstance(LeadsPerTimeDataProvider::class, $filter),
             'filter' => $filter,
             'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter),
             'luxCategories' => $this->categoryRepository->findAllLuxCategories(),

@@ -187,7 +187,7 @@ define(['jquery', 'TYPO3/CMS/Lux/Vendor/Chart.min'], function($) {
         }
       }];
 
-      // Use a logarithmic y-axes (normally only if there is more then only one line with a big difference)
+      // Use a logarithmic y-axes (normally only if there is more than only one line with a big difference)
       if (element.hasAttribute('data-chart-max-y') && element.hasAttribute('data-chart-max-y') > 0) {
         yAxes = [{
           type: 'logarithmic',

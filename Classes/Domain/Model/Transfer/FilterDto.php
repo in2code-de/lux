@@ -560,7 +560,7 @@ class FilterDto
         $start = $this->getStartTimeForFilter(true);
         $end = $this->getEndTimeForFilter();
         $deltaSeconds = $end->getTimestamp() - $start->getTimestamp();
-        if ($deltaSeconds <= 86400) { // until 1 days
+        if ($deltaSeconds <= 86400) { // until 1 day
             return ['intervals' => $this->getHourIntervals(), 'frequency' => 'hour'];
         }
         if ($deltaSeconds <= 1209600) { // until 2 weeks
