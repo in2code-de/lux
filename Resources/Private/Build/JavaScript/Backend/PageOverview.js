@@ -28,6 +28,7 @@ function LuxPageOverview() {
     for (var i = 0; i < elements.length; i++) {
       elements[i].addEventListener('click', function(event) {
         var thisElement = event.target;
+        var name = thisElement.getAttribute('data-lux-toggle');
         if (thisElement.tagName === 'I') {
           thisElement = thisElement.parentNode;
         }
@@ -35,11 +36,11 @@ function LuxPageOverview() {
         if (iTag.classList.contains('lux-arrow-down')) {
           iTag.classList.remove('lux-arrow-down');
           iTag.classList.add('lux-arrow-up');
-          persistStatus('close');
+          persistStatus('close', name);
         } else {
           iTag.classList.remove('lux-arrow-up');
           iTag.classList.add('lux-arrow-down');
-          persistStatus('open');
+          persistStatus('open', name);
         }
         var target = thisElement.getAttribute('data-lux-toggle');
         var targetElements = document.querySelectorAll('[data-lux-toggle-target="' + target + '"]');
@@ -53,10 +54,11 @@ function LuxPageOverview() {
 
   /**
    * @param {String} status "open" or "close"
+   * @param {String} name e.g. "pageOverview"
    * @returns {void}
    */
-  var persistStatus = function(status) {
-    ajaxConnection(TYPO3.settings.ajaxUrls['/lux/pageoverview'], {status: status}, null);
+  var persistStatus = function(status, name) {
+    ajaxConnection(TYPO3.settings.ajaxUrls['/lux/pageoverview'], {status: status, name: name}, null);
   };
 
   /**

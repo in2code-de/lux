@@ -15,7 +15,7 @@
             </lux:backend.cache>
         </h4>
 
-        <div data-lux-toggle-target="target" class="{f:if(condition:'{status} == \'close\'',then:' hide')}">
+        <div data-lux-toggle-target="pageOverview" class="{f:if(condition:'{status} == \'close\'',then:' hide')}">
             <lux:backend.cache identifier="PageOverviewContent{pageIdentifier}" cacheLayer="{cacheLayer}">
                 <f:render section="{view}" arguments="{_all}"/>
             </lux:backend.cache>
@@ -39,7 +39,7 @@
 <f:section name="analysisTitle">
     <img src="{f:uri.resource(path:'Icons/lux.svg?hash=123',extensionName:'lux')}" height="30" alt="LUX - Marketing Automation for TYPO3" title="LUX - Marketing Automation for TYPO3" />
 
-    <span title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.title',arguments:'{0:visits}')}" style="cursor:pointer;padding-left:10px;" data-lux-toggle="target">
+    <span title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.title',arguments:'{0:visits}')}" style="cursor:pointer;padding-left:10px;" data-lux-toggle="pageOverview">
         {visits} {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.visits')}
         <f:variable name="deltaWithPrefix" value="{f:if(condition:'{delta} >= 0',then:'+{delta}',else:delta)}"/>
         <img src="{f:uri.resource(path:deltaIconPath,extensionName:'lux')}" height="15" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.visitsdelta',arguments:'{0:deltaWithPrefix}')}" />
@@ -208,7 +208,7 @@
 
 <f:section name="leadsTitle">
     <img src="{f:uri.resource(path:'Icons/lux.svg?hash=123',extensionName:'lux')}" height="30" alt="Lux - Marketing Automation for TYPO3" title="Lux - Marketing Automation for TYPO3" />
-    <span title="{lux:string.implodeOnObjectsProperty(objects:visitors,property:'fullName')}" style="cursor:pointer;" data-lux-toggle="target">
+    <span title="{lux:string.implodeOnObjectsProperty(objects:visitors,property:'fullName')}" style="cursor:pointer;" data-lux-toggle="pageOverview">
         <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview">Last visitors</f:translate>
         <i class="fa {f:if(condition:'{status} == "close"',then:'fa-chevron-up', else:'fa-chevron-down')}" style="cursor: pointer; margin-left: 5px;"></i>
     </span>

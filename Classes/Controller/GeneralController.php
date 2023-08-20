@@ -69,7 +69,12 @@ class GeneralController extends AbstractController
      */
     public function showOrHidePageOverviewAjax(ServerRequestInterface $request): ResponseInterface
     {
-        BackendUtility::saveValueToSession('toggle', 'PageOverview', 'General', $request->getQueryParams());
+        BackendUtility::saveValueToSession(
+            'toggle',
+            $request->getQueryParams()['name'] ?? '',
+            'General',
+            $request->getQueryParams()
+        );
         return GeneralUtility::makeInstance(JsonResponse::class);
     }
 
