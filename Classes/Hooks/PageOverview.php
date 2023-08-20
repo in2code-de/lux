@@ -117,7 +117,7 @@ class PageOverview
         $this->cacheLayer->initialize(__CLASS__, 'render');
         $content = '';
         if ($this->isPageOverviewEnabled($pageIdentifier)) {
-            $session = BackendUtility::getSessionValue('toggle', 'PageOverview', 'General');
+            $session = BackendUtility::getSessionValue('toggle', 'pageOverview', 'General');
             $arguments = $this->getArguments(ConfigurationUtility::getPageOverviewView(), $pageIdentifier, $session);
             return $this->getContent($arguments);
         }
