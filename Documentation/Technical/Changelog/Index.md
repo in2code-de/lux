@@ -25,6 +25,7 @@
 
 | Version    | Date       | State    | TYPO3         | Description                                                                                                                                                                                           |
 |------------|------------|----------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 33.2.0     | 2023-08-20 | Feature  | `11.5 + 12.4` | Make toggle function in backend more generic, so it can be used for more functions in future                                                                                                          |
 | 33.1.1     | 2023-08-20 | Bugfix   | `11.5 + 12.4` | Show pagetree in link wizard for LinkListeners, to select a page if storage PID != 0, allow to store LinkListener records on normal pages                                                             |
 | 33.1.0     | 2023-08-19 | Feature  | `11.5 + 12.4` | New diagram in lead list shows number of new or all leads within a timeframe                                                                                                                          |
 | 33.0.1     | 2023-08-19 | Bugfix   | `11.5 + 12.4` | Fix backend module configuration for TYPO3 12 (to set correct editor permissions)                                                                                                                     |
