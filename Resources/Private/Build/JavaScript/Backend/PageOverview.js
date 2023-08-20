@@ -27,7 +27,7 @@ function LuxPageOverview() {
     var elements = document.querySelectorAll('[data-lux-toggle]');
     for (var i = 0; i < elements.length; i++) {
       elements[i].addEventListener('click', function(event) {
-        var thisElement = event.target;
+        var thisElement = event.currentTarget;
         var name = thisElement.getAttribute('data-lux-toggle');
         if (thisElement.tagName === 'I') {
           thisElement = thisElement.parentNode;
