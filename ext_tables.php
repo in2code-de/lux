@@ -151,5 +151,12 @@ call_user_func(
          */
         $GLOBALS['TBE_STYLES']['skins']['lux']['stylesheetDirectories']['ckeditor']
             = 'EXT:lux/Resources/Public/Css/CKEditor/';
+
+        /**
+         * Allow tables to be saved on default pages
+         */
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages(
+            'tx_lux_domain_model_linklistener'
+        );
     }
 );
