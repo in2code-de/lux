@@ -27,7 +27,6 @@ TCEMAIN.linkHandler.luxlinklistener {
   label = LUX Link Listener
   configuration {
     table = tx_lux_domain_model_linklistener
-    hidePageTree = 1
   }
 
   scanAfter = page
