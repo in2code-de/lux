@@ -25,6 +25,7 @@
 
 | Version    | Date       | State    | TYPO3         | Description                                                                                                                                                                                           |
 |------------|------------|----------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 33.3.0     | 2023-09-07 | Feature  | `11.5 + 12.4` | Update diagram of existing leads to a double bar chart diagram for better readability                                                                                                                 |
 | 33.2.1     | 2023-08-20 | Bugfix   | `11.5 + 12.4` | Toggle page overview diagrams: Should also save status when clicking on the small arrow icon                                                                                                          |
 | 33.2.0     | 2023-08-20 | Feature  | `11.5 + 12.4` | Make toggle function in backend more generic, so it can be used for more functions in future                                                                                                          |
 | 33.1.1     | 2023-08-20 | Bugfix   | `11.5 + 12.4` | Show pagetree in link wizard for LinkListeners, to select a page if storage PID != 0, allow to store LinkListener records on normal pages                                                             |
