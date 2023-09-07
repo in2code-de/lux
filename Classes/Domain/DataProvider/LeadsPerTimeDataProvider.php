@@ -12,10 +12,15 @@ class LeadsPerTimeDataProvider extends AbstractDynamicFilterDataProvider
     /**
      * Set values like:
      *  [
-     *      'amounts' => [
-     *          50,
-     *          88,
-     *          33
+     *      'amounts' => [ // new visitors
+     *          3,
+     *          5,
+     *          9,
+     *      ],
+     *      'amounts2' => [ // any visitors
+     *          10,
+     *          8,
+     *          14,
      *      ],
      *      'titles' => [
      *          'January',
