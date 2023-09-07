@@ -17,7 +17,7 @@ class LeadsPerTimeDataProvider extends AbstractDynamicFilterDataProvider
      *          5,
      *          9,
      *      ],
-     *      'amounts2' => [ // any visitors
+     *      'amounts2' => [ // existing visitors
      *          10,
      *          8,
      *          14,
@@ -46,8 +46,8 @@ class LeadsPerTimeDataProvider extends AbstractDynamicFilterDataProvider
                 $interval['end']
             );
 
-            // Any visitors
-            $this->data['amounts2'][] = $visitorRepository->findAmountOfVisitorsInTimeFrame(
+            // Existing visitors
+            $this->data['amounts2'][] = $visitorRepository->findAmountOfExistingVisitorsInTimeFrame(
                 $interval['start'],
                 $interval['end']
             );

@@ -1400,6 +1400,9 @@
 			<trans-unit id="module.leadlist.box.timeframes.label.new">
 				<source>New leads</source>
 			</trans-unit>
+			<trans-unit id="module.leadlist.box.timeframes.label.existing">
+				<source>Recurring leads</source>
+			</trans-unit>
 			<trans-unit id="module.leadlist.box.timeframes.label.any">
 				<source>Any leads</source>
 			</trans-unit>

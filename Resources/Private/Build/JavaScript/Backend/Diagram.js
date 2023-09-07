@@ -121,15 +121,37 @@ define(['jquery', 'TYPO3/CMS/Lux/Vendor/Chart.min'], function($) {
               data: element.getAttribute('data-chart-databottom').split(','),
               backgroundColor: [
                 'rgba(2, 122, 202, 1)',
-                'rgba(2, 122, 202, 1)'
+                'rgba(2, 122, 202, 1)',
+                'rgba(2, 122, 202, 1)',
+                'rgba(2, 122, 202, 1)',
+                'rgba(2, 122, 202, 1)',
+                'rgba(2, 122, 202, 1)',
+                'rgba(2, 122, 202, 1)',
+                'rgba(2, 122, 202, 1)',
+                'rgba(2, 122, 202, 1)',
+                'rgba(2, 122, 202, 1)',
+                'rgba(2, 122, 202, 1)',
+                'rgba(2, 122, 202, 1)',
+                'rgba(2, 122, 202, 1)',
               ]
             },
             {
               label: element.getAttribute('data-chart-labeltop'),
               data: element.getAttribute('data-chart-datatop').split(','),
               backgroundColor: [
-                'rgba(221, 221, 221, 1)',
-                'rgba(221, 221, 221, 1)'
+                'rgba(242, 182, 2, 1)',
+                'rgba(242, 182, 2, 1)',
+                'rgba(242, 182, 2, 1)',
+                'rgba(242, 182, 2, 1)',
+                'rgba(242, 182, 2, 1)',
+                'rgba(242, 182, 2, 1)',
+                'rgba(242, 182, 2, 1)',
+                'rgba(242, 182, 2, 1)',
+                'rgba(242, 182, 2, 1)',
+                'rgba(242, 182, 2, 1)',
+                'rgba(242, 182, 2, 1)',
+                'rgba(242, 182, 2, 1)',
+                'rgba(242, 182, 2, 1)',
               ]
             }
           ],

@@ -1851,6 +1851,10 @@
 				<source>New leads</source>
 				<target state="translated">Neue Leads</target>
 			</trans-unit>
+			<trans-unit id="module.leadlist.box.timeframes.label.existing">
+				<source>Recurring leads</source>
+				<target state="translated">Wiederkehrende Leads</target>
+			</trans-unit>
 			<trans-unit id="module.leadlist.box.timeframes.label.any">
 				<source>Any leads</source>
 				<target state="translated">Alle Leads</target>
