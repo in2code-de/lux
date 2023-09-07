@@ -494,6 +494,13 @@ class VisitorRepository extends AbstractRepository
         return count($rows);
     }
 
+    public function findAmountOfExistingVisitorsInTimeFrame(DateTime $start, DateTime $end): int
+    {
+        $newVisitors = $this->findAmountOfNewVisitorsInTimeFrame($start, $end);
+        $allVisitors = $this->findAmountOfVisitorsInTimeFrame($start, $end);
+        return $allVisitors - $newVisitors;
+    }
+
     public function findAmountOfNewVisitorsInTimeFrame(DateTime $start, DateTime $end): int
     {
         $sql = 'select count(uid) from ' . Visitor::TABLE_NAME
