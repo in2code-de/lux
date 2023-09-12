@@ -40,6 +40,7 @@ define(['jquery'], function($) {
       asynchronousLinkListenerPerformanceLoading();
       asynchronousCompaniesInformationLoading();
       addToggleListener();
+      addUnitAjaxListener();
     };
 
     /**
@@ -287,6 +288,27 @@ define(['jquery'], function($) {
         });
       });
     };
+
+    const addUnitAjaxListener = function() {
+      const elements = document.querySelectorAll('[data-lux-unitajax]');
+      elements.forEach(function(element) {
+        element.classList.add('luxspinner', 'luxspinner--center');
+        const data = new URLSearchParams();
+        data.append('path', element.getAttribute('data-lux-unitajax'));
+        fetch(TYPO3.settings.ajaxUrls['/lux/unitajax'] + '&' + data)
+          .then((resp) => resp.text())
+          .then(function(html) {
+            element.innerHTML = html;
+            window.LuxDiagramObject.initialize(element);
+          })
+          .catch(function(error) {
+            console.log(error);
+          })
+          .finally(() => {
+            element.classList.remove('luxspinner', 'luxspinner--center')
+          });
+      });
+    }
 
     /**
      * @param {string} elements

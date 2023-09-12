@@ -6,10 +6,8 @@
     <div class="row flex">
         <div class="col-md-8 flex">
             <div class="row flex">
-                <div class="col-md-6 flex">
-                    <lux:backend.cache identifier="Box/Analysis/Pagevisits/{filter.hash}" cacheLayer="{cacheLayer}">
-                        <f:render partial="Box/Analysis/Pagevisits" arguments="{_all}"/>
-                    </lux:backend.cache>
+                <div class="col-md-6 flex relative">
+                    <div data-lux-unitajax="AnalysisDashboardPagevisits"></div>
                 </div>
                 <div class="col-md-6 flex">
                     <lux:backend.cache identifier="Box/Analysis/Downloads/{filter.hash}" cacheLayer="{cacheLayer}">

@@ -181,4 +181,18 @@ class StringUtilityTest extends UnitTestCase
         self::assertTrue(StringUtility::isShortMd5('a8793cf9ab', 10));
         self::assertTrue(StringUtility::isShortMd5('acbd18db4cc2f85cedef654fccc4a4d8', 32));
     }
+
+    /**
+     * @return void
+     * @covers ::splitCamelcaseString
+     */
+    public function testSplitCamelcaseString(): void
+    {
+        self::assertSame(['foo', 'Bar'], StringUtility::splitCamelcaseString('fooBar'));
+        self::assertSame(
+            ['Camel', 'Case', 'Test', 'Scenario'],
+            StringUtility::splitCamelcaseString('CamelCaseTestScenario')
+        );
+        self::assertSame(['foo'], StringUtility::splitCamelcaseString('foo'));
+    }
 }
