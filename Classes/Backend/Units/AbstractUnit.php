@@ -14,6 +14,7 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 
 abstract class AbstractUnit
 {
+    protected ?FilterDto $filter = null;
     protected string $templateRootPath = 'EXT:lux/Resources/Private/Templates/Backend/Units';
     protected string $partialRootPath = 'EXT:lux/Resources/Private/Partials';
     protected string $classPrefix = 'In2code\Lux\Backend\Units\\';
@@ -48,6 +49,24 @@ abstract class AbstractUnit
 
     public function get(): string
     {
+        $this->initialize();
+        return $this->getHtml();
+    }
+
+    protected function initialize(): void
+    {
+        $filter = ObjectUtility::getFilterDto();
+        if ($this->filterClass !== '' && $this->filterFunction !== '') {
+            $filterFromSession = BackendUtility::getSessionValue('filter', $this->filterFunction, $this->filterClass);
+            if (is_a($filterFromSession, FilterDto::class)) {
+                $filter = $filterFromSession;
+            }
+        }
+        $this->filter = $filter;
+    }
+
+    protected function getHtml(): string
+    {
         $view = GeneralUtility::makeInstance(StandaloneView::class);
         $view->setTemplateRootPaths([$this->templateRootPath]);
         $view->setPartialRootPaths([$this->partialRootPath]);
@@ -79,14 +98,7 @@ abstract class AbstractUnit
 
     protected function assignFilter(StandaloneView $view): void
     {
-        $filter = ObjectUtility::getFilterDto();
-        if ($this->filterClass !== '' && $this->filterFunction !== '') {
-            $filterFromSession = BackendUtility::getSessionValue('filter', $this->filterFunction, $this->filterClass);
-            if (is_a($filterFromSession, FilterDto::class)) {
-                $filter = $filterFromSession;
-            }
-        }
-        $view->assign('filter', $filter);
+        $view->assign('filter', $this->filter);
     }
 
     protected function getTemplatePath(): string

@@ -6,25 +6,27 @@
     <div class="row flex">
         <div class="col-md-8 flex">
             <div class="row flex">
-                <div class="col-md-6 flex relative">
-                    <div data-lux-unitajax="AnalysisDashboardPagevisits"></div>
+                <div class="col-md-6 flex">
+                    <div data-lux-unitajax="AnalysisDashboardPagevisits" class="unitajax">
+                        <div class="unitajax-spinner"></div>
+                    </div>
                 </div>
                 <div class="col-md-6 flex">
-                    <lux:backend.cache identifier="Box/Analysis/Downloads/{filter.hash}" cacheLayer="{cacheLayer}">
-                        <f:render partial="Box/Analysis/Downloads" arguments="{_all}"/>
-                    </lux:backend.cache>
+                    <div data-lux-unitajax="AnalysisDashboardDownloads" class="unitajax">
+                        <div class="unitajax-spinner"></div>
+                    </div>
                 </div>
             </div>
             <div class="row flex">
                 <div class="col-md-6 flex">
-                    <lux:backend.cache identifier="Box/Leads/Pagevisits/{filter.hash}" cacheLayer="{cacheLayer}">
-                        <f:render partial="Box/Leads/Pagevisits" arguments="{_all}"/>
-                    </lux:backend.cache>
+                    <div data-lux-unitajax="AnalysisDashboardPagevisitsleads" class="unitajax">
+                        <div class="unitajax-spinner"></div>
+                    </div>
                 </div>
                 <div class="col-md-6 flex">
-                    <lux:backend.cache identifier="Box/Analysis/Browser/{filter.hash}" cacheLayer="{cacheLayer}">
-                        <f:render partial="Box/Analysis/Browser" arguments="{_all}"/>
-                    </lux:backend.cache>
+                    <div data-lux-unitajax="AnalysisDashboardBrowser" class="unitajax">
+                        <div class="unitajax-spinner"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -37,31 +39,31 @@
         <div class="col-md-8 flex">
             <div class="row flex">
                 <div class="col-md-3 flex">
-                    <lux:backend.cache identifier="Box/Analysis/TopPages/{filter.hash}" cacheLayer="{cacheLayer}">
-                        <f:render partial="Box/Analysis/TopPages" arguments="{_all}"/>
-                    </lux:backend.cache>
+                    <div data-lux-unitajax="AnalysisDashboardTopPages" class="unitajax">
+                        <div class="unitajax-spinner"></div>
+                    </div>
                 </div>
                 <div class="col-md-3 flex">
-                    <lux:backend.cache identifier="Box/Analysis/TopDownloads/{filter.hash}" cacheLayer="{cacheLayer}">
-                        <f:render partial="Box/Analysis/TopDownloads" arguments="{_all}"/>
-                    </lux:backend.cache>
+                    <div data-lux-unitajax="AnalysisDashboardTopDownloads" class="unitajax">
+                        <div class="unitajax-spinner"></div>
+                    </div>
                 </div>
                 <div class="col-md-3 flex">
-                    <lux:backend.cache identifier="Box/Analysis/TopNews/{filter.hash}" cacheLayer="{cacheLayer}">
-                        <f:render partial="Box/Analysis/TopNews" arguments="{_all}"/>
-                    </lux:backend.cache>
+                    <div data-lux-unitajax="AnalysisDashboardTopNews" class="unitajax">
+                        <div class="unitajax-spinner"></div>
+                    </div>
                 </div>
                 <div class="col-md-3 flex">
-                    <lux:backend.cache identifier="Box/Analysis/TopSearch/{filter.hash}" cacheLayer="{cacheLayer}">
-                        <f:render partial="Box/Analysis/TopSearch" arguments="{_all}"/>
-                    </lux:backend.cache>
+                    <div data-lux-unitajax="AnalysisDashboardTopSearch" class="unitajax">
+                        <div class="unitajax-spinner"></div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-md-4 flex">
-            <lux:backend.cache identifier="Box/Analysis/SocialMedia/{filter.hash}" cacheLayer="{cacheLayer}">
-                <f:render partial="Box/Analysis/SocialMedia" arguments="{_all}"/>
-            </lux:backend.cache>
+            <div data-lux-unitajax="AnalysisDashboardSocialmedia" class="unitajax">
+                <div class="unitajax-spinner"></div>
+            </div>
         </div>
     </div>
 </f:section>
