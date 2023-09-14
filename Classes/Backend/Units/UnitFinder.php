@@ -10,6 +10,13 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class UnitFinder
 {
+    protected array $arguments = [];
+
+    public function __construct(array $arguments = [])
+    {
+        $this->arguments = $arguments;
+    }
+
     /**
      * @param string $path
      * @return UnitInterface
@@ -23,6 +30,6 @@ class UnitFinder
             throw new ConfigurationException('Given class ' . $classNameUnit . ' does not exists', 1694522397);
         }
         /** @noinspection PhpParamsInspection */
-        return GeneralUtility::makeInstance($classNameUnit);
+        return GeneralUtility::makeInstance($classNameUnit, $this->arguments);
     }
 }

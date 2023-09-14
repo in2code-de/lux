@@ -143,7 +143,8 @@ class GeneralController extends AbstractController
     public function getUnitAjax(ServerRequestInterface $request): ResponseInterface
     {
         $path = $request->getQueryParams()['path'] ?? '';
-        $unitFinder = GeneralUtility::makeInstance(UnitFinder::class);
+        $arguments = $request->getQueryParams()['arguments'] ?? [];
+        $unitFinder = GeneralUtility::makeInstance(UnitFinder::class, $arguments);
         return GeneralUtility::makeInstance(HtmlResponse::class, $unitFinder->find($path)->get());
     }
 }

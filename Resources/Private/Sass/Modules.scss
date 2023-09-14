@@ -52,7 +52,6 @@ label {
     border: 6px solid rgba(255,255,255,.3);
     border-top-color: $colorMain;
     animation: spin 1s ease-in-out infinite;
-    -webkit-animation: spin 1s ease-in-out infinite;
     top: 50%;
     left: 50%;
     position: absolute;
@@ -69,14 +68,10 @@ label {
     border-radius: 50%;
     border-top-color: $colorMain;
     animation: spin 1s ease-in-out infinite;
-    -webkit-animation: spin 1s ease-in-out infinite;
 }
 
 @keyframes spin {
-    to { -webkit-transform: rotate(360deg); }
-}
-@-webkit-keyframes spin {
-    to { -webkit-transform: rotate(360deg); }
+    to { transform: rotate(360deg); }
 }
 
 /**

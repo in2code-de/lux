@@ -14,6 +14,7 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 
 abstract class AbstractUnit
 {
+    protected array $arguments = [];
     protected ?FilterDto $filter = null;
     protected string $templateRootPath = 'EXT:lux/Resources/Private/Templates/Backend/Units';
     protected string $partialRootPath = 'EXT:lux/Resources/Private/Partials';
@@ -47,6 +48,11 @@ abstract class AbstractUnit
      */
     protected string $filterFunction = '';
 
+    public function __construct(array $arguments = [])
+    {
+        $this->arguments = $arguments;
+    }
+
     public function get(): string
     {
         $this->initialize();
@@ -79,6 +85,7 @@ abstract class AbstractUnit
             ] + $this->assignAdditionalVariables());
         $this->assignCacheLayer($view);
         $this->assignFilter($view);
+        $this->assignArguments($view);
         return $view->render();
     }
 
@@ -99,6 +106,19 @@ abstract class AbstractUnit
     protected function assignFilter(StandaloneView $view): void
     {
         $view->assign('filter', $this->filter);
+    }
+
+    protected function assignArguments(StandaloneView $view): void
+    {
+        $view->assign('arguments', $this->arguments);
+    }
+
+    protected function getArgument(string $key): string
+    {
+        if (array_key_exists($key, $this->arguments)) {
+            return $this->arguments[$key];
+        }
+        return '';
     }
 
     protected function getTemplatePath(): string
