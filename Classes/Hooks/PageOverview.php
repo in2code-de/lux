@@ -142,7 +142,7 @@ class PageOverview
             'pageIdentifier' => $pageIdentifier,
             'cacheLayer' => $this->cacheLayer,
             'status' => $session['status'] ?? 'show',
-            'view' => $view,
+            'view' => ucfirst($view),
             'visitors' => $this->visitorRepository->findByVisitedPageIdentifier($pageIdentifier),
         ];
 

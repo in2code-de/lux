@@ -1,0 +1,148 @@
+<div class="row" style="background-color: #fafafa; border-top: 1px solid #cdcdcd; border-bottom: 1px solid #cdcdcd; padding: 5px; margin: 5px;">
+    <div class="col-md-4">
+        <h4><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.enter">enter</f:translate></h4>
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <td colspan="2">
+                            <strong><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.frominternal">from internal</f:translate></strong>
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <f:if condition="{gotinInternal}">
+                        <f:then>
+                            <f:for each="{gotinInternal}" as="data">
+                                <tr>
+                                    <td title="{data.title}"><f:format.crop maxCharacters="30" append="...">{data.title}</f:format.crop></td>
+                                    <td style="width:5%;">{data.amount}</td>
+                                </tr>
+                            </f:for>
+                        </f:then>
+                        <f:else>
+                            <tr>
+                                <td colspan="2">
+                                    <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+                                </td>
+                            </tr>
+                        </f:else>
+                    </f:if>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <td colspan="2">
+                            <strong><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.fromexternal">from external</f:translate></strong>
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <f:if condition="{gotinExternal}">
+                        <f:then>
+                            <f:for each="{gotinExternal}" as="amount" key="name">
+                                <tr>
+                                    <td title="{name}"><f:format.crop maxCharacters="30" append="...">{name}</f:format.crop></td>
+                                    <td style="width:5%;">{amount}</td>
+                                </tr>
+                            </f:for>
+                        </f:then>
+                        <f:else>
+                            <tr>
+                                <td colspan="2">
+                                    <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+                                </td>
+                            </tr>
+                        </f:else>
+                    </f:if>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <h4><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.leave">leave</f:translate></h4>
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <td colspan="2">
+                            <strong><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.tointernal">to internal</f:translate></strong>
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <f:if condition="{gotoutInternal}">
+                        <f:then>
+                            <f:for each="{gotoutInternal}" as="data">
+                                <tr>
+                                    <td title="{data.title}"><f:format.crop maxCharacters="30" append="...">{data.title}</f:format.crop></td>
+                                    <td style="width:5%;">{data.amount}</td>
+                                </tr>
+                            </f:for>
+                        </f:then>
+                        <f:else>
+                            <tr>
+                                <td colspan="2">
+                                    <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+                                </td>
+                            </tr>
+                        </f:else>
+                    </f:if>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <td colspan="2">
+                            <strong><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.further">further</f:translate></strong>
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Downloads</td>
+                        <td style="width:5%;">{downloadAmount}</td>
+                    </tr>
+                    <tr>
+                        <td>Conversions</td>
+                        <td>{conversionAmount}</td>
+                    </tr>
+                    <tr>
+                        <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.visitorsnow">visitorsnow</f:translate></td>
+                        <td>{visits}</td>
+                    </tr>
+                    <tr>
+                        <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.visitorsbefore">visitorsbefore</f:translate></td>
+                        <td>{visitsLastWeek}</td>
+                    </tr>
+                    <tr>
+                        <td><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.linklistenerclicks">linklistenerclicks</f:translate></td>
+                        <td>{linkclickAmount}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <f:if condition="{numberOfVisitorsData.dataAvailable}">
+            <h4>
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.pagevisits">Page visits</f:translate>
+            </h4>
+            <canvas width="550"
+                    height="220"
+                    data-chart="line"
+                    data-chart-data="{numberOfVisitorsData.amountsList}"
+                    data-chart-label="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.pagevisits.label')}"
+                    data-chart-labels="{numberOfVisitorsData.titlesList}"></canvas>
+        </f:if>
+    </div>
+</div>

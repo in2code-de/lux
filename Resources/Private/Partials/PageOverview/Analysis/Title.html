@@ -1,0 +1,12 @@
+<img src="{f:uri.resource(path:'Icons/lux.svg?hash=123',extensionName:'lux')}" height="30" alt="LUX - Marketing Automation for TYPO3" title="LUX - Marketing Automation for TYPO3" />
+
+<span title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.title',arguments:'{0:visits}')}" style="cursor:pointer;padding-left:10px;" data-lux-toggle="pageOverview">
+    {visits} {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.visits')}
+    <f:variable name="deltaWithPrefix" value="{f:if(condition:'{delta} >= 0',then:'+{delta}',else:delta)}"/>
+    <img src="{f:uri.resource(path:deltaIconPath,extensionName:'lux')}" height="15" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.visitsdelta',arguments:'{0:deltaWithPrefix}')}" />
+
+    <span style="padding:0 15px;">/</span>
+
+    {abandons} {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.abandons')}
+    <i class="fa {f:if(condition:'{status} == \'close\'',then:'lux-arrow-up', else:'lux-arrow-down')}" style="cursor: pointer; margin-left: 5px;"></i>
+</span>
