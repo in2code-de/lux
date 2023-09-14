@@ -1,5 +1,5 @@
 <img src="{f:uri.resource(path:'Icons/lux.svg?hash=123',extensionName:'lux')}" height="30" alt="Lux - Marketing Automation for TYPO3" title="Lux - Marketing Automation for TYPO3" />
 <span title="{lux:string.implodeOnObjectsProperty(objects:visitors,property:'fullName')}" style="cursor:pointer;" data-lux-toggle="pageOverview">
     <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview">Last visitors</f:translate>
-    <i class="fa {f:if(condition:'{status} == "close"',then:'fa-chevron-up', else:'fa-chevron-down')}" style="cursor: pointer; margin-left: 5px;"></i>
+    <i class="fa {f:if(condition:'{status} == \'close\'',then:'lux-arrow-up', else:'lux-arrow-down')}" style="cursor: pointer; margin-left: 5px;"></i>
 </span>
