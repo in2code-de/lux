@@ -41,6 +41,7 @@ define(['jquery'], function($) {
       asynchronousCompaniesInformationLoading();
       addToggleListener();
       addUnitAjaxListener();
+      addDhAjaxListener();
     };
 
     /**
@@ -305,6 +306,26 @@ define(['jquery'], function($) {
           })
           .finally(() => {
             element.classList.remove('unitajax')
+          });
+      });
+    }
+
+    const addDhAjaxListener = function() {
+      const elements = document.querySelectorAll('[data-lux-dhajax]');
+      elements.forEach(function(element) {
+        const data = new URLSearchParams();
+        data.append('path', element.getAttribute('data-lux-dhajax'));
+        fetch(TYPO3.settings.ajaxUrls['/lux/dhajax'] + '&' + data)
+          .then((resp) => resp.text())
+          .then(function(html) {
+            element.innerHTML = html;
+            window.LuxDiagramObject.initialize(element);
+          })
+          .catch(function(error) {
+            console.log(error);
+          })
+          .finally(() => {
+            element.classList.remove('dhajax')
           });
       });
     }

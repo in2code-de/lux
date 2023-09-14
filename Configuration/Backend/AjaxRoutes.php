@@ -65,6 +65,10 @@ return [
         'path' => '/lux/unitajax',
         'target' => GeneralController::class . '::getUnitAjax',
     ],
+    '/lux/dhajax' => [
+        'path' => '/lux/dhajax',
+        'target' => \In2code\Lux\Controller\DhController::class . '::getDhAjax',
+    ],
     '/lux/visitorcompany' => [
         'path' => '/lux/visitorcompany',
         'target' => LeadController::class . '::detailCompanyrecordAjax',
