@@ -297,8 +297,9 @@ define(['jquery'], function($) {
         fetch(TYPO3.settings.ajaxUrls['/lux/unitajax'] + '&' + data)
           .then((resp) => resp.text())
           .then(function(html) {
-            element.innerHTML = html;
-            window.LuxDiagramObject.initialize(element);
+            const parent = element.parentNode;
+            parent.innerHTML = html;
+            window.LuxDiagramObject.initialize(parent);
           })
           .catch(function(error) {
             console.log(error);
