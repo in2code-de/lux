@@ -25,6 +25,7 @@
 
 | Version    | Date       | State    | TYPO3         | Description                                                                                                                                                                                           |
 |------------|------------|----------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 33.3.1     | 2023-09-14 | Bugfix   | `11.5 + 12.4` | Fix open/close status for pageoverview with leads in backend                                                                                                                                          |
 | 33.3.0     | 2023-09-07 | Feature  | `11.5 + 12.4` | Update diagram of existing leads to a double bar chart diagram for better readability                                                                                                                 |
 | 33.2.1     | 2023-08-20 | Bugfix   | `11.5 + 12.4` | Toggle page overview diagrams: Should also save status when clicking on the small arrow icon                                                                                                          |
 | 33.2.0     | 2023-08-20 | Feature  | `11.5 + 12.4` | Make toggle function in backend more generic, so it can be used for more functions in future                                                                                                          |
