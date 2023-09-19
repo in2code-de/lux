@@ -19,6 +19,9 @@ class Socialmedia extends AbstractUnit implements UnitInterface
 
     protected function assignAdditionalVariables(): array
     {
+        if ($this->cacheLayer->isCacheAvailable('Box/Analysis/SocialMedia/' . $this->filter->getHash())) {
+            return [];
+        }
         return [
             'socialMediaData' => GeneralUtility::makeInstance(SocialMediaDataProvider::class, $this->filter),
         ];

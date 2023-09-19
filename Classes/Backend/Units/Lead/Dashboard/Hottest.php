@@ -19,6 +19,9 @@ class Hottest extends AbstractUnit implements UnitInterface
 
     protected function assignAdditionalVariables(): array
     {
+        if ($this->cacheLayer->isCacheAvailable('Box/Leads/Hottest/' . $this->filter->getHash())) {
+            return [];
+        }
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         return [
             'hottestVisitors' => $visitorRepository->findByHottestScorings($this->filter),

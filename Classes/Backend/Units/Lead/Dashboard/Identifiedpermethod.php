@@ -19,6 +19,9 @@ class Identifiedpermethod extends AbstractUnit implements UnitInterface
 
     protected function assignAdditionalVariables(): array
     {
+        if ($this->cacheLayer->isCacheAvailable('Box/Leads/IdentifiedPerMethod/' . $this->filter->getHash())) {
+            return [];
+        }
         return [
             'identificationMethods' => GeneralUtility::makeInstance(
                 IdentificationMethodsDataProvider::class,

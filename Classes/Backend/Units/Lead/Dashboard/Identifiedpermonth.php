@@ -19,6 +19,9 @@ class Identifiedpermonth extends AbstractUnit implements UnitInterface
 
     protected function assignAdditionalVariables(): array
     {
+        if ($this->cacheLayer->isCacheAvailable('Box/Leads/IdentifiedPerMonth/' . $this->filter->getHash())) {
+            return [];
+        }
         $logRepository = GeneralUtility::makeInstance(LogRepository::class);
         return [
             'identifiedPerMonth' => $logRepository->findIdentifiedLogsFromMonths(),

@@ -19,6 +19,9 @@ class Downloads extends AbstractUnit implements UnitInterface
 
     protected function assignAdditionalVariables(): array
     {
+        if ($this->cacheLayer->isCacheAvailable('Box/Analysis/Downloads/' . $this->filter->getHash())) {
+            return [];
+        }
         return [
             'numberOfDownloadsData' => GeneralUtility::makeInstance(DownloadsDataProvider::class, $this->filter),
         ];

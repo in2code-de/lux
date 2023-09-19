@@ -22,10 +22,19 @@ class Title extends AbstractUnit implements UnitInterface
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $session = BackendUtility::getSessionValue('toggle', 'pageOverview', 'General');
 
-        return [
-            'visitors' => $visitorRepository->findByVisitedPageIdentifier((int)$this->getArgument('pageidentifier')),
+        $additionalVariables = [
             'status' => $session['status'] ?? 'show',
             'view' => ucfirst(ConfigurationUtility::getPageOverviewView()),
         ];
+
+        if ($this->cacheLayer->isCacheAvailable('PageOverviewTitle' . $this->getArgument('pageidentifier'))) {
+            return $additionalVariables;
+        }
+
+        $additionalVariables = array_merge($additionalVariables, [
+            'visitors' => $visitorRepository->findByVisitedPageIdentifier((int)$this->getArgument('pageidentifier')),
+        ]);
+
+        return $additionalVariables;
     }
 }

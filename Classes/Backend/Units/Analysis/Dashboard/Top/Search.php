@@ -19,6 +19,9 @@ class Search extends AbstractUnit implements UnitInterface
 
     protected function assignAdditionalVariables(): array
     {
+        if ($this->cacheLayer->isCacheAvailable('Box/Analysis/TopSearch/' . $this->filter->getHash())) {
+            return [];
+        }
         $searchRepository = GeneralUtility::makeInstance(SearchRepository::class);
         return [
             'searchterms' => $searchRepository->findCombinedBySearchIdentifier($this->filter),

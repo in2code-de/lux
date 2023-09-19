@@ -19,6 +19,9 @@ class Pages extends AbstractUnit implements UnitInterface
 
     protected function assignAdditionalVariables(): array
     {
+        if ($this->cacheLayer->isCacheAvailable('Box/Analysis/TopPages/' . $this->filter->getHash())) {
+            return [];
+        }
         $pagevisitsRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
         return [
             'pages' => $pagevisitsRepository->findCombinedByPageIdentifier($this->filter),

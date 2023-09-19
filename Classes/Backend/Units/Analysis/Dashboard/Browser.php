@@ -19,6 +19,9 @@ class Browser extends AbstractUnit implements UnitInterface
 
     protected function assignAdditionalVariables(): array
     {
+        if ($this->cacheLayer->isCacheAvailable('Box/Analysis/Browser/' . $this->filter->getHash())) {
+            return [];
+        }
         return [
             'browserData' => GeneralUtility::makeInstance(BrowserAmountDataProvider::class, $this->filter),
         ];

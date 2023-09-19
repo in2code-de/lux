@@ -21,6 +21,17 @@ class Title extends AbstractUnit implements UnitInterface
 
     protected function assignAdditionalVariables(): array
     {
+        $session = BackendUtility::getSessionValue('toggle', 'pageOverview', 'General');
+        $additionalVariables = [
+            'pageIdentifier' => $this->getArgument('pageidentifier'),
+            'status' => $session['status'] ?? 'show',
+            'view' => ucfirst(ConfigurationUtility::getPageOverviewView()),
+        ];
+
+        if ($this->cacheLayer->isCacheAvailable('PageOverviewTitle' . $this->getArgument('pageidentifier'))) {
+            return $additionalVariables;
+        }
+
         $pagevisitRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
         $filter = ObjectUtility::getFilterDto(FilterDto::PERIOD_LAST7DAYS)
             ->setSearchterm($this->getArgument('pageidentifier'));
@@ -29,15 +40,14 @@ class Title extends AbstractUnit implements UnitInterface
             $filter,
             ObjectUtility::getFilterDto(FilterDto::PERIOD_7DAYSBEFORELAST7DAYS)
         );
-        $session = BackendUtility::getSessionValue('toggle', 'pageOverview', 'General');
 
-        return [
+        $additionalVariables = array_merge($additionalVariables, [
             'abandons' => $pagevisitRepository->findAbandonsForPage((int)$this->getArgument('pageidentifier'), $filter),
             'delta' => $delta,
             'deltaIconPath' => $delta >= 0 ? 'Icons/increase.svg' : 'Icons/decrease.svg',
-            'status' => $session['status'] ?? 'show',
-            'view' => ucfirst(ConfigurationUtility::getPageOverviewView()),
             'visits' => $pagevisitRepository->findAmountPerPage((int)$this->getArgument('pageidentifier'), $filter),
-        ];
+        ]);
+
+        return $additionalVariables;
     }
 }

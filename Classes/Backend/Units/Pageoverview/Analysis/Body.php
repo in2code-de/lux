@@ -27,6 +27,15 @@ class Body extends AbstractUnit implements UnitInterface
 
     protected function assignAdditionalVariables(): array
     {
+        $additionalVariables = [
+            'pageIdentifier' => $this->getArgument('pageidentifier'),
+            'view' => ucfirst(ConfigurationUtility::getPageOverviewView()),
+        ];
+
+        if ($this->cacheLayer->isCacheAvailable('PageOverviewContent' . $this->getArgument('pageidentifier'))) {
+            return $additionalVariables;
+        }
+
         $downloadRepository = GeneralUtility::makeInstance(DownloadRepository::class);
         $logRepository = GeneralUtility::makeInstance(LogRepository::class);
         $linkclickRepository = GeneralUtility::makeInstance(LinkclickRepository::class);
@@ -34,7 +43,7 @@ class Body extends AbstractUnit implements UnitInterface
         $filter = ObjectUtility::getFilterDto(FilterDto::PERIOD_LAST7DAYS)
             ->setSearchterm($this->getArgument('pageidentifier'));
 
-        return [
+        $additionalVariables = array_merge($additionalVariables, [
             'conversionAmount' => $logRepository->findAmountOfIdentifiedLogsByPageIdentifierAndTimeFrame(
                 (int)$this->getArgument('pageidentifier'),
                 $filter
@@ -54,8 +63,6 @@ class Body extends AbstractUnit implements UnitInterface
                 PagevisistsDataProvider::class,
                 ObjectUtility::getFilterDto()->setSearchterm($this->getArgument('pageidentifier'))
             ),
-            'pageIdentifier' => $this->getArgument('pageidentifier'),
-            'view' => ucfirst(ConfigurationUtility::getPageOverviewView()),
             'visits' => $pagevisitRepository->findAmountPerPage(
                 (int)$this->getArgument('pageidentifier'),
                 $filter
@@ -64,6 +71,8 @@ class Body extends AbstractUnit implements UnitInterface
                 (int)$this->getArgument('pageidentifier'),
                 ObjectUtility::getFilterDto(FilterDto::PERIOD_7DAYSBEFORELAST7DAYS)
             ),
-        ];
+        ]);
+
+        return $additionalVariables;
     }
 }

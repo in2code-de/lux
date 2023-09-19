@@ -18,12 +18,21 @@ class Body extends AbstractUnit implements UnitInterface
 
     protected function assignAdditionalVariables(): array
     {
-        $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
-
-        return [
+        $additionalVariables = [
             'pageIdentifier' => $this->getArgument('pageidentifier'),
             'view' => ucfirst(ConfigurationUtility::getPageOverviewView()),
-            'visitors' => $visitorRepository->findByVisitedPageIdentifier((int)$this->getArgument('pageidentifier')),
         ];
+
+        if ($this->cacheLayer->isCacheAvailable('PageOverviewContent' . $this->getArgument('pageidentifier'))) {
+            return $additionalVariables;
+        }
+
+        $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
+
+        $additionalVariables = array_merge($additionalVariables, [
+            'visitors' => $visitorRepository->findByVisitedPageIdentifier((int)$this->getArgument('pageidentifier')),
+        ]);
+
+        return $additionalVariables;
     }
 }

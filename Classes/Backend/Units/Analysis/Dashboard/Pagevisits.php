@@ -19,6 +19,9 @@ class Pagevisits extends AbstractUnit implements UnitInterface
 
     protected function assignAdditionalVariables(): array
     {
+        if ($this->cacheLayer->isCacheAvailable('Box/Analysis/Pagevisits/' . $this->filter->getHash())) {
+            return [];
+        }
         return [
             'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class),
         ];

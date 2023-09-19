@@ -19,6 +19,9 @@ class Referrer extends AbstractUnit implements UnitInterface
 
     protected function assignAdditionalVariables(): array
     {
+        if ($this->cacheLayer->isCacheAvailable('Box/Leads/Referrer/' . $this->filter->getHash())) {
+            return [];
+        }
         return [
             'referrerAmountData' => GeneralUtility::makeInstance(ReferrerAmountDataProvider::class, $this->filter),
         ];

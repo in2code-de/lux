@@ -19,6 +19,9 @@ class Identified extends AbstractUnit implements UnitInterface
 
     protected function assignAdditionalVariables(): array
     {
+        if ($this->cacheLayer->isCacheAvailable('Box/Leads/Identified/' . $this->filter->getHash())) {
+            return [];
+        }
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         return [
             'numberOfIdentifiedVisitors' => $visitorRepository->findIdentified($this->filter)->count(),

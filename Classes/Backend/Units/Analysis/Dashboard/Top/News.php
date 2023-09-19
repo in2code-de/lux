@@ -19,6 +19,9 @@ class News extends AbstractUnit implements UnitInterface
 
     protected function assignAdditionalVariables(): array
     {
+        if ($this->cacheLayer->isCacheAvailable('Box/Analysis/TopNews/' . $this->filter->getHash())) {
+            return [];
+        }
         $newsvisitRepository = GeneralUtility::makeInstance(NewsvisitRepository::class);
         return [
             'news' => $newsvisitRepository->findCombinedByNewsIdentifier($this->filter),

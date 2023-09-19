@@ -16,6 +16,7 @@ abstract class AbstractUnit
 {
     protected array $arguments = [];
     protected ?FilterDto $filter = null;
+    protected ?CacheLayer $cacheLayer = null;
     protected string $templateRootPath = 'EXT:lux/Resources/Private/Templates/Backend/Units';
     protected string $partialRootPath = 'EXT:lux/Resources/Private/Partials';
     protected string $classPrefix = 'In2code\Lux\Backend\Units\\';
@@ -61,6 +62,12 @@ abstract class AbstractUnit
 
     protected function initialize(): void
     {
+        $this->initializeFilter();
+        $this->initializeCacheLayer();
+    }
+
+    protected function initializeFilter(): void
+    {
         $filter = ObjectUtility::getFilterDto();
         if ($this->filterClass !== '' && $this->filterFunction !== '') {
             $filterFromSession = BackendUtility::getSessionValue('filter', $this->filterFunction, $this->filterClass);
@@ -71,6 +78,14 @@ abstract class AbstractUnit
         $this->filter = $filter;
     }
 
+    protected function initializeCacheLayer(): void
+    {
+        if ($this->cacheLayerClass !== '' && $this->cacheLayerFunction !== '') {
+            $this->cacheLayer = GeneralUtility::makeInstance(CacheLayer::class);
+            $this->cacheLayer->initialize($this->cacheLayerClass, $this->cacheLayerFunction);
+        }
+    }
+
     protected function getHtml(): string
     {
         $view = GeneralUtility::makeInstance(StandaloneView::class);
@@ -78,39 +93,20 @@ abstract class AbstractUnit
         $view->setPartialRootPaths([$this->partialRootPath]);
         $view->setTemplate($this->getTemplatePath());
         $view->assignMultiple([
-                'cacheLayerClass' => $this->cacheLayerClass,
-                'cacheLayerFunction' => $this->cacheLayerFunction,
-                'filterClass' => $this->filterClass,
-                'filterFunction' => $this->filterFunction,
-            ] + $this->assignAdditionalVariables());
-        $this->assignCacheLayer($view);
-        $this->assignFilter($view);
-        $this->assignArguments($view);
+            'cacheLayerClass' => $this->cacheLayerClass,
+            'cacheLayerFunction' => $this->cacheLayerFunction,
+            'filterClass' => $this->filterClass,
+            'filterFunction' => $this->filterFunction,
+            'cacheLayer' => $this->cacheLayer,
+            'filter' => $this->filter,
+            'arguments' => $this->arguments,
+        ] + $this->assignAdditionalVariables());
         return $view->render();
     }
 
     protected function assignAdditionalVariables(): array
     {
         return [];
-    }
-
-    protected function assignCacheLayer(StandaloneView $view): void
-    {
-        if ($this->cacheLayerClass !== '' && $this->cacheLayerFunction !== '') {
-            $cacheLayer = GeneralUtility::makeInstance(CacheLayer::class);
-            $cacheLayer->initialize($this->cacheLayerClass, $this->cacheLayerFunction);
-            $view->assign('cacheLayer', $cacheLayer);
-        }
-    }
-
-    protected function assignFilter(StandaloneView $view): void
-    {
-        $view->assign('filter', $this->filter);
-    }
-
-    protected function assignArguments(StandaloneView $view): void
-    {
-        $view->assign('arguments', $this->arguments);
     }
 
     protected function getArgument(string $key): string

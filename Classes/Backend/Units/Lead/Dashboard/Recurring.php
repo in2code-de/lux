@@ -19,6 +19,9 @@ class Recurring extends AbstractUnit implements UnitInterface
 
     protected function assignAdditionalVariables(): array
     {
+        if ($this->cacheLayer->isCacheAvailable('Box/Leads/Recurring/' . $this->filter->getHash())) {
+            return [];
+        }
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         return [
             'numberOfRecurringSiteVisitors' => $visitorRepository->findByRecurringSiteVisits($this->filter)->count(),

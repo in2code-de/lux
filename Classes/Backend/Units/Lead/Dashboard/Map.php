@@ -19,6 +19,9 @@ class Map extends AbstractUnit implements UnitInterface
 
     protected function assignAdditionalVariables(): array
     {
+        if ($this->cacheLayer->isCacheAvailable('Box/Leads/Map/' . $this->filter->getHash())) {
+            return [];
+        }
         $ipinformationRepository = GeneralUtility::makeInstance(IpinformationRepository::class);
         return [
             'countries' => $ipinformationRepository->findAllCountryCodesGrouped($this->filter),
