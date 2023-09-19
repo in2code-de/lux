@@ -33,7 +33,7 @@ class CacheLayerUtility
             'lifetime' => 86400,
             'route' => 'web_layout',
             'arguments' => [
-                'id' => '{uid}', // {uid} can only be replaced with pages.uid when multiple is set to true
+                'pageidentifier' => '{uid}', // {uid} can only be replaced with pages.uid when multiple is set to true
             ],
             'multiple' => true, // iterate per page identifier
         ];

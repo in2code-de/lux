@@ -112,7 +112,7 @@ abstract class AbstractUnit
     protected function getArgument(string $key): string
     {
         if (array_key_exists($key, $this->arguments)) {
-            return $this->arguments[$key];
+            return (string)$this->arguments[$key];
         }
         return '';
     }
