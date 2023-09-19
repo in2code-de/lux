@@ -7,26 +7,26 @@
         <div class="col-md-8 flex">
             <div class="row flex">
                 <div class="col-md-6 flex">
-                    <lux:backend.cache identifier="Box/Leads/Recurring/{filter.hash}" cacheLayer="{cacheLayer}">
-                        <f:render partial="Box/Leads/Recurring" arguments="{_all}"/>
-                    </lux:backend.cache>
+                    <div data-lux-unitajax="LeadDashboardRecurring" class="unitajax">
+                        <div class="unitajax-spinner"></div>
+                    </div>
                 </div>
                 <div class="col-md-6 flex">
-                    <lux:backend.cache identifier="Box/Leads/Hottest/{filter.hash}" cacheLayer="{cacheLayer}">
-                        <f:render partial="Box/Leads/Hottest" arguments="{_all}"/>
-                    </lux:backend.cache>
+                    <div data-lux-unitajax="LeadDashboardHottest" class="unitajax">
+                        <div class="unitajax-spinner"></div>
+                    </div>
                 </div>
             </div>
             <div class="row flex">
                 <div class="col-md-6 flex">
-                    <lux:backend.cache identifier="Box/Leads/Identified/{filter.hash}" cacheLayer="{cacheLayer}">
-                        <f:render partial="Box/Leads/Identified" arguments="{_all}"/>
-                    </lux:backend.cache>
+                    <div data-lux-unitajax="LeadDashboardIdentified" class="unitajax">
+                        <div class="unitajax-spinner"></div>
+                    </div>
                 </div>
                 <div class="col-md-6 flex">
-                    <lux:backend.cache identifier="Box/Leads/IdentifiedPerMonth/{filter.hash}" cacheLayer="{cacheLayer}">
-                        <f:render partial="Box/Leads/IdentifiedPerMonth" arguments="{_all}"/>
-                    </lux:backend.cache>
+                    <div data-lux-unitajax="LeadDashboardIdentifiedpermonth" class="unitajax">
+                        <div class="unitajax-spinner"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -37,14 +37,14 @@
 
     <div class="row flex">
         <div class="col-md-4 flex">
-            <lux:backend.cache identifier="Box/Leads/IdentifiedPerMethod/{filter.hash}" cacheLayer="{cacheLayer}">
-                <f:render partial="Box/Leads/IdentifiedPerMethod" arguments="{_all}"/>
-            </lux:backend.cache>
+            <div data-lux-unitajax="LeadDashboardIdentifiedpermethod" class="unitajax">
+                <div class="unitajax-spinner"></div>
+            </div>
         </div>
         <div class="col-md-4 flex">
-            <lux:backend.cache identifier="Box/Leads/Referrer/{filter.hash}" cacheLayer="{cacheLayer}">
-                <f:render partial="Box/Leads/Referrer" arguments="{_all}"/>
-            </lux:backend.cache>
+            <div data-lux-unitajax="LeadDashboardReferrer" class="unitajax">
+                <div class="unitajax-spinner"></div>
+            </div>
         </div>
         <div class="col-md-4 flex">
             <f:render partial="Box/Leads/WhoIsOnline" arguments="{_all}"/>
@@ -53,14 +53,14 @@
 
     <div class="row flex">
         <div class="col-md-8">
-            <lux:backend.cache identifier="Box/Leads/Map/{filter.hash}" cacheLayer="{cacheLayer}">
-                <f:render partial="Box/Leads/Map" arguments="{_all}"/>
-            </lux:backend.cache>
+            <div data-lux-unitajax="LeadDashboardMap" class="unitajax">
+                <div class="unitajax-spinner"></div>
+            </div>
         </div>
         <div class="col-md-4">
-            <lux:backend.cache identifier="Box/Leads/CountryList/{filter.hash}" cacheLayer="{cacheLayer}">
-                <f:render partial="Box/Leads/CountryList" arguments="{_all}"/>
-            </lux:backend.cache>
+            <div data-lux-unitajax="LeadDashboardCountrylist" class="unitajax">
+                <div class="unitajax-spinner"></div>
+            </div>
         </div>
     </div>
 </f:section>

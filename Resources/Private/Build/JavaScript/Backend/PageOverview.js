@@ -12,19 +12,19 @@ function LuxPageOverview() {
   var that = this;
 
   /**
-   * Initialize
-   *
+   * @param {Document} optional
    * @returns {void}
    */
-  this.initialize = function() {
-    toggleListener();
+  this.initialize = function(dom) {
+    dom = dom || document;
+    toggleListener(dom);
   };
 
   /**
    * @returns {void}
    */
-  var toggleListener = function() {
-    var elements = document.querySelectorAll('[data-lux-toggle]');
+  var toggleListener = function(dom) {
+    var elements = dom.querySelectorAll('[data-lux-toggle]');
     for (var i = 0; i < elements.length; i++) {
       elements[i].addEventListener('click', function(event) {
         var thisElement = event.currentTarget;

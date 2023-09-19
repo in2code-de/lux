@@ -3,16 +3,22 @@
 declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
+use Doctrine\DBAL\DBALException;
+use In2code\Lux\Backend\Units\UnitFinder;
 use In2code\Lux\Domain\Model\Company;
 use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ExtensionUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
+use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -81,6 +87,8 @@ class GeneralController extends AbstractController
     /**
      * @param ServerRequestInterface $request
      * @return ResponseInterface
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public function getVisitorImageUrlAjax(ServerRequestInterface $request): ResponseInterface
     {
@@ -113,6 +121,7 @@ class GeneralController extends AbstractController
     /**
      * @param ServerRequestInterface $request
      * @return ResponseInterface
+     * @throws DBALException
      */
     public function getLinkListenerPerformanceAjax(ServerRequestInterface $request): ResponseInterface
     {
@@ -124,5 +133,18 @@ class GeneralController extends AbstractController
             $performance = $linkListener->getPerformance();
         }
         return GeneralUtility::makeInstance(JsonResponse::class, ['performance' => $performance]);
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     * @throws ConfigurationException
+     */
+    public function getUnitAjax(ServerRequestInterface $request): ResponseInterface
+    {
+        $path = $request->getQueryParams()['path'] ?? '';
+        $arguments = $request->getQueryParams()['arguments'] ?? [];
+        $unitFinder = GeneralUtility::makeInstance(UnitFinder::class, $arguments);
+        return GeneralUtility::makeInstance(HtmlResponse::class, $unitFinder->find($path)->get());
     }
 }

@@ -12,15 +12,16 @@ define(['jquery', 'TYPO3/CMS/Lux/Vendor/Chart.min'], function($) {
      *
      * @returns {void}
      */
-    this.initialize = function() {
-      diagramListener();
+    this.initialize = function(dom) {
+      dom = dom || document;
+      diagramListener(dom);
     };
 
     /**
      * @returns {void}
      */
-    var diagramListener = function() {
-      var diagrams = document.querySelectorAll('[data-chart]');
+    var diagramListener = function(dom) {
+      var diagrams = dom.querySelectorAll('[data-chart]');
       for (var i = 0; i < diagrams.length; i++) {
         var type = diagrams[i].getAttribute('data-chart');
         if (type === 'doughnut') {

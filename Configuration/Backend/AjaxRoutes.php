@@ -61,6 +61,10 @@ return [
         'path' => '/lux/pageoverview',
         'target' => GeneralController::class . '::showOrHidePageOverviewAjax',
     ],
+    '/lux/unitajax' => [
+        'path' => '/lux/unitajax',
+        'target' => GeneralController::class . '::getUnitAjax',
+    ],
     '/lux/visitorcompany' => [
         'path' => '/lux/visitorcompany',
         'target' => LeadController::class . '::detailCompanyrecordAjax',

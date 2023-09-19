@@ -10,15 +10,16 @@
         </lux:condition.isLuxenterpriseExtensionActivated>
 
         <h4 class="callout-title">
-            <lux:backend.cache identifier="PageOverviewTitle{pageIdentifier}" cacheLayer="{cacheLayer}">
-                <f:render partial="PageOverview/{view}/Title" arguments="{_all}"/>
-            </lux:backend.cache>
+            <div data-lux-unitajax="Pageoverview{view}Title" data-lux-unitajax-parameter-pageidentifier="{pageIdentifier}" style="min-height: 25px;"></div>
         </h4>
 
         <div data-lux-toggle-target="pageOverview" class="{f:if(condition:'{status} == \'close\'',then:' hide')}">
-            <lux:backend.cache identifier="PageOverviewContent{pageIdentifier}" cacheLayer="{cacheLayer}">
-                <f:render partial="PageOverview/{view}/Body" arguments="{_all}"/>
-            </lux:backend.cache>
+            <div>
+                <div data-lux-unitajax="Pageoverview{view}Body" data-lux-unitajax-parameter-pageidentifier="{pageIdentifier}" class="unitajax">
+                    <div class="unitajax-spinner"></div>
+                </div>
+            </div>
+
 
             <lux:backend.getRenderingTime>
                 <p class="alert alert-light" role="alert" style="clear:both;color:black;background:white;margin:5px;">

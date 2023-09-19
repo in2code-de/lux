@@ -15,7 +15,7 @@
     transition: all .1s ease-in;
 }
 .lux-pageoverview-box:hover {
-    background: #4DE7FF;
+    background: $colorMain;
 }
 .lux-pageoverview-box p {
     margin: 0 0 5px;
@@ -41,7 +41,7 @@
     margin: 25px auto;
 }
 .badge-primary {
-    background: #4DE7FF;
+    background: $colorMain;
 }
 .lux-arrow-up {
     content: "";
@@ -67,4 +67,31 @@
     .table {
         border: 1px solid $colorGreyBright;
     }
+}
+
+.unitajax {
+    position: relative;
+    overflow: hidden;
+    min-height: 280px;
+    background-color: $colorGrey;
+    border: 2px dashed $colorGreyBright;
+    margin-bottom: 1.125rem;
+}
+
+.unitajax-spinner {
+    display: inline-block;
+    border-radius: 50%;
+    border: 6px solid rgba(255,255,255,.3);
+    border-top-color: $colorMain;
+    animation: spin 1s ease-in-out infinite;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    margin: -25px 0 0 -25px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }

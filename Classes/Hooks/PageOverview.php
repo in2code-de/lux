@@ -2,14 +2,9 @@
 
 namespace In2code\Lux\Hooks;
 
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
-use In2code\Lux\Domain\Cache\CacheLayer;
-use In2code\Lux\Domain\DataProvider\PageOverview\GotinExternalDataProvider;
-use In2code\Lux\Domain\DataProvider\PageOverview\GotinInternalDataProvider;
-use In2code\Lux\Domain\DataProvider\PageOverview\GotoutInternalDataProvider;
-use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
-use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Repository\DownloadRepository;
 use In2code\Lux\Domain\Repository\LinkclickRepository;
 use In2code\Lux\Domain\Repository\LogRepository;
@@ -20,7 +15,6 @@ use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\UnexpectedValueException;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ConfigurationUtility;
-use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Backend\Controller\Event\ModifyPageLayoutContentEvent;
 use TYPO3\CMS\Backend\Controller\PageLayoutController;
 use TYPO3\CMS\Backend\Utility\BackendUtility as BackendUtilityCore;
@@ -43,7 +37,6 @@ class PageOverview
     protected DownloadRepository $downloadRepository;
     protected LogRepository $logRepository;
     protected RenderingTimeService $renderingTimeService;
-    protected CacheLayer $cacheLayer;
 
     public function __construct(
         VisitorRepository $visitorRepository,
@@ -51,8 +44,7 @@ class PageOverview
         LinkclickRepository $linkclickRepository,
         DownloadRepository $downloadRepository,
         LogRepository $logRepository,
-        RenderingTimeService $renderingTimeService,
-        CacheLayer $cacheLayer
+        RenderingTimeService $renderingTimeService
     ) {
         $this->visitorRepository = $visitorRepository;
         $this->pagevisitRepository = $pagevisitRepository;
@@ -60,7 +52,6 @@ class PageOverview
         $this->downloadRepository = $downloadRepository;
         $this->logRepository = $logRepository;
         $this->renderingTimeService = $renderingTimeService; // initialize renderingTimes
-        $this->cacheLayer = $cacheLayer;
     }
 
     /**
@@ -74,6 +65,7 @@ class PageOverview
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws UnexpectedValueException
+     * @throws DBALException
      */
     public function eventRegistration(ModifyPageLayoutContentEvent $event): void
     {
@@ -95,6 +87,7 @@ class PageOverview
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws UnexpectedValueException
      * @throws ExceptionDbalDriver
+     * @throws DBALException
      */
     public function render(array $parameters, PageLayoutController $plController): string
     {
@@ -111,10 +104,10 @@ class PageOverview
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws UnexpectedValueException
+     * @throws DBALException
      */
     protected function renderContent(int $pageIdentifier): string
     {
-        $this->cacheLayer->initialize(__CLASS__, 'render');
         $content = '';
         if ($this->isPageOverviewEnabled($pageIdentifier)) {
             $session = BackendUtility::getSessionValue('toggle', 'pageOverview', 'General');
@@ -129,68 +122,15 @@ class PageOverview
      * @param int $pageIdentifier
      * @param array $session
      * @return array
-     * @throws ExceptionDbal
-     * @throws ExtensionConfigurationExtensionNotConfiguredException
-     * @throws ExtensionConfigurationPathDoesNotExistException
-     * @throws ConfigurationException
-     * @throws UnexpectedValueException
-     * @throws ExceptionDbalDriver
      */
     protected function getArguments(string $view, int $pageIdentifier, array $session): array
     {
-        $arguments = [
+        return [
             'pageIdentifier' => $pageIdentifier,
-            'cacheLayer' => $this->cacheLayer,
             'status' => $session['status'] ?? 'show',
             'view' => ucfirst($view),
             'visitors' => $this->visitorRepository->findByVisitedPageIdentifier($pageIdentifier),
         ];
-
-        if ($this->cacheLayer->isCacheAvailable('PageOverviewTitle' . $pageIdentifier) === false) {
-            $filter = ObjectUtility::getFilterDto(FilterDto::PERIOD_LAST7DAYS)->setSearchterm($pageIdentifier);
-            $delta = $this->pagevisitRepository->compareAmountPerPage(
-                $pageIdentifier,
-                $filter,
-                ObjectUtility::getFilterDto(FilterDto::PERIOD_7DAYSBEFORELAST7DAYS)
-            );
-            $arguments += [
-                'abandons' => $this->pagevisitRepository->findAbandonsForPage($pageIdentifier, $filter),
-                'delta' => $delta,
-                'deltaIconPath' => $delta >= 0 ? 'Icons/increase.svg' : 'Icons/decrease.svg',
-                'visits' => $this->pagevisitRepository->findAmountPerPage($pageIdentifier, $filter),
-                'visitsLastWeek' => $this->pagevisitRepository->findAmountPerPage(
-                    $pageIdentifier,
-                    ObjectUtility::getFilterDto(FilterDto::PERIOD_7DAYSBEFORELAST7DAYS)
-                ),
-                'gotinInternal' => GeneralUtility::makeInstance(
-                    GotinInternalDataProvider::class,
-                    $filter
-                )->get(),
-                'gotinExternal' => GeneralUtility::makeInstance(
-                    GotinExternalDataProvider::class,
-                    $filter
-                )->get(),
-                'gotoutInternal' => GeneralUtility::makeInstance(GotoutInternalDataProvider::class, $filter)->get(),
-                'gotout' => '',
-                'numberOfVisitorsData' => GeneralUtility::makeInstance(
-                    PagevisistsDataProvider::class,
-                    ObjectUtility::getFilterDto()->setSearchterm((string)$pageIdentifier)
-                ),
-                'downloadAmount' => $this->downloadRepository->findAmountByPageIdentifierAndTimeFrame(
-                    $pageIdentifier,
-                    $filter
-                ),
-                'conversionAmount' => $this->logRepository->findAmountOfIdentifiedLogsByPageIdentifierAndTimeFrame(
-                    $pageIdentifier,
-                    $filter
-                ),
-                'linkclickAmount' => $this->linkclickRepository->getAmountOfLinkclicksByPageIdentifierAndTimeframe(
-                    $pageIdentifier,
-                    $filter
-                ),
-            ];
-        }
-        return $arguments;
     }
 
     protected function getContent(array $arguments): string

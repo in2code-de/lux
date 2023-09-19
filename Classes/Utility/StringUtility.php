@@ -122,4 +122,17 @@ class StringUtility
     {
         return preg_replace('~[a-f0-9]{' . $length . '}~', '', $string) === '';
     }
+
+    /**
+     * Example result:
+     *  "CamelCaseString" => ["Camel", "Case", "String"]
+     *
+     * @param string $string
+     * @return array
+     */
+    public static function splitCamelcaseString(string $string): array
+    {
+        preg_match_all('~((?:^|[A-Z])[a-z]+)~', $string, $matches);
+        return $matches[0];
+    }
 }

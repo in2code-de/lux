@@ -40,6 +40,7 @@ define(['jquery'], function($) {
       asynchronousLinkListenerPerformanceLoading();
       asynchronousCompaniesInformationLoading();
       addToggleListener();
+      addUnitAjaxListener();
     };
 
     /**
@@ -287,6 +288,35 @@ define(['jquery'], function($) {
         });
       });
     };
+
+    const addUnitAjaxListener = function() {
+      const elements = document.querySelectorAll('[data-lux-unitajax]');
+      elements.forEach(function(element) {
+        const data = new URLSearchParams();
+        data.append('path', element.getAttribute('data-lux-unitajax'));
+
+        // add any parameters to request from data-lux-unitajax-parameter-key="value"
+        for (var key in element.dataset) {
+          if (key.indexOf('luxUnitajaxParameter') === 0) {
+            data.append('arguments[' + key.substring('luxUnitajaxParameter'.length).toLowerCase() + ']', element.dataset[key]);
+          }
+        }
+
+        fetch(TYPO3.settings.ajaxUrls['/lux/unitajax'] + '&' + data)
+          .then((resp) => resp.text())
+          .then(function(html) {
+            const parent = element.parentNode;
+            parent.innerHTML = html;
+            window.LuxDiagramObject.initialize(parent);
+            if (parent.querySelector('[data-lux-toggle]') !== null) {
+              LuxPageOverviewObject.initialize(parent);
+            }
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      });
+    }
 
     /**
      * @param {string} elements
