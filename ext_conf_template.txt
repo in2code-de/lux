@@ -56,4 +56,4 @@ leadImageFromExternalSources = all
 showRenderTimes = 0
 
 # cat=advanced/enable/270; type=boolean; label= Use cache layer: Performance boost for backend views. Cache layer could be used for both dashboard views and quick analyse in page overview view. Lifetime is per default 24h and caches can be warmed up via scheduler task.
-useCacheLayer = 0
+useCacheLayer = 1
