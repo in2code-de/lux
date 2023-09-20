@@ -189,8 +189,9 @@ define(['jquery'], function($) {
      *
      * @returns {void}
      */
-    const asynchronousImageLoading = function() {
-      const elements = document.querySelectorAll('[data-lux-asynchronous-image],[data-lux-asynchronous-companyimage]');
+    const asynchronousImageLoading = function(dom) {
+      dom = dom || document;
+      const elements = dom.querySelectorAll('[data-lux-asynchronous-image],[data-lux-asynchronous-companyimage]');
       for (let i = 0; i < elements.length; i++) {
         const visitorIdentifier = elements[i].getAttribute('data-lux-asynchronous-image');
         if (visitorIdentifier !== null) {
@@ -311,6 +312,7 @@ define(['jquery'], function($) {
             if (parent.querySelector('[data-lux-toggle]') !== null) {
               LuxPageOverviewObject.initialize(parent);
             }
+            asynchronousImageLoading(parent);
           })
           .catch(function(error) {
             console.log(error);

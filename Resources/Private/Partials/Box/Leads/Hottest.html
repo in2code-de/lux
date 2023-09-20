@@ -15,9 +15,11 @@
                                     <img src="{f:uri.resource(path:'Images/AvatarDefault.svg',extensionName:'lux')}" alt="{visitor.fullName}" class="img-circle" data-lux-asynchronous-image="{visitor.uid}" />
                                 </div>
                                 <div class="col-md-9">
-                                    <f:link.action action="detail" controller="Lead" arguments="{visitor:visitor}">
+                                    <f:be.link
+                                        route="lux_LuxLead"
+                                        parameters="{tx_lux_lux_luxlead:'{visitor:visitor.uid,action:\'detail\',controller:\'Lead\'}'}">
                                         <strong title="{visitor.location}">{visitor.fullName}</strong>
-                                    </f:link.action>
+                                    </f:be.link>
                                     <f:if condition="{visitor.company}">({visitor.company})</f:if>
                                     <br>
 
