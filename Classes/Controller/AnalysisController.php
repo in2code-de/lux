@@ -3,11 +3,11 @@
 declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use Exception;
 use In2code\Lux\Domain\DataProvider\AllLinkclickDataProvider;
-use In2code\Lux\Domain\DataProvider\BrowserAmountDataProvider;
 use In2code\Lux\Domain\DataProvider\DomainDataProvider;
 use In2code\Lux\Domain\DataProvider\DomainNewsDataProvider;
 use In2code\Lux\Domain\DataProvider\DownloadsDataProvider;
@@ -17,7 +17,6 @@ use In2code\Lux\Domain\DataProvider\LinkclickDataProvider;
 use In2code\Lux\Domain\DataProvider\NewsvisistsDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
 use In2code\Lux\Domain\DataProvider\SearchDataProvider;
-use In2code\Lux\Domain\DataProvider\SocialMediaDataProvider;
 use In2code\Lux\Domain\DataProvider\UtmCampaignDataProvider;
 use In2code\Lux\Domain\DataProvider\UtmDataProvider;
 use In2code\Lux\Domain\DataProvider\UtmMediaDataProvider;
@@ -26,21 +25,18 @@ use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\News;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
-use In2code\Lux\Exception\ConfigurationException;
-use In2code\Lux\Exception\UnexpectedValueException;
 use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
+use TYPO3\CMS\Extbase\Object\Exception as ExceptionExtbaseObject;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
@@ -58,38 +54,17 @@ class AnalysisController extends AbstractController
     /**
      * @param FilterDto $filter
      * @return ResponseInterface
-     * @throws ConfigurationException
      * @throws ExceptionDbal
      * @throws InvalidConfigurationTypeException
      * @throws InvalidQueryException
-     * @throws UnexpectedValueException
-     * @throws ExtensionConfigurationExtensionNotConfiguredException
-     * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws ExceptionDbalDriver
      */
     public function dashboardAction(FilterDto $filter): ResponseInterface
     {
-        $this->cacheLayer->initialize(__CLASS__, __FUNCTION__);
         $this->view->assignMultiple([
-            'cacheLayer' => $this->cacheLayer,
             'filter' => $filter,
             'interestingLogs' => $this->logRepository->findInterestingLogs($filter),
         ]);
-
-        if ($this->cacheLayer->isCacheAvailable('Box/Analysis/Pagevisits/' . $filter->getHash()) === false) {
-            $this->view->assignMultiple([
-                'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
-                'numberOfDownloadsData' => GeneralUtility::makeInstance(DownloadsDataProvider::class, $filter),
-                'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
-                'downloads' => $this->downloadRepository->findCombinedByHref($filter),
-                'news' => $this->newsvisitRepository->findCombinedByNewsIdentifier($filter),
-                'searchterms' => $this->searchRepository->findCombinedBySearchIdentifier($filter),
-                'browserData' => GeneralUtility::makeInstance(BrowserAmountDataProvider::class, $filter),
-                'domainData' => GeneralUtility::makeInstance(DomainDataProvider::class, $filter),
-                'socialMediaData' => GeneralUtility::makeInstance(SocialMediaDataProvider::class, $filter),
-                'latestPagevisits' => $this->pagevisitsRepository->findLatestPagevisits($filter),
-            ]);
-        }
 
         $this->addDocumentHeaderForCurrentController();
         return $this->defaultRendering();
@@ -111,8 +86,10 @@ class AnalysisController extends AbstractController
      * @param string $export
      * @return ResponseInterface
      * @throws ExceptionDbal
-     * @throws InvalidQueryException
      * @throws ExceptionDbalDriver
+     * @throws InvalidQueryException
+     * @throws DBALException
+     * @throws ExceptionExtbaseObject
      */
     public function contentAction(FilterDto $filter, string $export = ''): ResponseInterface
     {
@@ -142,6 +119,7 @@ class AnalysisController extends AbstractController
      * @throws ExceptionDbal
      * @throws InvalidQueryException
      * @throws ExceptionDbalDriver
+     * @throws ExceptionExtbaseObject
      */
     public function contentCsvAction(FilterDto $filter): ResponseInterface
     {
@@ -193,6 +171,7 @@ class AnalysisController extends AbstractController
      * @return ResponseInterface
      * @throws ExceptionDbal
      * @throws ExceptionDbalDriver
+     * @throws DBALException
      */
     public function newsCsvAction(FilterDto $filter): ResponseInterface
     {
@@ -218,6 +197,7 @@ class AnalysisController extends AbstractController
      * @throws ExceptionDbalDriver
      * @throws InvalidQueryException
      * @throws ExceptionDbal
+     * @throws DBALException
      */
     public function utmAction(FilterDto $filter, string $export = ''): ResponseInterface
     {
@@ -347,6 +327,7 @@ class AnalysisController extends AbstractController
      * @return ResponseInterface
      * @throws ExceptionDbal
      * @throws ExceptionDbalDriver
+     * @throws DBALException
      */
     public function detailPageAction(Page $page): ResponseInterface
     {
@@ -365,6 +346,7 @@ class AnalysisController extends AbstractController
      * @return ResponseInterface
      * @throws ExceptionDbalDriver
      * @throws ExceptionDbal
+     * @throws DBALException
      */
     public function detailNewsAction(News $news): ResponseInterface
     {
@@ -442,6 +424,7 @@ class AnalysisController extends AbstractController
      * @return ResponseInterface
      * @noinspection PhpUnused
      * @throws ExceptionDbalDriver
+     * @throws DBALException
      */
     public function detailAjaxPage(ServerRequestInterface $request): ResponseInterface
     {
@@ -471,6 +454,7 @@ class AnalysisController extends AbstractController
      * @return ResponseInterface
      * @noinspection PhpUnused
      * @throws ExceptionDbalDriver
+     * @throws DBALException
      */
     public function detailNewsAjaxPage(ServerRequestInterface $request): ResponseInterface
     {
@@ -499,6 +483,7 @@ class AnalysisController extends AbstractController
      *
      * @param ServerRequestInterface $request
      * @return ResponseInterface
+     * @throws Exception
      */
     public function detailUtmAjaxPage(ServerRequestInterface $request): ResponseInterface
     {

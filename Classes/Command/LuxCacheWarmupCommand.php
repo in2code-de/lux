@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Command;
 
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Cache\CacheLayer;
@@ -38,12 +39,6 @@ class LuxCacheWarmupCommand extends Command
             'commaseparated routes like "lux_LuxAnalysis,lux_LuxLead,web_layout"',
             implode(',', CacheLayerUtility::getCachelayerRoutes())
         );
-        $this->addArgument(
-            'domain',
-            InputArgument::OPTIONAL,
-            'Specify domain if no domain in siteconfiguration like "https://domain.org"',
-            ''
-        );
     }
 
     /**
@@ -58,6 +53,7 @@ class LuxCacheWarmupCommand extends Command
      * @throws RouteNotFoundException
      * @throws UnexpectedValueException
      * @throws ExceptionDbal
+     * @throws DBALException
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -75,9 +71,9 @@ class LuxCacheWarmupCommand extends Command
 
             $configuration = CacheLayerUtility::getCacheLayerConfigurationByRoute($route);
             if ($configuration['multiple'] === false) {
-                $this->warmupSingleLayer($route, $input->getArgument('domain'), $configuration);
+                $this->warmupSingleLayer($route, $configuration);
             } else {
-                $this->warmupMultipleLayers($route, $input->getArgument('domain'), $configuration);
+                $this->warmupMultipleLayers($route, $configuration);
             }
         }
         return self::SUCCESS;
@@ -85,21 +81,19 @@ class LuxCacheWarmupCommand extends Command
 
     /**
      * @param string $route
-     * @param string $domain
      * @param array $configuration
      * @return void
      * @throws RouteNotFoundException
      * @throws UnexpectedValueException
      * @throws ConfigurationException
      */
-    protected function warmupSingleLayer(string $route, string $domain, array $configuration): void
+    protected function warmupSingleLayer(string $route, array $configuration): void
     {
-        $this->cacheWarmup->warmup($route, $domain, $configuration['arguments'], $this->output);
+        $this->cacheWarmup->warmup($route, $configuration['arguments'], $this->output);
     }
 
     /**
      * @param string $route
-     * @param string $domain
      * @param array $configuration
      * @return void
      * @throws ExceptionDbalDriver
@@ -107,14 +101,14 @@ class LuxCacheWarmupCommand extends Command
      * @throws UnexpectedValueException
      * @throws ConfigurationException
      * @throws ExceptionDbal
+     * @throws DBALException
      */
-    protected function warmupMultipleLayers(string $route, string $domain, array $configuration): void
+    protected function warmupMultipleLayers(string $route, array $configuration): void
     {
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
         foreach ($pageRepository->getPageIdentifiersFromNormalDokTypes() as $row) {
             $this->cacheWarmup->warmup(
                 $route,
-                $domain,
                 $this->substituteVariablesInArguments($configuration['arguments'], $row),
                 $this->output
             );

@@ -4,16 +4,15 @@ declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
 use DateTime;
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use Exception;
 use In2code\Lux\Domain\DataProvider\CompanyAmountPerMonthDataProvider;
 use In2code\Lux\Domain\DataProvider\CompanyCategoryScoringsDataProvider;
 use In2code\Lux\Domain\DataProvider\CompanyScoringWeeksDataProvider;
-use In2code\Lux\Domain\DataProvider\IdentificationMethodsDataProvider;
 use In2code\Lux\Domain\DataProvider\LeadsPerTimeDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
-use In2code\Lux\Domain\DataProvider\ReferrerAmountDataProvider;
 use In2code\Lux\Domain\DataProvider\RevenueClassDataProvider;
 use In2code\Lux\Domain\DataProvider\VisitorCategoryScoringsDataProvider;
 use In2code\Lux\Domain\DataProvider\VisitorScoringWeeksDataProvider;
@@ -24,15 +23,11 @@ use In2code\Lux\Domain\Repository\CategoryRepository;
 use In2code\Lux\Domain\Repository\CompanyRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\CompanyConfigurationService;
-use In2code\Lux\Exception\ConfigurationException;
-use In2code\Lux\Exception\UnexpectedValueException;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Throwable;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -58,41 +53,16 @@ class LeadController extends AbstractController
     /**
      * @param FilterDto $filter
      * @return ResponseInterface
-     * @throws ConfigurationException
-     * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
-     * @throws ExtensionConfigurationExtensionNotConfiguredException
-     * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws InvalidConfigurationTypeException
      * @throws InvalidQueryException
-     * @throws UnexpectedValueException
      */
     public function dashboardAction(FilterDto $filter): ResponseInterface
     {
-        $this->cacheLayer->initialize(__CLASS__, __FUNCTION__);
         $this->view->assignMultiple([
-            'cacheLayer' => $this->cacheLayer,
             'filter' => $filter,
             'interestingLogs' => $this->logRepository->findInterestingLogs($filter, 10),
             'whoisonline' => $this->visitorRepository->findOnline(8),
         ]);
-
-        if ($this->cacheLayer->isCacheAvailable('Box/Leads/Recurring/' . $filter->getHash()) === false) {
-            $this->view->assignMultiple([
-                'numberOfUniqueSiteVisitors' => $this->visitorRepository->findByUniqueSiteVisits($filter)->count(),
-                'numberOfRecurringSiteVisitors' =>
-                    $this->visitorRepository->findByRecurringSiteVisits($filter)->count(),
-                'identifiedPerMonth' => $this->logRepository->findIdentifiedLogsFromMonths(6),
-                'numberOfIdentifiedVisitors' => $this->visitorRepository->findIdentified($filter)->count(),
-                'numberOfUnknownVisitors' => $this->visitorRepository->findUnknown($filter)->count(),
-                'identificationMethods' =>
-                    GeneralUtility::makeInstance(IdentificationMethodsDataProvider::class, $filter),
-                'referrerAmountData' => GeneralUtility::makeInstance(ReferrerAmountDataProvider::class, $filter),
-                'countries' => $this->ipinformationRepository->findAllCountryCodesGrouped($filter),
-                'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter),
-                'renderingTime' => $this->renderingTimeService->getTime(),
-            ]);
-        }
 
         $this->addDocumentHeaderForCurrentController();
         return $this->defaultRendering();
@@ -167,6 +137,7 @@ class LeadController extends AbstractController
      *
      * @param Visitor $visitor
      * @return ResponseInterface
+     * @throws DBALException
      */
     public function removeAction(Visitor $visitor): ResponseInterface
     {
@@ -180,6 +151,7 @@ class LeadController extends AbstractController
      * @return ResponseInterface
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws DBALException
      */
     public function deactivateAction(Visitor $visitor): ResponseInterface
     {
@@ -285,6 +257,7 @@ class LeadController extends AbstractController
      * @param FilterDto $filter
      * @return ResponseInterface
      * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      */
     public function downloadCsvCompaniesAction(FilterDto $filter): ResponseInterface
     {
