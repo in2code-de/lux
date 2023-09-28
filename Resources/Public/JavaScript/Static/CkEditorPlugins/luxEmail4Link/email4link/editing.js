@@ -23,7 +23,7 @@ export default class Email4LinkEditing extends Core.Plugin {
     });
     editor.conversion.for('upcast').elementToAttribute({
       view: { name: 'a', attributes: { 'data-lux-email4link-sendemail': true } },
-      model: { key: 'sendEmail', value: (viewElement) => viewElement.getAttribute('data-lux-send-email') }
+      model: { key: 'sendEmail', value: (viewElement) => viewElement.getAttribute('data-lux-email4link-sendemail') }
     });
 
     conversion.for('downcast').attributeToElement({
@@ -48,8 +48,8 @@ export default class Email4LinkEditing extends Core.Plugin {
       }
     });
     editor.conversion.for('upcast').elementToAttribute({
-      view: { name: 'a', attributes: { 'data-lux-email4link-sendemail': true } },
-      model: { key: 'email4linkText', value: (viewElement) => viewElement.getAttribute('data-lux-email4link-text') }
+      view: { name: 'a', attributes: { 'data-lux-email4link-text': true } },
+      model: { key: 'emailText', value: (viewElement) => viewElement.getAttribute('data-lux-email4link-text') }
     });
   }
 }
