@@ -12,6 +12,9 @@ export default class Email4LinkEditing extends Core.Plugin {
 
   _defineConverters() {
     const conversion = this.editor.conversion;
+    const schema = this.editor.model.schema;
+
+    schema.extend('$text', { allowAttributes: ['sendEmail', 'emailTitle', 'emailText'] })
 
     conversion.for('downcast').attributeToElement({
       model: 'sendEmail',
