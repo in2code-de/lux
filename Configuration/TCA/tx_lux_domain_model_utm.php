@@ -7,7 +7,7 @@ use In2code\Lux\Domain\Model\Utm;
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Utm::TABLE_NAME,
-        'label' => 'title',
+        'label' => 'utm_source',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
         'cruser_id' => 'cruser_id',
