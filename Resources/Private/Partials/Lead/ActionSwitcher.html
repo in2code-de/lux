@@ -1,6 +1,12 @@
-<f:link.action action="dashboard" controller="Lead" class="btn{lux:backend.getClassNameOnAction(onAction:'dashboard',view:view)}">
+<f:be.link
+    route="lux_LuxLeads"
+    parameters="{tx_lux_lux_luxleads:'{action:\'dashboard\',controller:\'Lead\'}'}"
+    class="btn{lux:backend.getClassNameOnAction(onAction:'dashboard',view:view)}">
     <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.lead.dashboard">dashboard</f:translate>
-</f:link.action>
-<f:link.action action="list" controller="Lead" class="btn{lux:backend.getClassNameOnAction(onAction:'list',view:view)}">
+</f:be.link>
+<f:be.link
+    route="lux_LuxLeads"
+    parameters="{tx_lux_lux_luxleads:'{action:\'list\',controller:\'Lead\'}'}"
+    class="btn{lux:backend.getClassNameOnAction(onAction:'list',view:view)}">
     <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.lead.list">list</f:translate>
-</f:link.action>
+</f:be.link>

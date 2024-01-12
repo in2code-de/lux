@@ -1,22 +1,40 @@
-<f:link.action action="dashboard" controller="Analysis" class="btn{lux:backend.getClassNameOnAction(onAction:'dashboard',view:view)}">
+<f:be.link
+    route="lux_LuxAnalysis"
+    parameters="{tx_lux_lux_luxanalysis:'{action:\'dashboard\',controller:\'Analysis\'}'}"
+    class="btn{lux:backend.getClassNameOnAction(onAction:'dashboard',view:view)}">
     <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.dashboard">dashboard</f:translate>
-</f:link.action>
-<f:link.action action="content" controller="Analysis" class="btn{lux:backend.getClassNameOnAction(onAction:'content',view:view)}">
+</f:be.link>
+<f:be.link
+    route="lux_LuxAnalysis"
+    parameters="{tx_lux_lux_luxanalysis:'{action:\'content\',controller:\'Analysis\'}'}"
+    class="btn{lux:backend.getClassNameOnAction(onAction:'content',view:view)}">
     <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.content">content</f:translate>
-</f:link.action>
+</f:be.link>
 <lux:condition.isNewsExtensionActivated>
-    <f:link.action action="news" controller="Analysis" class="btn{lux:backend.getClassNameOnAction(onAction:'news',view:view)}">
+    <f:be.link
+        route="lux_LuxAnalysis"
+        parameters="{tx_lux_lux_luxanalysis:'{action:\'news\',controller:\'Analysis\'}'}"
+        class="btn{lux:backend.getClassNameOnAction(onAction:'news',view:view)}">
         <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.news">news</f:translate>
-    </f:link.action>
+    </f:be.link>
 </lux:condition.isNewsExtensionActivated>
-<f:link.action action="utm" controller="Analysis" class="btn{lux:backend.getClassNameOnAction(onAction:'utm',view:view)}">
+<f:be.link
+    route="lux_LuxAnalysis"
+    parameters="{tx_lux_lux_luxanalysis:'{action:\'utm\',controller:\'Analysis\'}'}"
+    class="btn{lux:backend.getClassNameOnAction(onAction:'utm',view:view)}">
     <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.utm">UTM</f:translate>
-</f:link.action>
-<f:link.action action="linkListener" controller="Analysis" class="btn{lux:backend.getClassNameOnAction(onAction:'linkListener',view:view)}">
+</f:be.link>
+<f:be.link
+    route="lux_LuxAnalysis"
+    parameters="{tx_lux_lux_luxanalysis:'{action:\'linkListener\',controller:\'Analysis\'}'}"
+    class="btn{lux:backend.getClassNameOnAction(onAction:'linkListener',view:view)}">
     <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.linkListeners">Linklisteners</f:translate>
-</f:link.action>
+</f:be.link>
 <lux:condition.isSearchAvailable>
-    <f:link.action action="search" controller="Analysis" class="btn{lux:backend.getClassNameOnAction(onAction:'search',view:view)}">
+    <f:be.link
+        route="lux_LuxAnalysis"
+        parameters="{tx_lux_lux_luxanalysis:'{action:\'search\',controller:\'Analysis\'}'}"
+        class="btn{lux:backend.getClassNameOnAction(onAction:'search',view:view)}">
         <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.search">Search</f:translate>
-    </f:link.action>
+    </f:be.link>
 </lux:condition.isSearchAvailable>
