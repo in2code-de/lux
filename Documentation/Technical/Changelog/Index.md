@@ -18,6 +18,7 @@
 
 | Version    | Date       | State    | Description                                                                                                                                                                                |
 |------------|------------|----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 26.5.2     | 2024-01-12 | Bugfix   | Fix module links on some TYPO3 10 installations                                                                                                                                            |
 | 26.5.1     | 2023-06-27 | Bugfix   | Added missing argument when instantiating the class                                                                                                                                        |
 | 26.5.0     | 2023-05-13 | Feature  | Allow formFieldListening with "typo3/cms-form" by supporting `data-lux-form-identification="submitButton"`                                                                                 |
 | 26.4.2     | 2023-02-07 | Bugfix   | Make linklisteners selectable for editors again                                                                                                                                            |
