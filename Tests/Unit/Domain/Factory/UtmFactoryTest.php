@@ -44,7 +44,7 @@ class UtmFactoryTest extends UnitTestCase
      * @return void
      * @covers ::get
      */
-    public function testGetUtmKeys(): void
+    public function testGet(): void
     {
         $parameters = [
             'utm_source' => 'source',
@@ -69,11 +69,38 @@ class UtmFactoryTest extends UnitTestCase
      * @return void
      * @covers ::getUtmKeys
      */
-    public function testGet(): void
+    public function testGetUtmKeys(): void
     {
         self::assertSame(
             $this->generalValidatorMock->_get('utmKeys'),
             $this->generalValidatorMock->_call('getUtmKeys')
         );
+    }
+
+    /**
+     * @return void
+     * @covers ::getUtmKeysForDatabase
+     */
+    public function testGetUtmKeysForDatabase(): void
+    {
+        self::assertSame(
+            array_keys($this->generalValidatorMock->_get('utmKeys')),
+            $this->generalValidatorMock->_call('getUtmKeysForDatabase')
+        );
+    }
+
+    /**
+     * @return void
+     * @covers ::getAllUtmKeys
+     */
+    public function testGetAllUtmKeys(): void
+    {
+        $allKeys = [];
+        foreach ($this->generalValidatorMock->_get('utmKeys') as $keys) {
+            foreach ($keys as $key) {
+                $allKeys[] = $key;
+            }
+        }
+        self::assertSame($allKeys, $this->generalValidatorMock->_call('getAllUtmKeys'));
     }
 }
