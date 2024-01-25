@@ -24,11 +24,11 @@ class UtmFactory
         ],
         'utm_id' => [
             'utm_id',
-            'mtm_id',
+            'mtm_cid',
         ],
         'utm_term' => [
             'utm_term',
-            'mtm_term',
+            'mtm_kwd',
         ],
         'utm_content' => [
             'utm_content',

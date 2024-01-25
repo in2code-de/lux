@@ -50,7 +50,7 @@ class UtmFactoryTest extends UnitTestCase
             'utm_source' => 'source',
             'utm_medium' => 'medium',
             'utm_campaign' => 'campaign',
-            'utm_id' => '123',
+            'utm_id' => '1243',
             'utm_term' => 'term',
             'utm_content' => 'content',
         ];
