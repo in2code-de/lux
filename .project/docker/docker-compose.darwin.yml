@@ -56,3 +56,4 @@ services:
 
 volumes:
   mysql:
+  typo3var:
