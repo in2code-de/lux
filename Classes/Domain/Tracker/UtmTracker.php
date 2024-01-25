@@ -66,8 +66,12 @@ class UtmTracker
     protected function getUtm(array $arguments): Utm
     {
         $parameters = [];
-        foreach ($this->utmFactory->getUtmKeys() as $key) {
-            $parameters[$key] = $this->getArgumentFromCurrentUrl($key);
+        foreach ($this->utmFactory->getUtmKeys() as $key => $keys) {
+            foreach ($keys as $keySub) {
+                if (isset($parameters[$key]) === false) {
+                    $parameters[$key] = $this->getArgumentFromCurrentUrl($keySub);
+                }
+            }
         }
         return $this->utmFactory->get($parameters, $arguments['referrer'] ?? '');
     }
@@ -82,7 +86,7 @@ class UtmTracker
     {
         $arguments = $this->getArgumentsFromCurrentUrl();
         foreach (array_keys($arguments) as $key) {
-            if (in_array($key, $this->utmFactory->getUtmKeys())) {
+            if (in_array($key, $this->utmFactory->getAllUtmKeys())) {
                 return true;
             }
         }

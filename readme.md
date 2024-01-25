@@ -46,6 +46,24 @@ LUX will not set any cookies.
         </td>
     </tr>
     <tr>
+        <th>
+            Company information<br/>
+            <i>(Wiredminds integration only)</i>
+        </th>
+        <th>
+            A/B tests<br/>
+            <i>(Enterprise version only)</i>
+        </th>
+    </tr>
+    <tr>
+        <td align="center">
+            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/develop/Documentation/Images/documentation_company_detail.png">
+        </td>
+        <td align="center">
+            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/develop/Documentation/Images/screenshot_abtesting_pageoverview.png">
+        </td>
+    </tr>
+    <tr>
         <th>Show relevant information in page view</th>
         <th>UTM parameters analyse</th>
     </tr>
@@ -214,9 +232,9 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 
 ### Possible Enterprise Features in the future
 
+* Todo: Multi-client capability
 * Todo: Contacts (Import?)
 * Todo: API (Im- and Export)
-* Todo: A/B Tests
 * Todo: SocialMedia Connection (Twitter)
 
 Interested? Call us!
