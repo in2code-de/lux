@@ -72,7 +72,7 @@ class PageTracker
             ->setPage($page)
             ->setLanguage($languageUid)
             ->setReferrer($referrer)
-            ->setDomain()
+            ->setDomainAutomatically()
             ->setVisitor($visitor);
         return $pageVisit;
     }
