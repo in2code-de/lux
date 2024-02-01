@@ -78,7 +78,13 @@ class Download extends AbstractModel
         return $this->domain;
     }
 
-    public function setDomain(): self
+    public function setDomain(string $domain): self
+    {
+        $this->domain = $domain;
+        return $this;
+    }
+
+    public function setDomainAutomatically(): self
     {
         $this->domain = FrontendUtility::getCurrentDomain();
         return $this;

@@ -66,7 +66,8 @@ class DownloadTracker
         $downloadRepository = GeneralUtility::makeInstance(DownloadRepository::class);
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
         $page = $pageRepository->findByIdentifier($pageIdentifier);
-        $download = GeneralUtility::makeInstance(Download::class)->setHref($href)->setPage($page)->setDomain();
+        $download = GeneralUtility::makeInstance(Download::class)
+            ->setHref($href)->setPage($page)->setDomainAutomatically();
         if ($file !== null) {
             $download->setFile($file);
         }

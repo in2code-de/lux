@@ -846,6 +846,9 @@
 			<trans-unit id="module.analysis.log.status.410">
 				<source>Successfully converted company to lead via Wiredminds</source>
 			</trans-unit>
+			<trans-unit id="module.analysis.log.status.500">
+				<source>Created new lead via API</source>
+			</trans-unit>
 			<trans-unit id="module.analysis.map">
 				<source>Lead source</source>
 			</trans-unit>

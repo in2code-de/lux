@@ -41,9 +41,10 @@ class Log extends AbstractModel
     const STATUS_UTM_TRACK = 300;
     const STATUS_WIREDMINDS_CONNECTION = 400;
     const STATUS_WIREDMINDS_SUCCESSFUL = 410;
+    const STATUS_API_CREATEVISITOR = 500;
     const STATUS_ERROR = 900;
 
-    protected int $status = 0;
+    protected int $status = self::STATUS_DEFAULT;
 
     protected ?Visitor $visitor = null;
     protected ?DateTime $crdate = null;

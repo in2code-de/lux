@@ -75,7 +75,7 @@ class NewsTracker
         $newsvisit
             ->setNews($news)
             ->setLanguage($languageUid)
-            ->setDomain()
+            ->setDomainAutomatically()
             ->setVisitor($visitor)
             ->setPagevisit($pagevisit);
         return $newsvisit;

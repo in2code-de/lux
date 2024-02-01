@@ -3,11 +3,11 @@
 
 # API and Interface from LUX (only in luxenterprise)
 
-Since luxenterprise 19.0.0 we introduced a proper interface with reading access as you may know from other REST APIs.
+Since LUXenterprise 19.0.0 we introduced a proper interface with reading access as you may know from other REST APIs.
 
 ## Configuration
 
-First of all you have to check the extension manager configuration of luxenterprise, to turn on the API and to add
+First of all you have to check the extension manager configuration of LUXenterprise, to turn on the API and to add
 an Api-Key and to define which IP-addresses are allowed to read from the API (optional)
 
 | Title             | Default value | Description                                                                                                                        |
@@ -16,12 +16,12 @@ an Api-Key and to define which IP-addresses are allowed to read from the API (op
 | apiKey            | -             | You have to enter a random value that will be used then as API-KEY for authentication. Note: Minimum 128 characters are needed!    |
 | apiKeyIpAllowList | -             | Define one or more IPs or ranges (optional) for allowing to read the API (e.g. 192.0.0.1,192.168.0.0/24,fc00::,2001:db8::567:89ab) |
 
-**Note:** Take care to add the typenum `1650897821` to your siteconfiguration (see FAQ for more details). In our example `leadapi.json` will be recognized from TYPO3 routing (see CURL examples below).
+**Note:** Take care to add the typenum `1650897821` to your siteconfiguration (see FAQ for more details). In our example `luxenterprise_api.json` will be recognized from TYPO3 routing (see CURL examples below).
 
 ## Endpoints
 
-The API works as most interfaces by selecting an endpoint and passing arguments as JSON. The result is also a JSON
-output.
+The API works as most interfaces by selecting an endpoint and passing arguments as JSON. The result is also always a
+JSON output.
 
 ### 1. Endpoint "findAllByAnyProperties" for getting a list of visitors (reading access)
 
@@ -333,4 +333,65 @@ You can also change the property field. E.g. if you want to search for an email:
   "propertyName": "email",
   "propertyValue": "sandra.pohl@in2code.de"
 }
+```
+
+
+
+### 3. Endpoint "create" to write new leads into database (writing access)
+
+*Note:* This endpoint was introduced with LUXenterprise 38.0.0 and is not available before this version
+
+The endpoint `create` can be used to add new visitor objects to LUX.
+
+*Note:* If you pass an email address and there is already a visitor with same mail existing, both visitor objects are
+going to be merged to keep history
+
+
+#### Example usage
+
+A new lead with two attributes is created from API with one pagevisit and with a fingerprint record can be added via
+API with these arguments:
+
+```
+{
+  "endpoint": "create",
+  "properties": {
+    "visitor": {
+      "email": "new@email.org",
+      "ipAddress": "127.0.0.1",
+      "identified": "1",
+      "scoring": "10",
+      "attributes": {
+        "0": {
+          "name": "firstname",
+          "value": "Alex"
+        },
+        "1": {
+          "name": "lastname",
+          "value": "Kellner"
+        }
+      },
+      "pagevisits": {
+        "0": {
+          "page": "12",
+          "language": "0",
+          "referrer": "https://lastdomain.org/page"
+        }
+      },
+      "fingerprints": {
+        "0": {
+          "value": "abcdef123456789foobar",
+          "domain": "https://mydomain.org",
+          "userAgent": "Mozilla/5.0"
+        }
+      }
+    }
+  }
+}
+```
+
+CURL example:
+
+```
+curl -k -d 'tx_luxenterprise_api[arguments]={"endpoint":"createVisitor","properties":{"visitor":{"email":"new@email.org","ipAddress":"127.0.0.1","identified":"1","scoring":"10","attributes":{"0":{"name":"firstname","value":"Alex"},"1":{"name":"lastname","value":"Kellner"}},"pagevisits":{"0":{"page":"12","language":"0","referrer":"https://lastdomain.org/page"}},"fingerprints":{"0":{"value":"abcdef123456789foobar","domain":"https://mydomain.org","userAgent":"Mozilla/5.0"}}}}}' -H 'Api-Key: abc...' --url https://www.in2code.de/luxenterprise_api.json
 ```
