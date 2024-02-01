@@ -1119,6 +1119,10 @@
 				<source>Successfully converted company to lead via Wiredminds</source>
 				<target state="translated">Firma erfolgreich ermittelt mittels Wiredminds</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.log.status.500">
+				<source>Created new lead via API</source>
+				<target state="translated">Lead über API erstellt</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.map">
 				<source>Lead source</source>
 				<target state="translated">Lead Ursprung</target>
