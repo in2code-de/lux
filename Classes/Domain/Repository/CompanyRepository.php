@@ -3,7 +3,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
-use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use Exception;
 use In2code\Lux\Domain\Model\Company;
@@ -24,11 +23,11 @@ class CompanyRepository extends AbstractRepository
 
     /**
      * @param FilterDto $filter
+     * @param int $limit
      * @return array
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
-    public function findByFilter(FilterDto $filter): array
+    public function findByFilter(FilterDto $filter, int $limit = 750): array
     {
         $sql = 'select c.uid,sum(v.scoring) companyscoring'
             . ' from ' . Company::TABLE_NAME . ' c'
@@ -42,6 +41,7 @@ class CompanyRepository extends AbstractRepository
         $sql .= ' group by c.uid';
         $sql .= $this->extendWhereClauseWithFilterCompanyscoring($filter);
         $sql .= ' order by companyscoring desc';
+        $sql .= ' limit ' . $limit;
         $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);
         $results = $connection->executeQuery($sql)->fetchAllKeyValue();
 
