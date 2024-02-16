@@ -361,6 +361,7 @@ API with these arguments:
       "ipAddress": "127.0.0.1",
       "identified": "1",
       "scoring": "10",
+      "visits": "1",
       "attributes": {
         "0": {
           "name": "firstname",
@@ -393,5 +394,5 @@ API with these arguments:
 CURL example:
 
 ```
-curl -k -d 'tx_luxenterprise_api[arguments]={"endpoint":"create","properties":{"visitor":{"email":"new@email.org","ipAddress":"127.0.0.1","identified":"1","scoring":"10","attributes":{"0":{"name":"firstname","value":"Alex"},"1":{"name":"lastname","value":"Kellner"}},"pagevisits":{"0":{"page":"12","language":"0","referrer":"https://lastdomain.org/page"}},"fingerprints":{"0":{"value":"abcdef123456789foobar","domain":"https://mydomain.org","userAgent":"Mozilla/5.0"}}}}}' -H 'Api-Key: abc...' --url https://www.in2code.de/luxenterprise_api.json
+curl -k -d 'tx_luxenterprise_api[arguments]={"endpoint":"create","properties":{"visitor":{"email":"new@email.org","ipAddress":"127.0.0.1","identified":"1","scoring":"10","visits":"1",attributes":{"0":{"name":"firstname","value":"Alex"},"1":{"name":"lastname","value":"Kellner"}},"pagevisits":{"0":{"page":"12","language":"0","referrer":"https://lastdomain.org/page"}},"fingerprints":{"0":{"value":"abcdef123456789foobar","domain":"https://mydomain.org","userAgent":"Mozilla/5.0"}}}}}' -H 'Api-Key: abc...' --url https://www.in2code.de/luxenterprise_api.json
 ```
