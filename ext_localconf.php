@@ -100,7 +100,12 @@ call_user_func(
                     ],
                 ],
                 'frontend' => [
-                    'isTriggered' => 'Class',
+                    'triggered' => [
+                        'class' => \In2code\Lux\Domain\Service\IndividualAnalyseView\Backend\Activator\IsExtensionActiveActivator::class,
+                        'configuration' => [
+                            'foo' => 'bar',
+                        ],
+                    ],
                 ],
             ],
             'search' => [

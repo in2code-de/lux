@@ -13,6 +13,7 @@ use In2code\Lux\Domain\Tracker\AttributeTracker;
 use In2code\Lux\Domain\Tracker\CompanyTracker;
 use In2code\Lux\Domain\Tracker\DownloadTracker;
 use In2code\Lux\Domain\Tracker\FrontenduserAuthenticationTracker;
+use In2code\Lux\Domain\Tracker\IndividualVisitTracker;
 use In2code\Lux\Domain\Tracker\LinkClickTracker;
 use In2code\Lux\Domain\Tracker\LuxletterlinkAttributeTracker;
 use In2code\Lux\Domain\Tracker\NewsTracker;
@@ -108,10 +109,12 @@ class FrontendController extends ActionController
             $companyTracker->track($visitor);
             $pageTracker = GeneralUtility::makeInstance(PageTracker::class);
             $pagevisit = $pageTracker->track($visitor, $arguments);
-            $newsTracker = GeneralUtility::makeInstance(NewsTracker::class);
-            $newsTracker->track($visitor, $arguments, $pagevisit);
-            $searchTracker = GeneralUtility::makeInstance(SearchTracker::class);
-            $searchTracker->track($visitor, $arguments);
+            $individualVisitTracker = GeneralUtility::makeInstance(IndividualVisitTracker::class);
+            $individualVisitTracker->track($visitor, $arguments, $pagevisit);
+//            $newsTracker = GeneralUtility::makeInstance(NewsTracker::class);
+//            $newsTracker->track($visitor, $arguments, $pagevisit);
+//            $searchTracker = GeneralUtility::makeInstance(SearchTracker::class);
+//            $searchTracker->track($visitor, $arguments);
             return $this->jsonResponse(json_encode($this->afterAction($visitor)));
         } catch (Throwable $exception) {
             return $this->jsonResponse(json_encode($this->getError($exception)));
