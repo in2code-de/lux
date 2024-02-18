@@ -23,6 +23,7 @@ use In2code\Lux\Domain\Repository\Remote\WiredmindsRepository;
 use In2code\Lux\Domain\Repository\SearchRepository;
 use In2code\Lux\Domain\Repository\UtmRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Domain\Service\IndividualAnalyseView\Helper;
 use In2code\Lux\Domain\Service\RenderingTimeService;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ConfigurationUtility;
@@ -61,6 +62,7 @@ abstract class AbstractController extends ActionController
     protected ?CompanyRepository $companyRepository = null;
     protected ?WiredmindsRepository $wiredmindsRepository = null;
     protected ?RenderingTimeService $renderingTimeService = null;
+    protected ?Helper $individualAnalyseViewHelper = null;
     protected ?CacheLayer $cacheLayer = null;
     protected ModuleTemplateFactory $moduleTemplateFactory;
     protected ModuleTemplate $moduleTemplate;
@@ -83,6 +85,7 @@ abstract class AbstractController extends ActionController
         CompanyRepository $companyRepository,
         WiredmindsRepository $wiredmindsRepository,
         RenderingTimeService $renderingTimeService,
+        Helper $individualAnalyseViewHelper,
         CacheLayer $cacheLayer,
         ModuleTemplateFactory $moduleTemplateFactory
     ) {
@@ -103,6 +106,7 @@ abstract class AbstractController extends ActionController
         $this->companyRepository = $companyRepository;
         $this->wiredmindsRepository = $wiredmindsRepository;
         $this->renderingTimeService = $renderingTimeService;
+        $this->individualAnalyseViewHelper = $individualAnalyseViewHelper;
         $this->cacheLayer = $cacheLayer;
         $this->moduleTemplateFactory = $moduleTemplateFactory;
     }

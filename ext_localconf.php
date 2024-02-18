@@ -83,5 +83,38 @@ call_user_func(
          * CacheHash: Add LUX paramters to excluded variables
          */
         \In2code\Lux\Utility\CacheHashUtility::addLuxArgumentsToExcludedVariables();
+
+        /**
+         * IndividualAnalyseViews
+         */
+        $GLOBALS['TYPO3_CONF_VARS']['EXT']['lux']['individualAnalyseViews'] = [
+            'news' => [
+                'identifier' => 'news',
+                'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.news',
+                'backend' => [
+                    'activated' => [
+                        'class' => \In2code\Lux\Domain\Service\IndividualAnalyseView\Backend\Activator\IsExtensionActiveActivator::class,
+                        'configuration' => [
+                            'extensionKey' => 'news',
+                        ],
+                    ],
+                ],
+                'frontend' => [
+                    'isTriggered' => 'Class',
+                ],
+            ],
+            'search' => [
+                'identifier' => 'news',
+                'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.search',
+                'backend' => [
+                    'activated' => [
+                        'class' => \In2code\Lux\Domain\Service\IndividualAnalyseView\Backend\Activator\IsTableFilledActivator::class,
+                        'configuration' => [
+                            'table' => \In2code\Lux\Domain\Model\Search::TABLE_NAME,
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 );

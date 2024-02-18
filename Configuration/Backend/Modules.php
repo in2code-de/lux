@@ -17,17 +17,14 @@ return [
             \In2code\Lux\Controller\AnalysisController::class => [
                 'dashboard',
                 'content',
-                'news',
                 'linkListener',
-                'search',
                 'deleteLinkListener',
                 'detailPage',
-                'detailNews',
-                'detailSearch',
                 'detailDownload',
                 'detailLinkListener',
                 'resetFilter',
                 'utm',
+                'individualAnalyseView',
             ],
             \In2code\Lux\Controller\LeadController::class => [
                 'dashboard',

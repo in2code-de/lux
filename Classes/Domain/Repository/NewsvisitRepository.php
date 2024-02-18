@@ -193,21 +193,6 @@ class NewsvisitRepository extends AbstractRepository
     }
 
     /**
-     * @return bool
-     * @throws ExceptionDbalDriver
-     * @throws ExceptionDbal
-     */
-    public function isTableFilled(): bool
-    {
-        if (DatabaseUtility::isTableExisting(News::TABLE_NAME)) {
-            $connection = DatabaseUtility::getConnectionForTable(News::TABLE_NAME);
-            $sql = 'select count(*) from ' . News::TABLE_NAME . ' where deleted=0';
-            return $connection->executeQuery($sql)->fetchOne() > 0;
-        }
-        return false;
-    }
-
-    /**
      * @param QueryInterface $query
      * @param array $logicalAnd
      * @param FilterDto|null $filter

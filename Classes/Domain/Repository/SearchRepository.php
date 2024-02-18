@@ -44,18 +44,6 @@ class SearchRepository extends AbstractRepository
     }
 
     /**
-     * @return bool
-     * @throws Exception
-     * @throws ExceptionDbalDriver
-     */
-    public function isTableFilled(): bool
-    {
-        $connection = DatabaseUtility::getConnectionForTable(Search::TABLE_NAME);
-        $sql = 'select count(*) from ' . Search::TABLE_NAME . ' where deleted=0';
-        return $connection->executeQuery($sql)->fetchOne() > 0;
-    }
-
-    /**
      * @param DateTime $start
      * @param DateTime $end
      * @param FilterDto|null $filter

@@ -25,6 +25,7 @@ use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\News;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
+use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
@@ -134,10 +135,39 @@ class AnalysisController extends AbstractController
      * @return void
      * @throws NoSuchArgumentException
      */
-    public function initializeNewsAction(): void
+    public function initializeIndividualAnalyseViewAction(): void
     {
         $this->setFilter();
     }
+
+    public function individualAnalyseViewAction(FilterDto $filter, string $export = ''): ResponseInterface
+    {
+        if ($export === 'csv') {
+            die(__CLASS__ . ':' . __LINE__); // TOdo: ...
+            return (new ForwardResponse('newsCsv'))->withArguments(['filter' => $filter]);
+        }
+
+        $this->view->assignMultiple([
+            'filter' => $filter,
+            'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
+            'domains' => $this->newsvisitRepository->getAllDomains($filter),
+            'newsvisitsData' => GeneralUtility::makeInstance(NewsvisistsDataProvider::class, $filter),
+            'news' => $this->newsvisitRepository->findCombinedByNewsIdentifier($filter),
+            'languageData' => GeneralUtility::makeInstance(LanguagesNewsDataProvider::class, $filter),
+            'domainData' => GeneralUtility::makeInstance(DomainNewsDataProvider::class, $filter),
+        ]);
+        $this->addDocumentHeaderForCurrentController();
+        return $this->defaultRendering();
+    }
+
+    /**
+     * @return void
+     * @throws NoSuchArgumentException
+     */
+//    public function initializeNewsAction(): void
+//    {
+//        $this->setFilter();
+//    }
 
     /**
      * @param FilterDto $filter
@@ -146,25 +176,25 @@ class AnalysisController extends AbstractController
      * @throws Exception
      * @throws ExceptionDbalDriver
      */
-    public function newsAction(FilterDto $filter, string $export = ''): ResponseInterface
-    {
-        if ($export === 'csv') {
-            return (new ForwardResponse('newsCsv'))->withArguments(['filter' => $filter]);
-        }
-
-        $this->view->assignMultiple([
-            'filter' => $filter,
-            'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
-            'newsvisitsData' => GeneralUtility::makeInstance(NewsvisistsDataProvider::class, $filter),
-            'news' => $this->newsvisitRepository->findCombinedByNewsIdentifier($filter),
-            'languageData' => GeneralUtility::makeInstance(LanguagesNewsDataProvider::class, $filter),
-            'domainData' => GeneralUtility::makeInstance(DomainNewsDataProvider::class, $filter),
-            'domains' => $this->newsvisitRepository->getAllDomains($filter),
-        ]);
-
-        $this->addDocumentHeaderForCurrentController();
-        return $this->defaultRendering();
-    }
+//    public function newsAction(FilterDto $filter, string $export = ''): ResponseInterface
+//    {
+//        if ($export === 'csv') {
+//            return (new ForwardResponse('newsCsv'))->withArguments(['filter' => $filter]);
+//        }
+//
+//        $this->view->assignMultiple([
+//            'filter' => $filter,
+//            'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
+//            'newsvisitsData' => GeneralUtility::makeInstance(NewsvisistsDataProvider::class, $filter),
+//            'news' => $this->newsvisitRepository->findCombinedByNewsIdentifier($filter),
+//            'languageData' => GeneralUtility::makeInstance(LanguagesNewsDataProvider::class, $filter),
+//            'domainData' => GeneralUtility::makeInstance(DomainNewsDataProvider::class, $filter),
+//            'domains' => $this->newsvisitRepository->getAllDomains($filter),
+//        ]);
+//
+//        $this->addDocumentHeaderForCurrentController();
+//        return $this->defaultRendering();
+//    }
 
     /**
      * @param FilterDto $filter
@@ -173,13 +203,13 @@ class AnalysisController extends AbstractController
      * @throws ExceptionDbalDriver
      * @throws DBALException
      */
-    public function newsCsvAction(FilterDto $filter): ResponseInterface
-    {
-        $this->view->assignMultiple([
-            'news' => $this->newsvisitRepository->findCombinedByNewsIdentifier($filter),
-        ]);
-        return $this->csvResponse();
-    }
+//    public function newsCsvAction(FilterDto $filter): ResponseInterface
+//    {
+//        $this->view->assignMultiple([
+//            'news' => $this->newsvisitRepository->findCombinedByNewsIdentifier($filter),
+//        ]);
+//        return $this->csvResponse();
+//    }
 
     /**
      * @return void
@@ -298,18 +328,18 @@ class AnalysisController extends AbstractController
      * @throws ExceptionDbal
      * @throws ExceptionDbalDriver
      */
-    public function searchAction(FilterDto $filter): ResponseInterface
-    {
-        $this->view->assignMultiple([
-            'filter' => $filter,
-            'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
-            'searchData' => GeneralUtility::makeInstance(SearchDataProvider::class, $filter),
-            'search' => $this->searchRepository->findCombinedBySearchIdentifier($filter),
-        ]);
-
-        $this->addDocumentHeaderForCurrentController();
-        return $this->defaultRendering();
-    }
+//    public function searchAction(FilterDto $filter): ResponseInterface
+//    {
+//        $this->view->assignMultiple([
+//            'filter' => $filter,
+//            'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
+//            'searchData' => GeneralUtility::makeInstance(SearchDataProvider::class, $filter),
+//            'search' => $this->searchRepository->findCombinedBySearchIdentifier($filter),
+//        ]);
+//
+//        $this->addDocumentHeaderForCurrentController();
+//        return $this->defaultRendering();
+//    }
 
     /**
      * @param Linklistener $linkListener
@@ -348,18 +378,18 @@ class AnalysisController extends AbstractController
      * @throws ExceptionDbal
      * @throws DBALException
      */
-    public function detailNewsAction(News $news): ResponseInterface
-    {
-        $filter = ObjectUtility::getFilterDto()->setSearchterm((string)$news->getUid());
-        $this->view->assignMultiple([
-            'news' => $news,
-            'newsvisits' => $this->newsvisitRepository->findByNews($news, 100),
-            'newsvisitsData' => GeneralUtility::makeInstance(NewsvisistsDataProvider::class, $filter),
-        ]);
-
-        $this->addDocumentHeaderForCurrentController();
-        return $this->defaultRendering();
-    }
+//    public function detailNewsAction(News $news): ResponseInterface
+//    {
+//        $filter = ObjectUtility::getFilterDto()->setSearchterm((string)$news->getUid());
+//        $this->view->assignMultiple([
+//            'news' => $news,
+//            'newsvisits' => $this->newsvisitRepository->findByNews($news, 100),
+//            'newsvisitsData' => GeneralUtility::makeInstance(NewsvisistsDataProvider::class, $filter),
+//        ]);
+//
+//        $this->addDocumentHeaderForCurrentController();
+//        return $this->defaultRendering();
+//    }
 
     /**
      * @param string $href
@@ -404,18 +434,18 @@ class AnalysisController extends AbstractController
      * @throws ExceptionDbal
      * @throws ExceptionDbalDriver
      */
-    public function detailSearchAction(string $searchterm): ResponseInterface
-    {
-        $filter = ObjectUtility::getFilterDto()->setSearchterm($searchterm);
-        $this->view->assignMultiple([
-            'searchterm' => $searchterm,
-            'searchData' => GeneralUtility::makeInstance(SearchDataProvider::class, $filter),
-            'searches' => $this->searchRepository->findBySearchterm(urldecode($searchterm)),
-        ]);
-
-        $this->addDocumentHeaderForCurrentController();
-        return $this->defaultRendering();
-    }
+//    public function detailSearchAction(string $searchterm): ResponseInterface
+//    {
+//        $filter = ObjectUtility::getFilterDto()->setSearchterm($searchterm);
+//        $this->view->assignMultiple([
+//            'searchterm' => $searchterm,
+//            'searchData' => GeneralUtility::makeInstance(SearchDataProvider::class, $filter),
+//            'searches' => $this->searchRepository->findBySearchterm(urldecode($searchterm)),
+//        ]);
+//
+//        $this->addDocumentHeaderForCurrentController();
+//        return $this->defaultRendering();
+//    }
 
     /**
      * AJAX action to show a detail view
@@ -456,27 +486,27 @@ class AnalysisController extends AbstractController
      * @throws ExceptionDbalDriver
      * @throws DBALException
      */
-    public function detailNewsAjaxPage(ServerRequestInterface $request): ResponseInterface
-    {
-        $filter = $this->getFilterFromSessionForAjaxRequests('news', (string)$request->getQueryParams()['news']);
-        /** @var News $news */
-        $news = $this->newsRepository->findByIdentifier((int)$request->getQueryParams()['news']);
-        $standaloneView = ObjectUtility::getStandaloneView();
-        $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
-            'EXT:lux/Resources/Private/Templates/Analysis/NewsDetailPageAjax.html'
-        ));
-        $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
-        $standaloneView->assignMultiple([
-            'news' => $news,
-            'newsvisits' => $news !== null ? $this->newsvisitRepository->findByNews($news, 10) : null,
-            'newsvisitsData' => GeneralUtility::makeInstance(NewsvisistsDataProvider::class, $filter),
-        ]);
-        $response = GeneralUtility::makeInstance(JsonResponse::class);
-        /** @var StreamInterface $stream */
-        $stream = $response->getBody();
-        $stream->write(json_encode(['html' => $standaloneView->render()]));
-        return $response;
-    }
+//    public function detailNewsAjaxPage(ServerRequestInterface $request): ResponseInterface
+//    {
+//        $filter = $this->getFilterFromSessionForAjaxRequests('news', (string)$request->getQueryParams()['news']);
+//        /** @var News $news */
+//        $news = $this->newsRepository->findByIdentifier((int)$request->getQueryParams()['news']);
+//        $standaloneView = ObjectUtility::getStandaloneView();
+//        $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
+//            'EXT:lux/Resources/Private/Templates/Analysis/NewsDetailPageAjax.html'
+//        ));
+//        $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
+//        $standaloneView->assignMultiple([
+//            'news' => $news,
+//            'newsvisits' => $news !== null ? $this->newsvisitRepository->findByNews($news, 10) : null,
+//            'newsvisitsData' => GeneralUtility::makeInstance(NewsvisistsDataProvider::class, $filter),
+//        ]);
+//        $response = GeneralUtility::makeInstance(JsonResponse::class);
+//        /** @var StreamInterface $stream */
+//        $stream = $response->getBody();
+//        $stream->write(json_encode(['html' => $standaloneView->render()]));
+//        return $response;
+//    }
 
     /**
      * AJAX action to show a detail view for utm
@@ -498,25 +528,25 @@ class AnalysisController extends AbstractController
      * @return ResponseInterface
      * @noinspection PhpUnused
      */
-    public function detailSearchAjaxPage(ServerRequestInterface $request): ResponseInterface
-    {
-        $standaloneView = ObjectUtility::getStandaloneView();
-        $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
-            'EXT:lux/Resources/Private/Templates/Analysis/SearchDetailPageAjax.html'
-        ));
-        $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
-        $standaloneView->assignMultiple([
-            'searches' => $this->searchRepository->findBySearchterm(
-                urldecode($request->getQueryParams()['searchterm'])
-            ),
-            'searchterm' => $request->getQueryParams()['searchterm'],
-        ]);
-        $response = GeneralUtility::makeInstance(JsonResponse::class);
-        /** @var StreamInterface $stream */
-        $stream = $response->getBody();
-        $stream->write(json_encode(['html' => $standaloneView->render()]));
-        return $response;
-    }
+//    public function detailSearchAjaxPage(ServerRequestInterface $request): ResponseInterface
+//    {
+//        $standaloneView = ObjectUtility::getStandaloneView();
+//        $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
+//            'EXT:lux/Resources/Private/Templates/Analysis/SearchDetailPageAjax.html'
+//        ));
+//        $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
+//        $standaloneView->assignMultiple([
+//            'searches' => $this->searchRepository->findBySearchterm(
+//                urldecode($request->getQueryParams()['searchterm'])
+//            ),
+//            'searchterm' => $request->getQueryParams()['searchterm'],
+//        ]);
+//        $response = GeneralUtility::makeInstance(JsonResponse::class);
+//        /** @var StreamInterface $stream */
+//        $stream = $response->getBody();
+//        $stream->write(json_encode(['html' => $standaloneView->render()]));
+//        return $response;
+//    }
 
     /**
      * AJAX action to show a detail view
@@ -579,18 +609,11 @@ class AnalysisController extends AbstractController
 
     /**
      * @return void
-     * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
+     * @throws ConfigurationException
      */
     protected function addDocumentHeaderForCurrentController(): void
     {
         $actions = ['dashboard', 'content', 'utm', 'linkListener'];
-        if ($this->newsvisitRepository->isTableFilled()) {
-            $actions[] = 'news';
-        }
-        if ($this->searchRepository->isTableFilled()) {
-            $actions[] = 'search';
-        }
         $menuConfiguration = [];
         foreach ($actions as $action) {
             $menuConfiguration[] = [
@@ -598,6 +621,12 @@ class AnalysisController extends AbstractController
                 'label' => LocalizationUtility::translate(
                     'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.' . $action
                 ),
+            ];
+        }
+        foreach ($this->individualAnalyseViewHelper->getActivatedViews() as $configuration) {
+            $menuConfiguration[] = [
+                'action' => 'individualAnalyseView',
+                'label' => LocalizationUtility::translate($configuration['label']),
             ];
         }
         $this->addDocumentHeader($menuConfiguration);
