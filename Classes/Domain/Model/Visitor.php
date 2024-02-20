@@ -947,13 +947,12 @@ class Visitor extends AbstractModel
      */
     public function getFullName(): string
     {
+        $name = $this->getNameCombination();
         if ($this->isIdentified()) {
-            $name = $this->getNameCombination();
             if (empty($name)) {
                 $name = $this->getEmail();
             }
         } else {
-            $name = $this->getNameCombination();
             if (!empty($name)) {
                 $name .= ' [' . LocalizationUtility::translateByKey('notIdentified') . ']';
             } else {
