@@ -56,6 +56,23 @@ var Lux = LuxSingleton.getInstance();
 Lux.optOutAndReload();
 ```
 
+#### Example usage of OptIn with Cookiebot consent manager
+
+If you want to disable tracking by default and enable tracking via Cookiebot consent manager, you could add a JavaScript
+to your page like:
+
+```
+<script type="text/javascript">
+  window.addEventListener('CookiebotOnAccept', function(e) {
+    if (!Cookiebot.consent.marketing) return;
+    var Lux = LuxSingleton.getInstance();
+    Lux.optIn();
+  }, false);
+</script>
+```
+
+Note: Do not forget to use `plugin.tx_lux.settings.autoenable=0` via TypoScript setup
+
 ### Opt-Out Plugin
 
 As known from Matomo (former known as Piwik) also LUX offers a Plugin for an Opt-Out possibility for visitors. You
