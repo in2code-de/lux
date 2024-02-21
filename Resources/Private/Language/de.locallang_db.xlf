@@ -165,6 +165,10 @@
 				<source>Current domain</source>
 				<target state="translated">Aktuelle Domain</target>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_pagevisit.site">
+				<source>Site</source>
+				<target state="translated">Site</target>
+			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_pagevisit.visitor">
 				<source>Lead</source>
 				<target state="translated">Lead</target>
@@ -244,6 +248,14 @@
 				<source>File</source>
 				<target state="translated">Datei</target>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_download.domain">
+				<source>Domain</source>
+				<target state="translated">Domain</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_download.site">
+				<source>Site</source>
+				<target state="translated">Site</target>
+			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_download.visitor">
 				<source>Lead</source>
 				<target state="translated">Lead</target>
@@ -261,7 +273,11 @@
 				<source>Searchterm</source>
 				<target state="translated">Suchbegriff</target>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_download.visitor">
+			<trans-unit id="tx_lux_domain_model_search.pagevisit">
+				<source>on Page</source>
+				<target state="translated">auf Seite</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_search.visitor">
 				<source>Lead</source>
 				<target state="translated">Lead</target>
 			</trans-unit>
@@ -451,6 +467,10 @@
 			<trans-unit id="tx_lux_domain_model_linkclick.page">
 				<source>Page</source>
 				<target state="translated">Seite</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linkclick.site">
+				<source>Site</source>
+				<target state="translated">Site</target>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_linkclick.visitor">
 				<source>Lead</source>

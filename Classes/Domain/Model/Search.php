@@ -12,6 +12,7 @@ class Search extends AbstractModel
     protected string $searchterm = '';
 
     protected ?Visitor $visitor = null;
+    protected ?Pagevisit $pagevisit = null;
     protected ?DateTime $crdate = null;
 
     public function getVisitor(): ?Visitor
@@ -22,6 +23,17 @@ class Search extends AbstractModel
     public function setVisitor(Visitor $visitor): self
     {
         $this->visitor = $visitor;
+        return $this;
+    }
+
+    public function getPagevisit(): ?Pagevisit
+    {
+        return $this->pagevisit;
+    }
+
+    public function setPagevisit(?Pagevisit $pagevisit): self
+    {
+        $this->pagevisit = $pagevisit;
         return $this;
     }
 

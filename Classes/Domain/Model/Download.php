@@ -12,6 +12,7 @@ class Download extends AbstractModel
 
     protected string $href = '';
     protected string $domain = '';
+    protected string $site = '';
 
     protected ?Visitor $visitor = null;
     protected ?DateTime $crdate = null;
@@ -87,6 +88,17 @@ class Download extends AbstractModel
     public function setDomainAutomatically(): self
     {
         $this->domain = FrontendUtility::getCurrentDomain();
+        return $this;
+    }
+
+    public function getSite(): string
+    {
+        return $this->site;
+    }
+
+    public function setSite(string $site): self
+    {
+        $this->site = $site;
         return $this;
     }
 }

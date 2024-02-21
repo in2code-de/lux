@@ -22,6 +22,7 @@ class Pagevisit extends AbstractModel
 
     protected string $referrer = '';
     protected string $domain = '';
+    protected string $site = '';
 
     protected int $language = 0;
 
@@ -129,6 +130,17 @@ class Pagevisit extends AbstractModel
     public function setDomain(string $domain): self
     {
         $this->domain = $domain;
+        return $this;
+    }
+
+    public function getSite(): string
+    {
+        return $this->site;
+    }
+
+    public function setSite(string $site): self
+    {
+        $this->site = $site;
         return $this;
     }
 

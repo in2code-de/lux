@@ -83,5 +83,14 @@ call_user_func(
          * CacheHash: Add LUX paramters to excluded variables
          */
         \In2code\Lux\Utility\CacheHashUtility::addLuxArgumentsToExcludedVariables();
+
+        /**
+         * Upgrade Wizards
+         * Todo: Can be removed when TYPO3 11 support is dropped
+         */
+        if (\In2code\Lux\Utility\ConfigurationUtility::isTypo3Version11()) {
+            $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['addSitesUpgradeWizard']
+                = \In2code\Lux\Update\AddSitesUpgradeWizard::class;
+        }
     }
 );

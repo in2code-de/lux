@@ -21,7 +21,7 @@ return [
         'hideTable' => true,
     ],
     'types' => [
-        '1' => ['showitem' => 'crdate,linklistener,page,visitor'],
+        '1' => ['showitem' => 'crdate,linklistener,page,site,visitor'],
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -83,6 +83,15 @@ return [
                 'foreign_table' => 'pages',
                 'foreign_table_where' => 'ORDER BY pages.title',
                 'default' => 0,
+                'readOnly' => true,
+            ],
+        ],
+        'site' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linkclick::TABLE_NAME . '.site',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
                 'readOnly' => true,
             ],
         ],

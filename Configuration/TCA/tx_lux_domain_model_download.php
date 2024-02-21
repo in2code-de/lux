@@ -22,7 +22,7 @@ return [
         'hideTable' => true,
     ],
     'types' => [
-        '1' => ['showitem' => 'crdate,href,page,file,properties,domain,visitor'],
+        '1' => ['showitem' => 'crdate,href,page,file,properties,domain,site,visitor'],
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -98,6 +98,15 @@ return [
         'domain' => [
             'exclude' => true,
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Download::TABLE_NAME . '.domain',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'readOnly' => true,
+            ],
+        ],
+        'site' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Download::TABLE_NAME . '.site',
             'config' => [
                 'type' => 'input',
                 'size' => 30,

@@ -126,6 +126,7 @@ CREATE TABLE tx_lux_domain_model_pagevisit (
 	language int(11) DEFAULT '0' NOT NULL,
 	referrer text DEFAULT '' NOT NULL,
 	domain varchar(255) DEFAULT '' NOT NULL,
+	site varchar(255) DEFAULT '' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -143,6 +144,7 @@ CREATE TABLE tx_lux_domain_model_pagevisit (
 	KEY parent (pid),
 	KEY visitor (visitor),
 	KEY page (page),
+	KEY site (site(50)),
 	KEY language_lux (language),
 	KEY referrer (referrer(50)),
 	KEY domain (domain(50)),
@@ -194,6 +196,7 @@ CREATE TABLE tx_lux_domain_model_download (
 	href varchar(255) DEFAULT '' NOT NULL,
 	page int(11) DEFAULT '0' NOT NULL,
 	domain varchar(255) DEFAULT '' NOT NULL,
+	site varchar(255) DEFAULT '' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -211,6 +214,7 @@ CREATE TABLE tx_lux_domain_model_download (
 	KEY href (href(50)),
 	KEY page (page),
 	KEY domain (domain(50)),
+	KEY site (site(50)),
 	KEY crdate (crdate),
 	KEY language (l10n_parent,sys_language_uid)
 );
@@ -252,6 +256,7 @@ CREATE TABLE tx_lux_domain_model_search (
 	visitor int(11) unsigned DEFAULT '0' NOT NULL,
 
 	searchterm varchar(255) DEFAULT '' NOT NULL,
+	pagevisit int(11) DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -266,6 +271,7 @@ CREATE TABLE tx_lux_domain_model_search (
 	KEY parent (pid),
 	KEY visitor (visitor),
 	KEY searchterm (searchterm(20)),
+	KEY pagevisit (pagevisit),
 	KEY crdate (crdate),
 	KEY language (l10n_parent,sys_language_uid)
 );
@@ -332,6 +338,7 @@ CREATE TABLE tx_lux_domain_model_linkclick (
 
 	page int(11) DEFAULT '0' NOT NULL,
 	linklistener int(11) DEFAULT '0' NOT NULL,
+	site varchar(255) DEFAULT '' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -347,6 +354,7 @@ CREATE TABLE tx_lux_domain_model_linkclick (
 	KEY visitor (visitor),
 	KEY page (page),
 	KEY linklistener (linklistener),
+	KEY site (site(50)),
 	KEY crdate (crdate),
 	KEY language (l10n_parent,sys_language_uid)
 );

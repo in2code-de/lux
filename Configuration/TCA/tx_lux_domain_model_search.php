@@ -1,5 +1,6 @@
 <?php
 
+use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Search;
 use In2code\Lux\Domain\Model\Visitor;
 
@@ -20,7 +21,7 @@ return [
         'hideTable' => true,
     ],
     'types' => [
-        '1' => ['showitem' => 'crdate,searchterm,visitor'],
+        '1' => ['showitem' => 'crdate,searchterm,pagevisit,visitor'],
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -65,6 +66,17 @@ return [
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Search::TABLE_NAME . '.searchterm',
             'config' => [
                 'type' => 'input',
+                'readOnly' => true,
+            ],
+        ],
+        'pagevisit' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Search::TABLE_NAME . '.pagevisit',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'foreign_table' => Pagevisit::TABLE_NAME,
+                'default' => 0,
                 'readOnly' => true,
             ],
         ],

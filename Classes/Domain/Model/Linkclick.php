@@ -13,6 +13,7 @@ class Linkclick extends AbstractModel
     protected ?Linklistener $linklistener = null;
     protected ?Page $page = null;
     protected ?Visitor $visitor = null;
+    protected string $site = '';
 
     public function getCrdate(): ?DateTime
     {
@@ -44,6 +45,17 @@ class Linkclick extends AbstractModel
     public function setPage(Page $page): self
     {
         $this->page = $page;
+        return $this;
+    }
+
+    public function getSite(): string
+    {
+        return $this->site;
+    }
+
+    public function setSite(string $site): self
+    {
+        $this->site = $site;
         return $this;
     }
 
