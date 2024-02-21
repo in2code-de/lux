@@ -3,7 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Tracker;
 
-use Doctrine\DBAL\DBALException;
+use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Search;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
@@ -37,10 +37,10 @@ class SearchTracker
     /**
      * @param Visitor $visitor
      * @param array $arguments
+     * @param Pagevisit|null $pagevisit
      * @return void
-     * @throws DBALException
      */
-    public function track(Visitor $visitor, array $arguments): void
+    public function track(Visitor $visitor, array $arguments, Pagevisit $pagevisit = null): void
     {
         if ($this->isTrackingActivated($visitor, $arguments)) {
             $searchTerm = $this->getSearchTerm($arguments['currentUrl']);
@@ -51,6 +51,9 @@ class SearchTracker
                 'crdate' => time(),
                 'tstamp' => time(),
             ];
+            if ($pagevisit !== null) {
+                $properties['pagevisit'] = $pagevisit->getUid();
+            }
             $queryBuilder->insert(Search::TABLE_NAME)->values($properties)->executeStatement();
             $searchUid = $queryBuilder->getConnection()->lastInsertId();
             $this->eventDispatcher->dispatch(

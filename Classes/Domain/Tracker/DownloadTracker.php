@@ -9,6 +9,7 @@ use In2code\Lux\Domain\Repository\DownloadRepository;
 use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\FileService;
+use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Events\Log\DownloadEvent;
 use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\ObjectUtility;
@@ -21,12 +22,14 @@ use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 class DownloadTracker
 {
     protected ?Visitor $visitor = null;
+    protected SiteService $siteService;
     protected ?VisitorRepository $visitorRepository = null;
     private EventDispatcherInterface $eventDispatcher;
 
     public function __construct(Visitor $visitor)
     {
         $this->visitor = $visitor;
+        $this->siteService = GeneralUtility::makeInstance(SiteService::class);
         $this->visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $this->eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
     }
@@ -67,7 +70,10 @@ class DownloadTracker
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
         $page = $pageRepository->findByIdentifier($pageIdentifier);
         $download = GeneralUtility::makeInstance(Download::class)
-            ->setHref($href)->setPage($page)->setDomainAutomatically();
+            ->setHref($href)
+            ->setPage($page)
+            ->setSite($this->siteService->getSiteIdentifierFromPageIdentifier($pageIdentifier))
+            ->setDomainAutomatically();
         if ($file !== null) {
             $download->setFile($file);
         }

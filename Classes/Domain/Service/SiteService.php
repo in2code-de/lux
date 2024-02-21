@@ -43,10 +43,23 @@ class SiteService
         return current($sites);
     }
 
-    public function getSiteFromPageIdentifier(int $pageIdentifier): Site
+    public function getSiteFromPageIdentifier(int $pageIdentifier): ?Site
     {
-        $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
-        return $siteFinder->getSiteByPageId($pageIdentifier);
+        try {
+            $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
+            return $siteFinder->getSiteByPageId($pageIdentifier);
+        } catch (SiteNotFoundException $exception) {
+            return null;
+        }
+    }
+
+    public function getSiteIdentifierFromPageIdentifier(int $pageIdentifier): string
+    {
+        $site = $this->getSiteFromPageIdentifier($pageIdentifier);
+        if ($site !== null) {
+            return $site->getIdentifier();
+        }
+        return '';
     }
 
     public function getFirstDomain(): string

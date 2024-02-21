@@ -8,6 +8,7 @@ use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Events\PageTrackerEvent;
 use In2code\Lux\Utility\ObjectUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -19,11 +20,16 @@ use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 class PageTracker
 {
     protected VisitorRepository $visitorRepository;
+    protected SiteService $siteService;
     private EventDispatcherInterface $eventDispatcher;
 
-    public function __construct(VisitorRepository $visitorRepository, EventDispatcherInterface $eventDispatcher)
-    {
+    public function __construct(
+        VisitorRepository $visitorRepository,
+        SiteService $siteService,
+        EventDispatcherInterface $eventDispatcher
+    ) {
         $this->visitorRepository = $visitorRepository;
+        $this->siteService = $siteService;
         $this->eventDispatcher = $eventDispatcher;
     }
 
@@ -70,6 +76,7 @@ class PageTracker
         $page = $pageRepository->findByUid($pageUid);
         $pageVisit
             ->setPage($page)
+            ->setSite($this->siteService->getSiteIdentifierFromPageIdentifier($pageUid))
             ->setLanguage($languageUid)
             ->setReferrer($referrer)
             ->setDomainAutomatically()
