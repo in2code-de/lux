@@ -29,7 +29,8 @@ class AddSitesUpgradeWizard implements UpgradeWizardInterface
 
     public function getDescription(): string
     {
-        return 'Fill some database fields with information about sites';
+        return 'Fill some database fields with information about sites. Attention: Because of the long runtime, it is' .
+            ' recommended that this upgrade wizard will be started from CLI';
     }
 
     public function executeUpdate(): bool

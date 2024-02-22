@@ -30,8 +30,11 @@ abstract class AbstractSiteUpgrade
         if (array_key_exists($pageIdentifier, $this->mapping)) {
             return $this->mapping[$pageIdentifier];
         }
+        $siteIdentifier = '';
         $site = $this->siteService->getSiteFromPageIdentifier($pageIdentifier);
-        $siteIdentifier = $site->getIdentifier();
+        if ($site !== null) {
+            $siteIdentifier = $site->getIdentifier();
+        }
         $this->mapping[$pageIdentifier] = $siteIdentifier;
         return $siteIdentifier;
     }
