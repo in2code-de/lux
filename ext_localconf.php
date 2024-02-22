@@ -91,6 +91,8 @@ call_user_func(
         if (\In2code\Lux\Utility\ConfigurationUtility::isTypo3Version11()) {
             $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['addSitesUpgradeWizard']
                 = \In2code\Lux\Update\AddSitesUpgradeWizard::class;
+            $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['updateFingerprintRelationsUpgradeWizard']
+                = \In2code\Lux\Update\UpdateFingerprintRelationsUpgradeWizard::class;
         }
     }
 );

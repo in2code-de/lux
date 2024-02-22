@@ -144,6 +144,10 @@
 				<source>User agent</source>
 				<target state="translated">User agent</target>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_fingerprint.type">
+				<source>Type</source>
+				<target state="translated">Typ</target>
+			</trans-unit>
 
 			<trans-unit id="tx_lux_domain_model_pagevisit">
 				<source>Pagevisit</source>

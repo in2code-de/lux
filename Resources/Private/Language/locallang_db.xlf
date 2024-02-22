@@ -109,6 +109,9 @@
 			<trans-unit id="tx_lux_domain_model_fingerprint.user_agent">
 				<source>User agent</source>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_fingerprint.type">
+				<source>Type</source>
+			</trans-unit>
 
 			<trans-unit id="tx_lux_domain_model_pagevisit">
 				<source>Pagevisit</source>
