@@ -386,7 +386,7 @@ class PagevisitRepository extends AbstractRepository
             . ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = pv.visitor'
             . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
             . ' where pv.domain!="" ' . $this->extendWhereClauseWithFilterTime($filter, true, 'pv')
-            . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
             . ' group by domain order by count desc';
@@ -432,7 +432,7 @@ class PagevisitRepository extends AbstractRepository
             . ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = pv.visitor'
             . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
             . ' where ' . $this->extendWhereClauseWithFilterTime($filter, false, 'pv')
-            . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
             . ' group by pv.language order by count desc ';

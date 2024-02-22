@@ -164,9 +164,7 @@ class DownloadRepository extends AbstractRepository
             if ($filter->isDomainSet()) {
                 $logicalAnd[] = $query->equals('domain', $filter->getDomain());
             }
-            if ($filter->isSiteSet()) {
-                $logicalAnd[] = $query->in('site', $filter->getSitesForFilter());
-            }
+            $logicalAnd[] = $query->in('site', $filter->getSitesForFilter());
         }
         return $logicalAnd;
     }

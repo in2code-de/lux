@@ -3,7 +3,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider;
 
-use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use In2code\Lux\Domain\Repository\LanguageRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
@@ -28,7 +27,6 @@ class LanguagesDataProvider extends AbstractDataProvider
      *  ]
      *
      * @return void
-     * @throws DBALException
      * @throws ExceptionDbalDriver
      */
     public function prepareData(): void
@@ -42,7 +40,6 @@ class LanguagesDataProvider extends AbstractDataProvider
 
     /**
      * @return array
-     * @throws DBALException
      * @throws ExceptionDbalDriver
      */
     protected function getLanguagesFromSystem(): array

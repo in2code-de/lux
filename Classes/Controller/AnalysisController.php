@@ -106,7 +106,6 @@ class AnalysisController extends AbstractController
             'downloads' => $this->downloadRepository->findCombinedByHref($filter),
             'languageData' => GeneralUtility::makeInstance(LanguagesDataProvider::class, $filter),
             'domainData' => GeneralUtility::makeInstance(DomainDataProvider::class, $filter),
-            'domains' => $this->pagevisitsRepository->getAllDomains($filter),
         ]);
 
         $this->addDocumentHeaderForCurrentController();
