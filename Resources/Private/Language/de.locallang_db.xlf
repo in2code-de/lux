@@ -319,6 +319,10 @@
 				<source>Properties</source>
 				<target state="translated">Eigenschaften</target>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_log.site">
+				<source>Site</source>
+				<target state="translated">Site</target>
+			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_log.visitor">
 				<source>Lead</source>
 				<target state="translated">Lead</target>

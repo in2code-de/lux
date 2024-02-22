@@ -49,6 +49,7 @@ class Log extends AbstractModel
     protected ?Visitor $visitor = null;
     protected ?DateTime $crdate = null;
     protected string $properties = '';
+    protected string $site = '';
 
     public function getVisitor(): ?Visitor
     {
@@ -177,6 +178,17 @@ class Log extends AbstractModel
             $property = (string)$properties[$key];
         }
         return $property;
+    }
+
+    public function getSite(): string
+    {
+        return $this->site;
+    }
+
+    public function setSite(string $site): self
+    {
+        $this->site = $site;
+        return $this;
     }
 
     public static function getIdentifiedStatus(): array

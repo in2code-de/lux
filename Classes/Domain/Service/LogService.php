@@ -10,6 +10,7 @@ use In2code\Lux\Domain\Model\Utm;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\LogRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Utility\FrontendUtility;
 use In2code\Luxenterprise\Domain\Model\AbTestingPage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
@@ -302,8 +303,13 @@ class LogService
     {
         $logRepository = GeneralUtility::makeInstance(LogRepository::class);
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
+        $siteService = GeneralUtility::makeInstance(SiteService::class);
+        $siteIdentifier = $siteService->getSiteIdentifierFromPageIdentifier(FrontendUtility::getCurrentPageIdentifier());
 
-        $log = GeneralUtility::makeInstance(Log::class)->setStatus($status)->setPropertiesArray($properties);
+        $log = GeneralUtility::makeInstance(Log::class)
+            ->setStatus($status)
+            ->setPropertiesArray($properties)
+            ->setSite($siteIdentifier);
         $logRepository->add($log);
         $visitor->addLog($log);
         if ($visitor->getUid() > 0) {

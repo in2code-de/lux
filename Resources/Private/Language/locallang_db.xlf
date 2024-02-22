@@ -242,6 +242,9 @@
 			<trans-unit id="tx_lux_domain_model_log.properties">
 				<source>Properties</source>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_log.site">
+				<source>Site</source>
+			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_log.visitor">
 				<source>Lead</source>
 			</trans-unit>
