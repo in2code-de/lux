@@ -45,6 +45,7 @@ class LogRepository extends AbstractRepository
         $query = $this->createQuery();
         $logicalAnd = $this->interestingLogsLogicalAnd($query);
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForSite($filter, $query, $logicalAnd);
         $query->matching($query->logicalAnd(...$logicalAnd));
         $query->setLimit($limit);
         return $query->execute();
