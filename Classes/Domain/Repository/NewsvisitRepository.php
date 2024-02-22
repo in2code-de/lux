@@ -50,6 +50,7 @@ class NewsvisitRepository extends AbstractRepository
             . $this->extendWhereClauseWithFilterTime($filter, false, 'nv')
             . $this->extendWhereClauseWithFilterSearchterms($filter, 'n')
             . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
             . ' group by nv.news order by count desc';

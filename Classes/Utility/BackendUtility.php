@@ -27,7 +27,7 @@ class BackendUtility
     public static function isAdministrator(): bool
     {
         if (self::getBackendUserAuthentication() !== null) {
-            return self::getBackendUserAuthentication()->user['admin'] === 1;
+            return self::getBackendUserAuthentication()->isAdmin();
         }
         return false;
     }
@@ -58,7 +58,7 @@ class BackendUtility
      * @return ?BackendUserAuthentication
      * @SuppressWarnings(PHPMD.Superglobals)
      */
-    protected static function getBackendUserAuthentication(): ?BackendUserAuthentication
+    public static function getBackendUserAuthentication(): ?BackendUserAuthentication
     {
         return $GLOBALS['BE_USER'] ?? null;
     }

@@ -794,6 +794,10 @@
 				<source>Dashboard</source>
 				<target state="translated">Dashboard</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.dashboard.filter.sitesall">
+				<source>All sites</source>
+				<target state="translated">Alle Sites</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.list">
 				<source>Leads</source>
 				<target state="translated">Leads</target>

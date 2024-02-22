@@ -9,6 +9,7 @@ use In2code\Lux\Domain\Model\Category;
 use In2code\Lux\Domain\Model\Company;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\CategoryRepository;
+use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Utility\DateUtility;
 use Throwable;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -51,7 +52,7 @@ class FilterDto
     protected string $timeTo = '';
 
     protected int $scoring = 0;
-    protected int $timePeriod = 0;
+    protected int $timePeriod = self::PERIOD_DEFAULT;
     protected int $identified = self::IDENTIFIED_ALL;
 
     /**
@@ -70,13 +71,8 @@ class FilterDto
      */
     protected bool $shortMode = true;
 
-    /**
-     * Filter for a specific domain
-     *
-     * @var string
-     */
     protected string $domain = '';
-
+    protected string $site = '';
     protected string $utmCampaign = '';
     protected string $utmSource = '';
     protected string $utmMedium = '';
@@ -96,6 +92,11 @@ class FilterDto
         return $this->searchterm;
     }
 
+    public function isSearchtermSet(): bool
+    {
+        return $this->getSearchterm() !== '';
+    }
+
     public function getSearchterms(): array
     {
         return GeneralUtility::trimExplode(' ', $this->getSearchterm(), true);
@@ -112,6 +113,11 @@ class FilterDto
         return $this->pid;
     }
 
+    public function isPidSet(): bool
+    {
+        return $this->getPid() !== '';
+    }
+
     public function setPid(string $pid): self
     {
         $this->pid = $pid;
@@ -121,6 +127,11 @@ class FilterDto
     public function getTimeFrom(): string
     {
         return $this->timeFrom;
+    }
+
+    public function isTimeFromSet(): bool
+    {
+        return $this->getTimeFrom() !== '';
     }
 
     public function getTimeFromDateTime(): DateTime
@@ -141,6 +152,11 @@ class FilterDto
     public function getTimeTo(): string
     {
         return $this->timeTo;
+    }
+
+    public function isTimeToSet(): bool
+    {
+        return $this->getTimeTo() !== '';
     }
 
     public function getTimeToDateTime(): DateTime
@@ -173,6 +189,11 @@ class FilterDto
         return $this->timePeriod;
     }
 
+    public function isTimePeriodSet(): bool
+    {
+        return $this->timePeriod !== self::PERIOD_DEFAULT;
+    }
+
     public function setTimePeriod(int $timePeriod): self
     {
         $this->timePeriod = $timePeriod;
@@ -182,6 +203,11 @@ class FilterDto
     public function getIdentified(): int
     {
         return $this->identified;
+    }
+
+    public function isIdentifiedSet(): bool
+    {
+        return $this->getIdentified() !== self::IDENTIFIED_ALL;
     }
 
     public function setIdentified(int $identified): self
@@ -212,6 +238,11 @@ class FilterDto
         return $this->scoring;
     }
 
+    public function isScoringSet(): bool
+    {
+        return $this->getScoring() > 0;
+    }
+
     public function setScoring(int $scoring): self
     {
         $this->scoring = $scoring;
@@ -221,6 +252,11 @@ class FilterDto
     public function getCategoryScoring(): ?Category
     {
         return $this->categoryScoring;
+    }
+
+    public function isCategoryScoringSet(): bool
+    {
+        return $this->getCategoryScoring() !== null;
     }
 
     public function setCategoryScoring(int $categoryUid): self
@@ -238,6 +274,11 @@ class FilterDto
     public function getCategory(): ?Category
     {
         return $this->category;
+    }
+
+    public function isCategorySet(): bool
+    {
+        return $this->getCategory() !== null;
     }
 
     public function setCategory(?Category $category): self
@@ -268,15 +309,45 @@ class FilterDto
         return $this->domain;
     }
 
+    public function isDomainSet(): bool
+    {
+        return $this->getDomain() !== '';
+    }
+
     public function setDomain(string $domain): self
     {
         $this->domain = $domain;
         return $this;
     }
 
+    public function getSite(): string
+    {
+        return $this->site;
+    }
+
+    public function isSiteSet(): bool
+    {
+        return $this->getSite() !=='';
+    }
+
+    public function setSite(string $site): self
+    {
+        // Don't allow to pass not allowed site in filter
+        if (array_key_exists($site, $this->getAllowedSites()) === false) {
+            $site = '';
+        }
+        $this->site = $site;
+        return $this;
+    }
+
     public function getUtmCampaign(): string
     {
         return $this->utmCampaign;
+    }
+
+    public function isUtmCampaignSet(): bool
+    {
+        return $this->getUtmCampaign() !== '';
     }
 
     public function setUtmCampaign(string $utmCampaign): FilterDto
@@ -290,6 +361,11 @@ class FilterDto
         return $this->utmSource;
     }
 
+    public function isUtmSourceSet(): bool
+    {
+        return $this->getUtmSource() !== '';
+    }
+
     public function setUtmSource(string $utmSource): FilterDto
     {
         $this->utmSource = $utmSource;
@@ -299,6 +375,11 @@ class FilterDto
     public function getUtmMedium(): string
     {
         return $this->utmMedium;
+    }
+
+    public function isUtmMediumSet(): bool
+    {
+        return $this->getUtmMedium() !== '';
     }
 
     public function setUtmMedium(string $utmMedium): FilterDto
@@ -312,6 +393,11 @@ class FilterDto
         return $this->branchCode;
     }
 
+    public function isBranchCodeSet(): bool
+    {
+        return $this->getBranchCode() > 0;
+    }
+
     public function setBranchCode(int $branchCode): self
     {
         $this->branchCode = $branchCode;
@@ -323,6 +409,11 @@ class FilterDto
         return $this->revenueClass;
     }
 
+    public function isRevenueClassSet(): bool
+    {
+        return $this->getRevenueClass() !== '';
+    }
+
     public function setRevenueClass(string $revenueClass): self
     {
         $this->revenueClass = $revenueClass;
@@ -332,6 +423,11 @@ class FilterDto
     public function getSizeClass(): string
     {
         return $this->sizeClass;
+    }
+
+    public function isSizeClassSet(): bool
+    {
+        return $this->getSizeClass() !== '';
     }
 
     public function setSizeClass(string $sizeClass): self
@@ -363,20 +459,27 @@ class FilterDto
     }
 
     /**
-     * Calculated values
-     */
-
-    /**
-     * @return bool
+     * Calculated values from here
      */
     public function isSet(): bool
     {
-        return $this->searchterm !== '' || $this->pid !== '' || $this->scoring > 0 || $this->categoryScoring !== null
-            || $this->category !== null
-            || $this->timeFrom !== '' || $this->timeTo !== '' || $this->timePeriod !== self::PERIOD_DEFAULT
-            || $this->identified !== self::IDENTIFIED_ALL || $this->domain !== ''
-            || $this->utmCampaign !== '' || $this->utmMedium !== '' || $this->utmSource !== '' || $this->branchCode > 0
-            || $this->revenueClass !== '' || $this->sizeClass !== '';
+        return $this->isSearchtermSet()
+            || $this->isPidSet()
+            || $this->isScoringSet()
+            || $this->isCategoryScoringSet()
+            || $this->isCategorySet()
+            || $this->isTimeFromSet()
+            || $this->isTimeToSet()
+            || $this->isTimePeriodSet()
+            || $this->isIdentifiedSet()
+            || $this->isDomainSet()
+            || $this->isSiteSet()
+            || $this->isUtmCampaignSet()
+            || $this->isUtmMediumSet()
+            || $this->isUtmSourceSet()
+            || $this->isBranchCodeSet()
+            || $this->isRevenueClassSet()
+            || $this->isSizeClassSet();
     }
 
     public function isTimeFromOrTimeToSet(): bool
@@ -656,6 +759,30 @@ class FilterDto
         return $interval;
     }
 
+    /**
+     * Get all sites on which the current editor has reading access
+     *
+     * @return array
+     */
+    public function getAllowedSites(): array
+    {
+        $siteService = GeneralUtility::makeInstance(SiteService::class);
+        return $siteService->getAllowedSites();
+    }
+
+    /**
+     * Always return given site or all available sites, so this can be always build in sql queries
+     *
+     * @return array
+     */
+    public function getSitesForFilter(): array
+    {
+        if ($this->isSiteSet()) {
+            return [$this->getSite()];
+        }
+        return array_merge(array_keys($this->getAllowedSites()), ['']);
+    }
+
     public function getHash(): string
     {
         return $this->__toString();
@@ -670,7 +797,7 @@ class FilterDto
     {
         $string = $this->searchterm . $this->pid . $this->timeFrom . $this->timeTo . (string)$this->scoring .
             (string)$this->categoryScoring . (string)$this->timePeriod . (string)$this->identified .
-            (string)$this->shortMode . (string)$this->domain;
+            (string)$this->shortMode . (string)$this->domain . $this->site;
         return md5($string);
     }
 }

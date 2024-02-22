@@ -73,6 +73,23 @@ abstract class AbstractRepository extends Repository
 
     /**
      * @param FilterDto $filter
+     * @param QueryInterface $query
+     * @param array $logicalAnd
+     * @return array
+     * @throws InvalidQueryException
+     * @throws Exception
+     */
+    protected function extendLogicalAndWithFilterConstraintsForSite(
+        FilterDto $filter,
+        QueryInterface $query,
+        array $logicalAnd
+    ): array {
+        $logicalAnd[] = $query->in('site', $filter->getSitesForFilter());
+        return $logicalAnd;
+    }
+
+    /**
+     * @param FilterDto $filter
      * @param string $table
      * @param string $titleField
      * @param string $concatenation
@@ -142,10 +159,8 @@ abstract class AbstractRepository extends Repository
      * @return string
      * @throws Exception
      */
-    protected function extendWhereClauseWithFilterDomain(
-        FilterDto $filter,
-        string $table = ''
-    ): string {
+    protected function extendWhereClauseWithFilterDomain(FilterDto $filter, string $table = ''): string
+    {
         $sql = '';
         if ($filter->getDomain() !== '') {
             $field = 'domain';
@@ -155,6 +170,24 @@ abstract class AbstractRepository extends Repository
             $sql .= ' and ' . $field . '="' . $filter->getDomain() . '"';
         }
         return $sql;
+    }
+
+    /**
+     * Returns part of a where clause like
+     *      ' and site="site 1"'
+     *
+     * @param FilterDto $filter
+     * @param string $table table with crdate (normally the main table)
+     * @return string
+     * @throws Exception
+     */
+    protected function extendWhereClauseWithFilterSite(FilterDto $filter, string $table = ''): string
+    {
+        $field = 'site';
+        if ($table !== '') {
+            $field = $table . '.' . $field;
+        }
+        return ' and ' . $field . ' in ("' . implode('","', $filter->getSitesForFilter()) . '")';
     }
 
     /**

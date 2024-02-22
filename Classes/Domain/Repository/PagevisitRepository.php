@@ -60,6 +60,7 @@ class PagevisitRepository extends AbstractRepository
             . $this->extendWhereClauseWithFilterSearchterms($filter, 'p')
             . $this->extendWhereClauseWithFilterTime($filter, true, 'pv')
             . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
             . ' group by pv.page, pv.domain order by count desc limit ' . (int)$limit;
@@ -89,9 +90,8 @@ class PagevisitRepository extends AbstractRepository
             $query->greaterThan('page.uid', 0),
         ];
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
-        $query->matching(
-            $query->logicalAnd(...$logicalAnd)
-        );
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForSite($filter, $query, $logicalAnd);
+        $query->matching($query->logicalAnd(...$logicalAnd));
         $query->setLimit(5);
         return $query->execute();
     }
@@ -139,6 +139,7 @@ class PagevisitRepository extends AbstractRepository
             . ' where pv.crdate>=' . $start->getTimestamp() . ' and pv.crdate<=' . $end->getTimestamp()
             . $this->extendWhereClauseWithFilterSearchterms($filter, 'p')
             . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterVisitor($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs');
@@ -331,8 +332,7 @@ class PagevisitRepository extends AbstractRepository
     /**
      * @param FilterDto $filter
      * @return array
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function getAmountOfSocialMediaReferrers(FilterDto $filter): array
     {
@@ -342,6 +342,7 @@ class PagevisitRepository extends AbstractRepository
         foreach ($socialMedia->getDomainsForQuery() as $name => $domains) {
             $sql = 'select count(*) count from ' . Pagevisit::TABLE_NAME . ' where referrer rlike "' . $domains . '"';
             $sql .= $this->extendWhereClauseWithFilterTime($filter);
+            $sql .= $this->extendWhereClauseWithFilterSite($filter);
             $count = (int)$connection->executeQuery($sql)->fetchOne();
             if ($count > 0) {
                 $result[$name] = $count;

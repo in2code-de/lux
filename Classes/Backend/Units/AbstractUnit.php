@@ -10,6 +10,7 @@ use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Property\PropertyMapper;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 abstract class AbstractUnit
@@ -70,10 +71,9 @@ abstract class AbstractUnit
     {
         $filter = ObjectUtility::getFilterDto();
         if ($this->filterClass !== '' && $this->filterFunction !== '') {
-            $filterFromSession = BackendUtility::getSessionValue('filter', $this->filterFunction, $this->filterClass);
-            if (is_a($filterFromSession, FilterDto::class)) {
-                $filter = $filterFromSession;
-            }
+            $filterArray = BackendUtility::getSessionValue('filter', $this->filterFunction, $this->filterClass);
+            $propertyMapper = GeneralUtility::makeInstance(PropertyMapper::class);
+            $filter = $propertyMapper->convert($filterArray, FilterDto::class);
         }
         $this->filter = $filter;
     }

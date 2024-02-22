@@ -6,7 +6,6 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
 use DateTime;
-use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use Exception;
 use In2code\Lux\Domain\Model\Download;
@@ -109,7 +108,6 @@ class DownloadRepository extends AbstractRepository
     /**
      * @return int
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     public function findAllAmount(): int
     {
@@ -123,7 +121,6 @@ class DownloadRepository extends AbstractRepository
      * @return int
      * @throws ExceptionDbal
      * @throws Exception
-     * @throws ExceptionDbalDriver
      */
     public function findAmountByPageIdentifierAndTimeFrame(int $pageIdentifier, FilterDto $filter): int
     {
@@ -147,7 +144,7 @@ class DownloadRepository extends AbstractRepository
         FilterDto $filter = null
     ): array {
         if ($filter !== null) {
-            if ($filter->getSearchterm() !== '') {
+            if ($filter->isSearchtermSet()) {
                 $logicalOr = [];
                 foreach ($filter->getSearchterms() as $searchterm) {
                     if (MathUtility::canBeInterpretedAsInteger($searchterm)) {
@@ -158,14 +155,17 @@ class DownloadRepository extends AbstractRepository
                 }
                 $logicalAnd[] = $query->logicalOr(...$logicalOr);
             }
-            if ($filter->getScoring() > 0) {
+            if ($filter->isScoringSet()) {
                 $logicalAnd[] = $query->greaterThanOrEqual('visitor.scoring', $filter->getScoring());
             }
-            if ($filter->getCategoryScoring() !== null) {
+            if ($filter->isCategoryScoringSet()) {
                 $logicalAnd[] = $query->equals('visitor.categoryscorings.category', $filter->getCategoryScoring());
             }
-            if ($filter->getDomain() !== '') {
+            if ($filter->isDomainSet()) {
                 $logicalAnd[] = $query->equals('domain', $filter->getDomain());
+            }
+            if ($filter->isSiteSet()) {
+                $logicalAnd[] = $query->in('site', $filter->getSitesForFilter());
             }
         }
         return $logicalAnd;

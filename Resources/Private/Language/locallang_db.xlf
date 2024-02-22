@@ -602,6 +602,9 @@
 			<trans-unit id="module.analysis.dashboard">
 				<source>Dashboard</source>
 			</trans-unit>
+			<trans-unit id="module.analysis.dashboard.filter.sitesall">
+				<source>All sites</source>
+			</trans-unit>
 			<trans-unit id="module.analysis.list">
 				<source>Leads</source>
 			</trans-unit>
