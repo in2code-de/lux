@@ -77,6 +77,7 @@ class FilterDto
     protected string $utmCampaign = '';
     protected string $utmSource = '';
     protected string $utmMedium = '';
+    protected string $utmContent = '';
     protected int $branchCode = 0;
     protected string $revenueClass = '';
     protected string $sizeClass = '';
@@ -323,7 +324,7 @@ class FilterDto
 
     public function getSite(): string
     {
-        return $this->site;
+        return StringUtility::cleanString($this->site);
     }
 
     public function isSiteSet(): bool
@@ -386,6 +387,22 @@ class FilterDto
     public function setUtmMedium(string $utmMedium): FilterDto
     {
         $this->utmMedium = $utmMedium;
+        return $this;
+    }
+
+    public function getUtmContent(): string
+    {
+        return $this->utmContent;
+    }
+
+    public function isUtmContentSet(): bool
+    {
+        return $this->getUtmContent() !== '';
+    }
+
+    public function setUtmContent(string $utmContent): self
+    {
+        $this->utmContent = $utmContent;
         return $this;
     }
 
@@ -488,6 +505,7 @@ class FilterDto
             || $this->isUtmCampaignSet()
             || $this->isUtmMediumSet()
             || $this->isUtmSourceSet()
+            || $this->isUtmContentSet()
             || $this->isBranchCodeSet()
             || $this->isRevenueClassSet()
             || $this->isSizeClassSet();
@@ -803,7 +821,7 @@ class FilterDto
     public function getSitesForFilter(): array
     {
         if ($this->isSiteSet()) {
-            return [StringUtility::cleanString($this->getSite())];
+            return [$this->getSite()];
         }
         return array_merge(array_keys($this->getAllowedSites()), ['']);
     }

@@ -5,7 +5,7 @@
     <div class="panel-body">
         <f:form name="filter" class="form" action="utm" object="{filter}">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.header.search">Suche</f:translate></h5>
 
                     <div class="input-group form-group">
@@ -21,6 +21,27 @@
                     </div>
 
                     <div class="input-group form-group">
+                        <f:form.select
+                            id="site"
+                            class="form-control form-select"
+                            property="site"
+                            options="{filter.allowedSites}"
+                            prependOptionLabel="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.dashboard.filter.sitesall')}"
+                            prependOptionValue=""
+                            optionValueField="identifier"
+                            optionLabelField="configuration.websiteTitle"
+                            value="{filter.site}" />
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#site">
+                            <core:icon identifier="actions-globe" size="small" />
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="col-md-3">
+                    <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.time">Zeit</f:translate></h5>
+
+                    <div class="input-group form-group">
                         <f:form.textfield
                             type="datetime-local"
                             property="timeFrom"
@@ -28,24 +49,6 @@
                             class="form-control" />
                         <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#timeFrom">
                             {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeFrom')}
-                        </button>
-                    </div>
-                </div>
-
-
-                <div class="col-md-4">
-                    <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.campaign">Campaign</f:translate></h5>
-
-                    <div class="input-group form-group">
-                        <f:form.select
-                            property="utmCampaign"
-                            options="{utmCampaigns}"
-                            prependOptionValue=""
-                            prependOptionLabel=""
-                            class="form-control form-select"
-                            id="utmCampaign"/>
-                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#utmCampaign">
-                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.campaign">Campaign</f:translate>
                         </button>
                     </div>
 
@@ -62,12 +65,24 @@
                 </div>
 
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <h5>
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.campaign">Campaign</f:translate>,
                         <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.source">Source</f:translate>
-                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.and">and</f:translate>
-                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.medium">Medium</f:translate>
                     </h5>
+
+                    <div class="input-group form-group">
+                        <f:form.select
+                            property="utmCampaign"
+                            options="{utmCampaigns}"
+                            prependOptionValue=""
+                            prependOptionLabel=""
+                            class="form-control form-select"
+                            id="utmCampaign"/>
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#utmCampaign">
+                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.campaign">Campaign</f:translate>
+                        </button>
+                    </div>
 
                     <div class="input-group form-group">
                         <f:form.select
@@ -83,6 +98,14 @@
                             <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.source">Source</f:translate>
                         </button>
                     </div>
+                </div>
+
+
+                <div class="col-md-3">
+                    <h5>
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.medium">Medium</f:translate>,
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.content">Content</f:translate>
+                    </h5>
 
                     <div class="input-group form-group">
                         <f:form.select
@@ -96,6 +119,21 @@
                             id="utmMedium"/>
                         <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#utmMedium">
                             <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.medium">Medium</f:translate>
+                        </button>
+                    </div>
+
+                    <div class="input-group form-group">
+                        <f:form.select
+                            property="utmContent"
+                            options="{utmContent}"
+                            optionLabelField="title"
+                            optionValueField="uid"
+                            prependOptionValue=""
+                            prependOptionLabel=""
+                            class="form-control form-select"
+                            id="utmContent"/>
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#utmContent">
+                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.content">Content</f:translate>
                         </button>
                     </div>
                 </div>

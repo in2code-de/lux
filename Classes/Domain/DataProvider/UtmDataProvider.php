@@ -29,11 +29,11 @@ class UtmDataProvider extends AbstractDynamicFilterDataProvider
      */
     public function prepareData(): void
     {
-        $newsvisitRepository = GeneralUtility::makeInstance(UtmRepository::class);
+        $utmRepository = GeneralUtility::makeInstance(UtmRepository::class);
         $intervals = $this->filter->getIntervals();
         $frequency = (string)$intervals['frequency'];
         foreach ($intervals['intervals'] as $interval) {
-            $this->data['amounts'][] = $newsvisitRepository->getNumberOfVisitorsInTimeFrame(
+            $this->data['amounts'][] = $utmRepository->getNumberOfVisitorsInTimeFrame(
                 $interval['start'],
                 $interval['end'],
                 $this->filter
