@@ -783,6 +783,11 @@ class FilterDto
         return array_merge(array_keys($this->getAllowedSites()), ['']);
     }
 
+    protected function getSitesForFilterList(): string
+    {
+        return implode(',', $this->getSitesForFilter());
+    }
+
     public function getHash(): string
     {
         return $this->__toString();
@@ -797,7 +802,7 @@ class FilterDto
     {
         $string = $this->searchterm . $this->pid . $this->timeFrom . $this->timeTo . (string)$this->scoring .
             (string)$this->categoryScoring . (string)$this->timePeriod . (string)$this->identified .
-            (string)$this->shortMode . (string)$this->domain . $this->site;
+            (string)$this->shortMode . (string)$this->domain . $this->getSitesForFilterList();
         return md5($string);
     }
 }
