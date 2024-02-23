@@ -57,6 +57,23 @@ class StringUtility
         return $string;
     }
 
+    /**
+     * Clean strings like GET or POST params for SQL usage or usage in HTML. Disallowed characters are removed.
+     * Disallowed characters to sanitize SQL queries are: /\+*#?$%&!='"`´<>{}[]() and -- (double minus)
+     *
+     *  Example replacements:
+     *      'Réne Nüßer' => 'Réne Nüßer',
+     *      'Not this/\+=*#?$%&!;"\'´`<>{}[]()--nono' => 'Not thisnono',
+     *      'But this@here.-_is,ok' => 'But this@here.-_is,ok',
+     *
+     * @param string $string
+     * @return string
+     */
+    public static function sanitizeString(string $string): string
+    {
+        return preg_replace('/[\/\\*#?$%&!=\'"`´<>{}\[\]()]|--/', '', $string);
+    }
+
     public static function getRandomString(int $length = 32, bool $lowerAndUpperCase = true): string
     {
         $characters = implode('', range(0, 9)) . implode('', range('a', 'z'));

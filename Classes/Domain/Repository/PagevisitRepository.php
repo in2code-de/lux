@@ -21,7 +21,6 @@ use In2code\Lux\Utility\ExtensionUtility;
 use In2code\Lux\Utility\FrontendUtility;
 use In2code\Luxenterprise\Domain\Repository\ShortenerRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;

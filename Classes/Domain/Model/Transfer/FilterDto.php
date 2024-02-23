@@ -91,7 +91,7 @@ class FilterDto
 
     public function getSearchterm(): string
     {
-        return $this->searchterm;
+        return StringUtility::sanitizeString($this->searchterm);
     }
 
     public function isSearchtermSet(): bool
@@ -112,7 +112,7 @@ class FilterDto
 
     public function getPid(): string
     {
-        return $this->pid;
+        return StringUtility::sanitizeString($this->pid);
     }
 
     public function isPidSet(): bool
@@ -128,7 +128,7 @@ class FilterDto
 
     public function getTimeFrom(): string
     {
-        return $this->timeFrom;
+        return StringUtility::sanitizeString($this->timeFrom);
     }
 
     public function isTimeFromSet(): bool
@@ -153,7 +153,7 @@ class FilterDto
 
     public function getTimeTo(): string
     {
-        return $this->timeTo;
+        return StringUtility::sanitizeString($this->timeTo);
     }
 
     public function isTimeToSet(): bool
@@ -308,7 +308,7 @@ class FilterDto
 
     public function getDomain(): string
     {
-        return $this->domain;
+        return StringUtility::sanitizeString($this->domain);
     }
 
     public function isDomainSet(): bool
@@ -324,7 +324,7 @@ class FilterDto
 
     public function getSite(): string
     {
-        return StringUtility::cleanString($this->site);
+        return StringUtility::sanitizeString($this->site);
     }
 
     public function isSiteSet(): bool
@@ -344,7 +344,7 @@ class FilterDto
 
     public function getUtmCampaign(): string
     {
-        return $this->utmCampaign;
+        return StringUtility::sanitizeString($this->utmCampaign);
     }
 
     public function isUtmCampaignSet(): bool
@@ -352,7 +352,7 @@ class FilterDto
         return $this->getUtmCampaign() !== '';
     }
 
-    public function setUtmCampaign(string $utmCampaign): FilterDto
+    public function setUtmCampaign(string $utmCampaign): self
     {
         $this->utmCampaign = $utmCampaign;
         return $this;
@@ -360,7 +360,7 @@ class FilterDto
 
     public function getUtmSource(): string
     {
-        return $this->utmSource;
+        return StringUtility::sanitizeString($this->utmSource);
     }
 
     public function isUtmSourceSet(): bool
@@ -368,7 +368,7 @@ class FilterDto
         return $this->getUtmSource() !== '';
     }
 
-    public function setUtmSource(string $utmSource): FilterDto
+    public function setUtmSource(string $utmSource): self
     {
         $this->utmSource = $utmSource;
         return $this;
@@ -376,7 +376,7 @@ class FilterDto
 
     public function getUtmMedium(): string
     {
-        return $this->utmMedium;
+        return StringUtility::sanitizeString($this->utmMedium);
     }
 
     public function isUtmMediumSet(): bool
@@ -384,7 +384,7 @@ class FilterDto
         return $this->getUtmMedium() !== '';
     }
 
-    public function setUtmMedium(string $utmMedium): FilterDto
+    public function setUtmMedium(string $utmMedium): self
     {
         $this->utmMedium = $utmMedium;
         return $this;
@@ -392,7 +392,7 @@ class FilterDto
 
     public function getUtmContent(): string
     {
-        return $this->utmContent;
+        return StringUtility::sanitizeString($this->utmContent);
     }
 
     public function isUtmContentSet(): bool
@@ -424,7 +424,7 @@ class FilterDto
 
     public function getRevenueClass(): string
     {
-        return $this->revenueClass;
+        return StringUtility::sanitizeString($this->revenueClass);
     }
 
     public function isRevenueClassSet(): bool
@@ -440,7 +440,7 @@ class FilterDto
 
     public function getSizeClass(): string
     {
-        return $this->sizeClass;
+        return StringUtility::sanitizeString($this->sizeClass);
     }
 
     public function isSizeClassSet(): bool
@@ -513,7 +513,7 @@ class FilterDto
 
     public function isTimeFromOrTimeToSet(): bool
     {
-        return $this->timeFrom !== '' || $this->timeTo !== '';
+        return $this->isTimeFromSet() || $this->isTimeToSet();
     }
 
     /**
@@ -523,9 +523,15 @@ class FilterDto
      */
     protected function isOnlySearchtermGiven(): bool
     {
-        return $this->searchterm !== '' && $this->pid === '' && $this->scoring === 0 && $this->categoryScoring === null
-            && $this->timeFrom === '' && $this->timeTo === '' && $this->timePeriod === self::PERIOD_DEFAULT
-            && $this->identified === self::IDENTIFIED_ALL && $this->domain === '';
+        return $this->isSearchtermSet()
+            && $this->isPidSet() === false
+            && $this->isScoringSet() === false
+            && $this->isCategoryScoringSet() === false
+            && $this->isTimeFromSet() === false
+            && $this->isTimeToSet() === false
+            && $this->timePeriod === self::PERIOD_DEFAULT
+            && $this->identified === self::IDENTIFIED_ALL
+            && $this->isDomainSet() === false;
     }
 
     /**
