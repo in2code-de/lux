@@ -72,6 +72,7 @@ abstract class AbstractUnit
         $filter = ObjectUtility::getFilterDto();
         if ($this->filterClass !== '' && $this->filterFunction !== '') {
             $filterArray = BackendUtility::getSessionValue('filter', $this->filterFunction, $this->filterClass);
+            $filterArray = array_merge(['timePeriod' => FilterDto::PERIOD_LAST3MONTH], $filterArray);
             $propertyMapper = GeneralUtility::makeInstance(PropertyMapper::class);
             $filter = $propertyMapper->convert($filterArray, FilterDto::class);
         }
