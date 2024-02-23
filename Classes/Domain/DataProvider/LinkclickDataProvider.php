@@ -3,8 +3,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider;
 
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
@@ -48,8 +46,7 @@ class LinkclickDataProvider extends AbstractDataProvider
      *      ]
      *  ]
      * @return void
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function prepareData(): void
     {
@@ -123,8 +120,7 @@ class LinkclickDataProvider extends AbstractDataProvider
      *  ]
      *
      * @return array
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function getGroupedData(): array
     {
@@ -180,8 +176,7 @@ class LinkclickDataProvider extends AbstractDataProvider
      *  ]
      *
      * @return array
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     protected function getUngroupedData(): array
     {
@@ -211,8 +206,6 @@ class LinkclickDataProvider extends AbstractDataProvider
      * @param int $pageUid
      * @param int $linklistener
      * @return int
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
      * @throws ExceptionDbal
      */
     protected function getPagevisitsFromPageByTagTimeframe(int $pageUid, int $linklistener): int

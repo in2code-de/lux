@@ -23,46 +23,58 @@ class LinklistenerRepository extends AbstractRepository
     public function findByFilter(FilterDto $filter): QueryResultInterface
     {
         $query = $this->createQuery();
-        $logicalAnd = [$query->greaterThan('uid', 0)];
-        if ($filter->isSet()) {
-            $logicalAnd[] = $query->greaterThan('linkclicks.crdate', $filter->getStartTimeForFilter());
-            $logicalAnd[] = $query->lessThan('linkclicks.crdate', $filter->getEndTimeForFilter());
-        }
-        $logicalAnd = $this->extendWithExtendedFilterQuery($query, $logicalAnd, $filter);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, []);
+        $logicalAnd = $this->extendWithExtendedFilterQuery($filter, $query, $logicalAnd);
         $query->matching($query->logicalAnd(...$logicalAnd));
         return $query->execute();
     }
 
     /**
+     * @param FilterDto $filter
      * @param QueryInterface $query
      * @param array $logicalAnd
-     * @param FilterDto|null $filter
+     * @return array
+     * @throws InvalidQueryException
+     */
+    protected function extendLogicalAndWithFilterConstraintsForCrdate(
+        FilterDto $filter,
+        QueryInterface $query,
+        array $logicalAnd
+    ): array {
+        $logicalAnd[] = $query->greaterThan('linkclicks.crdate', $filter->getStartTimeForFilter());
+        $logicalAnd[] = $query->lessThan('linkclicks.crdate', $filter->getEndTimeForFilter());
+        return $logicalAnd;
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @param QueryInterface $query
+     * @param array $logicalAnd
      * @return array
      * @throws InvalidQueryException
      */
     protected function extendWithExtendedFilterQuery(
+        FilterDto $filter,
         QueryInterface $query,
-        array $logicalAnd,
-        FilterDto $filter = null
+        array $logicalAnd
     ): array {
-        if ($filter !== null) {
-            if ($filter->isSearchtermSet()) {
-                $logicalOr = [];
-                foreach ($filter->getSearchterms() as $searchterm) {
-                    if (MathUtility::canBeInterpretedAsInteger($searchterm)) {
-                        $logicalOr[] = $query->equals('uid', $searchterm);
-                    } else {
-                        $logicalOr[] = $query->like('title', '%' . $searchterm . '%');
-                        $logicalOr[] = $query->like('description', '%' . $searchterm . '%');
-                        $logicalOr[] = $query->like('category.title', '%' . $searchterm . '%');
-                    }
+        if ($filter->isSearchtermSet()) {
+            $logicalOr = [];
+            foreach ($filter->getSearchterms() as $searchterm) {
+                if (MathUtility::canBeInterpretedAsInteger($searchterm)) {
+                    $logicalOr[] = $query->equals('uid', $searchterm);
+                } else {
+                    $logicalOr[] = $query->like('title', '%' . $searchterm . '%');
+                    $logicalOr[] = $query->like('description', '%' . $searchterm . '%');
+                    $logicalOr[] = $query->like('category.title', '%' . $searchterm . '%');
                 }
-                $logicalAnd[] = $query->logicalOr(...$logicalOr);
             }
-            if ($filter->isCategoryScoringSet()) {
-                $logicalAnd[] = $query->equals('category', $filter->getCategoryScoring());
-            }
+            $logicalAnd[] = $query->logicalOr(...$logicalOr);
         }
+        if ($filter->isCategoryScoringSet()) {
+            $logicalAnd[] = $query->equals('category', $filter->getCategoryScoring());
+        }
+        $logicalAnd[] = $query->in('linkclicks.site', $filter->getSitesForFilter());
         return $logicalAnd;
     }
 }

@@ -179,7 +179,6 @@ abstract class AbstractRepository extends Repository
      * @param FilterDto $filter
      * @param string $table table with crdate (normally the main table)
      * @return string
-     * @throws Exception
      */
     protected function extendWhereClauseWithFilterSite(FilterDto $filter, string $table = ''): string
     {

@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
 use DateTime;
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use Exception;
 use In2code\Lux\Domain\Model\Linkclick;
@@ -21,7 +19,6 @@ class LinkclickRepository extends AbstractRepository
     /**
      * @return int
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     public function findAllAmount(): int
     {
@@ -33,7 +30,6 @@ class LinkclickRepository extends AbstractRepository
      * @param int $linklistener
      * @return int
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     public function getFirstCreationDateFromLinklistenerIdentifier(int $linklistener): int
     {
@@ -52,7 +48,6 @@ class LinkclickRepository extends AbstractRepository
      * @param int $linklistener
      * @return int
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     public function getLatestCreationDateFromLinklistenerIdentifier(int $linklistener): int
     {
@@ -88,8 +83,7 @@ class LinkclickRepository extends AbstractRepository
      *  ]
      * @param FilterDto $filter
      * @return array
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function getAmountOfLinkclicksGroupedByPageUid(FilterDto $filter): array
     {
@@ -100,6 +94,7 @@ class LinkclickRepository extends AbstractRepository
             . ' where ' . $this->extendWhereClauseWithFilterTime($filter, false, 'lc');
         $sql .= $this->extendWhereClauseWithFilterSearchterms($filter, 'll');
         $sql .= $this->extendWhereClauseWithFilterCategoryScoring($filter, 'll');
+        $sql .= $this->extendWhereClauseWithFilterSite($filter, 'lc');
         $sql .= ' group by lc.linklistener, lc.page';
         return $connection->executeQuery($sql)->fetchAllAssociative();
     }
@@ -120,9 +115,7 @@ class LinkclickRepository extends AbstractRepository
      *  ]
      * @param int $linklistener
      * @return array
-     * @throws DBALException
      * @throws Exception
-     * @throws ExceptionDbalDriver
      */
     public function getAmountOfLinkclicksByLinklistenerGroupedByPageUid(int $linklistener): array
     {
@@ -139,7 +132,6 @@ class LinkclickRepository extends AbstractRepository
      * @return int
      * @throws ExceptionDbal
      * @throws Exception
-     * @throws ExceptionDbalDriver
      */
     public function getAmountOfLinkclicksByPageIdentifierAndTimeframe(int $pageIdentifier, FilterDto $filter): int
     {
@@ -156,7 +148,6 @@ class LinkclickRepository extends AbstractRepository
      * @param int $page
      * @return DateTime
      * @throws Exception
-     * @throws ExceptionDbalDriver
      */
     public function findLastDateByLinklistenerAndPage(int $linklistener, int $page): DateTime
     {
@@ -193,7 +184,6 @@ class LinkclickRepository extends AbstractRepository
      * @param int $linklistener
      * @return array
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     public function findRawByLinklistenerIdentifier(int $linklistener): array
     {
@@ -211,8 +201,7 @@ class LinkclickRepository extends AbstractRepository
      * @param DateTime $end
      * @param FilterDto|null $filter
      * @return int
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function findByTimeFrame(DateTime $start, DateTime $end, FilterDto $filter = null): int
     {
@@ -223,6 +212,7 @@ class LinkclickRepository extends AbstractRepository
             . ' where lc.crdate >= ' . $start->getTimestamp() . ' and lc.crdate <= ' . $end->getTimestamp();
         $sql .= $this->extendWhereClauseWithFilterSearchterms($filter, 'll');
         $sql .= $this->extendWhereClauseWithFilterCategoryScoring($filter, 'll');
+        $sql .= $this->extendWhereClauseWithFilterSite($filter, 'lc');
         return (int)$connection->executeQuery($sql)->fetchOne();
     }
 }
