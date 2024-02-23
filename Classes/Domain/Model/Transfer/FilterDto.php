@@ -11,6 +11,7 @@ use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\CategoryRepository;
 use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Utility\DateUtility;
+use In2code\Lux\Utility\StringUtility;
 use Throwable;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -792,7 +793,7 @@ class FilterDto
     public function getSitesForFilter(): array
     {
         if ($this->isSiteSet()) {
-            return [$this->getSite()];
+            return [StringUtility::cleanString($this->getSite())];
         }
         return array_merge(array_keys($this->getAllowedSites()), ['']);
     }

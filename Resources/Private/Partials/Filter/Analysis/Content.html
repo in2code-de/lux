@@ -21,6 +21,27 @@
                     </div>
 
                     <div class="input-group form-group">
+                        <f:form.select
+                            id="site"
+                            class="form-control form-select"
+                            property="site"
+                            options="{filter.allowedSites}"
+                            prependOptionLabel="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.dashboard.filter.sitesall')}"
+                            prependOptionValue=""
+                            optionValueField="identifier"
+                            optionLabelField="configuration.websiteTitle"
+                            value="{filter.site}" />
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#site">
+                            <core:icon identifier="actions-globe" size="small" />
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.time">Zeit</f:translate></h5>
+
+                    <div class="input-group form-group">
                         <f:form.textfield
                             type="datetime-local"
                             property="timeFrom"
@@ -28,23 +49,6 @@
                             class="form-control" />
                         <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#timeFrom">
                             {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeFrom')}
-                        </button>
-                    </div>
-                </div>
-
-
-                <div class="col-md-4">
-                    <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.header.scoring">Scoring</f:translate></h5>
-
-                    <div class="input-group form-group">
-                        <f:form.textfield
-                                type="range"
-                                property="scoring"
-                                class="form-control"
-                                additionalAttributes="{min:0, max:200, onchange:'document.getElementById(\'scoring_label\').innerHTML = this.value;'}"
-                                id="scoring"/>
-                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#scoring">
-                            Min: <strong id="scoring_label">{filter.scoring}</strong>
                         </button>
                     </div>
 
@@ -62,7 +66,19 @@
 
 
                 <div class="col-md-4">
-                    <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.header.categoryscoring">Category</f:translate></h5>
+                    <h5>Scoring</h5>
+
+                    <div class="input-group form-group">
+                        <f:form.textfield
+                            type="range"
+                            property="scoring"
+                            class="form-control"
+                            additionalAttributes="{min:0, max:200, onchange:'document.getElementById(\'scoring_label\').innerHTML = this.value;'}"
+                            id="scoring"/>
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#scoring">
+                            Min: <strong id="scoring_label">{filter.scoring}</strong>
+                        </button>
+                    </div>
 
                     <div class="input-group form-group">
                         <f:form.select
@@ -76,22 +92,6 @@
                             id="categoryScoring"/>
                         <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#categoryScoring">
                             <core:icon identifier="actions-tag" />
-                        </button>
-                    </div>
-
-                    <div class="input-group form-group">
-                        <f:form.select
-                            id="site"
-                            class="form-control form-select"
-                            property="site"
-                            options="{filter.allowedSites}"
-                            prependOptionLabel="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.dashboard.filter.sitesall')}"
-                            prependOptionValue=""
-                            optionValueField="identifier"
-                            optionLabelField="configuration.websiteTitle"
-                            value="{filter.site}" />
-                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#site">
-                            <core:icon identifier="actions-globe" size="small" />
                         </button>
                     </div>
                 </div>

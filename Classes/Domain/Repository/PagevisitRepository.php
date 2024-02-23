@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
 use DateTime;
-use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use Exception;
@@ -196,8 +195,7 @@ class PagevisitRepository extends AbstractRepository
      * @param Page $page
      * @param int $limit
      * @return array
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function findByPage(Page $page, int $limit = 100): array
     {
@@ -213,7 +211,6 @@ class PagevisitRepository extends AbstractRepository
      * @param Visitor $visitor
      * @return DateTime|null
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     public function findLatestDateByVisitor(Visitor $visitor): ?DateTime
     {
@@ -233,7 +230,6 @@ class PagevisitRepository extends AbstractRepository
      * @param int $pageIdentifier
      * @return DateTime|null
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     public function findLatestDateByVisitorAndPageIdentifier(Visitor $visitor, int $pageIdentifier): ?DateTime
     {
@@ -250,8 +246,7 @@ class PagevisitRepository extends AbstractRepository
 
     /**
      * @return int
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function findAllAmount(): int
     {
@@ -263,9 +258,7 @@ class PagevisitRepository extends AbstractRepository
      * @param int $pageIdentifier
      * @param FilterDto $filter
      * @return int
-     * @throws DBALException
      * @throws Exception
-     * @throws ExceptionDbalDriver
      */
     public function findAmountPerPage(int $pageIdentifier, FilterDto $filter): int
     {
@@ -281,7 +274,6 @@ class PagevisitRepository extends AbstractRepository
      * @param Visitor $visitor
      * @return int
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     public function findAmountPerPageAndVisitor(int $pageIdentifier, Visitor $visitor): int
     {
@@ -304,7 +296,6 @@ class PagevisitRepository extends AbstractRepository
      * @return array
      * @throws Exception
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     public function getAmountOfReferrers(FilterDto $filter, int $limit = 100): array
     {
@@ -314,6 +305,7 @@ class PagevisitRepository extends AbstractRepository
             . ' where referrer != ""'
             . ' and referrer not like ' . $connection->quote('%' . $domainLike . '%')
             . $this->extendWhereClauseWithFilterTime($filter)
+            . $this->extendWhereClauseWithFilterSite($filter)
             . ' group by referrer having (count > 1) order by count desc limit ' . $limit;
         $records = (array)$connection->executeQuery($sql)->fetchAllAssociative();
         $result = [];
@@ -375,9 +367,7 @@ class PagevisitRepository extends AbstractRepository
     /**
      * @param FilterDto $filter
      * @return array
-     * @throws DBALException
      * @throws Exception
-     * @throws ExceptionDbalDriver
      */
     public function getDomainsWithAmountOfVisits(FilterDto $filter): array
     {
@@ -401,9 +391,7 @@ class PagevisitRepository extends AbstractRepository
      *
      * @param FilterDto $filter
      * @return array
-     * @throws DBALException
      * @throws Exception
-     * @throws ExceptionDbalDriver
      */
     public function getAllDomains(FilterDto $filter): array
     {
@@ -421,9 +409,7 @@ class PagevisitRepository extends AbstractRepository
     /**
      * @param FilterDto $filter
      * @return array
-     * @throws DBALException
      * @throws Exception
-     * @throws ExceptionDbalDriver
      */
     public function getAllLanguages(FilterDto $filter): array
     {
@@ -443,9 +429,7 @@ class PagevisitRepository extends AbstractRepository
      * @param int $pageIdentifier
      * @param FilterDto $filter
      * @return int
-     * @throws DBALException
      * @throws Exception
-     * @throws ExceptionDbalDriver
      */
     public function findAbandonsForPage(int $pageIdentifier, FilterDto $filter): int
     {
@@ -501,8 +485,7 @@ class PagevisitRepository extends AbstractRepository
      * @param FilterDto $filter1
      * @param FilterDto $filter2
      * @return int positive if more visitors in filter1 period then in filter2, negative for the opposite situation
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws Exception
      */
     public function compareAmountPerPage(int $pageIdentifier, FilterDto $filter1, FilterDto $filter2): int
     {
