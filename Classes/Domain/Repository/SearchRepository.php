@@ -123,6 +123,7 @@ class SearchRepository extends AbstractRepository
             if ($filter->isDomainSet()) {
                 $logicalAnd[] = $query->equals('pagevisit.domain', $filter->getDomain());
             }
+            $logicalAnd[] = $query->in('pagevisit.site', $filter->getSitesForFilter());
         }
         return $logicalAnd;
     }
