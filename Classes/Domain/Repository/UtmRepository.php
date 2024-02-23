@@ -197,7 +197,7 @@ class UtmRepository extends AbstractRepository
         FilterDto $filter = null
     ): array {
         if ($filter !== null) {
-            if ($filter->getSearchterm() !== '') {
+            if ($filter->isSearchtermSet()) {
                 $logicalOr = [];
                 foreach ($filter->getSearchterms() as $searchterm) {
                     $logicalOr[] = $query->like('utmSource', '%' . $searchterm . '%');
@@ -209,13 +209,13 @@ class UtmRepository extends AbstractRepository
                 }
                 $logicalAnd[] = $query->logicalOr(...$logicalOr);
             }
-            if ($filter->getUtmCampaign() !== '') {
+            if ($filter->isUtmCampaignSet()) {
                 $logicalAnd[] = $query->like('utmCampaign', '%' . $filter->getUtmCampaign() . '%');
             }
-            if ($filter->getUtmMedium() !== '') {
+            if ($filter->isUtmMediumSet()) {
                 $logicalAnd[] = $query->like('utmMedium', '%' . $filter->getUtmMedium() . '%');
             }
-            if ($filter->getUtmSource() !== '') {
+            if ($filter->isUtmSourceSet()) {
                 $logicalAnd[] = $query->like('utmSource', '%' . $filter->getUtmSource() . '%');
             }
         }

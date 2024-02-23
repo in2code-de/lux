@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
 use DateTime;
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Categoryscoring;
 use In2code\Lux\Domain\Model\News;
@@ -31,7 +29,6 @@ class NewsvisitRepository extends AbstractRepository
      *
      * @param FilterDto $filter
      * @return array
-     * @throws ExceptionDbalDriver
      * @throws ExceptionDbal
      */
     public function findCombinedByNewsIdentifier(FilterDto $filter): array
@@ -96,7 +93,6 @@ class NewsvisitRepository extends AbstractRepository
     /**
      * @param FilterDto $filter
      * @return array
-     * @throws ExceptionDbalDriver
      * @throws ExceptionDbal
      */
     public function getDomainsWithAmountOfVisits(FilterDto $filter): array
@@ -108,7 +104,7 @@ class NewsvisitRepository extends AbstractRepository
             . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
             . ' where '
             . $this->extendWhereClauseWithFilterTime($filter, false, 'nv')
-            . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
             . ' group by domain order by count desc';
@@ -121,8 +117,7 @@ class NewsvisitRepository extends AbstractRepository
      * @param News $news
      * @param int $limit
      * @return array
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function findByNews(News $news, int $limit = 100): array
     {
@@ -153,8 +148,7 @@ class NewsvisitRepository extends AbstractRepository
      *
      * @param FilterDto $filter
      * @return array
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function getAllDomains(FilterDto $filter): array
     {
@@ -174,8 +168,7 @@ class NewsvisitRepository extends AbstractRepository
     /**
      * @param FilterDto $filter
      * @return array
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function getAllLanguages(FilterDto $filter): array
     {
@@ -186,7 +179,7 @@ class NewsvisitRepository extends AbstractRepository
             . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
             . ' where '
             . $this->extendWhereClauseWithFilterTime($filter, false, 'nv')
-            . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
             . ' group by nv.language order by count desc';
@@ -195,7 +188,6 @@ class NewsvisitRepository extends AbstractRepository
 
     /**
      * @return bool
-     * @throws ExceptionDbalDriver
      * @throws ExceptionDbal
      */
     public function isTableFilled(): bool
@@ -221,7 +213,7 @@ class NewsvisitRepository extends AbstractRepository
         FilterDto $filter = null
     ): array {
         if ($filter !== null) {
-            if ($filter->getSearchterm() !== '') {
+            if ($filter->isSearchtermSet()) {
                 $logicalOr = [];
                 foreach ($filter->getSearchterms() as $searchterm) {
                     if (MathUtility::canBeInterpretedAsInteger($searchterm)) {
@@ -232,15 +224,16 @@ class NewsvisitRepository extends AbstractRepository
                 }
                 $logicalAnd[] = $query->logicalOr(...$logicalOr);
             }
-            if ($filter->getScoring() > 0) {
+            if ($filter->isScoringSet()) {
                 $logicalAnd[] = $query->greaterThanOrEqual('visitor.scoring', $filter->getScoring());
             }
-            if ($filter->getCategoryScoring() !== null) {
+            if ($filter->isCategoryScoringSet()) {
                 $logicalAnd[] = $query->equals('visitor.categoryscorings.category', $filter->getCategoryScoring());
             }
-            if ($filter->getDomain() !== '') {
+            if ($filter->isDomainSet()) {
                 $logicalAnd[] = $query->equals('pagevisit.domain', $filter->getDomain());
             }
+            $logicalAnd[] = $query->in('pagevisit.site', $filter->getSitesForFilter());
         }
         return $logicalAnd;
     }

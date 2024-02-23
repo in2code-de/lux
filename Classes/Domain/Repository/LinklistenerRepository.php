@@ -46,7 +46,7 @@ class LinklistenerRepository extends AbstractRepository
         FilterDto $filter = null
     ): array {
         if ($filter !== null) {
-            if ($filter->getSearchterm() !== '') {
+            if ($filter->isSearchtermSet()) {
                 $logicalOr = [];
                 foreach ($filter->getSearchterms() as $searchterm) {
                     if (MathUtility::canBeInterpretedAsInteger($searchterm)) {
@@ -59,7 +59,7 @@ class LinklistenerRepository extends AbstractRepository
                 }
                 $logicalAnd[] = $query->logicalOr(...$logicalOr);
             }
-            if ($filter->getCategoryScoring() !== null) {
+            if ($filter->isCategoryScoringSet()) {
                 $logicalAnd[] = $query->equals('category', $filter->getCategoryScoring());
             }
         }

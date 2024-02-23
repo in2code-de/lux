@@ -3,8 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider;
 
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Repository\LanguageRepository;
 use In2code\Lux\Domain\Repository\NewsvisitRepository;
 use In2code\Lux\Utility\LocalizationUtility;
@@ -28,8 +27,7 @@ class LanguagesNewsDataProvider extends AbstractDataProvider
      *  ]
      *
      * @return void
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function prepareData(): void
     {
@@ -42,8 +40,7 @@ class LanguagesNewsDataProvider extends AbstractDataProvider
 
     /**
      * @return array
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     protected function getLanguagesFromSystem(): array
     {

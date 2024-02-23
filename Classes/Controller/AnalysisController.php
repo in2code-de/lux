@@ -155,7 +155,6 @@ class AnalysisController extends AbstractController
             'news' => $this->newsvisitRepository->findCombinedByNewsIdentifier($filter),
             'languageData' => GeneralUtility::makeInstance(LanguagesNewsDataProvider::class, $filter),
             'domainData' => GeneralUtility::makeInstance(DomainNewsDataProvider::class, $filter),
-            'domains' => $this->newsvisitRepository->getAllDomains($filter),
         ]);
 
         $this->addDocumentHeaderForCurrentController();
@@ -166,7 +165,6 @@ class AnalysisController extends AbstractController
      * @param FilterDto $filter
      * @return ResponseInterface
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     public function newsCsvAction(FilterDto $filter): ResponseInterface
     {
@@ -574,13 +572,14 @@ class AnalysisController extends AbstractController
      */
     protected function addDocumentHeaderForCurrentController(): void
     {
-        $actions = ['dashboard', 'content', 'utm', 'linkListener'];
+        $actions = ['dashboard', 'content'];
         if ($this->newsvisitRepository->isTableFilled()) {
             $actions[] = 'news';
         }
         if ($this->searchRepository->isTableFilled()) {
             $actions[] = 'search';
         }
+        $actions = array_merge($actions, ['utm', 'linkListener']);
         $menuConfiguration = [];
         foreach ($actions as $action) {
             $menuConfiguration[] = [

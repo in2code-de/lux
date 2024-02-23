@@ -70,8 +70,8 @@ class VisitorRepository extends AbstractRepository
      */
     public function findAllWithIdentifiedFirst(FilterDto $filter, int $limit = 750): array
     {
-        // Search for calculated hash
-        if ($filter->getSearchterm() !== '' && StringUtility::isShortMd5($filter->getSearchterm())) {
+        // Search for single visitor by calculated hash
+        if ($filter->isSearchtermSet() && StringUtility::isShortMd5($filter->getSearchterm())) {
             $visitor = $this->findByHash($filter->getSearchterm());
             if ($visitor !== null) {
                 return [$visitor];

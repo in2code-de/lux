@@ -442,6 +442,11 @@ class FilterDto
         return $this->visitor;
     }
 
+    public function isVisitorSet(): bool
+    {
+        return $this->getVisitor() !== null;
+    }
+
     public function setVisitor(?Visitor $visitor): self
     {
         $this->visitor = $visitor;
@@ -451,6 +456,11 @@ class FilterDto
     public function getCompany(): ?Company
     {
         return $this->company;
+    }
+
+    public function isCompanySet(): bool
+    {
+        return $this->getCompany() !== null;
     }
 
     public function setCompany(?Company $company): self

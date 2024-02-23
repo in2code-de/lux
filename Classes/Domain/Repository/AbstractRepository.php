@@ -102,7 +102,7 @@ abstract class AbstractRepository extends Repository
         string $concatenation = 'and'
     ): string {
         $sql = '';
-        if ($filter->getSearchterms() !== []) {
+        if ($filter->isSearchtermSet()) {
             foreach ($filter->getSearchterms() as $searchterm) {
                 if ($sql === '') {
                     $sql .= ' ' . $concatenation . ' (';
@@ -162,7 +162,7 @@ abstract class AbstractRepository extends Repository
     protected function extendWhereClauseWithFilterDomain(FilterDto $filter, string $table = ''): string
     {
         $sql = '';
-        if ($filter->getDomain() !== '') {
+        if ($filter->isDomainSet()) {
             $field = 'domain';
             if ($table !== '') {
                 $field = $table . '.' . $field;
@@ -201,7 +201,7 @@ abstract class AbstractRepository extends Repository
     protected function extendWhereClauseWithFilterScoring(FilterDto $filter, string $table = ''): string
     {
         $sql = '';
-        if ($filter->getScoring() > 0) {
+        if ($filter->isScoringSet()) {
             $field = 'scoring';
             if ($table !== '') {
                 $field = $table . '.' . $field;
@@ -229,10 +229,10 @@ abstract class AbstractRepository extends Repository
         if ($table !== '') {
             $field = $table . '.' . $field;
         }
-        if ($filter->getVisitor() !== null) {
+        if ($filter->isVisitorSet()) {
             $sql = ' and ' . $field . ' = ' . $filter->getVisitor()->getUid();
         }
-        if ($filter->getCompany() !== null) {
+        if ($filter->isCompanySet()) {
             $sql = '';
             foreach ($filter->getCompany()->getVisitors() as $visitor) {
                 if ($visitor !== null) {
@@ -260,7 +260,7 @@ abstract class AbstractRepository extends Repository
     protected function extendWhereClauseWithFilterCategoryScoring(FilterDto $filter, string $table = ''): string
     {
         $sql = '';
-        if ($filter->getCategoryScoring() !== null) {
+        if ($filter->isCategoryScoringSet()) {
             $field = 'category';
             if ($table !== '') {
                 $field = $table . '.' . $field;
@@ -285,7 +285,7 @@ abstract class AbstractRepository extends Repository
         if (in_array('v', $tables)) {
             $sql .= ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = pv.visitor';
         }
-        if ($filter->getSearchterm() !== '' || $filter->getDomain() !== '') {
+        if ($filter->isSearchtermSet() || $filter->isDomainSet()) {
             if (in_array('pv', $tables)) {
                 $sql .= ' left join ' . Pagevisit::TABLE_NAME . ' pv on v.uid = pv.visitor';
             }
@@ -293,7 +293,7 @@ abstract class AbstractRepository extends Repository
                 $sql .= ' left join ' . Page::TABLE_NAME . ' p on p.uid = pv.page';
             }
         }
-        if ($filter->getCategoryScoring() !== null) {
+        if ($filter->isCategoryScoringSet()) {
             if (in_array('cs', $tables)) {
                 $sql .= ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor';
             }

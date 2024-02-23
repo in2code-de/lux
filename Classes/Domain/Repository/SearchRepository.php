@@ -107,20 +107,20 @@ class SearchRepository extends AbstractRepository
         FilterDto $filter = null
     ): array {
         if ($filter !== null) {
-            if ($filter->getSearchterm() !== '') {
+            if ($filter->isSearchtermSet()) {
                 $logicalOr = [];
                 foreach ($filter->getSearchterms() as $searchterm) {
                     $logicalOr[] = $query->like('searchterm', '%' . $searchterm . '%');
                 }
                 $logicalAnd[] = $query->logicalOr(...$logicalOr);
             }
-            if ($filter->getScoring() > 0) {
+            if ($filter->isScoringSet()) {
                 $logicalAnd[] = $query->greaterThanOrEqual('visitor.scoring', $filter->getScoring());
             }
-            if ($filter->getCategoryScoring() !== null) {
+            if ($filter->isCategoryScoringSet()) {
                 $logicalAnd[] = $query->equals('visitor.categoryscorings.category', $filter->getCategoryScoring());
             }
-            if ($filter->getDomain() !== '') {
+            if ($filter->isDomainSet()) {
                 $logicalAnd[] = $query->equals('pagevisit.domain', $filter->getDomain());
             }
         }
