@@ -523,15 +523,20 @@ class FilterDto
     /**
      * Get a stop datetime for period filter
      *
+     * @param bool $shortmode
      * @return DateTime
      * @throws Exception
      */
-    public function getEndTimeForFilter(): DateTime
+    public function getEndTimeForFilter(bool $shortmode = false): DateTime
     {
         if ($this->getTimeFrom()) {
             $time = $this->getTimeToDateTime();
         } else {
-            $time = $this->getEndTimeFromTimePeriod();
+            if ($shortmode === false || $this->isShortMode() === false) {
+                $time = $this->getEndTimeFromTimePeriod();
+            } else {
+                $time = $this->getEndTimeFromTimePeriodShort();
+            }
         }
         return $time;
     }
@@ -605,6 +610,15 @@ class FilterDto
     }
 
     /**
+     * @return DateTime
+     * @throws Exception
+     */
+    protected function getEndTimeFromTimePeriodShort(): DateTime
+    {
+        return new DateTime();
+    }
+
+    /**
      * Example return values
      *  [
      *      'intervals' => [
@@ -661,7 +675,7 @@ class FilterDto
     protected function getStartIntervals(): array
     {
         $start = $this->getStartTimeForFilter(true);
-        $end = $this->getEndTimeForFilter();
+        $end = $this->getEndTimeForFilter(true);
         $deltaSeconds = $end->getTimestamp() - $start->getTimestamp();
         if ($deltaSeconds <= 86400) { // until 1 day
             return ['intervals' => $this->getHourIntervals(), 'frequency' => 'hour'];
@@ -686,7 +700,7 @@ class FilterDto
     protected function getHourIntervals(): array
     {
         $start = $this->getStartTimeForFilter(true);
-        $end = $this->getEndTimeForFilter();
+        $end = $this->getEndTimeForFilter(true);
         $interval = [];
         for ($hour = clone $start; $hour < $end; $hour->modify('+1 hour')) {
             $interval[] = clone $hour;
@@ -702,7 +716,7 @@ class FilterDto
     protected function getDayIntervals(): array
     {
         $start = DateUtility::getDayStart($this->getStartTimeForFilter(true));
-        $end = $this->getEndTimeForFilter();
+        $end = $this->getEndTimeForFilter(true);
         $interval = [];
         for ($day = clone $start; $day < $end; $day->modify('+1 day')) {
             $interval[] = clone $day;
@@ -718,7 +732,7 @@ class FilterDto
     protected function getWeekIntervals(): array
     {
         $start = DateUtility::getPreviousMonday($this->getStartTimeForFilter(true));
-        $end = $this->getEndTimeForFilter();
+        $end = $this->getEndTimeForFilter(true);
         $interval = [];
         for ($week = clone $start; $week < $end; $week->modify('+1 week')) {
             $interval[] = clone $week;
@@ -734,7 +748,7 @@ class FilterDto
     protected function getMonthIntervals(): array
     {
         $start = DateUtility::getStartOfMonth($this->getStartTimeForFilter(true));
-        $end = $this->getEndTimeForFilter();
+        $end = $this->getEndTimeForFilter(true);
         $interval = [];
         for ($month = clone $start; $month < $end; $month->modify('+1 month')) {
             $interval[] = clone $month;
@@ -750,7 +764,7 @@ class FilterDto
     protected function getYearIntervals(): array
     {
         $start = DateUtility::getStartOfYear($this->getStartTimeForFilter(true));
-        $end = $this->getEndTimeForFilter();
+        $end = $this->getEndTimeForFilter(true);
         $interval = [];
         for ($year = clone $start; $year < $end; $year->modify('+1 year')) {
             $interval[] = clone $year;
