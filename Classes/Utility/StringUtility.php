@@ -71,7 +71,7 @@ class StringUtility
      */
     public static function sanitizeString(string $string): string
     {
-        return preg_replace('/[\/\\*#?$%&!=\'"`´<>{}\[\]()]|--/', '', $string);
+        return preg_replace('/[\/\\#?$%&!=\'"`´<>{}\[\]()]|--/', '', $string);
     }
 
     public static function getRandomString(int $length = 32, bool $lowerAndUpperCase = true): string

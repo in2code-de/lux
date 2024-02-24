@@ -7,34 +7,39 @@
     <div class="panel-body">
 
         <f:if condition="{searches}">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.search.term">Searchterm</f:translate></th>
-                    <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.lead">Lead</f:translate></th>
-                    <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.company">Company</f:translate></th>
-                    <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.time">Time</f:translate></th>
-                </tr>
-                </thead>
-                <tbody>
-                <f:for each="{searches}" as="search">
-                    <tr data-identifier-search="{search.uid}">
-                        <td><span title="{search.searchterm}"><f:format.crop maxCharacters="35" append="...">{search.searchterm}</f:format.crop></span></td>
-                        <td>
-                            <span title="UID{search.visitor.uid}">{search.visitor.fullName}</span>
-                        </td>
-                        <td>{search.visitor.company}</td>
-                        <td>
-                            <span class="badge" title="{f:format.date(date:search.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
-                                <lux:format.readableDate>{search.crdate}</lux:format.readableDate>
-                            </span>
-                        </td>
+            <f:then>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.search.term">Searchterm</f:translate></th>
+                        <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.lead">Lead</f:translate></th>
+                        <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.company">Company</f:translate></th>
+                        <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.time">Time</f:translate></th>
                     </tr>
-                </f:for>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    <f:for each="{searches}" as="search">
+                        <tr data-identifier-search="{search.uid}">
+                            <td><span title="{search.searchterm}"><f:format.crop maxCharacters="35" append="...">{search.searchterm}</f:format.crop></span></td>
+                            <td>
+                                <span title="UID{search.visitor.uid}">{search.visitor.fullName}</span>
+                            </td>
+                            <td>{search.visitor.company}</td>
+                            <td>
+                                <span class="badge" title="{f:format.date(date:search.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
+                                    <lux:format.readableDate>{search.crdate}</lux:format.readableDate>
+                                </span>
+                            </td>
+                        </tr>
+                    </f:for>
+                    </tbody>
+                </table>
 
-            <button style="margin-top: 15px" class="btn btn-primary pull-right" data-lux-linkmock-event="detailsearch{searchterm}"><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.detail">show</f:translate></button>
+                <button style="margin-top: 15px" class="btn btn-primary pull-right" data-lux-linkmock-event="detailsearch{searchterm}"><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.detail">show</f:translate></button>
+            </f:then>
+            <f:else>
+                <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+            </f:else>
         </f:if>
     </div>
 </div>

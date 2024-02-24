@@ -14,6 +14,7 @@ use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\DatabaseUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 class SearchRepository extends AbstractRepository
 {
@@ -43,6 +44,24 @@ class SearchRepository extends AbstractRepository
             . $this->extendWhereClauseWithFilterSite($filter, 'pv')
             . ' group by searchterm order by count desc';
         return $connection->executeQuery($sql)->fetchAllAssociative();
+    }
+
+    public function findBySearchterm(FilterDto $filter): QueryResultInterface
+    {
+        $sql = 'select s.* from ' . Search::TABLE_NAME . ' s'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on s.pagevisit = pv.uid'
+            . ' left join ' . Visitor::TABLE_NAME . ' v on s.visitor = v.uid'
+            . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on cs.visitor = v.uid'
+            . ' where s.searchterm = "' . $filter->getSearchterm() . '"'
+            . $this->extendWhereClauseWithFilterTime($filter, true, 's')
+            . $this->extendWhereClauseWithFilterScoring($filter, 'v')
+            . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
+            . ' order by s.crdate desc'
+            . ' limit ' . ($filter->isLimitSet() ? $filter->getLimit() : 750);
+        $query = $this->createQuery();
+        $query = $query->statement($sql);
+        return $query->execute();
     }
 
     /**

@@ -148,21 +148,12 @@ abstract class AbstractController extends ActionController
 
         // Save to session
         if ($this->request->hasArgument('filter') === false) {
-            $filter = BackendUtility::getSessionValue('filter', $this->getActionName(), $this->getControllerName());
-            $filter = array_merge(['timePeriod' => $timePeriod], $filter);
+            $filter = BackendUtility::getFilterArrayFromSession($this->getActionName(), $this->getControllerName());
         } else {
             $filter = (array)$this->request->getArgument('filter');
             BackendUtility::saveValueToSession('filter', $this->getActionName(), $this->getControllerName(), $filter);
         }
 
-        if (array_key_exists('categoryScoring', $filter)
-            && (is_array($filter['categoryScoring']) || $filter['categoryScoring'] === '')) {
-            $filter['categoryScoring'] = 0;
-        }
-        if (array_key_exists('branchCode', $filter)
-            && (is_array($filter['branchCode']) || $filter['branchCode'] === '')) {
-            $filter['branchCode'] = 0;
-        }
         if (isset($filter['identified']) && $filter['identified'] === '') {
             $filter['identified'] = FilterDto::IDENTIFIED_ALL;
         }

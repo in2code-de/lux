@@ -52,6 +52,7 @@ class FilterDto
      */
     protected string $timeTo = '';
 
+    protected int $limit = 0;
     protected int $scoring = 0;
     protected int $timePeriod = self::PERIOD_DEFAULT;
     protected int $identified = self::IDENTIFIED_ALL;
@@ -92,6 +93,16 @@ class FilterDto
     public function getSearchterm(): string
     {
         return StringUtility::sanitizeString($this->searchterm);
+    }
+
+    /**
+     * Without sanitize function
+     *
+     * @return string
+     */
+    public function getSearchtermRaw(): string
+    {
+        return $this->searchterm;
     }
 
     public function isSearchtermSet(): bool
@@ -261,9 +272,9 @@ class FilterDto
         return $this->getCategoryScoring() !== null;
     }
 
-    public function setCategoryScoring(int $categoryUid): self
+    public function setCategoryScoring(?int $categoryUid): self
     {
-        if ($categoryUid > 0) {
+        if ((int)$categoryUid > 0) {
             $categoryRepository = GeneralUtility::makeInstance(CategoryRepository::class);
             $category = $categoryRepository->findByUid((int)$categoryUid);
             if ($category !== null) {
@@ -416,9 +427,9 @@ class FilterDto
         return $this->getBranchCode() > 0;
     }
 
-    public function setBranchCode(int $branchCode): self
+    public function setBranchCode(?int $branchCode): self
     {
-        $this->branchCode = $branchCode;
+        $this->branchCode = (int)$branchCode;
         return $this;
     }
 
@@ -483,6 +494,22 @@ class FilterDto
     public function setCompany(?Company $company): self
     {
         $this->company = $company;
+        return $this;
+    }
+
+    public function getLimit(): int
+    {
+        return $this->limit;
+    }
+
+    public function isLimitSet(): bool
+    {
+        return $this->getLimit() > 0;
+    }
+
+    public function setLimit(int $limit): self
+    {
+        $this->limit = $limit;
         return $this;
     }
 

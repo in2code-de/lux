@@ -25,6 +25,7 @@ use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\News;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
+use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
@@ -401,7 +402,7 @@ class AnalysisController extends AbstractController
         $this->view->assignMultiple([
             'searchterm' => $searchterm,
             'searchData' => GeneralUtility::makeInstance(SearchDataProvider::class, $filter),
-            'searches' => $this->searchRepository->findBySearchterm(urldecode($searchterm)),
+            'searches' => $this->searchRepository->findBySearchterm($filter),
         ]);
 
         $this->addDocumentHeaderForCurrentController();
@@ -494,10 +495,13 @@ class AnalysisController extends AbstractController
             'EXT:lux/Resources/Private/Templates/Analysis/SearchDetailPageAjax.html'
         ));
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
+        $filter = BackendUtility::getFilterFromSession(
+            'search',
+            'Analysis',
+            ['searchterm' => urldecode($request->getQueryParams()['searchterm']), 'limit' => 10]
+        );
         $standaloneView->assignMultiple([
-            'searches' => $this->searchRepository->findBySearchterm(
-                urldecode($request->getQueryParams()['searchterm'])
-            ),
+            'searches' => $this->searchRepository->findBySearchterm($filter),
             'searchterm' => $request->getQueryParams()['searchterm'],
         ]);
         $response = GeneralUtility::makeInstance(JsonResponse::class);
