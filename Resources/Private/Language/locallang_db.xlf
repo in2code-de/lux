@@ -1954,6 +1954,9 @@
 			<trans-unit id="dictionary.size_class.10">
 				<source>more then 2K employees</source>
 			</trans-unit>
+			<trans-unit id="dictionary.pageidentifier">
+				<source>Page Identifier (PID)</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

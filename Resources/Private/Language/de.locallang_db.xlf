@@ -2585,6 +2585,10 @@
 				<source>more then 2K employees</source>
 				<target state="translated">mehr als 2K Beschäftigte</target>
 			</trans-unit>
+			<trans-unit id="dictionary.pageidentifier">
+				<source>Page Identifier (PID)</source>
+				<target state="translated">Seitennummer (PID)</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

@@ -20,20 +20,20 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 class DownloadRepository extends AbstractRepository
 {
     /**
-     * @param string $href
-     * @param int $limit
+     * @param FilterDto $filter
      * @return QueryResultInterface
      * @throws InvalidQueryException
      */
-    public function findByHref(string $href, int $limit = 100): QueryResultInterface
+    public function findByFilter(FilterDto $filter): QueryResultInterface
     {
         $query = $this->createQuery();
         $logicalAnd = [
-            $query->equals('href', $href),
             $query->greaterThan('visitor.uid', 0),
         ];
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
+        $logicalAnd = $this->extendWithExtendedFilterQuery($filter, $query, $logicalAnd);
         $query->matching($query->logicalAnd(...$logicalAnd));
-        $query->setLimit($limit);
+        $query->setLimit($filter->getLimit());
         return $query->execute();
     }
 
@@ -49,7 +49,7 @@ class DownloadRepository extends AbstractRepository
     {
         $query = $this->createQuery();
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, []);
-        $logicalAnd = $this->extendWithExtendedFilterQuery($query, $logicalAnd, $filter);
+        $logicalAnd = $this->extendWithExtendedFilterQuery($filter, $query, $logicalAnd);
         $query->matching($query->logicalAnd(...$logicalAnd));
         $assets = $query->execute(true);
 
@@ -100,7 +100,7 @@ class DownloadRepository extends AbstractRepository
             $query->greaterThanOrEqual('crdate', $start->format('U')),
             $query->lessThanOrEqual('crdate', $end->format('U')),
         ];
-        $logicalAnd = $this->extendWithExtendedFilterQuery($query, $logicalAnd, $filter);
+        $logicalAnd = $this->extendWithExtendedFilterQuery($filter, $query, $logicalAnd);
         $query->matching($query->logicalAnd(...$logicalAnd));
         return $query->execute()->count();
     }
@@ -139,11 +139,13 @@ class DownloadRepository extends AbstractRepository
      * @throws InvalidQueryException
      */
     protected function extendWithExtendedFilterQuery(
+        FilterDto $filter,
         QueryInterface $query,
-        array $logicalAnd,
-        FilterDto $filter = null
+        array $logicalAnd
     ): array {
-        if ($filter !== null) {
+        if ($filter->isHrefSet()) {
+            $logicalAnd[] = $query->equals('href', $filter->getHrefRaw());
+        } else {
             if ($filter->isSearchtermSet()) {
                 $logicalOr = [];
                 foreach ($filter->getSearchterms() as $searchterm) {
@@ -155,17 +157,14 @@ class DownloadRepository extends AbstractRepository
                 }
                 $logicalAnd[] = $query->logicalOr(...$logicalOr);
             }
-            if ($filter->isScoringSet()) {
-                $logicalAnd[] = $query->greaterThanOrEqual('visitor.scoring', $filter->getScoring());
-            }
-            if ($filter->isCategoryScoringSet()) {
-                $logicalAnd[] = $query->equals('visitor.categoryscorings.category', $filter->getCategoryScoring());
-            }
-            if ($filter->isDomainSet()) {
-                $logicalAnd[] = $query->equals('domain', $filter->getDomain());
-            }
-            $logicalAnd[] = $query->in('site', $filter->getSitesForFilter());
         }
+        if ($filter->isScoringSet()) {
+            $logicalAnd[] = $query->greaterThanOrEqual('visitor.scoring', $filter->getScoring());
+        }
+        if ($filter->isCategoryScoringSet()) {
+            $logicalAnd[] = $query->equals('visitor.categoryscorings.category', $filter->getCategoryScoring());
+        }
+        $logicalAnd[] = $query->in('site', $filter->getSitesForFilter());
         return $logicalAnd;
     }
 }

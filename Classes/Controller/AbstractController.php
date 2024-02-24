@@ -162,6 +162,8 @@ abstract class AbstractController extends ActionController
 
     protected function getFilterFromSessionForAjaxRequests(string $action, string $searchterm = ''): FilterDto
     {
+        // Todo: Remove
+        die(__CLASS__ . ':' . __LINE__);
         $filterValues = BackendUtility::getSessionValue('filter', $action, $this->getControllerName());
         $filter = ObjectUtility::getFilterDto();
         if (!empty($searchterm)) {

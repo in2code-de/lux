@@ -15,12 +15,14 @@ use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Service\Referrer\Readable;
 use In2code\Lux\Domain\Service\Referrer\SocialMedia;
+use In2code\Lux\Exception\ArgumentsException;
 use In2code\Lux\Utility\ArrayUtility;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\ExtensionUtility;
 use In2code\Lux\Utility\FrontendUtility;
 use In2code\Luxenterprise\Domain\Repository\ShortenerRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
@@ -57,7 +59,6 @@ class PagevisitRepository extends AbstractRepository
             . ' where 1 '
             . $this->extendWhereClauseWithFilterSearchterms($filter, 'p')
             . $this->extendWhereClauseWithFilterTime($filter, true, 'pv')
-            . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
             . $this->extendWhereClauseWithFilterSite($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
@@ -189,19 +190,29 @@ class PagevisitRepository extends AbstractRepository
     }
 
     /**
-     * Get a result with pagevisits grouped by visitor
-     *
-     * @param Page $page
-     * @param int $limit
+     * @param FilterDto $filter
      * @return array
+     * @throws ArgumentsException
      * @throws ExceptionDbal
      */
-    public function findByPage(Page $page, int $limit = 100): array
+    public function findByFilter(FilterDto $filter): array
     {
+        if (MathUtility::canBeInterpretedAsInteger($filter->getSearchterm()) === false) {
+            throw new ArgumentsException('Filter searchterm must keep a page identifier here', 1708775656);
+        }
+
+        $sql = 'select pv.uid,pv.visitor,pv.crdate,pv.page from ' . Pagevisit::TABLE_NAME . ' pv'
+            . ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = pv.visitor'
+            . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
+            . ' where pv.page=' . (int)$filter->getSearchterm() . ' '
+            . $this->extendWhereClauseWithFilterTime($filter, true, 'pv')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
+            . $this->extendWhereClauseWithFilterScoring($filter, 'v')
+            . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
+            . ' group by pv.visitor,pv.uid,pv.crdate,pv.page'
+            . ' order by pv.crdate desc'
+            . ' limit ' . ($filter->isLimitSet() ? $filter->getLimit() : 750);
         $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
-        $sql = 'select uid,visitor,crdate from ' . Pagevisit::TABLE_NAME
-            . ' where page=' . $page->getUid()
-            . ' group by visitor,uid,crdate order by crdate desc limit ' . $limit;
         $pagevisitIdentifiers = $connection->executeQuery($sql)->fetchFirstColumn();
         return $this->convertIdentifiersToObjects($pagevisitIdentifiers, Pagevisit::TABLE_NAME);
     }

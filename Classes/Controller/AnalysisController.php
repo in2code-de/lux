@@ -25,8 +25,8 @@ use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\News;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
+use In2code\Lux\Exception\ArgumentsException;
 use In2code\Lux\Utility\BackendUtility;
-use In2code\Lux\Utility\FileUtility;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
@@ -321,12 +321,18 @@ class AnalysisController extends AbstractController
      * @return ResponseInterface
      * @throws ExceptionDbal
      * @throws ExceptionDbalDriver
+     * @throws ArgumentsException
      */
     public function detailPageAction(Page $page): ResponseInterface
     {
-        $filter = ObjectUtility::getFilterDto()->setSearchterm((string)$page->getUid());
+        $filter = BackendUtility::getFilterFromSession(
+            'content',
+            $this->getControllerName(),
+            ['searchterm' => (string)$page->getUid(), 'limit' => 100]
+        );
         $this->view->assignMultiple([
-            'pagevisits' => $this->pagevisitsRepository->findByPage($page, 100),
+            'filter' => $filter,
+            'pagevisits' => $this->pagevisitsRepository->findByFilter($filter),
             'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
         ]);
 
@@ -362,9 +368,14 @@ class AnalysisController extends AbstractController
      */
     public function detailDownloadAction(string $href): ResponseInterface
     {
-        $filter = ObjectUtility::getFilterDto()->setSearchterm(FileUtility::getFilenameFromPathAndFilename($href));
+        $filter = BackendUtility::getFilterFromSession(
+            'content',
+            $this->getControllerName(),
+            ['href' => $href, 'limit' => 100]
+        );
         $this->view->assignMultiple([
-            'downloads' => $this->downloadRepository->findByHref($href, 100),
+            'filter' => $filter,
+            'downloads' => $this->downloadRepository->findByFilter($filter),
             'numberOfDownloadsData' => GeneralUtility::makeInstance(DownloadsDataProvider::class, $filter),
         ]);
 
@@ -410,25 +421,28 @@ class AnalysisController extends AbstractController
     }
 
     /**
-     * AJAX action to show a detail view
+     * AJAX action to show a detail view coming from contentAction
      *
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      * @noinspection PhpUnused
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
+     * @throws ArgumentsException
      */
     public function detailAjaxPage(ServerRequestInterface $request): ResponseInterface
     {
-        $filter = $this->getFilterFromSessionForAjaxRequests('content', (string)$request->getQueryParams()['page']);
-        /** @var Page $page */
-        $page = $this->pageRepository->findByIdentifier((int)$request->getQueryParams()['page']);
+        $filter = BackendUtility::getFilterFromSession(
+            'content',
+            'Analysis',
+            ['searchterm' => (string)$request->getQueryParams()['page'], 'limit' => 10]
+        );
         $standaloneView = ObjectUtility::getStandaloneView();
         $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
             'EXT:lux/Resources/Private/Templates/Analysis/ContentDetailPageAjax.html'
         ));
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         $standaloneView->assignMultiple([
-            'pagevisits' => $page !== null ? $this->pagevisitsRepository->findByPage($page, 10) : null,
+            'pagevisits' => $this->pagevisitsRepository->findByFilter($filter),
             'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
         ]);
         $response = GeneralUtility::makeInstance(JsonResponse::class);
@@ -444,7 +458,7 @@ class AnalysisController extends AbstractController
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      * @noinspection PhpUnused
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function detailNewsAjaxPage(ServerRequestInterface $request): ResponseInterface
     {
@@ -521,9 +535,13 @@ class AnalysisController extends AbstractController
      */
     public function detailAjaxDownload(ServerRequestInterface $request): ResponseInterface
     {
-        $filter = $this->getFilterFromSessionForAjaxRequests(
+        $filter = BackendUtility::getFilterFromSession(
             'content',
-            FileUtility::getFilenameFromPathAndFilename((string)$request->getQueryParams()['download'])
+            'Analysis',
+            [
+                'href' => (string)$request->getQueryParams()['download'],
+                'limit' => 10,
+            ]
         );
         $standaloneView = ObjectUtility::getStandaloneView();
         $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
@@ -531,7 +549,7 @@ class AnalysisController extends AbstractController
         ));
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         $standaloneView->assignMultiple([
-            'downloads' => $this->downloadRepository->findByHref((string)$request->getQueryParams()['download'], 10),
+            'downloads' => $this->downloadRepository->findByFilter($filter),
             'numberOfDownloadsData' => GeneralUtility::makeInstance(DownloadsDataProvider::class, $filter),
         ]);
         $response = GeneralUtility::makeInstance(JsonResponse::class);

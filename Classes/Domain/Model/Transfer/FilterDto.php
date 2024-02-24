@@ -36,6 +36,7 @@ class FilterDto
     const IDENTIFIED_IDENTIFIED = 1;
 
     protected string $searchterm = '';
+    protected string $href = '';
     protected string $pid = '';
 
     /**
@@ -118,6 +119,32 @@ class FilterDto
     public function setSearchterm(string $searchterm): self
     {
         $this->searchterm = $searchterm;
+        return $this;
+    }
+
+    public function getHref(): string
+    {
+        return StringUtility::sanitizeString($this->href);
+    }
+
+    public function isHrefSet(): bool
+    {
+        return $this->href !== '';
+    }
+
+    /**
+     * Without sanitize function
+     *
+     * @return string
+     */
+    public function getHrefRaw(): string
+    {
+        return $this->href;
+    }
+
+    public function setHref(string $href): self
+    {
+        $this->href = $href;
         return $this;
     }
 
