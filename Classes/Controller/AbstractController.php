@@ -26,7 +26,6 @@ use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\RenderingTimeService;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ConfigurationUtility;
-use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Backend\Module\ExtbaseModule;
@@ -158,30 +157,6 @@ abstract class AbstractController extends ActionController
             $filter['identified'] = FilterDto::IDENTIFIED_ALL;
         }
         $this->request = $this->request->withArgument('filter', $filter);
-    }
-
-    protected function getFilterFromSessionForAjaxRequests(string $action, string $searchterm = ''): FilterDto
-    {
-        // Todo: Remove
-        die(__CLASS__ . ':' . __LINE__);
-        $filterValues = BackendUtility::getSessionValue('filter', $action, $this->getControllerName());
-        $filter = ObjectUtility::getFilterDto();
-        if (!empty($searchterm)) {
-            $filter->setSearchterm($searchterm);
-        }
-        if (!empty($filterValues['timeFrom'])) {
-            $filter->setTimeFrom((string)$filterValues['timeFrom']);
-        }
-        if (!empty($filterValues['timeTo'])) {
-            $filter->setTimeTo((string)$filterValues['timeTo']);
-        }
-        if (!empty($filterValues['scoring'])) {
-            $filter->setScoring((int)$filterValues['scoring']);
-        }
-        if (!empty($filterValues['categoryscoring'])) {
-            $filter->setCategoryScoring((int)$filterValues['categoryscoring']);
-        }
-        return $filter;
     }
 
     public function resetFilterAction(string $redirectAction): ResponseInterface

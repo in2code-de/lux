@@ -49,7 +49,7 @@ class AllLinkclickDataProvider extends AbstractDynamicFilterDataProvider
     public function prepareData(): void
     {
         $intervals = $this->filter->getIntervals();
-        $frequency = $intervals['frequency'];
+        $frequency = (string)$intervals['frequency'];
         $pageList = $this->getRelatedPageListToLinkclicks($intervals['intervals']);
         foreach ($intervals['intervals'] as $interval) {
             $clicks = $this->linkclickRepository->findByTimeFrame(

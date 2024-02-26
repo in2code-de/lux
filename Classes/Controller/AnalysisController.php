@@ -57,7 +57,6 @@ class AnalysisController extends AbstractController
      * @throws ExceptionDbal
      * @throws InvalidConfigurationTypeException
      * @throws InvalidQueryException
-     * @throws ExceptionDbalDriver
      */
     public function dashboardAction(FilterDto $filter): ResponseInterface
     {
@@ -141,7 +140,6 @@ class AnalysisController extends AbstractController
      * @param string $export
      * @return ResponseInterface
      * @throws Exception
-     * @throws ExceptionDbalDriver
      */
     public function newsAction(FilterDto $filter, string $export = ''): ResponseInterface
     {
@@ -188,7 +186,6 @@ class AnalysisController extends AbstractController
      * @param FilterDto $filter
      * @param string $export
      * @return ResponseInterface
-     * @throws ExceptionDbalDriver
      * @throws InvalidQueryException
      * @throws ExceptionDbal
      */
@@ -243,7 +240,6 @@ class AnalysisController extends AbstractController
      * @param string $export
      * @return ResponseInterface
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      * @throws InvalidQueryException
      */
     public function linkListenerAction(FilterDto $filter, string $export = ''): ResponseInterface
@@ -290,7 +286,6 @@ class AnalysisController extends AbstractController
      * @param FilterDto $filter
      * @return ResponseInterface
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     public function searchAction(FilterDto $filter): ResponseInterface
     {
@@ -320,7 +315,6 @@ class AnalysisController extends AbstractController
      * @param Page $page
      * @return ResponseInterface
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      * @throws ArgumentsException
      */
     public function detailPageAction(Page $page): ResponseInterface
@@ -343,8 +337,8 @@ class AnalysisController extends AbstractController
     /**
      * @param News $news
      * @return ResponseInterface
-     * @throws ExceptionDbalDriver
      * @throws ExceptionDbal
+     * @throws ArgumentsException
      */
     public function detailNewsAction(News $news): ResponseInterface
     {
@@ -368,7 +362,6 @@ class AnalysisController extends AbstractController
      * @param string $href
      * @return ResponseInterface
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      * @throws InvalidQueryException
      */
     public function detailDownloadAction(string $href): ResponseInterface
@@ -392,13 +385,18 @@ class AnalysisController extends AbstractController
      * @param Linklistener $linkListener
      * @return ResponseInterface
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
+     * @throws InvalidQueryException
      */
     public function detailLinkListenerAction(Linklistener $linkListener): ResponseInterface
     {
-        $filter = $this->getFilterFromSessionForAjaxRequests('linkListener', (string)$linkListener->getUid());
+        $filter = BackendUtility::getFilterFromSession(
+            'linkClick',
+            $this->getControllerName(),
+            ['searchterm' => (string)$linkListener->getUid(), 'limit' => 100]
+        );
         $this->view->assignMultiple([
-            'linkListener' => $linkListener,
+            'filter' => $filter,
+            'linkclicks' => $this->linkclickRepository->findByFilter($filter),
             'allLinkclickData' => GeneralUtility::makeInstance(AllLinkclickDataProvider::class, $filter),
         ]);
 
@@ -410,7 +408,6 @@ class AnalysisController extends AbstractController
      * @param string $searchterm
      * @return ResponseInterface
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     public function detailSearchAction(string $searchterm): ResponseInterface
     {
@@ -469,6 +466,7 @@ class AnalysisController extends AbstractController
      * @return ResponseInterface
      * @noinspection PhpUnused
      * @throws ExceptionDbal
+     * @throws ArgumentsException
      */
     public function detailNewsAjaxPage(ServerRequestInterface $request): ResponseInterface
     {
@@ -553,10 +551,7 @@ class AnalysisController extends AbstractController
         $filter = BackendUtility::getFilterFromSession(
             'content',
             'Analysis',
-            [
-                'href' => (string)$request->getQueryParams()['download'],
-                'limit' => 10,
-            ]
+            ['href' => (string)$request->getQueryParams()['download'], 'limit' => 10]
         );
         $standaloneView = ObjectUtility::getStandaloneView();
         $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
@@ -578,22 +573,22 @@ class AnalysisController extends AbstractController
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      * @noinspection PhpUnused
+     * @throws InvalidQueryException
      */
     public function detailAjaxLinklistener(ServerRequestInterface $request): ResponseInterface
     {
-        /** @var Linklistener $linkListener */
-        $linkListener = $this->linklistenerRepository->findByIdentifier(
-            (int)$request->getQueryParams()['linkListener']
+        $filter = BackendUtility::getFilterFromSession(
+            'linkListener',
+            'Analysis',
+            ['searchterm' => (string)$request->getQueryParams()['linkListener'], 'limit' => 10]
         );
-        $filter = $this->getFilterFromSessionForAjaxRequests('linkListener', (string)$linkListener->getUid());
         $standaloneView = ObjectUtility::getStandaloneView();
         $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
             'EXT:lux/Resources/Private/Templates/Analysis/LinkListenerAjax.html'
         ));
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         $standaloneView->assignMultiple([
-            'linkListener' => $linkListener,
-            'linkclicks' => $this->linkclickRepository->findByLinklistenerIdentifier($linkListener->getUid(), 10),
+            'linkclicks' => $this->linkclickRepository->findByFilter($filter),
             'allLinkclickData' => GeneralUtility::makeInstance(AllLinkclickDataProvider::class, $filter),
         ]);
         $response = GeneralUtility::makeInstance(JsonResponse::class);
@@ -606,7 +601,6 @@ class AnalysisController extends AbstractController
     /**
      * @return void
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     protected function addDocumentHeaderForCurrentController(): void
     {

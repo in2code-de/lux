@@ -11,6 +11,7 @@ use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\DateUtility;
+use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
@@ -167,15 +168,20 @@ class LinkclickRepository extends AbstractRepository
     }
 
     /**
-     * @param int $linklistenerIdentifier
-     * @param int $limit
+     * @param FilterDto $filter
      * @return QueryResultInterface
+     * @throws InvalidQueryException
      */
-    public function findByLinklistenerIdentifier(int $linklistenerIdentifier, int $limit): QueryResultInterface
+    public function findByFilter(FilterDto $filter): QueryResultInterface
     {
         $query = $this->createQuery();
-        $query->matching($query->equals('linklistener', $linklistenerIdentifier));
-        $query->setLimit($limit);
+        $logicalAnd = [
+            $query->equals('linklistener', (int)$filter->getSearchterm()),
+        ];
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForSite($filter, $query, $logicalAnd);
+        $query->matching($query->logicalAnd(...$logicalAnd));
+        $query->setLimit($filter->getLimit());
         $query->setOrderings(['crdate' => QueryInterface::ORDER_DESCENDING]);
         return $query->execute();
     }
