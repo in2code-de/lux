@@ -48,9 +48,12 @@ class Visitor extends AbstractModel
     protected ?ObjectStorage $categoryscorings = null;
 
     /**
+     * @Lazy
      * @var ?ObjectStorage<Fingerprint>
+     * @phpstan-var ObjectStorage|LazyLoadingProxy|null
+     * Todo: Type can be changed to Company|LazyLoadingProxy|null when PHP 7.4 is dropped
      */
-    protected ?ObjectStorage $fingerprints = null;
+    protected ?object $fingerprints = null;
 
     protected string $email = '';
     protected string $company = '';
@@ -240,7 +243,9 @@ class Visitor extends AbstractModel
 
     public function getFingerprints(): ?ObjectStorage
     {
-        return $this->fingerprints;
+        return $this->fingerprints instanceof LazyLoadingProxy
+            ? $this->fingerprints->_loadRealInstance()
+            : $this->fingerprints;
     }
 
     /**

@@ -41,7 +41,6 @@ CREATE TABLE tx_lux_domain_model_visitor (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY frontenduser (frontenduser),
-	KEY fingerprints (fingerprints(20)),
 	KEY identified (identified),
 	KEY blacklisted (blacklisted),
 	KEY email (email(20)),
@@ -81,6 +80,7 @@ CREATE TABLE tx_lux_domain_model_fingerprint (
 
 	PRIMARY KEY (uid),
 	KEY parent (pid),
+	KEY visitor (visitor),
 	KEY value (value(33)),
 	KEY domain (domain(50)),
 	KEY user_agent (user_agent(50)),
