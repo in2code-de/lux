@@ -2473,6 +2473,10 @@
 				<source>Medium</source>
 				<target state="translated">Medium</target>
 			</trans-unit>
+			<trans-unit id="dictionary.newsidentifier">
+				<source>News Identifier (UID)</source>
+				<target state="translated">News (UID)</target>
+			</trans-unit>
 			<trans-unit id="dictionary.referrer">
 				<source>Referrer</source>
 				<target state="translated">Referrer</target>

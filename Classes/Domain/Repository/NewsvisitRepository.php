@@ -11,6 +11,7 @@ use In2code\Lux\Domain\Model\Newsvisit;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Exception\ArgumentsException;
 use In2code\Lux\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -114,17 +115,30 @@ class NewsvisitRepository extends AbstractRepository
     /**
      * Get a result with pagevisits grouped by visitor
      *
-     * @param News $news
-     * @param int $limit
+     * @param FilterDto $filter
      * @return array
      * @throws ExceptionDbal
+     * @throws ArgumentsException
      */
-    public function findByNews(News $news, int $limit = 100): array
+    public function findByFilter(FilterDto $filter): array
     {
+        if (MathUtility::canBeInterpretedAsInteger($filter->getSearchterm()) === false) {
+            throw new ArgumentsException('Filter searchterm must keep a news identifier here', 1708792874);
+        }
+
         $connection = DatabaseUtility::getConnectionForTable(Newsvisit::TABLE_NAME);
-        $sql = 'select uid,visitor,crdate from ' . Newsvisit::TABLE_NAME
-            . ' where news=' . $news->getUid()
-            . ' group by visitor,uid,crdate order by crdate desc limit ' . $limit;
+        $sql = 'select nv.uid,nv.visitor,nv.crdate from ' . Newsvisit::TABLE_NAME . ' nv'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on nv.pagevisit = pv.uid'
+            . ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = pv.visitor'
+            . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
+            . ' where nv.news=' . (int)$filter->getSearchterm()
+            . $this->extendWhereClauseWithFilterTime($filter, true, 'nv')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
+            . $this->extendWhereClauseWithFilterScoring($filter, 'v')
+            . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
+            . ' group by nv.visitor,nv.uid,nv.crdate'
+            . ' order by crdate desc'
+            . ' limit ' . $filter->getLimit();
         $newsvisitIdentifiers = $connection->executeQuery($sql)->fetchFirstColumn();
         return $this->convertIdentifiersToObjects($newsvisitIdentifiers, Newsvisit::TABLE_NAME);
     }

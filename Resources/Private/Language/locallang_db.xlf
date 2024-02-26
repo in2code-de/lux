@@ -1870,6 +1870,9 @@
 			<trans-unit id="dictionary.medium">
 				<source>Medium</source>
 			</trans-unit>
+			<trans-unit id="dictionary.newsidentifier">
+				<source>News Identifier (UID)</source>
+			</trans-unit>
 			<trans-unit id="dictionary.referrer">
 				<source>Referrer</source>
 			</trans-unit>

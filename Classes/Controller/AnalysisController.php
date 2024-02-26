@@ -348,10 +348,15 @@ class AnalysisController extends AbstractController
      */
     public function detailNewsAction(News $news): ResponseInterface
     {
-        $filter = ObjectUtility::getFilterDto()->setSearchterm((string)$news->getUid());
+        $filter = BackendUtility::getFilterFromSession(
+            'news',
+            $this->getControllerName(),
+            ['searchterm' => $news->getUid(), 'limit' => 100]
+        );
         $this->view->assignMultiple([
+            'filter' => $filter,
             'news' => $news,
-            'newsvisits' => $this->newsvisitRepository->findByNews($news, 100),
+            'newsvisits' => $this->newsvisitRepository->findByFilter($filter),
             'newsvisitsData' => GeneralUtility::makeInstance(NewsvisistsDataProvider::class, $filter),
         ]);
 
@@ -462,7 +467,11 @@ class AnalysisController extends AbstractController
      */
     public function detailNewsAjaxPage(ServerRequestInterface $request): ResponseInterface
     {
-        $filter = $this->getFilterFromSessionForAjaxRequests('news', (string)$request->getQueryParams()['news']);
+        $filter = BackendUtility::getFilterFromSession(
+            'news',
+            'Analysis',
+            ['searchterm' => (string)$request->getQueryParams()['news'], 'limit' => 10]
+        );
         /** @var News $news */
         $news = $this->newsRepository->findByIdentifier((int)$request->getQueryParams()['news']);
         $standaloneView = ObjectUtility::getStandaloneView();
@@ -472,7 +481,7 @@ class AnalysisController extends AbstractController
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         $standaloneView->assignMultiple([
             'news' => $news,
-            'newsvisits' => $news !== null ? $this->newsvisitRepository->findByNews($news, 10) : null,
+            'newsvisits' => $this->newsvisitRepository->findByFilter($filter),
             'newsvisitsData' => GeneralUtility::makeInstance(NewsvisistsDataProvider::class, $filter),
         ]);
         $response = GeneralUtility::makeInstance(JsonResponse::class);
