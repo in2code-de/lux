@@ -40,4 +40,9 @@ class ObjectUtility
         $filterDto->setTimeFrom($start->format('c'))->setTimeTo($end->format('c'));
         return $filterDto;
     }
+
+    public static function getFilterWithLimit(int $limit = 10): FilterDto
+    {
+        return GeneralUtility::makeInstance(FilterDto::class)->setLimit(10);
+    }
 }

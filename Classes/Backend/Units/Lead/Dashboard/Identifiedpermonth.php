@@ -23,8 +23,9 @@ class Identifiedpermonth extends AbstractUnit implements UnitInterface
             return [];
         }
         $logRepository = GeneralUtility::makeInstance(LogRepository::class);
+        $this->filter->setLimit(6);
         return [
-            'identifiedPerMonth' => $logRepository->findIdentifiedLogsFromMonths(),
+            'identifiedPerMonth' => $logRepository->findIdentifiedLogsFromMonths($this->filter),
         ];
     }
 }

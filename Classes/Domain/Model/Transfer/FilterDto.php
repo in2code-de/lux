@@ -367,7 +367,7 @@ class FilterDto
 
     public function isSiteSet(): bool
     {
-        return $this->getSite() !=='';
+        return $this->getSite() !== '';
     }
 
     public function setSite(string $site): self

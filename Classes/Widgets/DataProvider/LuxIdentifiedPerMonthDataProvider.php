@@ -8,6 +8,7 @@ use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Exception;
 use In2code\Lux\Domain\Repository\LogRepository;
 use In2code\Lux\Utility\LocalizationUtility;
+use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Dashboard\WidgetApi;
 use TYPO3\CMS\Dashboard\Widgets\ChartDataProviderInterface;
@@ -51,7 +52,7 @@ class LuxIdentifiedPerMonthDataProvider implements ChartDataProviderInterface
     protected function getData(): array
     {
         $logRepository = GeneralUtility::makeInstance(LogRepository::class);
-        $logs = $logRepository->findIdentifiedLogsFromMonths(6);
+        $logs = $logRepository->findIdentifiedLogsFromMonths(ObjectUtility::getFilterWithLimit(6));
         $amount = [];
         foreach ($logs as $logsCombined) {
             $amount[] = count($logsCombined);

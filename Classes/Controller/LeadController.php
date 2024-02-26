@@ -60,8 +60,8 @@ class LeadController extends AbstractController
     {
         $this->view->assignMultiple([
             'filter' => $filter,
-            'interestingLogs' => $this->logRepository->findInterestingLogs($filter, 10),
-            'whoisonline' => $this->visitorRepository->findOnline(8),
+            'interestingLogs' => $this->logRepository->findInterestingLogs($filter->setLimit(10)),
+            'whoisonline' => $this->visitorRepository->findOnline($filter->setLimit(8)),
         ]);
 
         $this->addDocumentHeaderForCurrentController();

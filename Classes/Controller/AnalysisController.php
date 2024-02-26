@@ -60,6 +60,7 @@ class AnalysisController extends AbstractController
      */
     public function dashboardAction(FilterDto $filter): ResponseInterface
     {
+        $filter->setLimit(8);
         $this->view->assignMultiple([
             'filter' => $filter,
             'interestingLogs' => $this->logRepository->findInterestingLogs($filter),

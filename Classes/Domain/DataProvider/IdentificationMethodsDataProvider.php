@@ -3,8 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider;
 
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
+use Exception;
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Repository\LogRepository;
 use In2code\Lux\Utility\LocalizationUtility;
@@ -28,8 +27,7 @@ class IdentificationMethodsDataProvider extends AbstractDataProvider
      *  ]
      *
      * @return void
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws Exception
      */
     public function prepareData(): void
     {

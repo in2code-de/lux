@@ -17,6 +17,7 @@ use In2code\Lux\Domain\Model\Ipinformation;
 use In2code\Lux\Domain\Model\Linkclick;
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Newsvisit;
+use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Search;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
@@ -192,16 +193,17 @@ class VisitorRepository extends AbstractRepository
      * @param int $limit
      * @return array
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     public function findByHottestScorings(FilterDto $filter, int $limit = 10)
     {
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
         $sql = 'select distinct v.uid, v.scoring, v.tstamp from ' . Visitor::TABLE_NAME . ' v'
-            . $this->extendFromClauseWithJoinByFilter($filter, ['pv', 'p', 'cs'])
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on v.uid = pv.visitor'
+            . ' left join ' . Page::TABLE_NAME . ' p on p.uid = pv.page'
+            . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
             . ' where v.deleted=0 and v.hidden=0 and v.identified=1'
             . $this->extendWhereClauseWithFilterSearchterms($filter, 'v', 'email')
-            . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
             . ' order by v.scoring DESC, v.tstamp DESC'
@@ -275,6 +277,7 @@ class VisitorRepository extends AbstractRepository
         $query = $this->createQuery();
         $logicalAnd = [$query->equals('visits', 1)];
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForSite($filter, $query, $logicalAnd, 'pagevisits');
         $query->matching($query->logicalAnd(...$logicalAnd));
         return $query->execute();
     }
@@ -289,6 +292,7 @@ class VisitorRepository extends AbstractRepository
         $query = $this->createQuery();
         $logicalAnd = [$query->greaterThan('visits', 1)];
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForSite($filter, $query, $logicalAnd, 'pagevisits');
         $query->matching($query->logicalAnd(...$logicalAnd));
         return $query->execute();
     }
@@ -303,6 +307,7 @@ class VisitorRepository extends AbstractRepository
         $query = $this->createQuery();
         $logicalAnd = [$query->equals('identified', true)];
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForSite($filter, $query, $logicalAnd, 'pagevisits');
         $query->matching($query->logicalAnd(...$logicalAnd));
         return $query->execute();
     }
@@ -317,6 +322,7 @@ class VisitorRepository extends AbstractRepository
         $query = $this->createQuery();
         $logicalAnd = [$query->equals('identified', false)];
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForSite($filter, $query, $logicalAnd, 'pagevisits');
         $query->matching($query->logicalAnd(...$logicalAnd));
         return $query->execute();
     }
@@ -324,16 +330,18 @@ class VisitorRepository extends AbstractRepository
     /**
      * Find visitors that are now on the website (5 Min last activity)
      *
-     * @param int $limit
+     * @param FilterDto $filter
      * @return QueryResultInterface
      * @throws InvalidQueryException
      * @throws Exception
      */
-    public function findOnline(int $limit = 10): QueryResultInterface
+    public function findOnline(FilterDto $filter): QueryResultInterface
     {
         $query = $this->createQuery();
-        $query->matching($query->greaterThan('tstamp', DateUtility::getCurrentOnlineDateTime()->format('U')));
-        $query->setLimit($limit);
+        $logicalAnd = [$query->greaterThan('pagevisits.tstamp', DateUtility::getCurrentOnlineDateTime())];
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForSite($filter, $query, $logicalAnd, 'pagevisits');
+        $query->matching($query->logicalAnd(...$logicalAnd));
+        $query->setLimit($filter->getLimit());
         $query->setOrderings(['tstamp' => QueryInterface::ORDER_DESCENDING]);
         return $query->execute();
     }

@@ -75,16 +75,18 @@ abstract class AbstractRepository extends Repository
      * @param FilterDto $filter
      * @param QueryInterface $query
      * @param array $logicalAnd
+     * @param string $tablePrefix
      * @return array
      * @throws InvalidQueryException
-     * @throws Exception
      */
     protected function extendLogicalAndWithFilterConstraintsForSite(
         FilterDto $filter,
         QueryInterface $query,
-        array $logicalAnd
+        array $logicalAnd,
+        string $tablePrefix = ''
     ): array {
-        $logicalAnd[] = $query->in('site', $filter->getSitesForFilter());
+        $field = ($tablePrefix ? $tablePrefix . '.' : '') . 'site';
+        $logicalAnd[] = $query->in($field, $filter->getSitesForFilter());
         return $logicalAnd;
     }
 
@@ -284,7 +286,7 @@ abstract class AbstractRepository extends Repository
         if (in_array('v', $tables)) {
             $sql .= ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = pv.visitor';
         }
-        if ($filter->isSearchtermSet() || $filter->isDomainSet()) {
+        if ($filter->isSearchtermSet() || $filter->isSiteQueryNeeded()) {
             if (in_array('pv', $tables)) {
                 $sql .= ' left join ' . Pagevisit::TABLE_NAME . ' pv on v.uid = pv.visitor';
             }
