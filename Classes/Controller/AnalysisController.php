@@ -414,11 +414,16 @@ class AnalysisController extends AbstractController
      */
     public function detailSearchAction(string $searchterm): ResponseInterface
     {
-        $filter = ObjectUtility::getFilterDto()->setSearchterm($searchterm);
+        $filter = BackendUtility::getFilterFromSession(
+            'search',
+            $this->getControllerName(),
+            ['searchterm' => $searchterm, 'limit' => 100]
+        );
         $this->view->assignMultiple([
+            'filter' => $filter,
             'searchterm' => $searchterm,
             'searchData' => GeneralUtility::makeInstance(SearchDataProvider::class, $filter),
-            'searches' => $this->searchRepository->findBySearchterm($filter),
+            'searches' => $this->searchRepository->findByFilter($filter),
         ]);
 
         $this->addDocumentHeaderForCurrentController();
@@ -524,8 +529,9 @@ class AnalysisController extends AbstractController
             ['searchterm' => urldecode($request->getQueryParams()['searchterm']), 'limit' => 10]
         );
         $standaloneView->assignMultiple([
-            'searches' => $this->searchRepository->findBySearchterm($filter),
+            'searches' => $this->searchRepository->findByFilter($filter),
             'searchterm' => $request->getQueryParams()['searchterm'],
+            'searchData' => GeneralUtility::makeInstance(SearchDataProvider::class, $filter),
         ]);
         $response = GeneralUtility::makeInstance(JsonResponse::class);
         /** @var StreamInterface $stream */

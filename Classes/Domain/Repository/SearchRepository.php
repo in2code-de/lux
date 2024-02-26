@@ -46,7 +46,7 @@ class SearchRepository extends AbstractRepository
         return $connection->executeQuery($sql)->fetchAllAssociative();
     }
 
-    public function findBySearchterm(FilterDto $filter): QueryResultInterface
+    public function findByFilter(FilterDto $filter): QueryResultInterface
     {
         $sql = 'select s.* from ' . Search::TABLE_NAME . ' s'
             . ' left join ' . Pagevisit::TABLE_NAME . ' pv on s.pagevisit = pv.uid'
