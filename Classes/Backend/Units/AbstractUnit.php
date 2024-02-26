@@ -70,11 +70,7 @@ abstract class AbstractUnit
     {
         $filter = ObjectUtility::getFilterDto();
         if ($this->filterClass !== '' && $this->filterFunction !== '') {
-            $filter = BackendUtility::getFilterFromSession(
-                $this->filterFunction,
-                $this->filterClass,
-                ['timePeriod' => FilterDto::PERIOD_LAST3MONTH]
-            );
+            $filter = BackendUtility::getFilterFromSession($this->filterFunction, $this->filterClass);
         }
         $this->filter = $filter;
     }

@@ -16,7 +16,7 @@ use Throwable;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Class FilterDto is a filter class that helps filtering visitors by given parameters. Per default, get visitors
+ * Class FilterDto is a filter class that helps to filter visitors by given parameters. Per default, get visitors
  * from the current year.
  */
 class FilterDto

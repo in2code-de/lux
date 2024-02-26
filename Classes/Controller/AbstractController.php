@@ -148,6 +148,9 @@ abstract class AbstractController extends ActionController
         // Save to session
         if ($this->request->hasArgument('filter') === false) {
             $filter = BackendUtility::getFilterArrayFromSession($this->getActionName(), $this->getControllerName());
+            if ($filter === []) {
+                $filter['timePeriod'] = $timePeriod;
+            }
         } else {
             $filter = (array)$this->request->getArgument('filter');
             BackendUtility::saveValueToSession('filter', $this->getActionName(), $this->getControllerName(), $filter);
