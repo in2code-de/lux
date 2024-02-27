@@ -562,6 +562,17 @@ class VisitorRepository extends AbstractRepository
         return $visitors;
     }
 
+    public function canVisitorBeReadBySites(Visitor $visitor, array $sites): bool
+    {
+        $sql = 'select v.uid from ' . Visitor::TABLE_NAME . ' v'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on v.uid = pv.visitor'
+            . ' where v.deleted=0 and v.blacklisted=0 and v.uid=' . $visitor->getUid()
+            . ' and pv.site in ("' . implode('","', $sites) . '")'
+            . ' limit 1';
+        $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
+        return (int)$connection->executeQuery($sql)->fetchOne() > 0;
+    }
+
     /**
      * @param int $visitorIdentifier
      * @param int $frontenduserIdentifier

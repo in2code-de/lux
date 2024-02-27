@@ -14,7 +14,9 @@ use In2code\Lux\Domain\Service\GetCompanyFromIpService;
 use In2code\Lux\Domain\Service\Image\VisitorImageService;
 use In2code\Lux\Domain\Service\Provider\Telecommunication;
 use In2code\Lux\Domain\Service\ScoringService;
+use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Exception\ConfigurationException;
+use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
@@ -1123,6 +1125,21 @@ class Visitor extends AbstractModel
             }
         }
         return $lng;
+    }
+
+    /**
+     * Check if this visitor can be viewed by current editor
+     *
+     * @return bool
+     */
+    public function canBeRead(): bool
+    {
+        if (BackendUtility::isAdministrator()) {
+            return true;
+        }
+        $sites = GeneralUtility::makeInstance(SiteService::class)->getAllowedSites();
+        return GeneralUtility::makeInstance(VisitorRepository::class)
+            ->canVisitorBeReadBySites($this, array_keys($sites));
     }
 
     /**

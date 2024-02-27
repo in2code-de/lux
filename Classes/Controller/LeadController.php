@@ -21,6 +21,7 @@ use In2code\Lux\Domain\Repository\CategoryRepository;
 use In2code\Lux\Domain\Repository\CompanyRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\CompanyConfigurationService;
+use In2code\Lux\Exception\AuthenticationException;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
@@ -101,8 +102,16 @@ class LeadController extends AbstractController
         return $this->defaultRendering();
     }
 
+    /**
+     * @param Visitor $visitor
+     * @return ResponseInterface
+     * @throws AuthenticationException
+     */
     public function detailAction(Visitor $visitor): ResponseInterface
     {
+        if ($visitor->canBeRead() === false) {
+            throw new AuthenticationException('Not allowed to view this visitor', 1709071863);
+        }
         $filter = ObjectUtility::getFilterDtoFromStartAndEnd($visitor->getDateOfPagevisitFirst(), new DateTime())
             ->setVisitor($visitor);
         $this->view->assignMultiple([
@@ -294,6 +303,9 @@ class LeadController extends AbstractController
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         /** @var Visitor $visitor */
         $visitor = $visitorRepository->findByUid((int)$request->getQueryParams()['visitor']);
+        if ($visitor->canBeRead() === false) {
+            throw new AuthenticationException('Not allowed to view this visitor', 1709072495);
+        }
         $filter = ObjectUtility::getFilterDtoFromStartAndEnd($visitor->getDateOfPagevisitFirst(), new DateTime())
             ->setVisitor($visitor);
         $standaloneView->assignMultiple([
