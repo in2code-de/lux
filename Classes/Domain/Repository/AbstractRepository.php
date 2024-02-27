@@ -286,7 +286,7 @@ abstract class AbstractRepository extends Repository
         if (in_array('v', $tables)) {
             $sql .= ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = pv.visitor';
         }
-        if ($filter->isSearchtermSet() || $filter->isSiteQueryNeeded()) {
+        if ($filter->isSearchtermSet() || $filter->isDomainSet()) {
             if (in_array('pv', $tables)) {
                 $sql .= ' left join ' . Pagevisit::TABLE_NAME . ' pv on v.uid = pv.visitor';
             }

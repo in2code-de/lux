@@ -43,13 +43,15 @@ class LeadsPerTimeDataProvider extends AbstractDynamicFilterDataProvider
             // New visitors
             $this->data['amounts'][] = $visitorRepository->findAmountOfNewVisitorsInTimeFrame(
                 $interval['start'],
-                $interval['end']
+                $interval['end'],
+                $this->filter
             );
 
             // Existing visitors
             $this->data['amounts2'][] = $visitorRepository->findAmountOfExistingVisitorsInTimeFrame(
                 $interval['start'],
-                $interval['end']
+                $interval['end'],
+                $this->filter
             );
             $this->data['titles'][] = $this->getLabelForFrequency($frequency, $interval['start']);
         }

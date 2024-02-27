@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
 use DateTime;
-use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use Exception;
@@ -23,14 +22,12 @@ use In2code\Lux\Domain\Model\Search;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Utm;
 use In2code\Lux\Domain\Model\Visitor;
-use In2code\Lux\Exception\FileNotFoundException;
 use In2code\Lux\Exception\ParametersException;
 use In2code\Lux\Utility\ArrayUtility;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\DateUtility;
 use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
@@ -65,25 +62,25 @@ class VisitorRepository extends AbstractRepository
 
     /**
      * @param FilterDto $filter
-     * @param int $limit
      * @return array ->toArray() improves performance up to 100% on some cases
      * @throws InvalidQueryException
      */
-    public function findAllWithIdentifiedFirst(FilterDto $filter, int $limit = 750): array
+    public function findAllWithIdentifiedFirst(FilterDto $filter): array
     {
         // Search for single visitor by calculated hash
         if ($filter->isSearchtermSet() && StringUtility::isShortMd5($filter->getSearchterm())) {
-            $visitor = $this->findByHash($filter->getSearchterm());
+            $visitor = $this->findByHash($filter);
             if ($visitor !== null) {
                 return [$visitor];
             }
         }
 
         $query = $this->createQuery();
-        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, []);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraints($filter, $query, []);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForSite($filter, $query, $logicalAnd, 'pagevisits');
         $query->matching($query->logicalAnd(...$logicalAnd));
         $query->setOrderings($this->getOrderingsArrayByFilterDto($filter));
-        $query->setLimit($limit);
+        $query->setLimit($filter->getLimit());
         return $query->execute()->toArray();
     }
 
@@ -91,8 +88,6 @@ class VisitorRepository extends AbstractRepository
      * @param FilterDto $filter
      * @return array
      * @throws InvalidQueryException
-     * @throws FileNotFoundException
-     * @throws InvalidConfigurationTypeException
      */
     public function findAllWithKnownCompanies(FilterDto $filter): array
     {
@@ -113,7 +108,7 @@ class VisitorRepository extends AbstractRepository
      * @param string $propertyName
      * @param string $propertyValue
      * @param bool $exactMatch
-     * @param array $order
+     * @param array $orderings
      * @param int $limit
      * @return QueryResultInterface
      * @throws InvalidQueryException
@@ -190,11 +185,10 @@ class VisitorRepository extends AbstractRepository
      * Find a small couple of the hottest visitors
      *
      * @param FilterDto $filter
-     * @param int $limit
      * @return array
      * @throws ExceptionDbal
      */
-    public function findByHottestScorings(FilterDto $filter, int $limit = 10)
+    public function findByHottestScorings(FilterDto $filter)
     {
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
         $sql = 'select distinct v.uid, v.scoring, v.tstamp from ' . Visitor::TABLE_NAME . ' v'
@@ -207,7 +201,7 @@ class VisitorRepository extends AbstractRepository
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
             . ' order by v.scoring DESC, v.tstamp DESC'
-            . ' limit ' . $limit;
+            . ' limit ' . $filter->getLimit();
         $rows = $connection->executeQuery($sql)->fetchAllAssociative();
         $results = [];
         foreach ($rows as $row) {
@@ -276,7 +270,7 @@ class VisitorRepository extends AbstractRepository
     {
         $query = $this->createQuery();
         $logicalAnd = [$query->equals('visits', 1)];
-        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraints($filter, $query, $logicalAnd);
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForSite($filter, $query, $logicalAnd, 'pagevisits');
         $query->matching($query->logicalAnd(...$logicalAnd));
         return $query->execute();
@@ -291,7 +285,7 @@ class VisitorRepository extends AbstractRepository
     {
         $query = $this->createQuery();
         $logicalAnd = [$query->greaterThan('visits', 1)];
-        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraints($filter, $query, $logicalAnd);
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForSite($filter, $query, $logicalAnd, 'pagevisits');
         $query->matching($query->logicalAnd(...$logicalAnd));
         return $query->execute();
@@ -306,7 +300,7 @@ class VisitorRepository extends AbstractRepository
     {
         $query = $this->createQuery();
         $logicalAnd = [$query->equals('identified', true)];
-        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraints($filter, $query, $logicalAnd);
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForSite($filter, $query, $logicalAnd, 'pagevisits');
         $query->matching($query->logicalAnd(...$logicalAnd));
         return $query->execute();
@@ -321,7 +315,7 @@ class VisitorRepository extends AbstractRepository
     {
         $query = $this->createQuery();
         $logicalAnd = [$query->equals('identified', false)];
-        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraints($filter, $query, $logicalAnd);
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForSite($filter, $query, $logicalAnd, 'pagevisits');
         $query->matching($query->logicalAnd(...$logicalAnd));
         return $query->execute();
@@ -400,8 +394,7 @@ class VisitorRepository extends AbstractRepository
 
     /**
      * @return bool
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function isVisitorExistingWithDefaultLanguage(): bool
     {
@@ -413,8 +406,7 @@ class VisitorRepository extends AbstractRepository
 
     /**
      * @return int
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function findAllAmount(): int
     {
@@ -424,8 +416,7 @@ class VisitorRepository extends AbstractRepository
 
     /**
      * @return int
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function findAllIdentifiedAmount(): int
     {
@@ -436,8 +427,7 @@ class VisitorRepository extends AbstractRepository
 
     /**
      * @return int
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function findAllUnknownAmount(): int
     {
@@ -446,13 +436,18 @@ class VisitorRepository extends AbstractRepository
             ->fetchOne();
     }
 
-    public function findByHash(string $hash): ?Visitor
+    public function findByHash(FilterDto $filter): ?Visitor
     {
-        if (StringUtility::isShortMd5($hash) === false) {
+        if (StringUtility::isShortMd5($filter->getSearchterm()) === false) {
             return null;
         }
 
-        $sql = 'select uid from ' . Visitor::TABLE_NAME . ' where SUBSTR(MD5(uid), 1, 6) = "' . $hash . '" limit 1';
+        $sql = 'select v.uid from ' . Visitor::TABLE_NAME . ' v'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.visitor=v.uid'
+            . ' where SUBSTR(MD5(v.uid), 1, 6) = "' . $filter->getSearchterm() . '"'
+            . ' and v.deleted=0'
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
+            . ' limit 1';
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
         $identifier = $connection->executeQuery($sql)->fetchOne() ?: 0;
 
@@ -490,30 +485,33 @@ class VisitorRepository extends AbstractRepository
         return $connection->executeQuery($sql)->fetchAllKeyValue();
     }
 
-    public function findAmountOfVisitorsInTimeFrame(DateTime $start, DateTime $end): int
+    public function findAmountOfVisitorsInTimeFrame(DateTime $start, DateTime $end, FilterDto $filter): int
     {
-        $sql = 'select distinct v.uid from ' . Visitor::TABLE_NAME . ' v'
+        $sql = 'select count(distinct v.uid) from ' . Visitor::TABLE_NAME . ' v'
             . ' left join ' . Pagevisit::TABLE_NAME . ' pv on v.uid = pv.visitor'
             . ' where v.deleted=0 and v.blacklisted=0'
             . ' and pv.crdate >= ' . $start->getTimestamp() . ' and pv.crdate <= ' . $end->getTimestamp()
-            . ' group by v.uid';
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
+            . ' limit 1';
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
-        $rows = $connection->executeQuery($sql)->fetchAllNumeric();
-        return count($rows);
+        return (int)$connection->executeQuery($sql)->fetchOne();
     }
 
-    public function findAmountOfExistingVisitorsInTimeFrame(DateTime $start, DateTime $end): int
+    public function findAmountOfExistingVisitorsInTimeFrame(DateTime $start, DateTime $end, FilterDto $filter): int
     {
-        $newVisitors = $this->findAmountOfNewVisitorsInTimeFrame($start, $end);
-        $allVisitors = $this->findAmountOfVisitorsInTimeFrame($start, $end);
+        $newVisitors = $this->findAmountOfNewVisitorsInTimeFrame($start, $end, $filter);
+        $allVisitors = $this->findAmountOfVisitorsInTimeFrame($start, $end, $filter);
         return $allVisitors - $newVisitors;
     }
 
-    public function findAmountOfNewVisitorsInTimeFrame(DateTime $start, DateTime $end): int
+    public function findAmountOfNewVisitorsInTimeFrame(DateTime $start, DateTime $end, FilterDto $filter): int
     {
-        $sql = 'select count(uid) from ' . Visitor::TABLE_NAME
-            . ' where deleted=0 and blacklisted=0'
-            . ' and crdate >= ' . $start->getTimestamp() . ' and crdate <= ' . $end->getTimestamp();
+        $sql = 'select count(distinct v.uid) from ' . Visitor::TABLE_NAME . ' v'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on v.uid = pv.visitor'
+            . ' where v.deleted=0 and v.blacklisted=0'
+            . ' and v.crdate >= ' . $start->getTimestamp() . ' and v.crdate <= ' . $end->getTimestamp()
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
+            . ' limit 1';
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
         return (int)$connection->executeQuery($sql)->fetchOne();
     }
@@ -561,7 +559,7 @@ class VisitorRepository extends AbstractRepository
 
     /**
      * @return void
-     * @throws DBALException
+     * @throws ExceptionDbal
      */
     public function updateRecordsWithLanguageAll(): void
     {
@@ -586,7 +584,7 @@ class VisitorRepository extends AbstractRepository
     /**
      * @param Visitor $visitor
      * @return void
-     * @throws DBALException
+     * @throws ExceptionDbal
      */
     public function removeVisitor(Visitor $visitor): void
     {
@@ -656,7 +654,7 @@ class VisitorRepository extends AbstractRepository
      * @throws InvalidQueryException
      * @throws Exception
      */
-    protected function extendLogicalAndWithFilterConstraintsForCrdate(
+    protected function extendLogicalAndWithFilterConstraints(
         FilterDto $filter,
         QueryInterface $query,
         array $logicalAnd

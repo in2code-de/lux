@@ -137,7 +137,6 @@ class PagevisitRepository extends AbstractRepository
             . $this->extendFromClauseWithJoinByFilter($filter, ['p', 'cs', 'v'])
             . ' where pv.crdate>=' . $start->getTimestamp() . ' and pv.crdate<=' . $end->getTimestamp()
             . $this->extendWhereClauseWithFilterSearchterms($filter, 'p')
-            . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
             . $this->extendWhereClauseWithFilterSite($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterVisitor($filter, 'v')

@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
 use DateTime;
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use Exception;
 use In2code\Lux\Domain\DataProvider\CompanyAmountPerMonthDataProvider;
@@ -82,7 +80,6 @@ class LeadController extends AbstractController
      * @param string $export
      * @return ResponseInterface
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      * @throws InvalidQueryException
      */
     public function listAction(FilterDto $filter, string $export = ''): ResponseInterface
@@ -91,12 +88,12 @@ class LeadController extends AbstractController
             return (new ForwardResponse('downloadCsv'))->withArguments(['filter' => $filter]);
         }
         $this->view->assignMultiple([
-            'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
-            'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter, 8),
-            'visitorsPerTimeData' => GeneralUtility::makeInstance(LeadsPerTimeDataProvider::class, $filter),
-            'filter' => $filter,
-            'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter),
+            'filter' => $filter->setLimit(750),
             'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
+            'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter),
+            'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
+            'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter->setLimit(8)),
+            'visitorsPerTimeData' => GeneralUtility::makeInstance(LeadsPerTimeDataProvider::class, $filter),
         ]);
 
         $this->addDocumentHeaderForCurrentController();
@@ -137,7 +134,6 @@ class LeadController extends AbstractController
      *
      * @param Visitor $visitor
      * @return ResponseInterface
-     * @throws DBALException
      */
     public function removeAction(Visitor $visitor): ResponseInterface
     {
@@ -151,7 +147,6 @@ class LeadController extends AbstractController
      * @return ResponseInterface
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
-     * @throws DBALException
      */
     public function deactivateAction(Visitor $visitor): ResponseInterface
     {
@@ -175,7 +170,6 @@ class LeadController extends AbstractController
      * @param string $export
      * @return ResponseInterface
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     public function companiesAction(FilterDto $filter, string $export = ''): ResponseInterface
     {
@@ -257,7 +251,6 @@ class LeadController extends AbstractController
      * @param FilterDto $filter
      * @return ResponseInterface
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     public function downloadCsvCompaniesAction(FilterDto $filter): ResponseInterface
     {

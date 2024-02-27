@@ -17,7 +17,7 @@ class LuxHottestLeadsDataProvider implements ListDataProviderInterface
         $list = [];
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $filter = ObjectUtility::getFilterDto(FilterDto::PERIOD_THISMONTH);
-        $visitors = $visitorRepository->findByHottestScorings($filter);
+        $visitors = $visitorRepository->findByHottestScorings($filter->setLimit(10));
         /** @var Visitor $visitor */
         foreach ($visitors as $visitor) {
             $list[] = $visitor->getFullNameWithEmail() . ' - Scoring ' . $visitor->getScoring();
