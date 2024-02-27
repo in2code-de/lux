@@ -6,6 +6,7 @@ namespace In2code\Lux\Command;
 use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Service\AnonymizeService;
+use In2code\Lux\Exception\ConfigurationException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -31,6 +32,7 @@ class LuxAnonymizeCommand extends Command
      * @return int
      * @throws ExceptionDbalDriver
      * @throws ExceptionDbal
+     * @throws ConfigurationException
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {

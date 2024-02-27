@@ -3,7 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider\PageOverview;
 
-use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
@@ -42,7 +42,7 @@ class GotoutInternalDataProvider extends AbstractDataProvider
      *  ]
      * @return array
      * @throws ExceptionDbal
-     * @throws Exception
+     * @throws ExceptionDbalDriver
      */
     public function get(): array
     {
@@ -74,7 +74,6 @@ class GotoutInternalDataProvider extends AbstractDataProvider
      * @param int $crdate
      * @return int
      * @throws ExceptionDbal
-     * @throws Exception
      */
     protected function getGotoutToPagevisit(int $visitor, int $crdate): int
     {

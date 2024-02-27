@@ -7,7 +7,7 @@ use DateTime;
 
 class Linkclick extends AbstractModel
 {
-    const TABLE_NAME = 'tx_lux_domain_model_linkclick';
+    public const TABLE_NAME = 'tx_lux_domain_model_linkclick';
 
     protected ?DateTime $crdate = null;
     protected ?Linklistener $linklistener = null;

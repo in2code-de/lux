@@ -15,7 +15,7 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 class Linklistener extends AbstractEntity
 {
-    const TABLE_NAME = 'tx_lux_domain_model_linklistener';
+    public const TABLE_NAME = 'tx_lux_domain_model_linklistener';
 
     protected ?DateTime $crdate = null;
     protected ?User $cruserId = null;

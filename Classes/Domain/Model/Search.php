@@ -7,7 +7,7 @@ use DateTime;
 
 class Search extends AbstractModel
 {
-    const TABLE_NAME = 'tx_lux_domain_model_search';
+    public const TABLE_NAME = 'tx_lux_domain_model_search';
 
     protected string $searchterm = '';
 

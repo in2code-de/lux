@@ -30,8 +30,8 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 class Visitor extends AbstractModel
 {
-    const TABLE_NAME = 'tx_lux_domain_model_visitor';
-    const IMPORTANT_ATTRIBUTES = [
+    public const TABLE_NAME = 'tx_lux_domain_model_visitor';
+    public const IMPORTANT_ATTRIBUTES = [
         'email',
         'firstname',
         'lastname',

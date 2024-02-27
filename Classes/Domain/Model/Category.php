@@ -7,7 +7,7 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 class Category extends AbstractEntity
 {
-    const TABLE_NAME = 'sys_category';
+    public const TABLE_NAME = 'sys_category';
 
     protected string $title = '';
     protected bool $luxCategory = false;

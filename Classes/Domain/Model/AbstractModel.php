@@ -5,9 +5,6 @@ namespace In2code\Lux\Domain\Model;
 
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
-/**
- * Class AbstractModel
- */
 abstract class AbstractModel extends AbstractEntity
 {
     /**

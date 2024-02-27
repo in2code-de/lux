@@ -10,7 +10,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class Newsvisit extends AbstractModel
 {
-    const TABLE_NAME = 'tx_lux_domain_model_newsvisit';
+    public const TABLE_NAME = 'tx_lux_domain_model_newsvisit';
 
     protected ?Visitor $visitor = null;
     protected ?News $news = null;

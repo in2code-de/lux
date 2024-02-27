@@ -16,7 +16,7 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 class Company extends AbstractEntity
 {
-    const TABLE_NAME = 'tx_lux_domain_model_company';
+    public const TABLE_NAME = 'tx_lux_domain_model_company';
 
     protected string $title = '';
     protected string $branchCode = '';

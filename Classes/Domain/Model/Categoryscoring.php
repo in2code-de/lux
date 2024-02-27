@@ -5,7 +5,7 @@ namespace In2code\Lux\Domain\Model;
 
 class Categoryscoring extends AbstractModel
 {
-    const TABLE_NAME = 'tx_lux_domain_model_categoryscoring';
+    public const TABLE_NAME = 'tx_lux_domain_model_categoryscoring';
 
     protected int $scoring = 0;
 

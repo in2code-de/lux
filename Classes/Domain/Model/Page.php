@@ -8,7 +8,7 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 class Page extends AbstractEntity
 {
-    const TABLE_NAME = 'pages';
+    public const TABLE_NAME = 'pages';
 
     protected string $title = '';
 

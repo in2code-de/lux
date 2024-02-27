@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Command;
 
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use Symfony\Component\Console\Command\Command;
@@ -30,6 +31,7 @@ class LuxCleanupVisitorByUidCommand extends Command
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int
+     * @throws ExceptionDbal
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {

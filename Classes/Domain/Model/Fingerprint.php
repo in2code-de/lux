@@ -7,41 +7,18 @@ use In2code\Lux\Exception\FingerprintMustNotBeEmptyException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use WhichBrowser\Parser;
 
-/**
- * Class Fingerprint
- */
 class Fingerprint extends AbstractModel
 {
-    const TABLE_NAME = 'tx_lux_domain_model_fingerprint';
-    const TYPE_FINGERPRINT = 0;
-    const TYPE_COOKIE = 1;
-    const TYPE_STORAGE = 2;
+    public const TABLE_NAME = 'tx_lux_domain_model_fingerprint';
+    public const TYPE_FINGERPRINT = 0;
+    public const TYPE_COOKIE = 1;
+    public const TYPE_STORAGE = 2;
 
-    /**
-     * @var string
-     */
-    protected $value = '';
+    protected string $value = '';
+    protected string $domain = '';
+    protected string $userAgent = '';
+    protected int $type = 0;
 
-    /**
-     * @var string
-     */
-    protected $domain = '';
-
-    /**
-     * @var string
-     */
-    protected $userAgent = '';
-
-    /**
-     * @var int
-     */
-    protected $type = 0;
-
-    /**
-     * Fingerprint constructor.
-     * @param string $domain
-     * @param string $userAgent
-     */
     public function __construct(string $domain = '', string $userAgent = '')
     {
         parent::__construct();
@@ -53,9 +30,6 @@ class Fingerprint extends AbstractModel
         }
     }
 
-    /**
-     * @return string
-     */
     public function getValue(): string
     {
         return $this->value;
@@ -78,25 +52,16 @@ class Fingerprint extends AbstractModel
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getDomain(): string
     {
         return $this->domain;
     }
 
-    /**
-     * @return string
-     */
     public function getUserAgent(): string
     {
         return $this->userAgent;
     }
 
-    /**
-     * @return array
-     */
     public function getPropertiesFromUserAgent(): array
     {
         $properties = [
@@ -121,85 +86,53 @@ class Fingerprint extends AbstractModel
         return $properties;
     }
 
-    /**
-     * @return string
-     */
     public function getUserAgentBrowser(): string
     {
         return $this->getPropertiesFromUserAgent()['browser'];
     }
 
-    /**
-     * @return string
-     */
     public function getUserAgentBrowserversion(): string
     {
         return $this->getPropertiesFromUserAgent()['browserversion'];
     }
 
-    /**
-     * @return string
-     */
     public function getUserAgentOs(): string
     {
         return $this->getPropertiesFromUserAgent()['os'];
     }
 
-    /**
-     * @return string
-     */
     public function getUserAgentOsversion(): string
     {
         return $this->getPropertiesFromUserAgent()['osversion'];
     }
 
-    /**
-     * @return string
-     */
     public function getUserAgentManufacturer(): string
     {
         return $this->getPropertiesFromUserAgent()['manufacturer'];
     }
 
-    /**
-     * @return string
-     */
     public function getUserAgentType(): string
     {
         return $this->getPropertiesFromUserAgent()['type'];
     }
 
-    /**
-     * @param string $userAgent
-     * @return Fingerprint
-     */
     public function setUserAgent(string $userAgent): self
     {
         $this->userAgent = $userAgent;
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getType(): int
     {
         return $this->type;
     }
 
-    /**
-     * @param int $type
-     * @return Fingerprint
-     */
     public function setType(int $type): self
     {
         $this->type = $type;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getTypeString(): string
     {
         if ($this->getType() === self::TYPE_FINGERPRINT) {

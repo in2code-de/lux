@@ -13,36 +13,36 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class Log extends AbstractModel
 {
-    const TABLE_NAME = 'tx_lux_domain_model_log';
-    const STATUS_DEFAULT = 0;
-    const STATUS_NEW = 1;
-    const STATUS_IDENTIFIED = 2; // Fieldlistening
-    const STATUS_IDENTIFIED_EMAIL4LINK = 21;
-    const STATUS_IDENTIFIED_EMAIL4LINK_SENDEMAIL = 22;
-    const STATUS_IDENTIFIED_EMAIL4LINK_SENDEMAILFAILED = 23;
-    const STATUS_IDENTIFIED_FORMLISTENING = 25;
-    const STATUS_IDENTIFIED_FRONTENDAUTHENTICATION = 26;
-    const STATUS_IDENTIFIED_LUXLETTERLINK = 28;
-    const STATUS_ATTRIBUTE = 3;
-    const STATUS_PAGEVISIT2 = 40;
-    const STATUS_PAGEVISIT3 = 41;
-    const STATUS_PAGEVISIT4 = 42;
-    const STATUS_PAGEVISIT5 = 43;
-    const STATUS_DOWNLOAD = 50;
-    const STATUS_SEARCH = 55;
-    const STATUS_ACTION = 60;
-    const STATUS_ACTION_QUEUED = 61;
-    const STATUS_CONTEXTUAL_CONTENT = 70;
-    const STATUS_LINKLISTENER = 80;
-    const STATUS_MERGE_BYFINGERPRINT = 90;
-    const STATUS_MERGE_BYEMAIL = 91;
-    const STATUS_SHORTENER_VISIT = 100;
-    const STATUS_ABTESTING_PAGE = 200;
-    const STATUS_UTM_TRACK = 300;
-    const STATUS_WIREDMINDS_CONNECTION = 400;
-    const STATUS_WIREDMINDS_SUCCESSFUL = 410;
-    const STATUS_API_CREATEVISITOR = 500;
-    const STATUS_ERROR = 900;
+    public const TABLE_NAME = 'tx_lux_domain_model_log';
+    public const STATUS_DEFAULT = 0;
+    public const STATUS_NEW = 1;
+    public const STATUS_IDENTIFIED = 2; // Fieldlistening
+    public const STATUS_IDENTIFIED_EMAIL4LINK = 21;
+    public const STATUS_IDENTIFIED_EMAIL4LINK_SENDEMAIL = 22;
+    public const STATUS_IDENTIFIED_EMAIL4LINK_SENDEMAILFAILED = 23;
+    public const STATUS_IDENTIFIED_FORMLISTENING = 25;
+    public const STATUS_IDENTIFIED_FRONTENDAUTHENTICATION = 26;
+    public const STATUS_IDENTIFIED_LUXLETTERLINK = 28;
+    public const STATUS_ATTRIBUTE = 3;
+    public const STATUS_PAGEVISIT2 = 40;
+    public const STATUS_PAGEVISIT3 = 41;
+    public const STATUS_PAGEVISIT4 = 42;
+    public const STATUS_PAGEVISIT5 = 43;
+    public const STATUS_DOWNLOAD = 50;
+    public const STATUS_SEARCH = 55;
+    public const STATUS_ACTION = 60;
+    public const STATUS_ACTION_QUEUED = 61;
+    public const STATUS_CONTEXTUAL_CONTENT = 70;
+    public const STATUS_LINKLISTENER = 80;
+    public const STATUS_MERGE_BYFINGERPRINT = 90;
+    public const STATUS_MERGE_BYEMAIL = 91;
+    public const STATUS_SHORTENER_VISIT = 100;
+    public const STATUS_ABTESTING_PAGE = 200;
+    public const STATUS_UTM_TRACK = 300;
+    public const STATUS_WIREDMINDS_CONNECTION = 400;
+    public const STATUS_WIREDMINDS_SUCCESSFUL = 410;
+    public const STATUS_API_CREATEVISITOR = 500;
+    public const STATUS_ERROR = 900;
 
     protected int $status = self::STATUS_DEFAULT;
 

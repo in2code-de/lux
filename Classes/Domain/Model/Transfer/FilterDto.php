@@ -21,19 +21,19 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class FilterDto
 {
-    const PERIOD_DEFAULT = 0;
-    const PERIOD_THISYEAR = 1;
-    const PERIOD_THISMONTH = 2;
-    const PERIOD_LASTMONTH = 3;
-    const PERIOD_LASTYEAR = 4;
-    const PERIOD_LAST12MONTH = 10;
-    const PERIOD_LAST3MONTH = 15;
-    const PERIOD_LAST7DAYS = 20;
-    const PERIOD_7DAYSBEFORELAST7DAYS = 21;
-    const PERIOD_ALL = 100;
-    const IDENTIFIED_ALL = -1;
-    const IDENTIFIED_UNKNOWN = 0;
-    const IDENTIFIED_IDENTIFIED = 1;
+    public const PERIOD_DEFAULT = 0;
+    public const PERIOD_THISYEAR = 1;
+    public const PERIOD_THISMONTH = 2;
+    public const PERIOD_LASTMONTH = 3;
+    public const PERIOD_LASTYEAR = 4;
+    public const PERIOD_LAST12MONTH = 10;
+    public const PERIOD_LAST3MONTH = 15;
+    public const PERIOD_LAST7DAYS = 20;
+    public const PERIOD_7DAYSBEFORELAST7DAYS = 21;
+    public const PERIOD_ALL = 100;
+    public const IDENTIFIED_ALL = -1;
+    public const IDENTIFIED_UNKNOWN = 0;
+    public const IDENTIFIED_IDENTIFIED = 1;
 
     protected string $searchterm = '';
     protected string $href = '';

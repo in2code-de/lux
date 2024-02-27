@@ -10,7 +10,7 @@ use In2code\Lux\Utility\DatabaseUtility;
 
 class FrontendUserRepository extends AbstractRepository
 {
-    const TABLE_NAME = 'fe_users';
+    public const TABLE_NAME = 'fe_users';
 
     /**
      * Return identifiers of fe_users records where email is not empty

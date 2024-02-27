@@ -14,7 +14,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class Pagevisit extends AbstractModel
 {
-    const TABLE_NAME = 'tx_lux_domain_model_pagevisit';
+    public const TABLE_NAME = 'tx_lux_domain_model_pagevisit';
 
     protected ?Visitor $visitor = null;
     protected ?Page $page = null;

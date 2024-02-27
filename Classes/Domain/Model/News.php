@@ -9,7 +9,7 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 class News extends AbstractEntity
 {
-    const TABLE_NAME = 'tx_news_domain_model_news';
+    public const TABLE_NAME = 'tx_news_domain_model_news';
 
     protected ?DateTime $crdate = null;
     protected ?User $cruserId = null;

@@ -8,7 +8,7 @@ use In2code\Lux\Utility\FrontendUtility;
 
 class Download extends AbstractModel
 {
-    const TABLE_NAME = 'tx_lux_domain_model_download';
+    public const TABLE_NAME = 'tx_lux_domain_model_download';
 
     protected string $href = '';
     protected string $domain = '';
