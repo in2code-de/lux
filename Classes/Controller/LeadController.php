@@ -21,6 +21,7 @@ use In2code\Lux\Domain\Repository\CategoryRepository;
 use In2code\Lux\Domain\Repository\CompanyRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\CompanyConfigurationService;
+use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
@@ -90,7 +91,7 @@ class LeadController extends AbstractController
         $this->view->assignMultiple([
             'filter' => $filter->setLimit(750),
             'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
-            'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter),
+            'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter->setLimit(750)),
             'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
             'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter->setLimit(8)),
             'visitorsPerTimeData' => GeneralUtility::makeInstance(LeadsPerTimeDataProvider::class, $filter),
@@ -134,6 +135,7 @@ class LeadController extends AbstractController
      *
      * @param Visitor $visitor
      * @return ResponseInterface
+     * @throws ExceptionDbal
      */
     public function removeAction(Visitor $visitor): ResponseInterface
     {
@@ -420,6 +422,21 @@ class LeadController extends AbstractController
             $this->companyRepository->persistAll();
         }
         return GeneralUtility::makeInstance(JsonResponse::class);
+    }
+
+    /**
+     * @return ResponseInterface
+     * @noinspection PhpUnused
+     */
+    public function getOverallLeadsAjax(): ResponseInterface
+    {
+        $filter = BackendUtility::getFilterFromSession('list', 'Lead');
+        $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
+        $label = LocalizationUtility::translateByKey(
+            'module.lead.list.overallajax',
+            [$visitorRepository->findAllWithIdentifiedFirstAmount($filter)]
+        );
+        return $this->jsonResponse(json_encode(['amountLabel' => $label]));
     }
 
     protected function addDocumentHeaderForCurrentController(): void

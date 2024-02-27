@@ -57,6 +57,10 @@ return [
         'path' => '/lux/linklistenerperformance',
         'target' => GeneralController::class . '::getLinkListenerPerformanceAjax',
     ],
+    '/lux/overallleads' => [
+        'path' => '/lux/overallleads',
+        'target' => LeadController::class . '::getOverallLeadsAjax',
+    ],
     '/lux/pageoverview' => [
         'path' => '/lux/pageoverview',
         'target' => GeneralController::class . '::showOrHidePageOverviewAjax',

@@ -250,9 +250,11 @@ class FilterDto
         return $this->getIdentified() !== self::IDENTIFIED_ALL;
     }
 
-    public function setIdentified(int $identified): self
+    public function setIdentified(?int $identified): self
     {
-        $this->identified = $identified;
+        if ($identified !== null) {
+            $this->identified = $identified;
+        }
         return $this;
     }
 

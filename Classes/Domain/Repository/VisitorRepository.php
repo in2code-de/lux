@@ -84,6 +84,25 @@ class VisitorRepository extends AbstractRepository
         return $query->execute()->toArray();
     }
 
+    public function findAllWithIdentifiedFirstAmount(FilterDto $filter): int
+    {
+        $sql = 'select count(distinct v.uid) from ' . Visitor::TABLE_NAME . ' v'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on v.uid = pv.visitor'
+            . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
+            . ' left join ' . Attribute::TABLE_NAME . ' a on v.uid = a.visitor'
+            . ' where v.deleted=0 and v.blacklisted=0'
+            . $this->extendWhereClauseWithFilterSearchterms($filter, 'v')
+            . $this->extendWhereClauseWithFilterTime($filter, true, 'pv')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
+            . $this->extendWhereClauseWithFilterScoring($filter, 'v')
+            . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
+            . $this->extendWhereClauseWithFilterIdentified($filter)
+            . $this->extendWhereClauseWithFilterPid($filter)
+            . ' limit 1';
+        $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
+        return (int)$connection->executeQuery($sql)->fetchOne();
+    }
+
     /**
      * @param FilterDto $filter
      * @return array
@@ -195,6 +214,7 @@ class VisitorRepository extends AbstractRepository
             . ' left join ' . Pagevisit::TABLE_NAME . ' pv on v.uid = pv.visitor'
             . ' left join ' . Page::TABLE_NAME . ' p on p.uid = pv.page'
             . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
+            . ' left join ' . Attribute::TABLE_NAME . ' a on v.uid = a.visitor'
             . ' where v.deleted=0 and v.hidden=0 and v.identified=1'
             . $this->extendWhereClauseWithFilterSearchterms($filter, 'v', 'email')
             . $this->extendWhereClauseWithFilterSite($filter, 'pv')
@@ -716,6 +736,64 @@ class VisitorRepository extends AbstractRepository
         }
         $orderings['tstamp'] = QueryInterface::ORDER_DESCENDING;
         return $orderings;
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @param string $table
+     * @param string $titleField
+     * @param string $concatenation
+     * @return string
+     */
+    protected function extendWhereClauseWithFilterSearchterms(
+        FilterDto $filter,
+        string $table = '',
+        string $titleField = 'title',
+        string $concatenation = 'and'
+    ): string {
+        $sql = '';
+        if ($filter->isSearchtermSet()) {
+            $tablePrefix = ($table !== '' ? $table . '.' : '');
+            $or = [];
+            foreach ($filter->getSearchterms() as $searchterm) {
+                $searchterm = StringUtility::cleanString($searchterm);
+                if ($sql === '') {
+                    $sql .= ' ' . $concatenation . ' (';
+                }
+
+                if (MathUtility::canBeInterpretedAsInteger($searchterm)) {
+                    $or[] = ' ' . $tablePrefix . 'uid = ' . (int)$searchterm;
+                } else {
+                    $or[] = ' ' . $tablePrefix . 'email like "%' . $searchterm . '%"';
+                    $or[] = ' ' . $tablePrefix . 'company like "%' . $searchterm . '%"';
+                    $or[] = ' ' . $tablePrefix . 'ip_address like "%' . $searchterm . '%"';
+                    $or[] = ' ' . $tablePrefix . 'description like "%' . $searchterm . '%"';
+                    $or[] = ' a.value like "%' . $searchterm . '%"';
+                }
+                $sql .= implode(' or ', $or);
+            }
+
+            $sql .= ')';
+        }
+        return $sql;
+    }
+
+    protected function extendWhereClauseWithFilterIdentified(FilterDto $filter): string
+    {
+        $sql = '';
+        if ($filter->getIdentified() > FilterDto::IDENTIFIED_ALL) {
+            $sql .= ' and v.identified=' . (int)($filter->getIdentified() === FilterDto::IDENTIFIED_IDENTIFIED);
+        }
+        return $sql;
+    }
+
+    protected function extendWhereClauseWithFilterPid(FilterDto $filter): string
+    {
+        $sql = '';
+        if ($filter->isPidSet()) {
+            $sql .= ' and pv.page=' . (int)$filter->getPid();
+        }
+        return $sql;
     }
 
     /**

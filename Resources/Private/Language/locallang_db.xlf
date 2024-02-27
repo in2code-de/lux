@@ -1091,6 +1091,9 @@
 			<trans-unit id="module.lead.list">
 				<source>Leads</source>
 			</trans-unit>
+			<trans-unit id="module.lead.list.overallajax">
+				<source>(%d overall)</source>
+			</trans-unit>
 			<trans-unit id="module.lead.companies">
 				<source>Companies</source>
 			</trans-unit>

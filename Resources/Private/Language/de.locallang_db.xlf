@@ -1441,6 +1441,10 @@
 				<source>Leads</source>
 				<target state="translated">Leads</target>
 			</trans-unit>
+			<trans-unit id="module.lead.list.overallajax">
+				<source>(%d overall)</source>
+				<target state="translated">(insgesamt %d)</target>
+			</trans-unit>
 			<trans-unit id="module.lead.companies">
 				<source>Companies</source>
 				<target state="translated">Firmen</target>

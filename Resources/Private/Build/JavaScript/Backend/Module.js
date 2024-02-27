@@ -39,6 +39,7 @@ define(['jquery'], function($) {
       asynchronousImageLoading();
       asynchronousLinkListenerPerformanceLoading();
       asynchronousCompaniesInformationLoading();
+      asynchronousLeadAmountLoading();
       addToggleListener();
       addUnitAjaxListener();
     };
@@ -267,6 +268,25 @@ define(['jquery'], function($) {
       target.innerHTML = response.numberOfVisits;
       const target2 = target.closest('tr').querySelector('[data-lux-getcompaniesinformation-numberofvisitors]');
       target2.innerHTML = response.numberOfVisitors;
+    };
+
+    /**
+     * @returns {void}
+     */
+    const asynchronousLeadAmountLoading = function() {
+      const element = document.querySelector('[data-lux-getoverallleads]');
+      if (element !== null) {
+        ajaxConnection(
+          TYPO3.settings.ajaxUrls['/lux/overallleads'], {}, 'asynchronousLeadAmountLoadingCallback', {element}
+        );
+      }
+    };
+
+    /**
+     * @params {Json} response
+     */
+    this.asynchronousLeadAmountLoadingCallback = function(response, callbackArguments) {
+      callbackArguments.element.innerHTML = response.amountLabel;
     };
 
     /**
