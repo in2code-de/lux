@@ -247,6 +247,7 @@ class LeadController extends AbstractController
      * @return ResponseInterface
      * @throws InvalidConfigurationTypeException
      * @throws InvalidQueryException
+     * @throws AuthenticationException
      */
     public function companyAction(Company $company): ResponseInterface
     {
@@ -260,7 +261,7 @@ class LeadController extends AbstractController
         $this->view->assignMultiple([
             'company' => $company,
             'categories' => $this->categoryRepository->findAllLuxCompanyCategories(),
-            'interestingLogs' => $this->logRepository->findInterestingLogsByCompany($company),
+            'interestingLogs' => $this->logRepository->findInterestingLogsByCompany($company, $filter->setLimit(250)),
             'scoringWeeks' => GeneralUtility::makeInstance(CompanyScoringWeeksDataProvider::class, $filter),
             'categoryScorings' => GeneralUtility::makeInstance(CompanyCategoryScoringsDataProvider::class, $filter),
             'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),

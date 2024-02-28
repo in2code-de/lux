@@ -26,6 +26,7 @@ use In2code\Lux\Exception\ParametersException;
 use In2code\Lux\Utility\ArrayUtility;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\DateUtility;
+use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
@@ -547,9 +548,13 @@ class VisitorRepository extends AbstractRepository
     public function findByCompany(Company $company, int $limit = 200): array
     {
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
-        $sql = 'select uid,scoring from ' . Visitor::TABLE_NAME
-            . ' where deleted=0 and blacklisted=0 and companyrecord = ' . $company->getUid()
-            . ' order by identified desc, scoring desc limit ' . $limit;
+        $sql = 'select v.uid,v.scoring from ' . Visitor::TABLE_NAME . ' v'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on v.uid = pv.visitor'
+            . ' where v.deleted=0 and v.blacklisted=0 and v.companyrecord = ' . $company->getUid()
+            . $this->extendWhereClauseWithFilterSite(ObjectUtility::getFilterDto(), 'pv')
+            . ' group by v.uid,v.scoring'
+            . ' order by v.identified desc, v.scoring desc'
+            . ' limit ' . $limit;
         $results = $connection->executeQuery($sql)->fetchAllAssociative();
 
         $visitors = [];

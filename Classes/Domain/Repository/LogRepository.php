@@ -51,18 +51,19 @@ class LogRepository extends AbstractRepository
 
     /**
      * @param Company $company
-     * @param int $limit
+     * @param FilterDto $filter
      * @return QueryResultInterface
      * @throws InvalidConfigurationTypeException
      * @throws InvalidQueryException
      */
-    public function findInterestingLogsByCompany(Company $company, int $limit = 250): QueryResultInterface
+    public function findInterestingLogsByCompany(Company $company, FilterDto $filter): QueryResultInterface
     {
         $query = $this->createQuery();
         $logicalAnd = $this->interestingLogsLogicalAnd($query);
         $logicalAnd[] = $query->equals('visitor.companyrecord', $company);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForSite($filter, $query, $logicalAnd);
         $query->matching($query->logicalAnd(...$logicalAnd));
-        $query->setLimit($limit);
+        $query->setLimit($filter->getLimit());
         return $query->execute();
     }
 
