@@ -1128,7 +1128,7 @@ class Visitor extends AbstractModel
     }
 
     /**
-     * Check if this visitor can be viewed by current editor
+     * Check if this record can be viewed by current editor
      *
      * @return bool
      */

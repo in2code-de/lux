@@ -40,6 +40,7 @@ define(['jquery'], function($) {
       asynchronousLinkListenerPerformanceLoading();
       asynchronousCompaniesInformationLoading();
       asynchronousLeadAmountLoading();
+      asynchronousCompaniesAmountLoading();
       addToggleListener();
       addUnitAjaxListener();
     };
@@ -274,10 +275,36 @@ define(['jquery'], function($) {
      * @returns {void}
      */
     const asynchronousLeadAmountLoading = function() {
-      const element = document.querySelector('[data-lux-getoverallleads]');
-      if (element !== null) {
+      const elementSource = document.querySelector('[data-lux-getoverallleads="source"]');
+      const elementTarget = document.querySelector('[data-lux-getoverallleads="target"]');
+      if (elementSource !== null && elementTarget !== null) {
         ajaxConnection(
-          TYPO3.settings.ajaxUrls['/lux/overallleads'], {}, 'asynchronousLeadAmountLoadingCallback', {element}
+          TYPO3.settings.ajaxUrls['/lux/overallleads'],
+          {},
+          'asynchronousAnythingAmountLoadingCallback',
+          {
+            elementSource,
+            elementTarget
+          }
+        );
+      }
+    };
+
+    /**
+     * @returns {void}
+     */
+    const asynchronousCompaniesAmountLoading = function() {
+      const elementSource = document.querySelector('[data-lux-getoverallcompanies="source"]');
+      const elementTarget = document.querySelector('[data-lux-getoverallcompanies="target"]');
+      if (elementSource !== null && elementTarget !== null) {
+        ajaxConnection(
+          TYPO3.settings.ajaxUrls['/lux/overallcompanies'],
+          {},
+          'asynchronousAnythingAmountLoadingCallback',
+          {
+            elementSource,
+            elementTarget
+          }
         );
       }
     };
@@ -285,8 +312,10 @@ define(['jquery'], function($) {
     /**
      * @params {Json} response
      */
-    this.asynchronousLeadAmountLoadingCallback = function(response, callbackArguments) {
-      callbackArguments.element.innerHTML = response.amountLabel;
+    this.asynchronousAnythingAmountLoadingCallback = function(response, callbackArguments) {
+      if (callbackArguments.elementSource.innerHTML < response.amount) {
+        callbackArguments.elementTarget.innerHTML = response.amountLabel;
+      }
     };
 
     /**

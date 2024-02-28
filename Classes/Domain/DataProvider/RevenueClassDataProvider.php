@@ -29,7 +29,7 @@ class RevenueClassDataProvider extends AbstractDataProvider
     public function prepareData(): void
     {
         $companyRepository = GeneralUtility::makeInstance(CompanyRepository::class);
-        $results = $companyRepository->findRevenueClasses($this->filter);
+        $results = $companyRepository->findRevenueClasses($this->filter->setLimit(6));
         $titles = $amounts = [];
         foreach ($results as $revenueClass => $amount) {
             $titles[] = LocalizationUtility::translateByKey('dictionary.revenue_class.' . $revenueClass);

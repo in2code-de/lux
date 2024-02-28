@@ -191,6 +191,19 @@ abstract class AbstractRepository extends Repository
         return ' and ' . $field . ' in ("' . implode('","', $filter->getSitesForFilter()) . '")';
     }
 
+    protected function extendWhereClauseWithFilterCountry(FilterDto $filter, string $table = ''): string
+    {
+        $sql = '';
+        if ($filter->isCountrySet()) {
+            $field = 'country_code';
+            if ($table !== '') {
+                $field = $table . '.' . $field;
+            }
+            $sql .= ' and ' . $field . '="' . $filter->getCountry() . '"';
+        }
+        return $sql;
+    }
+
     /**
      * Returns part of a where clause like
      *      " and v.scoring >= 90"
@@ -298,6 +311,54 @@ abstract class AbstractRepository extends Repository
             if (in_array('cs', $tables)) {
                 $sql .= ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor';
             }
+        }
+        return $sql;
+    }
+
+    protected function extendWhereClauseWithFilterSizeClass(FilterDto $filter, string $table = ''): string
+    {
+        $sql = '';
+        if ($filter->getSizeClass() !== '') {
+            if ($table !== '') {
+                $table .= '.';
+            }
+            $sql .= ' and ' . $table . 'size_class = ' . $filter->getSizeClass();
+        }
+        return $sql;
+    }
+
+    protected function extendWhereClauseWithFilterRevenueClass(FilterDto $filter, string $table = ''): string
+    {
+        $sql = '';
+        if ($filter->getRevenueClass() !== '') {
+            if ($table !== '') {
+                $table .= '.';
+            }
+            $sql .= ' and ' . $table . 'revenue_class = ' . $filter->getRevenueClass();
+        }
+        return $sql;
+    }
+
+    protected function extendWhereClauseWithFilterBranchCode(FilterDto $filter, string $table = ''): string
+    {
+        $sql = '';
+        if ($filter->getBranchCode() > 0) {
+            if ($table !== '') {
+                $table .= '.';
+            }
+            $sql .= ' and ' . $table . 'branch_code = ' . $filter->getBranchCode();
+        }
+        return $sql;
+    }
+
+    protected function extendWhereClauseWithFilterCategory(FilterDto $filter, string $table = ''): string
+    {
+        $sql = '';
+        if ($filter->getCategory() !== null) {
+            if ($table !== '') {
+                $table .= '.';
+            }
+            $sql .= ' and ' . $table . 'category = ' . $filter->getCategory()->getUid();
         }
         return $sql;
     }

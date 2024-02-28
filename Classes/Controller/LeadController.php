@@ -198,20 +198,28 @@ class LeadController extends AbstractController
             $available = 0;
         }
         $this->view->assignMultiple([
-            'companies' => $this->companyRepository->findByFilter($filter),
-            'branches' => $this->companyRepository->findAllBranches(),
+            'filter' => $filter,
+            'countries' => $this->companyRepository->findCountriesByFilter($filter),
+            'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
+            'branches' => $this->companyRepository->findAllBranches($filter),
             'categories' => $this->categoryRepository->findAllLuxCompanyCategories(),
+            'companies' => $this->companyRepository->findByFilter($filter->setLimit(750)),
             'revenueClassData' => GeneralUtility::makeInstance(RevenueClassDataProvider::class, $filter),
-            'companyAmountPerMonthData' => GeneralUtility::makeInstance(CompanyAmountPerMonthDataProvider::class),
-            'latestPagevisitsWithCompanies' => $this->pagevisitsRepository->findLatestPagevisitsWithCompanies(),
+            'companyAmountPerMonthData' => GeneralUtility::makeInstance(
+                CompanyAmountPerMonthDataProvider::class,
+                $filter
+            ),
+            'latestPagevisitsWithCompanies' => $this->pagevisitsRepository->findLatestPagevisitsWithCompanies(
+                $filter->setLimit(8)
+            ),
             'wiredminds' => [
                 'status' => $this->wiredmindsRepository->getStatus() !== [],
                 'statistics' => $statistics,
                 'limit' => $limit,
                 'overall' => $limit,
                 'available' => $available,
+                'show' => BackendUtility::isAdministrator(),
             ],
-            'filter' => $filter,
         ]);
         $this->addDocumentHeaderForCurrentController();
         return $this->defaultRendering();
@@ -242,6 +250,9 @@ class LeadController extends AbstractController
      */
     public function companyAction(Company $company): ResponseInterface
     {
+        if ($company->canBeRead() === false) {
+            throw new AuthenticationException('Not allowed to view this company', 1709123396);
+        }
         $filter = ObjectUtility::getFilterDtoFromStartAndEnd(
             $company->getFirstPagevisit()->getCrdate(),
             new DateTime()
@@ -266,7 +277,7 @@ class LeadController extends AbstractController
     public function downloadCsvCompaniesAction(FilterDto $filter): ResponseInterface
     {
         $this->view->assignMultiple([
-            'companies' => $this->companyRepository->findByFilter($filter),
+            'companies' => $this->companyRepository->findByFilter($filter->setLimit(750)),
         ]);
         return $this->csvResponse($this->view->render());
     }
@@ -321,6 +332,7 @@ class LeadController extends AbstractController
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      * @noinspection PhpUnused
+     * @throws AuthenticationException
      */
     public function detailCompaniesAjax(ServerRequestInterface $request): ResponseInterface
     {
@@ -333,6 +345,9 @@ class LeadController extends AbstractController
         ));
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         $company = $companyRepository->findByUid((int)$request->getQueryParams()['company']);
+        if ($company->canBeRead() === false) {
+            throw new AuthenticationException('Not allowed to view this company', 1709123966);
+        }
         $standaloneView->assignMultiple([
             'company' => $company,
             'visitors' => $visitorRepository->findByCompany($company, 6),
@@ -444,11 +459,22 @@ class LeadController extends AbstractController
     {
         $filter = BackendUtility::getFilterFromSession('list', 'Lead');
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
-        $label = LocalizationUtility::translateByKey(
-            'module.lead.list.overallajax',
-            [$visitorRepository->findAllWithIdentifiedFirstAmount($filter)]
-        );
-        return $this->jsonResponse(json_encode(['amountLabel' => $label]));
+        $amount = $visitorRepository->findAllWithIdentifiedFirstAmount($filter);
+        $label = LocalizationUtility::translateByKey('module.lead.list.overallajax', [$amount]);
+        return $this->jsonResponse(json_encode(['amount' => $amount, 'amountLabel' => $label]));
+    }
+
+    /**
+     * @return ResponseInterface
+     * @noinspection PhpUnused
+     */
+    public function getOverallCompaniesAjax(): ResponseInterface
+    {
+        $filter = BackendUtility::getFilterFromSession('companies', 'Lead');
+        $companyRepository = GeneralUtility::makeInstance(CompanyRepository::class);
+        $amount = $companyRepository->findAmountByFilter($filter);
+        $label = LocalizationUtility::translateByKey('module.lead.list.overallajax', [$amount]);
+        return $this->jsonResponse(json_encode(['amount' => $amount, 'amountLabel' => $label]));
     }
 
     protected function addDocumentHeaderForCurrentController(): void

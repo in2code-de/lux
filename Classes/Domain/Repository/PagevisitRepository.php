@@ -95,7 +95,7 @@ class PagevisitRepository extends AbstractRepository
         return $query->execute();
     }
 
-    public function findLatestPagevisitsWithCompanies(int $limit = 8): QueryResultInterface
+    public function findLatestPagevisitsWithCompanies(FilterDto $filter): QueryResultInterface
     {
         $sql = 'select c.uid companyuid, max(pv.uid) AS uid'
             . ' from ' . Pagevisit::TABLE_NAME . ' pv'
@@ -103,9 +103,16 @@ class PagevisitRepository extends AbstractRepository
             . ' left join ' . Company::TABLE_NAME . ' c on v.companyrecord = c.uid'
             . ' where pv.deleted=0 and v.deleted=0 and c.deleted=0'
             . ' and v.blacklisted=0'
+            . $this->extendWhereClauseWithFilterSearchterms($filter, 'c')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
+            . $this->extendWhereClauseWithFilterCountry($filter)
+            . $this->extendWhereClauseWithFilterSizeClass($filter, 'c')
+            . $this->extendWhereClauseWithFilterRevenueClass($filter, 'c')
+            . $this->extendWhereClauseWithFilterBranchCode($filter)
+            . $this->extendWhereClauseWithFilterCategory($filter, 'c')
             . ' group by c.uid'
             . ' order by uid desc, pv.crdate desc'
-            . ' limit ' . $limit;
+            . ' limit ' . $filter->getLimit();
         $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);
         $identifiers = ArrayUtility::convertFetchedAllArrayToNumericArray(
             $connection->executeQuery($sql)->fetchAllAssociative()
@@ -118,7 +125,7 @@ class PagevisitRepository extends AbstractRepository
         $query->matching(
             $query->logicalAnd(...$logicalAnd)
         );
-        $query->setLimit($limit);
+        $query->setLimit($filter->getLimit());
         $query->setOrderings(['crdate' => QueryInterface::ORDER_DESCENDING]);
         return $query->execute();
     }

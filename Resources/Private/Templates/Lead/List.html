@@ -9,9 +9,9 @@
                 <f:then>
                     <lux:pagination.paginate objects="{allVisitors}" as="visitorsPaginator" itemsPerPage="25">
                         <div style="background-color: #dddddd; border-top: 1px solid #cccccc; border-left: 1px solid #cccccc; border-right: 1px solid #cccccc; color: #5a5a5a; font-weight: bold; padding: 10px;">
-                            {allVisitors -> f:count()}
+                            <span data-lux-getoverallleads="source">{allVisitors -> f:count()}</span>
                             Leads
-                            <span data-lux-getoverallleads="true" style="color: #aaa"></span>
+                            <span data-lux-getoverallleads="target" style="color: #aaa"></span>
                         </div>
                         <table class="table table-striped table-hover table-pointer min-height-50">
                             <f:render section="TableHeader" arguments="{_all}"/>

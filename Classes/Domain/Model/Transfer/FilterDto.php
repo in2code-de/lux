@@ -76,6 +76,7 @@ class FilterDto
 
     protected string $domain = '';
     protected string $site = '';
+    protected string $country = '';
     protected string $utmCampaign = '';
     protected string $utmSource = '';
     protected string $utmMedium = '';
@@ -382,6 +383,22 @@ class FilterDto
         return $this;
     }
 
+    public function getCountry(): string
+    {
+        return StringUtility::sanitizeString($this->country);
+    }
+
+    public function isCountrySet(): bool
+    {
+        return $this->getCountry() !== '';
+    }
+
+    public function setCountry(string $country): self
+    {
+        $this->country = $country;
+        return $this;
+    }
+
     public function getUtmCampaign(): string
     {
         return StringUtility::sanitizeString($this->utmCampaign);
@@ -557,6 +574,7 @@ class FilterDto
             || $this->isTimePeriodSet()
             || $this->isIdentifiedSet()
             || $this->isDomainSet()
+            || $this->isCountrySet()
             || $this->isSiteSet()
             || $this->isUtmCampaignSet()
             || $this->isUtmMediumSet()
@@ -587,7 +605,9 @@ class FilterDto
             && $this->isTimeToSet() === false
             && $this->timePeriod === self::PERIOD_DEFAULT
             && $this->identified === self::IDENTIFIED_ALL
-            && $this->isDomainSet() === false;
+            && $this->isDomainSet() === false
+            && $this->isSiteSet() === false
+            && $this->isCountrySet() === false;
     }
 
     /**
@@ -905,9 +925,18 @@ class FilterDto
      */
     public function __toString(): string
     {
-        $string = $this->searchterm . $this->pid . $this->timeFrom . $this->timeTo . (string)$this->scoring .
-            (string)$this->categoryScoring . (string)$this->timePeriod . (string)$this->identified .
-            (string)$this->shortMode . (string)$this->domain . $this->getSitesForFilterList();
+        $string = $this->searchterm
+            . $this->pid
+            . $this->timeFrom
+            . $this->timeTo
+            . $this->scoring
+            . $this->categoryScoring
+            . $this->timePeriod
+            . $this->identified
+            . $this->shortMode
+            . $this->domain
+            . $this->country
+            . $this->getSitesForFilterList();
         return md5($string);
     }
 }
