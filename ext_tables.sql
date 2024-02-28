@@ -476,6 +476,7 @@ CREATE TABLE tx_lux_domain_model_log (
 	KEY visitor (visitor),
 	KEY status (status),
 	KEY properties (properties(80)),
+	KEY site (site(50)),
 	KEY crdate (crdate),
 	KEY language (l10n_parent,sys_language_uid)
 );
