@@ -24,7 +24,7 @@ return [
         'hideTable' => true,
     ],
     'types' => [
-        '1' => ['showitem' => 'value,domain,user_agent,type'],
+        '1' => ['showitem' => 'value,domain,site,user_agent,type'],
     ],
     'columns' => [
         'value' => [
@@ -38,6 +38,14 @@ return [
         'domain' => [
             'exclude' => true,
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Fingerprint::TABLE_NAME . '.domain',
+            'config' => [
+                'type' => 'input',
+                'readOnly' => true,
+            ],
+        ],
+        'site' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Fingerprint::TABLE_NAME . '.site',
             'config' => [
                 'type' => 'input',
                 'readOnly' => true,

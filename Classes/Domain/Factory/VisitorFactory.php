@@ -3,22 +3,24 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Factory;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Factory\Ipinformation\Handler;
 use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Domain\Service\VisitorMergeService;
 use In2code\Lux\Events\Log\LogVisitorEvent;
 use In2code\Lux\Events\StopAnyProcessBeforePersistenceEvent;
 use In2code\Lux\Events\VisitorFactoryAfterCreateNewEvent;
 use In2code\Lux\Events\VisitorFactoryBeforeCreateNewEvent;
 use In2code\Lux\Exception\ConfigurationException;
-use In2code\Lux\Exception\FileNotFoundException;
 use In2code\Lux\Exception\FingerprintMustNotBeEmptyException;
 use In2code\Lux\Exception\Validation\IdentificatorFormatException;
 use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\CookieUtility;
+use In2code\Lux\Utility\FrontendUtility;
 use In2code\Lux\Utility\IpUtility;
 use In2code\Lux\Utility\StringUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -42,6 +44,7 @@ class VisitorFactory
      * @param string $identificator
      * @param bool $tempVisitor If there is no fingerprint (doNotTrack) but we even want to generate a visitor object
      * @throws FingerprintMustNotBeEmptyException
+     * @throws IdentificatorFormatException
      */
     public function __construct(string $identificator, bool $tempVisitor = false)
     {
@@ -49,7 +52,10 @@ class VisitorFactory
         if ($identificator === '' && $tempVisitor === true) {
             $identificator = StringUtility::getRandomString(32, false);
         }
-        $this->fingerprint = GeneralUtility::makeInstance(Fingerprint::class)->setValue($identificator);
+        $this->fingerprint = GeneralUtility::makeInstance(Fingerprint::class)
+            ->setValue($identificator)
+            ->setSite(GeneralUtility::makeInstance(SiteService::class)
+                ->getSiteIdentifierFromPageIdentifier(FrontendUtility::getCurrentPageIdentifier()));
         $this->visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $this->eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
         $this->eventDispatcher->dispatch(
@@ -60,13 +66,13 @@ class VisitorFactory
     /**
      * @return Visitor
      * @throws ConfigurationException
-     * @throws DBALException
+     * @throws ExceptionDbal
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
-     * @throws FileNotFoundException
      * @throws IllegalObjectTypeException
      * @throws InvalidConfigurationTypeException
      * @throws UnknownObjectException
+     * @throws ExceptionDbalDriver
      */
     public function getVisitor(): Visitor
     {
@@ -90,9 +96,11 @@ class VisitorFactory
      * respected, to not lose visitors when changing lux from 6.x to 7.x
      *
      * @return Visitor|null
+     * @throws ConfigurationException
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
-     * @throws DBALException
+     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     protected function getVisitorFromDatabaseByFingerprint(): ?Visitor
     {
@@ -133,13 +141,12 @@ class VisitorFactory
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws IllegalObjectTypeException
-     * @throws FileNotFoundException
      * @throws InvalidConfigurationTypeException
      */
     protected function createNewVisitor(): Visitor
     {
-        $visitor = GeneralUtility::makeInstance(Visitor::class);
-        $visitor->addFingerprint($this->fingerprint);
+        $visitor = GeneralUtility::makeInstance(Visitor::class)
+            ->addFingerprint($this->fingerprint);
         $this->enrichNewVisitorWithIpInformation($visitor);
         $visitor->resetCompanyAutomatic(); // must be after enrichNewVisitorWithIpInformation()
         /** @var LogVisitorEvent $event */
@@ -150,10 +157,11 @@ class VisitorFactory
     /**
      * @param Visitor $visitor
      * @return void
+     * @throws ConfigurationException
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws IllegalObjectTypeException
-     * @throws ConfigurationException
+     * @throws InvalidConfigurationTypeException
      */
     protected function enrichNewVisitorWithIpInformation(Visitor $visitor)
     {

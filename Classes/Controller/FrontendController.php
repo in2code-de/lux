@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
+use Doctrine\DBAL\Driver\Exception;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Factory\VisitorFactory;
 use In2code\Lux\Domain\Model\Visitor;
@@ -23,7 +24,6 @@ use In2code\Lux\Exception\ActionNotAllowedException;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\EmailValidationException;
 use In2code\Lux\Exception\FakeException;
-use In2code\Lux\Exception\FileNotFoundException;
 use In2code\Lux\Utility\BackendUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -79,6 +79,7 @@ class FrontendController extends ActionController
      * @param array $arguments
      * @return ResponseInterface
      * @noinspection PhpUnused
+     * @throws InvalidConfigurationTypeException
      */
     public function dispatchRequestAction(
         string $dispatchAction,
@@ -378,10 +379,6 @@ class FrontendController extends ActionController
         $luxletterTracker->trackFromLuxletterLink();
     }
 
-    /**
-     * @param Visitor $visitor
-     * @return array
-     */
     protected function afterAction(Visitor $visitor): array
     {
         /** @var AfterTrackingEvent $event */
@@ -391,10 +388,6 @@ class FrontendController extends ActionController
         return $event->getResults();
     }
 
-    /**
-     * @param Throwable $exception
-     * @return array
-     */
     protected function getError(Throwable $exception): array
     {
         $this->eventDispatcher->dispatch(
@@ -422,12 +415,13 @@ class FrontendController extends ActionController
      * @param bool $tempVisitor
      * @return Visitor
      * @throws ConfigurationException
+     * @throws ExceptionDbal
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
-     * @throws FileNotFoundException
      * @throws InvalidConfigurationTypeException
+     * @throws UnknownObjectException
+     * @throws Exception
      */
     protected function getVisitor(string $identificator, bool $tempVisitor = false): Visitor
     {

@@ -140,6 +140,10 @@
 				<source>Domain</source>
 				<target state="translated">Domain</target>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_fingerprint.site">
+				<source>Site</source>
+				<target state="translated">Site</target>
+			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_fingerprint.user_agent">
 				<source>User agent</source>
 				<target state="translated">User agent</target>

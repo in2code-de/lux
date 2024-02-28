@@ -7,6 +7,8 @@ use DateTime;
 use In2code\Lux\Domain\Repository\LinklistenerRepository;
 use In2code\Lux\Domain\Repository\SearchRepository;
 use In2code\Lux\Domain\Repository\UtmRepository;
+use In2code\Lux\Domain\Service\SiteService;
+use In2code\Lux\Utility\BackendUtility;
 use In2code\Luxenterprise\Domain\Model\AbTestingPage;
 use In2code\Luxenterprise\Domain\Repository\AbTestingPageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -200,5 +202,19 @@ class Log extends AbstractModel
             Log::STATUS_IDENTIFIED_FRONTENDAUTHENTICATION,
             Log::STATUS_IDENTIFIED_EMAIL4LINK,
         ];
+    }
+
+    /**
+     * Check if this record can be viewed by current editor
+     *
+     * @return bool
+     */
+    public function canBeRead(): bool
+    {
+        if (BackendUtility::isAdministrator() || $this->site === '') {
+            return true;
+        }
+        $sites = GeneralUtility::makeInstance(SiteService::class)->getAllowedSites();
+        return array_key_exists($this->getSite(), $sites);
     }
 }

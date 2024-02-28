@@ -243,11 +243,18 @@ class Visitor extends AbstractModel
         $this->setCategoryscoringByCategory($newScoring, $category);
     }
 
-    public function getFingerprints(): ?ObjectStorage
+    public function getFingerprints(): array
     {
-        return $this->fingerprints instanceof LazyLoadingProxy
+        $fingerprints = $this->fingerprints instanceof LazyLoadingProxy
             ? $this->fingerprints->_loadRealInstance()
             : $this->fingerprints;
+        $fpArray = $fingerprints->toArray();
+        foreach ($fpArray as $key => $fingerprint) {
+            if ($fingerprint->canBeRead() === false) {
+                unset($fpArray[$key]);
+            }
+        }
+        return $fpArray;
     }
 
     /**
@@ -257,7 +264,7 @@ class Visitor extends AbstractModel
      */
     public function getFingerprintsSorted(): array
     {
-        $fingerprints = $this->getFingerprints()->toArray();
+        $fingerprints = $this->getFingerprints();
         return array_reverse($fingerprints);
     }
 
@@ -432,6 +439,18 @@ class Visitor extends AbstractModel
         return $this;
     }
 
+    public function getPagevisitsAuthorized(): array
+    {
+        $pagevisits = $this->pagevisits->toArray();
+        foreach ($pagevisits as $key => $pagevisit) {
+            /** @var Pagevisit $pagevisits */
+            if ($pagevisit->canBeRead() === false) {
+                unset($pagevisits[$key]);
+            }
+        }
+        return $pagevisits;
+    }
+
     /**
      * Get pagevisits of a visitor and sort it descending (last visit at first)
      *
@@ -440,7 +459,7 @@ class Visitor extends AbstractModel
      */
     public function getPagevisits(): array
     {
-        $pagevisits = $this->pagevisits;
+        $pagevisits = $this->getPagevisitsAuthorized();
         $pagevisitsArray = [];
         /** @var Pagevisit $pagevisit */
         foreach ($pagevisits as $pagevisit) {
@@ -452,7 +471,7 @@ class Visitor extends AbstractModel
 
     public function getPagevisitsOfGivenPageIdentifier(int $pageIdentifier): array
     {
-        $pagevisits = $this->pagevisits;
+        $pagevisits = $this->getPagevisitsAuthorized();
         $pagevisitsArray = [];
         /** @var Pagevisit $pagevisit */
         foreach ($pagevisits as $pagevisit) {
@@ -538,7 +557,7 @@ class Visitor extends AbstractModel
      */
     public function getNumberOfUniquePagevisits(): int
     {
-        $pagevisits = $this->pagevisits;
+        $pagevisits = $this->getPagevisitsAuthorized();
         $number = 1;
         if (count($pagevisits) > 1) {
             /** @var DateTime $lastVisit **/
@@ -577,7 +596,7 @@ class Visitor extends AbstractModel
 
     public function removeNewsvisit(Newsvisit $newsvisits): self
     {
-        $this->pagevisits->detach($newsvisits);
+        $this->newsvisits->detach($newsvisits);
         return $this;
     }
 
@@ -762,7 +781,19 @@ class Visitor extends AbstractModel
     public function getLogs(): array
     {
         $logs = $this->logs->toArray();
+        $logs = $this->filterLogsByAuthentication($logs);
         krsort($logs);
+        return $logs;
+    }
+
+    protected function filterLogsByAuthentication(array $logs): array
+    {
+        foreach ($logs as $key => $log) {
+            /** @var Log $log */
+            if ($log->canBeRead() === false) {
+                unset($logs[$key]);
+            }
+        }
         return $logs;
     }
 

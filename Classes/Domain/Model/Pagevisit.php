@@ -7,6 +7,7 @@ use DateTime;
 use In2code\Lux\Domain\Repository\NewsvisitRepository;
 use In2code\Lux\Domain\Service\Referrer\Readable;
 use In2code\Lux\Domain\Service\SiteService;
+use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -193,5 +194,19 @@ class Pagevisit extends AbstractModel
 
         $newsvisitRepository = GeneralUtility::makeInstance(NewsvisitRepository::class);
         return $newsvisitRepository->findByPagevisit($this);
+    }
+
+    /**
+     * Check if this record can be viewed by current editor
+     *
+     * @return bool
+     */
+    public function canBeRead(): bool
+    {
+        if (BackendUtility::isAdministrator() || $this->site === '') {
+            return true;
+        }
+        $sites = GeneralUtility::makeInstance(SiteService::class)->getAllowedSites();
+        return array_key_exists($this->getSite(), $sites);
     }
 }

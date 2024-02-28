@@ -3,7 +3,9 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
+use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Exception\FingerprintMustNotBeEmptyException;
+use In2code\Lux\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use WhichBrowser\Parser;
 
@@ -17,6 +19,7 @@ class Fingerprint extends AbstractModel
     protected string $value = '';
     protected string $domain = '';
     protected string $userAgent = '';
+    protected string $site = '';
     protected int $type = 0;
 
     public function __construct(string $domain = '', string $userAgent = '')
@@ -122,6 +125,17 @@ class Fingerprint extends AbstractModel
         return $this;
     }
 
+    public function getSite(): string
+    {
+        return $this->site;
+    }
+
+    public function setSite(string $site): self
+    {
+        $this->site = $site;
+        return $this;
+    }
+
     public function getType(): int
     {
         return $this->type;
@@ -145,5 +159,19 @@ class Fingerprint extends AbstractModel
             return 'LocalStorage';
         }
         return 'Unknown';
+    }
+
+    /**
+     * Check if this record can be viewed by current editor
+     *
+     * @return bool
+     */
+    public function canBeRead(): bool
+    {
+        if (BackendUtility::isAdministrator() || $this->site === '') {
+            return true;
+        }
+        $sites = GeneralUtility::makeInstance(SiteService::class)->getAllowedSites();
+        return array_key_exists($this->getSite(), $sites);
     }
 }

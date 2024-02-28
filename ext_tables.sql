@@ -65,6 +65,7 @@ CREATE TABLE tx_lux_domain_model_fingerprint (
 	domain varchar(255) DEFAULT '' NOT NULL,
 	user_agent varchar(512) DEFAULT '' NOT NULL,
 	type int(11) unsigned DEFAULT '0' NOT NULL,
+	site varchar(255) DEFAULT '' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -85,6 +86,7 @@ CREATE TABLE tx_lux_domain_model_fingerprint (
 	KEY domain (domain(50)),
 	KEY user_agent (user_agent(50)),
 	KEY type (type),
+	KEY site (site(50)),
 	KEY crdate (crdate),
 	KEY language (l10n_parent,sys_language_uid)
 );
