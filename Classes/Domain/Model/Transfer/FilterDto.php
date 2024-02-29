@@ -658,7 +658,7 @@ class FilterDto
      */
     protected function getStartTimeFromTimePeriod(): DateTime
     {
-        if ($this->getTimePeriod() === self::PERIOD_ALL || $this->isOnlySearchtermGiven()) {
+        if ($this->getTimePeriod() === self::PERIOD_ALL) {
             $time = new DateTime();
             $time->setTimestamp(0);
         } elseif ($this->getTimePeriod() === self::PERIOD_THISYEAR) {

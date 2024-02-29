@@ -9,6 +9,7 @@ use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
@@ -85,6 +86,10 @@ abstract class AbstractRepository extends Repository
         array $logicalAnd,
         string $tablePrefix = ''
     ): array {
+        if (BackendUtility::isAdministrator() && $filter->isSiteSet() === false) {
+            // Prevent join to pagevisit table if not needed (to avoid empty result problems on specific search)
+            return $logicalAnd;
+        }
         $field = ($tablePrefix ? $tablePrefix . '.' : '') . 'site';
         $logicalAnd[] = $query->in($field, $filter->getSitesForFilter());
         return $logicalAnd;

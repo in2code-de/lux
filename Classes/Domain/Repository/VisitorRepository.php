@@ -708,7 +708,7 @@ class VisitorRepository extends AbstractRepository
             )
         );
 
-        if ($filter->getSearchterms() !== []) {
+        if ($filter->isSearchtermSet()) {
             $logicalOr = [];
             foreach ($filter->getSearchterms() as $searchterm) {
                 if (MathUtility::canBeInterpretedAsInteger($searchterm)) {
@@ -722,16 +722,16 @@ class VisitorRepository extends AbstractRepository
             }
             $logicalAnd[] = $query->logicalOr(...$logicalOr);
         }
-        if ($filter->getIdentified() > FilterDto::IDENTIFIED_ALL) {
+        if ($filter->isIdentifiedSet()) {
             $logicalAnd[] = $query->equals('identified', $filter->getIdentified() === FilterDto::IDENTIFIED_IDENTIFIED);
         }
-        if ($filter->getPid() !== '') {
+        if ($filter->isPidSet()) {
             $logicalAnd[] = $query->equals('pagevisits.page.uid', (int)$filter->getPid());
         }
-        if ($filter->getScoring() > 0) {
+        if ($filter->isScoringSet()) {
             $logicalAnd[] = $query->greaterThan('scoring', $filter->getScoring());
         }
-        if ($filter->getCategoryScoring() !== null) {
+        if ($filter->isCategoryScoringSet()) {
             $logicalAnd[] = $query->equals('categoryscorings.category', $filter->getCategoryScoring());
             $logicalAnd[] = $query->greaterThan('categoryscorings.scoring', 0);
         }
@@ -745,7 +745,7 @@ class VisitorRepository extends AbstractRepository
     protected function getOrderingsArrayByFilterDto(FilterDto $filter): array
     {
         $orderings = ['identified' => QueryInterface::ORDER_DESCENDING];
-        if ($filter->getCategoryScoring() === null) {
+        if ($filter->isCategoryScoringSet() === false) {
             $orderings['scoring'] = QueryInterface::ORDER_DESCENDING;
         } else {
             $orderings['categoryscorings.scoring'] = QueryInterface::ORDER_DESCENDING;
@@ -797,7 +797,7 @@ class VisitorRepository extends AbstractRepository
     protected function extendWhereClauseWithFilterIdentified(FilterDto $filter): string
     {
         $sql = '';
-        if ($filter->getIdentified() > FilterDto::IDENTIFIED_ALL) {
+        if ($filter->isIdentifiedSet()) {
             $sql .= ' and v.identified=' . (int)($filter->getIdentified() === FilterDto::IDENTIFIED_IDENTIFIED);
         }
         return $sql;
