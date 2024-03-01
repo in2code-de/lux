@@ -6,6 +6,7 @@ namespace In2code\Lux\Utility;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use Throwable;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Property\PropertyMapper;
 
@@ -34,6 +35,20 @@ class BackendUtility
             return self::getBackendUserAuthentication()->isAdmin();
         }
         return false;
+    }
+
+    /**
+     * @param string $path
+     * @return int|string|array
+     */
+    public static function getUserTsConfigByPath(string $path)
+    {
+        try {
+            return ArrayUtility::getValueByPath(self::getUserTsConfig(), $path);
+        } catch (Throwable $exception) {
+            unset($exception);
+        }
+        return '';
     }
 
     public static function saveValueToSession(string $key, string $action, string $controller, array $data): void
@@ -68,6 +83,15 @@ class BackendUtility
         $value = self::getBackendUserAuthentication()->getSessionData($key . $action . $controller . '_lux');
         if (is_array($value) === true) {
             return $value;
+        }
+        return [];
+    }
+
+    protected static function getUserTsConfig(): array
+    {
+        $backendUserAuthentication = self::getBackendUserAuthentication();
+        if ($backendUserAuthentication !== null) {
+            return $backendUserAuthentication->getTSConfig();
         }
         return [];
     }
