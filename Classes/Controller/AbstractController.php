@@ -135,7 +135,7 @@ abstract class AbstractController extends ActionController
      * Always set a default FilterDto even if there are no filter params. In addition, remove categoryScoring with 0 to
      * avoid propertymapping exceptions
      *
-     * @param int $timePeriod
+     * @param int $timePeriod if anything else then default (0) is given, $filter->isPeriodSet() will be true
      * @return void
      * @throws NoSuchArgumentException
      */
@@ -149,7 +149,7 @@ abstract class AbstractController extends ActionController
         if ($this->request->hasArgument('filter') === false) {
             $filter = BackendUtility::getFilterArrayFromSession($this->getActionName(), $this->getControllerName());
             if ($filter === []) {
-                $filter['timePeriod'] = $timePeriod;
+                $filter['timePeriodDefault'] = $timePeriod;
             }
         } else {
             $filter = (array)$this->request->getArgument('filter');

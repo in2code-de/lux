@@ -55,6 +55,12 @@ class FilterDto
 
     protected int $limit = 0;
     protected int $scoring = 0;
+
+    /**
+     * Needed to compare with timePeriod to check if given from filter or by default
+     * @var int
+     */
+    protected int $timePeriodDefault = self::PERIOD_DEFAULT;
     protected int $timePeriod = self::PERIOD_DEFAULT;
     protected int $identified = self::IDENTIFIED_ALL;
 
@@ -87,9 +93,12 @@ class FilterDto
     protected ?Visitor $visitor = null;
     protected ?Company $company = null;
 
-    public function __construct(int $timePeriod = self::PERIOD_DEFAULT)
+    /**
+     * @param int $timePeriodValue Must be a different variable name then "timePeriod" or "timePeriodDefault"
+     */
+    public function __construct(int $timePeriodValue = self::PERIOD_DEFAULT)
     {
-        $this->setTimePeriod($timePeriod);
+        $this->setTimePeriodDefault($timePeriodValue);
     }
 
     public function getSearchterm(): string
@@ -232,12 +241,24 @@ class FilterDto
 
     public function isTimePeriodSet(): bool
     {
-        return $this->timePeriod !== self::PERIOD_DEFAULT;
+        return $this->timePeriod !== $this->timePeriodDefault;
     }
 
     public function setTimePeriod(int $timePeriod): self
     {
         $this->timePeriod = $timePeriod;
+        return $this;
+    }
+
+    public function getTimePeriodDefault(): int
+    {
+        return $this->timePeriodDefault;
+    }
+
+    public function setTimePeriodDefault(int $timePeriodDefault): self
+    {
+        $this->timePeriodDefault = $timePeriodDefault;
+        $this->timePeriod = $timePeriodDefault;
         return $this;
     }
 
