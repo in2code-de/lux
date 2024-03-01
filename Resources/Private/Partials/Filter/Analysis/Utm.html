@@ -123,18 +123,18 @@
                     </div>
 
                     <div class="input-group form-group">
-                        <f:form.select
-                            property="utmContent"
-                            options="{utmContent}"
-                            optionLabelField="title"
-                            optionValueField="uid"
-                            prependOptionValue=""
-                            prependOptionLabel=""
-                            class="form-control form-select"
-                            id="utmContent"/>
-                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#utmContent">
-                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.content">Content</f:translate>
-                        </button>
+                        <div class="form-check form-switch" style="position: relative; display: flex; justify-content: right; width: 100%;">
+                            <f:form.checkbox
+                                class="form-check-input"
+                                id="withReferrer"
+                                property="withReferrer"
+                                value="1"
+                                style="position: absolute; top: 4px;"
+                                checked="{f:if(condition:'{filter.withReferrer} == 1',then:'checked')}"/>
+                            <label style="padding: 5px 0 0 5px; margin-right: 40px;" class="form-check-label" for="withReferrer">
+                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.withreferrer">With referrer</f:translate>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>

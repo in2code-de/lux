@@ -27,6 +27,7 @@ class UtmRepository extends AbstractRepository
         $query = $this->createQuery();
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, []);
         $logicalAnd = $this->extendWithExtendedFilterQuery($query, $logicalAnd, $filter);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForIsReferrer($filter, $query, $logicalAnd);
         $query->matching($query->logicalAnd(...$logicalAnd));
         $query->setLimit(750);
         return $query->execute();
@@ -60,16 +61,6 @@ class UtmRepository extends AbstractRepository
     public function findAllMedia(FilterDto $filter): array
     {
         return $this->findAllProperties('utm_medium', $filter);
-    }
-
-    /**
-     * @param FilterDto $filter
-     * @return array
-     * @throws ExceptionDbal
-     */
-    public function findAllContent(FilterDto $filter): array
-    {
-        return $this->findAllProperties('utm_content', $filter);
     }
 
     /**
@@ -112,6 +103,7 @@ class UtmRepository extends AbstractRepository
             $query->lessThanOrEqual('crdate', $end->format('U')),
         ];
         $logicalAnd = $this->extendWithExtendedFilterQuery($query, $logicalAnd, $filter);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForIsReferrer($filter, $query, $logicalAnd);
         $query->matching($query->logicalAnd(...$logicalAnd));
         return $query->execute()->count();
     }
@@ -142,8 +134,8 @@ class UtmRepository extends AbstractRepository
             . $this->extendWhereClauseWithFilterCampaign($filter, 'utm')
             . $this->extendWhereClauseWithFilterSource($filter, 'utm')
             . $this->extendWhereClauseWithFilterMedium($filter, 'utm')
-            . $this->extendWhereClauseWithFilterContent($filter, 'utm')
             . $this->extendWhereClauseWithFilterSite($filter)
+            . $this->extendWhereClauseWithFilterIsReferrer($filter, 'utm')
             . ' group by utm.' . $field . ' order by count desc limit 8';
         return $connection->executeQuery($sql)->fetchAllAssociative();
     }
@@ -187,19 +179,6 @@ class UtmRepository extends AbstractRepository
         return $sql;
     }
 
-    protected function extendWhereClauseWithFilterContent(FilterDto $filter, string $table = ''): string
-    {
-        $sql = '';
-        if ($filter->isUtmContentSet()) {
-            $field = 'utm_content';
-            if ($table !== '') {
-                $field = $table . '.' . $field;
-            }
-            $sql .= ' and ' . $field . '="' . $filter->getUtmContent() . '"';
-        }
-        return $sql;
-    }
-
     /**
      * Returns part of a where clause like
      *      ' and site="site 1"'
@@ -215,6 +194,19 @@ class UtmRepository extends AbstractRepository
         $sql .= ' or ';
         $sql .= 'pnv.site in ("' . implode('","', $filter->getSitesForFilter()) . '")';
         $sql .= ')';
+        return $sql;
+    }
+
+    protected function extendWhereClauseWithFilterIsReferrer(FilterDto $filter, string $table = ''): string
+    {
+        $sql = '';
+        if ($filter->isWithReferrerSet()) {
+            $field = 'referrer';
+            if ($table !== '') {
+                $field = $table . '.' . $field;
+            }
+            $sql .= ' and ' . $field . ' != \'\'';
+        }
         return $sql;
     }
 
@@ -259,6 +251,17 @@ class UtmRepository extends AbstractRepository
                 $query->in('pagevisit.site', $filter->getSitesForFilter()),
                 $query->in('newsvisit.pagevisit.site', $filter->getSitesForFilter())
             );
+        }
+        return $logicalAnd;
+    }
+
+    protected function extendLogicalAndWithFilterConstraintsForIsReferrer(
+        FilterDto $filter,
+        QueryInterface $query,
+        array $logicalAnd
+    ): array {
+        if ($filter->isWithReferrerSet()) {
+            $logicalAnd[] = $query->logicalNot($query->equals('referrer', ''));
         }
         return $logicalAnd;
     }

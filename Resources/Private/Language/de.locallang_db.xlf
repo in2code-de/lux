@@ -2605,6 +2605,10 @@
 				<source>Page Identifier (PID)</source>
 				<target state="translated">Seitennummer (PID)</target>
 			</trans-unit>
+			<trans-unit id="dictionary.withreferrer">
+				<source>With referrer</source>
+				<target state="translated">Mit Referrer</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

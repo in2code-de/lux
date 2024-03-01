@@ -201,7 +201,6 @@ class AnalysisController extends AbstractController
             'utmCampaigns' => $this->utmRepository->findAllCampaigns($filter),
             'utmSources' => $this->utmRepository->findAllSources($filter),
             'utmMedia' => $this->utmRepository->findAllMedia($filter),
-            'utmContent' => $this->utmRepository->findAllContent($filter),
             'utmList' => $this->utmRepository->findByFilter($filter),
             'utmData' => GeneralUtility::makeInstance(UtmDataProvider::class, $filter),
             'utmCampaignData' => GeneralUtility::makeInstance(UtmCampaignDataProvider::class, $filter),

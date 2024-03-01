@@ -1969,6 +1969,9 @@
 			<trans-unit id="dictionary.pageidentifier">
 				<source>Page Identifier (PID)</source>
 			</trans-unit>
+			<trans-unit id="dictionary.withreferrer">
+				<source>With referrer</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

@@ -63,6 +63,7 @@ class FilterDto
     protected int $timePeriodDefault = self::PERIOD_DEFAULT;
     protected int $timePeriod = self::PERIOD_DEFAULT;
     protected int $identified = self::IDENTIFIED_ALL;
+    protected bool $withReferrer = false;
 
     /**
      * Filter by categoryscoring greater then 0
@@ -277,6 +278,22 @@ class FilterDto
         if ($identified !== null) {
             $this->identified = $identified;
         }
+        return $this;
+    }
+
+    public function isWithReferrer(): bool
+    {
+        return $this->withReferrer;
+    }
+
+    public function isWithReferrerSet(): bool
+    {
+        return $this->isWithReferrer() !== false;
+    }
+
+    public function setWithReferrer(bool $withReferrer): self
+    {
+        $this->withReferrer = $withReferrer;
         return $this;
     }
 
@@ -594,6 +611,7 @@ class FilterDto
             || $this->isTimeToSet()
             || $this->isTimePeriodSet()
             || $this->isIdentifiedSet()
+            || $this->isWithReferrerSet()
             || $this->isDomainSet()
             || $this->isCountrySet()
             || $this->isSiteSet()
@@ -609,26 +627,6 @@ class FilterDto
     public function isTimeFromOrTimeToSet(): bool
     {
         return $this->isTimeFromSet() || $this->isTimeToSet();
-    }
-
-    /**
-     * Is only a searchterm given and nothing else in backend filter?
-     *
-     * @return bool
-     */
-    protected function isOnlySearchtermGiven(): bool
-    {
-        return $this->isSearchtermSet()
-            && $this->isPidSet() === false
-            && $this->isScoringSet() === false
-            && $this->isCategoryScoringSet() === false
-            && $this->isTimeFromSet() === false
-            && $this->isTimeToSet() === false
-            && $this->timePeriod === self::PERIOD_DEFAULT
-            && $this->identified === self::IDENTIFIED_ALL
-            && $this->isDomainSet() === false
-            && $this->isSiteSet() === false
-            && $this->isCountrySet() === false;
     }
 
     /**
