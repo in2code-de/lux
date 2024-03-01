@@ -2465,6 +2465,10 @@
 				<source>Country</source>
 				<target state="translated">Land</target>
 			</trans-unit>
+			<trans-unit id="dictionary.lastused">
+				<source>Last used</source>
+				<target state="translated">Zuletzt genutzt</target>
+			</trans-unit>
 			<trans-unit id="dictionary.lead">
 				<source>Lead</source>
 				<target state="translated">Lead</target>

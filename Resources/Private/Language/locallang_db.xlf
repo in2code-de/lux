@@ -1864,6 +1864,9 @@
 			<trans-unit id="dictionary.country">
 				<source>Country</source>
 			</trans-unit>
+			<trans-unit id="dictionary.lastused">
+				<source>Last used</source>
+			</trans-unit>
 			<trans-unit id="dictionary.lead">
 				<source>Lead</source>
 			</trans-unit>
