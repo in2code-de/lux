@@ -85,7 +85,7 @@ abstract class AbstractIpinformation
 
     public function convertResultToArray(string $content): array
     {
-        return json_decode($content, true);
+        return (array)json_decode($content, true);
     }
 
     public function mapKeys(array $array): array

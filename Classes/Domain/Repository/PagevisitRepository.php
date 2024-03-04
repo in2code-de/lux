@@ -114,7 +114,7 @@ class PagevisitRepository extends AbstractRepository
 
         $query = $this->createQuery();
         $logicalAnd = [
-            $query->in('uid', $identifiers),
+            $query->in('uid', $identifiers ?: [0]),
         ];
         $query->matching(
             $query->logicalAnd(...$logicalAnd)

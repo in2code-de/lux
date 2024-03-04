@@ -603,8 +603,8 @@ lib.lux.settings {
         configuration {
           emailOverrides {
             # Override sender settings for SPF-defiance settings (affected only the sender settings - not the reply to settings)
-            senderName = Marketing
-            senderEmail = service@domain.org
+            #senderName = Marketing
+            #senderEmail = service@domain.org
           }
         }
       }
@@ -733,8 +733,8 @@ lib.lux.settings {
         configuration {
           emailOverrides {
             # Override sender settings for SPF-defiance settings (affected only the sender settings - not the reply to settings)
-            senderName = Marketing
-            senderEmail = service@domain.org
+            #senderName = Marketing
+            #senderEmail = service@domain.org
           }
         }
       }
