@@ -16,6 +16,15 @@ Basicly there are 5 different ways at the moment:
 see [Identification](../Identification/Index.md) for more information.
 
 
+## How to track downloads with an extension like fal_securedownload or secure_downloads
+
+LUX automatically tracks downloadable files (if file extensions are properly configured in TypoScript setup) even if
+those files are related anywhere else then on the own website.
+Nevertheless, we need to have real filenames to download (like `filename.pdf`).
+So we would recommend to use the extension `fal_protect`. This extension allows to set permissions on files within
+file storages (like fileadmin) but doesn't replace the URL.
+
+
 ## Debugging in JavaScript or why is Lux not working?
 
 There is a debug output in browser console. This is helpful to find problems with lux on your website. E.g. it shows
