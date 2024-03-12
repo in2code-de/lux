@@ -55,7 +55,7 @@ class VisitorFactory
         $this->fingerprint = GeneralUtility::makeInstance(Fingerprint::class)
             ->setValue($identificator)
             ->setSite(GeneralUtility::makeInstance(SiteService::class)
-                ->getSiteIdentifierFromPageIdentifier(FrontendUtility::getCurrentPageIdentifier()));
+            ->getSiteIdentifierFromPageIdentifier(FrontendUtility::getCurrentPageIdentifier()));
         $this->visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $this->eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
         $this->eventDispatcher->dispatch(
