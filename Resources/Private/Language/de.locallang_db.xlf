@@ -879,6 +879,10 @@
 				<source>No data available yet</source>
 				<target state="translated">Noch keine Daten für eine Anzeige vorhanden</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.nosites">
+				<source>Note: To view data in LUX, you need read access to at least one root page (site rootpage)</source>
+				<target state="translated">Hinweis: Um Daten in LUX sehen zu können, benötigen Sie Lesezugriff auf mindestens eine Root Seite (Rootpage in site)</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.filter.submit">
 				<source>Filter now</source>
 				<target state="translated">Jetzt filtern</target>

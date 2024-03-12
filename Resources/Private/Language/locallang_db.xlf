@@ -666,6 +666,9 @@
 			<trans-unit id="module.analysis.novalues">
 				<source>No data available yet</source>
 			</trans-unit>
+			<trans-unit id="module.analysis.nosites">
+				<source>Note: To view data in LUX, you need read access to at least one root page (site rootpage)</source>
+			</trans-unit>
 			<trans-unit id="module.analysis.filter.submit">
 				<source>Filter now</source>
 			</trans-unit>
