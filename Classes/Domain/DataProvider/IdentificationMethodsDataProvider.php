@@ -56,4 +56,14 @@ class IdentificationMethodsDataProvider extends AbstractDataProvider
             'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.' . $key
         );
     }
+
+    public function isDataAvailable(): bool
+    {
+        foreach ($this->data['amounts'] as $amount) {
+            if ($amount > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

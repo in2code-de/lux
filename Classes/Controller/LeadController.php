@@ -134,7 +134,7 @@ class LeadController extends AbstractController
     public function downloadCsvAction(FilterDto $filter): ResponseInterface
     {
         $this->view->assignMultiple([
-            'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter),
+            'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter->setLimit(750)),
         ]);
         return $this->csvResponse($this->view->render());
     }
