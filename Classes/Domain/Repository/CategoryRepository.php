@@ -5,38 +5,39 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
-use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Category;
+use In2code\Lux\Domain\Service\PermissionTrait;
 use In2code\Lux\Utility\DatabaseUtility;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
-use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 class CategoryRepository extends AbstractRepository
 {
-    public function findAllLuxCategories(): QueryResultInterface
+    use PermissionTrait;
+
+    public function findAllLuxCategories(): array
     {
         $query = $this->createQuery();
         $query->matching($query->equals('lux_category', true));
         $query->setOrderings(['title' => QueryInterface::ORDER_ASCENDING]);
-        return $query->execute();
+        $records = $query->execute()->toArray();
+        return $this->filterRecords($records, Category::TABLE_NAME);
     }
 
-    public function findAllLuxCompanyCategories(): QueryResultInterface
+    public function findAllLuxCompanyCategories(): array
     {
         $query = $this->createQuery();
         $query->matching($query->equals('lux_company_category', true));
         $query->setOrderings(['title' => QueryInterface::ORDER_ASCENDING]);
-        return $query->execute();
+        $records = $query->execute()->toArray();
+        return $this->filterRecords($records, Category::TABLE_NAME);
     }
 
     /**
      * @param int $pageIdentifier
      * @param int $categoryIdentifier
      * @return bool
-     * @throws Exception
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function isPageIdentifierRelatedToCategoryIdentifier(int $pageIdentifier, int $categoryIdentifier): bool
     {
@@ -53,8 +54,7 @@ class CategoryRepository extends AbstractRepository
 
     /**
      * @return int
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function findAllAmount(): int
     {
@@ -66,8 +66,7 @@ class CategoryRepository extends AbstractRepository
     /**
      * @param int $newsIdentifier
      * @return array
-     * @throws ExceptionDbalDriver
-     * @throws Exception
+     * @throws ExceptionDbal
      */
     public function findAllCategoryIdentifiersToNews(int $newsIdentifier): array
     {
@@ -84,8 +83,7 @@ class CategoryRepository extends AbstractRepository
     /**
      * @param int $identifier
      * @return bool
-     * @throws ExceptionDbalDriver
-     * @throws Exception
+     * @throws ExceptionDbal
      */
     public function isLuxCategory(int $identifier): bool
     {
