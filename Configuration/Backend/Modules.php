@@ -104,6 +104,7 @@ return [
                 'list',
                 'detail',
                 'delete',
+                'resetFilter',
             ],
             \In2code\Lux\Controller\ShortenerController::class => [
                 'list',
