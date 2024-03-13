@@ -114,12 +114,11 @@ label {
     }
 
     .bg-primary {
-        background-color: $colorSoft;
+        background-color: $colorMain !important;
         border: 1px solid $colorMain;
 
         li {
-            //color: white;
-            //color: $colorMain;
+            color: white;
         }
     }
 
