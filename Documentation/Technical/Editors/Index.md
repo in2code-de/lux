@@ -14,6 +14,16 @@ access to LUX data in a site, take care that this user has reading access to the
 This means, that if an editor needs access to all LUX data, ensure that this editor has reading access to all root
 pages.
 
+## Access to categories
+
+Basically there are three different category types that are used in LUX:
+
+* Category Scoring is calculated on page access or downloads
+* Company Categories are used to segment companies (Wiredmind integration into LUX)
+* Workflow Categories are used to group workflows for a better management (Part of LUXenterprise)
+
+Take care that your editors have reading access to the page where relevant categories are stored.
+
 ## Storage PID for linklistener, shortener and utm generator records
 
 Since version 35.0.0 you can define where to store those types of records depending on the backend user. There is now
