@@ -145,9 +145,13 @@ class LeadController extends AbstractController
      * @param Visitor $visitor
      * @return ResponseInterface
      * @throws ExceptionDbal
+     * @throws AuthenticationException
      */
     public function removeAction(Visitor $visitor): ResponseInterface
     {
+        if ($visitor->canBeRead() === false) {
+            throw new AuthenticationException('Not allowed for this action', 1710329497);
+        }
         $this->visitorRepository->removeVisitor($visitor);
         $this->addFlashMessage('Visitor completely removed from database');
         return $this->redirect('list');
@@ -158,9 +162,13 @@ class LeadController extends AbstractController
      * @return ResponseInterface
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws AuthenticationException
      */
     public function deactivateAction(Visitor $visitor): ResponseInterface
     {
+        if ($visitor->canBeRead() === false) {
+            throw new AuthenticationException('Not allowed for this action', 1710329513);
+        }
         $visitor->setBlacklistedStatus();
         $this->visitorRepository->update($visitor);
         $this->addFlashMessage('Visitor is blacklisted now');
@@ -290,9 +298,13 @@ class LeadController extends AbstractController
      * @param bool $removeVisitors
      * @return ResponseInterface
      * @throws ExceptionDbal
+     * @throws AuthenticationException
      */
     public function removeCompanyAction(Company $company, bool $removeVisitors = false): ResponseInterface
     {
+        if ($company->canBeRead() === false) {
+            throw new AuthenticationException('Not allowed for this action', 1710329777);
+        }
         $this->companyRepository->removeCompany($company, $removeVisitors);
         $this->addFlashMessage('Company completely removed from database');
         return $this->redirect('companies');
@@ -362,12 +374,16 @@ class LeadController extends AbstractController
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      * @noinspection PhpUnused
+     * @throws AuthenticationException
      */
     public function companiesInformationAjax(ServerRequestInterface $request): ResponseInterface
     {
         $companyRepository = GeneralUtility::makeInstance(CompanyRepository::class);
         /** @var Company $company */
         $company = $companyRepository->findByUid((int)$request->getQueryParams()['company']);
+        if ($company->canBeRead() === false) {
+            throw new AuthenticationException('Not allowed for this action', 1710330640);
+        }
         $result = [
             'numberOfVisits' => $company->getNumberOfVisits(),
             'numberOfVisitors' => $company->getNumberOfVisitors(),
@@ -380,6 +396,7 @@ class LeadController extends AbstractController
      * @return ResponseInterface
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws AuthenticationException
      * @noinspection PhpUnused
      */
     public function detailDescriptionAjax(ServerRequestInterface $request): ResponseInterface
@@ -387,6 +404,9 @@ class LeadController extends AbstractController
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         /** @var Visitor $visitor */
         $visitor = $visitorRepository->findByUid((int)$request->getQueryParams()['visitor']);
+        if ($visitor->canBeRead() === false) {
+            throw new AuthenticationException('Not allowed for this action', 1710330664);
+        }
         $visitor->setDescription($request->getQueryParams()['value']);
         $visitorRepository->update($visitor);
         $visitorRepository->persistAll();
@@ -398,6 +418,7 @@ class LeadController extends AbstractController
      * @return ResponseInterface
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws AuthenticationException
      * @noinspection PhpUnused
      */
     public function detailCompanydescriptionAjax(ServerRequestInterface $request): ResponseInterface
@@ -405,6 +426,9 @@ class LeadController extends AbstractController
         $companyRepository = GeneralUtility::makeInstance(CompanyRepository::class);
         /** @var Company $company */
         $company = $companyRepository->findByUid((int)$request->getQueryParams()['company']);
+        if ($company->canBeRead() === false) {
+            throw new AuthenticationException('Not allowed for this action', 1710330723);
+        }
         $company->setDescription($request->getQueryParams()['value']);
         $companyRepository->update($company);
         $companyRepository->persistAll();
@@ -416,6 +440,7 @@ class LeadController extends AbstractController
      * @return ResponseInterface
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws AuthenticationException
      * @noinspection PhpUnused
      */
     public function detailCompanyrecordAjax(ServerRequestInterface $request): ResponseInterface
@@ -423,8 +448,12 @@ class LeadController extends AbstractController
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         /** @var Visitor $visitor */
         $visitor = $visitorRepository->findByUid((int)$request->getQueryParams()['visitor']);
+        /** @var Company $company */
         $company = $this->companyRepository->findByUid((int)$request->getQueryParams()['value']);
         if ($visitor !== null && $company !== null) {
+            if ($visitor->canBeRead() === false || $company->canBeRead() === false) {
+                throw new AuthenticationException('Not allowed for this action', 1710330806);
+            }
             $visitor->setCompanyrecord($company);
             $visitorRepository->update($visitor);
             $visitorRepository->persistAll();
@@ -437,6 +466,7 @@ class LeadController extends AbstractController
      * @return ResponseInterface
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws AuthenticationException
      * @noinspection PhpUnused
      */
     public function setCategoryToCompanyAjax(ServerRequestInterface $request): ResponseInterface
@@ -445,6 +475,9 @@ class LeadController extends AbstractController
         $company = $this->companyRepository->findByUid((int)$request->getQueryParams()['company']);
         $category = $this->categoryRepository->findByUid((int)$request->getQueryParams()['value']);
         if ($company !== null && $category !== null) {
+            if ($company->canBeRead() === false) {
+                throw new AuthenticationException('Not allowed for this action', 1710330842);
+            }
             $company->setCategory($category);
             $this->companyRepository->update($company);
             $this->companyRepository->persistAll();

@@ -26,6 +26,7 @@ use In2code\Lux\Domain\Model\News;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Exception\ArgumentsException;
+use In2code\Lux\Exception\AuthenticationException;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
@@ -303,10 +304,15 @@ class AnalysisController extends AbstractController
     /**
      * @param Linklistener $linkListener
      * @return ResponseInterface
+     * @throws AuthenticationException
+     * @throws ExceptionDbal
      * @throws IllegalObjectTypeException
      */
     public function deleteLinkListenerAction(LinkListener $linkListener): ResponseInterface
     {
+        if ($linkListener->canBeRead() === false) {
+            throw new AuthenticationException('Not allowed for this action', 1710322956);
+        }
         $this->linklistenerRepository->remove($linkListener);
         return $this->redirect('linkListener');
     }
@@ -316,9 +322,13 @@ class AnalysisController extends AbstractController
      * @return ResponseInterface
      * @throws ExceptionDbal
      * @throws ArgumentsException
+     * @throws AuthenticationException
      */
     public function detailPageAction(Page $page): ResponseInterface
     {
+        if ($page->canBeRead() === false) {
+            throw new AuthenticationException('Not allowed for this action', 1710328781);
+        }
         $filter = BackendUtility::getFilterFromSession(
             'content',
             $this->getControllerName(),
@@ -339,9 +349,13 @@ class AnalysisController extends AbstractController
      * @return ResponseInterface
      * @throws ExceptionDbal
      * @throws ArgumentsException
+     * @throws AuthenticationException
      */
     public function detailNewsAction(News $news): ResponseInterface
     {
+        if ($news->canBeRead() === false) {
+            throw new AuthenticationException('Not allowed for this action', 1710328995);
+        }
         $filter = BackendUtility::getFilterFromSession(
             'news',
             $this->getControllerName(),
@@ -386,9 +400,13 @@ class AnalysisController extends AbstractController
      * @return ResponseInterface
      * @throws ExceptionDbal
      * @throws InvalidQueryException
+     * @throws AuthenticationException
      */
     public function detailLinkListenerAction(Linklistener $linkListener): ResponseInterface
     {
+        if ($linkListener->canBeRead() === false) {
+            throw new AuthenticationException('Not allowed for this action', 1710329118);
+        }
         $filter = BackendUtility::getFilterFromSession(
             'linkClick',
             $this->getControllerName(),
