@@ -16,12 +16,25 @@
                                 </span>
                                 Page <strong title="PID{pagevisit.page.uid}: {pagevisit.pageTitleWithLanguage}"><f:format.crop maxCharacters="50" append="..." respectWordBoundaries="0">{pagevisit.pageTitleWithLanguage}</f:format.crop></strong> visited from<br />
                                 <span title="UID{pagevisit.visitor.uid}">
-                                    <f:be.link
-                                        route="lux_LuxLead"
-                                        title="{visitor.companyrecord.title}"
-                                        parameters="{tx_lux_lux_luxlead:'{visitor:pagevisit.visitor.uid,action:\'detail\',controller:\'Lead\'}'}">
-                                        {pagevisit.visitor.fullName}
-                                    </f:be.link>
+                                    <!-- Todo: Can be removed if TYPO3 11 support is dropped -->
+                                    <lux:condition.isTypo3Eleven>
+                                        <f:then>
+                                            <f:be.link
+                                                route="lux_LuxLead"
+                                                title="{visitor.companyrecord.title}"
+                                                parameters="{tx_lux_lux_luxlead:'{visitor:pagevisit.visitor.uid,action:\'detail\',controller:\'Lead\'}'}">
+                                                {pagevisit.visitor.fullName}
+                                            </f:be.link>
+                                        </f:then>
+                                        <f:else>
+                                            <f:be.link
+                                                route="lux_LuxLead.Lead_detail"
+                                                title="{visitor.companyrecord.title}"
+                                                parameters="{visitor:pagevisit.visitor.uid}">
+                                                {pagevisit.visitor.fullName}
+                                            </f:be.link>
+                                        </f:else>
+                                    </lux:condition.isTypo3Eleven>
                                 </span>
                                 <f:if condition="{pagevisit.visitor.company}">({pagevisit.visitor.company})</f:if>
                             </li>
