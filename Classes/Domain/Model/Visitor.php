@@ -17,6 +17,7 @@ use In2code\Lux\Domain\Service\ScoringService;
 use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Utility\BackendUtility;
+use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
@@ -53,7 +54,7 @@ class Visitor extends AbstractModel
      * @Lazy
      * @var ?ObjectStorage<Fingerprint>
      * @phpstan-var ObjectStorage|LazyLoadingProxy|null
-     * Todo: Type can be changed to Company|LazyLoadingProxy|null when PHP 7.4 is dropped
+     * Todo: Type can be changed to Fingerprint|LazyLoadingProxy|null when PHP 7.4 is dropped
      */
     protected ?object $fingerprints = null;
 
@@ -382,6 +383,17 @@ class Visitor extends AbstractModel
         // New calculation of visitor.company property if a companyrecord was set
         $this->resetCompanyAutomatic();
 
+        return $this;
+    }
+
+    public function resetCompanyrecord(): self
+    {
+        $queryBuilder = DatabaseUtility::getQueryBuilderForTable(self::TABLE_NAME);
+        $queryBuilder
+            ->update(self::TABLE_NAME)
+            ->where('uid=' . $this->getUid())->set('companyrecord', 0)
+            ->executeStatement();
+        $this->companyrecord = null;
         return $this;
     }
 

@@ -440,7 +440,6 @@ class LeadController extends AbstractController
      * @return ResponseInterface
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
-     * @throws AuthenticationException
      * @noinspection PhpUnused
      */
     public function detailCompanyrecordAjax(ServerRequestInterface $request): ResponseInterface
@@ -450,13 +449,17 @@ class LeadController extends AbstractController
         $visitor = $visitorRepository->findByUid((int)$request->getQueryParams()['visitor']);
         /** @var Company $company */
         $company = $this->companyRepository->findByUid((int)$request->getQueryParams()['value']);
-        if ($visitor !== null && $company !== null) {
-            if ($visitor->canBeRead() === false || $company->canBeRead() === false) {
-                throw new AuthenticationException('Not allowed for this action', 1710330806);
+
+        if ($visitor !== null && $visitor->canBeRead()) {
+            if ($company !== null) {
+                if ($company->canBeRead()) {
+                    $visitor->setCompanyrecord($company);
+                    $visitorRepository->update($visitor);
+                    $visitorRepository->persistAll();
+                }
+            } else {
+                $visitor->resetCompanyrecord();
             }
-            $visitor->setCompanyrecord($company);
-            $visitorRepository->update($visitor);
-            $visitorRepository->persistAll();
         }
         return GeneralUtility::makeInstance(JsonResponse::class);
     }
