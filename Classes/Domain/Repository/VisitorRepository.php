@@ -676,9 +676,13 @@ class VisitorRepository extends AbstractRepository
             Search::TABLE_NAME,
             Utm::TABLE_NAME,
             Visitor::TABLE_NAME,
+            'tx_luxenterprise_domain_model_abpagevisit',
+            'tx_luxenterprise_domain_model_shortenervisit',
         ];
         foreach ($tables as $table) {
-            DatabaseUtility::getConnectionForTable($table)->truncate($table);
+            if (DatabaseUtility::isTableExisting($table)) {
+                DatabaseUtility::getConnectionForTable($table)->truncate($table);
+            }
         }
     }
 
