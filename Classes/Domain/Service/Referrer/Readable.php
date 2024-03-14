@@ -17,11 +17,11 @@ class Readable
      * @var array
      */
     protected array $sources = [
-        't.co' => 'Twitter',
-        'www.twitter.com' => 'Twitter',
-        'm.twitter.com' => 'Twitter',
-        'l.twitter.com' => 'Twitter',
-        'lm.twitter.com' => 'Twitter',
+        't.co' => 'X',
+        'www.twitter.com' => 'X',
+        'm.twitter.com' => 'X',
+        'l.twitter.com' => 'X',
+        'lm.twitter.com' => 'X',
         'www.facebook.com' => 'Facebook',
         'm.facebook.com' => 'Facebook',
         'l.facebook.com' => 'Facebook',
