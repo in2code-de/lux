@@ -25,7 +25,7 @@ class StopTracking
      *
      * @var array
      */
-    protected $blacklistedBrowsers = [
+    protected array $blacklistedBrowsers = [
         'Googlebot',
     ];
 
@@ -34,7 +34,7 @@ class StopTracking
      *
      * @var array
      */
-    protected $blacklistedUa = [
+    protected array $blacklistedUa = [
         'googlebot',
         'pinterestbot',
         'linkedinbot',

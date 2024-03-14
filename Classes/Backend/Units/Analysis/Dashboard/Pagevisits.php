@@ -23,7 +23,7 @@ class Pagevisits extends AbstractUnit implements UnitInterface
             return [];
         }
         return [
-            'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class),
+            'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $this->filter),
         ];
     }
 }

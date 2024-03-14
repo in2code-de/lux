@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
 use DateTime;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Repository\LinkclickRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
+use In2code\Lux\Domain\Service\PermissionTrait;
 use In2code\Lux\Utility\DateUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -15,7 +17,9 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 class Linklistener extends AbstractEntity
 {
-    const TABLE_NAME = 'tx_lux_domain_model_linklistener';
+    use PermissionTrait;
+
+    public const TABLE_NAME = 'tx_lux_domain_model_linklistener';
 
     protected ?DateTime $crdate = null;
     protected ?User $cruserId = null;
@@ -177,5 +181,21 @@ class Linklistener extends AbstractEntity
         unset($groupedLinkclicks[0]['start']);
         unset($groupedLinkclicks[0]['end']);
         return $groupedLinkclicks[0];
+    }
+
+    /**
+     * Check if this record can be viewed by current editor
+     *
+     * @return bool
+     * @throws ExceptionDbal
+     */
+    public function canBeRead(): bool
+    {
+        return $this->isAuthenticatedForRecord($this->uid, Linklistener::TABLE_NAME);
+    }
+
+    public function isEditable(): bool
+    {
+        return $this->canBeRead();
     }
 }

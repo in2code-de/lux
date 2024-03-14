@@ -49,7 +49,8 @@ class LuxLeadSendSummaryOfLuxCategoryCommand extends Command
         $filter
             ->setTimeFrame((int)$input->getArgument('timeframe'))
             ->setIdentified((int)$input->getArgument('identified'))
-            ->setCategoryScoring((int)$input->getArgument('luxCategory'));
+            ->setCategoryScoring((int)$input->getArgument('luxCategory'))
+            ->setLimit(750);
         $visitors = $visitorRepository->findAllWithIdentifiedFirst($filter);
 
         if (count($visitors) > 0) {

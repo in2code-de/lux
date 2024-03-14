@@ -140,9 +140,17 @@
 				<source>Domain</source>
 				<target state="translated">Domain</target>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_fingerprint.site">
+				<source>Site</source>
+				<target state="translated">Site</target>
+			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_fingerprint.user_agent">
 				<source>User agent</source>
 				<target state="translated">User agent</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_fingerprint.type">
+				<source>Type</source>
+				<target state="translated">Typ</target>
 			</trans-unit>
 
 			<trans-unit id="tx_lux_domain_model_pagevisit">
@@ -164,6 +172,10 @@
 			<trans-unit id="tx_lux_domain_model_pagevisit.domain">
 				<source>Current domain</source>
 				<target state="translated">Aktuelle Domain</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_pagevisit.site">
+				<source>Site</source>
+				<target state="translated">Site</target>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_pagevisit.visitor">
 				<source>Lead</source>
@@ -244,6 +256,14 @@
 				<source>File</source>
 				<target state="translated">Datei</target>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_download.domain">
+				<source>Domain</source>
+				<target state="translated">Domain</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_download.site">
+				<source>Site</source>
+				<target state="translated">Site</target>
+			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_download.visitor">
 				<source>Lead</source>
 				<target state="translated">Lead</target>
@@ -261,7 +281,11 @@
 				<source>Searchterm</source>
 				<target state="translated">Suchbegriff</target>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_download.visitor">
+			<trans-unit id="tx_lux_domain_model_search.pagevisit">
+				<source>on Page</source>
+				<target state="translated">auf Seite</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_search.visitor">
 				<source>Lead</source>
 				<target state="translated">Lead</target>
 			</trans-unit>
@@ -298,6 +322,10 @@
 			<trans-unit id="tx_lux_domain_model_log.properties">
 				<source>Properties</source>
 				<target state="translated">Eigenschaften</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_log.site">
+				<source>Site</source>
+				<target state="translated">Site</target>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_log.visitor">
 				<source>Lead</source>
@@ -451,6 +479,10 @@
 			<trans-unit id="tx_lux_domain_model_linkclick.page">
 				<source>Page</source>
 				<target state="translated">Seite</target>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linkclick.site">
+				<source>Site</source>
+				<target state="translated">Site</target>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_linkclick.visitor">
 				<source>Lead</source>
@@ -770,6 +802,10 @@
 				<source>Dashboard</source>
 				<target state="translated">Dashboard</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.dashboard.filter.sitesall">
+				<source>All sites</source>
+				<target state="translated">Alle Sites</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.list">
 				<source>Leads</source>
 				<target state="translated">Leads</target>
@@ -842,6 +878,10 @@
 			<trans-unit id="module.analysis.novalues">
 				<source>No data available yet</source>
 				<target state="translated">Noch keine Daten für eine Anzeige vorhanden</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.nosites">
+				<source>Note: To view data in LUX, you need read access to at least one root page (site rootpage)</source>
+				<target state="translated">Hinweis: Um Daten in LUX sehen zu können, benötigen Sie Lesezugriff auf mindestens eine Root Seite (Rootpage in site)</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.filter.submit">
 				<source>Filter now</source>
@@ -1408,6 +1448,10 @@
 			<trans-unit id="module.lead.list">
 				<source>Leads</source>
 				<target state="translated">Leads</target>
+			</trans-unit>
+			<trans-unit id="module.lead.list.overallajax">
+				<source>(%d overall)</source>
+				<target state="translated">(insgesamt %d)</target>
 			</trans-unit>
 			<trans-unit id="module.lead.companies">
 				<source>Companies</source>
@@ -2425,6 +2469,10 @@
 				<source>Country</source>
 				<target state="translated">Land</target>
 			</trans-unit>
+			<trans-unit id="dictionary.lastused">
+				<source>Last used</source>
+				<target state="translated">Zuletzt genutzt</target>
+			</trans-unit>
 			<trans-unit id="dictionary.lead">
 				<source>Lead</source>
 				<target state="translated">Lead</target>
@@ -2440,6 +2488,10 @@
 			<trans-unit id="dictionary.medium">
 				<source>Medium</source>
 				<target state="translated">Medium</target>
+			</trans-unit>
+			<trans-unit id="dictionary.newsidentifier">
+				<source>News Identifier (UID)</source>
+				<target state="translated">News (UID)</target>
 			</trans-unit>
 			<trans-unit id="dictionary.referrer">
 				<source>Referrer</source>
@@ -2552,6 +2604,14 @@
 			<trans-unit id="dictionary.size_class.10">
 				<source>more then 2K employees</source>
 				<target state="translated">mehr als 2K Beschäftigte</target>
+			</trans-unit>
+			<trans-unit id="dictionary.pageidentifier">
+				<source>Page Identifier (PID)</source>
+				<target state="translated">Seitennummer (PID)</target>
+			</trans-unit>
+			<trans-unit id="dictionary.withreferrer">
+				<source>With referrer</source>
+				<target state="translated">Mit Referrer</target>
 			</trans-unit>
 		</body>
 	</file>

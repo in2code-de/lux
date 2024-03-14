@@ -2,7 +2,7 @@
     <div class="panel-heading">
         <h3 class="panel-title">
             <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.leads">Leads</f:translate>
-            ({visitors -> f:count()})
+            <f:if condition="{visitors}"><span class="badge pull-right">{visitors -> f:count()}</span></f:if>
         </h3>
     </div>
     <div class="panel-body">

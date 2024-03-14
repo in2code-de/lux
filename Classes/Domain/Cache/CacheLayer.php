@@ -14,7 +14,7 @@ use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExis
 
 final class CacheLayer
 {
-    const CACHE_KEY = 'luxcachelayer';
+    public const CACHE_KEY = 'luxcachelayer';
 
     protected FrontendInterface $cache;
 

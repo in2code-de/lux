@@ -4,12 +4,15 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
 use DateTime;
+use In2code\Lux\Domain\Service\PermissionTrait;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 class News extends AbstractEntity
 {
-    const TABLE_NAME = 'tx_news_domain_model_news';
+    use PermissionTrait;
+
+    public const TABLE_NAME = 'tx_news_domain_model_news';
 
     protected ?DateTime $crdate = null;
     protected ?User $cruserId = null;
@@ -72,5 +75,10 @@ class News extends AbstractEntity
             }
         }
         return $categories;
+    }
+
+    public function canBeRead(): bool
+    {
+        return $this->isAuthenticatedForRecord($this->getUid(), self::TABLE_NAME);
     }
 }

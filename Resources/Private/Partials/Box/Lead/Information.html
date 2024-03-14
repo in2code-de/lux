@@ -10,7 +10,7 @@
                 <img src="{f:uri.resource(path:'Images/AvatarDefault.svg',extensionName:'lux')}" alt="{visitor.fullName}" data-lux-asynchronous-image="{visitor.uid}" width="150" height="150" style="max-width: 100%; margin-top: 20px;" class="img-circle img-responsive" />
             </div>
             <div class="col-md-9">
-                <h3 title="UID{visitor.uid}">
+                <h3 title="UID{visitor.uid}{visitor.anonymousPostfix}">
                     {visitor.fullName}
                     <span class="badge" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.scoring')}">{visitor.scoring}</span>
                     <f:if condition="{visitor.hottestCategoryscoring}">

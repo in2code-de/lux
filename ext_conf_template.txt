@@ -18,9 +18,6 @@ categoryScoringAddDownload = 20
 # cat=basic//050; type=number; label= Add on click on Link Listener: Add a value to the category scoring if a lead clicks a Link Listener link
 categoryScoringLinkListenerClick = 20
 
-# cat=basic//060; type=number; label= Where to save LinkListener records: Define a page where the link listener records should be saved - relevant for editor rights
-pidLinkClickRedords = 0
-
 
 
 # cat=module/enable/100; type=boolean; label= Disable analysis module: Turn off the analysis backend-module if you don't need it.

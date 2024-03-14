@@ -3,16 +3,11 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider;
 
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use In2code\Lux\Domain\Repository\FingerprintRepository;
 use In2code\Lux\Exception\ClassDoesNotExistException;
 use In2code\Lux\Utility\LocalizationUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class BrowserAmountDataProvider
- */
 class BrowserAmountDataProvider extends AbstractDataProvider
 {
     /**
@@ -20,7 +15,7 @@ class BrowserAmountDataProvider extends AbstractDataProvider
      *  [
      *      'amounts' => [
      *          120,
-     *          88
+     *          88,
      *      ],
      *      'titles' => [
      *          'OS X Chrome',
@@ -29,9 +24,7 @@ class BrowserAmountDataProvider extends AbstractDataProvider
      *  ]
      *
      * @return void
-     * @throws DBALException
      * @throws ClassDoesNotExistException
-     * @throws ExceptionDbalDriver
      */
     public function prepareData(): void
     {

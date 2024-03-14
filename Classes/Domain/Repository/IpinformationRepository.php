@@ -5,18 +5,17 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\Exception;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Ipinformation;
+use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
+use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\DatabaseUtility;
 
 class IpinformationRepository extends AbstractRepository
 {
     /**
      * @return int
-     * @throws Exception
      * @throws ExceptionDbal
      */
     public function findAllAmount(): int
@@ -36,15 +35,19 @@ class IpinformationRepository extends AbstractRepository
      *
      * @param FilterDto $filter
      * @return array
-     * @throws DBALException
-     * @throws Exception
+     * @throws ExceptionDbal
      */
     public function findAllCountryCodesGrouped(FilterDto $filter): array
     {
         $connection = DatabaseUtility::getConnectionForTable(Ipinformation::TABLE_NAME);
         $rows = $connection->executeQuery(
-            'select value from ' . Ipinformation::TABLE_NAME . ' where name = "countryCode"'
-            . $this->extendWhereClauseWithFilterTime($filter)
+            'select value from ' . Ipinformation::TABLE_NAME . ' i'
+            . ' left join ' . Visitor::TABLE_NAME . ' v on i.visitor=v.uid'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.visitor=v.uid'
+            . ' where i.name = "countryCode"'
+            . $this->extendWhereClauseWithFilterTime($filter, true, 'i')
+            . $this->extendWhereClauseWithFilterTime($filter, true, 'pv')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
         )->fetchAllAssociative();
 
         $countryCodes = [];

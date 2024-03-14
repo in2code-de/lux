@@ -27,7 +27,7 @@ final class CacheWarmup
         ],
         'lux_LuxLead' => [
             'LeadDashboardRecurring',
-            'LeadDashboardHottest',
+//            'LeadDashboardHottest', // can not be cached CLI
             'LeadDashboardIdentified',
             'LeadDashboardIdentifiedpermonth',
             'LeadDashboardIdentifiedpermethod',

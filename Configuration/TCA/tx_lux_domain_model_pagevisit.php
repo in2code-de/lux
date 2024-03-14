@@ -25,7 +25,7 @@ return [
         'hideTable' => true,
     ],
     'types' => [
-        '1' => ['showitem' => 'page,language,crdate,referrer,domain,visitor'],
+        '1' => ['showitem' => 'page,language,crdate,referrer,domain,site,visitor'],
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -128,6 +128,15 @@ return [
         'domain' => [
             'exclude' => true,
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Pagevisit::TABLE_NAME . '.domain',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'readOnly' => true,
+            ],
+        ],
+        'site' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Pagevisit::TABLE_NAME . '.site',
             'config' => [
                 'type' => 'input',
                 'size' => 30,

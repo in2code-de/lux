@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
 use DateTime;
-use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use Exception;
@@ -16,6 +15,7 @@ use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Service\Referrer\Readable;
 use In2code\Lux\Domain\Service\Referrer\SocialMedia;
+use In2code\Lux\Exception\ArgumentsException;
 use In2code\Lux\Utility\ArrayUtility;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\ExtensionUtility;
@@ -59,7 +59,7 @@ class PagevisitRepository extends AbstractRepository
             . ' where 1 '
             . $this->extendWhereClauseWithFilterSearchterms($filter, 'p')
             . $this->extendWhereClauseWithFilterTime($filter, true, 'pv')
-            . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
             . ' group by pv.page, pv.domain order by count desc limit ' . (int)$limit;
@@ -89,14 +89,13 @@ class PagevisitRepository extends AbstractRepository
             $query->greaterThan('page.uid', 0),
         ];
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
-        $query->matching(
-            $query->logicalAnd(...$logicalAnd)
-        );
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForSite($filter, $query, $logicalAnd);
+        $query->matching($query->logicalAnd(...$logicalAnd));
         $query->setLimit(5);
         return $query->execute();
     }
 
-    public function findLatestPagevisitsWithCompanies(int $limit = 8): QueryResultInterface
+    public function findLatestPagevisitsWithCompanies(FilterDto $filter): QueryResultInterface
     {
         $sql = 'select c.uid companyuid, max(pv.uid) AS uid'
             . ' from ' . Pagevisit::TABLE_NAME . ' pv'
@@ -104,9 +103,16 @@ class PagevisitRepository extends AbstractRepository
             . ' left join ' . Company::TABLE_NAME . ' c on v.companyrecord = c.uid'
             . ' where pv.deleted=0 and v.deleted=0 and c.deleted=0'
             . ' and v.blacklisted=0'
+            . $this->extendWhereClauseWithFilterSearchterms($filter, 'c')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
+            . $this->extendWhereClauseWithFilterCountry($filter)
+            . $this->extendWhereClauseWithFilterSizeClass($filter, 'c')
+            . $this->extendWhereClauseWithFilterRevenueClass($filter, 'c')
+            . $this->extendWhereClauseWithFilterBranchCode($filter)
+            . $this->extendWhereClauseWithFilterCategory($filter, 'c')
             . ' group by c.uid'
             . ' order by uid desc, pv.crdate desc'
-            . ' limit ' . $limit;
+            . ' limit ' . $filter->getLimit();
         $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);
         $identifiers = ArrayUtility::convertFetchedAllArrayToNumericArray(
             $connection->executeQuery($sql)->fetchAllAssociative()
@@ -119,7 +125,7 @@ class PagevisitRepository extends AbstractRepository
         $query->matching(
             $query->logicalAnd(...$logicalAnd)
         );
-        $query->setLimit($limit);
+        $query->setLimit($filter->getLimit());
         $query->setOrderings(['crdate' => QueryInterface::ORDER_DESCENDING]);
         return $query->execute();
     }
@@ -138,7 +144,7 @@ class PagevisitRepository extends AbstractRepository
             . $this->extendFromClauseWithJoinByFilter($filter, ['p', 'cs', 'v'])
             . ' where pv.crdate>=' . $start->getTimestamp() . ' and pv.crdate<=' . $end->getTimestamp()
             . $this->extendWhereClauseWithFilterSearchterms($filter, 'p')
-            . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterVisitor($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs');
@@ -190,20 +196,29 @@ class PagevisitRepository extends AbstractRepository
     }
 
     /**
-     * Get a result with pagevisits grouped by visitor
-     *
-     * @param Page $page
-     * @param int $limit
+     * @param FilterDto $filter
      * @return array
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ArgumentsException
+     * @throws ExceptionDbal
      */
-    public function findByPage(Page $page, int $limit = 100): array
+    public function findByFilter(FilterDto $filter): array
     {
+        if (MathUtility::canBeInterpretedAsInteger($filter->getSearchterm()) === false) {
+            throw new ArgumentsException('Filter searchterm must keep a page identifier here', 1708775656);
+        }
+
+        $sql = 'select pv.uid,pv.visitor,pv.crdate,pv.page from ' . Pagevisit::TABLE_NAME . ' pv'
+            . ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = pv.visitor'
+            . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
+            . ' where pv.page=' . (int)$filter->getSearchterm() . ' '
+            . $this->extendWhereClauseWithFilterTime($filter, true, 'pv')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
+            . $this->extendWhereClauseWithFilterScoring($filter, 'v')
+            . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
+            . ' group by pv.visitor,pv.uid,pv.crdate,pv.page'
+            . ' order by pv.crdate desc'
+            . ' limit ' . ($filter->isLimitSet() ? $filter->getLimit() : 750);
         $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
-        $sql = 'select uid,visitor,crdate from ' . Pagevisit::TABLE_NAME
-            . ' where page=' . $page->getUid()
-            . ' group by visitor,uid,crdate order by crdate desc limit ' . $limit;
         $pagevisitIdentifiers = $connection->executeQuery($sql)->fetchFirstColumn();
         return $this->convertIdentifiersToObjects($pagevisitIdentifiers, Pagevisit::TABLE_NAME);
     }
@@ -212,7 +227,6 @@ class PagevisitRepository extends AbstractRepository
      * @param Visitor $visitor
      * @return DateTime|null
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     public function findLatestDateByVisitor(Visitor $visitor): ?DateTime
     {
@@ -232,7 +246,6 @@ class PagevisitRepository extends AbstractRepository
      * @param int $pageIdentifier
      * @return DateTime|null
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     public function findLatestDateByVisitorAndPageIdentifier(Visitor $visitor, int $pageIdentifier): ?DateTime
     {
@@ -249,8 +262,7 @@ class PagevisitRepository extends AbstractRepository
 
     /**
      * @return int
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function findAllAmount(): int
     {
@@ -262,9 +274,7 @@ class PagevisitRepository extends AbstractRepository
      * @param int $pageIdentifier
      * @param FilterDto $filter
      * @return int
-     * @throws DBALException
      * @throws Exception
-     * @throws ExceptionDbalDriver
      */
     public function findAmountPerPage(int $pageIdentifier, FilterDto $filter): int
     {
@@ -280,7 +290,6 @@ class PagevisitRepository extends AbstractRepository
      * @param Visitor $visitor
      * @return int
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     public function findAmountPerPageAndVisitor(int $pageIdentifier, Visitor $visitor): int
     {
@@ -303,7 +312,6 @@ class PagevisitRepository extends AbstractRepository
      * @return array
      * @throws Exception
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     public function getAmountOfReferrers(FilterDto $filter, int $limit = 100): array
     {
@@ -313,6 +321,7 @@ class PagevisitRepository extends AbstractRepository
             . ' where referrer != ""'
             . ' and referrer not like ' . $connection->quote('%' . $domainLike . '%')
             . $this->extendWhereClauseWithFilterTime($filter)
+            . $this->extendWhereClauseWithFilterSite($filter)
             . ' group by referrer having (count > 1) order by count desc limit ' . $limit;
         $records = (array)$connection->executeQuery($sql)->fetchAllAssociative();
         $result = [];
@@ -331,8 +340,7 @@ class PagevisitRepository extends AbstractRepository
     /**
      * @param FilterDto $filter
      * @return array
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function getAmountOfSocialMediaReferrers(FilterDto $filter): array
     {
@@ -342,6 +350,7 @@ class PagevisitRepository extends AbstractRepository
         foreach ($socialMedia->getDomainsForQuery() as $name => $domains) {
             $sql = 'select count(*) count from ' . Pagevisit::TABLE_NAME . ' where referrer rlike "' . $domains . '"';
             $sql .= $this->extendWhereClauseWithFilterTime($filter);
+            $sql .= $this->extendWhereClauseWithFilterSite($filter);
             $count = (int)$connection->executeQuery($sql)->fetchOne();
             if ($count > 0) {
                 $result[$name] = $count;
@@ -374,9 +383,7 @@ class PagevisitRepository extends AbstractRepository
     /**
      * @param FilterDto $filter
      * @return array
-     * @throws DBALException
      * @throws Exception
-     * @throws ExceptionDbalDriver
      */
     public function getDomainsWithAmountOfVisits(FilterDto $filter): array
     {
@@ -385,7 +392,7 @@ class PagevisitRepository extends AbstractRepository
             . ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = pv.visitor'
             . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
             . ' where pv.domain!="" ' . $this->extendWhereClauseWithFilterTime($filter, true, 'pv')
-            . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
             . ' group by domain order by count desc';
@@ -400,9 +407,7 @@ class PagevisitRepository extends AbstractRepository
      *
      * @param FilterDto $filter
      * @return array
-     * @throws DBALException
      * @throws Exception
-     * @throws ExceptionDbalDriver
      */
     public function getAllDomains(FilterDto $filter): array
     {
@@ -420,9 +425,7 @@ class PagevisitRepository extends AbstractRepository
     /**
      * @param FilterDto $filter
      * @return array
-     * @throws DBALException
      * @throws Exception
-     * @throws ExceptionDbalDriver
      */
     public function getAllLanguages(FilterDto $filter): array
     {
@@ -431,7 +434,7 @@ class PagevisitRepository extends AbstractRepository
             . ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = pv.visitor'
             . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
             . ' where ' . $this->extendWhereClauseWithFilterTime($filter, false, 'pv')
-            . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
             . ' group by pv.language order by count desc ';
@@ -442,9 +445,7 @@ class PagevisitRepository extends AbstractRepository
      * @param int $pageIdentifier
      * @param FilterDto $filter
      * @return int
-     * @throws DBALException
      * @throws Exception
-     * @throws ExceptionDbalDriver
      */
     public function findAbandonsForPage(int $pageIdentifier, FilterDto $filter): int
     {
@@ -500,50 +501,12 @@ class PagevisitRepository extends AbstractRepository
      * @param FilterDto $filter1
      * @param FilterDto $filter2
      * @return int positive if more visitors in filter1 period then in filter2, negative for the opposite situation
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws Exception
      */
     public function compareAmountPerPage(int $pageIdentifier, FilterDto $filter1, FilterDto $filter2): int
     {
         $amount1 = $this->findAmountPerPage($pageIdentifier, $filter1);
         $amount2 = $this->findAmountPerPage($pageIdentifier, $filter2);
         return $amount1 - $amount2;
-    }
-
-    /**
-     * @param QueryInterface $query
-     * @param array $logicalAnd
-     * @param FilterDto|null $filter
-     * @return array
-     * @throws InvalidQueryException
-     */
-    protected function extendWithExtendedFilterQuery(
-        QueryInterface $query,
-        array $logicalAnd,
-        FilterDto $filter = null
-    ): array {
-        if ($filter !== null) {
-            if ($filter->getSearchterm() !== '') {
-                $logicalOr = [];
-                foreach ($filter->getSearchterms() as $searchterm) {
-                    if (MathUtility::canBeInterpretedAsInteger($searchterm)) {
-                        $logicalOr[] = $query->equals('page.uid', (int)$searchterm);
-                    } else {
-                        $logicalOr[] = $query->like('page.title', '%' . $searchterm . '%');
-                    }
-                }
-                $logicalAnd[] = $query->logicalOr(...$logicalOr);
-            }
-            if ($filter->getScoring() > 0) {
-                $logicalAnd[] = $query->greaterThanOrEqual('visitor.scoring', $filter->getScoring());
-            }
-            if ($filter->getCategoryScoring() !== null) {
-                $logicalAnd[] = $query->equals('visitor.categoryscorings.category', $filter->getCategoryScoring());
-            }
-            if ($filter->getDomain() !== '') {
-                $logicalAnd[] = $query->equals('domain', $filter->getDomain());
-            }
-        }
-        return $logicalAnd;
     }
 }

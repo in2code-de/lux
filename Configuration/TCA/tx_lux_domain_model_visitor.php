@@ -61,7 +61,7 @@ return [
             'showitem' => 'blacklisted,visits',
         ],
         'mail' => [
-            'showitem' => 'email,company,--linebreak--,fingerprints',
+            'showitem' => 'email,--linebreak--,company,companyrecord,--linebreak--,fingerprints',
         ],
         'time' => [
             'showitem' => 'crdate,tstamp',
@@ -221,12 +221,10 @@ return [
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Company::TABLE_NAME,
             'config' => [
                 'type' => 'select',
-                'renderType' => 'selectMultipleSideBySide',
+                'renderType' => 'selectSingle',
                 'foreign_table' => Company::TABLE_NAME,
                 'foreign_table_where' => 'ORDER BY ' . Company::TABLE_NAME . '.uid DESC',
-                'max_size' => 100,
                 'minitems' => 0,
-                'readOnly' => true,
             ],
         ],
         'fingerprints' => [
@@ -234,13 +232,17 @@ return [
             'label' =>
                 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Visitor::TABLE_NAME . '.fingerprints',
             'config' => [
-                'type' => 'select',
-                'renderType' => 'selectMultipleSideBySide',
+                'type' => 'inline',
                 'foreign_table' => Fingerprint::TABLE_NAME,
-                'foreign_table_where' => 'ORDER BY ' . Fingerprint::TABLE_NAME . '.uid DESC',
-                'max_size' => 100,
-                'minitems' => 0,
-                'readOnly' => true,
+                'foreign_field' => 'visitor',
+                'maxitems' => 100000,
+                'appearance' => [
+                    'collapse' => 1,
+                    'levelLinksPosition' => 'top',
+                    'showSynchronizationLink' => 1,
+                    'showPossibleLocalizationRecords' => 1,
+                    'showAllLocalizationLink' => 1,
+                ],
             ],
         ],
         'pagevisits' => [

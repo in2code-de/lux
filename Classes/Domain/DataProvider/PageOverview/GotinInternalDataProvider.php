@@ -3,7 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider\PageOverview;
 
-use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
@@ -18,20 +18,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class GotinInternalDataProvider extends AbstractDataProvider
 {
-    /**
-     * @var FilterDto|null
-     */
-    protected $filter = null;
-
-    /**
-     * @var PagevisitRepository|null
-     */
-    protected $pagevisitRepository = null;
-
-    /**
-     * @var PageRepository|null
-     */
-    protected $pageRepository = null;
+    protected ?FilterDto $filter = null;
+    protected ?PagevisitRepository $pagevisitRepository = null;
+    protected ?PageRepository $pageRepository = null;
 
     /**
      * Constructor
@@ -55,6 +44,7 @@ class GotinInternalDataProvider extends AbstractDataProvider
      *  ]
      * @return array
      * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      */
     public function get(): array
     {
@@ -85,19 +75,17 @@ class GotinInternalDataProvider extends AbstractDataProvider
      * @param int $crdate
      * @return int
      * @throws ExceptionDbal
-     * @throws Exception
      */
     protected function getGotinToPagevisit(int $visitor, int $crdate): int
     {
         $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
-        $pageIdentifier = $connection->executeQuery(
-            'select page from ' . Pagevisit::TABLE_NAME
+        $sql = 'select page from ' . Pagevisit::TABLE_NAME
             . ' where visitor=' . (int)$visitor
             . ' and page != ' . (int)$this->filter->getSearchterm()
             . ' and crdate < ' . $crdate
             . ' and crdate <= ' . ($crdate + $this->getTimelimit())
-            . ' order by crdate desc limit 1'
-        )->fetchOne();
+            . ' order by crdate desc limit 1';
+        $pageIdentifier = $connection->executeQuery($sql)->fetchOne();
         if ($pageIdentifier === false) {
             return 0;
         }

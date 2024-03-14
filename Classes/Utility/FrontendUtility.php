@@ -12,7 +12,11 @@ class FrontendUtility
 {
     public static function getCurrentPageIdentifier(): int
     {
-        return self::getTyposcriptFrontendController()->id;
+        $typoscriptFrontendController = self::getTyposcriptFrontendController();
+        if (self::getTyposcriptFrontendController() === null) {
+            return 0;
+        }
+        return $typoscriptFrontendController->id;
     }
 
     /**
@@ -62,11 +66,11 @@ class FrontendUtility
     }
 
     /**
-     * @return TypoScriptFrontendController
+     * @return ?TypoScriptFrontendController
      * @SuppressWarnings(PHPMD.Superglobals)
      */
-    protected static function getTyposcriptFrontendController()
+    protected static function getTyposcriptFrontendController(): ?TypoScriptFrontendController
     {
-        return $GLOBALS['TSFE'];
+        return $GLOBALS['TSFE'] ?? null;
     }
 }

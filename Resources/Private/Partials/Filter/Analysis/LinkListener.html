@@ -4,21 +4,42 @@
     </div>
     <div class="panel-body">
         <f:form name="filter" class="form" action="linkListener" object="{filter}">
-            <div class="row flex">
-                <div class="col-md-4 flex">
+            <div class="row">
+                <div class="col-md-4">
                     <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.header.search">Suche</f:translate></h5>
 
                     <div class="input-group form-group">
                         <f:form.textfield
-                                type="text"
-                                property="searchterm"
-                                id="searchterm"
-                                class="form-control"
-                                placeholder="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.searchterm')}" />
+                            type="text"
+                            property="searchterm"
+                            id="searchterm"
+                            class="form-control"
+                            placeholder="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.searchterm')}" />
                         <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#searchterm">
                             <core:icon identifier="actions-search" />
                         </button>
                     </div>
+
+                    <div class="input-group form-group">
+                        <f:form.select
+                            id="site"
+                            class="form-control form-select"
+                            property="site"
+                            options="{filter.allowedSites}"
+                            prependOptionLabel="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.dashboard.filter.sitesall')}"
+                            prependOptionValue=""
+                            optionValueField="identifier"
+                            optionLabelField="configuration.websiteTitle"
+                            value="{filter.site}" />
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#site">
+                            <core:icon identifier="actions-globe" size="small" />
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.time">Zeit</f:translate></h5>
 
                     <div class="input-group form-group">
                         <f:form.textfield
@@ -28,26 +49,6 @@
                             class="form-control" />
                         <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#timeFrom">
                             {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeFrom')}
-                        </button>
-                    </div>
-                </div>
-
-
-                <div class="col-md-4 flex">
-                    <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.header.category">Category</f:translate></h5>
-
-                    <div class="input-group form-group">
-                        <f:form.select
-                            property="categoryScoring"
-                            options="{luxCategories}"
-                            optionLabelField="title"
-                            optionValueField="uid"
-                            prependOptionValue=""
-                            prependOptionLabel=""
-                            class="form-control form-select"
-                            id="categoryScoring"/>
-                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#categoryScoring">
-                            <core:icon identifier="actions-tag" />
                         </button>
                     </div>
 
@@ -64,7 +65,28 @@
                 </div>
 
 
-                <div class="col-md-4" style="display: flex; justify-content: right;">
+                <div class="col-md-4">
+                    <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.header.category">Category</f:translate></h5>
+
+                    <div class="input-group form-group">
+                        <f:form.select
+                            property="categoryScoring"
+                            options="{luxCategories}"
+                            optionLabelField="title"
+                            optionValueField="uid"
+                            prependOptionValue=""
+                            prependOptionLabel=""
+                            class="form-control form-select"
+                            id="categoryScoring"/>
+                        <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#categoryScoring">
+                            <core:icon identifier="actions-tag" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12" style="display: flex; justify-content: right;">
                     <f:comment>This submit is not visible. Nevertheless it will be triggered when pressing return in an input field because it is the first submit.</f:comment>
                     <f:form.submit
                         class="btn btn-primary"

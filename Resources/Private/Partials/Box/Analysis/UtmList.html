@@ -47,6 +47,10 @@
                         </td>
                         <td>
                             <span>{utm.visitor.fullName}</span>
+                            <f:if condition="{utm.visitor.company}">
+                                <br/>
+                                {utm.visitor.company}
+                            </f:if>
                         </td>
                         <td>
                             <span class="badge" title="{f:format.date(date:utm.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">

@@ -10,8 +10,8 @@
                     </h3>
                 </div>
                 <div class="panel-body">
-                    <f:if condition="{linkListener.linkclicks}">
-                        <lux:pagination.paginate objects="{linkListener.linkclicks}" as="linkclickPaginator" itemsPerPage="25">
+                    <f:if condition="{linkclicks}">
+                        <lux:pagination.paginate objects="{linkclicks}" as="linkclickPaginator" itemsPerPage="25">
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
@@ -25,26 +25,26 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <f:for each="{linkclickPaginator.paginator.paginatedItems}" as="linkClick">
+                                <f:for each="{linkclickPaginator.paginator.paginatedItems}" as="linkclick">
                                     <tr>
-                                        <td>{linkListener.title}</td>
+                                        <td>{linkclick.linkListener.title}</td>
                                         <td>
-                                            <f:link.action action="detail" controller="Lead" arguments="{visitor:linkClick.visitor}">{linkClick.visitor.fullName}</f:link.action>
+                                            <f:link.action action="detail" controller="Lead" arguments="{visitor:linkclick.visitor}">{linkclick.visitor.fullName}</f:link.action>
                                         </td>
                                         <td>
-                                            <span class="badge" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.scoring')}">{linkClick.visitor.scoring}</span>
-                                            <f:if condition="{linkClick.visitor.hottestCategoryscoring}">
-                                                <span class="badge badge-primary" title="{linkClick.visitor.hottestCategoryscoring.category.title}">{linkClick.visitor.hottestCategoryscoring.scoring}</span>
+                                            <span class="badge" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.scoring')}">{linkclick.visitor.scoring}</span>
+                                            <f:if condition="{linkclick.visitor.hottestCategoryscoring}">
+                                                <span class="badge badge-primary" title="{linkclick.visitor.hottestCategoryscoring.category.title}">{linkclick.visitor.hottestCategoryscoring.scoring}</span>
                                             </f:if>
                                         </td>
-                                        <td>{linkClick.visitor.company}</td>
-                                        <td>{linkClick.visitor.location}</td>
+                                        <td>{linkclick.visitor.company}</td>
+                                        <td>{linkclick.visitor.location}</td>
                                         <td>
-                                            {linkClick.visitor.latestFingerprint.value}
+                                            {linkclick.visitor.latestFingerprint.value}
                                         </td>
                                         <td>
-                                            <span class="badge" title="{f:format.date(date:linkClick.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
-                                                <lux:format.readableDate>{linkClick.crdate}</lux:format.readableDate>
+                                            <span class="badge" title="{f:format.date(date:linkclick.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
+                                                <lux:format.readableDate>{linkclick.crdate}</lux:format.readableDate>
                                             </span>
                                         </td>
                                     </tr>
@@ -61,7 +61,10 @@
             </div>
         </div>
         <div class="col-md-4">
-            <f:alias map="{headerPostfix:linkListener.title}">
+            <f:alias map="{type:'linkListener'}">
+                <f:render partial="Box/Miscellaneous/FilterInformation" arguments="{_all}"/>
+            </f:alias>
+            <f:alias map="{headerPostfix:linkclicks.0.linkListener.title}">
                 <f:render partial="Box/Analysis/AllLinkclicks" arguments="{_all}"/>
             </f:alias>
         </div>

@@ -35,35 +35,35 @@ class LogRepository extends AbstractRepository
 
     /**
      * @param FilterDto $filter
-     * @param int $limit
      * @return QueryResultInterface
      * @throws InvalidQueryException
      * @throws InvalidConfigurationTypeException
      */
-    public function findInterestingLogs(FilterDto $filter, int $limit = 8): QueryResultInterface
+    public function findInterestingLogs(FilterDto $filter): QueryResultInterface
     {
         $query = $this->createQuery();
         $logicalAnd = $this->interestingLogsLogicalAnd($query);
-        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForSite($filter, $query, $logicalAnd);
         $query->matching($query->logicalAnd(...$logicalAnd));
-        $query->setLimit($limit);
+        $query->setLimit($filter->getLimit());
         return $query->execute();
     }
 
     /**
      * @param Company $company
-     * @param int $limit
+     * @param FilterDto $filter
      * @return QueryResultInterface
      * @throws InvalidConfigurationTypeException
      * @throws InvalidQueryException
      */
-    public function findInterestingLogsByCompany(Company $company, int $limit = 250): QueryResultInterface
+    public function findInterestingLogsByCompany(Company $company, FilterDto $filter): QueryResultInterface
     {
         $query = $this->createQuery();
         $logicalAnd = $this->interestingLogsLogicalAnd($query);
         $logicalAnd[] = $query->equals('visitor.companyrecord', $company);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForSite($filter, $query, $logicalAnd);
         $query->matching($query->logicalAnd(...$logicalAnd));
-        $query->setLimit($limit);
+        $query->setLimit($filter->getLimit());
         return $query->execute();
     }
 
@@ -75,20 +75,21 @@ class LogRepository extends AbstractRepository
      *          [Log:4, Log:88],
      *      ]
      *
-     * @param int $months
+     * @param FilterDto $filter property limit in filter will be used for number of month
      * @return array
      * @throws ExceptionDbal
      */
-    public function findIdentifiedLogsFromMonths(int $months = 6): array
+    public function findIdentifiedLogsFromMonths(FilterDto $filter): array
     {
         $queryBuilder = DatabaseUtility::getConnectionForTable(Log::TABLE_NAME);
         $result = [];
-        for ($i = 0; $i < $months; $i++) {
+        for ($i = 0; $i < $filter->getLimit(); $i++) {
             /** @noinspection PhpUnhandledExceptionInspection */
             $dates = DateUtility::getLatestMonthDates($i);
             $query = 'select * from ' . Log::TABLE_NAME .
                 ' where status in(' . implode(',', Log::getIdentifiedStatus()) . ')' .
-                ' and crdate >= ' . $dates[0]->format('U') . ' and crdate <= ' . $dates[1]->format('U');
+                ' and crdate >= ' . $dates[0]->format('U') . ' and crdate <= ' . $dates[1]->format('U')
+                . $this->extendWhereClauseWithFilterSite($filter);
             $result[] = $queryBuilder->executeQuery($query)->fetchAllAssociative();
         }
         $result = array_reverse($result);
@@ -105,7 +106,8 @@ class LogRepository extends AbstractRepository
     {
         $connection = DatabaseUtility::getConnectionForTable(Log::TABLE_NAME);
         $query = 'select count(*) from ' . Log::TABLE_NAME . ' where status=' . $status
-            . $this->extendWhereClauseWithFilterTime($filter);
+            . $this->extendWhereClauseWithFilterTime($filter)
+            . $this->extendWhereClauseWithFilterSite($filter);
         return (int)$connection->executeQuery($query)->fetchOne();
     }
 

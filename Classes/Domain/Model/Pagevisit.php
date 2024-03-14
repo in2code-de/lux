@@ -7,6 +7,7 @@ use DateTime;
 use In2code\Lux\Domain\Repository\NewsvisitRepository;
 use In2code\Lux\Domain\Service\Referrer\Readable;
 use In2code\Lux\Domain\Service\SiteService;
+use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -14,7 +15,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class Pagevisit extends AbstractModel
 {
-    const TABLE_NAME = 'tx_lux_domain_model_pagevisit';
+    public const TABLE_NAME = 'tx_lux_domain_model_pagevisit';
 
     protected ?Visitor $visitor = null;
     protected ?Page $page = null;
@@ -22,6 +23,7 @@ class Pagevisit extends AbstractModel
 
     protected string $referrer = '';
     protected string $domain = '';
+    protected string $site = '';
 
     protected int $language = 0;
 
@@ -132,6 +134,17 @@ class Pagevisit extends AbstractModel
         return $this;
     }
 
+    public function getSite(): string
+    {
+        return $this->site;
+    }
+
+    public function setSite(string $site): self
+    {
+        $this->site = $site;
+        return $this;
+    }
+
     public function setDomainAutomatically(): self
     {
         $this->domain = FrontendUtility::getCurrentDomain();
@@ -181,5 +194,19 @@ class Pagevisit extends AbstractModel
 
         $newsvisitRepository = GeneralUtility::makeInstance(NewsvisitRepository::class);
         return $newsvisitRepository->findByPagevisit($this);
+    }
+
+    /**
+     * Check if this record can be viewed by current editor
+     *
+     * @return bool
+     */
+    public function canBeRead(): bool
+    {
+        if (BackendUtility::isAdministrator() || $this->site === '') {
+            return true;
+        }
+        $sites = GeneralUtility::makeInstance(SiteService::class)->getAllowedSites();
+        return array_key_exists($this->getSite(), $sites);
     }
 }

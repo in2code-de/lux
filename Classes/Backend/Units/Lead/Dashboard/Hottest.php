@@ -24,7 +24,7 @@ class Hottest extends AbstractUnit implements UnitInterface
         }
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         return [
-            'hottestVisitors' => $visitorRepository->findByHottestScorings($this->filter),
+            'hottestVisitors' => $visitorRepository->findByHottestScorings($this->filter->setLimit(10)),
         ];
     }
 }

@@ -3,7 +3,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\Command;
 
-use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Cache\CacheLayer;
@@ -11,14 +10,12 @@ use In2code\Lux\Domain\Cache\CacheWarmup;
 use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\ContextException;
-use In2code\Lux\Exception\UnexpectedValueException;
 use In2code\Lux\Utility\CacheLayerUtility;
 use In2code\Lux\Utility\ConfigurationUtility;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Core\Environment;
@@ -50,10 +47,7 @@ class LuxCacheWarmupCommand extends Command
      * @throws ExceptionDbalDriver
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
-     * @throws RouteNotFoundException
-     * @throws UnexpectedValueException
      * @throws ExceptionDbal
-     * @throws DBALException
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -83,8 +77,6 @@ class LuxCacheWarmupCommand extends Command
      * @param string $route
      * @param array $configuration
      * @return void
-     * @throws RouteNotFoundException
-     * @throws UnexpectedValueException
      * @throws ConfigurationException
      */
     protected function warmupSingleLayer(string $route, array $configuration): void
@@ -97,11 +89,8 @@ class LuxCacheWarmupCommand extends Command
      * @param array $configuration
      * @return void
      * @throws ExceptionDbalDriver
-     * @throws RouteNotFoundException
-     * @throws UnexpectedValueException
      * @throws ConfigurationException
      * @throws ExceptionDbal
-     * @throws DBALException
      */
     protected function warmupMultipleLayers(string $route, array $configuration): void
     {

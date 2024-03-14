@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
 use DateTime;
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Categoryscoring;
 use In2code\Lux\Domain\Model\News;
@@ -13,6 +11,7 @@ use In2code\Lux\Domain\Model\Newsvisit;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Exception\ArgumentsException;
 use In2code\Lux\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -31,7 +30,6 @@ class NewsvisitRepository extends AbstractRepository
      *
      * @param FilterDto $filter
      * @return array
-     * @throws ExceptionDbalDriver
      * @throws ExceptionDbal
      */
     public function findCombinedByNewsIdentifier(FilterDto $filter): array
@@ -50,6 +48,7 @@ class NewsvisitRepository extends AbstractRepository
             . $this->extendWhereClauseWithFilterTime($filter, false, 'nv')
             . $this->extendWhereClauseWithFilterSearchterms($filter, 'n')
             . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
             . ' group by nv.news order by count desc';
@@ -95,7 +94,6 @@ class NewsvisitRepository extends AbstractRepository
     /**
      * @param FilterDto $filter
      * @return array
-     * @throws ExceptionDbalDriver
      * @throws ExceptionDbal
      */
     public function getDomainsWithAmountOfVisits(FilterDto $filter): array
@@ -107,7 +105,7 @@ class NewsvisitRepository extends AbstractRepository
             . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
             . ' where '
             . $this->extendWhereClauseWithFilterTime($filter, false, 'nv')
-            . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
             . ' group by domain order by count desc';
@@ -117,18 +115,30 @@ class NewsvisitRepository extends AbstractRepository
     /**
      * Get a result with pagevisits grouped by visitor
      *
-     * @param News $news
-     * @param int $limit
+     * @param FilterDto $filter
      * @return array
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
+     * @throws ArgumentsException
      */
-    public function findByNews(News $news, int $limit = 100): array
+    public function findByFilter(FilterDto $filter): array
     {
+        if (MathUtility::canBeInterpretedAsInteger($filter->getSearchterm()) === false) {
+            throw new ArgumentsException('Filter searchterm must keep a news identifier here', 1708792874);
+        }
+
         $connection = DatabaseUtility::getConnectionForTable(Newsvisit::TABLE_NAME);
-        $sql = 'select uid,visitor,crdate from ' . Newsvisit::TABLE_NAME
-            . ' where news=' . $news->getUid()
-            . ' group by visitor,uid,crdate order by crdate desc limit ' . $limit;
+        $sql = 'select nv.uid,nv.visitor,nv.crdate from ' . Newsvisit::TABLE_NAME . ' nv'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on nv.pagevisit = pv.uid'
+            . ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = pv.visitor'
+            . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
+            . ' where nv.news=' . (int)$filter->getSearchterm()
+            . $this->extendWhereClauseWithFilterTime($filter, true, 'nv')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
+            . $this->extendWhereClauseWithFilterScoring($filter, 'v')
+            . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
+            . ' group by nv.visitor,nv.uid,nv.crdate'
+            . ' order by crdate desc'
+            . ' limit ' . $filter->getLimit();
         $newsvisitIdentifiers = $connection->executeQuery($sql)->fetchFirstColumn();
         return $this->convertIdentifiersToObjects($newsvisitIdentifiers, Newsvisit::TABLE_NAME);
     }
@@ -152,8 +162,7 @@ class NewsvisitRepository extends AbstractRepository
      *
      * @param FilterDto $filter
      * @return array
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function getAllDomains(FilterDto $filter): array
     {
@@ -173,8 +182,7 @@ class NewsvisitRepository extends AbstractRepository
     /**
      * @param FilterDto $filter
      * @return array
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function getAllLanguages(FilterDto $filter): array
     {
@@ -185,7 +193,7 @@ class NewsvisitRepository extends AbstractRepository
             . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
             . ' where '
             . $this->extendWhereClauseWithFilterTime($filter, false, 'nv')
-            . $this->extendWhereClauseWithFilterDomain($filter, 'pv')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
             . ' group by nv.language order by count desc';
@@ -194,7 +202,6 @@ class NewsvisitRepository extends AbstractRepository
 
     /**
      * @return bool
-     * @throws ExceptionDbalDriver
      * @throws ExceptionDbal
      */
     public function isTableFilled(): bool
@@ -220,7 +227,7 @@ class NewsvisitRepository extends AbstractRepository
         FilterDto $filter = null
     ): array {
         if ($filter !== null) {
-            if ($filter->getSearchterm() !== '') {
+            if ($filter->isSearchtermSet()) {
                 $logicalOr = [];
                 foreach ($filter->getSearchterms() as $searchterm) {
                     if (MathUtility::canBeInterpretedAsInteger($searchterm)) {
@@ -231,15 +238,16 @@ class NewsvisitRepository extends AbstractRepository
                 }
                 $logicalAnd[] = $query->logicalOr(...$logicalOr);
             }
-            if ($filter->getScoring() > 0) {
+            if ($filter->isScoringSet()) {
                 $logicalAnd[] = $query->greaterThanOrEqual('visitor.scoring', $filter->getScoring());
             }
-            if ($filter->getCategoryScoring() !== null) {
+            if ($filter->isCategoryScoringSet()) {
                 $logicalAnd[] = $query->equals('visitor.categoryscorings.category', $filter->getCategoryScoring());
             }
-            if ($filter->getDomain() !== '') {
+            if ($filter->isDomainSet()) {
                 $logicalAnd[] = $query->equals('pagevisit.domain', $filter->getDomain());
             }
+            $logicalAnd[] = $query->in('pagevisit.site', $filter->getSitesForFilter());
         }
         return $logicalAnd;
     }

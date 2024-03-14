@@ -9,31 +9,34 @@ use In2code\Lux\Domain\Model\Category;
 use In2code\Lux\Domain\Model\Company;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\CategoryRepository;
+use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Utility\DateUtility;
+use In2code\Lux\Utility\StringUtility;
 use Throwable;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Class FilterDto is a filter class that helps filtering visitors by given parameters. Per default, get visitors
+ * Class FilterDto is a filter class that helps to filter visitors by given parameters. Per default, get visitors
  * from the current year.
  */
 class FilterDto
 {
-    const PERIOD_DEFAULT = 0;
-    const PERIOD_THISYEAR = 1;
-    const PERIOD_THISMONTH = 2;
-    const PERIOD_LASTMONTH = 3;
-    const PERIOD_LASTYEAR = 4;
-    const PERIOD_LAST12MONTH = 10;
-    const PERIOD_LAST3MONTH = 15;
-    const PERIOD_LAST7DAYS = 20;
-    const PERIOD_7DAYSBEFORELAST7DAYS = 21;
-    const PERIOD_ALL = 100;
-    const IDENTIFIED_ALL = -1;
-    const IDENTIFIED_UNKNOWN = 0;
-    const IDENTIFIED_IDENTIFIED = 1;
+    public const PERIOD_DEFAULT = 0;
+    public const PERIOD_THISYEAR = 1;
+    public const PERIOD_THISMONTH = 2;
+    public const PERIOD_LASTMONTH = 3;
+    public const PERIOD_LASTYEAR = 4;
+    public const PERIOD_LAST12MONTH = 10;
+    public const PERIOD_LAST3MONTH = 15;
+    public const PERIOD_LAST7DAYS = 20;
+    public const PERIOD_7DAYSBEFORELAST7DAYS = 21;
+    public const PERIOD_ALL = 100;
+    public const IDENTIFIED_ALL = -1;
+    public const IDENTIFIED_UNKNOWN = 0;
+    public const IDENTIFIED_IDENTIFIED = 1;
 
     protected string $searchterm = '';
+    protected string $href = '';
     protected string $pid = '';
 
     /**
@@ -50,9 +53,17 @@ class FilterDto
      */
     protected string $timeTo = '';
 
+    protected int $limit = 0;
     protected int $scoring = 0;
-    protected int $timePeriod = 0;
+
+    /**
+     * Needed to compare with timePeriod to check if given from filter or by default
+     * @var int
+     */
+    protected int $timePeriodDefault = self::PERIOD_DEFAULT;
+    protected int $timePeriod = self::PERIOD_DEFAULT;
     protected int $identified = self::IDENTIFIED_ALL;
+    protected bool $withReferrer = false;
 
     /**
      * Filter by categoryscoring greater then 0
@@ -70,30 +81,45 @@ class FilterDto
      */
     protected bool $shortMode = true;
 
-    /**
-     * Filter for a specific domain
-     *
-     * @var string
-     */
     protected string $domain = '';
-
+    protected string $site = '';
+    protected string $country = '';
     protected string $utmCampaign = '';
     protected string $utmSource = '';
     protected string $utmMedium = '';
+    protected string $utmContent = '';
     protected int $branchCode = 0;
     protected string $revenueClass = '';
     protected string $sizeClass = '';
     protected ?Visitor $visitor = null;
     protected ?Company $company = null;
 
-    public function __construct(int $timePeriod = self::PERIOD_DEFAULT)
+    /**
+     * @param int $timePeriodValue Must be a different variable name then "timePeriod" or "timePeriodDefault"
+     */
+    public function __construct(int $timePeriodValue = self::PERIOD_DEFAULT)
     {
-        $this->setTimePeriod($timePeriod);
+        $this->setTimePeriodDefault($timePeriodValue);
     }
 
     public function getSearchterm(): string
     {
+        return StringUtility::sanitizeString($this->searchterm);
+    }
+
+    /**
+     * Without sanitize function
+     *
+     * @return string
+     */
+    public function getSearchtermRaw(): string
+    {
         return $this->searchterm;
+    }
+
+    public function isSearchtermSet(): bool
+    {
+        return $this->getSearchterm() !== '';
     }
 
     public function getSearchterms(): array
@@ -107,9 +133,40 @@ class FilterDto
         return $this;
     }
 
+    public function getHref(): string
+    {
+        return StringUtility::sanitizeString($this->href);
+    }
+
+    public function isHrefSet(): bool
+    {
+        return $this->href !== '';
+    }
+
+    /**
+     * Without sanitize function
+     *
+     * @return string
+     */
+    public function getHrefRaw(): string
+    {
+        return $this->href;
+    }
+
+    public function setHref(string $href): self
+    {
+        $this->href = $href;
+        return $this;
+    }
+
     public function getPid(): string
     {
-        return $this->pid;
+        return StringUtility::sanitizeString($this->pid);
+    }
+
+    public function isPidSet(): bool
+    {
+        return $this->getPid() !== '';
     }
 
     public function setPid(string $pid): self
@@ -120,7 +177,12 @@ class FilterDto
 
     public function getTimeFrom(): string
     {
-        return $this->timeFrom;
+        return StringUtility::sanitizeString($this->timeFrom);
+    }
+
+    public function isTimeFromSet(): bool
+    {
+        return $this->getTimeFrom() !== '';
     }
 
     public function getTimeFromDateTime(): DateTime
@@ -140,7 +202,12 @@ class FilterDto
 
     public function getTimeTo(): string
     {
-        return $this->timeTo;
+        return StringUtility::sanitizeString($this->timeTo);
+    }
+
+    public function isTimeToSet(): bool
+    {
+        return $this->getTimeTo() !== '';
     }
 
     public function getTimeToDateTime(): DateTime
@@ -173,9 +240,26 @@ class FilterDto
         return $this->timePeriod;
     }
 
+    public function isTimePeriodSet(): bool
+    {
+        return $this->timePeriod !== $this->timePeriodDefault;
+    }
+
     public function setTimePeriod(int $timePeriod): self
     {
         $this->timePeriod = $timePeriod;
+        return $this;
+    }
+
+    public function getTimePeriodDefault(): int
+    {
+        return $this->timePeriodDefault;
+    }
+
+    public function setTimePeriodDefault(int $timePeriodDefault): self
+    {
+        $this->timePeriodDefault = $timePeriodDefault;
+        $this->timePeriod = $timePeriodDefault;
         return $this;
     }
 
@@ -184,9 +268,32 @@ class FilterDto
         return $this->identified;
     }
 
-    public function setIdentified(int $identified): self
+    public function isIdentifiedSet(): bool
     {
-        $this->identified = $identified;
+        return $this->getIdentified() !== self::IDENTIFIED_ALL;
+    }
+
+    public function setIdentified(?int $identified): self
+    {
+        if ($identified !== null) {
+            $this->identified = $identified;
+        }
+        return $this;
+    }
+
+    public function isWithReferrer(): bool
+    {
+        return $this->withReferrer;
+    }
+
+    public function isWithReferrerSet(): bool
+    {
+        return $this->isWithReferrer() !== false;
+    }
+
+    public function setWithReferrer(bool $withReferrer): self
+    {
+        $this->withReferrer = $withReferrer;
         return $this;
     }
 
@@ -212,6 +319,11 @@ class FilterDto
         return $this->scoring;
     }
 
+    public function isScoringSet(): bool
+    {
+        return $this->getScoring() > 0;
+    }
+
     public function setScoring(int $scoring): self
     {
         $this->scoring = $scoring;
@@ -223,9 +335,14 @@ class FilterDto
         return $this->categoryScoring;
     }
 
-    public function setCategoryScoring(int $categoryUid): self
+    public function isCategoryScoringSet(): bool
     {
-        if ($categoryUid > 0) {
+        return $this->getCategoryScoring() !== null;
+    }
+
+    public function setCategoryScoring(?int $categoryUid): self
+    {
+        if ((int)$categoryUid > 0) {
             $categoryRepository = GeneralUtility::makeInstance(CategoryRepository::class);
             $category = $categoryRepository->findByUid((int)$categoryUid);
             if ($category !== null) {
@@ -238,6 +355,11 @@ class FilterDto
     public function getCategory(): ?Category
     {
         return $this->category;
+    }
+
+    public function isCategorySet(): bool
+    {
+        return $this->getCategory() !== null;
     }
 
     public function setCategory(?Category $category): self
@@ -265,7 +387,12 @@ class FilterDto
 
     public function getDomain(): string
     {
-        return $this->domain;
+        return StringUtility::sanitizeString($this->domain);
+    }
+
+    public function isDomainSet(): bool
+    {
+        return $this->getDomain() !== '';
     }
 
     public function setDomain(string $domain): self
@@ -274,12 +401,53 @@ class FilterDto
         return $this;
     }
 
-    public function getUtmCampaign(): string
+    public function getSite(): string
     {
-        return $this->utmCampaign;
+        return StringUtility::sanitizeString($this->site);
     }
 
-    public function setUtmCampaign(string $utmCampaign): FilterDto
+    public function isSiteSet(): bool
+    {
+        return $this->getSite() !== '';
+    }
+
+    public function setSite(string $site): self
+    {
+        // Don't allow to pass not allowed site in filter
+        if (array_key_exists($site, $this->getAllowedSites()) === false) {
+            $site = '';
+        }
+        $this->site = $site;
+        return $this;
+    }
+
+    public function getCountry(): string
+    {
+        return StringUtility::sanitizeString($this->country);
+    }
+
+    public function isCountrySet(): bool
+    {
+        return $this->getCountry() !== '';
+    }
+
+    public function setCountry(string $country): self
+    {
+        $this->country = $country;
+        return $this;
+    }
+
+    public function getUtmCampaign(): string
+    {
+        return StringUtility::sanitizeString($this->utmCampaign);
+    }
+
+    public function isUtmCampaignSet(): bool
+    {
+        return $this->getUtmCampaign() !== '';
+    }
+
+    public function setUtmCampaign(string $utmCampaign): self
     {
         $this->utmCampaign = $utmCampaign;
         return $this;
@@ -287,10 +455,15 @@ class FilterDto
 
     public function getUtmSource(): string
     {
-        return $this->utmSource;
+        return StringUtility::sanitizeString($this->utmSource);
     }
 
-    public function setUtmSource(string $utmSource): FilterDto
+    public function isUtmSourceSet(): bool
+    {
+        return $this->getUtmSource() !== '';
+    }
+
+    public function setUtmSource(string $utmSource): self
     {
         $this->utmSource = $utmSource;
         return $this;
@@ -298,12 +471,33 @@ class FilterDto
 
     public function getUtmMedium(): string
     {
-        return $this->utmMedium;
+        return StringUtility::sanitizeString($this->utmMedium);
     }
 
-    public function setUtmMedium(string $utmMedium): FilterDto
+    public function isUtmMediumSet(): bool
+    {
+        return $this->getUtmMedium() !== '';
+    }
+
+    public function setUtmMedium(string $utmMedium): self
     {
         $this->utmMedium = $utmMedium;
+        return $this;
+    }
+
+    public function getUtmContent(): string
+    {
+        return StringUtility::sanitizeString($this->utmContent);
+    }
+
+    public function isUtmContentSet(): bool
+    {
+        return $this->getUtmContent() !== '';
+    }
+
+    public function setUtmContent(string $utmContent): self
+    {
+        $this->utmContent = $utmContent;
         return $this;
     }
 
@@ -312,15 +506,25 @@ class FilterDto
         return $this->branchCode;
     }
 
-    public function setBranchCode(int $branchCode): self
+    public function isBranchCodeSet(): bool
     {
-        $this->branchCode = $branchCode;
+        return $this->getBranchCode() > 0;
+    }
+
+    public function setBranchCode(?int $branchCode): self
+    {
+        $this->branchCode = (int)$branchCode;
         return $this;
     }
 
     public function getRevenueClass(): string
     {
-        return $this->revenueClass;
+        return StringUtility::sanitizeString($this->revenueClass);
+    }
+
+    public function isRevenueClassSet(): bool
+    {
+        return $this->getRevenueClass() !== '';
     }
 
     public function setRevenueClass(string $revenueClass): self
@@ -331,7 +535,12 @@ class FilterDto
 
     public function getSizeClass(): string
     {
-        return $this->sizeClass;
+        return StringUtility::sanitizeString($this->sizeClass);
+    }
+
+    public function isSizeClassSet(): bool
+    {
+        return $this->getSizeClass() !== '';
     }
 
     public function setSizeClass(string $sizeClass): self
@@ -345,6 +554,11 @@ class FilterDto
         return $this->visitor;
     }
 
+    public function isVisitorSet(): bool
+    {
+        return $this->getVisitor() !== null;
+    }
+
     public function setVisitor(?Visitor $visitor): self
     {
         $this->visitor = $visitor;
@@ -356,44 +570,63 @@ class FilterDto
         return $this->company;
     }
 
+    public function isCompanySet(): bool
+    {
+        return $this->getCompany() !== null;
+    }
+
     public function setCompany(?Company $company): self
     {
         $this->company = $company;
         return $this;
     }
 
-    /**
-     * Calculated values
-     */
+    public function getLimit(): int
+    {
+        return $this->limit;
+    }
+
+    public function isLimitSet(): bool
+    {
+        return $this->getLimit() > 0;
+    }
+
+    public function setLimit(int $limit): self
+    {
+        $this->limit = $limit;
+        return $this;
+    }
 
     /**
-     * @return bool
+     * Calculated values from here
      */
     public function isSet(): bool
     {
-        return $this->searchterm !== '' || $this->pid !== '' || $this->scoring > 0 || $this->categoryScoring !== null
-            || $this->category !== null
-            || $this->timeFrom !== '' || $this->timeTo !== '' || $this->timePeriod !== self::PERIOD_DEFAULT
-            || $this->identified !== self::IDENTIFIED_ALL || $this->domain !== ''
-            || $this->utmCampaign !== '' || $this->utmMedium !== '' || $this->utmSource !== '' || $this->branchCode > 0
-            || $this->revenueClass !== '' || $this->sizeClass !== '';
+        return $this->isSearchtermSet()
+            || $this->isPidSet()
+            || $this->isScoringSet()
+            || $this->isCategoryScoringSet()
+            || $this->isCategorySet()
+            || $this->isTimeFromSet()
+            || $this->isTimeToSet()
+            || $this->isTimePeriodSet()
+            || $this->isIdentifiedSet()
+            || $this->isWithReferrerSet()
+            || $this->isDomainSet()
+            || $this->isCountrySet()
+            || $this->isSiteSet()
+            || $this->isUtmCampaignSet()
+            || $this->isUtmMediumSet()
+            || $this->isUtmSourceSet()
+            || $this->isUtmContentSet()
+            || $this->isBranchCodeSet()
+            || $this->isRevenueClassSet()
+            || $this->isSizeClassSet();
     }
 
     public function isTimeFromOrTimeToSet(): bool
     {
-        return $this->timeFrom !== '' || $this->timeTo !== '';
-    }
-
-    /**
-     * Is only a searchterm given and nothing else in backend filter?
-     *
-     * @return bool
-     */
-    protected function isOnlySearchtermGiven(): bool
-    {
-        return $this->searchterm !== '' && $this->pid === '' && $this->scoring === 0 && $this->categoryScoring === null
-            && $this->timeFrom === '' && $this->timeTo === '' && $this->timePeriod === self::PERIOD_DEFAULT
-            && $this->identified === self::IDENTIFIED_ALL && $this->domain === '';
+        return $this->isTimeFromSet() || $this->isTimeToSet();
     }
 
     /**
@@ -420,15 +653,20 @@ class FilterDto
     /**
      * Get a stop datetime for period filter
      *
+     * @param bool $shortmode
      * @return DateTime
      * @throws Exception
      */
-    public function getEndTimeForFilter(): DateTime
+    public function getEndTimeForFilter(bool $shortmode = false): DateTime
     {
         if ($this->getTimeFrom()) {
             $time = $this->getTimeToDateTime();
         } else {
-            $time = $this->getEndTimeFromTimePeriod();
+            if ($shortmode === false || $this->isShortMode() === false) {
+                $time = $this->getEndTimeFromTimePeriod();
+            } else {
+                $time = $this->getEndTimeFromTimePeriodShort();
+            }
         }
         return $time;
     }
@@ -439,7 +677,7 @@ class FilterDto
      */
     protected function getStartTimeFromTimePeriod(): DateTime
     {
-        if ($this->getTimePeriod() === self::PERIOD_ALL || $this->isOnlySearchtermGiven()) {
+        if ($this->getTimePeriod() === self::PERIOD_ALL) {
             $time = new DateTime();
             $time->setTimestamp(0);
         } elseif ($this->getTimePeriod() === self::PERIOD_THISYEAR) {
@@ -502,6 +740,15 @@ class FilterDto
     }
 
     /**
+     * @return DateTime
+     * @throws Exception
+     */
+    protected function getEndTimeFromTimePeriodShort(): DateTime
+    {
+        return new DateTime();
+    }
+
+    /**
      * Example return values
      *  [
      *      'intervals' => [
@@ -558,7 +805,7 @@ class FilterDto
     protected function getStartIntervals(): array
     {
         $start = $this->getStartTimeForFilter(true);
-        $end = $this->getEndTimeForFilter();
+        $end = $this->getEndTimeForFilter(true);
         $deltaSeconds = $end->getTimestamp() - $start->getTimestamp();
         if ($deltaSeconds <= 86400) { // until 1 day
             return ['intervals' => $this->getHourIntervals(), 'frequency' => 'hour'];
@@ -583,7 +830,7 @@ class FilterDto
     protected function getHourIntervals(): array
     {
         $start = $this->getStartTimeForFilter(true);
-        $end = $this->getEndTimeForFilter();
+        $end = $this->getEndTimeForFilter(true);
         $interval = [];
         for ($hour = clone $start; $hour < $end; $hour->modify('+1 hour')) {
             $interval[] = clone $hour;
@@ -599,7 +846,7 @@ class FilterDto
     protected function getDayIntervals(): array
     {
         $start = DateUtility::getDayStart($this->getStartTimeForFilter(true));
-        $end = $this->getEndTimeForFilter();
+        $end = $this->getEndTimeForFilter(true);
         $interval = [];
         for ($day = clone $start; $day < $end; $day->modify('+1 day')) {
             $interval[] = clone $day;
@@ -615,7 +862,7 @@ class FilterDto
     protected function getWeekIntervals(): array
     {
         $start = DateUtility::getPreviousMonday($this->getStartTimeForFilter(true));
-        $end = $this->getEndTimeForFilter();
+        $end = $this->getEndTimeForFilter(true);
         $interval = [];
         for ($week = clone $start; $week < $end; $week->modify('+1 week')) {
             $interval[] = clone $week;
@@ -631,7 +878,7 @@ class FilterDto
     protected function getMonthIntervals(): array
     {
         $start = DateUtility::getStartOfMonth($this->getStartTimeForFilter(true));
-        $end = $this->getEndTimeForFilter();
+        $end = $this->getEndTimeForFilter(true);
         $interval = [];
         for ($month = clone $start; $month < $end; $month->modify('+1 month')) {
             $interval[] = clone $month;
@@ -647,13 +894,47 @@ class FilterDto
     protected function getYearIntervals(): array
     {
         $start = DateUtility::getStartOfYear($this->getStartTimeForFilter(true));
-        $end = $this->getEndTimeForFilter();
+        $end = $this->getEndTimeForFilter(true);
         $interval = [];
         for ($year = clone $start; $year < $end; $year->modify('+1 year')) {
             $interval[] = clone $year;
         }
         $interval[] = $end;
         return $interval;
+    }
+
+    /**
+     * Get all sites on which the current editor has reading access
+     *
+     * @return array
+     */
+    public function getAllowedSites(): array
+    {
+        $siteService = GeneralUtility::makeInstance(SiteService::class);
+        return $siteService->getAllowedSites();
+    }
+
+    public function hasAnyAllowedSites(): bool
+    {
+        return $this->getAllowedSites() !== [];
+    }
+
+    /**
+     * Always return given site or all available sites, so this can be always build in sql queries
+     *
+     * @return array
+     */
+    public function getSitesForFilter(): array
+    {
+        if ($this->isSiteSet()) {
+            return [$this->getSite()];
+        }
+        return array_merge(array_keys($this->getAllowedSites()), ['']);
+    }
+
+    protected function getSitesForFilterList(): string
+    {
+        return implode(',', $this->getSitesForFilter());
     }
 
     public function getHash(): string
@@ -668,9 +949,18 @@ class FilterDto
      */
     public function __toString(): string
     {
-        $string = $this->searchterm . $this->pid . $this->timeFrom . $this->timeTo . (string)$this->scoring .
-            (string)$this->categoryScoring . (string)$this->timePeriod . (string)$this->identified .
-            (string)$this->shortMode . (string)$this->domain;
+        $string = $this->searchterm
+            . $this->pid
+            . $this->timeFrom
+            . $this->timeTo
+            . $this->scoring
+            . $this->categoryScoring
+            . $this->timePeriod
+            . $this->identified
+            . $this->shortMode
+            . $this->domain
+            . $this->country
+            . $this->getSitesForFilterList();
         return md5($string);
     }
 }

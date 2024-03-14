@@ -70,10 +70,7 @@ abstract class AbstractUnit
     {
         $filter = ObjectUtility::getFilterDto();
         if ($this->filterClass !== '' && $this->filterFunction !== '') {
-            $filterFromSession = BackendUtility::getSessionValue('filter', $this->filterFunction, $this->filterClass);
-            if (is_a($filterFromSession, FilterDto::class)) {
-                $filter = $filterFromSession;
-            }
+            $filter = BackendUtility::getFilterFromSession($this->filterFunction, $this->filterClass);
         }
         $this->filter = $filter;
     }

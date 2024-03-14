@@ -1,22 +1,24 @@
-<div class="panel panel-default flex">
-    <div class="panel-heading">
-        <h3 class="panel-title">
-            Interface Status
-            <f:if condition="{wiredminds.statistics}">{wiredminds.statistics.year}/{wiredminds.statistics.month}</f:if>
-        </h3>
+<f:if condition="{wiredminds.show}">
+    <div class="panel panel-default flex">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                Interface Status
+                <f:if condition="{wiredminds.statistics}">{wiredminds.statistics.year}/{wiredminds.statistics.month}</f:if>
+            </h3>
+        </div>
+        <div class="panel-body">
+            <f:if condition="{wiredminds.statistics.hits} > 0 || {wiredminds.statistics.misses} > 0 || {wiredminds.available} > 0">
+                <f:then>
+                    <canvas width="750"
+                            height="400"
+                            data-chart="doughnut"
+                            data-chart-data="{wiredminds.statistics.hits},{wiredminds.statistics.misses},{wiredminds.available}"
+                            data-chart-labels="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.wiredminds.statistics.hits')}, {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.wiredminds.statistics.misses')}, {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.wiredminds.statistics.req_available')}"></canvas>
+                </f:then>
+                <f:else>
+                    <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+                </f:else>
+            </f:if>
+        </div>
     </div>
-    <div class="panel-body">
-        <f:if condition="{wiredminds.statistics.hits} > 0 || {wiredminds.statistics.misses} > 0 || {wiredminds.available} > 0">
-            <f:then>
-                <canvas width="750"
-                        height="400"
-                        data-chart="doughnut"
-                        data-chart-data="{wiredminds.statistics.hits},{wiredminds.statistics.misses},{wiredminds.available}"
-                        data-chart-labels="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.wiredminds.statistics.hits')}, {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.wiredminds.statistics.misses')}, {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.wiredminds.statistics.req_available')}"></canvas>
-            </f:then>
-            <f:else>
-                <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
-            </f:else>
-        </f:if>
-    </div>
-</div>
+</f:if>

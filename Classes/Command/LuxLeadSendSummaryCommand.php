@@ -49,7 +49,8 @@ class LuxLeadSendSummaryCommand extends Command
         $filter
             ->setTimeFrame((int)$input->getArgument('timeframe'))
             ->setScoring((int)$input->getArgument('minimumScoring'))
-            ->setIdentified((int)$input->getArgument('identified'));
+            ->setIdentified((int)$input->getArgument('identified'))
+            ->setLimit(750);
         $visitors = $visitorRepository->findAllWithIdentifiedFirst($filter);
 
         if (count($visitors) > 0) {
