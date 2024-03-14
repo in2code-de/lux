@@ -52,7 +52,7 @@ class PagevisitRepository extends AbstractRepository
     public function findCombinedByPageIdentifier(FilterDto $filter, int $limit = 100): array
     {
         $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
-        $sql = 'select pv.page, count(pv.page) count, pv.domain from ' . Pagevisit::TABLE_NAME . ' pv'
+        $sql = 'select pv.page, count(pv.page) count, max(pv.domain) as domain from ' . Pagevisit::TABLE_NAME . ' pv'
             . ' left join ' . Page::TABLE_NAME . ' p on p.uid = pv.page'
             . ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = pv.visitor'
             . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
@@ -62,7 +62,7 @@ class PagevisitRepository extends AbstractRepository
             . $this->extendWhereClauseWithFilterSite($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
-            . ' group by pv.page, pv.domain order by count desc limit ' . (int)$limit;
+            . ' group by pv.page order by count desc limit ' . (int)$limit;
         $results = $connection->executeQuery($sql)->fetchAllAssociative();
         foreach ($results as &$result) {
             if ($result['page'] > 0) {
