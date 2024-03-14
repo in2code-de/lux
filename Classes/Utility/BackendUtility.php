@@ -6,6 +6,7 @@ namespace In2code\Lux\Utility;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use Throwable;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Property\PropertyMapper;
@@ -35,6 +36,16 @@ class BackendUtility
             return self::getBackendUserAuthentication()->isAdmin();
         }
         return false;
+    }
+
+    /**
+     * If CLI request or is backend admin
+     *
+     * @return bool
+     */
+    public static function hasAdministrationPermission(): bool
+    {
+        return Environment::isCli() || self::isAdministrator();
     }
 
     /**

@@ -77,7 +77,7 @@ class SiteService
     public function getAllowedSites(): array
     {
         $sites = $this->siteFinder->getAllSites();
-        if (BackendUtility::isAdministrator()) {
+        if (BackendUtility::hasAdministrationPermission()) {
             return $sites;
         }
 
