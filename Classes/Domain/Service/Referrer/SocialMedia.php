@@ -47,7 +47,7 @@ class SocialMedia
             ],
         ],
         [
-            'name' => 'X',
+            'name' => 'X (Twitter)',
             'domains' => [
                 't.co',
                 'www.twitter.com',
