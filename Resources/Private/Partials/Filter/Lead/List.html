@@ -124,6 +124,29 @@
                         </lux:condition.isTypo3Eleven>
                     </div>
 
+                    <f:if condition="{domains -> f:count()} > 0">
+                        <div class="input-group form-group">
+                            <f:form.select property="domain" class="form-control form-select" id="domain">
+                                <f:form.select.option value="">
+                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.firstoption.domain">Domain</f:translate>
+                                </f:form.select.option>
+                                <f:for each="{domains}" as="domain">
+                                    <f:form.select.option value="{domain}">{domain}</f:form.select.option>
+                                </f:for>
+                            </f:form.select>
+                            <lux:condition.isTypo3Eleven>
+                                <f:then>
+                                    <label class="btn btn-default" for="domain">
+                                        <span class="fa fa-globe"></span>
+                                    </label>
+                                </f:then>
+                                <f:else>
+                                    <label class="input-group-addon fa fa-globe" for="domain"></label>
+                                </f:else>
+                            </lux:condition.isTypo3Eleven>
+                        </div>
+                    </f:if>
+
                     <div class="input-group form-group" style="display: block">
                         <div class="form-check pull-left" style="position: relative;">
                             <f:form.checkbox

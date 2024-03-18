@@ -579,6 +579,9 @@ class VisitorRepository extends AbstractRepository
             $logicalAnd[] = $query->equals('categoryscorings.category', $filter->getCategoryScoring());
             $logicalAnd[] = $query->greaterThan('categoryscorings.scoring', 0);
         }
+        if ($filter->getDomain() !== '') {
+            $logicalAnd[] = $query->equals('pagevisits.domain', $filter->getDomain());
+        }
         return $logicalAnd;
     }
 

@@ -116,6 +116,7 @@ class LeadController extends AbstractController
             'filter' => $filter,
             'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter),
             'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
+            'domains' => $this->pagevisitsRepository->getAllDomains($filter),
         ]);
     }
 
