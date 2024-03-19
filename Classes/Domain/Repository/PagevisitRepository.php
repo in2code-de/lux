@@ -15,6 +15,7 @@ use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Service\Referrer\Readable;
 use In2code\Lux\Domain\Service\Referrer\SocialMedia;
+use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Exception\ArgumentsException;
 use In2code\Lux\Utility\ArrayUtility;
 use In2code\Lux\Utility\DatabaseUtility;
@@ -310,20 +311,20 @@ class PagevisitRepository extends AbstractRepository
      * @param FilterDto $filter
      * @param int $limit
      * @return array
-     * @throws Exception
      * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
      */
     public function getAmountOfReferrers(FilterDto $filter, int $limit = 100): array
     {
+        $siteService = GeneralUtility::makeInstance(SiteService::class);
         $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
-        $domainLike = addcslashes(FrontendUtility::getCurrentDomain(), '_%');
         $sql = 'select referrer, count(referrer) count from ' . Pagevisit::TABLE_NAME
-            . ' where referrer != ""'
-            . ' and referrer not like ' . $connection->quote('%' . $domainLike . '%')
+            . ' where referrer != \'\''
+            . ' and referrer not regexp "' . $siteService->getAllDomainsForWhereClause() . '"'
             . $this->extendWhereClauseWithFilterTime($filter)
             . $this->extendWhereClauseWithFilterSite($filter)
             . ' group by referrer having (count > 1) order by count desc limit ' . $limit;
-        $records = (array)$connection->executeQuery($sql)->fetchAllAssociative();
+        $records = $connection->executeQuery($sql)->fetchAllAssociative();
         $result = [];
         foreach ($records as $record) {
             $readableReferrer = GeneralUtility::makeInstance(Readable::class, $record['referrer']);
