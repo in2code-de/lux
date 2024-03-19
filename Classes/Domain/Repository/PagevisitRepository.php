@@ -13,6 +13,7 @@ use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Service\Referrer\Readable;
 use In2code\Lux\Domain\Service\Referrer\SocialMedia;
+use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Utility\ArrayUtility;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\ExtensionUtility;
@@ -272,11 +273,11 @@ class PagevisitRepository extends AbstractRepository
      */
     public function getAmountOfReferrers(FilterDto $filter, int $limit = 100): array
     {
+        $siteService = GeneralUtility::makeInstance(SiteService::class);
         $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
-        $domainLike = addcslashes(FrontendUtility::getCurrentDomain(), '_%');
         $sql = 'select referrer, count(referrer) count from ' . Pagevisit::TABLE_NAME
             . ' where referrer != ""'
-            . ' and referrer not like ' . $connection->quote('%' . $domainLike . '%')
+            . ' and referrer not regexp "' . $siteService->getAllDomainsForWhereClause() . '"'
             . $this->extendWhereClauseWithFilterTime($filter)
             . ' group by referrer having (count > 1) order by count desc limit ' . $limit;
         $records = (array)$connection->executeQuery($sql)->fetchAll();

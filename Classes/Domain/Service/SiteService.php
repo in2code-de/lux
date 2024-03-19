@@ -3,6 +3,9 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Service;
 
+use In2code\Lux\Utility\FrontendUtility;
+use In2code\Lux\Utility\StringUtility;
+use In2code\Lux\Utility\UrlUtility;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Site\SiteFinder;
@@ -67,6 +70,46 @@ class SiteService
     {
         $site = self::getDefaultSite();
         return $site->getBase()->__toString();
+    }
+
+    /**
+     * Get all domains without protocol from all site configs
+     *  [
+     *      'www.domain.org',
+     *      'stage.domain.org',
+     *  ]
+     *
+     * @return array
+     */
+    public function getAllDomains(): array
+    {
+        $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
+        $sites = $siteFinder->getAllSites();
+        $domains = [];
+        foreach ($sites as $site) {
+            $url = $site->getBase()->__toString();
+            $url = UrlUtility::removeProtocolFromDomain($url);
+            $domains[] = StringUtility::cleanString($url, true, './_-');
+        }
+        return $domains;
+    }
+
+    /**
+     * Get all domains from all site configs for an sql query with regexp (splitted by |)
+     *
+     * @param bool $addCurrentDomain
+     * @return string
+     */
+    public function getAllDomainsForWhereClause(bool $addCurrentDomain = true): string
+    {
+        $domains = $this->getAllDomains();
+        if ($addCurrentDomain) {
+            $domains = array_merge(
+                $domains,
+                [StringUtility::cleanString(FrontendUtility::getCurrentDomain(), true, './_-')]
+            );
+        }
+        return implode('|', $domains);
     }
 
     /**
