@@ -18,6 +18,7 @@
 
 | Version    | Date       | State    | Description                                                                                                                                                                                |
 |------------|------------|----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 26.7.0     | 2024-03-19 | Feature  | Remove all domains from referrer diagram where referrers are from local instance                                                                                                           |
 | 26.6.0     | 2024-03-18 | Feature  | Add domain selection for Lead list, use imagegrabber fork to prevent problems while loading images from google search                                                                      |
 | 26.5.2     | 2024-01-12 | Bugfix   | Fix module links on some TYPO3 10 installations                                                                                                                                            |
 | 26.5.1     | 2023-06-27 | Bugfix   | Added missing argument when instantiating the class                                                                                                                                        |
