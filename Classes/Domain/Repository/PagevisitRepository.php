@@ -20,7 +20,6 @@ use In2code\Lux\Exception\ArgumentsException;
 use In2code\Lux\Utility\ArrayUtility;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\ExtensionUtility;
-use In2code\Lux\Utility\FrontendUtility;
 use In2code\Luxenterprise\Domain\Repository\ShortenerRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
