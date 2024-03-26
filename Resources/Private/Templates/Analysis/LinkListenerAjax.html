@@ -6,7 +6,7 @@
     </div>
     <div class="panel-body">
 
-        <f:if condition="{linkListener.linkclicks}">
+        <f:if condition="{linkclicks}">
             <f:then>
                 <table class="table table-striped">
                     <thead>
@@ -20,7 +20,7 @@
                     <tbody>
                     <f:for each="{linkclicks}" as="linkclick">
                         <tr>
-                            <td>{linkListener.title}</td>
+                            <td>{linkclick.linkListener.title}</td>
                             <td>
                                 <span title="UID{linkclick.visitor.uid}">{linkclick.visitor.fullName}</span>
                             </td>
@@ -35,7 +35,7 @@
                     </tbody>
                 </table>
 
-                <button style="margin-top: 15px" class="btn btn-primary pull-right" data-lux-linkmock-event="{linkListener.uid}"><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.detail">show</f:translate></button>
+                <button style="margin-top: 15px" class="btn btn-primary pull-right" data-lux-linkmock-event="{linkclicks.0.linkListener.uid}"><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.detail">show</f:translate></button>
             </f:then>
             <f:else>
                 <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
@@ -44,6 +44,6 @@
     </div>
 </div>
 
-<f:alias map="{headerPostfix: linkListener.title}">
+<f:alias map="{headerPostfix: linkclick.0.linkListener.title}">
     <f:render partial="Box/Analysis/AllLinkclicks" arguments="{_all}"/>
 </f:alias>

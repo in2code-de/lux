@@ -10,7 +10,7 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 class Utm extends AbstractEntity
 {
-    const TABLE_NAME = 'tx_lux_domain_model_utm';
+    public const TABLE_NAME = 'tx_lux_domain_model_utm';
 
     protected ?Pagevisit $pagevisit = null;
     protected ?Newsvisit $newsvisit = null;

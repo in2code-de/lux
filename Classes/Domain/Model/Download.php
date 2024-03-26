@@ -8,10 +8,11 @@ use In2code\Lux\Utility\FrontendUtility;
 
 class Download extends AbstractModel
 {
-    const TABLE_NAME = 'tx_lux_domain_model_download';
+    public const TABLE_NAME = 'tx_lux_domain_model_download';
 
     protected string $href = '';
     protected string $domain = '';
+    protected string $site = '';
 
     protected ?Visitor $visitor = null;
     protected ?DateTime $crdate = null;
@@ -87,6 +88,17 @@ class Download extends AbstractModel
     public function setDomainAutomatically(): self
     {
         $this->domain = FrontendUtility::getCurrentDomain();
+        return $this;
+    }
+
+    public function getSite(): string
+    {
+        return $this->site;
+    }
+
+    public function setSite(string $site): self
+    {
+        $this->site = $site;
         return $this;
     }
 }

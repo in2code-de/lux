@@ -14,7 +14,10 @@ use In2code\Lux\Domain\Service\GetCompanyFromIpService;
 use In2code\Lux\Domain\Service\Image\VisitorImageService;
 use In2code\Lux\Domain\Service\Provider\Telecommunication;
 use In2code\Lux\Domain\Service\ScoringService;
+use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Exception\ConfigurationException;
+use In2code\Lux\Utility\BackendUtility;
+use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
@@ -30,8 +33,8 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 class Visitor extends AbstractModel
 {
-    const TABLE_NAME = 'tx_lux_domain_model_visitor';
-    const IMPORTANT_ATTRIBUTES = [
+    public const TABLE_NAME = 'tx_lux_domain_model_visitor';
+    public const IMPORTANT_ATTRIBUTES = [
         'email',
         'firstname',
         'lastname',
@@ -48,9 +51,12 @@ class Visitor extends AbstractModel
     protected ?ObjectStorage $categoryscorings = null;
 
     /**
+     * @Lazy
      * @var ?ObjectStorage<Fingerprint>
+     * @phpstan-var ObjectStorage|LazyLoadingProxy|null
+     * Todo: Type can be changed to Fingerprint|LazyLoadingProxy|null when PHP 7.4 is dropped
      */
-    protected ?ObjectStorage $fingerprints = null;
+    protected ?object $fingerprints = null;
 
     protected string $email = '';
     protected string $company = '';
@@ -238,9 +244,18 @@ class Visitor extends AbstractModel
         $this->setCategoryscoringByCategory($newScoring, $category);
     }
 
-    public function getFingerprints(): ?ObjectStorage
+    public function getFingerprints(): array
     {
-        return $this->fingerprints;
+        $fingerprints = $this->fingerprints instanceof LazyLoadingProxy
+            ? $this->fingerprints->_loadRealInstance()
+            : $this->fingerprints;
+        $fpArray = $fingerprints->toArray();
+        foreach ($fpArray as $key => $fingerprint) {
+            if ($fingerprint->canBeRead() === false) {
+                unset($fpArray[$key]);
+            }
+        }
+        return $fpArray;
     }
 
     /**
@@ -250,7 +265,7 @@ class Visitor extends AbstractModel
      */
     public function getFingerprintsSorted(): array
     {
-        $fingerprints = $this->getFingerprints()->toArray();
+        $fingerprints = $this->getFingerprints();
         return array_reverse($fingerprints);
     }
 
@@ -371,6 +386,17 @@ class Visitor extends AbstractModel
         return $this;
     }
 
+    public function resetCompanyrecord(): self
+    {
+        $queryBuilder = DatabaseUtility::getQueryBuilderForTable(self::TABLE_NAME);
+        $queryBuilder
+            ->update(self::TABLE_NAME)
+            ->where('uid=' . $this->getUid())->set('companyrecord', 0)
+            ->executeStatement();
+        $this->companyrecord = null;
+        return $this;
+    }
+
     /**
      * @param string $ipAddress use current IP address when empty
      * @return bool return if there was a hit on wiredminds
@@ -425,6 +451,18 @@ class Visitor extends AbstractModel
         return $this;
     }
 
+    public function getPagevisitsAuthorized(): array
+    {
+        $pagevisits = $this->pagevisits->toArray();
+        foreach ($pagevisits as $key => $pagevisit) {
+            /** @var Pagevisit $pagevisits */
+            if ($pagevisit->canBeRead() === false) {
+                unset($pagevisits[$key]);
+            }
+        }
+        return $pagevisits;
+    }
+
     /**
      * Get pagevisits of a visitor and sort it descending (last visit at first)
      *
@@ -433,7 +471,7 @@ class Visitor extends AbstractModel
      */
     public function getPagevisits(): array
     {
-        $pagevisits = $this->pagevisits;
+        $pagevisits = $this->getPagevisitsAuthorized();
         $pagevisitsArray = [];
         /** @var Pagevisit $pagevisit */
         foreach ($pagevisits as $pagevisit) {
@@ -445,7 +483,7 @@ class Visitor extends AbstractModel
 
     public function getPagevisitsOfGivenPageIdentifier(int $pageIdentifier): array
     {
-        $pagevisits = $this->pagevisits;
+        $pagevisits = $this->getPagevisitsAuthorized();
         $pagevisitsArray = [];
         /** @var Pagevisit $pagevisit */
         foreach ($pagevisits as $pagevisit) {
@@ -531,7 +569,7 @@ class Visitor extends AbstractModel
      */
     public function getNumberOfUniquePagevisits(): int
     {
-        $pagevisits = $this->pagevisits;
+        $pagevisits = $this->getPagevisitsAuthorized();
         $number = 1;
         if (count($pagevisits) > 1) {
             /** @var DateTime $lastVisit **/
@@ -570,7 +608,7 @@ class Visitor extends AbstractModel
 
     public function removeNewsvisit(Newsvisit $newsvisits): self
     {
-        $this->pagevisits->detach($newsvisits);
+        $this->newsvisits->detach($newsvisits);
         return $this;
     }
 
@@ -755,7 +793,19 @@ class Visitor extends AbstractModel
     public function getLogs(): array
     {
         $logs = $this->logs->toArray();
+        $logs = $this->filterLogsByAuthentication($logs);
         krsort($logs);
+        return $logs;
+    }
+
+    protected function filterLogsByAuthentication(array $logs): array
+    {
+        foreach ($logs as $key => $log) {
+            /** @var Log $log */
+            if ($log->canBeRead() === false) {
+                unset($logs[$key]);
+            }
+        }
         return $logs;
     }
 
@@ -1118,6 +1168,21 @@ class Visitor extends AbstractModel
             }
         }
         return $lng;
+    }
+
+    /**
+     * Check if this record can be viewed by current editor
+     *
+     * @return bool
+     */
+    public function canBeRead(): bool
+    {
+        if (BackendUtility::isAdministrator()) {
+            return true;
+        }
+        $sites = GeneralUtility::makeInstance(SiteService::class)->getAllowedSites();
+        return GeneralUtility::makeInstance(VisitorRepository::class)
+            ->canVisitorBeReadBySites($this, array_keys($sites));
     }
 
     /**

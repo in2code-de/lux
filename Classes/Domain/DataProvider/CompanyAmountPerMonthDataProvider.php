@@ -31,7 +31,7 @@ class CompanyAmountPerMonthDataProvider extends AbstractDataProvider
     public function prepareData(): void
     {
         $companyRepository = GeneralUtility::makeInstance(CompanyRepository::class);
-        $results = $companyRepository->findCompanyAmountOfLastSixMonths();
+        $results = $companyRepository->findCompanyAmountOfLastSixMonths($this->filter);
         $titles = $amounts = [];
         foreach ($results as $month => $amount) {
             $titles[] = LocalizationUtility::translateByKey('datetime.month.' . $month);

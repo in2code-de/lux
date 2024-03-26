@@ -9,6 +9,7 @@ use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
@@ -73,6 +74,29 @@ abstract class AbstractRepository extends Repository
 
     /**
      * @param FilterDto $filter
+     * @param QueryInterface $query
+     * @param array $logicalAnd
+     * @param string $tablePrefix
+     * @return array
+     * @throws InvalidQueryException
+     */
+    protected function extendLogicalAndWithFilterConstraintsForSite(
+        FilterDto $filter,
+        QueryInterface $query,
+        array $logicalAnd,
+        string $tablePrefix = ''
+    ): array {
+        if (BackendUtility::isAdministrator() && $filter->isSiteSet() === false) {
+            // Prevent join to pagevisit table if not needed (to avoid empty result problems on specific search)
+            return $logicalAnd;
+        }
+        $field = ($tablePrefix ? $tablePrefix . '.' : '') . 'site';
+        $logicalAnd[] = $query->in($field, $filter->getSitesForFilter());
+        return $logicalAnd;
+    }
+
+    /**
+     * @param FilterDto $filter
      * @param string $table
      * @param string $titleField
      * @param string $concatenation
@@ -85,7 +109,7 @@ abstract class AbstractRepository extends Repository
         string $concatenation = 'and'
     ): string {
         $sql = '';
-        if ($filter->getSearchterms() !== []) {
+        if ($filter->isSearchtermSet()) {
             foreach ($filter->getSearchterms() as $searchterm) {
                 if ($sql === '') {
                     $sql .= ' ' . $concatenation . ' (';
@@ -142,17 +166,45 @@ abstract class AbstractRepository extends Repository
      * @return string
      * @throws Exception
      */
-    protected function extendWhereClauseWithFilterDomain(
-        FilterDto $filter,
-        string $table = ''
-    ): string {
+    protected function extendWhereClauseWithFilterDomain(FilterDto $filter, string $table = ''): string
+    {
         $sql = '';
-        if ($filter->getDomain() !== '') {
+        if ($filter->isDomainSet()) {
             $field = 'domain';
             if ($table !== '') {
                 $field = $table . '.' . $field;
             }
             $sql .= ' and ' . $field . '="' . $filter->getDomain() . '"';
+        }
+        return $sql;
+    }
+
+    /**
+     * Returns part of a where clause like
+     *      ' and site="site 1"'
+     *
+     * @param FilterDto $filter
+     * @param string $table table with crdate (normally the main table)
+     * @return string
+     */
+    protected function extendWhereClauseWithFilterSite(FilterDto $filter, string $table = ''): string
+    {
+        $field = 'site';
+        if ($table !== '') {
+            $field = $table . '.' . $field;
+        }
+        return ' and ' . $field . ' in ("' . implode('","', $filter->getSitesForFilter()) . '")';
+    }
+
+    protected function extendWhereClauseWithFilterCountry(FilterDto $filter, string $table = ''): string
+    {
+        $sql = '';
+        if ($filter->isCountrySet()) {
+            $field = 'country_code';
+            if ($table !== '') {
+                $field = $table . '.' . $field;
+            }
+            $sql .= ' and ' . $field . '="' . $filter->getCountry() . '"';
         }
         return $sql;
     }
@@ -168,7 +220,7 @@ abstract class AbstractRepository extends Repository
     protected function extendWhereClauseWithFilterScoring(FilterDto $filter, string $table = ''): string
     {
         $sql = '';
-        if ($filter->getScoring() > 0) {
+        if ($filter->isScoringSet()) {
             $field = 'scoring';
             if ($table !== '') {
                 $field = $table . '.' . $field;
@@ -196,10 +248,10 @@ abstract class AbstractRepository extends Repository
         if ($table !== '') {
             $field = $table . '.' . $field;
         }
-        if ($filter->getVisitor() !== null) {
+        if ($filter->isVisitorSet()) {
             $sql = ' and ' . $field . ' = ' . $filter->getVisitor()->getUid();
         }
-        if ($filter->getCompany() !== null) {
+        if ($filter->isCompanySet()) {
             $sql = '';
             foreach ($filter->getCompany()->getVisitors() as $visitor) {
                 if ($visitor !== null) {
@@ -227,7 +279,7 @@ abstract class AbstractRepository extends Repository
     protected function extendWhereClauseWithFilterCategoryScoring(FilterDto $filter, string $table = ''): string
     {
         $sql = '';
-        if ($filter->getCategoryScoring() !== null) {
+        if ($filter->isCategoryScoringSet()) {
             $field = 'category';
             if ($table !== '') {
                 $field = $table . '.' . $field;
@@ -252,7 +304,7 @@ abstract class AbstractRepository extends Repository
         if (in_array('v', $tables)) {
             $sql .= ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = pv.visitor';
         }
-        if ($filter->getSearchterm() !== '' || $filter->getDomain() !== '') {
+        if ($filter->isSearchtermSet() || $filter->isDomainSet()) {
             if (in_array('pv', $tables)) {
                 $sql .= ' left join ' . Pagevisit::TABLE_NAME . ' pv on v.uid = pv.visitor';
             }
@@ -260,10 +312,58 @@ abstract class AbstractRepository extends Repository
                 $sql .= ' left join ' . Page::TABLE_NAME . ' p on p.uid = pv.page';
             }
         }
-        if ($filter->getCategoryScoring() !== null) {
+        if ($filter->isCategoryScoringSet()) {
             if (in_array('cs', $tables)) {
                 $sql .= ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor';
             }
+        }
+        return $sql;
+    }
+
+    protected function extendWhereClauseWithFilterSizeClass(FilterDto $filter, string $table = ''): string
+    {
+        $sql = '';
+        if ($filter->getSizeClass() !== '') {
+            if ($table !== '') {
+                $table .= '.';
+            }
+            $sql .= ' and ' . $table . 'size_class = ' . $filter->getSizeClass();
+        }
+        return $sql;
+    }
+
+    protected function extendWhereClauseWithFilterRevenueClass(FilterDto $filter, string $table = ''): string
+    {
+        $sql = '';
+        if ($filter->getRevenueClass() !== '') {
+            if ($table !== '') {
+                $table .= '.';
+            }
+            $sql .= ' and ' . $table . 'revenue_class = ' . $filter->getRevenueClass();
+        }
+        return $sql;
+    }
+
+    protected function extendWhereClauseWithFilterBranchCode(FilterDto $filter, string $table = ''): string
+    {
+        $sql = '';
+        if ($filter->getBranchCode() > 0) {
+            if ($table !== '') {
+                $table .= '.';
+            }
+            $sql .= ' and ' . $table . 'branch_code = ' . $filter->getBranchCode();
+        }
+        return $sql;
+    }
+
+    protected function extendWhereClauseWithFilterCategory(FilterDto $filter, string $table = ''): string
+    {
+        $sql = '';
+        if ($filter->getCategory() !== null) {
+            if ($table !== '') {
+                $table .= '.';
+            }
+            $sql .= ' and ' . $table . 'category = ' . $filter->getCategory()->getUid();
         }
         return $sql;
     }

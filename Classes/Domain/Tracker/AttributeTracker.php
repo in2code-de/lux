@@ -3,7 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Tracker;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Attribute;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\AttributeRepository;
@@ -18,63 +18,34 @@ use In2code\Lux\Utility\ObjectUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
-use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
-use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
-use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
 
 /**
  * Class AttributeTracker to add an attribute key/value pair to a visitor
  */
 class AttributeTracker
 {
-    const CONTEXT_FIELDLISTENING = 'Fieldlistening';
-    const CONTEXT_FORMLISTENING = 'Formlistening';
-    const CONTEXT_EMAIL4LINK = 'Email4link';
-    const CONTEXT_LUXLETTERLINK = 'Luxletterlink';
-    const CONTEXT_FRONTENDUSER = 'Frontendauthentication';
-    const CONTEXT_WORKFLOW = 'Workflow';
+    public const CONTEXT_FIELDLISTENING = 'Fieldlistening';
+    public const CONTEXT_FORMLISTENING = 'Formlistening';
+    public const CONTEXT_EMAIL4LINK = 'Email4link';
+    public const CONTEXT_LUXLETTERLINK = 'Luxletterlink';
+    public const CONTEXT_FRONTENDUSER = 'Frontendauthentication';
+    public const CONTEXT_WORKFLOW = 'Workflow';
 
-    /**
-     * @var Visitor|null
-     */
-    protected $visitor = null;
+    protected ?Visitor $visitor = null;
+    protected ?VisitorRepository $visitorRepository = null;
+    protected ?AttributeRepository $attributeRepository = null;
+    private EventDispatcherInterface $eventDispatcher;
 
     /**
      * Set different context for logging (attribute came from fieldlistening or from email4link and so on)
      *
      * @var string
      */
-    protected $context = '';
+    protected string $context = '';
+    protected int $pageIdentifier = 0;
 
-    /**
-     * @var int
-     */
-    protected $pageIdentifier = 0;
-
-    /**
-     * @var VisitorRepository|null
-     */
-    protected $visitorRepository = null;
-
-    /**
-     * @var AttributeRepository|null
-     */
-    protected $attributeRepository = null;
-
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $eventDispatcher;
-
-    /**
-     * AttributeTracker constructor.
-     *
-     * @param Visitor $visitor
-     * @param string $context
-     * @param int $pageIdentifier
-     */
     public function __construct(
         Visitor $visitor,
         string $context = self::CONTEXT_FIELDLISTENING,
@@ -93,14 +64,11 @@ class AttributeTracker
      * @param array $allowedProperties
      * @return void
      * @throws EmailValidationException
-     * @throws Exception
      * @throws IllegalObjectTypeException
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
      * @throws UnknownObjectException
      * @throws ConfigurationException
-     * @throws DBALException
      * @throws InvalidConfigurationTypeException
+     * @throws ExceptionDbal
      */
     public function addAttributes(array $properties, array $allowedProperties = [])
     {
@@ -123,14 +91,12 @@ class AttributeTracker
      * @param string $key
      * @param string $value
      * @return void
+     * @throws ConfigurationException
      * @throws EmailValidationException
-     * @throws Exception
+     * @throws ExceptionDbal
      * @throws IllegalObjectTypeException
-     * @throws InvalidSlotException
-     * @throws InvalidSlotReturnException
-     * @throws UnknownObjectException
-     * @throws DBALException
      * @throws InvalidConfigurationTypeException
+     * @throws UnknownObjectException
      */
     public function addAttribute(string $key, string $value)
     {
@@ -179,11 +145,6 @@ class AttributeTracker
         }
     }
 
-    /**
-     * @param Attribute $attribute
-     * @param string $value
-     * @return void
-     */
     protected function addAttributeCompany(Attribute $attribute, string $value): void
     {
         if ($attribute->getName() === 'company') {
@@ -230,11 +191,6 @@ class AttributeTracker
         return $attribute;
     }
 
-    /**
-     * @param string $key
-     * @param string $value
-     * @return Attribute
-     */
     protected function createNewAttribute(string $key, string $value): Attribute
     {
         $attribute = GeneralUtility::makeInstance(Attribute::class);
@@ -250,10 +206,10 @@ class AttributeTracker
      * @param string $key
      * @param string $value
      * @return void
-     * @throws Exception
+     * @throws ConfigurationException
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
-     * @throws DBALException
+     * @throws ExceptionDbal
      */
     protected function mergeVisitorsOnGivenEmail(string $key, string $value)
     {

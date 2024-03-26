@@ -17,7 +17,7 @@ use In2code\Lux\Utility\StringUtility;
  */
 class RedirectService
 {
-    const TABLE_NAME = 'tx_lux_redirect';
+    public const TABLE_NAME = 'tx_lux_redirect';
 
     /**
      * @param string $target e.g. "t3://page?uid=123" or "https://domain.org" or "/path/page.html"

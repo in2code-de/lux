@@ -97,4 +97,22 @@ class DatabaseUtility
             ->executeQuery()
             ->fetchOne() !== '';
     }
+
+    /**
+     * @param string $fieldName
+     * @param string $tableName
+     * @return bool
+     * @throws ExceptionDbal
+     */
+    public static function isAnyFieldFilledInTable(string $fieldName, string $tableName): bool
+    {
+        $queryBuilder = self::getQueryBuilderForTable($tableName);
+        return $queryBuilder
+            ->select($fieldName)
+            ->from($tableName)
+            ->where($fieldName . ' != \'\'')
+            ->setMaxResults(1)
+            ->executeQuery()
+            ->fetchOne() !== false;
+    }
 }

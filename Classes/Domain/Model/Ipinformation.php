@@ -5,7 +5,7 @@ namespace In2code\Lux\Domain\Model;
 
 class Ipinformation extends AbstractModel
 {
-    const TABLE_NAME = 'tx_lux_domain_model_ipinformation';
+    public const TABLE_NAME = 'tx_lux_domain_model_ipinformation';
 
     protected string $name = '';
     protected string $value = '';

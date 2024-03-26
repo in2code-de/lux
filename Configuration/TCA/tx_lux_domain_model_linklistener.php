@@ -68,7 +68,6 @@ return [
         ],
 
         'crdate' => [
-            'exclude' => true,
             'label' =>
                 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linklistener::TABLE_NAME . '.crdate',
             'config' => [
@@ -80,7 +79,6 @@ return [
             ],
         ],
         'cruser_id' => [
-            'exclude' => true,
             'label' =>
                 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linklistener::TABLE_NAME . '.cruser_id',
             'config' => [
@@ -94,7 +92,6 @@ return [
             ],
         ],
         'title' => [
-            'exclude' => true,
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linklistener::TABLE_NAME . '.title',
             'config' => [
                 'type' => 'input',
@@ -104,7 +101,6 @@ return [
             ],
         ],
         'description' => [
-            'exclude' => true,
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:'
                 . Linklistener::TABLE_NAME . '.description',
             'config' => [
@@ -115,7 +111,6 @@ return [
             ],
         ],
         'link' => [
-            'exclude' => true,
             'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linklistener::TABLE_NAME . '.link',
             'config' => [
                 'type' => 'input',
@@ -124,7 +119,6 @@ return [
             ],
         ],
         'category' => [
-            'exclude' => true,
             'label' =>
                 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linklistener::TABLE_NAME . '.category',
             'config' => [
@@ -140,7 +134,6 @@ return [
             ],
         ],
         'linkclicks' => [
-            'exclude' => true,
             'label' =>
                 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linklistener::TABLE_NAME . '.linkclicks',
             'config' => [

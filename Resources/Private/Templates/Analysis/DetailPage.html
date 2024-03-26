@@ -62,6 +62,9 @@
             </div>
         </div>
         <div class="col-md-4">
+            <f:alias map="{type:'pagevisit'}">
+                <f:render partial="Box/Miscellaneous/FilterInformation" arguments="{_all}"/>
+            </f:alias>
             <f:alias map="{headerPostfix: pagevisits.0.page.title}">
                 <f:render partial="Box/Analysis/Pagevisits" arguments="{_all}"/>
             </f:alias>

@@ -10,13 +10,15 @@ use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\BranchService;
 use In2code\Lux\Domain\Service\CountryService;
 use In2code\Lux\Domain\Service\Image\CompanyImageService;
+use In2code\Lux\Domain\Service\SiteService;
+use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 class Company extends AbstractEntity
 {
-    const TABLE_NAME = 'tx_lux_domain_model_company';
+    public const TABLE_NAME = 'tx_lux_domain_model_company';
 
     protected string $title = '';
     protected string $branchCode = '';
@@ -350,5 +352,20 @@ class Company extends AbstractEntity
     {
         $visitorImageService = GeneralUtility::makeInstance(CompanyImageService::class);
         return $visitorImageService->getUrl(['company' => $this]);
+    }
+
+    /**
+     * Check if this record can be viewed by current editor
+     *
+     * @return bool
+     */
+    public function canBeRead(): bool
+    {
+        if (BackendUtility::isAdministrator()) {
+            return true;
+        }
+        $sites = GeneralUtility::makeInstance(SiteService::class)->getAllowedSites();
+        return GeneralUtility::makeInstance(CompanyRepository::class)
+            ->canCompanyBeReadBySites($this, array_keys($sites));
     }
 }

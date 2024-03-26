@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
 use DateTime;
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
+use In2code\Lux\Domain\Model\Newsvisit;
+use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Utm;
 use In2code\Lux\Utility\ArrayUtility;
@@ -27,61 +27,64 @@ class UtmRepository extends AbstractRepository
         $query = $this->createQuery();
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, []);
         $logicalAnd = $this->extendWithExtendedFilterQuery($query, $logicalAnd, $filter);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForIsReferrer($filter, $query, $logicalAnd);
         $query->matching($query->logicalAnd(...$logicalAnd));
+        $query->setLimit(750);
         return $query->execute();
     }
 
     /**
+     * @param FilterDto $filter
      * @return array
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
-    public function findAllCampaigns(): array
+    public function findAllCampaigns(FilterDto $filter): array
     {
-        $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Utm::TABLE_NAME);
-        $results = $queryBuilder
-            ->select('utm_campaign')
-            ->from(Utm::TABLE_NAME)
-            ->where('utm_campaign != ""')
-            ->groupBy('utm_campaign')
-            ->executeQuery()
-            ->fetchFirstColumn();
-        return ArrayUtility::copyValuesToKeys($results);
+        return $this->findAllProperties('utm_campaign', $filter);
     }
 
     /**
+     * @param FilterDto $filter
      * @return array
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
-    public function findAllSources(): array
+    public function findAllSources(FilterDto $filter): array
     {
-        $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Utm::TABLE_NAME);
-        $results = $queryBuilder
-            ->select('utm_source')
-            ->from(Utm::TABLE_NAME)
-            ->where('utm_source != ""')
-            ->groupBy('utm_source')
-            ->executeQuery()
-            ->fetchFirstColumn();
-        return ArrayUtility::copyValuesToKeys($results);
+        return $this->findAllProperties('utm_source', $filter);
     }
 
     /**
+     * @param FilterDto $filter
      * @return array
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
-    public function findAllMedia(): array
+    public function findAllMedia(FilterDto $filter): array
     {
-        $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Utm::TABLE_NAME);
-        $results = $queryBuilder
-            ->select('utm_medium')
-            ->from(Utm::TABLE_NAME)
-            ->where('utm_medium != ""')
-            ->groupBy('utm_medium')
-            ->executeQuery()
-            ->fetchFirstColumn();
+        return $this->findAllProperties('utm_medium', $filter);
+    }
+
+    /**
+     * @param string $property
+     * @param FilterDto $filter
+     * @return array
+     * @throws ExceptionDbal
+     */
+    protected function findAllProperties(string $property, FilterDto $filter): array
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Utm::TABLE_NAME);
+        $sql = 'select utm.' . $property;
+        $sql .= ' from ' . Utm::TABLE_NAME . ' utm';
+        $sql .= ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.uid = utm.pagevisit';
+        $sql .= ' left join ' . Newsvisit::TABLE_NAME . ' nv on nv.uid = utm.newsvisit';
+        $sql .= ' left join ' . Pagevisit::TABLE_NAME . ' pnv on pnv.uid = nv.pagevisit';
+        $sql .= ' where utm.' . $property . ' != \'\'';
+        $sql .= ' and (pv.site in ("' . implode('","', $filter->getSitesForFilter()) . '") or';
+        $sql .= ' pnv.site in ("' . implode('","', $filter->getSitesForFilter()) . '"))';
+        $sql .= $this->extendWhereClauseWithFilterTime($filter, true, 'utm');
+        $sql .= ' group by utm.' . $property;
+        $sql .= ' order by utm.' . $property . ' asc';
+        $sql .= ' limit 1000';
+        $results = $connection->executeQuery($sql)->fetchFirstColumn();
         return ArrayUtility::copyValuesToKeys($results);
     }
 
@@ -100,6 +103,7 @@ class UtmRepository extends AbstractRepository
             $query->lessThanOrEqual('crdate', $end->format('U')),
         ];
         $logicalAnd = $this->extendWithExtendedFilterQuery($query, $logicalAnd, $filter);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForIsReferrer($filter, $query, $logicalAnd);
         $query->matching($query->logicalAnd(...$logicalAnd));
         return $query->execute()->count();
     }
@@ -109,12 +113,15 @@ class UtmRepository extends AbstractRepository
      * @param FilterDto $filter
      * @return array
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     public function findCombinedByField(string $field, FilterDto $filter): array
     {
         $connection = DatabaseUtility::getConnectionForTable(Utm::TABLE_NAME);
-        $sql = 'select count(utm.' . $field . ') count, utm.' . $field . ' from ' . Utm::TABLE_NAME . ' utm'
+        $sql = 'select count(utm.' . $field . ') count, utm.' . $field
+            . ' from ' . Utm::TABLE_NAME . ' utm'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.uid = utm.pagevisit'
+            . ' left join ' . Newsvisit::TABLE_NAME . ' nv on nv.uid = utm.newsvisit'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pnv on pnv.uid = nv.pagevisit'
             . ' where ' . $field . ' != \'\''
             . $this->extendWhereClauseWithFilterTime($filter, true, 'utm')
             . $this->extendWhereClauseWithFilterSearchterms($filter, 'utm', 'utm_source')
@@ -123,22 +130,20 @@ class UtmRepository extends AbstractRepository
             . $this->extendWhereClauseWithFilterSearchterms($filter, 'utm', 'utm_id', 'or')
             . $this->extendWhereClauseWithFilterSearchterms($filter, 'utm', 'utm_term', 'or')
             . $this->extendWhereClauseWithFilterSearchterms($filter, 'utm', 'utm_content', 'or')
+            . $this->extendWhereClauseWithFilterSearchterms($filter, 'utm', 'referrer', 'or')
             . $this->extendWhereClauseWithFilterCampaign($filter, 'utm')
             . $this->extendWhereClauseWithFilterSource($filter, 'utm')
             . $this->extendWhereClauseWithFilterMedium($filter, 'utm')
+            . $this->extendWhereClauseWithFilterSite($filter)
+            . $this->extendWhereClauseWithFilterIsReferrer($filter, 'utm')
             . ' group by utm.' . $field . ' order by count desc limit 8';
         return $connection->executeQuery($sql)->fetchAllAssociative();
     }
 
-    /**
-     * @param FilterDto $filter
-     * @param string $table
-     * @return string
-     */
     protected function extendWhereClauseWithFilterCampaign(FilterDto $filter, string $table = ''): string
     {
         $sql = '';
-        if ($filter->getUtmCampaign() !== '') {
+        if ($filter->isUtmCampaignSet()) {
             $field = 'utm_campaign';
             if ($table !== '') {
                 $field = $table . '.' . $field;
@@ -148,15 +153,10 @@ class UtmRepository extends AbstractRepository
         return $sql;
     }
 
-    /**
-     * @param FilterDto $filter
-     * @param string $table
-     * @return string
-     */
     protected function extendWhereClauseWithFilterSource(FilterDto $filter, string $table = ''): string
     {
         $sql = '';
-        if ($filter->getUtmSource() !== '') {
+        if ($filter->isUtmSourceSet()) {
             $field = 'utm_source';
             if ($table !== '') {
                 $field = $table . '.' . $field;
@@ -166,20 +166,46 @@ class UtmRepository extends AbstractRepository
         return $sql;
     }
 
-    /**
-     * @param FilterDto $filter
-     * @param string $table
-     * @return string
-     */
     protected function extendWhereClauseWithFilterMedium(FilterDto $filter, string $table = ''): string
     {
         $sql = '';
-        if ($filter->getUtmMedium() !== '') {
+        if ($filter->isUtmMediumSet()) {
             $field = 'utm_medium';
             if ($table !== '') {
                 $field = $table . '.' . $field;
             }
             $sql .= ' and ' . $field . '="' . $filter->getUtmMedium() . '"';
+        }
+        return $sql;
+    }
+
+    /**
+     * Returns part of a where clause like
+     *      ' and site="site 1"'
+     *
+     * @param FilterDto $filter
+     * @param string $table table with crdate (normally the main table)
+     * @return string
+     */
+    protected function extendWhereClauseWithFilterSite(FilterDto $filter, string $table = ''): string
+    {
+        $sql = ' and (';
+        $sql .= 'pv.site in ("' . implode('","', $filter->getSitesForFilter()) . '")';
+        $sql .= ' or ';
+        $sql .= 'pnv.site in ("' . implode('","', $filter->getSitesForFilter()) . '")';
+        $sql .= ')';
+        return $sql;
+    }
+
+    protected function extendWhereClauseWithFilterIsReferrer(FilterDto $filter, string $table = ''): string
+    {
+        $sql = '';
+        if ($filter->isWithReferrerSet()) {
+            $field = 'referrer';
+            if ($table !== '') {
+                $field = $table . '.' . $field;
+            }
+            $sql .= ' and ' . $field . ' != \'\'';
         }
         return $sql;
     }
@@ -197,7 +223,7 @@ class UtmRepository extends AbstractRepository
         FilterDto $filter = null
     ): array {
         if ($filter !== null) {
-            if ($filter->getSearchterm() !== '') {
+            if ($filter->isSearchtermSet()) {
                 $logicalOr = [];
                 foreach ($filter->getSearchterms() as $searchterm) {
                     $logicalOr[] = $query->like('utmSource', '%' . $searchterm . '%');
@@ -209,15 +235,33 @@ class UtmRepository extends AbstractRepository
                 }
                 $logicalAnd[] = $query->logicalOr(...$logicalOr);
             }
-            if ($filter->getUtmCampaign() !== '') {
+            if ($filter->isUtmCampaignSet()) {
                 $logicalAnd[] = $query->like('utmCampaign', '%' . $filter->getUtmCampaign() . '%');
             }
-            if ($filter->getUtmMedium() !== '') {
+            if ($filter->isUtmMediumSet()) {
                 $logicalAnd[] = $query->like('utmMedium', '%' . $filter->getUtmMedium() . '%');
             }
-            if ($filter->getUtmSource() !== '') {
+            if ($filter->isUtmSourceSet()) {
                 $logicalAnd[] = $query->like('utmSource', '%' . $filter->getUtmSource() . '%');
             }
+            if ($filter->isUtmContentSet()) {
+                $logicalAnd[] = $query->like('utmContent', '%' . $filter->getUtmContent() . '%');
+            }
+            $logicalAnd[] = $query->logicalOr(
+                $query->in('pagevisit.site', $filter->getSitesForFilter()),
+                $query->in('newsvisit.pagevisit.site', $filter->getSitesForFilter())
+            );
+        }
+        return $logicalAnd;
+    }
+
+    protected function extendLogicalAndWithFilterConstraintsForIsReferrer(
+        FilterDto $filter,
+        QueryInterface $query,
+        array $logicalAnd
+    ): array {
+        if ($filter->isWithReferrerSet()) {
+            $logicalAnd[] = $query->logicalNot($query->equals('referrer', ''));
         }
         return $logicalAnd;
     }

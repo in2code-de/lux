@@ -106,8 +106,14 @@
 			<trans-unit id="tx_lux_domain_model_fingerprint.domain">
 				<source>Domain</source>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_fingerprint.site">
+				<source>Site</source>
+			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_fingerprint.user_agent">
 				<source>User agent</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_fingerprint.type">
+				<source>Type</source>
 			</trans-unit>
 
 			<trans-unit id="tx_lux_domain_model_pagevisit">
@@ -124,6 +130,9 @@
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_pagevisit.domain">
 				<source>Current domain</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_pagevisit.site">
+				<source>Site</source>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_pagevisit.visitor">
 				<source>Lead</source>
@@ -185,6 +194,12 @@
 			<trans-unit id="tx_lux_domain_model_download.file">
 				<source>File</source>
 			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_download.domain">
+				<source>Domain</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_download.site">
+				<source>Site</source>
+			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_download.visitor">
 				<source>Lead</source>
 			</trans-unit>
@@ -198,7 +213,10 @@
 			<trans-unit id="tx_lux_domain_model_search.searchterm">
 				<source>Searchterm</source>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_download.visitor">
+			<trans-unit id="tx_lux_domain_model_search.pagevisit">
+				<source>on Page</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_search.visitor">
 				<source>Lead</source>
 			</trans-unit>
 
@@ -226,6 +244,9 @@
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_log.properties">
 				<source>Properties</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_log.site">
+				<source>Site</source>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_log.visitor">
 				<source>Lead</source>
@@ -343,6 +364,9 @@
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_linkclick.page">
 				<source>Page</source>
+			</trans-unit>
+			<trans-unit id="tx_lux_domain_model_linkclick.site">
+				<source>Site</source>
 			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_linkclick.visitor">
 				<source>Lead</source>
@@ -584,6 +608,9 @@
 			<trans-unit id="module.analysis.dashboard">
 				<source>Dashboard</source>
 			</trans-unit>
+			<trans-unit id="module.analysis.dashboard.filter.sitesall">
+				<source>All sites</source>
+			</trans-unit>
 			<trans-unit id="module.analysis.list">
 				<source>Leads</source>
 			</trans-unit>
@@ -638,6 +665,9 @@
 
 			<trans-unit id="module.analysis.novalues">
 				<source>No data available yet</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.nosites">
+				<source>Note: To view data in LUX, you need read access to at least one root page (site rootpage)</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.filter.submit">
 				<source>Filter now</source>
@@ -1066,6 +1096,9 @@
 			</trans-unit>
 			<trans-unit id="module.lead.list">
 				<source>Leads</source>
+			</trans-unit>
+			<trans-unit id="module.lead.list.overallajax">
+				<source>(%d overall)</source>
 			</trans-unit>
 			<trans-unit id="module.lead.companies">
 				<source>Companies</source>
@@ -1834,6 +1867,9 @@
 			<trans-unit id="dictionary.country">
 				<source>Country</source>
 			</trans-unit>
+			<trans-unit id="dictionary.lastused">
+				<source>Last used</source>
+			</trans-unit>
 			<trans-unit id="dictionary.lead">
 				<source>Lead</source>
 			</trans-unit>
@@ -1845,6 +1881,9 @@
 			</trans-unit>
 			<trans-unit id="dictionary.medium">
 				<source>Medium</source>
+			</trans-unit>
+			<trans-unit id="dictionary.newsidentifier">
+				<source>News Identifier (UID)</source>
 			</trans-unit>
 			<trans-unit id="dictionary.referrer">
 				<source>Referrer</source>
@@ -1929,6 +1968,12 @@
 			</trans-unit>
 			<trans-unit id="dictionary.size_class.10">
 				<source>more then 2K employees</source>
+			</trans-unit>
+			<trans-unit id="dictionary.pageidentifier">
+				<source>Page Identifier (PID)</source>
+			</trans-unit>
+			<trans-unit id="dictionary.withreferrer">
+				<source>With referrer</source>
 			</trans-unit>
 		</body>
 	</file>

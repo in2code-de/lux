@@ -1,53 +1,70 @@
 <div class="row">
     <f:for each="{visitors}" as="visitor">
         <div class="col-md-4">
-            <f:be.link
-                route="lux_LuxLead"
-                title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview.link',arguments:'{0:visitor.fullName}')}"
-                parameters="{tx_lux_lux_luxlead:'{visitor:visitor.uid,action:\'detail\',controller:\'Lead\'}'}">
-
-                <div class="lux-pageoverview-box">
-                    <div class="lux-pageoverview-box-left">
-                        <img
-                            src="{f:uri.resource(path:'Images/AvatarDefault.svg',extensionName:'lux')}"
-                            data-lux-asynchronous-image="{visitor.uid}"
-                            alt="{visitor.fullName}"
-                            width="150"
-                            style="margin-left: 20px;"
-                            class="img-responsive lux-pageoverview-box-image" />
-                    </div>
-                    <div class="lux-pageoverview-box-right">
-                        <div class="badgearea">
-                            <span class="badge" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.scoring')}">{visitor.scoring}</span>
-                            <f:if condition="{visitor.hottestCategoryscoring}">
-                                <span class="badge badge-primary" title="{visitor.hottestCategoryscoring.category.title}">{visitor.hottestCategoryscoring.scoring}</span>
-                            </f:if>
-                        </div>
-
-                        <p>
-                        <h3 style="margin: 0; padding: 0;">
-                            <strong title="UID{visitor.uid}">{visitor.fullName}</strong>
-                        </h3>
-                        <f:if condition="{visitor.identified}">{visitor.email}</f:if>
-                        </p>
-                        <p>
-                            {visitor.company}<br>
-                            {visitor.location}
-                        </p>
-                        <p>
-                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview.visitedpages">Visited pages:</f:translate>
-                            <strong><f:count>{visitor.pagevisits}</f:count></strong><br>
-
-                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview.thispage">This page:</f:translate>
-                            <f:alias map="{pagevisit:'{lux:page.getLastVisitedPageByPageIdentifier(visitor:visitor,pageIdentifier:pageIdentifier)}'}">
-                                <strong title="{f:format.date(date:pagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
-                                    <lux:format.readableDate>{pagevisit.crdate}</lux:format.readableDate>
-                                </strong>
-                            </f:alias>
-                        </p>
-                    </div>
-                </div>
-            </f:be.link>
+            <!-- Todo: Can be removed if TYPO3 11 support is dropped -->
+            <lux:condition.isTypo3Eleven>
+                <f:then>
+                    <f:be.link
+                        route="lux_LuxLead"
+                        title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview.link',arguments:'{0:visitor.fullName}')}"
+                        parameters="{tx_lux_lux_luxlead:'{visitor:visitor.uid,action:\'detail\',controller:\'Lead\'}'}">
+                        <f:render section="content" arguments="{_all}"/>
+                    </f:be.link>
+                </f:then>
+                <f:else>
+                    <f:be.link
+                        route="lux_LuxLead.Lead_detail"
+                        title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview.link',arguments:'{0:visitor.fullName}')}"
+                        parameters="{visitor:visitor.uid}">
+                        <f:render section="content" arguments="{_all}"/>
+                    </f:be.link>
+                </f:else>
+            </lux:condition.isTypo3Eleven>
         </div>
     </f:for>
 </div>
+
+
+<f:section name="content">
+    <div class="lux-pageoverview-box">
+        <div class="lux-pageoverview-box-left">
+            <img
+                src="{f:uri.resource(path:'Images/AvatarDefault.svg',extensionName:'lux')}"
+                data-lux-asynchronous-image="{visitor.uid}"
+                alt="{visitor.fullName}"
+                width="150"
+                style="margin-left: 20px;"
+                class="img-responsive lux-pageoverview-box-image" />
+        </div>
+        <div class="lux-pageoverview-box-right">
+            <div class="badgearea">
+                <span class="badge" title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.scoring')}">{visitor.scoring}</span>
+                <f:if condition="{visitor.hottestCategoryscoring}">
+                    <span class="badge badge-primary" title="{visitor.hottestCategoryscoring.category.title}">{visitor.hottestCategoryscoring.scoring}</span>
+                </f:if>
+            </div>
+
+            <p>
+            <h3 style="margin: 0; padding: 0;">
+                <strong title="UID{visitor.uid}">{visitor.fullName}</strong>
+            </h3>
+            <f:if condition="{visitor.identified}">{visitor.email}</f:if>
+            </p>
+            <p>
+                {visitor.company}<br>
+                {visitor.location}
+            </p>
+            <p>
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview.visitedpages">Visited pages:</f:translate>
+                <strong><f:count>{visitor.pagevisits}</f:count></strong><br>
+
+                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview.thispage">This page:</f:translate>
+                <f:alias map="{pagevisit:'{lux:page.getLastVisitedPageByPageIdentifier(visitor:visitor,pageIdentifier:pageIdentifier)}'}">
+                    <strong title="{f:format.date(date:pagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
+                        <lux:format.readableDate>{pagevisit.crdate}</lux:format.readableDate>
+                    </strong>
+                </f:alias>
+            </p>
+        </div>
+    </div>
+</f:section>

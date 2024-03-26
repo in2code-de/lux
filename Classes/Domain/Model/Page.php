@@ -3,12 +3,15 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
+use In2code\Lux\Domain\Service\PermissionTrait;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 class Page extends AbstractEntity
 {
-    const TABLE_NAME = 'pages';
+    use PermissionTrait;
+
+    public const TABLE_NAME = 'pages';
 
     protected string $title = '';
 
@@ -46,5 +49,10 @@ class Page extends AbstractEntity
             }
         }
         return $categories;
+    }
+
+    public function canBeRead(): bool
+    {
+        return $this->isAuthenticatedForRecord($this->getUid(), self::TABLE_NAME);
     }
 }

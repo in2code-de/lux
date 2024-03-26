@@ -3,7 +3,13 @@
 declare(strict_types=1);
 namespace In2code\Lux\Utility;
 
+use In2code\Lux\Domain\Model\Transfer\FilterDto;
+use Throwable;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Property\PropertyMapper;
 
 class BackendUtility
 {
@@ -27,22 +33,60 @@ class BackendUtility
     public static function isAdministrator(): bool
     {
         if (self::getBackendUserAuthentication() !== null) {
-            return self::getBackendUserAuthentication()->user['admin'] === 1;
+            return self::getBackendUserAuthentication()->isAdmin();
         }
         return false;
     }
 
     /**
-     * @param string $key
-     * @param string $action
-     * @param string $controller
-     * @param array $data
-     * @return void
-     * @codeCoverageIgnore
+     * If CLI request or is backend admin
+     *
+     * @return bool
      */
-    public static function saveValueToSession(string $key, string $action, string $controller, array $data)
+    public static function hasAdministrationPermission(): bool
+    {
+        return Environment::isCli() || self::isAdministrator();
+    }
+
+    /**
+     * @param string $path
+     * @return int|string|array
+     */
+    public static function getUserTsConfigByPath(string $path)
+    {
+        try {
+            return ArrayUtility::getValueByPath(self::getUserTsConfig(), $path);
+        } catch (Throwable $exception) {
+            unset($exception);
+        }
+        return '';
+    }
+
+    public static function saveValueToSession(string $key, string $action, string $controller, array $data): void
     {
         self::getBackendUserAuthentication()->setAndSaveSessionData($key . $action . $controller . '_lux', $data);
+    }
+
+    public static function getFilterFromSession(
+        string $actionName,
+        string $controllerName,
+        array $propertyOverlay = []
+    ): ?FilterDto {
+        $filterArray = self::getFilterArrayFromSession($actionName, $controllerName, $propertyOverlay);
+        try {
+            return GeneralUtility::makeInstance(PropertyMapper::class)->convert($filterArray, FilterDto::class);
+        } catch (Throwable $exception) {
+            return null;
+        }
+    }
+
+    public static function getFilterArrayFromSession(
+        string $actionName,
+        string $controllerName,
+        array $propertyOverlay = []
+    ): array {
+        $filter = BackendUtility::getSessionValue('filter', $actionName, $controllerName);
+        return array_merge($filter, $propertyOverlay);
     }
 
     public static function getSessionValue(string $key, string $action, string $controller): array
@@ -54,11 +98,16 @@ class BackendUtility
         return [];
     }
 
-    /**
-     * @return ?BackendUserAuthentication
-     * @SuppressWarnings(PHPMD.Superglobals)
-     */
-    protected static function getBackendUserAuthentication(): ?BackendUserAuthentication
+    protected static function getUserTsConfig(): array
+    {
+        $backendUserAuthentication = self::getBackendUserAuthentication();
+        if ($backendUserAuthentication !== null) {
+            return $backendUserAuthentication->getTSConfig();
+        }
+        return [];
+    }
+
+    public static function getBackendUserAuthentication(): ?BackendUserAuthentication
     {
         return $GLOBALS['BE_USER'] ?? null;
     }

@@ -1,0 +1,126 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Filter</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped">
+            <f:render section="{type}" arguments="{_all}" optional="1"/>
+
+            <f:if condition="{filter.siteSet}">
+                <tr>
+                    <th>
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.site">Site</f:translate>
+                    </th>
+                    <td>
+                        {filter.site}
+                    </td>
+                </tr>
+            </f:if>
+            <f:if condition="{filter.timeFromSet}">
+                <tr>
+                    <th>
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeFrom">Time From</f:translate>
+                    </th>
+                    <td>
+                        <f:format.date format="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date')}">{filter.startTimeForFilter}</f:format.date>
+                    </td>
+                </tr>
+            </f:if>
+            <f:if condition="{filter.timeToSet}">
+                <tr>
+                    <th>
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.timeTo">Time To</f:translate>
+                    </th>
+                    <td>
+                        <f:format.date format="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date')}">{filter.endTimeForFilter}</f:format.date>
+                    </td>
+                </tr>
+            </f:if>
+            <f:if condition="{filter.categoryscoringSet}">
+                <tr>
+                    <th>
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.categoryscorings">Categoryscoring</f:translate>
+                    </th>
+                    <td>
+                        {filter.categoryscoring.title}
+                    </td>
+                </tr>
+            </f:if>
+            <f:if condition="{filter.scoringSet}">
+                <tr>
+                    <th>
+                        Scoring
+                    </th>
+                    <td>
+                        {filter.scoring}
+                    </td>
+                </tr>
+            </f:if>
+            <f:if condition="{filter.limitSet}">
+                <tr>
+                    <th>
+                        Limit
+                    </th>
+                    <td>
+                        {filter.limit}
+                    </td>
+                </tr>
+            </f:if>
+        </table>
+    </div>
+</div>
+
+<f:section name="pagevisit">
+    <tr>
+        <th>
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.pageidentifier">Page Identifier</f:translate>
+        </th>
+        <td>
+            {filter.searchterm}
+        </td>
+    </tr>
+</f:section>
+
+<f:section name="download">
+    <tr>
+        <th>
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_download.file">File</f:translate>
+        </th>
+        <td>
+            {filter.href}
+        </td>
+    </tr>
+</f:section>
+
+<f:section name="news">
+    <tr>
+        <th>
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.newsidentifier">News Identifier</f:translate>
+        </th>
+        <td>
+            {filter.searchterm}
+        </td>
+    </tr>
+</f:section>
+
+<f:section name="search">
+    <tr>
+        <th>
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_search.searchterm">Searchterm</f:translate>
+        </th>
+        <td>
+            {filter.searchterm}
+        </td>
+    </tr>
+</f:section>
+
+<f:section name="linkListener">
+    <tr>
+        <th>
+            Link Listener UID
+        </th>
+        <td>
+            {filter.searchterm}
+        </td>
+    </tr>
+</f:section>

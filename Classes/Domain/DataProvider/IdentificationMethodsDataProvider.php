@@ -3,8 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider;
 
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
+use Exception;
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Repository\LogRepository;
 use In2code\Lux\Utility\LocalizationUtility;
@@ -28,8 +27,7 @@ class IdentificationMethodsDataProvider extends AbstractDataProvider
      *  ]
      *
      * @return void
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws Exception
      */
     public function prepareData(): void
     {
@@ -57,5 +55,15 @@ class IdentificationMethodsDataProvider extends AbstractDataProvider
         return LocalizationUtility::getLanguageService()->sL(
             'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.' . $key
         );
+    }
+
+    public function isDataAvailable(): bool
+    {
+        foreach ($this->data['amounts'] as $amount) {
+            if ($amount > 0) {
+                return true;
+            }
+        }
+        return false;
     }
 }

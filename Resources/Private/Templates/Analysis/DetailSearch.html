@@ -62,6 +62,9 @@
             </div>
         </div>
         <div class="col-md-4">
+            <f:alias map="{type:'search'}">
+                <f:render partial="Box/Miscellaneous/FilterInformation" arguments="{_all}"/>
+            </f:alias>
             <f:alias map="{headerPostfix:searchterm}">
                 <f:render partial="Box/Analysis/Search" arguments="{_all}"/>
             </f:alias>

@@ -15,11 +15,23 @@
                                     <img src="{f:uri.resource(path:'Images/AvatarDefault.svg',extensionName:'lux')}" alt="{visitor.fullName}" class="img-circle" data-lux-asynchronous-image="{visitor.uid}" />
                                 </div>
                                 <div class="col-md-9">
-                                    <f:be.link
-                                        route="lux_LuxLead"
-                                        parameters="{tx_lux_lux_luxlead:'{visitor:visitor.uid,action:\'detail\',controller:\'Lead\'}'}">
-                                        <strong title="{visitor.location}">{visitor.fullName}</strong>
-                                    </f:be.link>
+                                    <!-- Todo: Can be removed if TYPO3 11 support is dropped -->
+                                    <lux:condition.isTypo3Eleven>
+                                        <f:then>
+                                            <f:be.link
+                                                route="lux_LuxLead"
+                                                parameters="{tx_lux_lux_luxlead:'{visitor:visitor.uid,action:\'detail\',controller:\'Lead\'}'}">
+                                                <strong title="{visitor.location}">{visitor.fullName}</strong>
+                                            </f:be.link>
+                                        </f:then>
+                                        <f:else>
+                                            <f:be.link
+                                                route="lux_LuxLead.Lead_detail"
+                                                parameters="{visitor:visitor.uid}">
+                                                <strong title="{visitor.location}">{visitor.fullName}</strong>
+                                            </f:be.link>
+                                        </f:else>
+                                    </lux:condition.isTypo3Eleven>
                                     <f:if condition="{visitor.company}">({visitor.company})</f:if>
                                     <br>
 

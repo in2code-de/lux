@@ -39,6 +39,8 @@ define(['jquery'], function($) {
       asynchronousImageLoading();
       asynchronousLinkListenerPerformanceLoading();
       asynchronousCompaniesInformationLoading();
+      asynchronousLeadAmountLoading();
+      asynchronousCompaniesAmountLoading();
       addToggleListener();
       addUnitAjaxListener();
     };
@@ -267,6 +269,53 @@ define(['jquery'], function($) {
       target.innerHTML = response.numberOfVisits;
       const target2 = target.closest('tr').querySelector('[data-lux-getcompaniesinformation-numberofvisitors]');
       target2.innerHTML = response.numberOfVisitors;
+    };
+
+    /**
+     * @returns {void}
+     */
+    const asynchronousLeadAmountLoading = function() {
+      const elementSource = document.querySelector('[data-lux-getoverallleads="source"]');
+      const elementTarget = document.querySelector('[data-lux-getoverallleads="target"]');
+      if (elementSource !== null && elementTarget !== null) {
+        ajaxConnection(
+          TYPO3.settings.ajaxUrls['/lux/overallleads'],
+          {},
+          'asynchronousAnythingAmountLoadingCallback',
+          {
+            elementSource,
+            elementTarget
+          }
+        );
+      }
+    };
+
+    /**
+     * @returns {void}
+     */
+    const asynchronousCompaniesAmountLoading = function() {
+      const elementSource = document.querySelector('[data-lux-getoverallcompanies="source"]');
+      const elementTarget = document.querySelector('[data-lux-getoverallcompanies="target"]');
+      if (elementSource !== null && elementTarget !== null) {
+        ajaxConnection(
+          TYPO3.settings.ajaxUrls['/lux/overallcompanies'],
+          {},
+          'asynchronousAnythingAmountLoadingCallback',
+          {
+            elementSource,
+            elementTarget
+          }
+        );
+      }
+    };
+
+    /**
+     * @params {Json} response
+     */
+    this.asynchronousAnythingAmountLoadingCallback = function(response, callbackArguments) {
+      if (callbackArguments.elementSource.innerHTML < response.amount) {
+        callbackArguments.elementTarget.innerHTML = response.amountLabel;
+      }
     };
 
     /**

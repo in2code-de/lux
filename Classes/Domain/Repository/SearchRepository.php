@@ -4,15 +4,17 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
 use DateTime;
-use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
-use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Exception as ExceptionDbal;
+use Exception;
 use In2code\Lux\Domain\Model\Categoryscoring;
+use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Search;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\DatabaseUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 class SearchRepository extends AbstractRepository
 {
@@ -25,13 +27,13 @@ class SearchRepository extends AbstractRepository
      *
      * @param FilterDto $filter
      * @return array
-     * @throws Exception
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function findCombinedBySearchIdentifier(FilterDto $filter): array
     {
         $connection = DatabaseUtility::getConnectionForTable(Search::TABLE_NAME);
         $sql = 'select count(*) count, searchterm from ' . Search::TABLE_NAME . ' s'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on s.pagevisit = pv.uid'
             . ' left join ' . Visitor::TABLE_NAME . ' v on s.visitor = v.uid'
             . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on cs.visitor = v.uid'
             . ' where '
@@ -39,14 +41,51 @@ class SearchRepository extends AbstractRepository
             . $this->extendWhereClauseWithFilterSearchterms($filter, 's', 'searchterm')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
             . ' group by searchterm order by count desc';
         return $connection->executeQuery($sql)->fetchAllAssociative();
+    }
+
+    public function findByFilter(FilterDto $filter): QueryResultInterface
+    {
+        $sql = 'select s.* from ' . Search::TABLE_NAME . ' s'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on s.pagevisit = pv.uid'
+            . ' left join ' . Visitor::TABLE_NAME . ' v on s.visitor = v.uid'
+            . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on cs.visitor = v.uid'
+            . ' where s.searchterm = "' . $filter->getSearchterm() . '"'
+            . $this->extendWhereClauseWithFilterTime($filter, true, 's')
+            . $this->extendWhereClauseWithFilterScoring($filter, 'v')
+            . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
+            . ' order by s.crdate desc'
+            . ' limit ' . ($filter->isLimitSet() ? $filter->getLimit() : 750);
+        $query = $this->createQuery();
+        $query = $query->statement($sql);
+        return $query->execute();
+    }
+
+    /**
+     * Todo: This function can be removed (without replacement) if there are some values in
+     *       tx_lux_domain_model_search.pagevisit (introduced with version 35.0.0)
+     *       but for now we also search for null values in pagevisits
+     *
+     * @param FilterDto $filter
+     * @param string $table
+     * @return string
+     * @throws Exception
+     */
+    protected function extendWhereClauseWithFilterSite(FilterDto $filter, string $table = ''): string
+    {
+        $field = 'site';
+        if ($table !== '') {
+            $field = $table . '.' . $field;
+        }
+        return ' and (' . $field . ' in ("' . implode('","', $filter->getSitesForFilter()) . '") or pv.uid is null)';
     }
 
     /**
      * @return bool
      * @throws Exception
-     * @throws ExceptionDbalDriver
      */
     public function isTableFilled(): bool
     {
@@ -87,22 +126,23 @@ class SearchRepository extends AbstractRepository
         FilterDto $filter = null
     ): array {
         if ($filter !== null) {
-            if ($filter->getSearchterm() !== '') {
+            if ($filter->isSearchtermSet()) {
                 $logicalOr = [];
                 foreach ($filter->getSearchterms() as $searchterm) {
                     $logicalOr[] = $query->like('searchterm', '%' . $searchterm . '%');
                 }
                 $logicalAnd[] = $query->logicalOr(...$logicalOr);
             }
-            if ($filter->getScoring() > 0) {
+            if ($filter->isScoringSet()) {
                 $logicalAnd[] = $query->greaterThanOrEqual('visitor.scoring', $filter->getScoring());
             }
-            if ($filter->getCategoryScoring() !== null) {
+            if ($filter->isCategoryScoringSet()) {
                 $logicalAnd[] = $query->equals('visitor.categoryscorings.category', $filter->getCategoryScoring());
             }
-            if ($filter->getDomain() !== '') {
+            if ($filter->isDomainSet()) {
                 $logicalAnd[] = $query->equals('pagevisit.domain', $filter->getDomain());
             }
+            $logicalAnd[] = $query->in('pagevisit.site', $filter->getSitesForFilter());
         }
         return $logicalAnd;
     }

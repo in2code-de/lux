@@ -7,11 +7,12 @@ use DateTime;
 
 class Search extends AbstractModel
 {
-    const TABLE_NAME = 'tx_lux_domain_model_search';
+    public const TABLE_NAME = 'tx_lux_domain_model_search';
 
     protected string $searchterm = '';
 
     protected ?Visitor $visitor = null;
+    protected ?Pagevisit $pagevisit = null;
     protected ?DateTime $crdate = null;
 
     public function getVisitor(): ?Visitor
@@ -22,6 +23,17 @@ class Search extends AbstractModel
     public function setVisitor(Visitor $visitor): self
     {
         $this->visitor = $visitor;
+        return $this;
+    }
+
+    public function getPagevisit(): ?Pagevisit
+    {
+        return $this->pagevisit;
+    }
+
+    public function setPagevisit(?Pagevisit $pagevisit): self
+    {
+        $this->pagevisit = $pagevisit;
         return $this;
     }
 

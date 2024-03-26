@@ -21,7 +21,7 @@ return [
         'hideTable' => true,
     ],
     'types' => [
-        '1' => ['showitem' => 'crdate,status,properties,visitor'],
+        '1' => ['showitem' => 'crdate,status,properties,site,visitor'],
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -84,6 +84,15 @@ return [
                 'type' => 'text',
                 'cols' => 32,
                 'rows' => 5,
+                'readOnly' => true,
+            ],
+        ],
+        'site' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Log::TABLE_NAME . '.site',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
                 'readOnly' => true,
             ],
         ],

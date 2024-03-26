@@ -7,7 +7,7 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 class File extends AbstractEntity
 {
-    const TABLE_NAME = 'sys_file';
+    public const TABLE_NAME = 'sys_file';
 
     protected string $name = '';
 

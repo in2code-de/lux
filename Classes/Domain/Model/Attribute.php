@@ -5,13 +5,10 @@ namespace In2code\Lux\Domain\Model;
 
 use In2code\Lux\Utility\LocalizationUtility;
 
-/**
- * Class Attribute
- */
 class Attribute extends AbstractModel
 {
-    const TABLE_NAME = 'tx_lux_domain_model_attribute';
-    const KEY_NAME = 'email';
+    public const TABLE_NAME = 'tx_lux_domain_model_attribute';
+    public const KEY_NAME = 'email';
 
     protected string $name = '';
     protected string $value = '';

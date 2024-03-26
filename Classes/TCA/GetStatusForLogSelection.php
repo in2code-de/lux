@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace In2code\Lux\TCA;
 
 use In2code\Lux\Domain\Model\Log;
+use ReflectionClass;
 
 class GetStatusForLogSelection
 {
@@ -14,7 +15,7 @@ class GetStatusForLogSelection
 
     protected function getStatusItemsFromLogModel(): array
     {
-        $log = new \ReflectionClass(Log::class);
+        $log = new ReflectionClass(Log::class);
         $constants = $log->getConstants();
         $items = [];
         foreach (array_keys($constants) as $key) {

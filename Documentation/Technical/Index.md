@@ -32,6 +32,7 @@ There are some functional settings - saved to localstorage in browser which are:
 See more information in the chapters:
 
 ### [Installation](Installation/Index.md)
+### [Editor configuration](Editors/Index.md)
 ### [Analysis](Analysis/Index.md)
 ### [Identification](Identification/Index.md)
 ### [Scoring and Categoryscoring](Categoryscorings/Index.md)

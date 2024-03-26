@@ -49,7 +49,8 @@ class LuxLeadSendSummaryOfKnownCompaniesCommand extends Command
         $filter
             ->setTimeFrame((int)$input->getArgument('timeframe'))
             ->setScoring((int)$input->getArgument('minimumScoring'))
-            ->setCategoryScoring((int)$input->getArgument('luxCategory'));
+            ->setCategoryScoring((int)$input->getArgument('luxCategory'))
+            ->setLimit(750);
         $visitors = $visitorRepository->findAllWithKnownCompanies($filter);
 
         if (count($visitors) > 0) {

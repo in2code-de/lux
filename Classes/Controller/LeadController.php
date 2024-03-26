@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
 use DateTime;
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use Exception;
 use In2code\Lux\Domain\DataProvider\CompanyAmountPerMonthDataProvider;
@@ -23,6 +21,8 @@ use In2code\Lux\Domain\Repository\CategoryRepository;
 use In2code\Lux\Domain\Repository\CompanyRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\CompanyConfigurationService;
+use In2code\Lux\Exception\AuthenticationException;
+use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
@@ -60,8 +60,8 @@ class LeadController extends AbstractController
     {
         $this->view->assignMultiple([
             'filter' => $filter,
-            'interestingLogs' => $this->logRepository->findInterestingLogs($filter, 10),
-            'whoisonline' => $this->visitorRepository->findOnline(8),
+            'interestingLogs' => $this->logRepository->findInterestingLogs($filter->setLimit(10)),
+            'whoisonline' => $this->visitorRepository->findOnline($filter->setLimit(8)),
         ]);
 
         $this->addDocumentHeaderForCurrentController();
@@ -82,7 +82,6 @@ class LeadController extends AbstractController
      * @param string $export
      * @return ResponseInterface
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      * @throws InvalidQueryException
      */
     public function listAction(FilterDto $filter, string $export = ''): ResponseInterface
@@ -91,20 +90,28 @@ class LeadController extends AbstractController
             return (new ForwardResponse('downloadCsv'))->withArguments(['filter' => $filter]);
         }
         $this->view->assignMultiple([
-            'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
-            'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter, 8),
-            'visitorsPerTimeData' => GeneralUtility::makeInstance(LeadsPerTimeDataProvider::class, $filter),
-            'filter' => $filter,
-            'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter),
+            'filter' => $filter->setLimit(750),
             'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
+            'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter->setLimit(750)),
+            'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
+            'hottestVisitors' => $this->visitorRepository->findByHottestScorings($filter->setLimit(8)),
+            'visitorsPerTimeData' => GeneralUtility::makeInstance(LeadsPerTimeDataProvider::class, $filter),
         ]);
 
         $this->addDocumentHeaderForCurrentController();
         return $this->defaultRendering();
     }
 
+    /**
+     * @param Visitor $visitor
+     * @return ResponseInterface
+     * @throws AuthenticationException
+     */
     public function detailAction(Visitor $visitor): ResponseInterface
     {
+        if ($visitor->canBeRead() === false) {
+            throw new AuthenticationException('Not allowed to view this visitor', 1709071863);
+        }
         $filter = ObjectUtility::getFilterDtoFromStartAndEnd($visitor->getDateOfPagevisitFirst(), new DateTime())
             ->setVisitor($visitor);
         $this->view->assignMultiple([
@@ -127,7 +134,7 @@ class LeadController extends AbstractController
     public function downloadCsvAction(FilterDto $filter): ResponseInterface
     {
         $this->view->assignMultiple([
-            'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter),
+            'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter->setLimit(750)),
         ]);
         return $this->csvResponse($this->view->render());
     }
@@ -137,10 +144,14 @@ class LeadController extends AbstractController
      *
      * @param Visitor $visitor
      * @return ResponseInterface
-     * @throws DBALException
+     * @throws ExceptionDbal
+     * @throws AuthenticationException
      */
     public function removeAction(Visitor $visitor): ResponseInterface
     {
+        if ($visitor->canBeRead() === false) {
+            throw new AuthenticationException('Not allowed for this action', 1710329497);
+        }
         $this->visitorRepository->removeVisitor($visitor);
         $this->addFlashMessage('Visitor completely removed from database');
         return $this->redirect('list');
@@ -151,10 +162,13 @@ class LeadController extends AbstractController
      * @return ResponseInterface
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
-     * @throws DBALException
+     * @throws AuthenticationException
      */
     public function deactivateAction(Visitor $visitor): ResponseInterface
     {
+        if ($visitor->canBeRead() === false) {
+            throw new AuthenticationException('Not allowed for this action', 1710329513);
+        }
         $visitor->setBlacklistedStatus();
         $this->visitorRepository->update($visitor);
         $this->addFlashMessage('Visitor is blacklisted now');
@@ -175,7 +189,6 @@ class LeadController extends AbstractController
      * @param string $export
      * @return ResponseInterface
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     public function companiesAction(FilterDto $filter, string $export = ''): ResponseInterface
     {
@@ -193,20 +206,28 @@ class LeadController extends AbstractController
             $available = 0;
         }
         $this->view->assignMultiple([
-            'companies' => $this->companyRepository->findByFilter($filter),
-            'branches' => $this->companyRepository->findAllBranches(),
+            'filter' => $filter,
+            'countries' => $this->companyRepository->findCountriesByFilter($filter),
+            'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
+            'branches' => $this->companyRepository->findAllBranches($filter),
             'categories' => $this->categoryRepository->findAllLuxCompanyCategories(),
+            'companies' => $this->companyRepository->findByFilter($filter->setLimit(750)),
             'revenueClassData' => GeneralUtility::makeInstance(RevenueClassDataProvider::class, $filter),
-            'companyAmountPerMonthData' => GeneralUtility::makeInstance(CompanyAmountPerMonthDataProvider::class),
-            'latestPagevisitsWithCompanies' => $this->pagevisitsRepository->findLatestPagevisitsWithCompanies(),
+            'companyAmountPerMonthData' => GeneralUtility::makeInstance(
+                CompanyAmountPerMonthDataProvider::class,
+                $filter
+            ),
+            'latestPagevisitsWithCompanies' => $this->pagevisitsRepository->findLatestPagevisitsWithCompanies(
+                $filter->setLimit(8)
+            ),
             'wiredminds' => [
                 'status' => $this->wiredmindsRepository->getStatus() !== [],
                 'statistics' => $statistics,
                 'limit' => $limit,
                 'overall' => $limit,
                 'available' => $available,
+                'show' => BackendUtility::isAdministrator(),
             ],
-            'filter' => $filter,
         ]);
         $this->addDocumentHeaderForCurrentController();
         return $this->defaultRendering();
@@ -234,9 +255,13 @@ class LeadController extends AbstractController
      * @return ResponseInterface
      * @throws InvalidConfigurationTypeException
      * @throws InvalidQueryException
+     * @throws AuthenticationException
      */
     public function companyAction(Company $company): ResponseInterface
     {
+        if ($company->canBeRead() === false) {
+            throw new AuthenticationException('Not allowed to view this company', 1709123396);
+        }
         $filter = ObjectUtility::getFilterDtoFromStartAndEnd(
             $company->getFirstPagevisit()->getCrdate(),
             new DateTime()
@@ -244,7 +269,7 @@ class LeadController extends AbstractController
         $this->view->assignMultiple([
             'company' => $company,
             'categories' => $this->categoryRepository->findAllLuxCompanyCategories(),
-            'interestingLogs' => $this->logRepository->findInterestingLogsByCompany($company),
+            'interestingLogs' => $this->logRepository->findInterestingLogsByCompany($company, $filter->setLimit(250)),
             'scoringWeeks' => GeneralUtility::makeInstance(CompanyScoringWeeksDataProvider::class, $filter),
             'categoryScorings' => GeneralUtility::makeInstance(CompanyCategoryScoringsDataProvider::class, $filter),
             'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
@@ -257,12 +282,11 @@ class LeadController extends AbstractController
      * @param FilterDto $filter
      * @return ResponseInterface
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     public function downloadCsvCompaniesAction(FilterDto $filter): ResponseInterface
     {
         $this->view->assignMultiple([
-            'companies' => $this->companyRepository->findByFilter($filter),
+            'companies' => $this->companyRepository->findByFilter($filter->setLimit(750)),
         ]);
         return $this->csvResponse($this->view->render());
     }
@@ -274,9 +298,13 @@ class LeadController extends AbstractController
      * @param bool $removeVisitors
      * @return ResponseInterface
      * @throws ExceptionDbal
+     * @throws AuthenticationException
      */
     public function removeCompanyAction(Company $company, bool $removeVisitors = false): ResponseInterface
     {
+        if ($company->canBeRead() === false) {
+            throw new AuthenticationException('Not allowed for this action', 1710329777);
+        }
         $this->companyRepository->removeCompany($company, $removeVisitors);
         $this->addFlashMessage('Company completely removed from database');
         return $this->redirect('companies');
@@ -299,6 +327,9 @@ class LeadController extends AbstractController
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         /** @var Visitor $visitor */
         $visitor = $visitorRepository->findByUid((int)$request->getQueryParams()['visitor']);
+        if ($visitor->canBeRead() === false) {
+            throw new AuthenticationException('Not allowed to view this visitor', 1709072495);
+        }
         $filter = ObjectUtility::getFilterDtoFromStartAndEnd($visitor->getDateOfPagevisitFirst(), new DateTime())
             ->setVisitor($visitor);
         $standaloneView->assignMultiple([
@@ -314,6 +345,7 @@ class LeadController extends AbstractController
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      * @noinspection PhpUnused
+     * @throws AuthenticationException
      */
     public function detailCompaniesAjax(ServerRequestInterface $request): ResponseInterface
     {
@@ -326,6 +358,9 @@ class LeadController extends AbstractController
         ));
         $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         $company = $companyRepository->findByUid((int)$request->getQueryParams()['company']);
+        if ($company->canBeRead() === false) {
+            throw new AuthenticationException('Not allowed to view this company', 1709123966);
+        }
         $standaloneView->assignMultiple([
             'company' => $company,
             'visitors' => $visitorRepository->findByCompany($company, 6),
@@ -339,12 +374,16 @@ class LeadController extends AbstractController
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      * @noinspection PhpUnused
+     * @throws AuthenticationException
      */
     public function companiesInformationAjax(ServerRequestInterface $request): ResponseInterface
     {
         $companyRepository = GeneralUtility::makeInstance(CompanyRepository::class);
         /** @var Company $company */
         $company = $companyRepository->findByUid((int)$request->getQueryParams()['company']);
+        if ($company->canBeRead() === false) {
+            throw new AuthenticationException('Not allowed for this action', 1710330640);
+        }
         $result = [
             'numberOfVisits' => $company->getNumberOfVisits(),
             'numberOfVisitors' => $company->getNumberOfVisitors(),
@@ -357,6 +396,7 @@ class LeadController extends AbstractController
      * @return ResponseInterface
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws AuthenticationException
      * @noinspection PhpUnused
      */
     public function detailDescriptionAjax(ServerRequestInterface $request): ResponseInterface
@@ -364,6 +404,9 @@ class LeadController extends AbstractController
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         /** @var Visitor $visitor */
         $visitor = $visitorRepository->findByUid((int)$request->getQueryParams()['visitor']);
+        if ($visitor->canBeRead() === false) {
+            throw new AuthenticationException('Not allowed for this action', 1710330664);
+        }
         $visitor->setDescription($request->getQueryParams()['value']);
         $visitorRepository->update($visitor);
         $visitorRepository->persistAll();
@@ -375,6 +418,7 @@ class LeadController extends AbstractController
      * @return ResponseInterface
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws AuthenticationException
      * @noinspection PhpUnused
      */
     public function detailCompanydescriptionAjax(ServerRequestInterface $request): ResponseInterface
@@ -382,6 +426,9 @@ class LeadController extends AbstractController
         $companyRepository = GeneralUtility::makeInstance(CompanyRepository::class);
         /** @var Company $company */
         $company = $companyRepository->findByUid((int)$request->getQueryParams()['company']);
+        if ($company->canBeRead() === false) {
+            throw new AuthenticationException('Not allowed for this action', 1710330723);
+        }
         $company->setDescription($request->getQueryParams()['value']);
         $companyRepository->update($company);
         $companyRepository->persistAll();
@@ -400,11 +447,19 @@ class LeadController extends AbstractController
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         /** @var Visitor $visitor */
         $visitor = $visitorRepository->findByUid((int)$request->getQueryParams()['visitor']);
+        /** @var Company $company */
         $company = $this->companyRepository->findByUid((int)$request->getQueryParams()['value']);
-        if ($visitor !== null && $company !== null) {
-            $visitor->setCompanyrecord($company);
-            $visitorRepository->update($visitor);
-            $visitorRepository->persistAll();
+
+        if ($visitor !== null && $visitor->canBeRead()) {
+            if ($company !== null) {
+                if ($company->canBeRead()) {
+                    $visitor->setCompanyrecord($company);
+                    $visitorRepository->update($visitor);
+                    $visitorRepository->persistAll();
+                }
+            } else {
+                $visitor->resetCompanyrecord();
+            }
         }
         return GeneralUtility::makeInstance(JsonResponse::class);
     }
@@ -414,6 +469,7 @@ class LeadController extends AbstractController
      * @return ResponseInterface
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
+     * @throws AuthenticationException
      * @noinspection PhpUnused
      */
     public function setCategoryToCompanyAjax(ServerRequestInterface $request): ResponseInterface
@@ -422,11 +478,40 @@ class LeadController extends AbstractController
         $company = $this->companyRepository->findByUid((int)$request->getQueryParams()['company']);
         $category = $this->categoryRepository->findByUid((int)$request->getQueryParams()['value']);
         if ($company !== null && $category !== null) {
+            if ($company->canBeRead() === false) {
+                throw new AuthenticationException('Not allowed for this action', 1710330842);
+            }
             $company->setCategory($category);
             $this->companyRepository->update($company);
             $this->companyRepository->persistAll();
         }
         return GeneralUtility::makeInstance(JsonResponse::class);
+    }
+
+    /**
+     * @return ResponseInterface
+     * @noinspection PhpUnused
+     */
+    public function getOverallLeadsAjax(): ResponseInterface
+    {
+        $filter = BackendUtility::getFilterFromSession('list', 'Lead');
+        $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
+        $amount = $visitorRepository->findAllWithIdentifiedFirstAmount($filter);
+        $label = LocalizationUtility::translateByKey('module.lead.list.overallajax', [$amount]);
+        return $this->jsonResponse(json_encode(['amount' => $amount, 'amountLabel' => $label]));
+    }
+
+    /**
+     * @return ResponseInterface
+     * @noinspection PhpUnused
+     */
+    public function getOverallCompaniesAjax(): ResponseInterface
+    {
+        $filter = BackendUtility::getFilterFromSession('companies', 'Lead');
+        $companyRepository = GeneralUtility::makeInstance(CompanyRepository::class);
+        $amount = $companyRepository->findAmountByFilter($filter);
+        $label = LocalizationUtility::translateByKey('module.lead.list.overallajax', [$amount]);
+        return $this->jsonResponse(json_encode(['amount' => $amount, 'amountLabel' => $label]));
     }
 
     protected function addDocumentHeaderForCurrentController(): void

@@ -8,7 +8,7 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 class Metadata extends AbstractEntity
 {
-    const TABLE_NAME = 'sys_file_metadata';
+    public const TABLE_NAME = 'sys_file_metadata';
 
     /**
      * @var ?ObjectStorage<Category>

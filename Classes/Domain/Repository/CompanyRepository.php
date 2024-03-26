@@ -5,11 +5,13 @@ namespace In2code\Lux\Domain\Repository;
 
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use Exception;
+use In2code\Lux\Domain\Model\Categoryscoring;
 use In2code\Lux\Domain\Model\Company;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Service\BranchService;
+use In2code\Lux\Domain\Service\CountryService;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\DateUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -23,25 +25,28 @@ class CompanyRepository extends AbstractRepository
 
     /**
      * @param FilterDto $filter
-     * @param int $limit
      * @return array
      * @throws ExceptionDbal
      */
-    public function findByFilter(FilterDto $filter, int $limit = 750): array
+    public function findByFilter(FilterDto $filter): array
     {
         $sql = 'select c.uid,sum(v.scoring) companyscoring'
             . ' from ' . Company::TABLE_NAME . ' c'
             . ' left join ' . Visitor::TABLE_NAME . ' v on v.companyrecord = c.uid'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.visitor = v.uid'
+            . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on cs.visitor = v.uid'
             . ' where c.deleted=0 and v.deleted=0 and v.blacklisted=0';
         $sql .= $this->extendWhereClauseWithFilterSearchterms($filter, 'c');
-        $sql .= $this->extendWhereClauseWithFilterBranchCode($filter);
-        $sql .= $this->extendWhereClauseWithFilterCategory($filter, 'c');
+        $sql .= $this->extendWhereClauseWithFilterSite($filter, 'pv');
+        $sql .= $this->extendWhereClauseWithFilterCountry($filter);
         $sql .= $this->extendWhereClauseWithFilterSizeClass($filter, 'c');
         $sql .= $this->extendWhereClauseWithFilterRevenueClass($filter, 'c');
+        $sql .= $this->extendWhereClauseWithFilterBranchCode($filter);
+        $sql .= $this->extendWhereClauseWithFilterCategory($filter, 'c');
         $sql .= ' group by c.uid';
         $sql .= $this->extendWhereClauseWithFilterCompanyscoring($filter);
         $sql .= ' order by companyscoring desc';
-        $sql .= ' limit ' . $limit;
+        $sql .= ' limit ' . $filter->getLimit();
         $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);
         $results = $connection->executeQuery($sql)->fetchAllKeyValue();
 
@@ -55,6 +60,27 @@ class CompanyRepository extends AbstractRepository
             }
         }
         return $companies;
+    }
+
+    public function findAmountByFilter(FilterDto $filter): int
+    {
+        $sql = 'select count(distinct c.uid), sum(v.scoring) companyscoring'
+            . ' from ' . Company::TABLE_NAME . ' c'
+            . ' left join ' . Visitor::TABLE_NAME . ' v on v.companyrecord = c.uid'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.visitor = v.uid'
+            . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on cs.visitor = v.uid'
+            . ' where c.deleted=0 and v.deleted=0 and v.blacklisted=0';
+        $sql .= $this->extendWhereClauseWithFilterSearchterms($filter, 'c');
+        $sql .= $this->extendWhereClauseWithFilterSite($filter, 'pv');
+        $sql .= $this->extendWhereClauseWithFilterCountry($filter);
+        $sql .= $this->extendWhereClauseWithFilterSizeClass($filter, 'c');
+        $sql .= $this->extendWhereClauseWithFilterRevenueClass($filter, 'c');
+        $sql .= $this->extendWhereClauseWithFilterBranchCode($filter);
+        $sql .= $this->extendWhereClauseWithFilterCategory($filter, 'c');
+        $sql .= $this->extendWhereClauseWithFilterCompanyscoring($filter);
+        $sql .= ' limit 1';
+        $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);
+        return (int)$connection->executeQuery($sql)->fetchOne();
     }
 
     public function findByTitleAndDomain(string $title, string $domain): ?Company
@@ -101,15 +127,19 @@ class CompanyRepository extends AbstractRepository
      *      72 => 'Forschung und Entwicklung',
      *  ]
      *
+     * @param FilterDto $filter
      * @return array
      * @throws ExceptionDbal
      */
-    public function findAllBranches(): array
+    public function findAllBranches(FilterDto $filter): array
     {
         $branches = [];
         $sql = 'select c.branch_code'
             . ' from ' . Company::TABLE_NAME . ' c'
+            . ' left join ' . Visitor::TABLE_NAME . ' v on v.companyrecord = c.uid'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.visitor = v.uid'
             . ' where c.deleted=0 and c.branch_code != "00" and c.branch_code != \'\''
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
             . ' group by c.branch_code';
         $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);
         $result = $connection->executeQuery($sql)->fetchAllAssociative();
@@ -133,22 +163,27 @@ class CompanyRepository extends AbstractRepository
      *  ]
      *
      * @param FilterDto $filter
-     * @param int $limit
      * @return array
      * @throws ExceptionDbal
      */
-    public function findRevenueClasses(FilterDto $filter, int $limit = 6): array
+    public function findRevenueClasses(FilterDto $filter): array
     {
         $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);
-        $sql = 'select c.revenue_class, count(c.revenue_class) count'
+        $sql = 'select c.revenue_class, count(distinct c.uid) count'
             . ' from ' . Company::TABLE_NAME . ' c'
             . ' left join ' . Visitor::TABLE_NAME . ' v on v.companyrecord = c.uid'
             . ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.visitor = v.uid'
             . ' where c.revenue_class != \'\''
-            . $this->extendWhereClauseWithFilterCompanyTime($filter)
+            . $this->extendWhereClauseWithFilterSearchterms($filter, 'c')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
+            . $this->extendWhereClauseWithFilterCountry($filter)
+            . $this->extendWhereClauseWithFilterSizeClass($filter, 'c')
+            . $this->extendWhereClauseWithFilterRevenueClass($filter, 'c')
+            . $this->extendWhereClauseWithFilterBranchCode($filter)
+            . $this->extendWhereClauseWithFilterCategory($filter, 'c')
             . ' group by revenue_class having (count > 1) order by count desc limit 100';
         $records = $connection->executeQuery($sql)->fetchAllKeyValue();
-        return array_slice($records, 0, $limit);
+        return array_slice($records, 0, $filter->getLimit());
     }
 
     /**
@@ -161,7 +196,7 @@ class CompanyRepository extends AbstractRepository
      * @return array
      * @throws Exception
      */
-    public function findCompanyAmountOfLastSixMonths(): array
+    public function findCompanyAmountOfLastSixMonths(FilterDto $filter): array
     {
         $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);
         $months = DateUtility::getLatestMonthDatesMultiple(6);
@@ -172,7 +207,14 @@ class CompanyRepository extends AbstractRepository
                 . ' left join ' . Visitor::TABLE_NAME . ' v on v.companyrecord = c.uid'
                 . ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.visitor = v.uid'
                 . ' where pv.crdate <= ' . $month[1]->format('U')
-                . ' and c.deleted=0 and v.deleted=0 and v.blacklisted=0 and pv.deleted=0';
+                . ' and c.deleted=0 and v.deleted=0 and v.blacklisted=0 and pv.deleted=0'
+                . $this->extendWhereClauseWithFilterSearchterms($filter, 'c')
+                . $this->extendWhereClauseWithFilterSite($filter, 'pv')
+                . $this->extendWhereClauseWithFilterCountry($filter)
+                . $this->extendWhereClauseWithFilterSizeClass($filter, 'c')
+                . $this->extendWhereClauseWithFilterRevenueClass($filter, 'c')
+                . $this->extendWhereClauseWithFilterBranchCode($filter)
+                . $this->extendWhereClauseWithFilterCategory($filter, 'c');
             $amounts[$month[0]->format('n')] = $connection->executeQuery($sql)->fetchOne();
         }
         $amounts = array_reverse($amounts, true);
@@ -185,6 +227,46 @@ class CompanyRepository extends AbstractRepository
         return (int)$connection->executeQuery(
             'select count(uid) from ' . Company::TABLE_NAME . ' where hidden=0 and deleted=0;'
         )->fetchOne();
+    }
+
+    /**
+     * [
+     *      'at' => 'Austria',
+     *      'de' => 'Germany',
+     * ]
+     *
+     * @param FilterDto $filter
+     * @return array
+     * @throws ExceptionDbal
+     */
+    public function findCountriesByFilter(FilterDto $filter): array
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);
+        $sql = 'select c.country_code,c.country_code'
+            . ' from ' . Company::TABLE_NAME . ' c'
+            . ' left join ' . Visitor::TABLE_NAME . ' v on v.companyrecord = c.uid'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.visitor = v.uid'
+            . ' where 1'
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
+            . ' group by c.country_code'
+            . ' order by c.country_code asc'
+            . ' limit 500';
+        $rows = $connection->executeQuery($sql)->fetchAllKeyValue();
+        $countryService = GeneralUtility::makeInstance(CountryService::class);
+        return $countryService->extendAlpha2ArrayWithCountryNames($rows);
+    }
+
+    public function canCompanyBeReadBySites(Company $company, array $sites): bool
+    {
+        $sql = 'select c.uid'
+            . ' from ' . Company::TABLE_NAME . ' c'
+            . ' left join ' . Visitor::TABLE_NAME . ' v on v.companyrecord = c.uid'
+            . ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.visitor = v.uid'
+            . ' where v.deleted=0 and v.blacklisted=0 and c.uid=' . $company->getUid()
+            . ' and pv.site in ("' . implode('","', $sites) . '")'
+            . ' limit 1';
+        $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);
+        return (int)$connection->executeQuery($sql)->fetchOne() > 0;
     }
 
     /**
@@ -204,84 +286,6 @@ class CompanyRepository extends AbstractRepository
 
         $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);
         $connection->executeQuery('delete from ' . Company::TABLE_NAME . ' where uid=' . (int)$company->getUid());
-    }
-
-    protected function extendWhereClauseWithFilterBranchCode(FilterDto $filter): string
-    {
-        $sql = '';
-        if ($filter->getBranchCode() > 0) {
-            $sql .= ' and branch_code = ' . $filter->getBranchCode();
-        }
-        return $sql;
-    }
-
-    protected function extendWhereClauseWithFilterCategory(FilterDto $filter, string $table = ''): string
-    {
-        $sql = '';
-        if ($filter->getCategory() !== null) {
-            if ($table !== '') {
-                $table .= '.';
-            }
-            $sql .= ' and ' . $table . 'category = ' . $filter->getCategory()->getUid();
-        }
-        return $sql;
-    }
-
-    protected function extendWhereClauseWithFilterSizeClass(FilterDto $filter, string $table = ''): string
-    {
-        $sql = '';
-        if ($filter->getSizeClass() !== '') {
-            if ($table !== '') {
-                $table .= '.';
-            }
-            $sql .= ' and ' . $table . 'size_class = ' . $filter->getSizeClass();
-        }
-        return $sql;
-    }
-
-    protected function extendWhereClauseWithFilterRevenueClass(FilterDto $filter, string $table = ''): string
-    {
-        $sql = '';
-        if ($filter->getRevenueClass() !== '') {
-            if ($table !== '') {
-                $table .= '.';
-            }
-            $sql .= ' and ' . $table . 'revenue_class = ' . $filter->getRevenueClass();
-        }
-        return $sql;
-    }
-
-    /**
-     * Building subquery for filter by time to keep scoring as it is
-     *
-     * @param FilterDto $filter
-     * @return string
-     */
-    protected function extendJoinToPagevisitsForPagevisitTimeFilter(FilterDto $filter): string
-    {
-        $sql = '';
-        if ($filter->isTimeFromOrTimeToSet()) {
-            $sql = ' left join (
-                select distinct pv.visitor
-                from ' . Pagevisit::TABLE_NAME . ' pv
-                where 1' . $this->extendWhereClauseWithFilterCompanyTime($filter) . '
-            ) subquery ON subquery.visitor = v.uid';
-        }
-        return $sql;
-    }
-
-    protected function extendWhereClauseWithFilterCompanyTime(FilterDto $filter): string
-    {
-        $sql = '';
-        if ($filter->isTimeFromOrTimeToSet()) {
-            if ($filter->getTimeFrom() !== '') {
-                $sql .= ' and pv.crdate >= ' . $filter->getTimeFromDateTime()->format('U');
-            }
-            if ($filter->getTimeTo() !== '') {
-                $sql .= ' and pv.crdate <= ' . $filter->getTimeToDateTime()->format('U');
-            }
-        }
-        return $sql;
     }
 
     protected function extendWhereClauseWithFilterCompanyscoring(FilterDto $filter): string

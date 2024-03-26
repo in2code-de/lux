@@ -6,7 +6,6 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
 use DateTime;
-use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use Exception;
 use In2code\Lux\Domain\Model\Download;
@@ -21,20 +20,20 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 class DownloadRepository extends AbstractRepository
 {
     /**
-     * @param string $href
-     * @param int $limit
+     * @param FilterDto $filter
      * @return QueryResultInterface
      * @throws InvalidQueryException
      */
-    public function findByHref(string $href, int $limit = 100): QueryResultInterface
+    public function findByFilter(FilterDto $filter): QueryResultInterface
     {
         $query = $this->createQuery();
         $logicalAnd = [
-            $query->equals('href', $href),
             $query->greaterThan('visitor.uid', 0),
         ];
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
+        $logicalAnd = $this->extendWithExtendedFilterQuery($filter, $query, $logicalAnd);
         $query->matching($query->logicalAnd(...$logicalAnd));
-        $query->setLimit($limit);
+        $query->setLimit($filter->getLimit());
         return $query->execute();
     }
 
@@ -50,7 +49,7 @@ class DownloadRepository extends AbstractRepository
     {
         $query = $this->createQuery();
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, []);
-        $logicalAnd = $this->extendWithExtendedFilterQuery($query, $logicalAnd, $filter);
+        $logicalAnd = $this->extendWithExtendedFilterQuery($filter, $query, $logicalAnd);
         $query->matching($query->logicalAnd(...$logicalAnd));
         $assets = $query->execute(true);
 
@@ -101,7 +100,7 @@ class DownloadRepository extends AbstractRepository
             $query->greaterThanOrEqual('crdate', $start->format('U')),
             $query->lessThanOrEqual('crdate', $end->format('U')),
         ];
-        $logicalAnd = $this->extendWithExtendedFilterQuery($query, $logicalAnd, $filter);
+        $logicalAnd = $this->extendWithExtendedFilterQuery($filter, $query, $logicalAnd);
         $query->matching($query->logicalAnd(...$logicalAnd));
         return $query->execute()->count();
     }
@@ -109,7 +108,6 @@ class DownloadRepository extends AbstractRepository
     /**
      * @return int
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     public function findAllAmount(): int
     {
@@ -123,7 +121,6 @@ class DownloadRepository extends AbstractRepository
      * @return int
      * @throws ExceptionDbal
      * @throws Exception
-     * @throws ExceptionDbalDriver
      */
     public function findAmountByPageIdentifierAndTimeFrame(int $pageIdentifier, FilterDto $filter): int
     {
@@ -142,12 +139,14 @@ class DownloadRepository extends AbstractRepository
      * @throws InvalidQueryException
      */
     protected function extendWithExtendedFilterQuery(
+        FilterDto $filter,
         QueryInterface $query,
-        array $logicalAnd,
-        FilterDto $filter = null
+        array $logicalAnd
     ): array {
-        if ($filter !== null) {
-            if ($filter->getSearchterm() !== '') {
+        if ($filter->isHrefSet()) {
+            $logicalAnd[] = $query->equals('href', $filter->getHrefRaw());
+        } else {
+            if ($filter->isSearchtermSet()) {
                 $logicalOr = [];
                 foreach ($filter->getSearchterms() as $searchterm) {
                     if (MathUtility::canBeInterpretedAsInteger($searchterm)) {
@@ -158,16 +157,14 @@ class DownloadRepository extends AbstractRepository
                 }
                 $logicalAnd[] = $query->logicalOr(...$logicalOr);
             }
-            if ($filter->getScoring() > 0) {
-                $logicalAnd[] = $query->greaterThanOrEqual('visitor.scoring', $filter->getScoring());
-            }
-            if ($filter->getCategoryScoring() !== null) {
-                $logicalAnd[] = $query->equals('visitor.categoryscorings.category', $filter->getCategoryScoring());
-            }
-            if ($filter->getDomain() !== '') {
-                $logicalAnd[] = $query->equals('domain', $filter->getDomain());
-            }
         }
+        if ($filter->isScoringSet()) {
+            $logicalAnd[] = $query->greaterThanOrEqual('visitor.scoring', $filter->getScoring());
+        }
+        if ($filter->isCategoryScoringSet()) {
+            $logicalAnd[] = $query->equals('visitor.categoryscorings.category', $filter->getCategoryScoring());
+        }
+        $logicalAnd[] = $query->in('site', $filter->getSitesForFilter());
         return $logicalAnd;
     }
 }

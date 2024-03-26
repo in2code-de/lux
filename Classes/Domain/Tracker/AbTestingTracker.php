@@ -14,36 +14,13 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 
-/**
- * AbTestingTracker
- */
 class AbTestingTracker
 {
-    /**
-     * @var Visitor|null
-     */
-    protected $visitor = null;
+    protected ?Visitor $visitor = null;
+    protected ?LogService $logService = null;
+    protected ?AbTestingPageRepository $abTestingPageRepository = null;
+    protected ?AbpagevisitRepository $abpagevisitRepository = null;
 
-    /**
-     * @var LogService|null
-     */
-    protected $logService = null;
-
-    /**
-     * @var AbTestingPageRepository|null
-     */
-    protected $abTestingPageRepository = null;
-
-    /**
-     * @var AbpagevisitRepository|null
-     */
-    protected $abpagevisitRepository = null;
-
-    /**
-     * Constructor
-     *
-     * @param Visitor $visitor
-     */
     public function __construct(Visitor $visitor)
     {
         $this->visitor = $visitor;

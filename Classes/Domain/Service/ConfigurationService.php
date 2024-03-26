@@ -16,7 +16,7 @@ use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
  */
 class ConfigurationService implements SingletonInterface
 {
-    const EXTENSION_NAME = 'Lux';
+    public const EXTENSION_NAME = 'Lux';
 
     protected array $settings = [];
 

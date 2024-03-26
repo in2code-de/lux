@@ -61,6 +61,9 @@
             </div>
         </div>
         <div class="col-md-4">
+            <f:alias map="{type:'download'}">
+                <f:render partial="Box/Miscellaneous/FilterInformation" arguments="{_all}"/>
+            </f:alias>
             <f:alias map="{headerPostfix: '{lux:format.getFilenameFromPathAndFilename(pathAndFilename:downloads.0.href)}'}">
                 <f:render partial="Box/Analysis/Downloads" arguments="{_all}"/>
             </f:alias>

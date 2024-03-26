@@ -26,7 +26,6 @@ use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\RenderingTimeService;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ConfigurationUtility;
-use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Backend\Module\ExtbaseModule;
@@ -136,7 +135,7 @@ abstract class AbstractController extends ActionController
      * Always set a default FilterDto even if there are no filter params. In addition, remove categoryScoring with 0 to
      * avoid propertymapping exceptions
      *
-     * @param int $timePeriod
+     * @param int $timePeriod if anything else then default (0) is given, $filter->isPeriodSet() will be true
      * @return void
      * @throws NoSuchArgumentException
      */
@@ -148,47 +147,19 @@ abstract class AbstractController extends ActionController
 
         // Save to session
         if ($this->request->hasArgument('filter') === false) {
-            $filter = BackendUtility::getSessionValue('filter', $this->getActionName(), $this->getControllerName());
-            $filter = array_merge(['timePeriod' => $timePeriod], $filter);
+            $filter = BackendUtility::getFilterArrayFromSession($this->getActionName(), $this->getControllerName());
+            if ($filter === []) {
+                $filter['timePeriodDefault'] = $timePeriod;
+            }
         } else {
             $filter = (array)$this->request->getArgument('filter');
             BackendUtility::saveValueToSession('filter', $this->getActionName(), $this->getControllerName(), $filter);
         }
 
-        if (array_key_exists('categoryScoring', $filter)
-            && (is_array($filter['categoryScoring']) || $filter['categoryScoring'] === '')) {
-            $filter['categoryScoring'] = 0;
-        }
-        if (array_key_exists('branchCode', $filter)
-            && (is_array($filter['branchCode']) || $filter['branchCode'] === '')) {
-            $filter['branchCode'] = 0;
-        }
         if (isset($filter['identified']) && $filter['identified'] === '') {
             $filter['identified'] = FilterDto::IDENTIFIED_ALL;
         }
         $this->request = $this->request->withArgument('filter', $filter);
-    }
-
-    protected function getFilterFromSessionForAjaxRequests(string $action, string $searchterm = ''): FilterDto
-    {
-        $filterValues = BackendUtility::getSessionValue('filter', $action, $this->getControllerName());
-        $filter = ObjectUtility::getFilterDto();
-        if (!empty($searchterm)) {
-            $filter->setSearchterm($searchterm);
-        }
-        if (!empty($filterValues['timeFrom'])) {
-            $filter->setTimeFrom((string)$filterValues['timeFrom']);
-        }
-        if (!empty($filterValues['timeTo'])) {
-            $filter->setTimeTo((string)$filterValues['timeTo']);
-        }
-        if (!empty($filterValues['scoring'])) {
-            $filter->setScoring((int)$filterValues['scoring']);
-        }
-        if (!empty($filterValues['categoryscoring'])) {
-            $filter->setCategoryScoring((int)$filterValues['categoryscoring']);
-        }
-        return $filter;
     }
 
     public function resetFilterAction(string $redirectAction): ResponseInterface

@@ -4,8 +4,7 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider;
 
 use DateTime;
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Linkclick;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
@@ -45,8 +44,7 @@ class AllLinkclickDataProvider extends AbstractDynamicFilterDataProvider
      *      'max-y' => 100 // max value for logarithmic y-axes
      *  ]
      * @return void
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     public function prepareData(): void
     {
@@ -82,8 +80,7 @@ class AllLinkclickDataProvider extends AbstractDynamicFilterDataProvider
      * @param DateTime $end
      * @param string $pagelist
      * @return int
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     protected function getAmountOfPagevisitsInTimeframeAndPagelist(
         DateTime $start,
@@ -93,7 +90,8 @@ class AllLinkclickDataProvider extends AbstractDynamicFilterDataProvider
         $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
         $sql = 'select count(*) from ' . Pagevisit::TABLE_NAME
             . ' where crdate >= ' . $start->getTimestamp() . ' and crdate <= ' . $end->getTimestamp()
-            . ' and deleted=0';
+            . ' and deleted=0'
+            . ' and site in ("' . implode('","', $this->filter->getSitesForFilter()) . '")';
         if ($pagelist !== '') {
             $sql .= ' and page in (' . $pagelist . ')';
         }
@@ -105,8 +103,7 @@ class AllLinkclickDataProvider extends AbstractDynamicFilterDataProvider
      *
      * @param array $intervals
      * @return string
-     * @throws DBALException
-     * @throws ExceptionDbalDriver
+     * @throws ExceptionDbal
      */
     protected function getRelatedPageListToLinkclicks(array $intervals): string
     {
@@ -117,7 +114,9 @@ class AllLinkclickDataProvider extends AbstractDynamicFilterDataProvider
         $connection = DatabaseUtility::getConnectionForTable(Linkclick::TABLE_NAME);
         return (string)$connection->executeQuery(
             'select group_concat(distinct page) from ' . Linkclick::TABLE_NAME
-            . ' where crdate >= ' . $start->getTimestamp() . ' and crdate <= ' . $end->getTimestamp() . ' and deleted=0'
+            . ' where crdate >= ' . $start->getTimestamp() . ' and crdate <= ' . $end->getTimestamp()
+            . ' and deleted=0'
+            . ' and site in ("' . implode('","', $this->filter->getSitesForFilter()) . '")'
         )->fetchOne();
     }
 }

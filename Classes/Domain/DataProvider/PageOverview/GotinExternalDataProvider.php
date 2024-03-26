@@ -20,15 +20,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class GotinExternalDataProvider extends AbstractDataProvider
 {
-    /**
-     * @var FilterDto|null
-     */
-    protected $filter = null;
-
-    /**
-     * @var PagevisitRepository|null
-     */
-    protected $pagevisitRepository = null;
+    protected ?FilterDto $filter = null;
+    protected ?PagevisitRepository $pagevisitRepository = null;
 
     /**
      * Constructor

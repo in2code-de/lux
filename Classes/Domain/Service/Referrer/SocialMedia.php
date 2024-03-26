@@ -47,7 +47,7 @@ class SocialMedia
             ],
         ],
         [
-            'name' => 'Twitter',
+            'name' => 'X (Twitter)',
             'domains' => [
                 't.co',
                 'www.twitter.com',
@@ -72,6 +72,52 @@ class SocialMedia
             'name' => 'Vimeo',
             'domains' => [
                 'vimeo.com',
+            ],
+        ],
+        [
+            'name' => 'Reddit',
+            'domains' => [
+                'www.reddit.com',
+                'reddit.com',
+                'old.reddit.com',
+                'm.reddit.com',
+            ],
+        ],
+        [
+            'name' => 'Pinterest',
+            'domains' => [
+                'www.pinterest.com',
+                'pinterest.com',
+                'm.pinterest.com',
+            ],
+        ],
+        [
+            'name' => 'Tumblr',
+            'domains' => [
+                'www.tumblr.com',
+                'tumblr.com',
+                'm.tumblr.com',
+            ],
+        ],
+        [
+            'name' => 'TikTok',
+            'domains' => [
+                'www.tiktok.com',
+                'm.tiktok.com',
+                'tiktok.com',
+            ],
+        ],
+        [
+            'name' => 'Mastodon',
+            'domains' => [
+                'mastodon.social',
+            ],
+        ],
+        [
+            'name' => 'Threads',
+            'domains' => [
+                'www.threads.net',
+                'l.threads.net',
             ],
         ],
     ];

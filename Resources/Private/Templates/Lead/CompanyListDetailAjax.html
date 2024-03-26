@@ -164,12 +164,25 @@
                     <tr>
                         <td>
                             <span title="UID{visitor.uid}">
-                                <f:be.link
-                                    route="lux_LuxLead"
-                                    title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview.link',arguments:'{0:visitor.fullName}')}"
-                                    parameters="{tx_lux_lux_luxlead:'{visitor:visitor.uid,action:\'detail\',controller:\'Lead\'}'}">
-                                    {visitor.fullName}
-                                </f:be.link>
+                                <!-- Todo: Can be removed if TYPO3 11 support is dropped -->
+                                <lux:condition.isTypo3Eleven>
+                                    <f:then>
+                                        <f:be.link
+                                            route="lux_LuxLead"
+                                            title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview.link',arguments:'{0:visitor.fullName}')}"
+                                            parameters="{tx_lux_lux_luxlead:'{visitor:visitor.uid,action:\'detail\',controller:\'Lead\'}'}">
+                                            {visitor.fullName}
+                                        </f:be.link>
+                                    </f:then>
+                                    <f:else>
+                                        <f:be.link
+                                            route="lux_LuxLead.Lead_detail"
+                                            title="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverview.link',arguments:'{0:visitor.fullName}')}"
+                                            parameters="{visitor:visitor.uid}">
+                                            {visitor.fullName}
+                                        </f:be.link>
+                                    </f:else>
+                                </lux:condition.isTypo3Eleven>
                             </span>
                         </td>
                         <td>
