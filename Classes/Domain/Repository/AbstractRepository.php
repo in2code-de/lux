@@ -46,6 +46,9 @@ abstract class AbstractRepository extends Repository
      */
     protected function convertIdentifiersToObjects(array $identifiers, string $tableName): array
     {
+        if ($identifiers === []) {
+            return [];
+        }
         $identifierList = implode(',', $identifiers);
         $sql = 'select * from ' . $tableName . ' where uid in (' . $identifierList . ')'
             . 'ORDER BY FIELD(uid, ' . $identifierList . ')';
