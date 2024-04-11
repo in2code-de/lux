@@ -1293,7 +1293,14 @@ class Visitor extends AbstractModel
      */
     public function getCountry(): string
     {
-        return $this->getPropertyFromIpinformations('country');
+        $country = $this->getPropertyFromAttributes('country');
+        if (empty($country)) {
+            $country = $this->getPropertyFromIpinformations('country');
+        }
+        if (empty($country)) {
+            $country = $this->getPropertyFromIpinformations('countryCode');
+        }
+        return $country;
     }
 
     /**
