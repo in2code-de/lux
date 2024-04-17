@@ -7,6 +7,7 @@ use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\DatabaseUtility;
+use In2code\Lux\Utility\EnvironmentUtility;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Type\Bitmask\Permission;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
@@ -65,7 +66,7 @@ trait PermissionTrait
      */
     private function isAuthenticatedForRecord(int $identifier, string $table): bool
     {
-        if (BackendUtility::isAdministrator()) {
+        if (EnvironmentUtility::isBackend() === false || BackendUtility::isAdministrator()) {
             return true;
         }
 

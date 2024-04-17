@@ -18,6 +18,7 @@ use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\DatabaseUtility;
+use In2code\Lux\Utility\EnvironmentUtility;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
@@ -1177,7 +1178,7 @@ class Visitor extends AbstractModel
      */
     public function canBeRead(): bool
     {
-        if (BackendUtility::isAdministrator()) {
+        if (EnvironmentUtility::isBackend() === false || BackendUtility::isAdministrator()) {
             return true;
         }
         $sites = GeneralUtility::makeInstance(SiteService::class)->getAllowedSites();
