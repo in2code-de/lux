@@ -6,6 +6,7 @@ namespace In2code\Lux\Domain\Model;
 use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Exception\FingerprintMustNotBeEmptyException;
 use In2code\Lux\Utility\BackendUtility;
+use In2code\Lux\Utility\EnvironmentUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use WhichBrowser\Parser;
 
@@ -168,7 +169,7 @@ class Fingerprint extends AbstractModel
      */
     public function canBeRead(): bool
     {
-        if (BackendUtility::isAdministrator() || $this->site === '') {
+        if (EnvironmentUtility::isBackend() === false || BackendUtility::isAdministrator() || $this->site === '') {
             return true;
         }
         $sites = GeneralUtility::makeInstance(SiteService::class)->getAllowedSites();

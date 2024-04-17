@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace In2code\Lux\Utility;
 
 use In2code\Lux\Domain\Service\SiteService;
-use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
@@ -54,15 +53,6 @@ class FrontendUtility
             return (string)$tsfe->fe_user->user[$propertyName];
         }
         return '';
-    }
-
-    /**
-     * @return bool
-     * @SuppressWarnings(PHPMD.Superglobals)
-     */
-    public static function isFrontendMode(): bool
-    {
-        return ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend();
     }
 
     /**

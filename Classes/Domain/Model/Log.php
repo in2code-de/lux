@@ -9,6 +9,7 @@ use In2code\Lux\Domain\Repository\SearchRepository;
 use In2code\Lux\Domain\Repository\UtmRepository;
 use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Utility\BackendUtility;
+use In2code\Lux\Utility\EnvironmentUtility;
 use In2code\Luxenterprise\Domain\Model\AbTestingPage;
 use In2code\Luxenterprise\Domain\Repository\AbTestingPageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -211,7 +212,7 @@ class Log extends AbstractModel
      */
     public function canBeRead(): bool
     {
-        if (BackendUtility::isAdministrator() || $this->site === '') {
+        if (EnvironmentUtility::isBackend() === false || BackendUtility::isAdministrator() || $this->site === '') {
             return true;
         }
         $sites = GeneralUtility::makeInstance(SiteService::class)->getAllowedSites();

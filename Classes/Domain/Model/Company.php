@@ -12,6 +12,7 @@ use In2code\Lux\Domain\Service\CountryService;
 use In2code\Lux\Domain\Service\Image\CompanyImageService;
 use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Utility\BackendUtility;
+use In2code\Lux\Utility\EnvironmentUtility;
 use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
@@ -361,7 +362,7 @@ class Company extends AbstractEntity
      */
     public function canBeRead(): bool
     {
-        if (BackendUtility::isAdministrator()) {
+        if (EnvironmentUtility::isBackend() === false || BackendUtility::isAdministrator()) {
             return true;
         }
         $sites = GeneralUtility::makeInstance(SiteService::class)->getAllowedSites();

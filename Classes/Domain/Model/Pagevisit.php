@@ -8,6 +8,7 @@ use In2code\Lux\Domain\Repository\NewsvisitRepository;
 use In2code\Lux\Domain\Service\Referrer\Readable;
 use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Utility\BackendUtility;
+use In2code\Lux\Utility\EnvironmentUtility;
 use In2code\Lux\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -203,7 +204,7 @@ class Pagevisit extends AbstractModel
      */
     public function canBeRead(): bool
     {
-        if (BackendUtility::isAdministrator() || $this->site === '') {
+        if (EnvironmentUtility::isBackend() === false || BackendUtility::isAdministrator() || $this->site === '') {
             return true;
         }
         $sites = GeneralUtility::makeInstance(SiteService::class)->getAllowedSites();
