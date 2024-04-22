@@ -115,6 +115,11 @@ function LuxMain() {
   /**
    * Callback and dispatcher function for all workflow actions (part of the Enterprise Edition)
    *
+   *  Signal can be used in own code after action is performed with:
+   *    document.addEventListener('luxWorkflowAction', (event) => {
+   *      console.log(event);
+   *    })
+   *
    * @params {Json} response
    * @returns {void}
    */
@@ -125,6 +130,9 @@ function LuxMain() {
           that[response[i]['action'] + 'WorkflowAction'](response[i]);
         } catch (error) {
           console.log(error);
+        } finally {
+          const event = new CustomEvent('luxWorkflowAction', { detail: response[i] });
+          window.dispatchEvent(event);
         }
       }
     }
