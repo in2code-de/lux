@@ -125,6 +125,9 @@ function LuxMain() {
           that[response[i]['action'] + 'WorkflowAction'](response[i]);
         } catch (error) {
           console.log(error);
+        } finally {
+          const event = new CustomEvent('luxWorkflowAction', { detail: response[i] });
+          window.dispatchEvent(event);
         }
       }
     }
