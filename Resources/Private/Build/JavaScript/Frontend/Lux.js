@@ -336,6 +336,34 @@ function LuxMain() {
 
   /**
    * Callback for generalWorkflowActionCallback()
+   * "insertText" (part of the Enterprise Edition)
+   *
+   * @param response
+   */
+  this.insertTextWorkflowAction = function(response) {
+    delayFunctionDispatcher(response['configuration']['delay'], 'insertText', response);
+  };
+
+  /**
+   * Callback for insertTextWorkflowAction() (after a delay function (e.g. pageLoadDelayFunction())
+   *
+   * @param response
+   */
+  this.insertTextAfterDelay = function(response) {
+    let selection = response['configuration']['domselection'];
+    let text = response['configuration']['text'];
+    let elements = document.querySelectorAll(selection);
+    elements.forEach(function(element) {
+      if (element.getAttribute('value') !== null) {
+        element.setAttribute('value', text);
+      } else {
+        element.innerHTML = text;
+      }
+    });
+  };
+
+  /**
+   * Callback for generalWorkflowActionCallback()
    * Not a real workflowAction but more a finisher action to stop asking for email addresses on email4link clicks if
    * the visitor is already known (only with a cookie "luxDisableEmail4Link"
    *
