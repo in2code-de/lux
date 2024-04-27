@@ -185,6 +185,7 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
   * Content manipulation: Hide or show an element of the current page
   * Content manipulation: Redirect visitor to another page
   * Content manipulation: Change page title
+  * Content manipulation: Show lead property on current page
   * Notification: Sends an email
   * Notification: Publish a message to a slack channel
   * Notification: Send an SMS to a mobile number
