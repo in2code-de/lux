@@ -23,8 +23,7 @@
     "watch": "./node_modules/gulp/bin/gulp.js default"
   },
   "dependencies": {
-    "@fingerprintjs/fingerprintjs": "^2.1.0",
-    "basiclightbox": "^5.0.0",
-    "ua-parser-js": "^0.7.31"
+    "@thumbmarkjs/thumbmarkjs": "^0.14.7",
+    "basiclightbox": "^5.0.0"
   }
 }

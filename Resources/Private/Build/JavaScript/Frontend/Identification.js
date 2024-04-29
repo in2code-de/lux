@@ -1,5 +1,4 @@
-import UAParser from 'ua-parser-js';
-import Fingerprint2 from '@fingerprintjs/fingerprintjs';
+import { getFingerprint, setOption } from '@thumbmarkjs/thumbmarkjs'
 
 /**
  * LuxIdentification functions
@@ -161,23 +160,15 @@ export default function LuxIdentification() {
    * @returns {void}
    */
   var callFingerprintFunctionAndSetValue = function () {
-    Fingerprint2.get({
-      preprocessor: function (key, value) {
-        if (key === 'userAgent') {
-          var parser = new UAParser(value);
-          var userAgentWithoutVersion = parser.getOS().name + ' ' + parser.getBrowser().name;
-          return userAgentWithoutVersion;
-        }
-        return value
-      }
-    }, function (components) {
-      var hashValue = getCombinedComponentValue(components);
-      that.identificator = Fingerprint2.x64hash128(hashValue, 31);
+    setOption('exclude', ['webgl', 'system.browser.version]'])
+    getFingerprint().then((fingerprint) => {
+      this.identificator = fingerprint['hash'] ?? fingerprint;
+
       if (isDebugMode() === true) {
         console.log('Debug: Fingerprint values', components);
         console.log('Debug: Fingerprint is "' + that.identificator + '"');
       }
-    });
+    })
   };
 
   /**
