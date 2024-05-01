@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@thumbmarkjs/thumbmarkjs": "^0.14.7",
-    "basiclightbox": "^5.0.0"
+    "basiclightbox": "^5.0.0",
+    "md5": "^2.3.0"
   }
 }

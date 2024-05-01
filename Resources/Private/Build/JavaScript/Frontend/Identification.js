@@ -1,4 +1,5 @@
-import { getFingerprint, setOption } from '@thumbmarkjs/thumbmarkjs'
+import { getFingerprint, setOption, getFingerprintData } from '@thumbmarkjs/thumbmarkjs'
+import md5 from 'md5'
 
 /**
  * LuxIdentification functions
@@ -162,10 +163,10 @@ export default function LuxIdentification() {
   var callFingerprintFunctionAndSetValue = function () {
     setOption('exclude', ['webgl', 'system.browser.version]'])
     getFingerprint().then((fingerprint) => {
-      this.identificator = fingerprint['hash'] ?? fingerprint;
+      that.identificator = md5(fingerprint);
 
       if (isDebugMode() === true) {
-        console.log('Debug: Fingerprint values', components);
+        console.log('Debug: Fingerprint values', getFingerprintData());
         console.log('Debug: Fingerprint is "' + that.identificator + '"');
       }
     })
