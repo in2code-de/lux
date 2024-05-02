@@ -161,7 +161,7 @@ export default function LuxIdentification() {
    * @returns {void}
    */
   var callFingerprintFunctionAndSetValue = function () {
-    setOption('exclude', ['webgl', 'system.browser.version'])
+    setOption('exclude', ['system.browser.version'])
     getFingerprint().then((fingerprint) => {
       that.identificator = md5(fingerprint);
 
