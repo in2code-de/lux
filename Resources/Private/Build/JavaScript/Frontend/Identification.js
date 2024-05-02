@@ -1,5 +1,4 @@
 import { getFingerprint, setOption, getFingerprintData } from '@thumbmarkjs/thumbmarkjs'
-import md5 from 'md5'
 
 /**
  * LuxIdentification functions
@@ -162,8 +161,15 @@ export default function LuxIdentification() {
    */
   var callFingerprintFunctionAndSetValue = function () {
     setOption('exclude', ['system.browser.version'])
+
     getFingerprint().then((fingerprint) => {
-      that.identificator = md5(fingerprint);
+      // make sure that the fingerprint is always 32 characters long
+      // and fill it with 0 if it is shorter.
+      // This is necessary because Lux handles hashes differently
+      // depending on hash length in the backend.
+      const computedFingerprint = `${'0'.repeat(32 - fingerprint.length)}${fingerprint}`;
+
+      that.identificator = computedFingerprint;
 
       if (isDebugMode() === true) {
         console.log('Debug: Fingerprint values', getFingerprintData());
