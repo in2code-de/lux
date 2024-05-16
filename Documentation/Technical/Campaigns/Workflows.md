@@ -84,6 +84,7 @@ Possible actions by default are:
 * Content manipulation: Hide or show an element of the current page
 * Content manipulation: Redirect visitor to another page
 * Content manipulation: Change page title
+* Content manipulation: Show lead property on current page
 * Notification: Sends an email
 * Notification: Publish a message to a slack channel
 * Notification: Send an SMS to a mobile number
@@ -579,6 +580,23 @@ lib.lux.settings {
 
         # Templatefile for implementation of the form in workflow module
         templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/Title.html
+
+        # Additional configuration
+        configuration {
+          # Any configuration - available as array in Template File and Action class for some own magic
+        }
+      }
+
+      # Show lead information on the website
+      160 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:action.leadproperty
+
+        # Classname for implementation of the action itself
+        className = In2code\Luxenterprise\Domain\Workflow\Action\LeadPropertyAction
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Action/LeadProperty.html
 
         # Additional configuration
         configuration {
