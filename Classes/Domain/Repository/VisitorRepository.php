@@ -775,12 +775,8 @@ class VisitorRepository extends AbstractRepository
         if ($filter->isSearchtermSet()) {
             $tablePrefix = ($table !== '' ? $table . '.' : '');
             $or = [];
+            $sql .= ' ' . $concatenation . ' (';
             foreach ($filter->getSearchterms() as $searchterm) {
-                $searchterm = StringUtility::cleanString($searchterm);
-                if ($sql === '') {
-                    $sql .= ' ' . $concatenation . ' (';
-                }
-
                 if (MathUtility::canBeInterpretedAsInteger($searchterm)) {
                     $or[] = ' ' . $tablePrefix . 'uid = ' . (int)$searchterm;
                 } else {
@@ -790,9 +786,8 @@ class VisitorRepository extends AbstractRepository
                     $or[] = ' ' . $tablePrefix . 'description like "%' . $searchterm . '%"';
                     $or[] = ' a.value like "%' . $searchterm . '%"';
                 }
-                $sql .= implode(' or ', $or);
             }
-
+            $sql .= implode(' or ', $or);
             $sql .= ')';
         }
         return $sql;
