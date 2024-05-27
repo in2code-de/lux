@@ -76,7 +76,7 @@ want to add the attribute "newsletter" with value 1 for a possible newsletter re
   "properties": {
     "visitor": {
       "attributes": {
-        "": {
+        "0": {
           "name": "newsletter",
           "value": "1"
         }
@@ -94,7 +94,7 @@ want to add the attribute "newsletter" with value 1 for a possible newsletter re
 CURL example:
 
 ```
-curl -k -d 'tx_luxenterprise_api[arguments]={"endpoint":"create","merge":{"mergeByEmail":0,"mergeByFingerprint":1},"properties":{"visitor":{"attributes":{"":{"name":"newsletter","value":"1"}},"fingerprints":{"0":{"value":"abcdef123456789foobar"}}}}}' -H 'Api-Key: abc...' --url https://www.in2code.de/luxenterprise_api.json
+curl -k -d 'tx_luxenterprise_api[arguments]={"endpoint":"create","merge":{"mergeByEmail":0,"mergeByFingerprint":1},"properties":{"visitor":{"attributes":{"0":{"name":"newsletter","value":"1"}},"fingerprints":{"0":{"value":"abcdef123456789foobar"}}}}}' -H 'Api-Key: abc...' --url https://www.in2code.de/luxenterprise_api.json
 ```
 
 **Note:** If you want to get the fingerprint value of the current visitor via JavaScript, following example could help:
