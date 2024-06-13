@@ -18,6 +18,7 @@
 
 | Version    | Date       | State    | Description                                                                                                                                                                                |
 |------------|------------|----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 26.9.1     | 2024-06-13 | Bugfix   | Backport: Use latest pagevisit and latest log entry to show date of latest visit                                                                                                           |
 | 26.9.0     | 2024-05-27 | Feature  | Show also first page visit and referrer in CSV downloads of lead list                                                                                                                      |
 | 26.8.0     | 2024-04-11 | Feature  | Extend Lead CSV download with country, last visit and last download                                                                                                                        |
 | 26.7.0     | 2024-03-19 | Feature  | Remove all domains from referrer diagram where referrers are from local instance                                                                                                           |
