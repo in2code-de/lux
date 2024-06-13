@@ -1046,10 +1046,20 @@ class Visitor extends AbstractModel
     public function getDateOfLastVisit(): ?DateTime
     {
         $log = $this->getLatestLog();
-        if ($log !== null) {
-            return $log->getCrdate();
+        $pagevisit = $this->getLastPagevisit();
+
+        $date = null;
+        if ($pagevisit !== null) {
+            $date = $pagevisit->getCrdate();
         }
-        return null;
+        if ($log !== null) {
+            $date = $log->getCrdate();
+            if ($pagevisit !== null && $pagevisit->getCrdate() > $log->getCrdate()) {
+                $date = $pagevisit->getCrdate();
+            }
+        }
+
+        return $date;
     }
 
     /**
