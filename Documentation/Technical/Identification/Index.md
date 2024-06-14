@@ -114,6 +114,13 @@ Example powermail form in frontend:
 Example lead identification in dashboard:
 <img src="../../../Documentation/Images/documentation_identification_fieldmapping_dashboard.png" width="800" />
 
+**Note:** Re-Initialization for forms, loaded via AJAX can also be done with a script like:
+
+```
+const lux = LuxSingleton.getInstance();
+lux.addFieldListeners();
+```
+
 
 #### 2. FormFieldMapping
 
@@ -269,6 +276,13 @@ Form in frontend:
 
 Example lead identification in dashboard:
 <img src="../../../Documentation/Images/documentation_identification_formmapping_dashboard.png" width="800" />
+
+**Note:** Re-Initialization for forms, loaded via AJAX can also be done with a script like:
+
+```
+const lux = LuxSingleton.getInstance();
+lux.addFormListeners();
+```
 
 
 #### 3. Email4link
