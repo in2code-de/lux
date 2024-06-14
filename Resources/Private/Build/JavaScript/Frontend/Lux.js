@@ -606,8 +606,8 @@ function LuxMain() {
   var track = function() {
     if (identification.isIdentificatorSet()) {
       pageRequest();
-      addFieldListeners();
-      addFormListeners();
+      that.addFieldListeners();
+      that.addFormListeners();
       addDownloadListener();
       addLinkListenerListener();
       addRedirectListener();
@@ -691,31 +691,30 @@ function LuxMain() {
   /**
    * @returns {void}
    */
-  var addFieldListeners = function() {
-    var query = 'form:not([data-lux-form-identification]) input:not([data-lux-disable]):not([type="hidden"]):not([type="submit"]), ';
-    query += 'form:not([data-lux-form-identification]) textarea:not([data-lux-disable]), ';
-    query += 'form:not([data-lux-form-identification]) select:not([data-lux-disable]), ';
-    query += 'form:not([data-lux-form-identification]) radio:not([data-lux-disable]), ';
-    query += 'form:not([data-lux-form-identification]) check:not([data-lux-disable])';
-    var elements = document.querySelectorAll(query);
-    for (var i = 0; i < elements.length; i++) {
-      var element = elements[i];
+  this.addFieldListeners = function() {
+    let query = 'form:not([data-lux-form-identification]):not([data-lux-form-initialized]) input:not([data-lux-disable]):not([type="hidden"]):not([type="submit"]), ';
+    query += 'form:not([data-lux-form-identification]):not([data-lux-form-initialized]) textarea:not([data-lux-disable]), ';
+    query += 'form:not([data-lux-form-identification]):not([data-lux-form-initialized]) select:not([data-lux-disable]), ';
+    query += 'form:not([data-lux-form-identification]):not([data-lux-form-initialized]) radio:not([data-lux-disable]), ';
+    query += 'form:not([data-lux-form-identification]):not([data-lux-form-initialized]) check:not([data-lux-disable])';
+    document.querySelectorAll(query).forEach((element) => {
       // Skip every password field and check if this field is configured for listening in TypoScript
       if (element.type !== 'password' && isFieldConfiguredInFieldMapping(element)) {
-        element.addEventListener('change', function() {
-          fieldListener(this);
+        element.addEventListener('change', (event) => {
+          fieldListener(event.target);
         });
+        element.form.setAttribute('data-lux-form-initialized', 1);
       }
-    }
+    });
   };
 
   /**
    * @returns {void}
    */
-  var addFormListeners = function() {
-    var forms = document.querySelectorAll('form[data-lux-form-identification]');
-    forms.forEach(function(form) {
-      form.addEventListener('submit', function(event) {
+  this.addFormListeners = function() {
+    var forms = document.querySelectorAll('form[data-lux-form-identification]:not([data-lux-form-initialized])');
+    forms.forEach((form) => {
+      form.addEventListener('submit', (event) => {
         sendFormValues(event.target);
         delaySubmit(
           event,
@@ -723,6 +722,7 @@ function LuxMain() {
           event.target.getAttribute('data-lux-form-identification') !== 'preventDefault'
         );
       });
+      form.setAttribute('data-lux-form-initialized', 1);
     });
   };
 
