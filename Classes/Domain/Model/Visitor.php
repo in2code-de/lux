@@ -810,16 +810,6 @@ class Visitor extends AbstractModel
         return $logs;
     }
 
-    public function getLatestLog(): ?Log
-    {
-        $logs = $this->getLogs();
-        $values = array_values($logs);
-        if (array_key_exists(0, $values)) {
-            return $values[0];
-        }
-        return null;
-    }
-
     public function setLogs(ObjectStorage $logs): self
     {
         $this->logs = $logs;
@@ -864,20 +854,11 @@ class Visitor extends AbstractModel
      */
     public function getDateOfLastVisit(): ?DateTime
     {
-        $log = $this->getLatestLog();
-        $pagevisit = $this->getLastPagevisit();
-
         $date = null;
+        $pagevisit = $this->getLastPagevisit();
         if ($pagevisit !== null) {
             $date = $pagevisit->getCrdate();
         }
-        if ($log !== null) {
-            $date = $log->getCrdate();
-            if ($pagevisit !== null && $pagevisit->getCrdate() > $log->getCrdate()) {
-                $date = $pagevisit->getCrdate();
-            }
-        }
-
         return $date;
     }
 
