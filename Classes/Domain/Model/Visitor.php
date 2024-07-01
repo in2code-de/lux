@@ -22,6 +22,9 @@ use In2code\Lux\Utility\EnvironmentUtility;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
+use In2code\Luxenterprise\Domain\Model\Abpagevisit;
+use In2code\Luxenterprise\Domain\Repository\AbpagevisitRepository;
+use Throwable;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
@@ -1150,6 +1153,15 @@ class Visitor extends AbstractModel
             }
         }
         return $lng;
+    }
+
+    public function getLatestAbtesting(): ?Abpagevisit
+    {
+        try {
+            return GeneralUtility::makeInstance(AbpagevisitRepository::class)->findLatestByVisitor($this);
+        } catch (Throwable $exception) {
+            return null;
+        }
     }
 
     /**
