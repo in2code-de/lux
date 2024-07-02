@@ -45,8 +45,8 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.2
-      - name: "Composer Install"
-        run: "composer install"
+      - name: "Composer Update"
+        run: "composer update"
       - name: "Run PHP CS Fixer"
         run: "composer test:php:cs"
   unit-tests:
@@ -62,8 +62,8 @@ jobs:
           php-version: "${{ matrix.php-version }}"
           coverage: none
           tools: composer:v2
-      - name: "Composer Install"
-        run: "composer install"
+      - name: "Composer Update"
+        run: "composer update"
       - name: "Run Unit Tests"
         run: "composer test:unit"
     strategy:

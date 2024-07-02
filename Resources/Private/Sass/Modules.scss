@@ -279,6 +279,10 @@ label {
                     margin-right: 10px;
                     font-weight: bold;
                 }
+
+                &[data-copytoclipboard] > span {
+                    cursor: pointer;
+                }
             }
         }
     }
