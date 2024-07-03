@@ -621,8 +621,8 @@ lib.lux.settings {
         configuration {
           emailOverrides {
             # Override sender settings for SPF-defiance settings (affected only the sender settings - not the reply to settings)
-            #senderName = Marketing
-            #senderEmail = service@domain.org
+            senderName = {$plugin.tx_lux.settings.email.defaultSenderName}
+            senderEmail = {$plugin.tx_lux.settings.email.defaultSenderEmail}
           }
         }
       }
@@ -751,8 +751,8 @@ lib.lux.settings {
         configuration {
           emailOverrides {
             # Override sender settings for SPF-defiance settings (affected only the sender settings - not the reply to settings)
-            #senderName = Marketing
-            #senderEmail = service@domain.org
+            senderName = {$plugin.tx_lux.settings.email.defaultSenderName}
+            senderEmail = {$plugin.tx_lux.settings.email.defaultSenderEmail}
           }
         }
       }
@@ -954,15 +954,8 @@ namespace Vendor\Luxextension\Domain\Trigger;
 use \In2code\Lux\Domain\Trigger\AbstractTrigger;
 use \In2code\Lux\Domain\Trigger\TriggerInterface;
 
-/**
- * Class FrontendUserTrigger
- */
 class FrontendUserTrigger extends AbstractTrigger implements TriggerInterface
 {
-
-    /**
-     * @return void
-     */
     public function initialize()
     {
         if ((int)$this->getConfigurationByKey('page') === 0) {
@@ -1119,14 +1112,8 @@ namespace Vendor\Luxextension\Domain\Action;
 use \In2code\Lux\Domain\Action\AbstractAction;
 use \In2code\Lux\Domain\Action\ActionInterface;
 
-/**
- * Class CurlAction
- */
 class CurlAction extends AbstractAction implements ActionInterface
 {
-    /**
-     * @return bool
-     */
     public function doAction(): bool
     {
         $uri = $this->getSettingsByPath('uri');
@@ -1136,9 +1123,6 @@ class CurlAction extends AbstractAction implements ActionInterface
         return $this->sendToUri($uri);
     }
 
-    /**
-     * @return bool
-     */
     protected function sendToUri(string $uri): bool
     {
         $resource = curl_init($uri);

@@ -25,15 +25,15 @@ Example composer.json file:
 }
 ```
 
-Because lux is registered at packagist.org, you can simple do a `composer require in2code/lux` for example to
+Because lux is registered at packagist.org, you can simply do a `composer req in2code/lux` for example to
 install the package. Don't forget to activate (e.g. in the extension manager) the extension once it is installed.
 
-**Note:** You need a github user that has access to the private lux repository for an installation of EXT:luxenterprise.
+**Note:** You need access to our private packagist for an installation of EXT:luxenterprise
 
 **Note:** Lux itself will also load some other php packages:
 * symfony/expression-language for a calculating magic
 * whichbrowser/parser to show some information about the user agent
-* buchin/google-image-grabber to show an image by email address from google images
+* in2code/google-image-grabber to show an image by email address from google images
 
 #### Extension Manager settings
 
@@ -74,46 +74,80 @@ in your root template. Most of the TypoScript configuration is used for frontend
 
 ##### 3a Constants
 
-Look at the default settings of your lux in TypoScript constants:
+Look at the default settings of your lux in TypoScript constants.
+At least the sender email address needs to be modified from you.
 
 ```
 plugin.tx_lux.settings {
-  # cat=lux//00ß5; type=boolean; label= Activate frontend functionality: All frontend functionalities can be toggled for testing or against flooding
+  # cat=lux//0010; type=boolean; label= Activate frontend functionality: All frontend functionalities can be toggled for testing or against flooding
   enableFrontendController = 1
 
-  # cat=lux//0010; type=boolean; label= Activate autoenable: Decide if user tracking is turned on by default (no opt-in needed here). If you turn autoenable off, you have to build an opt-in.
+  # cat=lux//0020; type=boolean; label= Activate autoenable: Decide if user tracking is turned on by default (no opt-in needed here). If you turn autoenable off, you have to build an opt-in.
   autoenable = 1
 
-  # cat=lux//0020; type=options[0,2]; label= Identification method: Decide if fingerprinting (0) or local storage (2) method should be used for tracking your leads. Both methods have their ups and downs (see documentation for details).
+  # cat=lux//0030; type=options[0,2]; label= Identification method: Decide if fingerprinting (0) or local storage (2) method should be used for tracking your leads. Both methods have their ups and downs (see documentation for details).
   identificationMethod = 0
 
-  tracking {
-    # cat=lux//0030; type=boolean; label= Activate page tracking: (De)Activate tracking of the users pagefunnel.
-    page = 1
+  email {
+    # cat=lux//0100; type=text; label= Default sender name: Default sender name for mails
+    defaultSenderName = Marketing
 
-    # cat=lux//0040; type=boolean; label= Activate download tracking: (De)Activate tracking if the user downloads an asset.
-    assetDownloads = 1
-
-    # cat=lux//0050; type=text; label= Activate download tracking: (De)Activate tracking if the user downloads an asset.
-    assetDownloads.allowedExtensions = pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip
-
-    # cat=lux//0060; type=boolean; label= Activate searchterm tracking: (De)Activate tracking searchterms if user searched for someone on your website.
-    search = 1
+    # cat=lux//0110; type=text; label= Default sender email: Default sender email address for mails
+    defaultSenderEmail = marketing@website.org
   }
 
-  # cat=lux//0100; type=boolean; label= Activate field and form identification: (De)Activate identification by filling out web forms.
+  tracking {
+    # cat=lux//0200; type=boolean; label= Activate page tracking: (De)Activate tracking of the users pagefunnel.
+    page = 1
+
+    # cat=lux//0210; type=boolean; label= Activate download tracking: (De)Activate tracking if the user downloads an asset.
+    assetDownloads = 1
+
+    # cat=lux//0220; type=text; label= Activate download tracking: (De)Activate tracking if the user downloads an asset.
+    assetDownloads.allowedExtensions = pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip
+
+    # cat=lux//0230; type=boolean; label= Activate searchterm tracking: (De)Activate tracking searchterms if user searched for someone on your website.
+    search = 1
+
+    company {
+      # cat=lux//0300; type=boolean; label= Activate tracking via wiredminds: (De)Activate tracking enrichment of lead data via wiredminds.com
+      enable = 0
+
+      # cat=lux//0310; type=text; label= Wiredminds token: Add token from Wiredminds
+      token =
+
+      # cat=lux//0320; type=text; label= Wiredminds limit per month: Define a limit for requests per month (for best cost control)
+      connectionLimit = 5000
+
+      # cat=lux//0330; type=text; label= Wiredminds limit per hour: This limit is a safety function to prevent unwanted number of requests to interface (e.g. on a DoS attack)
+      connectionLimitPerHour = 150
+
+      autoConvert {
+        # cat=lux//0340; type=boolean; label= Activate automatic tracking: (De)Activate tracking of new and unknown leads
+        enable = 0
+
+        # cat=lux//0350; type=int+; label= Scoring for automatic tracking: Start automatic tracking only of lead has a minimum scoring of this value
+        minimumScoring = 0
+      }
+    }
+  }
+
+  # cat=lux//0400; type=boolean; label= Activate field and form identification: (De)Activate identification by filling out web forms.
   fieldandformidentification = 1
 
-  # cat=lux//0200; type=boolean; label= Disable for identified: Disable email4link lightbox in frontend if the visitor is already identified.
+  # cat=lux//0400; type=boolean; label= Disable for identified: Disable email4link lightbox in frontend if the visitor is already identified.
   disableEmail4DownloadForIdentifiedVisitors = 1
 
-  # cat=lux//0300; type=boolean; label= Disable for backend users: Disable lux tracking in frontend if you are also logged in into backend.
+  # cat=lux//0500; type=boolean; label= Disable for backend users: Disable lux tracking in frontend if you are also logged in into backend.
   disableTrackingForBackendUsers = 1
 
-  # cat=lux//0400; type=int+; label= PID privacy page: Set the pid of the privacy page for links in lux forms.
+  # cat=lux//0600; type=int+; label= PID privacy page: Set the pid of the privacy page for links in lux forms.
   pidPrivacyPage = 11
 }
 ```
+
+**Note:** For a first testing, you may want to be logged in into backend and also track your page visits. This can be done
+with this constants: `plugin.tx_lux.settings.disableTrackingForBackendUsers=0`
 
 ##### 3b Fingerprint or LocalStorage
 
