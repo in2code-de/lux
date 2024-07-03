@@ -353,10 +353,10 @@ lib.lux.settings {
                 subject = Your requested asset
 
                 # From name for mail to visitor
-                fromName = Website
+                fromName = {$plugin.tx_lux.settings.email.defaultSenderName}
 
                 # From email for mail to visitor
-                fromEmail = marketing@website.org
+                fromEmail = {$plugin.tx_lux.settings.email.defaultSenderEmail}
 
                 # Send a blind copy to any receivers (can be a commaseparated email list)
                 bccEmail =

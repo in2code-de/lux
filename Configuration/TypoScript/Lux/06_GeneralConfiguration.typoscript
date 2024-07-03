@@ -28,10 +28,10 @@ lib.lux.settings {
       subject = Your personal lead summary from lux - TYPO3 Marketing Automation
 
       # From name for mail to visitor
-      fromName = Website
+      fromName = {$plugin.tx_lux.settings.email.defaultSenderName}
 
       # From email for mail to visitor
-      fromEmail = marketing@website.org
+      fromEmail = {$plugin.tx_lux.settings.email.defaultSenderEmail}
     }
   }
 }
