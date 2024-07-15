@@ -3,6 +3,10 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Service\Referrer;
 
+use In2code\Lux\Events\ReadableReferrersEvent;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Class Readable
  * converts referrers like m.twitter.com to a readable referrer like "Twitter"
@@ -412,12 +416,16 @@ class Readable
             ],
         ],
     ];
-
     protected string $referrer = '';
+    private EventDispatcherInterface $eventDispatcher;
 
     public function __construct(string $referrer = '')
     {
-        $this->referrer = $referrer;
+        $this->eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
+        /** @var ReadableReferrersEvent $event */
+        $event = $this->eventDispatcher->dispatch(new ReadableReferrersEvent($referrer, $this->sources));
+        $this->referrer = $event->getReferrer();
+        $this->sources = $event->getSources();
     }
 
     public function getReadableReferrer(): string

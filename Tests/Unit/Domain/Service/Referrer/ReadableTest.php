@@ -2,7 +2,7 @@
 
 namespace In2code\Lux\Tests\Unit\Domain\Service;
 
-use In2code\Lux\Domain\Service\Referrer\Readable;
+use In2code\Lux\Tests\Unit\Fixtures\Domain\Service\Referrer\ReadableFixture;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
@@ -46,7 +46,7 @@ class ReadableTest extends UnitTestCase
      */
     public function testGetReadableReferrer(string $referrer, string $expectedResult): void
     {
-        $readable = new Readable($referrer);
+        $readable = new ReadableFixture($referrer);
         self::assertSame($expectedResult, $readable->getReadableReferrer());
     }
 
@@ -56,7 +56,7 @@ class ReadableTest extends UnitTestCase
      */
     public function testGetOriginalReferrer(): void
     {
-        $readable = new Readable('');
+        $readable = new ReadableFixture('');
         self::assertGreaterThan($readable->getOriginalReferrer(), 10);
     }
 }
