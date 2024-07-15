@@ -9,130 +9,411 @@ namespace In2code\Lux\Domain\Service\Referrer;
  */
 class Readable
 {
-    protected string $referrer = '';
-
-    /**
-     * Array with mapping for domains (original => Readable)
-     *
-     * @var array
-     */
     protected array $sources = [
-        // Social Media
-        't.co' => 'X (Twitter)',
-        'www.twitter.com' => 'X (Twitter)',
-        'm.twitter.com' => 'X (Twitter)',
-        'l.twitter.com' => 'X (Twitter)',
-        'lm.twitter.com' => 'X (Twitter)',
-        'www.facebook.com' => 'Facebook',
-        'm.facebook.com' => 'Facebook',
-        'l.facebook.com' => 'Facebook',
-        'lm.facebook.com' => 'Facebook',
-        'www.instagram.com' => 'Instagram',
-        'm.instagram.com' => 'Instagram',
-        'l.instagram.com' => 'Instagram',
-        'lm.instagram.com' => 'Instagram',
-        'mobile.instagram.com' => 'Instagram',
-        'web.instagram.com' => 'Instagram',
-        'lnkd.in' => 'LinkedIn',
-        'www.linkedin.com' => 'LinkedIn',
-        'm.linkedin.com' => 'LinkedIn',
-        'l.linkedin.com' => 'LinkedIn',
-        'lm.linkedin.com' => 'LinkedIn',
-        'xing.com' => 'XING',
-        'www.xing.com' => 'XING',
-        'www.youtube.com' => 'YouTube',
-        'youtube.com' => 'YouTube',
-        'vimeo.com' => 'Vimeo',
-        'www.vimeo.com' => 'Vimeo',
-        'www.pinterest.com' => 'Pinterest',
-        'pin.it' => 'Pinterest',
-        'www.tiktok.com' => 'TikTok',
-        'vm.tiktok.com' => 'TikTok',
-        'www.snapchat.com' => 'Snapchat',
-        'www.reddit.com' => 'Reddit',
-        'www.tumblr.com' => 'Tumblr',
-        't.umblr.com' => 'Tumblr',
-
-        // Search Engines
-        'www.google.at' => 'Google Austria',
-        'www.google.com' => 'Google International',
-        'www.google.ch' => 'Google Switzerland',
-        'www.google.de' => 'Google Germany',
-        'www.google.fr' => 'Google France',
-        'www.google.it' => 'Google Italy',
-        'www.adsensecustomsearchads.com' => 'Google AdSense',
-        'syndicatedsearch.goog' => 'Google AdSense',
-        'googleads.g.doubleclick.net' => 'Google AdSense',
-        'bing.com' => 'Microsoft Bing',
-        'duckduckgo.com' => 'DuckDuckGo',
-        'www.yahoo.com' => 'Yahoo',
-        'search.yahoo.com' => 'Yahoo Search',
-        'yandex.com' => 'Yandex',
-        'www.baidu.com' => 'Baidu',
-
-        // Email Marketing
-        'mailchimp.com' => 'Mailchimp',
-        'constantcontact.com' => 'Constant Contact',
-        'sendgrid.com' => 'SendGrid',
-        'campaign-archive.com' => 'Mailchimp Campaigns',
-
-        // Content Marketing and SEO
-        'medium.com' => 'Medium',
-        'wordpress.com' => 'WordPress',
-        'blogger.com' => 'Blogger',
-        'moz.com' => 'Moz',
-        'ahrefs.com' => 'Ahrefs',
-        'semrush.com' => 'Semrush',
-
-        // Advertising Platforms
-        'ads.google.com' => 'Google Ads',
-        'advertising.amazon.com' => 'Amazon Advertising',
-        'ads.microsoft.com' => 'Microsoft Advertising',
-
-        // Analytics and Tracking
-        'analytics.google.com' => 'Google Analytics',
-        'matomo.org' => 'Matomo Analytics',
-        'mixpanel.com' => 'Mixpanel',
-
-        // CRM and Marketing Automation
-        'salesforce.com' => 'Salesforce',
-        'hubspot.com' => 'HubSpot',
-        'marketo.com' => 'Marketo',
-
-        // Webinars and Online Events
-        'zoom.us' => 'Zoom',
-        'webex.com' => 'Webex',
-        'gotomeeting.com' => 'GoToMeeting',
-
-        // E-Commerce
-        'shopify.com' => 'Shopify',
-        'woocommerce.com' => 'WooCommerce',
-        'magento.com' => 'Magento',
-
-        // Affiliate Marketing
-        'clickbank.com' => 'ClickBank',
-        'shareasale.com' => 'ShareASale',
-        'cj.com' => 'Commission Junction',
-
-        // Messaging and Chat
-        'whatsapp.com' => 'WhatsApp',
-        'telegram.org' => 'Telegram',
-        'messenger.com' => 'Facebook Messenger',
-        'com.slack' => 'Slack',
-        'slack.com' => 'Slack',
-
-        // Professional Networks
-        'github.com' => 'GitHub',
-        'stackoverflow.com' => 'Stack Overflow',
-        'behance.net' => 'Behance',
-        'dribbble.com' => 'Dribbble',
-        'typo3.org' => 'TYPO3',
-        'typo3.com' => 'TYPO3',
-
-        // Other
-        'www.in2code.de' => 'in2code GmbH',
-        'cermat.de' => 'Cermat',
+        'socialMedia' => [
+            [
+                'label' => 'X (Twitter)',
+                'domains' => [
+                    't.co',
+                    'www.twitter.com',
+                    'm.twitter.com',
+                    'l.twitter.com',
+                    'lm.twitter.com',
+                ],
+            ],
+            [
+                'label' => 'Facebook',
+                'domains' => [
+                    'www.facebook.com',
+                    'm.facebook.com',
+                    'l.facebook.com',
+                    'lm.facebook.com',
+                ],
+            ],
+            [
+                'label' => 'Instagram',
+                'domains' => [
+                    'www.instagram.com',
+                    'm.instagram.com',
+                    'l.instagram.com',
+                    'lm.instagram.com',
+                    'mobile.instagram.com',
+                    'web.instagram.com',
+                ],
+            ],
+            [
+                'label' => 'LinkedIn',
+                'domains' => [
+                    'lnkd.in',
+                    'www.linkedin.com',
+                    'm.linkedin.com',
+                    'l.linkedin.com',
+                    'lm.linkedin.com',
+                ],
+            ],
+            [
+                'label' => 'XING',
+                'domains' => [
+                    'xing.com',
+                    'www.xing.com',
+                ],
+            ],
+            [
+                'label' => 'YouTube',
+                'domains' => [
+                    'www.youtube.com',
+                    'youtube.com',
+                ],
+            ],
+            [
+                'label' => 'Vimeo',
+                'domains' => [
+                    'vimeo.com',
+                    'www.vimeo.com',
+                ],
+            ],
+            [
+                'label' => 'Pinterest',
+                'domains' => [
+                    'www.pinterest.com',
+                    'pin.it',
+                ],
+            ],
+            [
+                'label' => 'TikTok',
+                'domains' => [
+                    'www.tiktok.com',
+                    'vm.tiktok.com',
+                ],
+            ],
+            [
+                'label' => 'Snapchat',
+                'domains' => [
+                    'www.snapchat.com',
+                ],
+            ],
+            [
+                'label' => 'Reddit',
+                'domains' => [
+                    'www.reddit.com',
+                ],
+            ],
+            [
+                'label' => 'Tumblr',
+                'domains' => [
+                    'www.tumblr.com',
+                    't.umblr.com',
+                ],
+            ],
+        ],
+        'searchEngines' => [
+            [
+                'label' => 'Google Organic',
+                'domains' => [
+                    'www.google.at',
+                    'www.google.com',
+                    'www.google.ch',
+                    'www.google.de',
+                    'www.google.fr',
+                    'www.google.it',
+                ],
+            ],
+            [
+                'label' => 'Google AdSense',
+                'domains' => [
+                    'www.adsensecustomsearchads.com',
+                    'syndicatedsearch.goog',
+                    'googleads.g.doubleclick.net',
+                ],
+            ],
+            [
+                'label' => 'Microsoft Bing',
+                'domains' => [
+                    'bing.com',
+                ],
+            ],
+            [
+                'label' => 'DuckDuckGo',
+                'domains' => [
+                    'duckduckgo.com',
+                ],
+            ],
+            [
+                'label' => 'Yahoo',
+                'domains' => [
+                    'www.yahoo.com',
+                    'search.yahoo.com',
+                ],
+            ],
+            [
+                'label' => 'Yandex',
+                'domains' => [
+                    'yandex.com',
+                ],
+            ],
+            [
+                'label' => 'Baidu',
+                'domains' => [
+                    'www.baidu.com',
+                ],
+            ],
+        ],
+        'emailMarketing' => [
+            [
+                'label' => 'Mailchimp',
+                'domains' => [
+                    'mailchimp.com',
+                    'campaign-archive.com',
+                ],
+            ],
+            [
+                'label' => 'Constant Contact',
+                'domains' => [
+                    'constantcontact.com',
+                ],
+            ],
+            [
+                'label' => 'SendGrid',
+                'domains' => [
+                    'sendgrid.com',
+                ],
+            ],
+        ],
+        'contentMarketingAndSEO' => [
+            [
+                'label' => 'Medium',
+                'domains' => [
+                    'medium.com',
+                ],
+            ],
+            [
+                'label' => 'WordPress',
+                'domains' => [
+                    'wordpress.com',
+                ],
+            ],
+            [
+                'label' => 'Blogger',
+                'domains' => [
+                    'blogger.com',
+                ],
+            ],
+            [
+                'label' => 'Moz',
+                'domains' => [
+                    'moz.com',
+                ],
+            ],
+            [
+                'label' => 'Ahrefs',
+                'domains' => [
+                    'ahrefs.com',
+                ],
+            ],
+            [
+                'label' => 'Semrush',
+                'domains' => [
+                    'semrush.com',
+                ],
+            ],
+        ],
+        'advertisingPlatforms' => [
+            [
+                'label' => 'Google Ads',
+                'domains' => [
+                    'ads.google.com',
+                ],
+            ],
+            [
+                'label' => 'Amazon Advertising',
+                'domains' => [
+                    'advertising.amazon.com',
+                ],
+            ],
+            [
+                'label' => 'Microsoft Advertising',
+                'domains' => [
+                    'ads.microsoft.com',
+                ],
+            ],
+        ],
+        'analyticsAndTracking' => [
+            [
+                'label' => 'Google Analytics',
+                'domains' => [
+                    'analytics.google.com',
+                ],
+            ],
+            [
+                'label' => 'Matomo Analytics',
+                'domains' => [
+                    'matomo.org',
+                ],
+            ],
+            [
+                'label' => 'Mixpanel',
+                'domains' => [
+                    'mixpanel.com',
+                ],
+            ],
+        ],
+        'crmAndMarketingAutomation' => [
+            [
+                'label' => 'Salesforce',
+                'domains' => [
+                    'salesforce.com',
+                ],
+            ],
+            [
+                'label' => 'HubSpot',
+                'domains' => [
+                    'hubspot.com',
+                ],
+            ],
+            [
+                'label' => 'Marketo',
+                'domains' => [
+                    'marketo.com',
+                ],
+            ],
+        ],
+        'webinarsAndOnlineEvents' => [
+            [
+                'label' => 'Zoom',
+                'domains' => [
+                    'zoom.us',
+                ],
+            ],
+            [
+                'label' => 'Webex',
+                'domains' => [
+                    'webex.com',
+                ],
+            ],
+            [
+                'label' => 'GoToMeeting',
+                'domains' => [
+                    'gotomeeting.com',
+                ],
+            ],
+        ],
+        'eCommerce' => [
+            [
+                'label' => 'Shopify',
+                'domains' => [
+                    'shopify.com',
+                ],
+            ],
+            [
+                'label' => 'WooCommerce',
+                'domains' => [
+                    'woocommerce.com',
+                ],
+            ],
+            [
+                'label' => 'Magento',
+                'domains' => [
+                    'magento.com',
+                ],
+            ],
+        ],
+        'affiliateMarketing' => [
+            [
+                'label' => 'ClickBank',
+                'domains' => [
+                    'clickbank.com',
+                ],
+            ],
+            [
+                'label' => 'ShareASale',
+                'domains' => [
+                    'shareasale.com',
+                ],
+            ],
+            [
+                'label' => 'Commission Junction',
+                'domains' => [
+                    'cj.com',
+                ],
+            ],
+        ],
+        'messagingAndChat' => [
+            [
+                'label' => 'WhatsApp',
+                'domains' => [
+                    'whatsapp.com',
+                ],
+            ],
+            [
+                'label' => 'Telegram',
+                'domains' => [
+                    'telegram.org',
+                ],
+            ],
+            [
+                'label' => 'Facebook Messenger',
+                'domains' => [
+                    'messenger.com',
+                ],
+            ],
+            [
+                'label' => 'Slack',
+                'domains' => [
+                    'com.slack',
+                    'slack.com',
+                ],
+            ],
+        ],
+        'professionalNetworks' => [
+            [
+                'label' => 'GitHub',
+                'domains' => [
+                    'github.com',
+                ],
+            ],
+            [
+                'label' => 'Stack Overflow',
+                'domains' => [
+                    'stackoverflow.com',
+                ],
+            ],
+            [
+                'label' => 'Behance',
+                'domains' => [
+                    'behance.net',
+                ],
+            ],
+            [
+                'label' => 'Dribbble',
+                'domains' => [
+                    'dribbble.com',
+                ],
+            ],
+            [
+                'label' => 'TYPO3',
+                'domains' => [
+                    'typo3.org',
+                    'typo3.com',
+                ],
+            ],
+        ],
+        'other' => [
+            [
+                'label' => 'in2code GmbH',
+                'domains' => [
+                    'www.in2code.de',
+                ],
+            ],
+            [
+                'label' => 'Cermat',
+                'domains' => [
+                    'cermat.de',
+                ],
+            ],
+        ],
     ];
+
+    protected string $referrer = '';
 
     public function __construct(string $referrer = '')
     {
@@ -141,11 +422,17 @@ class Readable
 
     public function getReadableReferrer(): string
     {
-        $domain = $this->getDomain();
-        if (array_key_exists($domain, $this->sources)) {
-            $domain = $this->sources[$domain];
+        $domainFromReferrer = $this->getDomain();
+        foreach ($this->sources as $category) {
+            foreach ($category as $service) {
+                foreach ($service['domains'] as $domain) {
+                    if ($domain === $domainFromReferrer) {
+                        return $service['label'];
+                    }
+                }
+            }
         }
-        return $domain;
+        return $domainFromReferrer;
     }
 
     public function getOriginalReferrer(): string

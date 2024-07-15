@@ -15,7 +15,7 @@ class ReadableTest extends UnitTestCase
         return [
             [
                 'https://www.google.com', // Referrer URL
-                'Google International', // Readable name
+                'Google Organic', // Readable name
             ],
             [
                 'https://t.co/anything/new',
@@ -47,7 +47,7 @@ class ReadableTest extends UnitTestCase
     public function testGetReadableReferrer(string $referrer, string $expectedResult): void
     {
         $readable = new Readable($referrer);
-        self::assertSame($readable->getReadableReferrer(), $expectedResult);
+        self::assertSame($expectedResult, $readable->getReadableReferrer());
     }
 
     /**
