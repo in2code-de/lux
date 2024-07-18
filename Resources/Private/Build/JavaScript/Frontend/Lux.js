@@ -968,15 +968,13 @@ function LuxMain() {
     var target = link.getAttribute('target');
     var sendEmail = link.getAttribute('data-lux-email4link-sendemail') || 'false';
 
-    var formArguments = {};
     var form = that.lightboxInstance.element().querySelector('[data-lux-email4link="form"]');
-    for (var i = 0; i < form.elements.length; i++) {
-      var field = form.elements[i];
-      var name = field.getAttribute('name');
-      if (name !== null && name.indexOf('email4link[') !== -1) {
-        var value = field.value;
-        var nameParts = name.split('[');
-        name = nameParts[1].substring(0, nameParts[1].length - 1);
+    var formData = new FormData(form);
+    var formArguments = {};
+
+    for (var [key, value] of formData.entries()) {
+      if (key.startsWith('email4link[')) {
+        var name = key.split('[')[1].split(']')[0];
         formArguments[name] = value;
       }
     }
