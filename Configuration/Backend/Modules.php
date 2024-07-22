@@ -103,6 +103,7 @@ return [
             \In2code\Lux\Controller\AbTestingController::class => [
                 'list',
                 'detail',
+                'singleCsv',
                 'delete',
                 'resetFilter',
             ],
