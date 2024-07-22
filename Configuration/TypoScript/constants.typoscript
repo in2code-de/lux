@@ -63,4 +63,7 @@ plugin.tx_lux.settings {
 
   # cat=lux//0600; type=int+; label= PID privacy page: Set the pid of the privacy page for links in lux forms.
   pidPrivacyPage = 11
+
+  # Don't remove this line. This is for a conditional setting of further TypoScript in EXT:LUXenterprise
+  typoscriptAdded = 1
 }
