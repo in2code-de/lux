@@ -1782,6 +1782,42 @@
 			<trans-unit id="datetime.month.12">
 				<source>December</source>
 			</trans-unit>
+			<trans-unit id="datetime.quarter.1">
+				<source>Q1 %s</source>
+			</trans-unit>
+			<trans-unit id="datetime.quarter.2">
+				<source>Q2 %s</source>
+			</trans-unit>
+			<trans-unit id="datetime.quarter.3">
+				<source>Q3 %s</source>
+			</trans-unit>
+			<trans-unit id="datetime.quarter.4">
+				<source>Q4 %s</source>
+			</trans-unit>
+			<trans-unit id="datetime.quarter.5">
+				<source>Q1 %s</source>
+			</trans-unit>
+			<trans-unit id="datetime.quarter.6">
+				<source>Q2 %s</source>
+			</trans-unit>
+			<trans-unit id="datetime.quarter.7">
+				<source>Q3 %s</source>
+			</trans-unit>
+			<trans-unit id="datetime.quarter.8">
+				<source>Q4 %s</source>
+			</trans-unit>
+			<trans-unit id="datetime.quarter.9">
+				<source>Q1 %s</source>
+			</trans-unit>
+			<trans-unit id="datetime.quarter.10">
+				<source>Q2 %s</source>
+			</trans-unit>
+			<trans-unit id="datetime.quarter.11">
+				<source>Q3 %s</source>
+			</trans-unit>
+			<trans-unit id="datetime.quarter.12">
+				<source>Q4 %s</source>
+			</trans-unit>
 			<trans-unit id="datetime.n">
 				<source>%s</source>
 			</trans-unit>

@@ -2357,6 +2357,54 @@
 				<source>December</source>
 				<target state="translated">Dezember</target>
 			</trans-unit>
+			<trans-unit id="datetime.quarter.1">
+				<source>Q1 %s</source>
+				<target state="translated">Q1 %s</target>
+			</trans-unit>
+			<trans-unit id="datetime.quarter.2">
+				<source>Q2 %s</source>
+				<target state="translated">Q2 %s</target>
+			</trans-unit>
+			<trans-unit id="datetime.quarter.3">
+				<source>Q3 %s</source>
+				<target state="translated">Q3 %s</target>
+			</trans-unit>
+			<trans-unit id="datetime.quarter.4">
+				<source>Q4 %s</source>
+				<target state="translated">Q4 %s</target>
+			</trans-unit>
+			<trans-unit id="datetime.quarter.5">
+				<source>Q1 %s</source>
+				<target state="translated">Q1 %s</target>
+			</trans-unit>
+			<trans-unit id="datetime.quarter.6">
+				<source>Q2 %s</source>
+				<target state="translated">Q2 %s</target>
+			</trans-unit>
+			<trans-unit id="datetime.quarter.7">
+				<source>Q3 %s</source>
+				<target state="translated">Q3 %s</target>
+			</trans-unit>
+			<trans-unit id="datetime.quarter.8">
+				<source>Q4 %s</source>
+				<target state="translated">Q4 %s</target>
+			</trans-unit>
+			<trans-unit id="datetime.quarter.9">
+				<source>Q1 %s</source>
+				<target state="translated">Q1 %s</target>
+			</trans-unit>
+			<trans-unit id="datetime.quarter.10">
+				<source>Q2 %s</source>
+				<target state="translated">Q2 %s</target>
+			</trans-unit>
+			<trans-unit id="datetime.quarter.11">
+				<source>Q3 %s</source>
+				<target state="translated">Q3 %s</target>
+			</trans-unit>
+			<trans-unit id="datetime.quarter.12">
+				<source>Q4 %s</source>
+				<target state="translated">Q4 %s</target>
+			</trans-unit>
 			<trans-unit id="datetime.n">
 				<source>%s</source>
 				<target state="translated">%s</target>

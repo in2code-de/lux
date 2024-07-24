@@ -5,6 +5,7 @@ namespace In2code\Lux\Domain\Service\Image;
 
 use Buchin\GoogleImageGrabber\GoogleImageGrabber;
 use In2code\Lux\Utility\ConfigurationUtility;
+use In2code\Lux\Utility\DateUtility;
 use In2code\Lux\Utility\FileUtility;
 use Throwable;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
@@ -15,7 +16,7 @@ use TYPO3\CMS\Core\Utility\PathUtility;
 
 abstract class AbstractImageService implements ImageServiceInterface
 {
-    protected int $cacheLifeTime = 86400;
+    protected int $cacheLifeTime = DateUtility::SECONDS_DAY;
     protected string $defaultFile = 'EXT:lux/Resources/Public/Images/AvatarDefault.svg';
     protected ?FrontendInterface $cacheInstance = null;
     protected array $arguments = [];

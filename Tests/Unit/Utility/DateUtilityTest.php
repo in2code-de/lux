@@ -139,4 +139,36 @@ class DateUtilityTest extends UnitTestCase
         self::assertTrue(is_a($result, DateTime::class));
         self::assertTrue($result->format('U') < $dateToCompare->format('U'));
     }
+
+    /**
+     * @return void
+     * @covers ::getQuarterFromDate
+     */
+    public function testGetQuarterFromDate(): void
+    {
+        self::assertSame(1, DateUtility::getQuarterFromDate(new DateTime('2024-1-1')));
+        self::assertSame(1, DateUtility::getQuarterFromDate(new DateTime('2024-3-31')));
+        self::assertSame(2, DateUtility::getQuarterFromDate(new DateTime('2024-4-1')));
+        self::assertSame(4, DateUtility::getQuarterFromDate(new DateTime('2024-12-24')));
+    }
+
+    /**
+     * @return void
+     * @covers ::getQuarterStartDateFromDate
+     */
+    public function testGetQuarterStartDateFromDate(): void
+    {
+        self::assertSame(
+            (new DateTime('2024-1-1'))->getTimestamp(),
+            DateUtility::getQuarterStartDateFromDate(new DateTime('2024-1-1'))->getTimestamp()
+        );
+        self::assertSame(
+            (new DateTime('2024-1-1'))->getTimestamp(),
+            DateUtility::getQuarterStartDateFromDate(new DateTime('2024-3-13'))->getTimestamp()
+        );
+        self::assertSame(
+            (new DateTime('2024-10-1'))->getTimestamp(),
+            DateUtility::getQuarterStartDateFromDate(new DateTime('2024-11-11'))->getTimestamp()
+        );
+    }
 }

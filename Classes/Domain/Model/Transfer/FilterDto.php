@@ -807,19 +807,22 @@ class FilterDto
         $start = $this->getStartTimeForFilter(true);
         $end = $this->getEndTimeForFilter(true);
         $deltaSeconds = $end->getTimestamp() - $start->getTimestamp();
-        if ($deltaSeconds <= 86400) { // until 1 day
+        if ($deltaSeconds <= DateUtility::SECONDS_DAY) { // until 1 day
             return ['intervals' => $this->getHourIntervals(), 'frequency' => 'hour'];
         }
-        if ($deltaSeconds <= 1209600) { // until 2 weeks
+        if ($deltaSeconds <= DateUtility::SECONDS_2WEEKS) { // until 2 weeks
             return ['intervals' => $this->getDayIntervals(), 'frequency' => 'day'];
         }
-        if ($deltaSeconds <= 5184000) { // until 2 month
+        if ($deltaSeconds <= DateUtility::SECONDS_3MONTHS) { // until 3 month
             return ['intervals' => $this->getWeekIntervals(), 'frequency' => 'week'];
         }
-        if ($deltaSeconds <= 63072000) { // until 2 years
+        if ($deltaSeconds <= DateUtility::SECONDS_6MONTHS) { // until 6 months
             return ['intervals' => $this->getMonthIntervals(), 'frequency' => 'month'];
         }
-        // over 2 years
+        if ($deltaSeconds <= DateUtility::SECONDS_3YEARS) { // until 3 years
+            return ['intervals' => $this->getQuarterIntervals(), 'frequency' => 'quarter'];
+        }
+        // over 3 years
         return ['intervals' => $this->getYearIntervals(), 'frequency' => 'year'];
     }
 
@@ -881,6 +884,23 @@ class FilterDto
         $end = $this->getEndTimeForFilter(true);
         $interval = [];
         for ($month = clone $start; $month < $end; $month->modify('+1 month')) {
+            $interval[] = clone $month;
+        }
+        $interval[] = $end;
+        return $interval;
+    }
+
+    /**
+     * @return DateTime[]
+     * @throws Exception
+     */
+    protected function getQuarterIntervals(): array
+    {
+        $start = DateUtility::getStartOfMonth($this->getStartTimeForFilter(true));
+        $startQuarter = DateUtility::getQuarterStartDateFromDate($start);
+        $end = $this->getEndTimeForFilter(true);
+        $interval = [];
+        for ($month = clone $startQuarter; $month < $end; $month->modify('+3 months')) {
             $interval[] = clone $month;
         }
         $interval[] = $end;
