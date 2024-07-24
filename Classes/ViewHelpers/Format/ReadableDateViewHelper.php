@@ -5,6 +5,7 @@ namespace In2code\Lux\ViewHelpers\Format;
 
 use DateInterval;
 use DateTime;
+use In2code\Lux\Utility\DateUtility;
 use In2code\Lux\Utility\LocalizationUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -13,7 +14,7 @@ class ReadableDateViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('date', DateTime::class, 'Datetime', false);
+        $this->registerArgument('date', DateTime::class, 'Datetime');
     }
 
     public function render(): string
@@ -22,16 +23,16 @@ class ReadableDateViewHelper extends AbstractViewHelper
         $deltaTimestamp = time() - $date->getTimestamp();
         $delta = $date->diff(new DateTime());
 
-        if ($deltaTimestamp <= 60) {
+        if ($deltaTimestamp <= DateUtility::SECONDS_MINUTE) {
             return $this->renderNow();
         }
-        if ($deltaTimestamp < 3600) {
+        if ($deltaTimestamp < DateUtility::SECONDS_HOUR) {
             return $this->renderMinutes($delta);
         }
-        if ($deltaTimestamp < 86400) {
+        if ($deltaTimestamp < DateUtility::SECONDS_DAY) {
             return $this->renderHours($delta);
         }
-        if ($deltaTimestamp < 604800) {
+        if ($deltaTimestamp < DateUtility::SECONDS_WEEK) {
             return $this->renderDays($delta);
         }
         return $this->renderDate($date);

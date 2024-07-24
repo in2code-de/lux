@@ -19,7 +19,10 @@ class DateUtility
      */
     public const IS_INSAMEPAGEFUNNEL_TIME = 15;
 
+    public const SECONDS_MINUTE = 60;
+    public const SECONDS_HOUR = 60 * 60;
     public const SECONDS_DAY = 24 * 60 * 60;
+    public const SECONDS_WEEK = 24 * 60 * 60 * 7;
     public const SECONDS_2WEEKS = 24 * 60 * 60 * 14;
     public const SECONDS_3MONTHS = 24 * 60 * 60 * 30 * 3;
     public const SECONDS_6MONTHS = 24 * 60 * 60 * 30 * 6;

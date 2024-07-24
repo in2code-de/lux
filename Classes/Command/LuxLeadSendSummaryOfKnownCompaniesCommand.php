@@ -6,6 +6,7 @@ namespace In2code\Lux\Command;
 use Exception;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\Email\SendSummaryService;
+use In2code\Lux\Utility\DateUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -22,7 +23,12 @@ class LuxLeadSendSummaryOfKnownCompaniesCommand extends Command
             ' Define if leads should be identified or not and if you want only leads from a given category.';
         $this->setDescription($description);
         $this->addArgument('emails', InputArgument::REQUIRED, 'Commaseparated value of email addresses as receivers');
-        $this->addArgument('timeframe', InputArgument::OPTIONAL, '86400 means all leads from the last 24h', 86400);
+        $this->addArgument(
+            'timeframe',
+            InputArgument::OPTIONAL,
+            '86400 means all leads from the last 24h',
+            DateUtility::SECONDS_DAY
+        );
         $this->addArgument('minimumScoring', InputArgument::OPTIONAL, 'Send only leads with a minimum scoring', 0);
         $this->addArgument('luxCategory', InputArgument::OPTIONAL, 'Send only leads with a scoring in category', 0);
     }
