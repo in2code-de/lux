@@ -19,6 +19,12 @@ class DateUtility
      */
     public const IS_INSAMEPAGEFUNNEL_TIME = 15;
 
+    public const SECONDS_DAY = 24 * 60 * 60;
+    public const SECONDS_2WEEKS = 24 * 60 * 60 * 14;
+    public const SECONDS_3MONTHS = 24 * 60 * 60 * 30 * 3;
+    public const SECONDS_6MONTHS = 24 * 60 * 60 * 30 * 6;
+    public const SECONDS_3YEARS = 24 * 60 * 60 * 365 * 3;
+
     public static function convertTimestamp(int $timestamp): DateTime
     {
         return DateTime::createFromFormat('U', (string)$timestamp);
@@ -150,5 +156,21 @@ class DateUtility
         $start = clone $date;
         $start->modify('first day of january this year')->modify('midnight');
         return $start;
+    }
+
+    /**
+     * @param DateTime $date
+     * @return int 1, 2, 3 or 4
+     */
+    public static function getQuarterFromDate(DateTime $date): int
+    {
+        return (int)ceil($date->format('n') / 3);
+    }
+
+    public static function getQuarterStartDateFromDate(DateTime $date): DateTime
+    {
+        $start = clone $date;
+        $quarterStartMonth = (self::getQuarterFromDate($date) * 3) - 2;
+        return $start->setDate((int)$date->format('Y'), $quarterStartMonth, 1)->modify('midnight');
     }
 }
