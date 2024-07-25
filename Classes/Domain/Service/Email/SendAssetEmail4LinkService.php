@@ -13,6 +13,7 @@ use In2code\Lux\Utility\StringUtility;
 use In2code\Lux\Utility\UrlUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Mail\MailMessage;
+use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\Security\FileNameValidator;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -22,6 +23,8 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 class SendAssetEmail4LinkService
 {
     protected ?Visitor $visitor = null;
+    protected ?File $file = null;
+    protected string $href = '';
 
     /**
      * TypoScript settings
@@ -43,42 +46,44 @@ class SendAssetEmail4LinkService
 
     /**
      * @param string $href
+     * @param File|null $file
      * @return void
      * @throws InvalidConfigurationTypeException
      */
-    public function sendMail(string $href): void
+    public function sendMail(string $href, ?File $file): void
     {
+        $this->href = $href;
+        $this->file = $file;
         if ($this->visitor->isNotBlacklisted()) {
-            if ($this->isActivatedAndAllowed($href)) {
-                $this->send($href);
+            if ($this->isActivatedAndAllowed()) {
+                $this->send();
                 $this->eventDispatcher->dispatch(
-                    GeneralUtility::makeInstance(LogEmail4linkSendEmailEvent::class, $this->visitor, $href)
+                    GeneralUtility::makeInstance(LogEmail4linkSendEmailEvent::class, $this->visitor, $this->href)
                 );
             } else {
                 $this->eventDispatcher->dispatch(
-                    GeneralUtility::makeInstance(LogEmail4linkSendEmailFailedEvent::class, $this->visitor, $href)
+                    GeneralUtility::makeInstance(LogEmail4linkSendEmailFailedEvent::class, $this->visitor, $this->href)
                 );
             }
         }
     }
 
     /**
-     * @param string $href
      * @return void
      * @throws InvalidConfigurationTypeException
      */
-    protected function send(string $href): void
+    protected function send(): void
     {
         $message = GeneralUtility::makeInstance(MailMessage::class);
         $message
             ->setTo([$this->visitor->getEmail() => 'Receiver'])
             ->setFrom($this->getSender())
             ->setSubject($this->getSubject())
-            ->attachFromPath(GeneralUtility::getFileAbsFileName(UrlUtility::convertToRelative($href)))
-            ->html($this->getMailTemplate($href));
+            ->attachFromPath(GeneralUtility::getFileAbsFileName(UrlUtility::convertToRelative($this->href)))
+            ->html($this->getMailTemplate());
         $this->setBcc($message);
         $this->eventDispatcher->dispatch(
-            GeneralUtility::makeInstance(SetAssetEmail4LinkEvent::class, $this->visitor, $message, $href)
+            GeneralUtility::makeInstance(SetAssetEmail4LinkEvent::class, $this->visitor, $message, $this->href)
         );
         $message->send();
     }
@@ -106,11 +111,10 @@ class SendAssetEmail4LinkService
     }
 
     /**
-     * @param string $href
      * @return string
      * @throws InvalidConfigurationTypeException
      */
-    protected function getMailTemplate(string $href): string
+    protected function getMailTemplate(): string
     {
         $mailTemplatePath = $this->configurationService->getTypoScriptSettingsByPath(
             'identification.email4link.mail.mailTemplate'
@@ -118,8 +122,9 @@ class SendAssetEmail4LinkService
         $standaloneView = GeneralUtility::makeInstance(StandaloneView::class);
         $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($mailTemplatePath));
         $standaloneView->assignMultiple([
-            'href' => $href,
+            'href' => $this->href,
             'visitor' => $this->visitor,
+            'file' => $this->file,
         ]);
         return $standaloneView->render();
     }
@@ -144,14 +149,17 @@ class SendAssetEmail4LinkService
     }
 
     /**
-     * @param string $href
      * @return bool
      * @throws InvalidConfigurationTypeException
      */
-    protected function isActivatedAndAllowed(string $href): bool
+    protected function isActivatedAndAllowed(): bool
     {
-        return $this->isEnabled() && $this->isAllowedFileExtension($href) && $this->isAllowedStorage($href)
-            && $this->isNotMalicious($href) && $this->isFileExisting($href) && $this->visitor->isIdentified();
+        return $this->isEnabled()
+            && $this->isAllowedFileExtension()
+            && $this->isAllowedStorage()
+            && $this->isNotMalicious()
+            && $this->isFileExisting()
+            && $this->visitor->isIdentified();
     }
 
     /**
@@ -165,14 +173,13 @@ class SendAssetEmail4LinkService
     }
 
     /**
-     * @param string $href
      * @return bool
      * @throws InvalidConfigurationTypeException
      */
-    protected function isAllowedFileExtension(string $href): bool
+    protected function isAllowedFileExtension(): bool
     {
         $allowed = false;
-        $thisExtension = StringUtility::getExtensionFromPathAndFilename($href);
+        $thisExtension = StringUtility::getExtensionFromPathAndFilename($this->href);
         $extensionList = $this->configurationService->getTypoScriptSettingsByPath(
             'identification.email4link.mail.allowedFileExtensions'
         );
@@ -186,11 +193,7 @@ class SendAssetEmail4LinkService
         return $allowed;
     }
 
-    /**
-     * @param string $href
-     * @return bool
-     */
-    protected function isAllowedStorage(string $href): bool
+    protected function isAllowedStorage(): bool
     {
         $allowed = false;
         $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
@@ -199,7 +202,7 @@ class SendAssetEmail4LinkService
             if ($storage->isOnline()) {
                 $configuration = $storage->getConfiguration();
                 $basePath = $configuration['basePath'];
-                if (StringUtility::startsWith(UrlUtility::convertToRelative($href), $basePath)) {
+                if (StringUtility::startsWith(UrlUtility::convertToRelative($this->href), $basePath)) {
                     $allowed = true;
                     break;
                 }
@@ -208,22 +211,14 @@ class SendAssetEmail4LinkService
         return $allowed;
     }
 
-    /**
-     * @param string $href
-     * @return bool
-     */
-    protected function isNotMalicious(string $href): bool
+    protected function isNotMalicious(): bool
     {
-        return GeneralUtility::makeInstance(FileNameValidator::class)->isValid($href)
-            && GeneralUtility::validPathStr($href);
+        return GeneralUtility::makeInstance(FileNameValidator::class)->isValid($this->href)
+            && GeneralUtility::validPathStr($this->href);
     }
 
-    /**
-     * @param string $href
-     * @return bool
-     */
-    protected function isFileExisting(string $href): bool
+    protected function isFileExisting(): bool
     {
-        return file_exists(GeneralUtility::getFileAbsFileName(UrlUtility::convertToRelative($href)));
+        return file_exists(GeneralUtility::getFileAbsFileName(UrlUtility::convertToRelative($this->href)));
     }
 }

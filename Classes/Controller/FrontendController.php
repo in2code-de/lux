@@ -31,6 +31,7 @@ use Psr\Log\LoggerInterface;
 use Throwable;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
@@ -193,11 +194,17 @@ class FrontendController extends ActionController
                 );
                 $attributeTracker->addAttributes($values, $allowedFields);
             }
+            try {
+                $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
+                $file = $resourceFactory->retrieveFileOrFolderObject($arguments['href']);
+            } catch (Throwable $exception) {
+                $file = null;
+            }
             $downloadTracker = GeneralUtility::makeInstance(DownloadTracker::class, $visitor);
             $downloadTracker->addDownload($arguments['href'], (int)$arguments['pageUid']);
             if ($arguments['sendEmail'] === 'true') {
                 GeneralUtility::makeInstance(SendAssetEmail4LinkService::class, $visitor, $this->settings)
-                    ->sendMail($arguments['href']);
+                    ->sendMail($arguments['href'], $file);
             }
             return $this->jsonResponse(json_encode($this->afterAction($visitor)));
         } catch (Throwable $exception) {

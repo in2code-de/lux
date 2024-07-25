@@ -1,6 +1,20 @@
+<f:comment>
+    Available variables:
+    - {href} like "fileadmin/file.pdf"
+    - {file} File object: {file.publicUrl} for complete URL, {file.name} for filename, etc...
+    - {visitor} Visitor object
+</f:comment>
 <h2>Your requested asset</h2>
 
-<p>We have sent you the wanted whitepaper (see attachment). Please feel free to contact us if you have any questions.</p>
+<p>
+    We have sent you the wanted whitepaper as attachment to this email.
+    <f:if condition="{file}">
+        You can also directly <f:link.typolink parameter="{file.publicUrl}" absolute="1">download the file</f:link.typolink>.
+    </f:if>
+</p>
+<p>
+    Please feel free to contact us if you have any questions.
+</p>
 
 <p>
     --<br /><br />
