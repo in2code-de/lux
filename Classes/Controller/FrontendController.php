@@ -7,6 +7,7 @@ use Doctrine\DBAL\Driver\Exception;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Factory\VisitorFactory;
 use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Service\ConfigurationService;
 use In2code\Lux\Domain\Service\Email\SendAssetEmail4LinkService;
 use In2code\Lux\Domain\Tracker\AbTestingTracker;
@@ -19,6 +20,7 @@ use In2code\Lux\Domain\Tracker\LuxletterlinkAttributeTracker;
 use In2code\Lux\Domain\Tracker\NewsTracker;
 use In2code\Lux\Domain\Tracker\PageTracker;
 use In2code\Lux\Domain\Tracker\SearchTracker;
+use In2code\Lux\Domain\Tracker\VirtualPageTracker;
 use In2code\Lux\Events\AfterTrackingEvent;
 use In2code\Lux\Exception\ActionNotAllowedException;
 use In2code\Lux\Exception\ConfigurationException;
@@ -41,11 +43,44 @@ use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 
 class FrontendController extends ActionController
 {
+    protected ConfigurationService $configurationService;
+    protected CompanyTracker $companyTracker;
+    protected PageTracker $pageTracker;
+    protected VirtualPageTracker $virtualPageTracker;
+    protected NewsTracker $newsTracker;
+    protected SearchTracker $searchTracker;
     protected $eventDispatcher;
     protected LoggerInterface $logger;
+    protected array $allowedActions = [
+        'pageRequest',
+        'virtualPageRequest',
+        'searchRequest',
+        'fieldListeningRequest',
+        'formListeningRequest',
+        'email4LinkRequest',
+        'downloadRequest',
+        'linkClickRequest',
+        'redirectRequest',
+        'abTestingRequest',
+        'abTestingConversionFulfilledRequest',
+    ];
 
-    public function __construct(EventDispatcherInterface $eventDispatcher, LoggerInterface $logger)
-    {
+    public function __construct(
+        ConfigurationService $configurationService,
+        CompanyTracker $companyTracker,
+        PageTracker $pageTracker,
+        VirtualPageTracker $virtualPageTracker,
+        NewsTracker $newsTracker,
+        SearchTracker $searchTracker,
+        EventDispatcherInterface $eventDispatcher,
+        LoggerInterface $logger
+    ) {
+        $this->configurationService = $configurationService;
+        $this->companyTracker = $companyTracker;
+        $this->pageTracker = $pageTracker;
+        $this->virtualPageTracker = $virtualPageTracker;
+        $this->newsTracker = $newsTracker;
+        $this->searchTracker = $searchTracker;
         $this->eventDispatcher = $eventDispatcher;
         $this->logger = $logger;
     }
@@ -57,19 +92,8 @@ class FrontendController extends ActionController
      */
     public function initializeDispatchRequestAction(): void
     {
-        $allowedActions = [
-            'pageRequest',
-            'fieldListeningRequest',
-            'formListeningRequest',
-            'email4LinkRequest',
-            'downloadRequest',
-            'linkClickRequest',
-            'redirectRequest',
-            'abTestingRequest',
-            'abTestingConversionFulfilledRequest',
-        ];
         $action = $this->request->getArgument('dispatchAction');
-        if (!in_array($action, $allowedActions)) {
+        if (!in_array($action, $this->allowedActions)) {
             throw new ActionNotAllowedException('Action not allowed', 1518815149);
         }
     }
@@ -87,8 +111,7 @@ class FrontendController extends ActionController
         string $identificator,
         array $arguments
     ): ResponseInterface {
-        $configurationService = GeneralUtility::makeInstance(ConfigurationService::class);
-        if ($configurationService->getTypoScriptSettingsByPath('general.enable') !== '0') {
+        if ($this->configurationService->getTypoScriptSettingsByPath('general.enable') !== '0') {
             return (new ForwardResponse($dispatchAction))
                 ->withArguments(['identificator' => $identificator, 'arguments' => $arguments]);
         }
@@ -106,14 +129,50 @@ class FrontendController extends ActionController
         try {
             $visitor = $this->getVisitor($identificator);
             $this->callAdditionalTrackers($visitor, $arguments);
-            $companyTracker = GeneralUtility::makeInstance(CompanyTracker::class);
-            $companyTracker->track($visitor);
-            $pageTracker = GeneralUtility::makeInstance(PageTracker::class);
-            $pagevisit = $pageTracker->track($visitor, $arguments);
-            $newsTracker = GeneralUtility::makeInstance(NewsTracker::class);
-            $newsTracker->track($visitor, $arguments, $pagevisit);
-            $searchTracker = GeneralUtility::makeInstance(SearchTracker::class);
-            $searchTracker->track($visitor, $arguments, $pagevisit);
+            $this->companyTracker->track($visitor);
+            $pagevisit = $this->pageTracker->track($visitor, $arguments);
+            $this->newsTracker->track($visitor, $arguments, $pagevisit);
+            $this->searchTracker->track($visitor, $arguments, $pagevisit);
+            return $this->jsonResponse(json_encode($this->afterAction($visitor)));
+        } catch (Throwable $exception) {
+            return $this->jsonResponse(json_encode($this->getError($exception)));
+        }
+    }
+
+    /**
+     * Is typically called manually in own JavaScript
+     *
+     * @param string $identificator
+     * @param array $arguments
+     * @return ResponseInterface
+     * @noinspection PhpUnused
+     */
+    public function virtualPageRequestAction(string $identificator, array $arguments): ResponseInterface
+    {
+        try {
+            $visitor = $this->getVisitor($identificator);
+            $this->virtualPageTracker->track($visitor, $arguments);
+            return $this->jsonResponse(json_encode($this->afterAction($visitor)));
+        } catch (Throwable $exception) {
+            return $this->jsonResponse(json_encode($this->getError($exception)));
+        }
+    }
+
+    /**
+     * Is typically called manually in own JavaScript
+     *
+     * @param string $identificator
+     * @param array $arguments
+     * @return ResponseInterface
+     * @noinspection PhpUnused
+     */
+    public function searchRequestAction(string $identificator, array $arguments): ResponseInterface
+    {
+        try {
+            $visitor = $this->getVisitor($identificator);
+            $pagevisitRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
+            $pagevisit = $pagevisitRepository->findByUid((int)$arguments['pageUid']);
+            $this->searchTracker->track($visitor, $arguments, $pagevisit);
             return $this->jsonResponse(json_encode($this->afterAction($visitor)));
         } catch (Throwable $exception) {
             return $this->jsonResponse(json_encode($this->getError($exception)));
@@ -389,17 +448,13 @@ class FrontendController extends ActionController
     protected function afterAction(Visitor $visitor): array
     {
         /** @var AfterTrackingEvent $event */
-        $event = $this->eventDispatcher->dispatch(
-            GeneralUtility::makeInstance(AfterTrackingEvent::class, $visitor, $this->actionMethodName)
-        );
+        $event = $this->eventDispatcher->dispatch(new AfterTrackingEvent($visitor, $this->actionMethodName));
         return $event->getResults();
     }
 
     protected function getError(Throwable $exception): array
     {
-        $this->eventDispatcher->dispatch(
-            GeneralUtility::makeInstance(AfterTrackingEvent::class, new Visitor(), 'error', ['error' => $exception])
-        );
+        $this->eventDispatcher->dispatch(new AfterTrackingEvent(new Visitor(), 'error', ['error' => $exception]));
         if (BackendUtility::isBackendAuthentication() === false) {
             // Log error to var/log/typo3_[hash].log
             $this->logger->warning('Error in FrontendController happened', [

@@ -115,6 +115,18 @@ class LogService
     }
 
     /**
+     * @param Visitor $visitor
+     * @param string $parameter
+     * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    public function logVirtualPageRequest(Visitor $visitor, string $parameter): void
+    {
+        $this->log(Log::STATUS_VIRTUALPAGEVISIT, $visitor, ['virtualPath' => $parameter]);
+    }
+
+    /**
      * @param Download $download
      * @return void
      * @throws IllegalObjectTypeException

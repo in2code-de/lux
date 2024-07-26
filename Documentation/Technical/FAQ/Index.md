@@ -384,3 +384,27 @@ lib.lux.settings {
 }
 plugin.tx_lux_fe.settings < lib.lux.settings
 ```
+
+## How to track accordion opens or other content changes without page reload?
+
+Page visits will be automatically be tracked with LUX on normal TYPO3 pages. In some rare scenarios
+you may want to push a virtual pagevisit to LUX. This can be helpful if you want to track accordion opens, multistep
+forms or other content changes without page reload and without a different URL. You can simply push such a visit via
+JavaScript:
+
+```
+const lux = LuxSingleton.getInstance();
+lux.push('accordion 1 just opened', 'virtualPageRequest');
+```
+
+## How to track searchterms with my AJAX onpage search?
+
+If you don't have the searchterm as GET parameter (e.g. `?q=searchterm`) available in the URL,
+you can simply push a searchterm via JavaScript manually to LUX.
+This can be e.g. helpful if your search results are only loaded via AJAX.
+See this example how to push a searchterm via JS:
+
+```
+const lux = LuxSingleton.getInstance();
+lux.push('any searchterm', 'searchRequest');
+```

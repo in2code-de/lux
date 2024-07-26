@@ -50,9 +50,7 @@ class DownloadTracker
             $download->setVisitor($this->visitor);
             $this->visitorRepository->update($this->visitor);
             $this->visitorRepository->persistAll();
-            $this->eventDispatcher->dispatch(
-                GeneralUtility::makeInstance(DownloadEvent::class, $this->visitor, $download)
-            );
+            $this->eventDispatcher->dispatch(new DownloadEvent($this->visitor, $download));
         }
     }
 

@@ -117,10 +117,19 @@ lib.lux.settings {
 If you choose the content view (see top left to switch from dashboard to content), you will see the 100 most interesting
 pages and assets for your leads.
 
-<img src="../../../Documentation/Images/screenshot_analysis_content.png" width="800" />
-
 Clicking on an asset or a page will open a detail page to this item, where you can exactly see which lead was interested
 in this item.
+
+<img src="../../../Documentation/Images/screenshot_analysis_content.png" width="800" />
+
+**Technical note:** Page visits will be automatically be tracked with LUX on normal TYPO3 pages. In some rare scenarios
+you may want to push a virtual pagevisit to LUX. This can be helpful if you want to track accordion opens, multistep
+forms or other content changes without page reload and without a different URL. You can push such a visit via JavaScript:
+
+```
+const lux = LuxSingleton.getInstance();
+lux.push('applicationProcess/step1', 'virtualPageRequest');
+```
 
 #### News
 
@@ -180,7 +189,7 @@ new Listener. That's all. Now all clicks on this link are tracked now.
 
 #### Search
 
-With LUX 16 we started to introduce an own search view.
+Searchterms can be tracked to improve search evaluation on your website.
 
 If there are entries in the search table, editors can see and click the search view button in analysis backend module.
 The view starts with a list of used searchterms of your websearch.
@@ -189,10 +198,22 @@ You can use the filter on the top for a perfect analysis in a timeframe or for a
 a row in the table you will see the latest leads in a preview. If you click on "Show details" then, you will
 see all leads that used the search term.
 
-**Note:** Websearch tracking is activated by default for solr, indexed_search and ke_search but can be extended or
-modified in TypoScript configuration.
-
 <img src="../../../Documentation/Images/screenshot_analysis_search.png" width="800" />
+
+To **track searchterms**, there are basically two different ways:
+
+1) Ensure, that there is a GET parameter in the current URL, that can be recognized by LUX.
+Parameters for solr, indexed_search and ke_search are automatically configured. If you need an individual
+parameter, you have to extend the TypoScript configuration. So e.g. a URL like
+`https://website.com/?q=searchterm` or `https://website.com/?tx_solr[q]=searchterm` will automatically be tracked here.
+
+2) If you don't have the searchterm as GET parameter available in the URL, you can push a searchterm
+via JavaScript manually to LUX. This can be e.g. helpful if your search results are only loaded via AJAX.
+See this example how to push a searchterm via JS:
+```
+const lux = LuxSingleton.getInstance();
+lux.push('any searchterm', 'searchRequest');
+```
 
 
 
