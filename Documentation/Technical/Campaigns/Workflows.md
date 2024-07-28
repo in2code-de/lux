@@ -43,14 +43,20 @@ Possible triggers by default are:
 * Lead properties: If a lead gets identified
 * Lead properties: When lead reaches a scoring
 * Lead properties: When lead reaches a categoryscoring
-* Lead properties: If lead company given
-* Lead properties: If any property value is given
+* Lead properties: If lead is using a mobile device
+* Lead properties: If lead company is given
+* Lead properties: If any property value of a lead is given
 * Lead properties: Use your own expressions for doing even mor individual stuff (with Symfony Expression Language)
+* Lead properties: For a specific company branch (with WiredMinds integration)
+* Lead properties: For a specific company revenue (with WiredMinds integration)
+* Lead properties: For a specific company size (with WiredMinds integration)
 * Lead action: On entering a page
 * Lead action: On reading a news
-* Lead action: When lead enters a page of a given category
+* Lead action: When lead enters a page or downloads an asset of a given category
 * Lead action: When lead enters a page in a given language
 * Lead action: When lead enters a page of a given site
+* Lead action: When lead enters a virtual page
+* Lead action: When lead searches for a specific searchterm
 * Lead source: Check for a given referrer
 * Lead source: Check for a given UTM parameter
 * Lead source: Check for lead country
@@ -235,6 +241,63 @@ lib.lux.settings {
         }
       }
 
+      # Wiredminds Company: On branch
+      170 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.company_branch
+
+        # Classname for implementation of the trigger itself
+        className = In2code\Luxenterprise\Domain\Workflow\Trigger\CompanyBranchTrigger
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/CompanyBranch.html
+
+        # Additional configuration
+        configuration {
+          condition {
+            typoscript = tracking.company._enable=1
+          }
+        }
+      }
+
+      # Wiredminds Company: On revenue
+      180 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.company_revenue
+
+        # Classname for implementation of the trigger itself
+        className = In2code\Luxenterprise\Domain\Workflow\Trigger\CompanyRevenueTrigger
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/CompanyRevenue.html
+
+        # Additional configuration
+        configuration {
+          condition {
+            typoscript = tracking.company._enable=1
+          }
+        }
+      }
+
+      # Wiredminds Company: On size
+      190 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.company_size
+
+        # Classname for implementation of the trigger itself
+        className = In2code\Luxenterprise\Domain\Workflow\Trigger\CompanySizeTrigger
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/CompanySize.html
+
+        # Additional configuration
+        configuration {
+          condition {
+            typoscript = tracking.company._enable=1
+          }
+        }
+      }
+
 
       # 400-699 LEAD ACTION
       # If lead visits a defined page
@@ -319,6 +382,40 @@ lib.lux.settings {
         # Additional configuration
         configuration {
           # Any configuration - available as array in Template File and Trigger class for some own magic
+        }
+      }
+
+      # If lead visits a virtual page
+      450 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.virtualpagevisit
+
+        # Classname for implementation of the trigger itself
+        className = In2code\Luxenterprise\Domain\Workflow\Trigger\VirtualPageVisitTrigger
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/VirtualPageVisit.html
+
+        # Additional configuration
+        configuration {
+          # Any configuration - available as array in Template File and Trigger class for some own magic
+        }
+      }
+
+      # If lead searches for a term
+      460 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.search
+
+        # Classname for implementation of the trigger itself
+        className = In2code\Luxenterprise\Domain\Workflow\Trigger\SearchTrigger
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Search.html
+
+        # Additional configuration
+        configuration {
+          searchParameters = {$plugin.tx_lux.settings.tracking.search.getParameters}
         }
       }
 

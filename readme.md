@@ -164,14 +164,20 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
   * Lead properties: If a lead gets identified
   * Lead properties: When lead reaches a scoring
   * Lead properties: When lead reaches a categoryscoring
-  * Lead properties: If lead company given
-  * Lead properties: If any property value is given
+  * Lead properties: If lead is using a mobile device
+  * Lead properties: If lead company is given
+  * Lead properties: If any property value of a lead is given
   * Lead properties: Use your own expressions for doing even mor individual stuff (with Symfony Expression Language)
+  * Lead properties: For a specific company branch (with WiredMinds integration)
+  * Lead properties: For a specific company revenue (with WiredMinds integration)
+  * Lead properties: For a specific company size (with WiredMinds integration)
   * Lead action: On entering a page
   * Lead action: On reading a news
-  * Lead action: When lead enters a page of a given category
+  * Lead action: When lead enters a page or downloads an asset of a given category
   * Lead action: When lead enters a page in a given language
   * Lead action: When lead enters a page of a given site
+  * Lead action: When lead enters a virtual page
+  * Lead action: When lead searches for a specific searchterm
   * Lead source: Check for a given referrer
   * Lead source: Check for a given UTM parameter
   * Lead source: Check for lead country
