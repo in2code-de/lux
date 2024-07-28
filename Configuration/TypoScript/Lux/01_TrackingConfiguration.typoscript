@@ -21,10 +21,10 @@ lib.lux.settings {
 
     search {
       # Toggle tracking of searchterms (on/off)
-      _enable = {$plugin.tx_lux.settings.tracking.search}
+      _enable = {$plugin.tx_lux.settings.tracking.search.enable}
 
       # Define GET params for searchterms (e.g. "tx_solr[q]")
-      getParameters = tx_solr[q],tx_indexedsearch[sword],tx_indexedsearch_pi2[search][sword],tx_kesearch_pi1[sword]
+      getParameters = {$plugin.tx_lux.settings.tracking.search.getParameters}
     }
 
     company {

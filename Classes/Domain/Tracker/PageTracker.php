@@ -52,9 +52,7 @@ class PageTracker
             $visitor->setVisits($visitor->getNumberOfUniquePagevisits());
             $this->visitorRepository->update($visitor);
             $this->visitorRepository->persistAll();
-            $this->eventDispatcher->dispatch(
-                GeneralUtility::makeInstance(PageTrackerEvent::class, $visitor, $pagevisit, $arguments)
-            );
+            $this->eventDispatcher->dispatch(new PageTrackerEvent($visitor, $pagevisit, $arguments));
             return $pagevisit;
         }
         return null;

@@ -106,8 +106,13 @@ plugin.tx_lux.settings {
     # cat=lux//0220; type=text; label= Activate download tracking: (De)Activate tracking if the user downloads an asset.
     assetDownloads.allowedExtensions = pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip
 
-    # cat=lux//0230; type=boolean; label= Activate searchterm tracking: (De)Activate tracking searchterms if user searched for someone on your website.
-    search = 1
+    search {
+      # cat=lux//0230; type=boolean; label= Activate searchterm tracking: (De)Activate tracking searchterms if user searched for someone on your website.
+      enable = 1
+
+      # cat=lux//0240; type=text; label= search GET parameters: Listen for searchterms in available GET parameters
+      getParameters = q,tx_solr[q],tx_indexedsearch[sword],tx_indexedsearch_pi2[search][sword],tx_kesearch_pi1[sword]
+    }
 
     company {
       # cat=lux//0300; type=boolean; label= Activate tracking via wiredminds: (De)Activate tracking enrichment of lead data via wiredminds.com

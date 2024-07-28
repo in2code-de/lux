@@ -16,6 +16,7 @@ use In2code\Lux\Events\Log\LogVisitorIdentifiedByFrontendauthenticationEvent;
 use In2code\Lux\Events\Log\LogVisitorIdentifiedByLuxletterlinkEvent;
 use In2code\Lux\Events\Log\SearchEvent;
 use In2code\Lux\Events\Log\UtmEvent;
+use In2code\Lux\Events\Log\VirtualPageTrackerEvent;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
@@ -119,6 +120,17 @@ class Log implements SingletonInterface
     public function logEmail4LinkEmailFailed(LogEmail4linkSendEmailFailedEvent $event): void
     {
         $this->logService->logEmail4LinkEmailFailed($event->getVisitor(), $event->getHref());
+    }
+
+    /**
+     * @param VirtualPageTrackerEvent $event
+     * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    public function logVirtualPageRequest(VirtualPageTrackerEvent $event): void
+    {
+        $this->logService->logVirtualPageRequest($event->getVisitor(), $event->getParameter());
     }
 
     /**

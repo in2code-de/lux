@@ -1103,6 +1103,10 @@
 				<source>Fifth page visit</source>
 				<target state="translated">Fünfter Seitenbesuch</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.log.status.48">
+				<source>Virtual page visit</source>
+				<target state="translated">Virtueller Seitenbesuch</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.log.status.50">
 				<source>LUX tracked a download</source>
 				<target state="translated">LUX hat einen Download aufgezeichnet</target>

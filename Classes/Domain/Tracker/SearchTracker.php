@@ -43,29 +43,27 @@ class SearchTracker
     public function track(Visitor $visitor, array $arguments, Pagevisit $pagevisit = null): void
     {
         if ($this->isTrackingActivated($visitor, $arguments)) {
-            $searchTerm = $this->getSearchTerm($arguments['currentUrl']);
             $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Search::TABLE_NAME);
             $properties = [
-                'searchterm' => $searchTerm,
+                'searchterm' => $this->getSearchTerm($arguments),
                 'visitor' => $visitor->getUid(),
                 'crdate' => time(),
                 'tstamp' => time(),
+                'sys_language_uid' => -1,
             ];
             if ($pagevisit !== null) {
                 $properties['pagevisit'] = $pagevisit->getUid();
             }
             $queryBuilder->insert(Search::TABLE_NAME)->values($properties)->executeStatement();
             $searchUid = $queryBuilder->getConnection()->lastInsertId();
-            $this->eventDispatcher->dispatch(
-                GeneralUtility::makeInstance(SearchEvent::class, $visitor, (int)$searchUid)
-            );
+            $this->eventDispatcher->dispatch(new SearchEvent($visitor, (int)$searchUid));
         }
     }
 
     protected function isTrackingActivated(Visitor $visitor, array $arguments): bool
     {
         return $visitor->isNotBlacklisted() && $this->isTrackingActivatedInSettings()
-            && $this->isSearchTermGiven($arguments['currentUrl']);
+            && $this->isAnySearchTermGiven($arguments);
     }
 
     /**
@@ -75,22 +73,37 @@ class SearchTracker
      */
     protected function isTrackingActivatedInSettings(): bool
     {
-        return !empty($this->settings['tracking']['search']['_enable'])
-            && $this->settings['tracking']['search']['_enable'] === '1';
+        return ($this->settings['tracking']['search']['_enable'] ?? false) === '1';
     }
 
-    protected function isSearchTermGiven(string $currentUrl): bool
+    protected function isAnySearchTermGiven(array $arguments): bool
     {
-        return $this->getSearchTerm($currentUrl) !== '';
+        return $this->getSearchTerm($arguments) !== '';
+    }
+
+    protected function getSearchTerm(array $arguments): string
+    {
+        if (isset($arguments['parameter'])) {
+            return strtolower($arguments['parameter']);
+        }
+        if ($this->isSearchTermGivenInUrl($arguments['currentUrl'])) {
+            return $this->getSearchTermFromUrl($arguments['currentUrl']);
+        }
+        return '';
+    }
+
+    protected function isSearchTermGivenInUrl(string $currentUrl): bool
+    {
+        return $this->getSearchTermFromUrl($currentUrl) !== '';
     }
 
     /**
-     * Read the searchterm from URL GET parameters
+     * Read searchterm from URL GET parameters
      *
      * @param string $currentUrl
      * @return string
      */
-    protected function getSearchTerm(string $currentUrl): string
+    protected function getSearchTermFromUrl(string $currentUrl): string
     {
         $parsed = parse_url($currentUrl);
         if (!empty($parsed['query']) && !empty($this->settings['tracking']['search']['getParameters'])) {

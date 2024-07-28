@@ -49,9 +49,7 @@ class NewsTracker
             $visitor->addNewsvisit($newsvisit);
             $this->visitorRepository->update($visitor);
             $this->visitorRepository->persistAll();
-            $this->eventDispatcher->dispatch(
-                GeneralUtility::makeInstance(NewsTrackerEvent::class, $visitor, $newsvisit, $arguments)
-            );
+            $this->eventDispatcher->dispatch(new NewsTrackerEvent($visitor, $newsvisit, $arguments));
         }
     }
 

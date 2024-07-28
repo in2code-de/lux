@@ -41,7 +41,7 @@ class UtmTracker
             try {
                 $this->utmRepository->add($utm);
                 $this->utmRepository->persistAll();
-                $this->eventDispatcher->dispatch(GeneralUtility::makeInstance(UtmEvent::class, $utm));
+                $this->eventDispatcher->dispatch(new UtmEvent($utm));
             } catch (Throwable $exception) {
                 // Do nothing
             }
@@ -56,7 +56,7 @@ class UtmTracker
             try {
                 $this->utmRepository->add($utm);
                 $this->utmRepository->persistAll();
-                $this->eventDispatcher->dispatch(GeneralUtility::makeInstance(UtmEvent::class, $utm));
+                $this->eventDispatcher->dispatch(new UtmEvent($utm));
             } catch (Throwable $exception) {
                 // Do nothing
             }

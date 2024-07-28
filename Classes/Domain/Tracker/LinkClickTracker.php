@@ -60,9 +60,7 @@ class LinkClickTracker
             $this->linkclickRepository->add($linkclick);
             $this->linkclickRepository->persistAll();
 
-            $this->eventDispatcher->dispatch(
-                GeneralUtility::makeInstance(LinkClickEvent::class, $this->visitor, $linklistener, $pageUid)
-            );
+            $this->eventDispatcher->dispatch(new LinkClickEvent($this->visitor, $linklistener, $pageUid));
         }
     }
 }
