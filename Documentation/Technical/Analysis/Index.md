@@ -38,7 +38,7 @@ lib.lux.settings {
         }
         search {
             # Toggle tracking of searchterms (on/off)
-            _enable = {$plugin.tx_lux.settings.tracking.search}
+            _enable = {$plugin.tx_lux.settings.tracking.search.getParameters}
 
             # Define where the searchterm is given (e.g. "tx_solr[q]")
             getParameters = tx_solr[q],tx_indexedsearch[sword]
