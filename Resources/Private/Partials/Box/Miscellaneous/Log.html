@@ -87,7 +87,8 @@
 
 
 <f:section name="status48">
-    "{log.virtualPath}"
+    "{log.eventName}"
+    <span title="UID:{log.visitor.uid}">(<f:link.action action="detail" controller="Lead" arguments="{visitor:log.visitor}">{log.visitor.fullName}</f:link.action>)</span>
 </f:section>
 
 

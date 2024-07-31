@@ -176,7 +176,7 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
   * Lead action: When lead enters a page or downloads an asset of a given category
   * Lead action: When lead enters a page in a given language
   * Lead action: When lead enters a page of a given site
-  * Lead action: When lead enters a virtual page
+  * Lead action: On any lead interaction (even tracking)
   * Lead action: When lead searches for a specific searchterm
   * Lead source: Check for a given referrer
   * Lead source: Check for a given UTM parameter

@@ -20,7 +20,7 @@ use In2code\Lux\Domain\Tracker\LuxletterlinkAttributeTracker;
 use In2code\Lux\Domain\Tracker\NewsTracker;
 use In2code\Lux\Domain\Tracker\PageTracker;
 use In2code\Lux\Domain\Tracker\SearchTracker;
-use In2code\Lux\Domain\Tracker\VirtualPageTracker;
+use In2code\Lux\Domain\Tracker\EventTracker;
 use In2code\Lux\Events\AfterTrackingEvent;
 use In2code\Lux\Exception\ActionNotAllowedException;
 use In2code\Lux\Exception\ConfigurationException;
@@ -46,14 +46,14 @@ class FrontendController extends ActionController
     protected ConfigurationService $configurationService;
     protected CompanyTracker $companyTracker;
     protected PageTracker $pageTracker;
-    protected VirtualPageTracker $virtualPageTracker;
+    protected EventTracker $eventTracker;
     protected NewsTracker $newsTracker;
     protected SearchTracker $searchTracker;
     protected $eventDispatcher;
     protected LoggerInterface $logger;
     protected array $allowedActions = [
         'pageRequest',
-        'virtualPageRequest',
+        'eventTrackRequest',
         'searchRequest',
         'fieldListeningRequest',
         'formListeningRequest',
@@ -69,7 +69,7 @@ class FrontendController extends ActionController
         ConfigurationService $configurationService,
         CompanyTracker $companyTracker,
         PageTracker $pageTracker,
-        VirtualPageTracker $virtualPageTracker,
+        EventTracker $eventTracker,
         NewsTracker $newsTracker,
         SearchTracker $searchTracker,
         EventDispatcherInterface $eventDispatcher,
@@ -78,7 +78,7 @@ class FrontendController extends ActionController
         $this->configurationService = $configurationService;
         $this->companyTracker = $companyTracker;
         $this->pageTracker = $pageTracker;
-        $this->virtualPageTracker = $virtualPageTracker;
+        $this->eventTracker = $eventTracker;
         $this->newsTracker = $newsTracker;
         $this->searchTracker = $searchTracker;
         $this->eventDispatcher = $eventDispatcher;
@@ -147,11 +147,11 @@ class FrontendController extends ActionController
      * @return ResponseInterface
      * @noinspection PhpUnused
      */
-    public function virtualPageRequestAction(string $identificator, array $arguments): ResponseInterface
+    public function eventTrackRequestAction(string $identificator, array $arguments): ResponseInterface
     {
         try {
             $visitor = $this->getVisitor($identificator);
-            $this->virtualPageTracker->track($visitor, $arguments);
+            $this->eventTracker->track($visitor, $arguments);
             return $this->jsonResponse(json_encode($this->afterAction($visitor)));
         } catch (Throwable $exception) {
             return $this->jsonResponse(json_encode($this->getError($exception)));

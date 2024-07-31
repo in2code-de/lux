@@ -31,7 +31,7 @@ class Log extends AbstractModel
     public const STATUS_PAGEVISIT3 = 41;
     public const STATUS_PAGEVISIT4 = 42;
     public const STATUS_PAGEVISIT5 = 43;
-    public const STATUS_VIRTUALPAGEVISIT = 48;
+    public const STATUS_EVENTTRACK = 48;
     public const STATUS_DOWNLOAD = 50;
     public const STATUS_SEARCH = 55;
     public const STATUS_ACTION = 60;
@@ -167,9 +167,9 @@ class Log extends AbstractModel
         return $searchRepository->findByIdentifier($searchUid);
     }
 
-    public function getVirtualPath(): string
+    public function getEventName(): string
     {
-        return $this->getPropertyByKey('virtualPath');
+        return $this->getPropertyByKey('eventName');
     }
 
     public function getLinklistener(): ?Linklistener

@@ -1104,8 +1104,8 @@
 				<target state="translated">Fünfter Seitenbesuch</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.48">
-				<source>Virtual page visit</source>
-				<target state="translated">Virtueller Seitenbesuch</target>
+				<source>Tracked event</source>
+				<target state="translated">Event getrackt</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.50">
 				<source>LUX tracked a download</source>

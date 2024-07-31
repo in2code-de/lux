@@ -182,9 +182,9 @@ services:
         method: 'logEmail4LinkEmailFailed'
         event: In2code\Lux\Events\Log\LogEmail4linkSendEmailFailedEvent
       - name: 'event.listener'
-        identifier: 'lux/logVirtualPageRequest'
-        method: 'logVirtualPageRequest'
-        event: In2code\Lux\Events\Log\VirtualPageTrackerEvent
+        identifier: 'lux/logEventTrackRequest'
+        method: 'logEventTrackRequest'
+        event: In2code\Lux\Events\Log\EventTrackerEvent
       - name: 'event.listener'
         identifier: 'lux/logDownload'
         method: 'logDownload'

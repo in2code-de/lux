@@ -55,7 +55,7 @@ Possible triggers by default are:
 * Lead action: When lead enters a page or downloads an asset of a given category
 * Lead action: When lead enters a page in a given language
 * Lead action: When lead enters a page of a given site
-* Lead action: When lead enters a virtual page
+* Lead action: On any lead interaction (even tracking)
 * Lead action: When lead searches for a specific searchterm
 * Lead source: Check for a given referrer
 * Lead source: Check for a given UTM parameter
@@ -385,16 +385,16 @@ lib.lux.settings {
         }
       }
 
-      # If lead visits a virtual page
+      # Event tracking of any interation
       450 {
         # Title to show in workflow backend module
-        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.virtualpagevisit
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.event
 
         # Classname for implementation of the trigger itself
-        className = In2code\Luxenterprise\Domain\Workflow\Trigger\VirtualPageVisitTrigger
+        className = In2code\Luxenterprise\Domain\Workflow\Trigger\EventTrigger
 
         # Templatefile for implementation of the form in workflow module
-        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/VirtualPageVisit.html
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/Event.html
 
         # Additional configuration
         configuration {
