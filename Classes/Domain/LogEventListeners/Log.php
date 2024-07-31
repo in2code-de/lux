@@ -16,7 +16,7 @@ use In2code\Lux\Events\Log\LogVisitorIdentifiedByFrontendauthenticationEvent;
 use In2code\Lux\Events\Log\LogVisitorIdentifiedByLuxletterlinkEvent;
 use In2code\Lux\Events\Log\SearchEvent;
 use In2code\Lux\Events\Log\UtmEvent;
-use In2code\Lux\Events\Log\VirtualPageTrackerEvent;
+use In2code\Lux\Events\Log\EventTrackerEvent;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
@@ -123,14 +123,14 @@ class Log implements SingletonInterface
     }
 
     /**
-     * @param VirtualPageTrackerEvent $event
+     * @param EventTrackerEvent $event
      * @return void
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
-    public function logVirtualPageRequest(VirtualPageTrackerEvent $event): void
+    public function logEventTrackRequest(EventTrackerEvent $event): void
     {
-        $this->logService->logVirtualPageRequest($event->getVisitor(), $event->getParameter());
+        $this->logService->logEventTrackRequest($event->getVisitor(), $event->getParameter());
     }
 
     /**

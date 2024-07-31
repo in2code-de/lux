@@ -123,12 +123,12 @@ in this item.
 <img src="../../../Documentation/Images/screenshot_analysis_content.png" width="800" />
 
 **Technical note:** Page visits will be automatically be tracked with LUX on normal TYPO3 pages. In some rare scenarios
-you may want to push a virtual pagevisit to LUX. This can be helpful if you want to track accordion opens, multistep
+you may want to push an interaction (event) to LUX. This can be helpful if you want to track accordion opens, multistep
 forms or other content changes without page reload and without a different URL. You can push such a visit via JavaScript:
 
 ```
 const lux = LuxSingleton.getInstance();
-lux.push('applicationProcess/step1', 'virtualPageRequest');
+lux.push('applicationProcess/step1', 'eventTrackRequest');
 ```
 
 #### News

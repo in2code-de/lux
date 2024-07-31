@@ -183,7 +183,7 @@ class LogRepository extends AbstractRepository
         );
         if ($configString === '') {
             // In some rare cases TypoScript is not available in backend module even if TS is included in root template
-            $configString = '2,3,25,28,26,21,22,23,50,55,60,70,80,100';
+            $configString = '2,3,25,28,26,21,22,23,48,50,55,60,70,80,100';
         }
         $status = GeneralUtility::trimExplode(',', $configString, true);
         return [

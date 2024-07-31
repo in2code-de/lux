@@ -73,16 +73,16 @@ function LuxMain() {
   };
 
   /**
-   * Allow to push virtual page requests or search requests to LUX
+   * Allow to push event requests or search requests to LUX
    *
-   * @params {string} Any parameter. Typically, a virtual page like "antragsstrecke/step1" or searchterm like "product"
-   * @params {string} "virtualPageRequest" or "searchRequest"
+   * @params {string} Any parameter. Typically, an event track like "antragsstrecke/step1" or searchterm like "product"
+   * @params {string} "eventTrackRequest" or "searchRequest"
    * @returns {void}
    * @api
    */
   this.push = function(parameter, to) {
     const parameters = {
-      'tx_lux_fe[dispatchAction]': to || 'virtualPageRequest',
+      'tx_lux_fe[dispatchAction]': to || 'eventTrackRequest',
       'tx_lux_fe[identificator]': identification.getIdentificator(),
       'tx_lux_fe[arguments][pageUid]': getPageUid(),
       'tx_lux_fe[arguments][languageUid]': getLanguageUid(),

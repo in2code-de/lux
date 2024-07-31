@@ -5,7 +5,7 @@ namespace In2code\Lux\Events\Log;
 
 use In2code\Lux\Domain\Model\Visitor;
 
-final class VirtualPageTrackerEvent
+final class EventTrackerEvent
 {
     protected Visitor $visitor;
     protected string $parameter;

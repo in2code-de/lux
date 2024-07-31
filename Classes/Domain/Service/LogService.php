@@ -121,9 +121,9 @@ class LogService
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
-    public function logVirtualPageRequest(Visitor $visitor, string $parameter): void
+    public function logEventTrackRequest(Visitor $visitor, string $parameter): void
     {
-        $this->log(Log::STATUS_VIRTUALPAGEVISIT, $visitor, ['virtualPath' => $parameter]);
+        $this->log(Log::STATUS_EVENTTRACK, $visitor, ['eventName' => $parameter]);
     }
 
     /**

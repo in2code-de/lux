@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Tracker;
 
 use In2code\Lux\Domain\Model\Visitor;
-use In2code\Lux\Events\Log\VirtualPageTrackerEvent;
+use In2code\Lux\Events\Log\EventTrackerEvent;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
-class VirtualPageTracker
+class EventTracker
 {
     private EventDispatcherInterface $eventDispatcher;
 
@@ -18,6 +18,6 @@ class VirtualPageTracker
 
     public function track(Visitor $visitor, array $arguments)
     {
-        $this->eventDispatcher->dispatch(new VirtualPageTrackerEvent($visitor, $arguments['parameter'], $arguments));
+        $this->eventDispatcher->dispatch(new EventTrackerEvent($visitor, $arguments['parameter'], $arguments));
     }
 }

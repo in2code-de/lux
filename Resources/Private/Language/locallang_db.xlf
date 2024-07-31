@@ -835,7 +835,7 @@
 				<source>Fifth page visit</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.48">
-				<source>Virtual page visit</source>
+				<source>Tracked event</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.50">
 				<source>LUX tracked a download</source>
