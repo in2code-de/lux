@@ -98,7 +98,7 @@ CREATE TABLE tx_lux_domain_model_attribute (
 	visitor int(11) DEFAULT '0' NOT NULL,
 
 	name varchar(255) DEFAULT '' NOT NULL,
-	value varchar(255) DEFAULT '' NOT NULL,
+	value text DEFAULT '' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

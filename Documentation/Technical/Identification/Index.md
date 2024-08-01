@@ -164,7 +164,7 @@ lib.lux.settings {
                 0 = email
                 1 = *[email]
                 2 = *[e-mail]
-                2 = *[e_mail]
+                3 = *[e_mail]
             }
             firstname {
                 0 = firstname

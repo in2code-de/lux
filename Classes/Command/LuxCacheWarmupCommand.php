@@ -12,13 +12,13 @@ use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\ContextException;
 use In2code\Lux\Utility\CacheLayerUtility;
 use In2code\Lux\Utility\ConfigurationUtility;
+use In2code\Lux\Utility\EnvironmentUtility;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
-use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
@@ -51,7 +51,7 @@ class LuxCacheWarmupCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (Environment::isCli() === false) {
+        if (EnvironmentUtility::isCli() === false) {
             throw new ContextException('This command can only be executed from CLI', 1645378130);
         }
 
