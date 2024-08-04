@@ -54,3 +54,6 @@ showRenderTimes = 0
 
 # cat=advanced/enable/270; type=boolean; label= Use cache layer: Performance boost for backend views. Cache layer could be used for both dashboard views and quick analyse in page overview view. Lifetime is per default 24h and caches can be warmed up via scheduler task.
 useCacheLayer = 1
+
+# cat=advanced/enable/280; type=boolean; label= Enable exception logging: If the user is not logged in into backend and an exception happens, those exceptions can be logged as warning in var/log/typo3_[hash].log
+enbaleExceptionLogging = 1
