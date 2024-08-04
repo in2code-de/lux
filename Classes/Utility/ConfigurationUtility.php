@@ -214,11 +214,6 @@ class ConfigurationUtility
         return $extensionConfig['disableWorkflowModule'] === '1';
     }
 
-    public static function isComposerMode(): bool
-    {
-        return defined('TYPO3_COMPOSER_MODE');
-    }
-
     /**
      * Get extension configuration from LocalConfiguration.php
      *
