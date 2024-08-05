@@ -56,4 +56,4 @@ showRenderTimes = 0
 useCacheLayer = 1
 
 # cat=advanced/enable/280; type=boolean; label= Enable exception logging: If the user is not logged in into backend and an exception happens, those exceptions can be logged as warning in var/log/typo3_[hash].log
-enbaleExceptionLogging = 1
+enbaleExceptionLogging = 0
