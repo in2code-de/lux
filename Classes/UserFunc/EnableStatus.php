@@ -5,8 +5,8 @@ namespace In2code\Lux\UserFunc;
 
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Visitor;
-use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\DatabaseUtility;
+use In2code\Lux\Utility\EnvironmentUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
@@ -23,8 +23,8 @@ class EnableStatus
     public function showEnableStatus(): string
     {
         $variables = [
-            'status' => ConfigurationUtility::isComposerMode() && ExtensionManagementUtility::isLoaded('lux'),
-            'composerMode' => ConfigurationUtility::isComposerMode(),
+            'status' => EnvironmentUtility::isComposerMode() && ExtensionManagementUtility::isLoaded('lux'),
+            'composerMode' => EnvironmentUtility::isComposerMode(),
             'enabled' => [
                 'lux' => ExtensionManagementUtility::isLoaded('lux'),
                 'luxenterprise' => ExtensionManagementUtility::isLoaded('luxenterprise'),

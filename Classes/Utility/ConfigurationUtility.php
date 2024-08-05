@@ -208,15 +208,21 @@ class ConfigurationUtility
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      */
+    public static function isExceptionLoggingActivated(): bool
+    {
+        $extensionConfig = self::getExtensionConfiguration();
+        return $extensionConfig['enbaleExceptionLogging'] === '1';
+    }
+
+    /**
+     * @return bool
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     */
     public static function isWorkflowModuleDisabled(): bool
     {
         $extensionConfig = self::getExtensionConfiguration();
         return $extensionConfig['disableWorkflowModule'] === '1';
-    }
-
-    public static function isComposerMode(): bool
-    {
-        return defined('TYPO3_COMPOSER_MODE');
     }
 
     /**

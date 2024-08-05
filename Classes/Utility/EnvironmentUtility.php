@@ -38,4 +38,9 @@ class EnvironmentUtility
     {
         return Environment::isCli();
     }
+
+    public static function isComposerMode(): bool
+    {
+        return defined('TYPO3_COMPOSER_MODE');
+    }
 }

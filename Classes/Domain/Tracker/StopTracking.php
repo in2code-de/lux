@@ -10,7 +10,7 @@ use In2code\Lux\Exception\DisallowedUserAgentException;
 /**
  * Class StopTracking
  *
- * to stop the initial tracking for some reasons:
+ * to stop the initial tracking for some reason:
  * - If useragent is empty (seems to be not a normal visitor)
  * - If useragent contains stop words (e.g. lighthouse, sistrix)
  * - If useragent turns out to be a blacklisted browser (e.g. "Googlebot")
@@ -35,17 +35,48 @@ class StopTracking
      * @var array
      */
     protected array $blacklistedUa = [
-        'googlebot',
-        'pinterestbot',
-        'linkedinbot',
-        'bingbot',
+        'adidxbot',
+        'ahrefsbot',
+        'alexabot',
+        'amazonbot',
+        'applebot',
         'archive.org_bot',
-        'yandexbot',
-        'sistrix',
-        'lighthouse',
-        'sistrix',
+        'baiduspider',
+        'bingbot',
+        'blexbot',
         'cookieradar',
-        'HeadlessChrome',
+        'curl',
+        'discordbot',
+        'dotbot',
+        'duckduckbot',
+        'exabot',
+        'facebookexternalhit',
+        'googlebot',
+        'headlesschrome',
+        'ia_archiver',
+        'lighthouse',
+        'linkedinbot',
+        'mauibot',
+        'msnbot',
+        'phantomjs',
+        'pingdom',
+        'pinterestbot',
+        'python-requests',
+        'rogerbot',
+        'selenium',
+        'semrushbot',
+        'sistrix',
+        'skypebot',
+        'slackbot',
+        'slurp',
+        'sogou',
+        'telegrambot',
+        'twitterbot',
+        'uptimerobot',
+        'wget',
+        'whatsapp',
+        'yacybot',
+        'yandexbot',
     ];
 
     /**
