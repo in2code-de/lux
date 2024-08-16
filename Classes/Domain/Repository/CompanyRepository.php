@@ -30,7 +30,7 @@ class CompanyRepository extends AbstractRepository
      */
     public function findByFilter(FilterDto $filter): array
     {
-        $sql = 'select c.uid,sum(v.scoring) companyscoring'
+        $sql = 'select c.uid,sum(distinct v.scoring) companyscoring'
             . ' from ' . Company::TABLE_NAME . ' c'
             . ' left join ' . Visitor::TABLE_NAME . ' v on v.companyrecord = c.uid'
             . ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.visitor = v.uid'
