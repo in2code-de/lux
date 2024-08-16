@@ -31,7 +31,8 @@
 		"typo3/cms-core": "^11.5 || ^12.0",
 		"symfony/expression-language": ">=4.0",
 		"buzz/which-browser-parser": "^2.1",
-		"in2code/google-image-grabber": "^1.0.4"
+		"in2code/google-image-grabber": "^1.0.4",
+		"mlocati/ip-lib": "^1.18"
 	},
 	"replace": {
 		"typo3-ter/lux": "self.version"

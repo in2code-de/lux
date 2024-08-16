@@ -5,7 +5,9 @@ namespace In2code\Lux\Domain\Tracker;
 
 use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Events\StopAnyProcessBeforePersistenceEvent;
+use In2code\Lux\Exception\DisallowedIpAddressException;
 use In2code\Lux\Exception\DisallowedUserAgentException;
+use In2code\Lux\Utility\IpUtility;
 
 /**
  * Class StopTracking
@@ -15,6 +17,7 @@ use In2code\Lux\Exception\DisallowedUserAgentException;
  * - If useragent contains stop words (e.g. lighthouse, sistrix)
  * - If useragent turns out to be a blacklisted browser (e.g. "Googlebot")
  * - If useragent turns out to be a bot (via WhichBrowser\Parser)
+ * - If IP address is in blacklisted range
  */
 class StopTracking
 {
@@ -121,6 +124,21 @@ class StopTracking
     ];
 
     /**
+     * List e.g. from https://www.perplexity.ai/perplexitybot.json
+     *
+     * @var array
+     */
+    protected array $ipRanges = [
+        '54.90.207.250/32',
+        '23.22.208.105/32',
+        '54.242.1.13/32',
+        '18.208.251.246/32',
+        '34.230.5.59/32',
+        '18.207.114.171/32',
+        '54.221.7.250/32',
+    ];
+
+    /**
      * Stop tracking if:
      * - UserAgent is empty (probably a crawler like crawler or caretaker extension in TYPO3)
      * - For any blacklisted strings in UserAgent string
@@ -129,6 +147,7 @@ class StopTracking
      * @param StopAnyProcessBeforePersistenceEvent $event
      * @return void Throw exception if blacklisted
      * @throws DisallowedUserAgentException
+     * @throws DisallowedIpAddressException
      */
     public function __invoke(StopAnyProcessBeforePersistenceEvent $event)
     {
@@ -136,6 +155,7 @@ class StopTracking
         $this->checkForBlacklistedUserAgentStrings($event->getFingerprint());
         $this->checkForBlacklistedParsedUserAgent($event->getFingerprint());
         $this->checkForBotUserAgent($event->getFingerprint());
+        $this->checkForBlacklistedIpAddressRanges();
     }
 
     /**
@@ -186,6 +206,17 @@ class StopTracking
     {
         if ($fingerprint->getPropertiesFromUserAgent()['type'] === 'bot') {
             throw new DisallowedUserAgentException('Stop tracking because of bot', 1608109683);
+        }
+    }
+
+    /**
+     * @return void
+     * @throws DisallowedIpAddressException
+     */
+    protected function checkForBlacklistedIpAddressRanges(): void
+    {
+        if (IpUtility::isCurrentIpInGivenRanges($this->ipRanges)) {
+            throw new DisallowedIpAddressException('Stop tracking because of blacklisted IP', 1723793497);
         }
     }
 }
