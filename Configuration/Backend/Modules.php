@@ -37,6 +37,11 @@ return [
                 'remove',
                 'deactivate',
                 'resetFilter',
+                'companies',
+                'companiesDisabled',
+                'company',
+                'downloadCsvCompanies',
+                'removeCompany',
             ],
             \In2code\Lux\Controller\GeneralController::class => [
                 'information',
