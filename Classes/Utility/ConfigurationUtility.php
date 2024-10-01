@@ -211,7 +211,7 @@ class ConfigurationUtility
     public static function isExceptionLoggingActivated(): bool
     {
         $extensionConfig = self::getExtensionConfiguration();
-        return $extensionConfig['enbaleExceptionLogging'] === '1';
+        return $extensionConfig['enableExceptionLogging'] === '1';
     }
 
     /**
