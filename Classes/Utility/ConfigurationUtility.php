@@ -20,7 +20,7 @@ class ConfigurationUtility
     public static function getScoringCalculation(): string
     {
         $extensionConfig = self::getExtensionConfiguration();
-        $scoringCalculation = (string)$extensionConfig['scoringCalculation'];
+        $scoringCalculation = $extensionConfig['scoringCalculation'] ?? '';
         if ($scoringCalculation === '') {
             $scoringCalculation
                 = '(10 * numberOfSiteVisits) + (1 * numberOfPageVisits) + (20 * downloads) - (1 * lastVisitDaysAgo)';
@@ -36,7 +36,7 @@ class ConfigurationUtility
     public static function getCategoryScoringAddPageVisit(): int
     {
         $extensionConfig = self::getExtensionConfiguration();
-        return (int)$extensionConfig['categoryScoringAddPageVisit'];
+        return (int)($extensionConfig['categoryScoringAddPageVisit'] ?? 10);
     }
 
     /**
@@ -47,7 +47,7 @@ class ConfigurationUtility
     public static function getCategoryScoringAddNewsVisit(): int
     {
         $extensionConfig = self::getExtensionConfiguration();
-        return (int)$extensionConfig['categoryScoringAddNewsVisit'];
+        return (int)($extensionConfig['categoryScoringAddNewsVisit'] ?? 10);
     }
 
     /**
@@ -58,7 +58,7 @@ class ConfigurationUtility
     public static function getCategoryScoringAddDownload(): int
     {
         $extensionConfig = self::getExtensionConfiguration();
-        return (int)$extensionConfig['categoryScoringAddDownload'];
+        return (int)($extensionConfig['categoryScoringAddDownload'] ?? 20);
     }
 
     /**
@@ -69,7 +69,7 @@ class ConfigurationUtility
     public static function getCategoryScoringLinkListenerClick(): int
     {
         $extensionConfig = self::getExtensionConfiguration();
-        return (int)$extensionConfig['categoryScoringLinkListenerClick'];
+        return (int)($extensionConfig['categoryScoringLinkListenerClick'] ?? 20);
     }
 
     /**
@@ -80,7 +80,7 @@ class ConfigurationUtility
     public static function isPageOverviewDisabled(): bool
     {
         $extensionConfig = self::getExtensionConfiguration();
-        return $extensionConfig['disablePageOverview'] === '1';
+        return ($extensionConfig['disablePageOverview'] ?? '0') === '1';
     }
 
     /**
@@ -95,7 +95,7 @@ class ConfigurationUtility
             'analysis',
             'leads',
         ];
-        if (in_array((string)$extensionConfig['pageOverviewView'], $allowed)) {
+        if (in_array(($extensionConfig['pageOverviewView'] ?? ''), $allowed)) {
             return $extensionConfig['pageOverviewView'];
         }
         return $allowed[0];
@@ -120,7 +120,7 @@ class ConfigurationUtility
     protected static function isCkEditorConfigurationDisabled(): bool
     {
         $extensionConfig = self::getExtensionConfiguration();
-        return $extensionConfig['disableCkEditorConfiguration'] === '1';
+        return ($extensionConfig['disableCkEditorConfiguration'] ?? '0') === '1';
     }
 
     /**
@@ -131,7 +131,7 @@ class ConfigurationUtility
     public static function isIpLoggingDisabled(): bool
     {
         $extensionConfig = self::getExtensionConfiguration();
-        return $extensionConfig['disableIpLogging'] === '1';
+        return ($extensionConfig['disableIpLogging'] ?? '0') === '1';
     }
 
     /**
@@ -142,7 +142,7 @@ class ConfigurationUtility
     public static function isAnonymizeIpEnabled(): bool
     {
         $extensionConfig = self::getExtensionConfiguration();
-        return $extensionConfig['anonymizeIp'] === '1';
+        return ($extensionConfig['anonymizeIp'] ?? '1') === '1';
     }
 
     /**
@@ -167,7 +167,7 @@ class ConfigurationUtility
     public static function isShowRenderTimesEnabled(): bool
     {
         $extensionConfig = self::getExtensionConfiguration();
-        return $extensionConfig['showRenderTimes'] === '1';
+        return ($extensionConfig['showRenderTimes'] ?? '0') === '1';
     }
 
     /**
@@ -178,7 +178,7 @@ class ConfigurationUtility
     public static function isUseCacheLayerEnabled(): bool
     {
         $extensionConfig = self::getExtensionConfiguration();
-        return $extensionConfig['useCacheLayer'] === '1';
+        return ($extensionConfig['useCacheLayer'] ?? '1') === '1';
     }
 
     /**
@@ -189,7 +189,7 @@ class ConfigurationUtility
     public static function isLeadModuleDisabled(): bool
     {
         $extensionConfig = self::getExtensionConfiguration();
-        return $extensionConfig['disableLeadModule'] === '1';
+        return ($extensionConfig['disableLeadModule'] ?? '0') === '1';
     }
 
     /**
@@ -200,7 +200,7 @@ class ConfigurationUtility
     public static function isAnalysisModuleDisabled(): bool
     {
         $extensionConfig = self::getExtensionConfiguration();
-        return $extensionConfig['disableAnalysisModule'] === '1';
+        return ($extensionConfig['disableAnalysisModule'] ?? '0') === '1';
     }
 
     /**
@@ -211,7 +211,7 @@ class ConfigurationUtility
     public static function isExceptionLoggingActivated(): bool
     {
         $extensionConfig = self::getExtensionConfiguration();
-        return $extensionConfig['enbaleExceptionLogging'] === '1';
+        return ($extensionConfig['enableExceptionLogging'] ?? '0') === '1';
     }
 
     /**
@@ -222,7 +222,7 @@ class ConfigurationUtility
     public static function isWorkflowModuleDisabled(): bool
     {
         $extensionConfig = self::getExtensionConfiguration();
-        return $extensionConfig['disableWorkflowModule'] === '1';
+        return ($extensionConfig['disableWorkflowModule'] ?? '0') === '1';
     }
 
     /**
