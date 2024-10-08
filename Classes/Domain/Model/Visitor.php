@@ -56,10 +56,10 @@ class Visitor extends AbstractModel
 
     /**
      * @Lazy
-     * @var ?Fingerprint|LazyLoadingProxy
+     * @var ?ObjectStorage<Fingerprint>
      * @phpstan-var ObjectStorage|LazyLoadingProxy|null
      */
-    protected Fingerprint|LazyLoadingProxy|null $fingerprints = null;
+    protected ObjectStorage|LazyLoadingProxy|null $fingerprints = null;
 
     protected string $email = '';
     protected string $company = '';
