@@ -122,23 +122,11 @@
                                             <lux:format.readableDate>{company.firstPagevisit.crdate}</lux:format.readableDate>
                                         </span>
                                         <span title="UID{company.firstPagevisit.visitor.uid}" style="margin-left: 1rem;">
-                                            <!-- Todo: Can be removed if TYPO3 11 support is dropped -->
-                                            <lux:condition.isTypo3Eleven>
-                                                <f:then>
-                                                    <f:be.link
-                                                        route="lux_LuxLead"
-                                                        parameters="{tx_lux_lux_luxlead:'{visitor:company.firstPagevisit.visitor.uid,action:\'detail\',controller:\'Lead\'}'}">
-                                                        {company.firstPagevisit.visitor.fullName}
-                                                    </f:be.link>
-                                                </f:then>
-                                                <f:else>
-                                                    <f:be.link
-                                                        route="lux_LuxLead.Lead_detail"
-                                                        parameters="{visitor:company.firstPagevisit.visitor.uid}">
-                                                        {company.firstPagevisit.visitor.fullName}
-                                                    </f:be.link>
-                                                </f:else>
-                                            </lux:condition.isTypo3Eleven>
+                                            <f:be.link
+                                                route="lux_LuxLead.Lead_detail"
+                                                parameters="{visitor:company.firstPagevisit.visitor.uid}">
+                                                {company.firstPagevisit.visitor.fullName}
+                                            </f:be.link>
                                         </span>
                                     </td>
                                 </tr>
@@ -151,23 +139,11 @@
                                             <lux:format.readableDate>{company.latestPagevisit.crdate}</lux:format.readableDate>
                                         </span>
                                         <span title="UID{company.latestPagevisit.visitor.uid}" style="margin-left: 1rem;">
-                                            <!-- Todo: Can be removed if TYPO3 11 support is dropped -->
-                                            <lux:condition.isTypo3Eleven>
-                                                <f:then>
-                                                    <f:be.link
-                                                        route="lux_LuxLead"
-                                                        parameters="{tx_lux_lux_luxlead:'{visitor:company.latestPagevisit.visitor.uid,action:\'detail\',controller:\'Lead\'}'}">
-                                                        {company.latestPagevisit.visitor.fullName}
-                                                    </f:be.link>
-                                                </f:then>
-                                                <f:else>
-                                                    <f:be.link
-                                                        route="lux_LuxLead.Lead_detail"
-                                                        parameters="{visitor:company.latestPagevisit.visitor.uid}">
-                                                        {company.latestPagevisit.visitor.fullName}
-                                                    </f:be.link>
-                                                </f:else>
-                                            </lux:condition.isTypo3Eleven>
+                                            <f:be.link
+                                                route="lux_LuxLead.Lead_detail"
+                                                parameters="{visitor:company.latestPagevisit.visitor.uid}">
+                                                {company.latestPagevisit.visitor.fullName}
+                                            </f:be.link>
                                         </span>
                                     </td>
                                 </tr>

@@ -33,10 +33,6 @@ class UriViewHelper extends AbstractTagBasedViewHelper
         $extensionService = GeneralUtility::makeInstance(ExtensionService::class);
         $pluginNamespace = $extensionService->getPluginNamespace($extensionName, $pluginName);
         $argumentPrefix = $pluginNamespace . '[' . $this->arguments['name'] . ']';
-        if (ConfigurationUtility::isTypo3Version11()) {
-            // Todo: Can be removed in TYPO3 11 support is dropped
-            $argumentPrefix = $this->arguments['name'];
-        }
         $arguments = $this->hasArgument('arguments') ? $this->arguments['arguments'] : [];
         if ($this->hasArgument('action')) {
             $arguments['action'] = $this->arguments['action'];

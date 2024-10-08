@@ -56,22 +56,20 @@ class Visitor extends AbstractModel
 
     /**
      * @Lazy
-     * @var ?ObjectStorage<Fingerprint>
+     * @var ?Fingerprint|LazyLoadingProxy
      * @phpstan-var ObjectStorage|LazyLoadingProxy|null
-     * Todo: Type can be changed to Fingerprint|LazyLoadingProxy|null when PHP 7.4 is dropped
      */
-    protected ?object $fingerprints = null;
+    protected Fingerprint|LazyLoadingProxy|null $fingerprints = null;
 
     protected string $email = '';
     protected string $company = '';
 
     /**
      * @Lazy
-     * @var Company|null
+     * @var Company|LazyLoadingProxy|null
      * @phpstan-var Company|LazyLoadingProxy|null
-     * Todo: Type can be changed to Company|LazyLoadingProxy|null when PHP 7.4 is dropped
      */
-    protected ?object $companyrecord = null;
+    protected Company|LazyLoadingProxy|null $companyrecord = null;
 
     protected bool $identified = false;
 
