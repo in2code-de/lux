@@ -142,29 +142,14 @@
                 </button>
 
                 <f:if condition="{company}">
-                    <!-- Todo: Can be removed if TYPO3 11 support is dropped -->
-                    <lux:condition.isTypo3Eleven>
-                        <f:then>
-                            <f:be.link
-                                route="lux_LuxLead"
-                                title="{company.title}"
-                                style="margin: 1rem 0.5rem 0 0;"
-                                class="btn btn-secondary pull-right"
-                                parameters="{tx_lux_lux_luxlead:'{company:company.uid,action:\'company\',controller:\'Lead\'}'}">
-                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.companylink">show</f:translate>
-                            </f:be.link>
-                        </f:then>
-                        <f:else>
-                            <f:be.link
-                                route="lux_LuxLead.Lead_company"
-                                title="{company.title}"
-                                style="margin: 1rem 0.5rem 0 0;"
-                                class="btn btn-secondary pull-right"
-                                parameters="{company:company.uid}">
-                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.companylink">show</f:translate>
-                            </f:be.link>
-                        </f:else>
-                    </lux:condition.isTypo3Eleven>
+                    <f:be.link
+                        route="lux_LuxLead.Lead_company"
+                        title="{company.title}"
+                        style="margin: 1rem 0.5rem 0 0;"
+                        class="btn btn-secondary pull-right"
+                        parameters="{company:company.uid}">
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.companylink">show</f:translate>
+                    </f:be.link>
                 </f:if>
             </div>
         </div>

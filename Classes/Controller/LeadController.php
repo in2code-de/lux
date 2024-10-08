@@ -29,7 +29,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Throwable;
 use TYPO3\CMS\Core\Http\JsonResponse;
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
@@ -241,8 +241,7 @@ class LeadController extends AbstractController
                 $companyConfigurationService->add($tokenWiredminds);
                 $this->addFlashMessage(LocalizationUtility::translateByKey('module.companiesDisabled.token.success'));
             } catch (Throwable $exception) {
-                // Todo: AbstractMessage::ERROR can be replaced with ContextualFeedbackSeverity::ERROR when TYPO3 11 support is dropped
-                $this->addFlashMessage($exception->getMessage(), '', AbstractMessage::ERROR);
+                $this->addFlashMessage($exception->getMessage(), '', ContextualFeedbackSeverity::ERROR);
             }
             return $this->redirect('companies');
         }

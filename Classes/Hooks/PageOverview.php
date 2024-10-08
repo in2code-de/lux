@@ -55,8 +55,6 @@ class PageOverview
     }
 
     /**
-     * Called from PSR-14 for TYPO3 12
-     *
      * @param ModifyPageLayoutContentEvent $event
      * @return void
      * @throws ConfigurationException
@@ -72,27 +70,6 @@ class PageOverview
         $queryParams = $event->getRequest()->getQueryParams();
         $pageIdentifier = (int)($queryParams['id'] ?? 0);
         $event->addHeaderContent($this->renderContent($pageIdentifier));
-    }
-
-    /**
-     * Called from ext_localconf.php for TYPO3 11
-     * Todo: Can be removed when TYPO3 11 support is dropped
-     *
-     * @param array $parameters
-     * @param PageLayoutController $plController
-     * @return string
-     * @throws ConfigurationException
-     * @throws ExceptionDbal
-     * @throws ExtensionConfigurationExtensionNotConfiguredException
-     * @throws ExtensionConfigurationPathDoesNotExistException
-     * @throws UnexpectedValueException
-     * @throws ExceptionDbalDriver
-     * @throws DBALException
-     */
-    public function render(array $parameters, PageLayoutController $plController): string
-    {
-        unset($parameters);
-        return $this->renderContent($plController->id);
     }
 
     /**

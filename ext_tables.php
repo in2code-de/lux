@@ -54,19 +54,16 @@ call_user_func(
         if (\In2code\Lux\Utility\ConfigurationUtility::isAnalysisModuleDisabled()) {
             \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig(
                 'options.hideModules := addToList(lux_LuxAnalysis)'
-                . PHP_EOL . 'options.hideModules.lux := addToList(LuxAnalysis)' // Todo: Can be removed, if TYPO3 11 support is dropped
             );
         }
         if (\In2code\Lux\Utility\ConfigurationUtility::isLeadModuleDisabled()) {
             \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig(
                 'options.hideModules := addToList(lux_LuxLead)'
-                . PHP_EOL . 'options.hideModules.lux := addToList(LuxLead)'// Todo: Can be removed, if TYPO3 11 support is dropped
             );
         }
         if (\In2code\Lux\Utility\ConfigurationUtility::isWorkflowModuleDisabled()) {
             \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig(
                 'options.hideModules := addToList(lux_LuxWorkflow)'
-                . PHP_EOL . 'options.hideModules.lux := addToList(LuxWorkflow)' // Todo: Can be removed, if TYPO3 11 support is dropped
             );
         }
 

@@ -41,7 +41,7 @@ abstract class AbstractDataProvider implements DataProviderInterface
 
     public function getTitlesFromData(): array
     {
-        $titles = (array)$this->getData()['titles'];
+        $titles = $this->getData()['titles'] ?? [];
         if ($this->cropTitles > 0) {
             $titles = ArrayUtility::cropStringInArray($titles, $this->cropTitles);
         }

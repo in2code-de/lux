@@ -109,12 +109,11 @@ abstract class AbstractController extends ActionController
     /**
      * Pass some important variables to all views
      *
-     * @param \TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view (Todo: Param is only needed in TYPO3 11)
      * @return void
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      */
-    public function initializeView($view)
+    public function initializeView()
     {
         $this->view->assignMultiple([
             'view' => [
@@ -199,13 +198,6 @@ abstract class AbstractController extends ActionController
      */
     protected function getRoute(): string
     {
-        // Todo: Can be removed when TYPO3 11 support is dropped
-        if (ConfigurationUtility::isTypo3Version11()) {
-            /** @var Route $route */
-            $route = $this->request->getAttribute('route');
-            return $route->getOption('moduleName');
-        }
-
         /** @var RouteResult $routeResult */
         $routeResult = $this->request->getAttribute('routing');
         /** @var ExtbaseModule $extbaseModule */
