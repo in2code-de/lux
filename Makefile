@@ -143,7 +143,7 @@ typo3-add-dockerconfig:
 ## Runs the TYPO3 Database Compare
 typo3-comparedb:
 	echo "$(EMOJI_leftright) Running database:updateschema"
-	docker-compose exec php ./.Build/bin/typo3 database:updateschema
+	docker-compose exec php ./.Build/bin/typo3 database:updateschema --verbose
 
 ## Starts the TYPO3 setup process
 typo3-setupinstall:
@@ -168,7 +168,7 @@ provision-fileadmin:
 	tar xvfz ../../.project/data/fileadmin.tar.gz
 
 ## To start an existing project incl. rsync from fileadmin, uploads and database dump
-install-project: lfs-fetch link-compose-file destroy add-hosts-entry init-docker .fix-mount-perms composer-install typo3-add-site typo3-add-dockerconfig typo3-setupinstall provision-fileadmin mysql-restore typo3-clearcache typo3-comparedb
+install-project: lfs-fetch link-compose-file destroy add-hosts-entry init-docker .fix-mount-perms composer-install typo3-add-site typo3-add-dockerconfig provision-fileadmin mysql-restore typo3-clearcache typo3-comparedb typo3-setupinstall
 	echo "---------------------"
 	echo ""
 	echo "The project is online $(EMOJI_thumbsup)"

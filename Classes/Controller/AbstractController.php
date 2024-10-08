@@ -126,7 +126,7 @@ abstract class AbstractController extends ActionController
         ]);
     }
 
-    public function initializeAction()
+    public function initializeAction(): void
     {
         $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
     }
