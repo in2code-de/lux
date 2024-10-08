@@ -220,10 +220,9 @@ abstract class AbstractController extends ActionController
             ->withBody($this->streamFactory->createStream($csv ?? $this->view->render()));
     }
 
-    protected function defaultRendering(): ResponseInterface
+    protected function defaultRendering(string $templateName = ''): ResponseInterface
     {
-        $this->moduleTemplate->setContent($this->view->render());
-        return $this->htmlResponse($this->moduleTemplate->renderContent());
+        return $this->moduleTemplate->renderResponse($this->getControllerName() . '/' . ucfirst($this->getActionName()));
     }
 
     protected function addDocumentHeader(array $configuration): void
