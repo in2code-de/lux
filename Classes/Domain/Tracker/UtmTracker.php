@@ -95,7 +95,7 @@ class UtmTracker
 
     final protected function getArguments(): array
     {
-        return (array)GeneralUtility::_GP('tx_lux_fe');
+        return $_REQUEST['tx_lux_fe'] ?? [];
     }
 
     final protected function getCurrentUrl(): string

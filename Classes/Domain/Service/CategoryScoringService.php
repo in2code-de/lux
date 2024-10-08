@@ -59,7 +59,7 @@ class CategoryScoringService
      */
     protected function calculateCategoryScoringForPageRequest(Visitor $visitor): void
     {
-        $variables = GeneralUtility::_GP('tx_lux_fe');
+        $variables = $_REQUEST['tx_lux_fe'] ?? [];
         if (empty($variables['arguments']['newsUid'])) {
             $this->calculateCategoryScoringForPageRequestForPages($visitor);
         } else {
@@ -99,7 +99,7 @@ class CategoryScoringService
     protected function calculateCategoryScoringForPageRequestForNews(Visitor $visitor): void
     {
         $categoryRepository = GeneralUtility::makeInstance(CategoryRepository::class);
-        $variables = GeneralUtility::_GP('tx_lux_fe');
+        $variables = $_REQUEST['tx_lux_fe'] ?? [];
         $categoryIdentifiers = $categoryRepository->findAllCategoryIdentifiersToNews(
             (int)$variables['arguments']['newsUid']
         );
@@ -144,7 +144,8 @@ class CategoryScoringService
     protected function calculateCategoryScoringForLinkClick(Visitor $visitor): void
     {
         $llRepository = GeneralUtility::makeInstance(LinklistenerRepository::class);
-        $identifier = (int)GeneralUtility::_GP('tx_lux_fe')['arguments']['linklistenerIdentifier'];
+        $variables = $_REQUEST['tx_lux_fe'] ?? [];
+        $identifier = (int)($variables['arguments']['linklistenerIdentifier'] ?? 0);
         /** @var Linklistener $linkListener */
         $linkListener = $llRepository->findByIdentifier($identifier);
         if ($linkListener !== null) {
@@ -163,7 +164,7 @@ class CategoryScoringService
      */
     protected function calculateCategoryScoringForEmail4link(Visitor $visitor): void
     {
-        $variables = GeneralUtility::_GP('tx_lux_fe');
+        $variables = $_REQUEST['tx_lux_fe'] ?? [];
         $href = $variables['arguments']['href'] ?? '';
         $fileService = GeneralUtility::makeInstance(FileService::class);
         $file = $fileService->getFileFromHref($href);
