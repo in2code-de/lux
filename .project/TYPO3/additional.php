@@ -6,6 +6,7 @@ $additional = [
         'lockSSL' => '0',
         'compressionLevel' => '0',
         'debug' => true,
+        'loginRateLimit' => 1000,
     ],
     'DB' => [
         'Connections' => [
