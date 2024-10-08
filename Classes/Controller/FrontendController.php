@@ -50,7 +50,7 @@ class FrontendController extends ActionController
     protected EventTracker $eventTracker;
     protected NewsTracker $newsTracker;
     protected SearchTracker $searchTracker;
-    protected $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
     protected LoggerInterface $logger;
     protected array $allowedActions = [
         'pageRequest',

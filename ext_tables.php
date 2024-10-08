@@ -49,84 +49,6 @@ call_user_func(
         );
 
         /**
-         * Include Modules
-         * Todo: Can be removed, if TYPO3 11 support is dropped
-         */
-        // Add Main module "LUX".
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addModule(
-            'lux',
-            '',
-            '',
-            null,
-            [
-                'name' => 'lux',
-                'labels' => 'LLL:EXT:lux/Resources/Private/Language/locallang_mod.xlf',
-                'iconIdentifier' => 'extension-lux-module'
-            ]
-        );
-        // Add module for analysis
-        \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-            'Lux',
-            'lux',
-            'analysis',
-            '',
-            [
-                \In2code\Lux\Controller\AnalysisController::class =>
-                    'dashboard,content,news,linkListener,search,deleteLinkListener,detailPage' .
-                    ',detailNews,detailSearch,detailDownload,detailLinkListener,resetFilter,utm',
-                \In2code\Lux\Controller\LeadController::class => 'dashboard,list,detail,downloadCsv,remove,' .
-                    'deactivate,resetFilter,tableSorting,companies,companiesDisabled,company,downloadCsvCompanies,' .
-                    'removeCompany',
-                \In2code\Lux\Controller\GeneralController::class => 'information'
-            ],
-            [
-                'access' => 'user,group',
-                'icon' => 'EXT:lux/Resources/Public/Icons/lux_module_analysis.svg',
-                'labels' => 'LLL:EXT:lux/Resources/Private/Language/locallang_mod_analysis.xlf',
-            ]
-        );
-        // Add module for leads
-        \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-            'Lux',
-            'lux',
-            'lead',
-            '',
-            [
-                \In2code\Lux\Controller\LeadController::class => 'dashboard,list,detail,downloadCsv,remove,' .
-                    'deactivate,resetFilter,tableSorting,companies,companiesDisabled,company,downloadCsvCompanies,' .
-                    'removeCompany',
-                \In2code\Lux\Controller\AnalysisController::class =>
-                    'dashboard,content,linkClicks,detailPage,detailDownload,resetFilter',
-                \In2code\Lux\Controller\GeneralController::class => 'information'
-            ],
-            [
-                'access' => 'user,group',
-                'icon' => 'EXT:lux/Resources/Public/Icons/lux_module_lead.svg',
-                'labels' => 'LLL:EXT:lux/Resources/Private/Language/locallang_mod_lead.xlf',
-            ]
-        );
-        // Add module for campaigns
-        \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-            'Lux',
-            'lux',
-            'workflow',
-            '',
-            [
-                \In2code\Lux\Controller\WorkflowController::class =>
-                    'list,detail,new,create,edit,update,delete,disable,enable,resetFilter',
-                \In2code\Lux\Controller\AbTestingController::class => 'list,detail,singleCsv,delete,resetFilter',
-                \In2code\Lux\Controller\ShortenerController::class => 'list,delete,detail,resetFilter,qr',
-                \In2code\Lux\Controller\UtmGeneratorController::class => 'list,delete,resetFilter',
-                \In2code\Lux\Controller\GeneralController::class => 'information'
-            ],
-            [
-                'access' => 'user,group',
-                'icon' => 'EXT:lux/Resources/Public/Icons/lux_module_workflow.svg',
-                'labels' => 'LLL:EXT:lux/Resources/Private/Language/locallang_mod_workflow.xlf',
-            ]
-        );
-
-        /**
          * Hide modules by configuration
          */
         if (\In2code\Lux\Utility\ConfigurationUtility::isAnalysisModuleDisabled()) {
@@ -153,12 +75,5 @@ call_user_func(
          */
         $GLOBALS['TBE_STYLES']['skins']['lux']['stylesheetDirectories']['ckeditor']
             = 'EXT:lux/Resources/Public/Css/CKEditor/';
-
-        /**
-         * Allow tables to be saved on default pages
-         */
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages(
-            'tx_lux_domain_model_linklistener'
-        );
     }
 );

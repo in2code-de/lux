@@ -17,6 +17,9 @@ return [
         'delete' => 'deleted',
         'iconfile' => 'EXT:lux/Resources/Public/Icons/' . Linklistener::TABLE_NAME . '.svg',
         'rootLevel' => -1,
+        'security' => [
+            'ignorePageTypeRestriction' => true,
+        ],
     ],
     'types' => [
         '1' => [
