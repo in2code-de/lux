@@ -56,7 +56,6 @@ class AnalysisController extends AbstractController
      * @param FilterDto $filter
      * @return ResponseInterface
      * @throws ExceptionDbal
-     * @throws InvalidConfigurationTypeException
      * @throws InvalidQueryException
      */
     public function dashboardAction(FilterDto $filter): ResponseInterface
@@ -68,7 +67,7 @@ class AnalysisController extends AbstractController
         ]);
 
         $this->addDocumentHeaderForCurrentController();
-        return $this->defaultRendering();
+        return $this->defaultRendering('Analysis/Dashboard');
     }
 
     /**
