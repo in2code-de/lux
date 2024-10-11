@@ -11,5 +11,6 @@ return [
                 'EXT:backend/Resources/Public/JavaScript/modern/',
             ],
         ],
+        '@in2code/lux/vendor/chartjs.js' => 'EXT:lux/Resources/Public/JavaScript/Vendor/Chart.min.js',
     ],
 ];
