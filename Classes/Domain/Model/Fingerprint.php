@@ -52,8 +52,10 @@ class Fingerprint extends AbstractModel
         }
         if (strlen($value) === 33) {
             $this->setType(self::TYPE_STORAGE);
+            $this->value = $value;
+        } else {
+            $this->value = hash('sha256', $value . IpUtility::getIpAddress());
         }
-        $this->value = hash('sha256', $value . IpUtility::getIpAddress());
         return $this;
     }
 

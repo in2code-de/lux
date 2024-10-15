@@ -60,7 +60,7 @@ class FingerprintTest extends UnitTestCase
     public function testAssertDifferentHashesWithDifferentIps(): void
     {
         $fingerprint = new Fingerprint();
-        $identifier = bin2hex(random_bytes(16));
+        $identifier = random_bytes(32);
 
         GeneralUtility::setIndpEnv('REMOTE_ADDR', '192.168.178.1');
         $fingerprint->setValue($identifier);
@@ -73,5 +73,20 @@ class FingerprintTest extends UnitTestCase
         $value2 = $fingerprint->getValue();
 
         self::assertNotEquals($value1, $value2);
+    }
+
+    /**
+     * @return void
+     * @covers ::setValue
+     */
+    public function testAssertNoHashingForStorageType(): void
+    {
+        $fingerprint = new Fingerprint();
+        $identifier = random_bytes(33);
+
+        $fingerprint->setValue($identifier);
+        $value = $fingerprint->getValue();
+
+        self::assertEquals($identifier, $value);
     }
 }
