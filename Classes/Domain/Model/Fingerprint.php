@@ -7,6 +7,7 @@ use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Exception\FingerprintMustNotBeEmptyException;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\EnvironmentUtility;
+use In2code\Lux\Utility\IpUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use WhichBrowser\Parser;
 
@@ -52,7 +53,7 @@ class Fingerprint extends AbstractModel
         if (strlen($value) === 33) {
             $this->setType(self::TYPE_STORAGE);
         }
-        $this->value = $value;
+        $this->value = hash('sha256', $value . IpUtility::getIpAddress());
         return $this;
     }
 
