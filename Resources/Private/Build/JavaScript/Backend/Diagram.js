@@ -1,4 +1,6 @@
-import Chart from "@in2code/lux/vendor/chartjs.js";
+import { Chart, registerables } from "@in2code/lux/vendor/chartjs.js";
+
+Chart.register(...registerables);
 
 /**
  * @constructor
@@ -98,11 +100,11 @@ const LuxDiagram = function() {
           }
         },
         scales: {
-          yAxes: [{
+          y: {
             ticks: {
               beginAtZero: true
             }
-          }]
+          }
         }
       }
     });
@@ -166,18 +168,18 @@ const LuxDiagram = function() {
           }
         },
         scales: {
-          xAxes: [{
+          x: {
             ticks: {
               beginAtZero: true
             },
             stacked: true
-          }],
-          yAxes: [{
+          },
+          y: {
             ticks: {
               beginAtZero: true
             },
             stacked: true
-          }]
+          }
         }
       }
     });
@@ -203,15 +205,15 @@ const LuxDiagram = function() {
       }
     }
 
-    var yAxes = [{
+    var yAxes = {
       ticks: {
         beginAtZero: true
       }
-    }];
+    };
 
     // Use a logarithmic y-axes (normally only if there is more than only one line with a big difference)
     if (element.hasAttribute('data-chart-max-y') && element.hasAttribute('data-chart-max-y') > 0) {
-      yAxes = [{
+      yAxes = {
         type: 'logarithmic',
         ticks: {
           min: 0,
@@ -225,7 +227,7 @@ const LuxDiagram = function() {
             return null;
           }
         }
-      }];
+      };
     }
 
     new Chart(element.getContext('2d'), {
@@ -243,7 +245,7 @@ const LuxDiagram = function() {
           }
         },
         scales: {
-          yAxes: yAxes
+          y: yAxes
         }
       }
     });
