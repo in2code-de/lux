@@ -1,3 +1,5 @@
+{namespace core=TYPO3\CMS\Core\ViewHelpers}
+
 <f:layout name="Backend" />
 
 <f:section name="content">
@@ -50,32 +52,38 @@
             <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.identification">
                 Identification
             </f:translate>
+            <f:render section="TableSortingForm" arguments="{ filter: filter, sortingField: 'identified'}"/>
         </th>
         <th>
             <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.score">
                 Scoring
             </f:translate>
+            <f:render section="TableSortingForm" arguments="{ filter: filter, sortingField: 'scoring'}"/>
         </th>
         <f:if condition="{filter.categoryScoring}">
             <th>
                 Scoring ({filter.categoryScoring.title})
+                <f:render section="TableSortingForm" arguments="{ filter: filter, sortingField: 'categoryscorings.scoring'}"/>
             </th>
         </f:if>
         <th>
             <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.email">
                 Email
             </f:translate>
+            <f:render section="TableSortingForm" arguments="{ filter: filter, sortingField: 'email'}"/>
         </th>
         <th>
             <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.company">
                 Company
             </f:translate>
+            <f:render section="TableSortingForm" arguments="{ filter: filter, sortingField: 'company'}"/>
         </th>
         <th>
             <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.tstamp">
                 Last visit
             </f:translate>
             <f:if condition="{filter.pid}">(PID{filter.pid})</f:if>
+            <f:render section="TableSortingForm" arguments="{ filter: filter, sortingField: 'tstamp'}"/>
         </th>
         <th>
             <f:if condition="{filter.pid}">
@@ -87,6 +95,7 @@
                     (PID{filter.pid})
                 </f:then>
             </f:if>
+            <f:render section="TableSortingForm" arguments="{ filter: filter, sortingField: 'visits'}"/>
         </th>
     </tr>
     </thead>
@@ -142,4 +151,41 @@
             <f:link.action action="detail" controller="Lead" class="btn btn-primary pull-right hidden" arguments="{visitor:visitor}" data="{lux-linkmock-link:'detail{visitor.uid}'}"><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.detail.linkdetail">show</f:translate></f:link.action>
         </td>
     </tr>
+</f:section>
+
+<f:section name="TableSortingForm">
+    <f:form name="filter" class="d-inline lux-table-header-form" action="list" object="{filter}">
+        <f:form.hidden property="searchterm"/>
+        <f:form.hidden property="site"/>
+        <f:form.hidden property="timeFrom"/>
+        <f:form.hidden property="timeTo"/>
+        <f:form.hidden property="scoring"/>
+        <f:form.hidden property="categoryScoring"/>
+        <f:form.hidden property="sortingField" value="{sortingField}"></f:form.hidden>
+
+        <f:if condition="{filter.sortingField} == {sortingField}">
+            <f:then>
+                <f:if condition="{filter.sortingDirection} == 0">
+                    <f:then>
+                        <f:form.hidden property="sortingDirection" value="1"></f:form.hidden>
+                        <f:form.button class="btn btn-link">
+                            <core:icon identifier="actions-sort-amount-down"></core:icon>
+                        </f:form.button>
+                    </f:then>
+                    <f:else>
+                        <f:form.hidden property="sortingDirection" value="0"></f:form.hidden>
+                        <f:form.button class="btn btn-link">
+                            <core:icon identifier="actions-sort-amount-up"></core:icon>
+                        </f:form.button>
+                    </f:else>
+                </f:if>
+            </f:then>
+            <f:else>
+                <f:form.hidden property="sortingDirection" value="0"></f:form.hidden>
+                <f:form.button class="btn btn-link">
+                    <core:icon identifier="actions-sort-amount"></core:icon>
+                </f:form.button>
+            </f:else>
+        </f:if>
+    </f:form>
 </f:section>

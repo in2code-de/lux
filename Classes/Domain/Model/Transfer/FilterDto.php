@@ -34,6 +34,8 @@ class FilterDto
     public const IDENTIFIED_ALL = -1;
     public const IDENTIFIED_UNKNOWN = 0;
     public const IDENTIFIED_IDENTIFIED = 1;
+    public const SORTING_DESC = 0;
+    public const SORTING_ASC = 1;
 
     protected string $searchterm = '';
     protected string $href = '';
@@ -93,6 +95,8 @@ class FilterDto
     protected string $sizeClass = '';
     protected ?Visitor $visitor = null;
     protected ?Company $company = null;
+    protected string $sortingField = '';
+    protected int $sortingDirection = 0;
 
     /**
      * @param int $timePeriodValue Must be a different variable name then "timePeriod" or "timePeriodDefault"
@@ -579,6 +583,31 @@ class FilterDto
     {
         $this->company = $company;
         return $this;
+    }
+
+    public function getSortingField(): string
+    {
+        return $this->sortingField;
+    }
+
+    public function isSortingFieldSet(): bool
+    {
+        return $this->getSortingField() !== '';
+    }
+
+    public function setSortingField(string $sortingField): void
+    {
+        $this->sortingField = $sortingField;
+    }
+
+    public function getSortingDirection(): int
+    {
+        return $this->sortingDirection;
+    }
+
+    public function setSortingDirection(int $sortingDirection): void
+    {
+        $this->sortingDirection = $sortingDirection;
     }
 
     public function getLimit(): int

@@ -492,3 +492,9 @@ label {
         padding: 0 5px;
     }
 }
+
+.lux-table-header-form {
+    & div:first-child {
+        display: none;
+    }
+}

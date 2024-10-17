@@ -748,6 +748,11 @@ class VisitorRepository extends AbstractRepository
      */
     protected function getOrderingsArrayByFilterDto(FilterDto $filter): array
     {
+        if ($filter->isSortingFieldSet()) {
+            $orderings[$filter->getSortingField()] = $filter->getSortingDirection() === FilterDto::SORTING_DESC ? QueryInterface::ORDER_DESCENDING : QueryInterface::ORDER_ASCENDING;
+            return $orderings;
+        }
+
         $orderings = ['identified' => QueryInterface::ORDER_DESCENDING];
         if ($filter->isCategoryScoringSet() === false) {
             $orderings['scoring'] = QueryInterface::ORDER_DESCENDING;
