@@ -62,6 +62,9 @@ class VisitorRepository extends AbstractRepository
     }
 
     /**
+     * We use to order by "categoryscorings.scoring DESC" in the past when a category was selected in filter. But this
+     * leads to an exception in MySQL (not MariaDB) - see https://github.com/in2code-de/lux/issues/60 for details
+     *
      * @param FilterDto $filter
      * @return array ->toArray() improves performance up to 100% on some cases
      * @throws InvalidQueryException
@@ -80,7 +83,11 @@ class VisitorRepository extends AbstractRepository
         $logicalAnd = $this->extendLogicalAndWithFilterConstraints($filter, $query, []);
         $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForSite($filter, $query, $logicalAnd, 'pagevisits');
         $query->matching($query->logicalAnd(...$logicalAnd));
-        $query->setOrderings($this->getOrderingsArrayByFilterDto($filter));
+        $query->setOrderings([
+            'identified' => QueryInterface::ORDER_DESCENDING,
+            'scoring' => QueryInterface::ORDER_DESCENDING,
+            'tstamp' => QueryInterface::ORDER_DESCENDING,
+        ]);
         $query->setLimit($filter->getLimit());
         return $query->execute()->toArray();
     }
@@ -740,22 +747,6 @@ class VisitorRepository extends AbstractRepository
             $logicalAnd[] = $query->greaterThan('categoryscorings.scoring', 0);
         }
         return $logicalAnd;
-    }
-
-    /**
-     * @param FilterDto $filter
-     * @return array
-     */
-    protected function getOrderingsArrayByFilterDto(FilterDto $filter): array
-    {
-        $orderings = ['identified' => QueryInterface::ORDER_DESCENDING];
-        if ($filter->isCategoryScoringSet() === false) {
-            $orderings['scoring'] = QueryInterface::ORDER_DESCENDING;
-        } else {
-            $orderings['categoryscorings.scoring'] = QueryInterface::ORDER_DESCENDING;
-        }
-        $orderings['tstamp'] = QueryInterface::ORDER_DESCENDING;
-        return $orderings;
     }
 
     /**

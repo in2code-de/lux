@@ -9,6 +9,7 @@
 
 | Version    | Date       | State    | TYPO3          | Description                                                                                                                                                                                           |
 |------------|------------|----------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 36.5.1     | 2024-10-17 | Bugfix   | `11.5 + 12.4`  | Prevent sql exception in MySQL (not MariaDB) when filtering for a category in lead list                                                                                                               |
 | 36.5.0     | 2024-10-01 | Bugfix   | `11.5 + 12.4`  | Prevent exceptions when configuration is missing, fix typo in configuration, add mail provider to disallowed mail provider list                                                                       |
 | 36.4.0     | 2024-09-16 | Feature  | `11.5 + 12.4`  | Add a Modern.js file to add frontend JS with a basic bot detection (this file is not yet added per default in TypoScript and only for testing reasons available at the moment)                        |
 | 36.3.1     | 2024-08-20 | Task     | `11.5 + 12.4`  | Fix a crosslink from lead detail view in Analysis module back to companies view                                                                                                                       |
