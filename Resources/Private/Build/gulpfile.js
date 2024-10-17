@@ -37,6 +37,19 @@ function jsFrontend(done) {
   });
 };
 
+function jsVendor(done) {
+	rollup(  {
+		input: 'node_modules/chart.js/dist/chart.js',
+		plugins: rollupConfig.plugins
+	}).then(bundle => {
+		rollupConfig.output.plugins = rollupConfig
+		bundle.write({
+			file: '../../Public/JavaScript/Vendor/Chart.min.js',
+			format: 'esm'
+		}).then(() => done());
+	});
+}
+
 function jsBackend() {
 	return src([__dirname + '/JavaScript/Backend/*.js'])
 		.pipe(plumber())
@@ -48,12 +61,12 @@ function jsBackend() {
 };
 
 // "npm run build"
-const build = series(jsFrontend, jsBackend, css);
+const build = series(jsFrontend, jsBackend, jsVendor, css);
 
 // "npm run watch"
 const def = parallel(
   function watchSCSS() { return watch(__dirname + '/../Sass/**/*.scss', series(css)) },
-  function watchJS() { return watch(__dirname + '/JavaScript/**/*.js', series(jsFrontend, jsBackend)) }
+  function watchJS() { return watch(__dirname + '/JavaScript/**/*.js', series(jsFrontend, jsBackend, jsVendor)) }
 );
 
 module.exports = {
@@ -61,5 +74,6 @@ module.exports = {
   build,
   css,
   jsBackend,
-  jsFrontend
+  jsFrontend,
+  jsVendor
 };
