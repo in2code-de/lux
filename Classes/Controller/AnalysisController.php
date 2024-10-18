@@ -35,7 +35,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
@@ -61,13 +60,13 @@ class AnalysisController extends AbstractController
     public function dashboardAction(FilterDto $filter): ResponseInterface
     {
         $filter->setLimit(8);
-        $this->view->assignMultiple([
+        $this->moduleTemplate->assignMultiple([
             'filter' => $filter,
             'interestingLogs' => $this->logRepository->findInterestingLogs($filter),
         ]);
 
         $this->addDocumentHeaderForCurrentController();
-        return $this->defaultRendering('Analysis/Dashboard');
+        return $this->defaultRendering();
     }
 
     /**
@@ -95,7 +94,7 @@ class AnalysisController extends AbstractController
             return (new ForwardResponse('contentCsv'))->withArguments(['filter' => $filter]);
         }
 
-        $this->view->assignMultiple([
+        $this->moduleTemplate->assignMultiple([
             'filter' => $filter,
             'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
             'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
@@ -120,7 +119,7 @@ class AnalysisController extends AbstractController
      */
     public function contentCsvAction(FilterDto $filter): ResponseInterface
     {
-        $this->view->assignMultiple([
+        $this->moduleTemplate->assignMultiple([
             'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
             'downloads' => $this->downloadRepository->findCombinedByHref($filter),
         ]);
@@ -148,7 +147,7 @@ class AnalysisController extends AbstractController
             return (new ForwardResponse('newsCsv'))->withArguments(['filter' => $filter]);
         }
 
-        $this->view->assignMultiple([
+        $this->moduleTemplate->assignMultiple([
             'filter' => $filter,
             'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
             'newsvisitsData' => GeneralUtility::makeInstance(NewsvisistsDataProvider::class, $filter),
@@ -168,7 +167,7 @@ class AnalysisController extends AbstractController
      */
     public function newsCsvAction(FilterDto $filter): ResponseInterface
     {
-        $this->view->assignMultiple([
+        $this->moduleTemplate->assignMultiple([
             'news' => $this->newsvisitRepository->findCombinedByNewsIdentifier($filter),
         ]);
         return $this->csvResponse();
@@ -207,7 +206,7 @@ class AnalysisController extends AbstractController
             'utmSourceData' => GeneralUtility::makeInstance(UtmSourceDataProvider::class, $filter),
             'utmMediaData' => GeneralUtility::makeInstance(UtmMediaDataProvider::class, $filter),
         ];
-        $this->view->assignMultiple($variables);
+        $this->moduleTemplate->assignMultiple($variables);
 
         $this->addDocumentHeaderForCurrentController();
         return $this->defaultRendering();
@@ -220,7 +219,7 @@ class AnalysisController extends AbstractController
      */
     public function utmCsvAction(FilterDto $filter): ResponseInterface
     {
-        $this->view->assignMultiple([
+        $this->moduleTemplate->assignMultiple([
             'utmList' => $this->utmRepository->findByFilter($filter),
         ]);
         return $this->csvResponse();
@@ -248,7 +247,7 @@ class AnalysisController extends AbstractController
             return (new ForwardResponse('linkListenerCsv'))->withArguments(['filter' => $filter]);
         }
 
-        $this->view->assignMultiple([
+        $this->moduleTemplate->assignMultiple([
             'filter' => $filter,
             'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
             'linkListeners' => $this->linklistenerRepository->findByFilter($filter),
@@ -267,7 +266,7 @@ class AnalysisController extends AbstractController
      */
     public function linkListenerCsvAction(FilterDto $filter): ResponseInterface
     {
-        $this->view->assignMultiple([
+        $this->moduleTemplate->assignMultiple([
             'linkListeners' => $this->linklistenerRepository->findByFilter($filter),
         ]);
         return $this->csvResponse();
@@ -289,7 +288,7 @@ class AnalysisController extends AbstractController
      */
     public function searchAction(FilterDto $filter): ResponseInterface
     {
-        $this->view->assignMultiple([
+        $this->moduleTemplate->assignMultiple([
             'filter' => $filter,
             'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
             'searchData' => GeneralUtility::makeInstance(SearchDataProvider::class, $filter),
@@ -333,7 +332,7 @@ class AnalysisController extends AbstractController
             $this->getControllerName(),
             ['searchterm' => (string)$page->getUid(), 'limit' => 100]
         );
-        $this->view->assignMultiple([
+        $this->moduleTemplate->assignMultiple([
             'filter' => $filter,
             'pagevisits' => $this->pagevisitsRepository->findByFilter($filter),
             'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
@@ -360,7 +359,7 @@ class AnalysisController extends AbstractController
             $this->getControllerName(),
             ['searchterm' => $news->getUid(), 'limit' => 100]
         );
-        $this->view->assignMultiple([
+        $this->moduleTemplate->assignMultiple([
             'filter' => $filter,
             'news' => $news,
             'newsvisits' => $this->newsvisitRepository->findByFilter($filter),
@@ -384,7 +383,7 @@ class AnalysisController extends AbstractController
             $this->getControllerName(),
             ['href' => $href, 'limit' => 100]
         );
-        $this->view->assignMultiple([
+        $this->moduleTemplate->assignMultiple([
             'filter' => $filter,
             'downloads' => $this->downloadRepository->findByFilter($filter),
             'numberOfDownloadsData' => GeneralUtility::makeInstance(DownloadsDataProvider::class, $filter),
@@ -411,7 +410,7 @@ class AnalysisController extends AbstractController
             $this->getControllerName(),
             ['searchterm' => (string)$linkListener->getUid(), 'limit' => 100]
         );
-        $this->view->assignMultiple([
+        $this->moduleTemplate->assignMultiple([
             'filter' => $filter,
             'linkclicks' => $this->linkclickRepository->findByFilter($filter),
             'allLinkclickData' => GeneralUtility::makeInstance(AllLinkclickDataProvider::class, $filter),
@@ -433,7 +432,7 @@ class AnalysisController extends AbstractController
             $this->getControllerName(),
             ['searchterm' => $searchterm, 'limit' => 100]
         );
-        $this->view->assignMultiple([
+        $this->moduleTemplate->assignMultiple([
             'filter' => $filter,
             'searchterm' => $searchterm,
             'searchData' => GeneralUtility::makeInstance(SearchDataProvider::class, $filter),

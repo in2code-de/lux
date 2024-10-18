@@ -29,8 +29,10 @@
         </div>
 
         <link rel="stylesheet" type="text/css" href="{f:uri.resource(path:'Css/PageOverview.min.css',extensionName:'lux')}" media="all">
-        <lux:backend.addRequireJsModule moduleName="TYPO3/CMS/Lux/Lux/Diagram.min" />
-        <lux:backend.addRequireJsModule moduleName="TYPO3/CMS/Lux/Lux/Module.min" />
+        <f:comment>
+            <lux:backend.addRequireJsModule moduleName="TYPO3/CMS/Lux/Lux/Diagram.min" />
+            <lux:backend.addRequireJsModule moduleName="TYPO3/CMS/Lux/Lux/Module.min" />
+        </f:comment>
         <script src="{f:uri.resource(path:'JavaScript/Lux/PageOverview.min.js',extensionName:'lux')}"></script>
     </div>
 </f:if>

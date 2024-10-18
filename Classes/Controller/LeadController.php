@@ -58,7 +58,7 @@ class LeadController extends AbstractController
      */
     public function dashboardAction(FilterDto $filter): ResponseInterface
     {
-        $this->view->assignMultiple([
+        $this->moduleTemplate->assignMultiple([
             'filter' => $filter,
             'interestingLogs' => $this->logRepository->findInterestingLogs($filter->setLimit(10)),
             'whoisonline' => $this->visitorRepository->findOnline($filter->setLimit(8)),
@@ -89,7 +89,7 @@ class LeadController extends AbstractController
         if ($export === 'csv') {
             return (new ForwardResponse('downloadCsv'))->withArguments(['filter' => $filter]);
         }
-        $this->view->assignMultiple([
+        $this->moduleTemplate->assignMultiple([
             'filter' => $filter->setLimit(750),
             'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
             'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter->setLimit(750)),
@@ -114,7 +114,7 @@ class LeadController extends AbstractController
         }
         $filter = ObjectUtility::getFilterDtoFromStartAndEnd($visitor->getDateOfPagevisitFirst(), new DateTime())
             ->setVisitor($visitor);
-        $this->view->assignMultiple([
+        $this->moduleTemplate->assignMultiple([
             'visitor' => $visitor,
             'companies' => $this->companyRepository->findAll(),
             'scoringWeeks' => GeneralUtility::makeInstance(VisitorScoringWeeksDataProvider::class, $filter),
@@ -133,10 +133,10 @@ class LeadController extends AbstractController
      */
     public function downloadCsvAction(FilterDto $filter): ResponseInterface
     {
-        $this->view->assignMultiple([
+        $this->moduleTemplate->assignMultiple([
             'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter->setLimit(750)),
         ]);
-        return $this->csvResponse($this->view->render());
+        return $this->csvResponse($this->moduleTemplate->render());
     }
 
     /**
@@ -205,7 +205,7 @@ class LeadController extends AbstractController
         if ($available < 0) {
             $available = 0;
         }
-        $this->view->assignMultiple([
+        $this->moduleTemplate->assignMultiple([
             'filter' => $filter,
             'countries' => $this->companyRepository->findCountriesByFilter($filter),
             'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
@@ -265,7 +265,7 @@ class LeadController extends AbstractController
             $company->getFirstPagevisit()->getCrdate(),
             new DateTime()
         )->setCompany($company);
-        $this->view->assignMultiple([
+        $this->moduleTemplate->assignMultiple([
             'company' => $company,
             'categories' => $this->categoryRepository->findAllLuxCompanyCategories(),
             'interestingLogs' => $this->logRepository->findInterestingLogsByCompany($company, $filter->setLimit(250)),
@@ -284,10 +284,10 @@ class LeadController extends AbstractController
      */
     public function downloadCsvCompaniesAction(FilterDto $filter): ResponseInterface
     {
-        $this->view->assignMultiple([
+        $this->moduleTemplate->assignMultiple([
             'companies' => $this->companyRepository->findByFilter($filter->setLimit(750)),
         ]);
-        return $this->csvResponse($this->view->render());
+        return $this->csvResponse($this->moduleTemplate->render());
     }
 
     /**
