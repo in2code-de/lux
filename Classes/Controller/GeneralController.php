@@ -58,7 +58,7 @@ class GeneralController extends AbstractController
                 ],
             ],
         ];
-        $this->view->assignMultiple($values);
+        $this->moduleTemplate->assignMultiple($values);
 
         $this->addNavigationButtons([]);
         return $this->defaultRendering();

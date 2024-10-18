@@ -110,7 +110,7 @@ class PagevisitRepository extends AbstractRepository
             . $this->extendWhereClauseWithFilterRevenueClass($filter, 'c')
             . $this->extendWhereClauseWithFilterBranchCode($filter)
             . $this->extendWhereClauseWithFilterCategory($filter, 'c')
-            . ' group by c.uid'
+            . ' group by c.uid, pv.crdate'
             . ' order by uid desc, pv.crdate desc'
             . ' limit ' . $filter->getLimit();
         $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);

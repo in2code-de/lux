@@ -5,15 +5,19 @@
     0: '{f:uri.resource(path:\'Css/Modules.min.css\')}'
 }"/>
 
-<div class="lux">
-    <f:render partial="Miscellaneous/FlashMessages" arguments="{_all}"/>
-    <f:if condition="{filter} && !{filter.anyAllowedSites}">
-        <f:then>
-            <f:render partial="Miscellaneous/NoSites" arguments="{_all}"/>
-        </f:then>
-        <f:else>
-            <f:render section="content" />
-        </f:else>
-    </f:if>
-    <f:render partial="Miscellaneous/RenderingTime" arguments="{_all}"/>
+<div class="module">
+    <f:render partial="DocHeader" arguments="{docHeader:docHeader}" />
+
+    <div class="module-body lux">
+        <f:render partial="Miscellaneous/FlashMessages" arguments="{_all}"/>
+        <f:if condition="{filter} && !{filter.anyAllowedSites}">
+            <f:then>
+                <f:render partial="Miscellaneous/NoSites" arguments="{_all}"/>
+            </f:then>
+            <f:else>
+                <f:render section="content" />
+            </f:else>
+        </f:if>
+        <f:render partial="Miscellaneous/RenderingTime" arguments="{_all}"/>
+    </div>
 </div>

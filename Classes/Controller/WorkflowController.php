@@ -28,9 +28,6 @@ class WorkflowController extends AbstractController
         return $this->defaultRendering();
     }
 
-    /**
-     * @return void
-     */
     protected function addDocumentHeaderForCurrentController(): void
     {
         $this->addDocumentHeader([]);
