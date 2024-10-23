@@ -1,0 +1,28 @@
+<f:if condition="{filter.sortingField} == {sortingField}">
+    <f:then>
+        <f:if condition="{filter.sortingDirection} == 'DESC'">
+            <f:then>
+                <f:link.action action="tableSorting" arguments="{sortingField:sortingField,sortingDirection:'ASC',redirectAction:view.action}">
+                    <f:form.button class="btn btn-link">
+                        <core:icon identifier="actions-sort-amount-down"></core:icon>
+                    </f:form.button>
+                </f:link.action>
+            </f:then>
+            <f:else>
+                <f:link.action action="tableSorting" arguments="{sortingField:sortingField,sortingDirection:'DESC',redirectAction:view.action}">
+                    <f:form.button class="btn btn-link">
+                        <core:icon identifier="actions-sort-amount-up"></core:icon>
+                    </f:form.button>
+                </f:link.action>
+            </f:else>
+        </f:if>
+    </f:then>
+    <f:else>
+        <f:link.action action="tableSorting" arguments="{sortingField:sortingField,sortingDirection:'DESC',redirectAction:view.action}">
+            <f:form.button class="btn btn-link">
+                <core:icon identifier="actions-sort-amount"></core:icon>
+            </f:form.button>
+        </f:link.action>
+    </f:else>
+</f:if>
+

@@ -168,6 +168,14 @@ abstract class AbstractController extends ActionController
         return $this->redirect($redirectAction);
     }
 
+    public function tableSortingAction(string $sortingField, string $sortingDirection, string $redirectAction): ResponseInterface
+    {
+        $filter = BackendUtility::getFilterArrayFromSession($redirectAction, $this->getControllerName());
+        $filter['sortingField'] = $sortingField;
+        $filter['sortingDirection'] = $sortingDirection;
+        return $this->redirect($redirectAction, null, null, ['filter' => $filter]);
+    }
+
     /**
      * @return string like "Analysis" or "Lead"
      */
