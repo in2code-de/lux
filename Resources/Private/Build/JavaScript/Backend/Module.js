@@ -34,6 +34,7 @@ const LuxBackend = function() {
     addToggleListener();
     addUnitAjaxListener();
     addSelectSubmitListener();
+    addRangeLabelListener();
   };
 
   /**
@@ -365,6 +366,16 @@ const LuxBackend = function() {
     elements.forEach(function(element) {
       element.addEventListener('change', (event) => {
         event.target.form.submit();
+      });
+    });
+  }
+
+  const addRangeLabelListener = function() {
+    const elements = document.querySelectorAll('[data-lux-rangelabel]');
+    elements.forEach(function(element) {
+      element.addEventListener('change', (event) => {
+        const label = event.target.parentNode.querySelector('#scoring_label');
+        label.innerHTML = event.target.value;
       });
     });
   }
