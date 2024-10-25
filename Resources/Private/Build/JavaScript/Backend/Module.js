@@ -33,6 +33,7 @@ const LuxBackend = function() {
     asynchronousCompaniesAmountLoading();
     addToggleListener();
     addUnitAjaxListener();
+    addSelectSubmitListener();
   };
 
   /**
@@ -356,6 +357,15 @@ const LuxBackend = function() {
         .catch(function(error) {
           console.log(error);
         });
+    });
+  }
+
+  const addSelectSubmitListener = function() {
+    const elements = document.querySelectorAll('[data-lux-changesubmit]');
+    elements.forEach(function(element) {
+      element.addEventListener('change', (event) => {
+        event.target.form.submit();
+      });
     });
   }
 
