@@ -4,7 +4,6 @@ $linewidth: 3px;
 
 .timeline {
   position: relative;
-  background: $white;
 
   &:before {
     content: '';
@@ -139,7 +138,6 @@ $linewidth: 3px;
       &:after {
         content: '';
         display: block;
-        background-color: $white;
         position: absolute;
       }
     }
@@ -149,7 +147,6 @@ $linewidth: 3px;
       &:after {
         content: '';
         display: block;
-        background-color: $white;
         position: absolute;
       }
     }
