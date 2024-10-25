@@ -131,8 +131,8 @@ init-docker: create-dirs create-certificate
 ## Copies the TYPO3 site configuration
 typo3-add-site:
 	echo "$(EMOJI_triangular_flag) Copying the TYPO3 site configuration"
-	mkdir -p config/sites/main/
-	cp -f .project/TYPO3/config.yaml config/sites/main/config.yaml
+	mkdir -p config/sites/lux/
+	cp -f .project/TYPO3/config.yaml config/sites/lux/config.yaml
 
 ## Copies the Additional/DockerConfiguration.php to the correct directory
 typo3-add-dockerconfig:
