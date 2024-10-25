@@ -190,11 +190,11 @@ class VisitorFactory
 
     protected function checkIdentificator(string $identificator): void
     {
-        $length = [0, 32, 33];
+        $length = [0, Fingerprint::IDENTIFICATOR_LENGTH_FINGERPRINT, Fingerprint::IDENTIFICATOR_LENGTH_STORAGE];
         if (in_array(strlen($identificator), $length) === false) {
             throw new IdentificatorFormatException('Identificator is in wrong format: ' . $identificator, 1680203759);
         }
-        if (preg_replace('/[a-z0-9]{32,33}/', '', $identificator) !== '') {
+        if (preg_replace('/[a-z0-9]{' . Fingerprint::IDENTIFICATOR_LENGTH_FINGERPRINT . ',' . Fingerprint::IDENTIFICATOR_LENGTH_STORAGE . '}/', '', $identificator) !== '') {
             throw new IdentificatorFormatException('Identificator is in wrong format: ' . $identificator, 1680204272);
         }
     }
