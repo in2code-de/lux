@@ -55,6 +55,7 @@
             <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.score">
                 Scoring
             </f:translate>
+            <f:render partial="Filter/TableSorting" arguments="{sortingField:'scoring',filter:filter,view:view}" />
         </th>
         <f:if condition="{filter.categoryScoring}">
             <th>
@@ -65,11 +66,13 @@
             <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.email">
                 Email
             </f:translate>
+            <f:render partial="Filter/TableSorting" arguments="{sortingField:'email',filter:filter,view:view}" />
         </th>
         <th>
             <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.company">
                 Company
             </f:translate>
+            <f:render partial="Filter/TableSorting" arguments="{sortingField:'company',filter:filter,view:view}" />
         </th>
         <th>
             <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.tstamp">
@@ -87,6 +90,7 @@
                     (PID{filter.pid})
                 </f:then>
             </f:if>
+            <f:render partial="Filter/TableSorting" arguments="{sortingField:'visits',filter:filter,view:view}" />
         </th>
     </tr>
     </thead>

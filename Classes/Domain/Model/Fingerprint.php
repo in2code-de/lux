@@ -7,6 +7,7 @@ use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Exception\FingerprintMustNotBeEmptyException;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\EnvironmentUtility;
+use In2code\Lux\Utility\IpUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use WhichBrowser\Parser;
 
@@ -16,6 +17,9 @@ class Fingerprint extends AbstractModel
     public const TYPE_FINGERPRINT = 0;
     public const TYPE_COOKIE = 1;
     public const TYPE_STORAGE = 2;
+    public const IDENTIFICATOR_LENGTH_FINGERPRINT = 32;
+    public const IDENTIFICATOR_LENGTH_STORAGE = 33;
+    public const IDENTIFICATOR_LENGTH_FINGERPRINTWITHIPHASH = 64;
 
     protected string $value = '';
     protected string $domain = '';
@@ -49,10 +53,12 @@ class Fingerprint extends AbstractModel
         if ($value === '') {
             throw new FingerprintMustNotBeEmptyException('Value is empty', 1585901797);
         }
-        if (strlen($value) === 33) {
+        if (strlen($value) === self::IDENTIFICATOR_LENGTH_STORAGE) {
             $this->setType(self::TYPE_STORAGE);
+            $this->value = $value;
+        } else {
+            $this->value = hash('sha256', $value . IpUtility::getIpAddress());
         }
-        $this->value = $value;
         return $this;
     }
 

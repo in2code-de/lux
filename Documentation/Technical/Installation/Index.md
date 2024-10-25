@@ -161,29 +161,31 @@ localstorage mode. While a fingerprint can be calculated by hardware details aut
 similar to a cookie. We would also don't use `autoenable` if you want to go for local storage and ask your visitors
 for an opt-in.
 
-###### Fingerprint for b2b
+###### Fingerprint (recommended for B2B)
 
 **Upside:** Fingerprint is calculated automatically and does not need to be stored anywhere on the device
 (cookie or local storage). A tracking between different domains and page branches is possible
 within the same TYPO3 instance.
 
-**Downside:** To calculate a fingerprint 200-400ms is needed. Beside that multiple visitors with same hard- and software
-are recognized as only one visitor. This is especially true for iPhones of the same version and generation.
+**Downside:** To calculate a fingerprint every page request needs 200-400ms on top (asynchronous).
+Beside that multiple visitors with same hard- and software
+are recognized as only one visitor, if they are using the same IP-address.
+This is especially true for iPhones of the same version and generation.
 
-###### LocalStorage for b2c
+###### LocalStorage (recommended for B2C)
 
-**Upside:** If you have a lot of iPhone visitors on your website (e.g. if you own a b2c shop for a younger target
-group), you may want to differ between your visitors. So you could go for LocalStorage.
-A random string is generated where fast and saved on the visitors device. You can also differ between multiple iPhone
-visitors.
+**Upside:** If you have a lot of mobile visitors on your website (e.g. if you own a b2c shop for a younger target
+group), you may want to differ between your visitors. So you could go for LocalStorage. This is comparable to a cookie.
+A random string will be saved on the visitor's device, which can be done very quickly.
+You can also differ between multiple mobile visitors - even with same hardware and IP-address.
 
 **Downside:** You have to ask your visitor if you are allowed to store a random string the local storage of the device,
 to identify your visitor. To meet GDPR rules, we would suggest you to set up a cookie banner.
-In addition a visitor of domain A is not automatically merged if he also visits domain B on the same TYPO3 instance
+In addition, a visitor of domain A is not automatically merged if he also visits domain B on the same TYPO3 instance
 (every domain has its own local storage area. Of course if the user is identified on both domains, the profile will be
 merged to only one).
 
-####
+#### TypoScript
 
 If you want to see in detail what kind of TypoScript will be included and how to overwrite some parts, look at
 [the Lux folder](../../../Configuration/TypoScript/Lux)

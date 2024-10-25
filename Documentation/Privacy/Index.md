@@ -14,6 +14,7 @@ rules of GDPR (General Data Protection Regulation) / DSGVO (Datenschutzgrundvero
 
 * [Example privacy page content](PrivacyPage.md)
 * [All related to the visitor ip address](IpAddresses.md)
+* [Fingerprints vs. local storage (cookie)](FingerprintsAndLocalStorage.md)
 * [All information about optin and optout](OptInAndOptOut.md)
 * [Privacy related commands](Commands.md)
 * [Do not track header in browser](DoNotTrack.md)

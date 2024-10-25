@@ -14,6 +14,7 @@ use In2code\Lux\Utility\DateUtility;
 use In2code\Lux\Utility\StringUtility;
 use Throwable;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 /**
  * Class FilterDto is a filter class that helps to filter visitors by given parameters. Per default, get visitors
@@ -38,6 +39,8 @@ class FilterDto
     protected string $searchterm = '';
     protected string $href = '';
     protected string $pid = '';
+    protected string $sortingField = '';
+    protected string $sortingDirection = QueryInterface::ORDER_DESCENDING;
 
     /**
      * Must be a string like "2021-01-01T15:03:01.012345Z" (date format "c")
@@ -921,6 +924,46 @@ class FilterDto
         }
         $interval[] = $end;
         return $interval;
+    }
+
+    public function getSortingField(): string
+    {
+        return StringUtility::cleanString($this->sortingField);
+    }
+
+    public function isSortingFieldSet(): bool
+    {
+        return $this->getSortingField() !== '';
+    }
+
+    public function setSortingField(string $sortingField): self
+    {
+        $this->sortingField = $sortingField;
+        return $this;
+    }
+
+    public function getSortingDirection(): string
+    {
+        return StringUtility::cleanString($this->sortingDirection);
+    }
+
+    public function setSortingDirection(string $sortingDirection): self
+    {
+        $this->sortingDirection = $sortingDirection;
+        return $this;
+    }
+
+    public function getOrderings(): array
+    {
+        $orderings = [
+            'identified' => QueryInterface::ORDER_DESCENDING,
+            'scoring' => QueryInterface::ORDER_DESCENDING,
+            'tstamp' => QueryInterface::ORDER_DESCENDING,
+        ];
+        if ($this->isSortingFieldSet()) {
+            $orderings = [$this->getSortingField() => $this->getSortingDirection()];
+        }
+        return $orderings;
     }
 
     /**
