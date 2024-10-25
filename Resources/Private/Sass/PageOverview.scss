@@ -73,8 +73,8 @@
     position: relative;
     overflow: hidden;
     min-height: 280px;
-    background-color: $colorGrey;
-    border: 2px dashed $colorGreyBright;
+    background-color: light-dark($colorGrey, $black);
+    border: 2px dashed light-dark($colorGreyBright, $colorGreyDark);
     margin-bottom: 1.125rem;
 }
 
