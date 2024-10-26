@@ -3,7 +3,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\ViewHelpers\Pagination;
 
-use In2code\Lux\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 use TYPO3\CMS\Extbase\Service\ExtensionService;

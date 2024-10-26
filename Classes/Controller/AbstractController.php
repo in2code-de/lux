@@ -65,7 +65,8 @@ abstract class AbstractController extends ActionController
         protected readonly CacheLayer $cacheLayer,
         protected readonly ModuleTemplateFactory $moduleTemplateFactory,
         protected readonly IconFactory $iconFactory
-    ) {}
+    ) {
+    }
 
     /**
      * Pass some important variables to all views

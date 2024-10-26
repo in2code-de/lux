@@ -12,7 +12,6 @@ use In2code\Lux\Events\NewsTrackerEvent;
 use In2code\Lux\Events\PageTrackerEvent;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Throwable;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class UtmTracker
 {

@@ -36,12 +36,6 @@
 	"replace": {
 		"typo3-ter/lux": "self.version"
 	},
-	"repositories": [
-		{
-			"type": "vcs",
-			"url": "https://github.com/bmack/TYPO3-Console"
-		}
-	],
 	"suggest": {
 		"typo3/cms-dashboard": "*"
 	},
@@ -73,7 +67,7 @@
 		"phpmd/phpmd": "^2.8",
 		"friendsofphp/php-cs-fixer": "^3.10",
 		"helmich/typo3-typoscript-lint": "^3.1",
-		"helhum/typo3-console": "dev-issue/1169"
+		"helhum/typo3-console": "^8.2"
 	},
 	"autoload": {
 		"psr-4": {

@@ -127,13 +127,13 @@ class FrontendController extends ActionController
      */
     public function pageRequestAction(string $identificator, array $arguments): ResponseInterface
     {
-            $visitor = $this->getVisitor($identificator);
-            $this->callAdditionalTrackers($visitor, $arguments);
-            $this->companyTracker->track($visitor);
-            $pagevisit = $this->pageTracker->track($visitor, $arguments);
-            $this->newsTracker->track($visitor, $arguments, $pagevisit);
-            $this->searchTracker->track($visitor, $arguments, $pagevisit);
-            return $this->jsonResponse(json_encode($this->afterAction($visitor)));
+        $visitor = $this->getVisitor($identificator);
+        $this->callAdditionalTrackers($visitor, $arguments);
+        $this->companyTracker->track($visitor);
+        $pagevisit = $this->pageTracker->track($visitor, $arguments);
+        $this->newsTracker->track($visitor, $arguments, $pagevisit);
+        $this->searchTracker->track($visitor, $arguments, $pagevisit);
+        return $this->jsonResponse(json_encode($this->afterAction($visitor)));
     }
 
     /**
