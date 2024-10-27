@@ -25,6 +25,7 @@ class GeneralController extends AbstractController
     {
         $filter = ObjectUtility::getFilterDto(FilterDto::PERIOD_THISYEAR);
         $values = [
+            'settings' => $this->settings,
             'statistics' => [
                 'visitors' => $this->visitorRepository->findAllAmount(),
                 'identified' => $this->visitorRepository->findAllIdentifiedAmount(),
