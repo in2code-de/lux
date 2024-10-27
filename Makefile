@@ -107,6 +107,7 @@ ifeq ($(shell uname -s), Darwin)
 else
 	ln -snf .project/docker/docker-compose.unix.yml docker-compose.yml
 endif
+	cp -n .project/TYPO3/.env.local .
 
 ## Install Frontend Build Tool Chain dependencies
 npm-install:
@@ -124,6 +125,7 @@ npm-stop:
 ## Initialize the docker setup
 init-docker: create-dirs create-certificate
 	echo "$(EMOJI_rocket) Initializing docker environment"
+	cp -n .project/TYPO3/.env.local .
 	docker-compose pull
 	docker-compose up -d --build
 	docker-compose exec -u root php chown -R app:app /app/$(WEBROOT)/$(TYPO3_CACHE_DIR)/;
