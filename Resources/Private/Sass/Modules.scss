@@ -293,8 +293,18 @@ label {
     /**
      * Table classes
      */
+    .table-title {
+        background-color: var(--typo3-component-border-color);
+        border-top: 1px solid var(--typo3-component-border-color);
+        border-left: 1px solid var(--typo3-component-border-color);
+        border-right: 1px solid var(--typo3-component-border-color);
+        color: var(--typo3-table-color);
+        font-weight: bold;
+        padding: 10px;
+    }
+
     .table {
-        border: 1px solid $colorGreyBright;
+        border: 1px solid var(--typo3-component-border-color);
 
         .soft {
             color: $colorGreySoft;

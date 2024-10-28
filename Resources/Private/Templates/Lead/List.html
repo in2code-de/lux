@@ -8,7 +8,7 @@
             <f:if condition="{allVisitors}">
                 <f:then>
                     <lux:pagination.paginate objects="{allVisitors}" as="visitorsPaginator" itemsPerPage="25">
-                        <div style="background-color: #dddddd; border-top: 1px solid #cccccc; border-left: 1px solid #cccccc; border-right: 1px solid #cccccc; color: #5a5a5a; font-weight: bold; padding: 10px;">
+                        <div class="table-title">
                             <span data-lux-getoverallleads="source">{allVisitors -> f:count()}</span>
                             Leads
                             <span data-lux-getoverallleads="target" style="color: #aaa"></span>

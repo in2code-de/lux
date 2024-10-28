@@ -18,7 +18,7 @@ This template is for EXT:luxletter to render a receiver analysis
                     <f:render partial="Newsletter/Receiver/Filter" arguments="{_all}"/>
 
                     <lux:pagination.paginate objects="{users}" as="usersPaginator" itemsPerPage="25">
-                        <div style="background-color: #dddddd; border-top: 1px solid #cccccc; border-left: 1px solid #cccccc; border-right: 1px solid #cccccc; color: #5a5a5a; font-weight: bold; padding: 10px;">
+                        <div class="table-title">
                             <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:luxletter.module.newsletter.receiver.table.receiver">receiver</f:translate>
                             ({users -> f:count()})
                         </div>

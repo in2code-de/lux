@@ -8,7 +8,7 @@
             <f:if condition="{companies}">
                 <f:then>
                     <lux:pagination.paginate objects="{companies}" as="companiesPaginator" itemsPerPage="25">
-                        <div style="background-color: #dddddd; border-top: 1px solid #cccccc; border-left: 1px solid #cccccc; border-right: 1px solid #cccccc; color: #5a5a5a; font-weight: bold; padding: 10px;">
+                        <div class="table-title">
                             <span data-lux-getoverallcompanies="source">{companies -> f:count()}</span>
                             <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.companies">Companies</f:translate>
                             <span data-lux-getoverallcompanies="target" style="color: #aaa"></span>

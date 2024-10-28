@@ -1,7 +1,7 @@
 <f:if condition="{pages}">
     <f:then>
         <lux:pagination.paginate objects="{pages}" as="pagesPaginator" itemsPerPage="15">
-            <div style="background-color: #dddddd; border-top: 1px solid #cccccc; border-left: 1px solid #cccccc; border-right: 1px solid #cccccc; color: #5a5a5a; font-weight: bold; padding: 10px;">
+            <div class="table-title">
                 <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.content.pages">Page visits</f:translate>
                 ({pages -> f:count()})
             </div>
