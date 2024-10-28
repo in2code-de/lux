@@ -161,13 +161,13 @@ label {
             border-left: 5px solid transparent;
             border-right: 5px solid transparent;
             border-bottom: none;
-            border-top: 5px solid $colorGreyDark;
+            border-top: 5px solid light-dark($colorGreyDark, $colorGrey);
             display: inline-block;
         }
 
         &.collapsed:after {
             border-top: none;
-            border-bottom: 5px solid $colorGreyDark;
+            border-bottom: 5px solid light-dark($colorGreyDark, $colorGrey);
             margin-bottom: 1px;
         }
     }
