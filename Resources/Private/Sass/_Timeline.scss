@@ -133,18 +133,11 @@ $linewidth: 3px;
       left: calc(-#{$bulletsize} - #{$bulletlinespacing});
     }
 
-    &:first-child {
-
-      &:after {
-        content: '';
-        display: block;
-        position: absolute;
-      }
-    }
-
+    &:first-child,
     &:last-child {
 
-      &:after {
+      &::after {
+        background-color: var(--typo3-component-bg);
         content: '';
         display: block;
         position: absolute;
