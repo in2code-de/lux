@@ -1,5 +1,20 @@
 import { Chart, registerables } from "@in2code/lux/vendor/chartjs.js";
 
+const setDefaultChartColor = () => {
+  const colorScheme = document.documentElement.getAttribute('data-color-scheme') || 'auto';
+  const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  if (colorScheme === 'light') {
+    Chart.defaults.color = '#1A1A1A';
+  } else if (colorScheme === 'dark' || (colorScheme === 'auto' && prefersDarkMode)) {
+    Chart.defaults.color = '#D9D9D9';
+  } else {
+    Chart.defaults.color = '#1A1A1A';
+  }
+};
+
+setDefaultChartColor();
+
 Chart.register(...registerables);
 
 /**
