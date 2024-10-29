@@ -119,7 +119,9 @@ class PageRepository extends AbstractRepository
         if ($addHidden === false) {
             $queryBuilder->getRestrictions()->add(GeneralUtility::makeInstance(HiddenRestriction::class));
         }
-        $result = $queryBuilder->execute()->fetchAllKeyValue();
+        $result = $queryBuilder
+            ->executeQuery()
+            ->fetchAllKeyValue();
         return array_values($result);
     }
 }
