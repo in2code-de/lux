@@ -256,7 +256,7 @@ label {
         margin-top: 15px;
         margin-left: 15px;
         display: inline-block;
-        color: #5A5A5A;
+        color: light-dark($colorGreyDark, #AAAAAA);
 
         &__code {
             list-style-type: none;
