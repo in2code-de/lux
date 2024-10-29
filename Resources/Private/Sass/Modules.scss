@@ -14,7 +14,7 @@ a:not(.btn):not(.nolink):not(.colorwhite) {
 
 hr {
     border-style: dashed;
-    border-color: $colorGrey;
+    border-color: var(--typo3-component-border-color);
     border-bottom: 0;
     border-left: 0;
     border-right: 0;
@@ -340,31 +340,27 @@ label {
         top: 15px;
         width: 25px;
         height: 25px;
-        opacity: 0.3;
         font-size: 0;
         z-index: 2;
         border: none;
         background: none;
     }
 
-    .close:hover {
-        opacity: 1;
-    }
-
-    .close:before, .close:after {
+    .close::before,
+    .close::after {
         position: absolute;
         top: 0;
         content: ' ';
         height: 25px;
-        width: 2px;
-        background-color: #333;
+        width: 4px;
+        background-color: $colorMain;
     }
 
-    .close:before {
+    .close::before {
         transform: rotate(45deg);
     }
 
-    .close:after {
+    .close::after {
         transform: rotate(-45deg);
     }
 
@@ -401,15 +397,13 @@ label {
 }
 
 .lux-workflow-sidbox {
-    opacity: 0.5;
-    background: #ddd;
+    background-color: light-dark($colorGreyBright, $colorGreyDark);
     margin: 34px 0 0 0;
     padding: 20px;
 }
 
 .lux_triggerarea,
 .lux_actionarea {
-
     position: relative;
 
     .lux-trigger,
@@ -417,7 +411,8 @@ label {
         margin: 80px 0 20px 0;
         padding: 20px;
         border-style: dashed;
-        border-color: $colorGrey;
+        border-color: var(--typo3-component-border-color);
+        border-width: 1px;
         position: relative;
 
         &:before {
@@ -425,13 +420,13 @@ label {
             display: block;
             width: 10px;
             height: 50px;
-            border-left: 3px solid $colorGrey;
+            border-left: 1px dashed var(--typo3-component-border-color);
             position: absolute;
             left: 50%;
             margin-top: -87px;
             padding: 13px 0 0 18px;
             font-size: 18px;
-            color: $colorGrey;
+            color: light-dark($colorGreyDark, #AAAAAA);
         }
 
         &:first-child {
