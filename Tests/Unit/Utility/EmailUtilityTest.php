@@ -55,7 +55,7 @@ class EmailUtilityTest extends UnitTestCase
         } else {
             $result = EmailUtility::extendEmailReceiverArray($emails);
         }
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
     /**
@@ -64,9 +64,9 @@ class EmailUtilityTest extends UnitTestCase
      */
     public function testGetDomainFromEmail(): void
     {
-        $this->assertSame('in2code.de', EmailUtility::getDomainFromEmail('test@in2code.de'));
-        $this->assertSame('fuz.bayern', EmailUtility::getDomainFromEmail('foo.bar@fuz.bayern'));
-        $this->assertSame('', EmailUtility::getDomainFromEmail(''));
-        $this->assertSame('', EmailUtility::getDomainFromEmail('foobar'));
+        self::assertSame('in2code.de', EmailUtility::getDomainFromEmail('test@in2code.de'));
+        self::assertSame('fuz.bayern', EmailUtility::getDomainFromEmail('foo.bar@fuz.bayern'));
+        self::assertSame('', EmailUtility::getDomainFromEmail(''));
+        self::assertSame('', EmailUtility::getDomainFromEmail('foobar'));
     }
 }
