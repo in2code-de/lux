@@ -6,13 +6,13 @@ checkFunction = User
 # cat=basic//010; type=text; label= Scoring calculation: Define your own main scoring calculation. This will be used automaticly on a pagevisit or frequently with a scheduler task (commandcontroller). Available variables are - numberOfSiteVisits, numberOfPageVisits, downloads, lastVisitDaysAgo. Note - you should run a commandController (e.g. every night) and calculate the scoring again, if you are using the variable "lastVisitDaysAgo".
 scoringCalculation = (10 * numberOfSiteVisits) + (1 * numberOfPageVisits) + (20 * downloads) - (1 * lastVisitDaysAgo)
 
-# cat=basic//020; type=number; label= Add on page visit: Add a value to the category scoring if lead visits a page of a lux category
+# cat=basic//020; type=number; label= Add on page visit: Increment category scoring when lead views a luxury category page
 categoryScoringAddPageVisit = 10
 
-# cat=basic//030; type=number; label= Add on news visit: Add a value to the category scoring if lead visits a news page with a lux category
+# cat=basic//030; type=number; label= Add on news visit: Increment category scoring when lead views a luxury category news page
 categoryScoringAddNewsVisit = 10
 
-# cat=basic//040; type=number; label= Add on download: Add a value to the category scoring if lead an asset of a lux category
+# cat=basic//040; type=number; label= Add on download: Increment category scoring when lead downloads a luxury category asset
 categoryScoringAddDownload = 20
 
 # cat=basic//050; type=number; label= Add on click on Link Listener: Add a value to the category scoring if a lead clicks a Link Listener link
@@ -46,7 +46,7 @@ disableIpLogging = 0
 # cat=advanced/enable/240; type=boolean; label= Anonymize IP: As an alternative to disableIpLogging, you can anonymize the visitors IP-address when saving. The last part of the IP will be anonymized with "***".
 anonymizeIp = 1
 
-# cat=advanced/enable/250; type=options[all,nogoogle,nogravatar,noexternal]; label= Lead pictures: Decide if TYPO3 should try to find an image of a lead by searching on gravatar.com or on google image search by given email address.
+# cat=advanced/enable/250; type=options[all,nosearchengine,nogravatar,noexternal]; label= Lead pictures: Decide if TYPO3 should try to find an image of a lead by searching on gravatar.com (with hashed email) or on bing image search by given email domain (not full address).
 leadImageFromExternalSources = all
 
 # cat=advanced/enable/260; type=boolean; label= Show render time: Show rendering times for all backend views for an easier performance debugging (only visible for administrators).

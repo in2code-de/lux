@@ -25,7 +25,7 @@ class CompanyImageService extends AbstractImageService
     protected function buildImageUrl(): string
     {
         $url = '';
-        $url = $this->getImageFromGoogle($url, $this->arguments['company']->getTitle());
+        $url = $this->getImageFromBing($url, $this->arguments['company']->getTitle());
         $url = $this->getDefaultUrl($url);
         return $url;
     }

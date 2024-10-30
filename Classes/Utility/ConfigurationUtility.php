@@ -146,7 +146,7 @@ class ConfigurationUtility
     }
 
     /**
-     * @return string "all", "nogoogle", "nogravatar", "noexternal"
+     * @return string "all", "nosearchengine", "nogravatar", "noexternal"
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      */
@@ -154,6 +154,9 @@ class ConfigurationUtility
     {
         $extensionConfig = self::getExtensionConfiguration();
         if (array_key_exists('leadImageFromExternalSources', $extensionConfig)) {
+            if ($extensionConfig['leadImageFromExternalSources'] === 'nogoogle') {
+                $extensionConfig['leadImageFromExternalSources'] = 'nosearchengine';
+            }
             return $extensionConfig['leadImageFromExternalSources'];
         }
         return 'all';

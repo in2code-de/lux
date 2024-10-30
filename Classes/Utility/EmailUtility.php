@@ -13,4 +13,9 @@ class EmailUtility
         }
         return $extendedArray;
     }
+
+    public static function getDomainFromEmail(string $email): string
+    {
+        return strtolower(substr(strrchr($email, '@') ?: '', 1));
+    }
 }

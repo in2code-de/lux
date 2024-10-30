@@ -132,6 +132,12 @@ services:
       - name: event.listener
         identifier: 'lux/preventReferenceIndex'
 
+  In2code\Lux\Domain\Service\Image\VisitorImageService:
+    public: true
+
+  In2code\Lux\Domain\Service\Provider\CustomerMail:
+    public: true
+
   In2code\Lux\ViewHelpers\Lead\GetDateOfLatestPageVisitAndPageViewHelper:
     public: true
 

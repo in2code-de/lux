@@ -25,7 +25,7 @@ class Fingerprint extends AbstractModel
     protected string $domain = '';
     protected string $userAgent = '';
     protected string $site = '';
-    protected int $type = 0;
+    protected int $type = self::TYPE_FINGERPRINT;
 
     public function __construct(string $domain = '', string $userAgent = '')
     {
