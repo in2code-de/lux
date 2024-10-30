@@ -46,7 +46,7 @@ disableIpLogging = 0
 # cat=advanced/enable/240; type=boolean; label= Anonymize IP: As an alternative to disableIpLogging, you can anonymize the visitors IP-address when saving. The last part of the IP will be anonymized with "***".
 anonymizeIp = 1
 
-# cat=advanced/enable/250; type=options[all,nosearchengine,nogravatar,noexternal]; label= Lead pictures: Decide if TYPO3 should try to find an image of a lead by searching on gravatar.com or on bing image search by given email address.
+# cat=advanced/enable/250; type=options[all,nosearchengine,nogravatar,noexternal]; label= Lead pictures: Decide if TYPO3 should try to find an image of a lead by searching on gravatar.com (with hashed email) or on bing image search by given email domain (not full address).
 leadImageFromExternalSources = all
 
 # cat=advanced/enable/260; type=boolean; label= Show render time: Show rendering times for all backend views for an easier performance debugging (only visible for administrators).

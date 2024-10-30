@@ -3,14 +3,14 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Service\Provider;
 
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
+
 /**
  * Class CustomerMail
  * this class can decide if an email belongs to a b2c or b2b contact
  */
 class CustomerMail
 {
-    protected AllowedMail $allowedMail;
-
     protected array $b2cEmailDomains = [
         '1und1.de',
         'aok.de',
@@ -59,9 +59,8 @@ class CustomerMail
         'yahoo.de',
     ];
 
-    public function __construct(AllowedMail $allowedMail)
+    public function __construct(protected readonly AllowedMail $allowedMail)
     {
-        $this->allowedMail = $allowedMail;
     }
 
     public function isB2cEmail(string $email): bool
