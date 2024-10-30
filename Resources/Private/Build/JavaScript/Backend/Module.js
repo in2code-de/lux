@@ -35,6 +35,7 @@ const LuxBackend = function() {
     addUnitAjaxListener();
     addSelectSubmitListener();
     addRangeLabelListener();
+    addHistoryBackListener();
   };
 
   /**
@@ -376,6 +377,15 @@ const LuxBackend = function() {
       element.addEventListener('change', (event) => {
         const label = event.target.parentNode.querySelector('#scoring_label');
         label.innerHTML = event.target.value;
+      });
+    });
+  }
+
+  const addHistoryBackListener = function() {
+    const elements = document.querySelectorAll('[data-lux-historyback]');
+    elements.forEach(function(element) {
+      element.addEventListener('click', (event) => {
+        window.history.back();
       });
     });
   }
