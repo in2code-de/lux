@@ -372,10 +372,10 @@ const LuxBackend = function() {
   }
 
   const addRangeLabelListener = function() {
-    const elements = document.querySelectorAll('[data-lux-rangelabel]');
+    const elements = document.querySelectorAll('[data-lux-rangelabel="field"]');
     elements.forEach(function(element) {
       element.addEventListener('change', (event) => {
-        const label = event.target.parentNode.querySelector('#scoring_label');
+        const label = event.target.parentNode.querySelector('[data-lux-rangelabel="container"]');
         label.innerHTML = event.target.value;
       });
     });
