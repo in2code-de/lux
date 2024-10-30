@@ -57,11 +57,11 @@
                 </f:be.link>
             </f:if>
 
-            <f:link.action action="deactivate" arguments="{visitor:visitor}" class="btn btn-default" onclick="return confirm('{f:translate(key:\"LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:areYouSure\")}')">
+            <f:link.action action="deactivate" arguments="{visitor:visitor}" class="btn btn-default" additionalAttributes="{data-lux-confirm:'{f:translate(key:\"LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:areYouSure\")}'}">
                 <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.link.deactivate">ignore</f:translate>
             </f:link.action>
 
-            <f:link.action action="remove" arguments="{visitor:visitor}" class="btn btn-default" onclick="return confirm('{f:translate(key:\"LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:areYouSure\")}')">
+            <f:link.action action="remove" arguments="{visitor:visitor}" class="btn btn-default" additionalAttributes="{data-lux-confirm:'{f:translate(key:\"LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:areYouSure\")}'}">
                 <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.link.remove">delete</f:translate>
             </f:link.action>
         </div>
