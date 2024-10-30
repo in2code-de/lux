@@ -3,7 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Service\Image;
 
-use Buchin\GoogleImageGrabber\GoogleImageGrabber;
+use Buchin\Bing\Image;
 use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\DateUtility;
 use In2code\Lux\Utility\FileUtility;
@@ -53,19 +53,24 @@ abstract class AbstractImageService implements ImageServiceInterface
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      */
-    protected function getImageFromGoogle(string $url, string $searchTerm): string
+    protected function getImageFromBing(string $url, string $searchTerm): string
     {
         $configuration = [
             'all',
             'nogravatar',
         ];
-        if (empty($url) && class_exists(GoogleImageGrabber::class)) {
+        if (empty($url) && class_exists(Image::class)) {
             if (in_array(ConfigurationUtility::getLeadImageFromExternalSourcesConfiguration(), $configuration)) {
                 try {
-                    $images = GoogleImageGrabber::grab($searchTerm);
+                    $imageScraper = new Image();
+                    $images = $imageScraper->scrape($searchTerm, '', ['image_size' => 'small']);
                     foreach ($images as $image) {
-                        if (!empty($image['url']) && FileUtility::isImageFile($image['url']) && $image['width'] > 25) {
-                            $url = $image['url'];
+                        if (
+                            !empty($image['mediaurl'])
+                            && FileUtility::isImageFile($image['mediaurl'])
+                            && (int)$image['width'] > 25
+                        ) {
+                            $url = $image['mediaurl'];
                             break;
                         }
                     }

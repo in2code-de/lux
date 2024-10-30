@@ -32,7 +32,7 @@ class VisitorImageService extends AbstractImageService
         $url = $this->getImageUrlFromFrontenduser($url);
         $url = $this->getImageUrlFromGravatar($url);
         if ($this->arguments['visitor']->isIdentified()) {
-            $url = $this->getImageFromGoogle($url, $this->arguments['visitor']->getEmail());
+            $url = $this->getImageFromBing($url, $this->arguments['visitor']->getEmail());
         }
         $url = $this->getDefaultUrl($url);
         return $url;
@@ -67,7 +67,7 @@ class VisitorImageService extends AbstractImageService
     {
         $configuration = [
             'all',
-            'nogoogle',
+            'nosearchengine',
         ];
         if (empty($url) && $this->arguments['visitor']->isIdentified()) {
             if (in_array(ConfigurationUtility::getLeadImageFromExternalSourcesConfiguration(), $configuration)) {
