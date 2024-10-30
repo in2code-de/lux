@@ -3,7 +3,10 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Service\Image;
 
+use In2code\Lux\Domain\Model\Visitor;
+use In2code\Lux\Domain\Service\Provider\CustomerMail;
 use In2code\Lux\Utility\ConfigurationUtility;
+use In2code\Lux\Utility\EmailUtility;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
@@ -16,8 +19,11 @@ class VisitorImageService extends AbstractImageService
     public const CACHE_KEY = 'lux_visitor_imageurl';
     protected int $size = 150;
 
-    public function __construct()
+    protected CustomerMail $customerMail;
+
+    public function __construct(CustomerMail $customerMail)
     {
+        $this->customerMail = $customerMail;
         $this->cacheInstance = GeneralUtility::makeInstance(CacheManager::class)->getCache(self::CACHE_KEY);
     }
 
@@ -28,11 +34,13 @@ class VisitorImageService extends AbstractImageService
      */
     protected function buildImageUrl(): string
     {
+        /** @var Visitor $visitor */
+        $visitor = $this->arguments['visitor'];
         $url = '';
         $url = $this->getImageUrlFromFrontenduser($url);
         $url = $this->getImageUrlFromGravatar($url);
-        if ($this->arguments['visitor']->isIdentified()) {
-            $url = $this->getImageFromBing($url, $this->arguments['visitor']->getEmail());
+        if ($visitor->isIdentified() && $this->customerMail->isB2bEmail($visitor->getEmail())) {
+            $url = $this->getImageFromBing($url, EmailUtility::getDomainFromEmail($visitor->getEmail()));
         }
         $url = $this->getDefaultUrl($url);
         return $url;
@@ -47,8 +55,8 @@ class VisitorImageService extends AbstractImageService
                 $imageService = GeneralUtility::makeInstance(ImageService::class);
                 $image = $imageService->getImage('', $file, false);
                 $processConfiguration = [
-                    'width' => (string)$this->size . 'c',
-                    'height' => (string)$this->size . 'c',
+                    'width' => $this->size . 'c',
+                    'height' => $this->size . 'c',
                 ];
                 $processedImage = $imageService->applyProcessingInstructions($image, $processConfiguration);
                 $url = $imageService->getImageUri($processedImage, true);
