@@ -1,3 +1,6 @@
+import "@in2code/lux/Diagram.min.js";
+import "@in2code/lux/PageOverview.min.js";
+
 const LuxBackend = function() {
   /**
    * @type {LuxBackend}
