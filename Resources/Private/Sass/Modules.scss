@@ -150,7 +150,6 @@ label {
 
     .input-group-addon {
         border: none;
-        background-color: #eee;
     }
 
     .collapse-arrow {
@@ -452,6 +451,82 @@ label {
         right: 115px;
         top: 7px;
         font-weight: bold;
+    }
+}
+
+.lux-actionrange {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+
+    & > input[type='range'] {
+        --track-height: 8px;
+        --thumb-size: 24px;
+        --thumb-offset: -8px;
+        --thumb-highlight-size: 0px;
+        --thumb-highlight-color: light-dark(hsl(0deg 0% 0% / 20%), hsl(0deg 0% 100% / 20%));
+
+        appearance: none;
+        background: transparent;
+        border: 0;
+        display: block;
+        flex: 1 1 auto;
+        margin: 1ex 0;
+        outline-offset: 5px;
+        padding-inline: 0;
+        width: 50vh;
+
+        &::-webkit-slider-runnable-track {
+            appearance: none;
+            height: var(--track-height);
+            border-radius: 5ex;
+            background-color: light-dark($colorGreyBright, $colorGreyDark);
+        }
+
+        &::-moz-range-track {
+            appearance: none;
+            height: var(--track-height);
+            border-radius: 5ex;
+            background-color: light-dark($colorGreyBright, $colorGreyDark);
+        }
+
+        &::-webkit-slider-thumb {
+            appearance: none;
+            cursor: ew-resize;
+            border: 2px solid var(--typo3-component-bg);
+            height: var(--thumb-size);
+            width: var(--thumb-size);
+            margin-top: var(--thumb-offset);
+            border-radius: 50%;
+            background-color: $colorMain;
+            box-shadow: 0 0 0 var(--thumb-highlight-size) var(--thumb-highlight-color);
+            transition: box-shadow .1s ease;
+        }
+
+        &::-moz-range-thumb {
+            appearance: none;
+            cursor: ew-resize;
+            border: 2px solid var(--typo3-component-bg);
+            height: var(--thumb-size);
+            width: var(--thumb-size);
+            margin-top: var(--thumb-offset);
+            border-radius: 50%;
+            background-color: $colorMain;
+            box-shadow: 0 0 0 var(--thumb-highlight-size) var(--thumb-highlight-color);
+            transition: box-shadow .1s ease;
+        }
+
+        &:is(:hover, :active, :focus-visible) {
+            --thumb-highlight-size: 10px;
+        }
+    }
+
+    & > label {
+        background-color: light-dark($colorGreyBright, $colorGreyDark);
+        border-radius: 4px;
+        flex-shrink: 0;
+        min-width: 48px;
+        text-align: center;
     }
 }
 
