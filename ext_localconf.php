@@ -35,11 +35,6 @@ call_user_func(
         /**
          * Hooks
          */
-        // Show page overview (leads or analysis) in page module
-        if (\In2code\Lux\Utility\ConfigurationUtility::isPageOverviewDisabled() === false) {
-            $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/db_layout.php']['drawHeaderHook'][1634669927]
-                = \In2code\Lux\Hooks\PageOverview::class . '->render';
-        }
         // Linkhandler for Link Listener
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_content.php']['typoLink_PostProc'][]
             = \In2code\Lux\Hooks\LuxLinkListenerLinkhandler::class . '->postProcessTypoLink';
@@ -77,7 +72,7 @@ call_user_func(
         \In2code\Lux\Utility\CacheLayerUtility::registerCacheLayers();
 
         /**
-         * CacheHash: Add LUX paramters to excluded variables
+         * CacheHash: Add LUX parameters to excluded variables
          */
         \In2code\Lux\Utility\CacheHashUtility::addLuxArgumentsToExcludedVariables();
     }
