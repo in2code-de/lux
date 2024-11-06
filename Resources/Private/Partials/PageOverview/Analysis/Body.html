@@ -1,4 +1,4 @@
-<div class="row" style="background-color: #fafafa; border-top: 1px solid #cdcdcd; border-bottom: 1px solid #cdcdcd; padding: 5px; margin: 5px;">
+<div class="row">
     <div class="col-md-4">
         <h4><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pageoverviewAnalysis.enter">enter</f:translate></h4>
         <div class="row">
@@ -137,12 +137,18 @@
             <h4>
                 <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.pagevisits">Page visits</f:translate>
             </h4>
-            <canvas width="550"
-                    height="220"
-                    data-chart="line"
-                    data-chart-data="{numberOfVisitorsData.amountsList}"
-                    data-chart-label="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.pagevisits.label')}"
-                    data-chart-labels="{numberOfVisitorsData.titlesList}"></canvas>
+            <table class="table">
+                <tr>
+                    <td>
+                        <canvas width="550"
+                                height="220"
+                                data-chart="line"
+                                data-chart-data="{numberOfVisitorsData.amountsList}"
+                                data-chart-label="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.pagevisits.label')}"
+                                data-chart-labels="{numberOfVisitorsData.titlesList}"></canvas>
+                    </td>
+                </tr>
+            </table>
         </f:if>
     </div>
 </div>
