@@ -355,7 +355,7 @@ const LuxBackend = function() {
           parent.innerHTML = html;
           window.LuxDiagramObject.initialize(parent);
           if (parent.querySelector('[data-lux-toggle]') !== null) {
-            LuxPageOverviewObject.initialize(parent);
+            window.LuxPageOverviewObject.initialize(parent);
           }
           asynchronousImageLoading(parent);
         })

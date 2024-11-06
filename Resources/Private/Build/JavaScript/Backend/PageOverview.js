@@ -114,5 +114,5 @@ const LuxPageOverview = function() {
   };
 };
 
-var LuxPageOverviewObject = new LuxPageOverview();
-LuxPageOverviewObject.initialize();
+window.LuxPageOverviewObject = new LuxPageOverview();
+window.LuxPageOverviewObject.initialize();
