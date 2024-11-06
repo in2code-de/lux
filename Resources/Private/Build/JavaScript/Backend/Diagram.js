@@ -36,20 +36,25 @@ const LuxDiagram = function() {
   /**
    * @returns {void}
    */
-  var diagramListener = function(dom) {
-    var diagrams = dom.querySelectorAll('[data-chart]');
-    for (var i = 0; i < diagrams.length; i++) {
-      var type = diagrams[i].getAttribute('data-chart');
-      if (type === 'doughnut') {
-        diagramDoughnut(diagrams[i]);
-      } else if (type === 'bar') {
-        diagramBar(diagrams[i]);
-      } else if (type === 'bardouble') {
-        diagramBarDouble(diagrams[i]);
-      } else if (type === 'line') {
-        diagramLine(diagrams[i]);
+  const diagramListener = function(dom) {
+    const diagrams = dom.querySelectorAll('[data-chart]');
+    diagrams.forEach(function(diagram) {
+      const existingChart = Chart.getChart(diagram);
+      if (existingChart !== undefined) {
+        existingChart.destroy();
       }
-    }
+
+      const type = diagram.getAttribute('data-chart');
+      if (type === 'doughnut') {
+        diagramDoughnut(diagram);
+      } else if (type === 'bar') {
+        diagramBar(diagram);
+      } else if (type === 'bardouble') {
+        diagramBarDouble(diagram);
+      } else if (type === 'line') {
+        diagramLine(diagram);
+      }
+    });
   };
 
   /**
