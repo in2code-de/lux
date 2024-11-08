@@ -63,7 +63,7 @@
     height: 0;
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
-    border-top: 8px solid $colorGreyDark;
+    border-top: 8px solid light-dark($colorGreyDark, $colorGrey);
     display: inline-block;
 }
 .lux-arrow-down {
@@ -74,7 +74,7 @@
     margin-bottom: 1px;
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
-    border-bottom: 8px solid $colorGreyDark;
+    border-bottom: 8px solid light-dark($colorGreyDark, $colorGrey);
 }
 
 .lux {
