@@ -69,7 +69,8 @@
 		"helmich/typo3-typoscript-lint": "^3.1",
 		"helhum/typo3-console": "^8.2",
 		"georgringer/news": "^12.0",
-		"typo3/cms-indexed-search": "^13.4"
+		"typo3/cms-indexed-search": "^13.4",
+		"typo3/cms-form": "^13.4"
 	},
 	"autoload": {
 		"psr-4": {
