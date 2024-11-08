@@ -133,7 +133,7 @@ class LeadController extends AbstractController
      */
     public function downloadCsvAction(FilterDto $filter): ResponseInterface
     {
-        $this->moduleTemplate->assignMultiple([
+        $this->view->assignMultiple([
             'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter->setLimit(750)),
         ]);
         return $this->csvResponse($this->moduleTemplate->render());
@@ -284,7 +284,7 @@ class LeadController extends AbstractController
      */
     public function downloadCsvCompaniesAction(FilterDto $filter): ResponseInterface
     {
-        $this->moduleTemplate->assignMultiple([
+        $this->view->assignMultiple([
             'companies' => $this->companyRepository->findByFilter($filter->setLimit(750)),
         ]);
         return $this->csvResponse($this->moduleTemplate->render());

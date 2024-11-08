@@ -119,7 +119,7 @@ class AnalysisController extends AbstractController
      */
     public function contentCsvAction(FilterDto $filter): ResponseInterface
     {
-        $this->moduleTemplate->assignMultiple([
+        $this->view->assignMultiple([
             'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
             'downloads' => $this->downloadRepository->findCombinedByHref($filter),
         ]);
@@ -167,7 +167,7 @@ class AnalysisController extends AbstractController
      */
     public function newsCsvAction(FilterDto $filter): ResponseInterface
     {
-        $this->moduleTemplate->assignMultiple([
+        $this->view->assignMultiple([
             'news' => $this->newsvisitRepository->findCombinedByNewsIdentifier($filter),
         ]);
         return $this->csvResponse();
@@ -219,7 +219,7 @@ class AnalysisController extends AbstractController
      */
     public function utmCsvAction(FilterDto $filter): ResponseInterface
     {
-        $this->moduleTemplate->assignMultiple([
+        $this->view->assignMultiple([
             'utmList' => $this->utmRepository->findByFilter($filter),
         ]);
         return $this->csvResponse();
@@ -266,7 +266,7 @@ class AnalysisController extends AbstractController
      */
     public function linkListenerCsvAction(FilterDto $filter): ResponseInterface
     {
-        $this->moduleTemplate->assignMultiple([
+        $this->view->assignMultiple([
             'linkListeners' => $this->linklistenerRepository->findByFilter($filter),
         ]);
         return $this->csvResponse();
