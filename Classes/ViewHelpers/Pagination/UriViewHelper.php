@@ -41,9 +41,23 @@ class UriViewHelper extends AbstractTagBasedViewHelper
         }
 
         return $uriBuilder->uriFor(
-            $this->renderingContext->getControllerAction(),
+            $this->getAction(),
             [$argumentPrefix => $arguments],
-            $this->renderingContext->getControllerName()
+            $this->getController()
         );
+    }
+
+    protected function getAction(): string
+    {
+        $controllerAction = $this->renderingContext->getControllerAction();
+        $parts = explode('/', $controllerAction);
+        return strtolower($parts[1] ?? '');
+    }
+
+    protected function getController(): string
+    {
+        $controllerAction = $this->renderingContext->getControllerAction();
+        $parts = explode('/', $controllerAction);
+        return $parts[0] ?? '';
     }
 }
