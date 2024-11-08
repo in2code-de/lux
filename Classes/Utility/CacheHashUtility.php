@@ -32,6 +32,7 @@ class CacheHashUtility
         'tx_lux_email4link[text]',
         'tx_lux_email4link[href]',
         'tx_lux_email4link[arguments][dummy]', // Placeholder as reminder for a dummy in email4link
+        'luxContent',
         'tx_luxenterprise_cc[contentUid]',
         'tx_luxenterprise_cc[identificator]',
         'tx_luxenterprise_tr[typolink]',
