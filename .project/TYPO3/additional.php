@@ -20,6 +20,27 @@ $additional = [
             ],
         ],
     ],
+    'EXTENSIONS' => [
+        'lux' => [
+            'anonymizeIp' => '1',
+            'categoryScoringAddDownload' => '20',
+            'categoryScoringAddNewsVisit' => '10',
+            'categoryScoringAddPageVisit' => '10',
+            'categoryScoringLinkListenerClick' => '20',
+            'disableAnalysisModule' => '0',
+            'disableCkEditorConfiguration' => '0',
+            'disableIpLogging' => '0',
+            'disableLeadModule' => '0',
+            'disablePageOverview' => '0',
+            'disableWorkflowModule' => '0',
+            'enableExceptionLogging' => '1',
+            'leadImageFromExternalSources' => 'all',
+            'pageOverviewView' => 'analysis',
+            'scoringCalculation' => '(10 * numberOfSiteVisits) + (1 * numberOfPageVisits) + (20 * downloads) - (1 * lastVisitDaysAgo)',
+            'showRenderTimes' => '1',
+            'useCacheLayer' => '0',
+        ],
+    ],
     'FE' => [
         'cacheHash' => [
             'enforceValidation' => true,
