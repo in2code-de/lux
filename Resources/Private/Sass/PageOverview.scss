@@ -116,6 +116,11 @@
     margin: -25px 0 0 -25px;
 }
 
+.lux-pageoverview-container canvas {
+    max-width: 100%;
+    height: auto;
+}
+
 @keyframes spin {
     to { transform: rotate(360deg); }
 }
