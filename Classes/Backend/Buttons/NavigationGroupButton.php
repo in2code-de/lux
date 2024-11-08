@@ -93,7 +93,7 @@ class NavigationGroupButton extends AbstractButton
         $content .= '</a></div>';
         $content .= '<a href="https://www.in2code.de/produkte/lux-typo3-marketing-automation/?utm_campaign=LUX+Community+Version&utm_id=llcv&utm_source=typo3&utm_medium=browser&utm_content=go+enterprise" class="lux_poweredby" style="color:currentColor !important; font-weight:bold; right:85px; position:absolute;" target="_blank" rel="noopener">';
         $content .= $icon->render();
-        $content .= 'Go enterprise</a>';
+        $content .= ' Go enterprise</a>';
         return $content;
     }
 
