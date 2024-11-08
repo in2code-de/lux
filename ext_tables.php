@@ -70,7 +70,7 @@ call_user_func(
         /**
          * Add backend CSS (for CKEditor 5 Email4link)
          */
-        $GLOBALS['TBE_STYLES']['skins']['lux']['stylesheetDirectories']['ckeditor']
+        $GLOBALS['TYPO3_CONF_VARS']['BE']['stylesheets']['lux']
             = 'EXT:lux/Resources/Public/Css/CKEditor/';
     }
 );
