@@ -50,7 +50,7 @@ class VisitorFactory
     {
         $this->checkIdentificator($identificator);
         if ($identificator === '' && $tempVisitor === true) {
-            $identificator = StringUtility::getRandomString(32, false);
+            $identificator = StringUtility::getRandomString(Fingerprint::IDENTIFICATOR_LENGTH_FINGERPRINT, false);
         }
         $this->fingerprint = GeneralUtility::makeInstance(Fingerprint::class)
             ->setValue($identificator)
