@@ -67,7 +67,8 @@
 		"phpmd/phpmd": "^2.8",
 		"friendsofphp/php-cs-fixer": "^3.10",
 		"helmich/typo3-typoscript-lint": "^3.1",
-		"helhum/typo3-console": "^8.2"
+		"helhum/typo3-console": "^8.2",
+		"georgringer/news": "^12.0"
 	},
 	"autoload": {
 		"psr-4": {
