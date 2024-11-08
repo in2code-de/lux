@@ -184,9 +184,8 @@ urls:
 	echo ''; \
 	printf "  %-$${LONGEST}s %s\n" "Frontend:" "https://$(HOST)/"; \
 	printf "  %-$${LONGEST}s %s\n" "Backend:" "https://$(HOST)/typo3/"; \
-	printf "  %-$${LONGEST}s %s\n" "Mail:" "https://$(MAIL)/"; \
 	for service in $$SERVICES; do \
-		printf "  %-$${LONGEST}s %s\n" "$$service:" "https://$$service.$$PROJECT.docker/"; \
+		printf "  %-$${LONGEST}s %s\n" "$$service:" "https://$$service.$$PROJECT.de/"; \
 	done;
 
 ## Create the hosts entry for the custom project URL (non-dinghy convention)
