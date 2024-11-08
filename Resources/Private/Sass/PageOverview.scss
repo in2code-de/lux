@@ -97,8 +97,8 @@
     position: relative;
     overflow: hidden;
     min-height: 280px;
-    background-color: light-dark($colorGrey, $black);
-    border: 2px dashed light-dark($colorGreyBright, $colorGreyDark);
+    background-color: var(--pagemodule-grid-cell-bg);
+    border-width: 0;
     margin-bottom: 1.125rem;
 }
 
