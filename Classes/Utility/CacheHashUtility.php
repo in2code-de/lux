@@ -27,7 +27,7 @@ class CacheHashUtility
         'tx_lux_fe[arguments][values]',
         'tx_lux_fe[arguments][key]',
         'tx_lux_fe[arguments][value]',
-        'tx_lux_fe[arguments][values]',
+        'tx_lux_fe[arguments][parameter]',
         'tx_lux_email4link[title]',
         'tx_lux_email4link[text]',
         'tx_lux_email4link[href]',
