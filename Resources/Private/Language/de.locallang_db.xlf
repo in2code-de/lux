@@ -1923,11 +1923,11 @@
 			</trans-unit>
 			<trans-unit id="module.companiesDisabled.token1">
 				<source>Just add a</source>
-				<target state="translated">Einfach einen</target>
+				<target state="translated">Einfach</target>
 			</trans-unit>
 			<trans-unit id="module.companiesDisabled.token2">
 				<source>and convert your visitors to companies automatically</source>
-				<target state="translated">hinzufügen und Firmenbesuche anzeigen lassen</target>
+				<target state="translated">hinzufügen und automatisch sehen welche Firmen die Website besuchen</target>
 			</trans-unit>
 			<trans-unit id="module.companiesDisabled.note">
 				<source>Adding and submitting a valid token will add these TypoScript constants to your root templates (check TypoScript or documentation for more information about the settings)</source>
