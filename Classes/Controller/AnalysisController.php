@@ -544,7 +544,7 @@ class AnalysisController extends AbstractController
         );
         $standaloneView->assignMultiple([
             'searches' => $this->searchRepository->findByFilter($filter),
-            'searchterm' => $request->getQueryParams()['searchterm'],
+            'searchterm' => urldecode($request->getQueryParams()['searchterm']),
             'searchData' => GeneralUtility::makeInstance(SearchDataProvider::class, $filter),
         ]);
         $response = GeneralUtility::makeInstance(JsonResponse::class);
