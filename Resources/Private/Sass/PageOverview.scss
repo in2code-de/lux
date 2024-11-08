@@ -116,9 +116,25 @@
     margin: -25px 0 0 -25px;
 }
 
-.lux-pageoverview-container canvas {
-    max-width: 100%;
-    height: auto;
+.lux-pageoverview-container {
+
+
+
+    & .callout-title {
+        align-items: center;
+        display: flex;
+        margin-bottom: 0;
+
+
+        & + [data-lux-toggle-target] {
+            margin-top: 24px;
+        }
+    }
+
+    & canvas {
+        height: auto;
+        max-width: 100%;
+    }
 }
 
 @keyframes spin {
