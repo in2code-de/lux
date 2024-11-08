@@ -83,14 +83,16 @@ const LuxDiagram = function() {
         labels: element.getAttribute('data-chart-labels').split(',')
       },
       options: {
-        legend: {
-          display: true,
-          position: 'right',
-          labels: {
-            fontSize: 14
+        plugins: {
+          legend: {
+            display: true,
+            position: 'right',
+            labels: {
+              fontSize: 14
+            }
           }
         }
-      }
+      },
     });
   };
 
@@ -112,11 +114,13 @@ const LuxDiagram = function() {
         labels: element.getAttribute('data-chart-labels').split(',')
       },
       options: {
-        legend: {
-          display: false,
-          position: 'right',
-          labels: {
-            fontSize: 18
+        plugin: {
+          legend: {
+            display: false,
+            position: 'right',
+            labels: {
+              fontSize: 18
+            }
           }
         },
         scales: {
@@ -180,11 +184,13 @@ const LuxDiagram = function() {
         labels: element.getAttribute('data-chart-labels').split(',')
       },
       options: {
-        legend: {
-          display: false,
-          position: 'right',
-          labels: {
-            fontSize: 18
+        plugin: {
+          legend: {
+            display: false,
+            position: 'right',
+            labels: {
+              fontSize: 18
+            }
           }
         },
         scales: {
@@ -257,11 +263,13 @@ const LuxDiagram = function() {
         labels: element.getAttribute('data-chart-labels').split(',')
       },
       options: {
-        legend: {
-          display: false,
-          position: 'right',
-          labels: {
-            fontSize: 18
+        plugin: {
+          legend: {
+            display: false,
+            position: 'right',
+            labels: {
+              fontSize: 18
+            }
           }
         },
         scales: {
