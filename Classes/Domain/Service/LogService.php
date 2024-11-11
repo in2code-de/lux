@@ -8,17 +8,22 @@ use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Utm;
 use In2code\Lux\Domain\Model\Visitor;
-use In2code\Lux\Domain\Repository\LogRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\FrontendUtility;
 use In2code\Luxenterprise\Domain\Model\AbTestingPage;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 class LogService
 {
+    public function __construct(
+        protected readonly SiteService $siteService,
+        protected readonly VisitorRepository $visitorRepository
+    ) {
+    }
+
     /**
      * @param Visitor $visitor
      * @return void
@@ -303,32 +308,32 @@ class LogService
         );
     }
 
-    /**
-     * @param int $status
-     * @param Visitor $visitor
-     * @param array $properties
-     * @return void
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
-     */
     protected function log(int $status, Visitor $visitor, array $properties = []): void
     {
-        $logRepository = GeneralUtility::makeInstance(LogRepository::class);
-        $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
-        $siteService = GeneralUtility::makeInstance(SiteService::class);
-        $siteIdentifier = $siteService->getSiteIdentifierFromPageIdentifier(FrontendUtility::getCurrentPageIdentifier());
+        $this->persistVisitorIfNew($visitor);
+        $siteIdentifier = $this->siteService->getSiteIdentifierFromPageIdentifier(
+            FrontendUtility::getCurrentPageIdentifier()
+        );
+        $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Log::TABLE_NAME);
+        $queryBuilder
+            ->insert(Log::TABLE_NAME)
+            ->values([
+                'crdate' => time(),
+                'tstamp' => time(),
+                'sys_language_uid' => -1,
+                'visitor' => $visitor->getUid(),
+                'status' => $status,
+                'properties' => json_encode($properties),
+                'site' => $siteIdentifier,
+            ])
+            ->executeStatement();
+    }
 
-        $log = GeneralUtility::makeInstance(Log::class)
-            ->setStatus($status)
-            ->setPropertiesArray($properties)
-            ->setSite($siteIdentifier);
-        $logRepository->add($log);
-        $visitor->addLog($log);
-        if ($visitor->getUid() > 0) {
-            $visitorRepository->update($visitor);
-        } else {
-            $visitorRepository->add($visitor);
+    protected function persistVisitorIfNew(Visitor $visitor): void
+    {
+        if ($visitor->getUid() === null) {
+            $this->visitorRepository->add($visitor);
+            $this->visitorRepository->persistAll();
         }
-        $logRepository->persistAll();
     }
 }
