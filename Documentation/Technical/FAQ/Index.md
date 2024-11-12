@@ -251,7 +251,7 @@ routeEnhancers:
     index: ''
     suffix: /
     map:
-      pagevisit.html: 1518815717
+      pagevisit.json: 1518815717
       fieldmapping.js: 1517985223
       formmapping.js: 1560095529
       email4link.json: 1680114177
