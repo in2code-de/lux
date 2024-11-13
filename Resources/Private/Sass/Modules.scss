@@ -568,3 +568,15 @@ label {
         padding: 0 5px;
     }
 }
+
+/**
+ * Chart.js adjustments
+ *
+ */
+.lux *:has(> canvas) {
+    position: relative;
+}
+
+.lux canvas[data-chart="doughnut"] {
+    max-width: min-content;
+}

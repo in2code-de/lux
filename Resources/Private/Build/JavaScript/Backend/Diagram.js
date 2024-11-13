@@ -83,6 +83,7 @@ const LuxDiagram = function() {
         labels: element.getAttribute('data-chart-labels').split(',')
       },
       options: {
+        maintainAspectRatio: false,
         plugins: {
           legend: {
             display: true,
