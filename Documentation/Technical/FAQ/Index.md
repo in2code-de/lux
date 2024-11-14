@@ -274,6 +274,7 @@ First of all, you can copy the Email4Link html template from LUX (in Private/Tem
 adjust the new path via TypoScript:
 
 ```
+# New path is EXT:mysitepackage/Resources/Private/Templates/Extensions/Lux/Frontend/Email4link.html
 plugin.tx_lux_email4link.view.templateRootPaths.1 = EXT:mysitepackage/Resources/Private/Templates/Extensions/Lux/
 ```
 
