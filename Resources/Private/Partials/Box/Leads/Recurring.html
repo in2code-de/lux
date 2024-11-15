@@ -13,11 +13,11 @@
     <div class="panel-body">
         <f:if condition="{numberOfUniqueSiteVisitors} || {numberOfRecurringSiteVisitors}">
             <f:then>
-                <canvas width="750"
-                        height="400"
-                        data-chart="doughnut"
-                        data-chart-data="{numberOfRecurringSiteVisitors},{numberOfUniqueSiteVisitors}"
-                        data-chart-labels="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.recurring.0')},{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.recurring.1')}"></canvas>
+                <div>
+                    <canvas data-chart="doughnut"
+                            data-chart-data="{numberOfRecurringSiteVisitors},{numberOfUniqueSiteVisitors}"
+                            data-chart-labels="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.recurring.0')},{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.recurring.1')}"></canvas>
+                </div>
             </f:then>
             <f:else>
                 <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>

@@ -7,11 +7,11 @@
     <div class="panel-body">
         <f:if condition="{browserData.dataAvailable}">
             <f:then>
-                <canvas width="750"
-                        height="400"
-                        data-chart="doughnut"
-                        data-chart-data="{browserData.amountslist}"
-                        data-chart-labels="{browserData.titleslist}"></canvas>
+                <div>
+                    <canvas data-chart="doughnut"
+                            data-chart-data="{browserData.amountslist}"
+                            data-chart-labels="{browserData.titleslist}"></canvas>
+                </div>
             </f:then>
             <f:else>
                 <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
