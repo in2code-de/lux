@@ -98,6 +98,9 @@ services:
   In2code\Lux\Domain\Service\CompanyInformationService:
     public: true
 
+  In2code\Lux\Domain\Service\LogService:
+    public: true
+
   In2code\Lux\Domain\Service\SiteService:
     public: true
 
