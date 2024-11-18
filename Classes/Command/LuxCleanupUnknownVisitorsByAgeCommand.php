@@ -15,6 +15,8 @@ use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
 class LuxCleanupUnknownVisitorsByAgeCommand extends Command
 {
+    use ExtbaseCommandTrait;
+
     public function configure()
     {
         $description = 'Remove all unknown visitors where the last update (tstamp) is older than a given timestamp';
@@ -38,6 +40,7 @@ class LuxCleanupUnknownVisitorsByAgeCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->initializeExtbase();
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $visitors = $visitorRepository->findByLastChangeUnknown((int)$input->getArgument('timestamp'));
         /** @var Visitor $visitor */

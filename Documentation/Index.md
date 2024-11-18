@@ -12,3 +12,6 @@ We want to give you hints from time to time to get best results with your market
 
 ## [Technical documentation](Technical/Index.md)
 A fully technical documentation how to install, configure and extend lux to your needs.
+
+## [Developer documentation](Developer/Index.md)
+How to develop with LUX and LUXenterprise

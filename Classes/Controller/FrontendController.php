@@ -50,7 +50,7 @@ class FrontendController extends ActionController
     protected EventTracker $eventTracker;
     protected NewsTracker $newsTracker;
     protected SearchTracker $searchTracker;
-    protected $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
     protected LoggerInterface $logger;
     protected array $allowedActions = [
         'pageRequest',
@@ -127,17 +127,13 @@ class FrontendController extends ActionController
      */
     public function pageRequestAction(string $identificator, array $arguments): ResponseInterface
     {
-        try {
-            $visitor = $this->getVisitor($identificator);
-            $this->callAdditionalTrackers($visitor, $arguments);
-            $this->companyTracker->track($visitor);
-            $pagevisit = $this->pageTracker->track($visitor, $arguments);
-            $this->newsTracker->track($visitor, $arguments, $pagevisit);
-            $this->searchTracker->track($visitor, $arguments, $pagevisit);
-            return $this->jsonResponse(json_encode($this->afterAction($visitor)));
-        } catch (Throwable $exception) {
-            return $this->jsonResponse(json_encode($this->getError($exception)));
-        }
+        $visitor = $this->getVisitor($identificator);
+        $this->callAdditionalTrackers($visitor, $arguments);
+        $this->companyTracker->track($visitor);
+        $pagevisit = $this->pageTracker->track($visitor, $arguments);
+        $this->newsTracker->track($visitor, $arguments, $pagevisit);
+        $this->searchTracker->track($visitor, $arguments, $pagevisit);
+        return $this->jsonResponse(json_encode($this->afterAction($visitor)));
     }
 
     /**

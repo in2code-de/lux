@@ -1,7 +1,7 @@
 <f:if condition="{search}">
     <f:then>
         <lux:pagination.paginate objects="{search}" as="searchPaginator" itemsPerPage="30">
-            <div style="background-color: #dddddd; border-top: 1px solid #cccccc; border-left: 1px solid #cccccc; border-right: 1px solid #cccccc; color: #5a5a5a; font-weight: bold; padding: 10px;">
+            <div class="table-title">
                 <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.search.queries">queries</f:translate>
                 ({search -> f:count()})
             </div>

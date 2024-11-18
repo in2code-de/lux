@@ -4,7 +4,6 @@ $linewidth: 3px;
 
 .timeline {
   position: relative;
-  background: $white;
 
   &:before {
     content: '';
@@ -134,22 +133,13 @@ $linewidth: 3px;
       left: calc(-#{$bulletsize} - #{$bulletlinespacing});
     }
 
-    &:first-child {
-
-      &:after {
-        content: '';
-        display: block;
-        background-color: $white;
-        position: absolute;
-      }
-    }
-
+    &:first-child,
     &:last-child {
 
-      &:after {
+      &::after {
+        background-color: var(--typo3-component-bg);
         content: '';
         display: block;
-        background-color: $white;
         position: absolute;
       }
     }

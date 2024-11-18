@@ -3,7 +3,7 @@
 return [
     'lux_module' => [
         'labels' => 'LLL:EXT:lux/Resources/Private/Language/locallang_mod.xlf',
-        'iconIdentifier' => 'extension-lux-module',
+        'iconIdentifier' => 'extension-lux',
     ],
     'lux_LuxAnalysis' => [
         'parent' => 'lux_module',

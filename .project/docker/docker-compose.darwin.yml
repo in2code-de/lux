@@ -27,13 +27,15 @@ services:
       - $HOME/.composer/cache/:/tmp/composer/cache/
     env_file:
       - .env
+      - .env.local
     extra_hosts:
       - host.docker.internal:host-gateway
 
   mysql:
-    image: in2code/mysql:5.7
+    image: in2code/mysql:8.0
     env_file:
       - .env
+      - .env.local
     volumes:
       - mysql:/var/lib/mysql/
       - ${SQLDUMPSDIR}:/${SQLDUMPSDIR}

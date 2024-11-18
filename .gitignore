@@ -25,3 +25,4 @@ var/
 /docker-compose.yml
 /config/
 /.phpunit.cache/
+/.env.local

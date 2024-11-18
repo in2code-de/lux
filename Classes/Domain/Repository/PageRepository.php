@@ -8,7 +8,7 @@ use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Utility\DatabaseUtility;
-use PDO;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -112,14 +112,16 @@ class PageRepository extends AbstractRepository
             ->where(
                 $queryBuilder->expr()->eq(
                     'pid',
-                    $queryBuilder->createNamedParameter($pageIdentifier, PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($pageIdentifier, Connection::PARAM_INT)
                 ),
                 $queryBuilder->expr()->eq('sys_language_uid', 0)
             );
         if ($addHidden === false) {
             $queryBuilder->getRestrictions()->add(GeneralUtility::makeInstance(HiddenRestriction::class));
         }
-        $result = $queryBuilder->execute()->fetchAllKeyValue();
+        $result = $queryBuilder
+            ->executeQuery()
+            ->fetchAllKeyValue();
         return array_values($result);
     }
 }

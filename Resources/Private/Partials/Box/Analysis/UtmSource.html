@@ -9,9 +9,7 @@
         <f:if condition="{utmSourceData.dataAvailable}">
             <f:then>
                 <div>
-                    <canvas width="750"
-                            height="250"
-                            data-chart="doughnut"
+                    <canvas data-chart="doughnut"
                             data-chart-data="{utmSourceData.amountsList}"
                             data-chart-labels="{utmSourceData.titlesList}"></canvas>
                 </div>

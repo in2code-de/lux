@@ -23,8 +23,10 @@ class ImplodeOnObjectsPropertyViewHelper extends AbstractViewHelper
     public function render(): string
     {
         $properties = [];
-        foreach ($this->arguments['objects'] as $object) {
-            $properties[] = ObjectAccess::getProperty($object, $this->arguments['property']);
+        if (is_iterable($this->arguments['objects'])) {
+            foreach ($this->arguments['objects'] as $object) {
+                $properties[] = ObjectAccess::getProperty($object, $this->arguments['property']);
+            }
         }
         return implode($this->arguments['glue'], $properties);
     }

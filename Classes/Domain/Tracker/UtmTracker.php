@@ -12,7 +12,6 @@ use In2code\Lux\Events\NewsTrackerEvent;
 use In2code\Lux\Events\PageTrackerEvent;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Throwable;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class UtmTracker
 {
@@ -95,7 +94,7 @@ class UtmTracker
 
     final protected function getArguments(): array
     {
-        return (array)GeneralUtility::_GP('tx_lux_fe');
+        return $_REQUEST['tx_lux_fe'] ?? [];
     }
 
     final protected function getCurrentUrl(): string

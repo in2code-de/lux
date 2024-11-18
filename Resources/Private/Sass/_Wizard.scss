@@ -7,7 +7,6 @@
 }
 
 .wizard {
-  background-color: $white;
   padding: 0.2em 0em 0.2em 0.2em;
 }
 
@@ -22,7 +21,7 @@
   font-size: 18px;
   color: $white;
   font-weight: bold;
-  background: $colorGrey;
+  background: light-dark($colorGreyBright, $colorGreyDark);
   text-transform: uppercase;
   cursor: pointer;
   margin-bottom: 20px;
@@ -41,7 +40,7 @@
   height: 0;
   border-top: 34px inset transparent;
   border-bottom: 34px inset transparent;
-  border-left: 34px solid $white;
+  border-left: 34px solid var(--typo3-component-bg);
   position: absolute;
   content: "";
   top: 0;
@@ -53,7 +52,7 @@
   height: 0;
   border-top: 34px inset transparent;
   border-bottom: 34px inset transparent;
-  border-left: 34px solid $colorGrey;
+  border-left: 34px solid light-dark($colorGreyBright, $colorGreyDark);
   position: absolute;
   content: "";
   top: 0;
@@ -66,7 +65,7 @@
   height: 0;
   border-top: 34px inset transparent;
   border-bottom: 34px inset transparent;
-  border-right: 34px solid $colorGrey;
+  border-right: 34px solid light-dark($colorGreyBright, $colorGreyDark);
   position: absolute;
   content: "";
   top: 0;
@@ -116,7 +115,8 @@
   border-radius: 20px;
   font-size: 18px;
   background: $white;
-  color: $colorGrey;
+  border-color: transparent;
+  color: light-dark($colorGreyBright, $colorGreyDark);
 
   .number {
     display: inline-block;

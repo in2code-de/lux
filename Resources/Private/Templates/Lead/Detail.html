@@ -43,39 +43,25 @@
 
     <div class="row" style="padding-bottom: 20px;">
         <div class="col-md-12">
-            <button onclick="window.history.back();" class="btn btn-primary">
+            <button class="btn btn-primary" data-lux-historyback="1">
                 <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:back">go back</f:translate>
             </button>
 
             <f:if condition="{visitor.companyrecord}">
-                <!-- Todo: Can be removed if TYPO3 11 support is dropped -->
-                <lux:condition.isTypo3Eleven>
-                    <f:then>
-                        <f:be.link
-                            route="lux_LuxLead"
-                            title="{visitor.companyrecord.title}"
-                            class="btn btn-secondary"
-                            parameters="{tx_lux_lux_luxlead:'{company:visitor.companyrecord.uid,action:\'company\',controller:\'Lead\'}'}">
-                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.companylink">show</f:translate>
-                        </f:be.link>
-                    </f:then>
-                    <f:else>
-                        <f:be.link
-                            route="lux_LuxLead.Lead_company"
-                            title="{visitor.companyrecord.title}"
-                            class="btn btn-secondary"
-                            parameters="{company:visitor.companyrecord.uid}">
-                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.companylink">show</f:translate>
-                        </f:be.link>
-                    </f:else>
-                </lux:condition.isTypo3Eleven>
+                <f:be.link
+                    route="lux_LuxLead.Lead_company"
+                    title="{visitor.companyrecord.title}"
+                    class="btn btn-secondary"
+                    parameters="{company:visitor.companyrecord.uid}">
+                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.detailpage.companylink">show</f:translate>
+                </f:be.link>
             </f:if>
 
-            <f:link.action action="deactivate" arguments="{visitor:visitor}" class="btn btn-default" onclick="return confirm('{f:translate(key:\"LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:areYouSure\")}')">
+            <f:link.action action="deactivate" arguments="{visitor:visitor}" class="btn btn-default" additionalAttributes="{data-lux-confirm:'{f:translate(key:\"LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:areYouSure\")}'}">
                 <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.link.deactivate">ignore</f:translate>
             </f:link.action>
 
-            <f:link.action action="remove" arguments="{visitor:visitor}" class="btn btn-default" onclick="return confirm('{f:translate(key:\"LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:areYouSure\")}')">
+            <f:link.action action="remove" arguments="{visitor:visitor}" class="btn btn-default" additionalAttributes="{data-lux-confirm:'{f:translate(key:\"LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:areYouSure\")}'}">
                 <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.link.remove">delete</f:translate>
             </f:link.action>
         </div>

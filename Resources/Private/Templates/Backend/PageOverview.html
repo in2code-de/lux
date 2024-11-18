@@ -1,36 +1,42 @@
 <f:if condition="{visitors}">
-    <div class="lux">
-        <lux:condition.isLuxenterpriseExtensionActivated>
-            <f:else>
-                <a href="https://www.in2code.de/produkte/lux-typo3-marketing-automation/?utm_campaign=LUX+Community+Version&utm_id=llcv&utm_source=typo3&utm_medium=browser&utm_content=page+overview+go+enterprise" class="lux_poweredby" style="float:right;font-weight:bold;">
-                    <img src="{f:uri.resource(path:'Icons/star.svg',extensionName:'lux')}" alt="Lux enterprise" width="20" height="20" style="vertical-align:bottom;" />
-                    Go enterprise
-                </a>
-            </f:else>
-        </lux:condition.isLuxenterpriseExtensionActivated>
 
-        <h4 class="callout-title">
-            <div data-lux-unitajax="Pageoverview{view}Title" data-lux-unitajax-parameter-pageidentifier="{pageIdentifier}" style="min-height: 25px;"></div>
-        </h4>
+    <f:be.pageRenderer includeJavaScriptModules="{
+        0: '@in2code/lux/PageOverview.min.js',
+        1: '@in2code/lux/Diagram.min.js'
+        2: '@in2code/lux/Module.min.js'
+    }" includeCssFiles="{
+        0: '{f:uri.resource(path:\'Css/PageOverview.min.css\',extensionName:\'Lux\')}'
+    }"/>
 
-        <div data-lux-toggle-target="pageOverview" class="{f:if(condition:'{status} == \'close\'',then:' hide')}">
-            <div>
-                <div data-lux-unitajax="Pageoverview{view}Body" data-lux-unitajax-parameter-pageidentifier="{pageIdentifier}" class="unitajax">
-                    <div class="unitajax-spinner"></div>
+    <div class="lux lux-pageoverview-container">
+        <div class="lux-pageoverview-container-inner">
+            <lux:condition.isLuxenterpriseExtensionActivated>
+                <f:else>
+                    <a href="https://www.in2code.de/produkte/lux-typo3-marketing-automation/?utm_campaign=LUX+Community+Version&utm_id=llcv&utm_source=typo3&utm_medium=browser&utm_content=page+overview+go+enterprise" class="lux_poweredby" style="float:right;font-weight:bold;position:relative;top:4px;">
+                        <img src="{f:uri.resource(path:'Icons/star.svg',extensionName:'lux')}" alt="Lux enterprise" width="20" height="20" style="vertical-align:bottom;" />
+                        Go enterprise
+                    </a>
+                </f:else>
+            </lux:condition.isLuxenterpriseExtensionActivated>
+
+            <h4 class="callout-title">
+                <div data-lux-unitajax="Pageoverview{view}Title" data-lux-unitajax-parameter-pageidentifier="{pageIdentifier}" style="min-height: 25px;"></div>
+            </h4>
+
+            <div data-lux-toggle-target="pageOverview" class="{f:if(condition:'{status} == \'close\'',then:' hide')}">
+                <div>
+                    <div data-lux-unitajax="Pageoverview{view}Body" data-lux-unitajax-parameter-pageidentifier="{pageIdentifier}" class="unitajax">
+                        <div class="unitajax-spinner"></div>
+                    </div>
                 </div>
+
+
+                <lux:backend.getRenderingTime>
+                    <p class="alert alert-light" role="alert" style="clear:both;margin:5px;background-color:var(--pagemodule-element-bg);">
+                        Rendering time: {renderingTime}s
+                    </p>
+                </lux:backend.getRenderingTime>
             </div>
-
-
-            <lux:backend.getRenderingTime>
-                <p class="alert alert-light" role="alert" style="clear:both;color:black;background:white;margin:5px;">
-                    Rendering time: {renderingTime}s
-                </p>
-            </lux:backend.getRenderingTime>
         </div>
-
-        <link rel="stylesheet" type="text/css" href="{f:uri.resource(path:'Css/PageOverview.min.css',extensionName:'lux')}" media="all">
-        <lux:backend.addRequireJsModule moduleName="TYPO3/CMS/Lux/Lux/Diagram.min" />
-        <lux:backend.addRequireJsModule moduleName="TYPO3/CMS/Lux/Lux/Module.min" />
-        <script src="{f:uri.resource(path:'JavaScript/Lux/PageOverview.min.js',extensionName:'lux')}"></script>
     </div>
 </f:if>

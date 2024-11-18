@@ -10,7 +10,6 @@ use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Service\Referrer\Readable;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\FrontendUtility;
-use PDO;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -74,7 +73,7 @@ class GotinExternalDataProvider extends AbstractDataProvider
             . ' and page=' . (int)$this->filter->getSearchterm()
             . ' and crdate > ' . $this->filter->getStartTimeForFilter()->format('U')
             . ' and crdate < ' . $this->filter->getEndTimeForFilter()->format('U')
-        )->fetchAll(PDO::FETCH_ASSOC);
+        )->fetchAllAssociative();
         if ($referrers === false) {
             return [];
         }

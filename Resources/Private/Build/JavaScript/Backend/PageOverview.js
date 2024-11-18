@@ -3,7 +3,7 @@
  *
  * @class LuxBackend
  */
-function LuxPageOverview() {
+const LuxPageOverview = function() {
   'use strict';
 
   /**
@@ -114,9 +114,5 @@ function LuxPageOverview() {
   };
 };
 
-var LuxPageOverviewObject = new LuxPageOverview();
-LuxPageOverviewObject.initialize();
-
-
-
-
+window.LuxPageOverviewObject = new LuxPageOverview();
+window.LuxPageOverviewObject.initialize();

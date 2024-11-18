@@ -15,6 +15,8 @@ use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 
 class LuxServiceRecalculateScoringCommand extends Command
 {
+    use ExtbaseCommandTrait;
+
     public function configure()
     {
         $this->setDescription(
@@ -40,6 +42,7 @@ class LuxServiceRecalculateScoringCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->initializeExtbase();
         $scoringService = GeneralUtility::makeInstance(ScoringService::class);
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $visitors = $visitorRepository->findAll();
