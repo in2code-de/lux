@@ -15,6 +15,8 @@ use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
 class LuxCleanupVisitorsByPropertyCommand extends Command
 {
+    use ExtbaseCommandTrait;
+
     public function configure()
     {
         $description = 'Remove a visitor by a given property. E.g. removing all google bots with';
@@ -40,6 +42,7 @@ class LuxCleanupVisitorsByPropertyCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->initializeExtbase();
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $visitors = $visitorRepository->findAllByProperty(
             (string)$input->getArgument('propertyName'),

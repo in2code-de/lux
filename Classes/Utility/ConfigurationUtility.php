@@ -8,6 +8,7 @@ use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExis
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 class ConfigurationUtility
 {
@@ -237,5 +238,34 @@ class ConfigurationUtility
     protected static function getExtensionConfiguration(): array
     {
         return GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('lux');
+    }
+
+    /**
+     * Todo: Can be removed if TYPO3 12 support is dropped
+     *
+     * @return bool
+     */
+    public static function isTypo3Version12(): bool
+    {
+        return self::isVersionToCompareSameOrHigherThenCurrentTypo3Version('12.4.99');
+    }
+
+    /**
+     * @param string $versionToCompare like "1.2.3"
+     * @return bool
+     */
+    public static function isVersionToCompareSameOrHigherThenCurrentTypo3Version(string $versionToCompare): bool
+    {
+        return VersionNumberUtility::convertVersionNumberToInteger($versionToCompare) >= self::getCurrentTypo3Version();
+    }
+
+    /**
+     * Return current TYPO3 version as integer - e.g. 10003000 (10.3.0) or 9005014 (9.5.14)
+     *
+     * @return int
+     */
+    protected static function getCurrentTypo3Version(): int
+    {
+        return VersionNumberUtility::convertVersionNumberToInteger(VersionNumberUtility::getNumericTypo3Version());
     }
 }

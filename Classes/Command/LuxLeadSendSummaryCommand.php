@@ -18,6 +18,8 @@ use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
 class LuxLeadSendSummaryCommand extends Command
 {
+    use ExtbaseCommandTrait;
+
     public function configure()
     {
         $description = 'Send a summary of leads to one or more email addresses as a table.' .
@@ -50,6 +52,7 @@ class LuxLeadSendSummaryCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->initializeExtbase();
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $filter = ObjectUtility::getFilterDto();
         $filter

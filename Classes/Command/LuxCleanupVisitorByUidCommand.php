@@ -14,6 +14,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class LuxCleanupVisitorByUidCommand extends Command
 {
+    use ExtbaseCommandTrait;
+
     public function configure()
     {
         $this->setDescription('Remove visitor and all related data from the database');
@@ -35,6 +37,7 @@ class LuxCleanupVisitorByUidCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->initializeExtbase();
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         /** @var Visitor $visitor */
         $visitor = $visitorRepository->findByUid((int)$input->getArgument('visitorUid'));
