@@ -6,114 +6,141 @@ This is just an internal lists of features and functions that have to be tested 
 
 ### Backend
 
-* TYPO3 Dashboard
-* Analysis module
-  * Dashboard
-  * Pages/Downloads
-    * Pages: List
-    * Pages: Preview
-    * Pages: Detail
-    * Downloads: List
-    * Downloads: Preview
-    * Downloads: Detail
-  * News
-    * List
-    * Preview
-    * Detail
-  * Search
-    * List
-    * Preview
-    * Detail
-  * UTM
-    * List
-    * Preview
-    * Detail
-  * LinkListener
-    * List
-    * Preview
-    * Detail
+* TYPO3 Dashboard (:white_check_mark:)
+* Analysis module (:white_check_mark:)
+  * Dashboard (:white_check_mark:)
+    * Filter general functionality (:white_check_mark:)
+  * Pages/Downloads (:white_check_mark:)
+    * Pages: List (:white_check_mark:)
+    * Pages: Preview (:white_check_mark:)
+    * Pages: Detail (:white_check_mark:)
+    * Downloads: List (:white_check_mark:)
+    * Downloads: Preview (:white_check_mark:)
+    * Downloads: Detail (:white_check_mark:)
+    * CSV Download (:white_check_mark:)
+    * Filter general functionality (:white_check_mark:)
+  * News (:white_check_mark:)
+    * List (:white_check_mark:)
+    * Preview (:white_check_mark:)
+    * Detail (:white_check_mark:)
+    * CSV Download (:white_check_mark:)
+    * Filter general functionality (:white_check_mark:)
+  * Search (:white_check_mark:)
+    * List (:white_check_mark:)
+    * Preview (:white_check_mark:)
+    * Detail (:white_check_mark:)
+  * UTM (:white_check_mark:)
+    * List (:white_check_mark:)
+    * Preview (:white_check_mark:)
+    * Detail (:white_check_mark:)
+  * LinkListener (:white_check_mark:)
+    * List (:white_check_mark:)
+    * Preview (:white_check_mark:)
+    * Detail (:white_check_mark:)
 * Leads module
-  * Dashboard
+  * Dashboard (:white_check_mark:)
+    * Filter general functionality (:white_check_mark:)
   * Leads
     * List
-    * Preview
-    * Detail
+      * Filter general functionality (:white_check_mark:)
+      * Sorting (:white_check_mark:)
+    * Preview (:white_check_mark:)
+    * Detail (:white_check_mark:)
+      * Delete (:white_check_mark:)
 * Company
-  * Without Wiredminds Token
-  * With Wiredminds Token
-    * List
-    * Preview
-    * Detail
-* Campaigns
-* Info module (i icon)
-* Render times
-* "Go enterprise" note
-* PageOverview im Backend (Analyse + Leads)
-* RTE with Email4link
+  * Without Wiredminds Token (:white_check_mark:)
+    * Add token functionality (:white_check_mark:)
+  * With Wiredminds Token (:white_check_mark:)
+    * List (:white_check_mark:)
+    * Preview (:white_check_mark:)
+    * Detail (:white_check_mark:)
+* Plugins (:white_check_mark:)
+  * Privacy Plugin for Opt-in/Opt-out (:white_check_mark:)
+* Campaigns (:white_check_mark:)
+* Info module (i icon) (:white_check_mark:)
+* Render times (:white_check_mark:)
+* "Go enterprise" note (:white_check_mark:)
+* PageOverview im Backend (:white_check_mark:)
+  * Analysis (:white_check_mark:)
+  * Leads (:white_check_mark:)
+* RTE
+  * Email4link (:white_check_mark:)
+  * LinkListener Link (:white_check_mark:)
+* Commands
 
 ### Frontend
 
-* Page Request
-* Tracking
-  * Page
-  * News
-  * Search
-  * Scoring
-    * Page visit
-    * Download
+* Page Request (:white_check_mark:)
+* Tracking (:white_check_mark:)
+  * Page (:white_check_mark:)
+  * News (:white_check_mark:)
+  * Search (:white_check_mark:)
+  * Scoring (:white_check_mark:)
+    * Page visit (:white_check_mark:)
+    * Download (:white_check_mark:)
   * Category Scoring
-    * Page visit
-    * Download
+    * Page visit (:white_check_mark:)
+    * Download (:white_check_mark:)
+  * UTM parameters (:white_check_mark:)
 * Identification
-  * Field mapping
-  * Form mapping
-  * Email4link
-    * With redirect
-    * With email
-  * Frontend login
-* LinkListener
-* Plugin for Opt-in/Opt-out
+  * Field mapping (:white_check_mark:)
+  * Form mapping (:white_check_mark:)
+  * Email4link (:white_check_mark:)
+    * With redirect (:white_check_mark:)
+    * With email (:white_check_mark:)
+    * With "Powered by LUX" (:white_check_mark:)
+  * Frontend login (:white_check_mark:)
+  * LUXletter
+* LinkListener (:white_check_mark:)
+* Privacy Plugin for Opt-in/Opt-out (:white_check_mark:)
 
 ## LUXenterprise
 
 ### Backend
 
-* TYPO3 Dashboard
 * Campaign module
   * Workflows
-    * List
-    * New
-    * Edit
-    * Preview
-    * Detail
+    * List (:white_check_mark:)
+    * New (:white_check_mark:)
+    * Edit (:white_check_mark:)
+    * Preview (:white_check_mark:)
+    * Detail (:white_check_mark:)
   * A/B Testing
-    * List
-    * Preview
-    * Detail
+    * List (:white_check_mark:)
+    * Preview (:white_check_mark:)
+    * Detail (:white_check_mark:)
+    * Page module overview (:white_check_mark:)
   * URL Shortener
-    * List
-      * With copy
-    * New
-    * Edit
-    * QR
-    * Preview
-    * Detail
+    * List (:white_check_mark:)
+      * Copy to clipboard (:white_check_mark:)
+    * New (:white_check_mark:)
+    * Edit (:white_check_mark:)
+    * QR (:white_check_mark:)
+    * Preview (:white_check_mark:)
+    * Detail (:white_check_mark:)
   * UTM Generator
-    * New
-    * Edit
-* A/B Testing preview in page module
+    * New (:white_check_mark:)
+    * Edit (:white_check_mark:)
+    * Filter (:white_check_mark:)
+* Plugins (:white_check_mark:)
+    * Contextual Content (:white_check_mark:)
+    * Hidden Content (:white_check_mark:)
+* No "Go enterprise" note (:white_check_mark:)
 
 ### Frontend
 
-* Workflows
-  * Open popup on page
-  * Send to slack on page
-* Contextual Content Plugin
-* Hidden Content Plugin (for Workflows)
-* A/B Tests
-* Shortener
-* API/Interface
-* Commands
+* URL Shortener (:white_check_mark:)
+* Workflows (:white_check_mark:)
+  * Open popup on page (:white_check_mark:)
+  * Send to slack on page (:white_check_mark:)
+  * ... Further pages in Testparcours (:white_check_mark:)
+* Contextual Content Plugin (:white_check_mark:)
+* Hidden Content Plugin (for Workflows) (:white_check_mark:)
+* A/B Tests (:white_check_mark:)
+* Shortener (:white_check_mark:)
+* API/Interface (:white_check_mark:)
+* Commands (:white_check_mark:)
+* Email4link without "Powered by LUX" (:white_check_mark:)
 
 # TYPO3 12
 LUXenterprise:
