@@ -1671,21 +1671,6 @@
 			<trans-unit id="pi1.textDoNotTrack">
 				<source>Add an explanation text for "do not track" browser setting</source>
 			</trans-unit>
-			<trans-unit id="pi2.title">
-				<source>LUX Contextual Content</source>
-			</trans-unit>
-			<trans-unit id="pi2.description">
-				<source>Show fitting content based on the visitors category scoring.</source>
-			</trans-unit>
-			<trans-unit id="pi2.flexform.default">
-				<source>Choose a default content element (Please select one and save aferwards. Then choose additional elements below).</source>
-			</trans-unit>
-			<trans-unit id="pi2.flexform.category">
-				<source>Choose a LUX category.</source>
-			</trans-unit>
-			<trans-unit id="pi2.flexform.contentelements">
-				<source>Select one or more content elements that should be shown for this category.</source>
-			</trans-unit>
 
 			<trans-unit id="commandcontrollers.summarymail.title">
 				<source>This is your personal lead summary mail</source>
