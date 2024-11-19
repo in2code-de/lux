@@ -6,7 +6,9 @@ namespace In2code\Lux\Backend\LiveSearch;
 
 use In2code\Lux\Domain\Model\Visitor as VisitorModel;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Backend\Module\ModuleProvider;
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Search\LiveSearch\ResultItem;
@@ -14,6 +16,7 @@ use TYPO3\CMS\Backend\Search\LiveSearch\ResultItemAction;
 use TYPO3\CMS\Backend\Search\LiveSearch\SearchDemand\SearchDemand;
 use TYPO3\CMS\Backend\Search\LiveSearch\SearchProviderInterface;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
 class Visitor implements SearchProviderInterface
@@ -36,6 +39,9 @@ class Visitor implements SearchProviderInterface
      */
     public function count(SearchDemand $searchDemand): int
     {
+        if ($this->isEnabled() === false) {
+            return 0;
+        }
         return count($this->getResults($searchDemand->getQuery()));
     }
 
@@ -48,8 +54,10 @@ class Visitor implements SearchProviderInterface
     public function find(SearchDemand $searchDemand): array
     {
         $resultItems = [];
-        foreach ($this->getResults($searchDemand->getQuery()) as $visitor) {
-            $resultItems[] = $this->getResultItem($visitor);
+        if ($this->isEnabled()) {
+            foreach ($this->getResults($searchDemand->getQuery()) as $visitor) {
+                $resultItems[] = $this->getResultItem($visitor);
+            }
         }
         return $resultItems;
     }
@@ -113,5 +121,18 @@ class Visitor implements SearchProviderInterface
             $this->results = $this->visitorRepository->findAllWithIdentifiedFirst($filter);
         }
         return $this->results;
+    }
+
+    /**
+     * Check if backend user has access to the leads module
+     *
+     * @return bool
+     */
+    protected function isEnabled(): bool
+    {
+        /** @var ModuleProvider $moduleProvider */
+        $moduleProvider = GeneralUtility::makeInstance(ModuleProvider::class);
+        return BackendUtility::getBackendUserAuthentication() !== null &&
+            $moduleProvider->accessGranted('lux_LuxLead', BackendUtility::getBackendUserAuthentication());
     }
 }
