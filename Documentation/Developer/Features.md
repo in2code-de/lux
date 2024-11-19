@@ -66,7 +66,8 @@ This is just an internal lists of features and functions that have to be tested 
 * RTE
   * Email4link (:white_check_mark:)
   * LinkListener Link (:white_check_mark:)
-* Commands
+* Commands (:white_check_mark:)
+* TYPO3 search (:white_check_mark:)
 
 ### Frontend
 
@@ -141,7 +142,3 @@ This is just an internal lists of features and functions that have to be tested 
 * API/Interface (:white_check_mark:)
 * Commands (:white_check_mark:)
 * Email4link without "Powered by LUX" (:white_check_mark:)
-
-# TYPO3 12
-LUXenterprise:
-- Email4link in FE without ads
