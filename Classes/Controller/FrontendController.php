@@ -28,7 +28,6 @@ use In2code\Lux\Exception\EmailValidationException;
 use In2code\Lux\Exception\FakeException;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ConfigurationUtility;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
@@ -44,14 +43,6 @@ use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 
 class FrontendController extends ActionController
 {
-    protected ConfigurationService $configurationService;
-    protected CompanyTracker $companyTracker;
-    protected PageTracker $pageTracker;
-    protected EventTracker $eventTracker;
-    protected NewsTracker $newsTracker;
-    protected SearchTracker $searchTracker;
-    protected EventDispatcherInterface $eventDispatcher;
-    protected LoggerInterface $logger;
     protected array $allowedActions = [
         'pageRequest',
         'eventTrackRequest',
@@ -67,23 +58,14 @@ class FrontendController extends ActionController
     ];
 
     public function __construct(
-        ConfigurationService $configurationService,
-        CompanyTracker $companyTracker,
-        PageTracker $pageTracker,
-        EventTracker $eventTracker,
-        NewsTracker $newsTracker,
-        SearchTracker $searchTracker,
-        EventDispatcherInterface $eventDispatcher,
-        LoggerInterface $logger
+        readonly protected ConfigurationService $configurationService,
+        readonly protected CompanyTracker $companyTracker,
+        readonly protected PageTracker $pageTracker,
+        readonly protected EventTracker $eventTracker,
+        readonly protected NewsTracker $newsTracker,
+        readonly protected SearchTracker $searchTracker,
+        readonly protected LoggerInterface $logger
     ) {
-        $this->configurationService = $configurationService;
-        $this->companyTracker = $companyTracker;
-        $this->pageTracker = $pageTracker;
-        $this->eventTracker = $eventTracker;
-        $this->newsTracker = $newsTracker;
-        $this->searchTracker = $searchTracker;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->logger = $logger;
     }
 
     /**
