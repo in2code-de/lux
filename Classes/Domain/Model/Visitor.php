@@ -1014,6 +1014,12 @@ class Visitor extends AbstractModel
             } else {
                 $name .= ' (' . $this->getEmail() . ')';
             }
+        } else {
+            if (!empty($name)) {
+                $name .= ' [' . LocalizationUtility::translateByKey('notIdentified') . ']';
+            } else {
+                $name = LocalizationUtility::translateByKey('anonym') . $this->getAnonymousPostfix();
+            }
         }
         return $name;
     }

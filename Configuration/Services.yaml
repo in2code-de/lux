@@ -83,6 +83,11 @@ services:
       - name: 'console.command'
         command: 'lux:serviceRecalculateScoring'
 
+  In2code\Lux\Backend\LiveSearch\Visitor:
+    tags:
+      - name: 'livesearch.provider'
+        priority: 80
+
   In2code\Lux\Domain\Factory\CompanyFactory:
     public: true
 
