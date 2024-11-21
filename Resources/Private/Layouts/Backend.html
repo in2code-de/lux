@@ -8,7 +8,7 @@
 <div class="module">
     <f:render partial="DocHeader" arguments="{docHeader:docHeader}" />
 
-    <div class="module-body lux">
+    <div class="module-body lux{lux:condition.isTypo3Twelve(then:' lux--12')}">
         <f:render partial="Miscellaneous/FlashMessages" arguments="{_all}"/>
 
         <f:if condition="{filter} && !{filter.anyAllowedSites}">
