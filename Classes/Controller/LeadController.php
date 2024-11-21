@@ -136,7 +136,7 @@ class LeadController extends AbstractController
         $this->view->assignMultiple([
             'allVisitors' => $this->visitorRepository->findAllWithIdentifiedFirst($filter->setLimit(750)),
         ]);
-        return $this->csvResponse($this->moduleTemplate->render());
+        return $this->csvResponse();
     }
 
     /**
@@ -287,7 +287,7 @@ class LeadController extends AbstractController
         $this->view->assignMultiple([
             'companies' => $this->companyRepository->findByFilter($filter->setLimit(750)),
         ]);
-        return $this->csvResponse($this->moduleTemplate->render());
+        return $this->csvResponse();
     }
 
     /**
