@@ -482,9 +482,14 @@ label {
         --thumb-highlight-size: 0px;
         --thumb-highlight-color: light-dark(hsl(0deg 0% 0% / 20%), hsl(0deg 0% 100% / 20%));
 
+        .lux--12 & {
+            --typo3-component-bg: var(--panel-bg);
+        }
+
         appearance: none;
         background: transparent;
         border: 0;
+        box-shadow: none;
         display: block;
         flex: 1 1 auto;
         margin: 1ex 0;

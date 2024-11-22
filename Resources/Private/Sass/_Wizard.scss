@@ -45,6 +45,10 @@
   content: "";
   top: 0;
   left: 0;
+
+  .lux--12 & {
+    border-left-color: var(--panel-bg);
+  }
 }
 
 .wizard:not(.left-arrow) a:after {
