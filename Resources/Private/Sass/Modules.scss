@@ -19,6 +19,10 @@ hr {
     border-left: 0;
     border-right: 0;
     margin: 40px 0;
+
+    .lux--12 & {
+        --typo3-component-border-color: #dddddd;
+    }
 }
 
 label {
@@ -373,6 +377,14 @@ label {
     }
 }
 
+.lux--12 {
+
+    & .table-title,
+    & .table {
+        --typo3-component-border-color: #dddddd;
+    }
+}
+
 .lux-textarea {
     width: 100%;
     padding: 10px;
@@ -434,6 +446,10 @@ label {
             &:before {
                 display: none;
             }
+        }
+
+        .lux--12 & {
+            --typo3-component-border-color: #dddddd;
         }
     }
 

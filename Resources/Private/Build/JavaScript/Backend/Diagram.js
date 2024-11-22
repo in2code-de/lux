@@ -13,7 +13,11 @@ const setDefaultChartColor = () => {
   }
 };
 
-setDefaultChartColor();
+const IS_TYPO3_12 = document.querySelector('.lux--12') !== null ? true : false;
+
+if (!IS_TYPO3_12) {
+  setDefaultChartColor();
+}
 
 Chart.register(...registerables);
 

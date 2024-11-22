@@ -93,6 +93,14 @@
     }
 }
 
+.lux--12 {
+
+    & .table-title,
+    & .table {
+        --typo3-component-border-color: #dddddd;
+    }
+}
+
 .unitajax {
     position: relative;
     overflow: hidden;

@@ -141,6 +141,10 @@ $linewidth: 3px;
         content: '';
         display: block;
         position: absolute;
+
+        .lux--12 & {
+            background-color: var(--panel-bg);
+        }
       }
     }
   }
