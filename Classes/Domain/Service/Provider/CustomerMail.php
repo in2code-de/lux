@@ -9,11 +9,15 @@ namespace In2code\Lux\Domain\Service\Provider;
  */
 class CustomerMail
 {
-    protected AllowedMail $allowedMail;
-
     protected array $b2cEmailDomains = [
+        '163.com',
+        '126.com',
+        '139.com',
+        '188.com',
+        '189.cn',
         '1und1.de',
-        'aok.de',
+        'aol.de',
+        'aol.com',
         'aon.at',
         'arcor.de',
         'barmer.de',
@@ -21,12 +25,19 @@ class CustomerMail
         'bluewin.ch',
         'chello.at',
         'dak.de',
+        'dxy.cn',
+        'eclipso.at',
+        'eclipso.com',
+        'eclipso.de',
         'email.de',
         'ewe.net',
+        'foxmail.com',
+        'free.fr',
         'freenet.de',
         'gmail.com',
         'gmx.at',
         'gmx.ch',
+        'gmx.com',
         'gmx.de',
         'gmx.net',
         'googlemail.com',
@@ -38,30 +49,39 @@ class CustomerMail
         'kabelbw.de',
         'live.com',
         'mac.com',
+        'mail.ch',
+        'mail.com',
         'mail.de',
+        'mail.ru',
         'me.com',
         'mozmail.com',
+        'msn.com',
         'o2online.de',
         'online.de',
+        'orange.fr',
         'osnanet.de',
         'ostfalia.de',
         'outlook.com',
         'outlook.de',
         'posteo.de',
+        'qq.com',
+        'sunrise.ch',
         't-online.de',
         'telekom.de',
         'tk.de',
         'versanet.de',
         'vodafone.de',
         'vodafonemail.de',
+        'wanadoo.fr',
         'web.de',
+        'yeah.net',
         'yahoo.com',
         'yahoo.de',
+        'yandex.ru',
     ];
 
-    public function __construct(AllowedMail $allowedMail)
+    public function __construct(protected readonly AllowedMail $allowedMail)
     {
-        $this->allowedMail = $allowedMail;
     }
 
     public function isB2cEmail(string $email): bool

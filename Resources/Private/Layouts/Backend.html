@@ -1,19 +1,24 @@
-<f:be.pageRenderer includeRequireJsModules="{
-    0: 'TYPO3/CMS/Lux/Lux/Module.min',
-    1: 'TYPO3/CMS/Lux/Lux/Diagram.min'
+<f:be.pageRenderer includeJavaScriptModules="{
+    0: '@in2code/lux/Module.min.js',
+    1: '@in2code/lux/Diagram.min.js'
 }" includeCssFiles="{
     0: '{f:uri.resource(path:\'Css/Modules.min.css\')}'
 }"/>
 
-<div class="lux">
-    <f:render partial="Miscellaneous/FlashMessages" arguments="{_all}"/>
-    <f:if condition="{filter} && !{filter.anyAllowedSites}">
-        <f:then>
-            <f:render partial="Miscellaneous/NoSites" arguments="{_all}"/>
-        </f:then>
-        <f:else>
-            <f:render section="content" />
-        </f:else>
-    </f:if>
-    <f:render partial="Miscellaneous/RenderingTime" arguments="{_all}"/>
+<div class="module">
+    <f:render partial="DocHeader" arguments="{docHeader:docHeader}" />
+
+    <div class="module-body lux{lux:condition.isTypo3Twelve(then:' lux--12')}">
+        <f:render partial="Miscellaneous/FlashMessages" arguments="{_all}"/>
+
+        <f:if condition="{filter} && !{filter.anyAllowedSites}">
+            <f:then>
+                <f:render partial="Miscellaneous/NoSites" arguments="{_all}"/>
+            </f:then>
+            <f:else>
+                <f:render section="content" />
+            </f:else>
+        </f:if>
+        <f:render partial="Miscellaneous/RenderingTime" arguments="{_all}"/>
+    </div>
 </div>

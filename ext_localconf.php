@@ -35,11 +35,6 @@ call_user_func(
         /**
          * Hooks
          */
-        // Show page overview (leads or analysis) in page module
-        if (\In2code\Lux\Utility\ConfigurationUtility::isPageOverviewDisabled() === false) {
-            $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/db_layout.php']['drawHeaderHook'][1634669927]
-                = \In2code\Lux\Hooks\PageOverview::class . '->render';
-        }
         // Linkhandler for Link Listener
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_content.php']['typoLink_PostProc'][]
             = \In2code\Lux\Hooks\LuxLinkListenerLinkhandler::class . '->postProcessTypoLink';
@@ -49,9 +44,6 @@ call_user_func(
          */
         if (\In2code\Lux\Utility\ConfigurationUtility::isCkEditorConfigurationNeeded()) {
             $ckConfiguration = 'EXT:lux/Configuration/Yaml/CkEditor.yaml';
-            if (\In2code\Lux\Utility\ConfigurationUtility::isTypo3Version11()) {
-                $ckConfiguration = 'EXT:lux/Configuration/Yaml/CkEditorOld.yaml';
-            }
             $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['lux'] = $ckConfiguration;
 
             \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
@@ -80,19 +72,8 @@ call_user_func(
         \In2code\Lux\Utility\CacheLayerUtility::registerCacheLayers();
 
         /**
-         * CacheHash: Add LUX paramters to excluded variables
+         * CacheHash: Add LUX parameters to excluded variables
          */
         \In2code\Lux\Utility\CacheHashUtility::addLuxArgumentsToExcludedVariables();
-
-        /**
-         * Upgrade Wizards
-         * Todo: Can be removed when TYPO3 11 support is dropped
-         */
-        if (\In2code\Lux\Utility\ConfigurationUtility::isTypo3Version11()) {
-            $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['addSitesUpgradeWizard']
-                = \In2code\Lux\Update\AddSitesUpgradeWizard::class;
-            $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['updateFingerprintRelationsUpgradeWizard']
-                = \In2code\Lux\Update\UpdateFingerprintRelationsUpgradeWizard::class;
-        }
     }
 );

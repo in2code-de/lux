@@ -24,6 +24,8 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 
 class LuxCacheWarmupCommand extends Command
 {
+    use ExtbaseCommandTrait;
+
     protected ?OutputInterface $output = null;
     protected ?CacheWarmup $cacheWarmup = null;
 
@@ -54,6 +56,7 @@ class LuxCacheWarmupCommand extends Command
         if (EnvironmentUtility::isCli() === false) {
             throw new ContextException('This command can only be executed from CLI', 1645378130);
         }
+        $this->initializeExtbase();
 
         $this->output = $output;
         $this->cacheWarmup = GeneralUtility::makeInstance(CacheWarmup::class);

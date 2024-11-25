@@ -14,11 +14,15 @@ a:not(.btn):not(.nolink):not(.colorwhite) {
 
 hr {
     border-style: dashed;
-    border-color: $colorGrey;
+    border-color: var(--typo3-component-border-color);
     border-bottom: 0;
     border-left: 0;
     border-right: 0;
     margin: 40px 0;
+
+    .lux--12 & {
+        --typo3-component-border-color: #dddddd;
+    }
 }
 
 label {
@@ -41,8 +45,8 @@ label {
     position: relative;
     overflow: hidden;
     min-height: 300px;
-    background-color: $colorGrey;
-    border: 2px dashed $colorGreyBright;
+    background-color: light-dark($colorGrey, $black);
+    border: 2px dashed light-dark($colorGreyBright, $colorGreyDark);
     margin-bottom: 1.125rem;
 }
 
@@ -150,11 +154,6 @@ label {
 
     .input-group-addon {
         border: none;
-        background-color: #eee;
-    }
-
-    .form-control {
-        border: 1px solid $colorGrey;
     }
 
     .collapse-arrow {
@@ -165,13 +164,13 @@ label {
             border-left: 5px solid transparent;
             border-right: 5px solid transparent;
             border-bottom: none;
-            border-top: 5px solid $colorGreyDark;
+            border-top: 5px solid light-dark($colorGreyDark, $colorGrey);
             display: inline-block;
         }
 
         &.collapsed:after {
             border-top: none;
-            border-bottom: 5px solid $colorGreyDark;
+            border-bottom: 5px solid light-dark($colorGreyDark, $colorGrey);
             margin-bottom: 1px;
         }
     }
@@ -260,7 +259,7 @@ label {
         margin-top: 15px;
         margin-left: 15px;
         display: inline-block;
-        color: #5A5A5A;
+        color: light-dark($colorGreyDark, #AAAAAA);
 
         &__code {
             list-style-type: none;
@@ -297,8 +296,18 @@ label {
     /**
      * Table classes
      */
+    .table-title {
+        background-color: var(--typo3-component-border-color);
+        border-top: 1px solid var(--typo3-component-border-color);
+        border-left: 1px solid var(--typo3-component-border-color);
+        border-right: 1px solid var(--typo3-component-border-color);
+        color: var(--typo3-table-color);
+        font-weight: bold;
+        padding: 10px;
+    }
+
     .table {
-        border: 1px solid $colorGreyBright;
+        border: 1px solid var(--typo3-component-border-color);
 
         .soft {
             color: $colorGreySoft;
@@ -334,31 +343,27 @@ label {
         top: 15px;
         width: 25px;
         height: 25px;
-        opacity: 0.3;
         font-size: 0;
         z-index: 2;
         border: none;
         background: none;
     }
 
-    .close:hover {
-        opacity: 1;
-    }
-
-    .close:before, .close:after {
+    .close::before,
+    .close::after {
         position: absolute;
         top: 0;
         content: ' ';
         height: 25px;
-        width: 2px;
-        background-color: #333;
+        width: 4px;
+        background-color: $colorMain;
     }
 
-    .close:before {
+    .close::before {
         transform: rotate(45deg);
     }
 
-    .close:after {
+    .close::after {
         transform: rotate(-45deg);
     }
 
@@ -369,6 +374,14 @@ label {
 
     .table > :not(caption) > * > * {
         background: transparent;
+    }
+}
+
+.lux--12 {
+
+    & .table-title,
+    & .table {
+        --typo3-component-border-color: #dddddd;
     }
 }
 
@@ -395,15 +408,13 @@ label {
 }
 
 .lux-workflow-sidbox {
-    opacity: 0.5;
-    background: #ddd;
+    background-color: light-dark($colorGreyBright, $colorGreyDark);
     margin: 34px 0 0 0;
     padding: 20px;
 }
 
 .lux_triggerarea,
 .lux_actionarea {
-
     position: relative;
 
     .lux-trigger,
@@ -411,7 +422,8 @@ label {
         margin: 80px 0 20px 0;
         padding: 20px;
         border-style: dashed;
-        border-color: $colorGrey;
+        border-color: var(--typo3-component-border-color);
+        border-width: 1px;
         position: relative;
 
         &:before {
@@ -419,13 +431,13 @@ label {
             display: block;
             width: 10px;
             height: 50px;
-            border-left: 3px solid $colorGrey;
+            border-left: 1px dashed var(--typo3-component-border-color);
             position: absolute;
             left: 50%;
             margin-top: -87px;
             padding: 13px 0 0 18px;
             font-size: 18px;
-            color: $colorGrey;
+            color: light-dark($colorGreyDark, #AAAAAA);
         }
 
         &:first-child {
@@ -434,6 +446,10 @@ label {
             &:before {
                 display: none;
             }
+        }
+
+        .lux--12 & {
+            --typo3-component-border-color: #dddddd;
         }
     }
 
@@ -451,6 +467,87 @@ label {
         right: 115px;
         top: 7px;
         font-weight: bold;
+    }
+}
+
+.lux-actionrange {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+
+    & > input[type='range'] {
+        --track-height: 8px;
+        --thumb-size: 24px;
+        --thumb-offset: -8px;
+        --thumb-highlight-size: 0px;
+        --thumb-highlight-color: light-dark(hsl(0deg 0% 0% / 20%), hsl(0deg 0% 100% / 20%));
+
+        .lux--12 & {
+            --typo3-component-bg: var(--panel-bg);
+        }
+
+        appearance: none;
+        background: transparent;
+        border: 0;
+        box-shadow: none;
+        display: block;
+        flex: 1 1 auto;
+        margin: 1ex 0;
+        outline-offset: 5px;
+        padding-inline: 0;
+        width: 50vh;
+
+        &::-webkit-slider-runnable-track {
+            appearance: none;
+            height: var(--track-height);
+            border-radius: 5ex;
+            background-color: light-dark($colorGreyBright, $colorGreyDark);
+        }
+
+        &::-moz-range-track {
+            appearance: none;
+            height: var(--track-height);
+            border-radius: 5ex;
+            background-color: light-dark($colorGreyBright, $colorGreyDark);
+        }
+
+        &::-webkit-slider-thumb {
+            appearance: none;
+            cursor: ew-resize;
+            border: 2px solid var(--typo3-component-bg);
+            height: var(--thumb-size);
+            width: var(--thumb-size);
+            margin-top: var(--thumb-offset);
+            border-radius: 50%;
+            background-color: $colorMain;
+            box-shadow: 0 0 0 var(--thumb-highlight-size) var(--thumb-highlight-color);
+            transition: box-shadow .1s ease;
+        }
+
+        &::-moz-range-thumb {
+            appearance: none;
+            cursor: ew-resize;
+            border: 2px solid var(--typo3-component-bg);
+            height: var(--thumb-size);
+            width: var(--thumb-size);
+            margin-top: var(--thumb-offset);
+            border-radius: 50%;
+            background-color: $colorMain;
+            box-shadow: 0 0 0 var(--thumb-highlight-size) var(--thumb-highlight-color);
+            transition: box-shadow .1s ease;
+        }
+
+        &:is(:hover, :active, :focus-visible) {
+            --thumb-highlight-size: 10px;
+        }
+    }
+
+    & > label {
+        background-color: light-dark($colorGreyBright, $colorGreyDark);
+        border-radius: 4px;
+        flex-shrink: 0;
+        min-width: 48px;
+        text-align: center;
     }
 }
 
@@ -491,4 +588,16 @@ label {
         flex: 0 0 50%;
         padding: 0 5px;
     }
+}
+
+/**
+ * Chart.js adjustments
+ *
+ */
+.lux *:has(> canvas) {
+    position: relative;
+}
+
+.lux canvas[data-chart="doughnut"] {
+    max-width: min-content;
 }

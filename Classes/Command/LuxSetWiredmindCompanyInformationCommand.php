@@ -14,6 +14,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class LuxSetWiredmindCompanyInformationCommand extends Command
 {
+    use ExtbaseCommandTrait;
+
     public function configure()
     {
         $this->setDescription('Add company records from Wiredminds from existing IP addresses in visitor records');
@@ -43,6 +45,7 @@ class LuxSetWiredmindCompanyInformationCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->initializeExtbase();
         try {
             $companyInformationService = GeneralUtility::makeInstance(CompanyInformationService::class);
             $count = $companyInformationService->setCompaniesToExistingVisitors(

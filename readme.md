@@ -248,7 +248,7 @@ Interested? Call us!
 
 ## Technical requirements
 
-LUX needs minimum *TYPO3 11* in the latest version as a modern foundation. TYPO3 must run in *composer mode* for an
+LUX needs minimum *TYPO3 12* in the latest version as a modern backend. TYPO3 must run in *composer mode* for an
 easier implementation of third party requirements (php packages) and for easier quality assurance.
 Every kind of form extension is supported for the identification feature (powermail, form, formhandler, felogin,
 femanager, etc...).

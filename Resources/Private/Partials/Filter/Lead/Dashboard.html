@@ -15,7 +15,7 @@
                             optionValueField="identifier"
                             optionLabelField="identifier"
                             value="{filter.site}"
-                            additionalAttributes="{onchange:'this.form.submit();'}" />
+                            additionalAttributes="{data-lux-changesubmit:1}" />
                         <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#site">
                             <core:icon identifier="actions-globe" size="small" />
                         </button>
@@ -24,11 +24,12 @@
                 <div class="col-md-2">
                     <div class="input-group">
                         <f:form.select
+                            id="time"
                             class="form-control form-select"
                             property="timePeriod"
                             options="{lux:form.getOptionsArrayTimePeriodFilter()}"
                             value="{filter.timePeriod}"
-                            additionalAttributes="{onchange:'this.form.submit();'}" />
+                            additionalAttributes="{data-lux-changesubmit:1}" />
                         <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#time">
                             <core:icon identifier="actions-clock" size="small" />
                         </button>

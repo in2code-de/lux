@@ -6,6 +6,7 @@ namespace In2code\Lux\Utility;
 use DateTime;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Service\ConfigurationService;
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
@@ -44,5 +45,14 @@ class ObjectUtility
     public static function getFilterWithLimit(int $limit = 10): FilterDto
     {
         return GeneralUtility::makeInstance(FilterDto::class)->setLimit(10);
+    }
+
+    /**
+     * @return ServerRequestInterface|null
+     * @SuppressWarnings(PHPMD.Superglobals)
+     */
+    public static function getRequest(): ?ServerRequestInterface
+    {
+        return $GLOBALS['TYPO3_REQUEST'] ?? null;
     }
 }

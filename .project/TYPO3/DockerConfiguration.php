@@ -23,6 +23,7 @@ $GLOBALS['TYPO3_CONF_VARS']['BE']['installToolPassword'] = '$argon2i$v=19$m=6553
 $GLOBALS['TYPO3_CONF_VARS']['BE']['lockSSL'] = '0';
 $GLOBALS['TYPO3_CONF_VARS']['BE']['compressionLevel'] = '0';
 $GLOBALS['TYPO3_CONF_VARS']['BE']['debug'] = true;
+$GLOBALS['TYPO3_CONF_VARS']['BE']['loginRateLimit'] = 500;
 
 // Debug lokal aktivieren - OS übergreifend
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['displayErrors'] = 1;

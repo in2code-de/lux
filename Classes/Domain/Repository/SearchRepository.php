@@ -32,7 +32,7 @@ class SearchRepository extends AbstractRepository
     public function findCombinedBySearchIdentifier(FilterDto $filter): array
     {
         $connection = DatabaseUtility::getConnectionForTable(Search::TABLE_NAME);
-        $sql = 'select count(*) count, searchterm from ' . Search::TABLE_NAME . ' s'
+        $sql = 'select count(distinct s.uid) count, searchterm from ' . Search::TABLE_NAME . ' s'
             . ' left join ' . Pagevisit::TABLE_NAME . ' pv on s.pagevisit = pv.uid'
             . ' left join ' . Visitor::TABLE_NAME . ' v on s.visitor = v.uid'
             . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on cs.visitor = v.uid'
@@ -57,6 +57,7 @@ class SearchRepository extends AbstractRepository
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
             . $this->extendWhereClauseWithFilterSite($filter, 'pv')
+            . ' group by s.uid'
             . ' order by s.crdate desc'
             . ' limit ' . ($filter->isLimitSet() ? $filter->getLimit() : 750);
         $query = $this->createQuery();

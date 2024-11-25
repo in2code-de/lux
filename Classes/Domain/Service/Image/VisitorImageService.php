@@ -19,11 +19,8 @@ class VisitorImageService extends AbstractImageService
     public const CACHE_KEY = 'lux_visitor_imageurl';
     protected int $size = 150;
 
-    protected CustomerMail $customerMail;
-
-    public function __construct(CustomerMail $customerMail)
+    public function __construct(protected readonly CustomerMail $customerMail)
     {
-        $this->customerMail = $customerMail;
         $this->cacheInstance = GeneralUtility::makeInstance(CacheManager::class)->getCache(self::CACHE_KEY);
     }
 

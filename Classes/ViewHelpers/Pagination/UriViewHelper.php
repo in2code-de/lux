@@ -3,7 +3,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\ViewHelpers\Pagination;
 
-use In2code\Lux\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 use TYPO3\CMS\Extbase\Service\ExtensionService;
@@ -33,10 +32,6 @@ class UriViewHelper extends AbstractTagBasedViewHelper
         $extensionService = GeneralUtility::makeInstance(ExtensionService::class);
         $pluginNamespace = $extensionService->getPluginNamespace($extensionName, $pluginName);
         $argumentPrefix = $pluginNamespace . '[' . $this->arguments['name'] . ']';
-        if (ConfigurationUtility::isTypo3Version11()) {
-            // Todo: Can be removed in TYPO3 11 support is dropped
-            $argumentPrefix = $this->arguments['name'];
-        }
         $arguments = $this->hasArgument('arguments') ? $this->arguments['arguments'] : [];
         if ($this->hasArgument('action')) {
             $arguments['action'] = $this->arguments['action'];
@@ -46,9 +41,23 @@ class UriViewHelper extends AbstractTagBasedViewHelper
         }
 
         return $uriBuilder->uriFor(
-            $this->renderingContext->getControllerAction(),
+            $this->getAction(),
             [$argumentPrefix => $arguments],
-            $this->renderingContext->getControllerName()
+            $this->getController()
         );
+    }
+
+    protected function getAction(): string
+    {
+        $controllerAction = $this->renderingContext->getControllerAction();
+        $parts = explode('/', $controllerAction);
+        return strtolower($parts[1] ?? '');
+    }
+
+    protected function getController(): string
+    {
+        $controllerAction = $this->renderingContext->getControllerAction();
+        $parts = explode('/', $controllerAction);
+        return $parts[0] ?? '';
     }
 }

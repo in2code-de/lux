@@ -25,11 +25,9 @@ use In2code\Lux\Domain\Repository\UtmRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\RenderingTimeService;
 use In2code\Lux\Utility\BackendUtility;
-use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\StringUtility;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Backend\Module\ExtbaseModule;
-use TYPO3\CMS\Backend\Routing\Route;
 use TYPO3\CMS\Backend\Routing\RouteResult;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
@@ -37,86 +35,49 @@ use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 
 abstract class AbstractController extends ActionController
 {
-    protected ?VisitorRepository $visitorRepository = null;
-    protected ?IpinformationRepository $ipinformationRepository = null;
-    protected ?LogRepository $logRepository = null;
-    protected ?PagevisitRepository $pagevisitsRepository = null;
-    protected ?PageRepository $pageRepository = null;
-    protected ?DownloadRepository $downloadRepository = null;
-    protected ?NewsvisitRepository $newsvisitRepository = null;
-    protected ?NewsRepository $newsRepository = null;
-    protected ?CategoryRepository $categoryRepository = null;
-    protected ?LinkclickRepository $linkclickRepository = null;
-    protected ?LinklistenerRepository $linklistenerRepository = null;
-    protected ?FingerprintRepository $fingerprintRepository = null;
-    protected ?SearchRepository $searchRepository = null;
-    protected ?UtmRepository $utmRepository = null;
-    protected ?CompanyRepository $companyRepository = null;
-    protected ?WiredmindsRepository $wiredmindsRepository = null;
-    protected ?RenderingTimeService $renderingTimeService = null;
-    protected ?CacheLayer $cacheLayer = null;
-    protected ModuleTemplateFactory $moduleTemplateFactory;
     protected ModuleTemplate $moduleTemplate;
 
     public function __construct(
-        VisitorRepository $visitorRepository,
-        IpinformationRepository $ipinformationRepository,
-        LogRepository $logRepository,
-        PagevisitRepository $pagevisitsRepository,
-        PageRepository $pageRepository,
-        DownloadRepository $downloadRepository,
-        NewsvisitRepository $newsvisitRepository,
-        NewsRepository $newsRepository,
-        CategoryRepository $categoryRepository,
-        LinkclickRepository $linkclickRepository,
-        LinklistenerRepository $linklistenerRepository,
-        FingerprintRepository $fingerprintRepository,
-        SearchRepository $searchRepository,
-        UtmRepository $utmRepository,
-        CompanyRepository $companyRepository,
-        WiredmindsRepository $wiredmindsRepository,
-        RenderingTimeService $renderingTimeService,
-        CacheLayer $cacheLayer,
-        ModuleTemplateFactory $moduleTemplateFactory
+        protected readonly VisitorRepository $visitorRepository,
+        protected readonly IpinformationRepository $ipinformationRepository,
+        protected readonly LogRepository $logRepository,
+        protected readonly PagevisitRepository $pagevisitsRepository,
+        protected readonly PageRepository $pageRepository,
+        protected readonly DownloadRepository $downloadRepository,
+        protected readonly NewsvisitRepository $newsvisitRepository,
+        protected readonly NewsRepository $newsRepository,
+        protected readonly CategoryRepository $categoryRepository,
+        protected readonly LinkclickRepository $linkclickRepository,
+        protected readonly LinklistenerRepository $linklistenerRepository,
+        protected readonly FingerprintRepository $fingerprintRepository,
+        protected readonly SearchRepository $searchRepository,
+        protected readonly UtmRepository $utmRepository,
+        protected readonly CompanyRepository $companyRepository,
+        protected readonly WiredmindsRepository $wiredmindsRepository,
+        protected readonly RenderingTimeService $renderingTimeService,
+        protected readonly CacheLayer $cacheLayer,
+        protected readonly ModuleTemplateFactory $moduleTemplateFactory,
+        protected readonly IconFactory $iconFactory
     ) {
-        $this->visitorRepository = $visitorRepository;
-        $this->ipinformationRepository = $ipinformationRepository;
-        $this->logRepository = $logRepository;
-        $this->pagevisitsRepository = $pagevisitsRepository;
-        $this->pageRepository = $pageRepository;
-        $this->downloadRepository = $downloadRepository;
-        $this->newsvisitRepository = $newsvisitRepository;
-        $this->newsRepository = $newsRepository;
-        $this->categoryRepository = $categoryRepository;
-        $this->linkclickRepository = $linkclickRepository;
-        $this->linklistenerRepository = $linklistenerRepository;
-        $this->fingerprintRepository = $fingerprintRepository;
-        $this->searchRepository = $searchRepository;
-        $this->utmRepository = $utmRepository;
-        $this->companyRepository = $companyRepository;
-        $this->wiredmindsRepository = $wiredmindsRepository;
-        $this->renderingTimeService = $renderingTimeService;
-        $this->cacheLayer = $cacheLayer;
-        $this->moduleTemplateFactory = $moduleTemplateFactory;
     }
 
     /**
      * Pass some important variables to all views
      *
-     * @param \TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view (Todo: Param is only needed in TYPO3 11)
      * @return void
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      */
-    public function initializeView($view)
+    public function initializeView()
     {
-        $this->view->assignMultiple([
+        $this->moduleTemplate->assignMultiple([
             'view' => [
                 'controller' => $this->getControllerName(),
                 'action' => $this->getActionName(),
@@ -126,7 +87,7 @@ abstract class AbstractController extends ActionController
         ]);
     }
 
-    public function initializeAction()
+    public function initializeAction(): void
     {
         $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
     }
@@ -199,13 +160,6 @@ abstract class AbstractController extends ActionController
      */
     protected function getRoute(): string
     {
-        // Todo: Can be removed when TYPO3 11 support is dropped
-        if (ConfigurationUtility::isTypo3Version11()) {
-            /** @var Route $route */
-            $route = $this->request->getAttribute('route');
-            return $route->getOption('moduleName');
-        }
-
         /** @var RouteResult $routeResult */
         $routeResult = $this->request->getAttribute('routing');
         /** @var ExtbaseModule $extbaseModule */
@@ -230,8 +184,7 @@ abstract class AbstractController extends ActionController
 
     protected function defaultRendering(): ResponseInterface
     {
-        $this->moduleTemplate->setContent($this->view->render());
-        return $this->htmlResponse($this->moduleTemplate->renderContent());
+        return $this->moduleTemplate->renderResponse($this->getControllerName() . '/' . ucfirst($this->getActionName()));
     }
 
     protected function addDocumentHeader(array $configuration): void

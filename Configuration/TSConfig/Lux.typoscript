@@ -23,7 +23,7 @@ mod {
 
 # Linkhandler for linkclick records
 TCEMAIN.linkHandler.luxlinklistener {
-  handler = TYPO3\CMS\Recordlist\LinkHandler\RecordLinkHandler
+  handler = TYPO3\CMS\Backend\LinkHandler\RecordLinkHandler
   label = LUX Link Listener
   configuration {
     table = tx_lux_domain_model_linklistener

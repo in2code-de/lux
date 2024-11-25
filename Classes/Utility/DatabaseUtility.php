@@ -35,7 +35,7 @@ class DatabaseUtility
     {
         $existing = false;
         $connection = self::getConnectionForTable($tableName);
-        $queryResult = $connection->query('show tables;')->fetchAll();
+        $queryResult = $connection->executeQuery('show tables;')->fetchAllAssociative();
         foreach ($queryResult as $tableProperties) {
             if (in_array($tableName, array_values($tableProperties))) {
                 $existing = true;
@@ -55,7 +55,7 @@ class DatabaseUtility
     {
         $found = false;
         $connection = self::getConnectionForTable($tableName);
-        $queryResult = $connection->query('describe ' . $tableName . ';')->fetchAll();
+        $queryResult = $connection->executeQuery('describe ' . $tableName . ';')->fetchAllAssociative();
         foreach ($queryResult as $fieldProperties) {
             if ($fieldProperties['Field'] === $fieldName) {
                 $found = true;
