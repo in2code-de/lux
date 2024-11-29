@@ -37,3 +37,6 @@ TCEMAIN.linkHandler.luxlinklistener {
 RTE.default.proc.entryHTMLparser_db.tags {
   a.allowedAttribs := addToList(data-lux-email4link-sendemail,data-lux-email4link-text,data-lux-email4link-title,data-lux-linklistener)
 }
+
+# Overrule LUXletter backend module view for receiver list
+templates.in2code/luxletter.1732878717 = in2code/lux:/Resources/Private/
