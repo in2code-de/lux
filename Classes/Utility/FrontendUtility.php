@@ -5,6 +5,7 @@ namespace In2code\Lux\Utility;
 
 use In2code\Lux\Domain\Service\SiteService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 class FrontendUtility
@@ -43,16 +44,25 @@ class FrontendUtility
 
     public static function isLoggedInFrontendUser(): bool
     {
-        return !empty(self::getTyposcriptFrontendController()->fe_user->user['uid']);
+        $authentication = self::getFrontendUserAuthentication();
+        if ($authentication !== null) {
+            return $authentication->user['uid'] > 0;
+        }
+        return false;
     }
 
     public static function getPropertyFromLoggedInFrontendUser($propertyName = 'uid'): string
     {
-        $tsfe = self::getTyposcriptFrontendController();
-        if (!empty($tsfe->fe_user->user[$propertyName])) {
-            return (string)$tsfe->fe_user->user[$propertyName];
+        $authentication = self::getFrontendUserAuthentication();
+        if ($authentication !== null) {
+            return (string)($authentication->user[$propertyName] ?? '');
         }
         return '';
+    }
+
+    protected static function getFrontendUserAuthentication(): ?FrontendUserAuthentication
+    {
+        return $GLOBALS['TYPO3_REQUEST']?->getAttribute('frontend.user');
     }
 
     /**
