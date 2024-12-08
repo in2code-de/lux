@@ -28,7 +28,7 @@ class FrontenduserAuthenticationTracker extends AbstractFrontenduserTracker
         if (FrontendUtility::isLoggedInFrontendUser()) {
             $userRepository = GeneralUtility::makeInstance(FrontendUserRepository::class);
             /** @var FrontendUser $user */
-            $user = $userRepository->findByUid((int)FrontendUtility::getPropertyFromLoggedInFrontendUser('uid'));
+            $user = $userRepository->findByUid((int)FrontendUtility::getPropertyFromLoggedInFrontendUser());
 
             $this->setRelationToFrontendUser($user);
             $this->addEmailAttribute($user);

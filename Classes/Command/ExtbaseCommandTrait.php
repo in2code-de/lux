@@ -13,7 +13,7 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
 trait ExtbaseCommandTrait
 {
-    public function initializeExtbase()
+    public function initializeExtbase(): void
     {
         if (EnvironmentUtility::isCli() && ConfigurationUtility::isTypo3Version12() === false) {
             Bootstrap::initializeBackendAuthentication();

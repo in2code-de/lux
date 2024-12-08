@@ -3,6 +3,8 @@ paths:
 filePatterns:
   - "*.tsconfig"
   - "*.typoscript"
+excludePatterns:
+  - "LuxLetter.typoscript"
 sniffs:
   - class: Indentation
     parameters:

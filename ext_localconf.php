@@ -29,7 +29,8 @@ call_user_func(
          * Add page TSConfig
          */
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-            '@import \'EXT:lux/Configuration/TSConfig/Lux.typoscript\''
+            '@import \'EXT:lux/Configuration/TSConfig/Lux.typoscript\'' . PHP_EOL .
+            '@import \'EXT:lux/Configuration/TSConfig/LuxLetter.typoscript\''
         );
 
         /**

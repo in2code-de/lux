@@ -1,4 +1,4 @@
-<f:layout name="Backend"/>
+<f:layout name="BackendLuxLetter"/>
 
 This template is for EXT:luxletter to render a receiver analysis
 
@@ -80,7 +80,7 @@ This template is for EXT:luxletter to render a receiver analysis
                             <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:luxletter.module.newsletter.receiver.nousers.text">no users found that would receive a newsletter</f:translate>
                         </p>
                         <f:if condition="{filter.set}">
-                            <f:link.action class="btn btn-default" style="color: black;" action="resetFilter" arguments="{redirectAction:view.action}">
+                            <f:link.action class="btn btn-warning" style="color: black; text-decoration: none;" action="resetFilter" arguments="{redirectAction:view.action}">
                                 Reset Filter
                             </f:link.action>
                         </f:if>
