@@ -9,6 +9,7 @@
 
 | Version    | Date       | State    | TYPO3         | Description                                                                                                                                                                                           |
 |------------|------------|----------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 38.1.0     | 2024-12-08 | Task     | `12.4 + 13.4` | Fix identification of logged in frontendusers, update some LUXletter related stuff (if LUX + LUXletter is in use), code cleanup                                                                       |
 | 38.0.1     | 2024-11-26 | Bugfix   | `12.4 + 13.4` | Update TYPO3 dependencies in old ext_emconf file                                                                                                                                                      |
 | 38.0.0     | 2024-11-25 | Feature  | `12.4 + 13.4` | Add TYPO3 13 support, drop TYPO3 11 support, add darkmode styling, add LUX to TYPO3 livesearch in backend                                                                                             |
 | 37.1.0     | 2024-10-30 | Task     | `11.5 + 12.4` | Bing is used for preview images instead of google (if feature is turned on for leads and companies)                                                                                                   |
