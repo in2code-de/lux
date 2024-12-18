@@ -7,6 +7,7 @@ use Doctrine\DBAL\Exception as ExceptionDbal;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class DatabaseUtility
@@ -107,12 +108,14 @@ class DatabaseUtility
     public static function isAnyFieldFilledInTable(string $fieldName, string $tableName): bool
     {
         $queryBuilder = self::getQueryBuilderForTable($tableName);
-        return $queryBuilder
+        $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+        $result = $queryBuilder
             ->select($fieldName)
             ->from($tableName)
-            ->where($fieldName . ' != \'\'')
+            ->where($fieldName . ' = \'\'')
             ->setMaxResults(1)
             ->executeQuery()
-            ->fetchOne() !== false;
+            ->fetchOne();
+        return $result === false;
     }
 }
