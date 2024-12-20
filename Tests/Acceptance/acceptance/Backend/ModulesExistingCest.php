@@ -4,7 +4,7 @@ namespace In2code\Lux\Tests\Acceptance\Backend;
 
 use In2code\Lux\Tests\AcceptanceTester;
 
-class BackendLoginCest
+class ModulesExistingCest
 {
     public function _before(AcceptanceTester $I)
     {

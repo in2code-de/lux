@@ -7,9 +7,9 @@ modules:
         host: seleniarm-hub
         port: 4444
         path: '/wd/hub'
+        window_size: 1920x1080
         connection_timeout: 5
         restart: true
-        window_size: maximize
         capabilities:
           browserName: "chrome"
           acceptInsecureCerts: true

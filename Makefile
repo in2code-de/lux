@@ -239,7 +239,7 @@ test-acceptance: .selenium-start
 		sleep 2 && \
 		./.Build/bin/codecept clean && \
 		./.Build/bin/codecept build && \
-		./.Build/bin/codecept run acceptance"
+		./.Build/bin/codecept run acceptance --debug"
 	echo "$(EMOJI_broom) Cleaning up selenium services"; \
 	make .selenium-stop; \
 	exit $${EXIT_CODE:-0}
