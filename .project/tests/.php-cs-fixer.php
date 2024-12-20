@@ -40,7 +40,8 @@ $finder = PhpCsFixer\Finder::create()
             __DIR__ . '/../../Tests',
             __DIR__ . '/../../Configuration',
         ]
-    );
+    )
+    ->notPath('#^Acceptance/#');
 // Return a Code Sniffing configuration using
 // all sniffers needed for PSR-2
 // and additionally:
