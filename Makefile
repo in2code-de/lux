@@ -212,6 +212,28 @@ ifeq ($(shell uname -s), Darwin)
 	docker-compose exec -u root php chown -R app:app /app/$(TYPO3_CACHE_DIR)/;
 endif
 
+## Run acceptance tests
+test-acceptance: .selenium-start
+	echo "$(EMOJI_robot) Running acceptance tests"
+	docker-compose exec php bash -c "\
+		sleep 2 && \
+		./.Build/bin/codecept clean && \
+		./.Build/bin/codecept build && \
+		./.Build/bin/codecept run acceptance"
+	echo "$(EMOJI_broom) Cleaning up selenium services"; \
+	make .selenium-stop; \
+	exit $${EXIT_CODE:-0}
+
+## Start Selenium services for testing
+.selenium-start:
+	echo "$(EMOJI_rocket) Starting Selenium services for testing"
+	docker compose -f docker-compose.yml -f docker-compose.selenium.yml up -d seleniarm-hub chrome firefox
+
+## Stop Selenium services for testing
+.selenium-stop:
+	echo "$(EMOJI_stop) Stopping Selenium services"
+	docker compose -f docker-compose.selenium.yml stop seleniarm-hub chrome firefox
+
 include .env
 
 # SETTINGS
