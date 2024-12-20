@@ -1,10 +1,10 @@
 <?php
 
-namespace In2code\Lux\Tests\Acceptance;
+namespace In2code\Lux\Tests\Acceptance\Frontend;
 
 use In2code\Lux\Tests\AcceptanceTester;
 
-class FirstCest
+class SimpleHomepageCest
 {
     public function checkHomepage(AcceptanceTester $I)
     {

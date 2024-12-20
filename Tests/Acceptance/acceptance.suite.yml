@@ -15,4 +15,5 @@ modules:
           acceptInsecureCerts: true
           'goog:chromeOptions':
             args: ["--no-sandbox", "--headless", "--disable-gpu", "--ignore-certificate-errors"]
+    - \In2code\Lux\Tests\Helper\BackendTester
   step_decorators: ~
