@@ -305,14 +305,13 @@ imports:
     - { resource: "EXT:rte_ckeditor/Configuration/RTE/Editor/Plugins.yaml" }
 
 editor:
-  externalPlugins:
-    luxEmail4Link:
-      resource: 'EXT:lux/Resources/Public/JavaScript/Static/CkEditorPlugins/luxEmail4Link/plugin.js'
-
   config:
 
     extraAllowedContent: 'a[data-*];'
     contentsCss: ['EXT:lux/Resources/Public/Css/Modules.min.css']
+
+    importModules:
+      - 'EXT:lux/Resources/Public/JavaScript/Static/CkEditorPlugins/luxEmail4Link/plugin.js'
 
     toolbarGroups:
       - { name: 'styles', groups: [ 'styles' ] }

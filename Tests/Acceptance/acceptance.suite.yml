@@ -1,0 +1,19 @@
+actor: AcceptanceTester
+modules:
+  enabled:
+    - WebDriver:
+        url: https://local.lux.de
+        browser: chrome
+        host: seleniarm-hub
+        port: 4444
+        path: '/wd/hub'
+        window_size: 1920x1080
+        connection_timeout: 5
+        restart: true
+        capabilities:
+          browserName: "chrome"
+          acceptInsecureCerts: true
+          'goog:chromeOptions':
+            args: ["--no-sandbox", "--headless", "--disable-gpu", "--ignore-certificate-errors"]
+    - \In2code\Lux\Tests\Helper\BackendTester
+  step_decorators: ~

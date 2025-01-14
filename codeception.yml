@@ -1,0 +1,10 @@
+namespace: In2code\Lux\Tests
+paths:
+  tests: Tests/Acceptance
+  output: Tests/Acceptance/_output
+  data: Tests/Acceptance/_data
+  support: Tests/Acceptance/_support
+  envs: Tests/Acceptance/_envs
+extensions:
+  enabled:
+    - Codeception\Extension\RunFailed

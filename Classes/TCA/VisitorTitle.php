@@ -10,7 +10,7 @@ class VisitorTitle
     public function getContactTitle(array &$parameters, $parentObject): void
     {
         unset($parentObject);
-        $parameters['title'] = $this->getEmail($parameters['row']) . ' (uid' . $parameters['row']['uid'] . ')';
+        $parameters['title'] = $this->getEmail($parameters['row'] ?? []) . ' (uid' . $parameters['row']['uid'] . ')';
     }
 
     protected function getEmail(array $properties): string
