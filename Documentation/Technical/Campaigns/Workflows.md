@@ -1,5 +1,5 @@
-![LUX](/Documentation/Images/logo_claim.svg#gh-light-mode-only "LUX")
-![LUX](/Documentation/Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
+![LUX](../../Images/logo_claim.svg#gh-light-mode-only "LUX")
+![LUX](../../Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
 
 #### Workflows
 
@@ -15,7 +15,7 @@ If you open the backend module workflows and you have not added any workflows ye
 you is to add a new workflow. If you have already added one or more workflows, you will see a list of your existing
 workflows.
 
-<img src="../../../Documentation/Images/screenshot_workflow_list.png" width="800" />
+<img src="../../Images/screenshot_workflow_list.png" width="800" />
 
 Existing workflows can be deleted or edited by clicking the buttons.
 If you edit an existing workflow or if you add a new workflow, you will see a form that is splitted into three
@@ -24,7 +24,7 @@ different steps.
 ##### 1 Title
 
 Define a title and an internal description for your new workflow:
-<img src="../../../Documentation/Images/documentation_workflow_edit_step1.png" width="800" />
+<img src="../../Images/documentation_workflow_edit_step1.png" width="800" />
 
 After that you can choose next for step 2.
 
@@ -37,7 +37,7 @@ should result in an action (see 3 Action).
 Choose a trigger and click on the **+** button. Now a new trigger configuration was added. Depending on the trigger that
 you have chosen, it's possible to add values to the trigger itself. In this example, we choose the *If a lead gets
 identified* trigger - no values to add here:
-<img src="../../../Documentation/Images/documentation_workflow_edit_step2.png" width="800" />
+<img src="../../Images/documentation_workflow_edit_step2.png" width="800" />
 
 Possible triggers by default are:
 * Lead properties: If a lead gets identified
@@ -82,7 +82,7 @@ some variables in the bodytext.
 On the right there are general options. You can select of this action should only be executed once per lead or more
 often. Some actions are supporting also a delayed execution where you can specify a day and a time.
 
-<img src="../../../Documentation/Images/documentation_workflow_edit_step3.png" width="800" />
+<img src="../../Images/documentation_workflow_edit_step3.png" width="800" />
 
 Possible actions by default are:
 * Content manipulation: Open a popup (lightbox) with a content element

@@ -1,5 +1,5 @@
-![LUX](/Documentation/Images/logo_claim.svg#gh-light-mode-only "LUX")
-![LUX](/Documentation/Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
+![LUX](../../Images/logo_claim.svg#gh-light-mode-only "LUX")
+![LUX](../../Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
 
 ### Tracking and Analysis
 
@@ -68,7 +68,7 @@ plugin.tx_lux.settings {
 ```
 
 Example page tracking request in browser console:
-<img src="../../../Documentation/Images/documentation_installation_browserrequest.png" width="800" />
+<img src="../../Images/documentation_installation_browserrequest.png" width="800" />
 
 
 
@@ -77,7 +77,7 @@ Example page tracking request in browser console:
 #### Dashboard
 
 Now, if LUX is up and running, you should see information in the Analysis Backend Module in the dashboard view:
-<img src="../../../Documentation/Images/screenshot_analysis_dashboard.png" width="800" />
+<img src="../../Images/screenshot_analysis_dashboard.png" width="800" />
 
 The dashboard view should give you a quick overview about the latest activities and some useful information:
 * How many recurring/unique leads
@@ -120,7 +120,7 @@ pages and assets for your leads.
 Clicking on an asset or a page will open a detail page to this item, where you can exactly see which lead was interested
 in this item.
 
-<img src="../../../Documentation/Images/screenshot_analysis_content.png" width="800" />
+<img src="../../Images/screenshot_analysis_content.png" width="800" />
 
 **Technical note:** Page visits will be automatically be tracked with LUX on normal TYPO3 pages. In some rare scenarios
 you may want to push an interaction (event) to LUX. This can be helpful if you want to track accordion opens, multistep
@@ -161,7 +161,7 @@ reacting to your filter settings. Of course, you can also use the CSV download i
 
 Clicking on a lead will open a detail page to this lead.
 
-<img src="../../../Documentation/Images/screenshot_analysis_utm.png" width="800" />
+<img src="../../Images/screenshot_analysis_utm.png" width="800" />
 
 
 #### Link Listeners
@@ -177,14 +177,14 @@ You can use the filter on the top for a perfect analysis in a timeframe or for a
 a Link Listener in the table you will see the latest leads in a preview. If you click on "Show details" then, you will
 see all leads that used the defined Link Listener.
 
-<img src="../../../Documentation/Images/screenshot_analysis_linklisteners.png" width="800" />
+<img src="../../Images/screenshot_analysis_linklisteners.png" width="800" />
 
 ##### How to change a link to a Link Listener Link?
 
 That's very simple. Just add a new Link listener with a link target. After that, go to your RTE and set a link to your
 new Listener. That's all. Now all clicks on this link are tracked now.
 
-<img src="../../../Documentation/Images/screenshot_linklistener_link.png" />
+<img src="../../Images/screenshot_linklistener_link.png" />
 
 
 #### Search
@@ -198,7 +198,7 @@ You can use the filter on the top for a perfect analysis in a timeframe or for a
 a row in the table you will see the latest leads in a preview. If you click on "Show details" then, you will
 see all leads that used the search term.
 
-<img src="../../../Documentation/Images/screenshot_analysis_search.png" width="800" />
+<img src="../../Images/screenshot_analysis_search.png" width="800" />
 
 To **track searchterms**, there are basically two different ways:
 
@@ -226,7 +226,7 @@ from LUX.
 
 This is a screenshot from default values:
 
-<img src="../../../Documentation/Images/screenshot_typo3dashboard.png" width="800" />
+<img src="../../Images/screenshot_typo3dashboard.png" width="800" />
 
 Available widgets:
 

@@ -1,5 +1,5 @@
-![LUX](/Documentation/Images/logo_claim.svg#gh-light-mode-only "LUX")
-![LUX](/Documentation/Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
+![LUX](../../Images/logo_claim.svg#gh-light-mode-only "LUX")
+![LUX](../../Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
 
 ### Plugins and Pageoverview
 
@@ -17,7 +17,7 @@ You can decide what view should be rendered via Extension Manager settings.
 If your installation is configured to show a analysis overview, you will see how this page is performing in this week
 compared to the week before.
 
-<img src="../../../Documentation/Images/screenshot_pageoverview.png" width="800" />
+<img src="../../Images/screenshot_pageoverview.png" width="800" />
 
 By clicking on the title you can show or hide (toggle) this information for the current backend user.
 Of course this status is saved if you change the page or logout and login later again.
@@ -27,7 +27,7 @@ Of course this status is saved if you change the page or logout and login later 
 If your installation is configured to show the latest leads, you will see visitors of the current page (Identified and
 Anonymous) in page module.
 
-<img src="../../../Documentation/Images/documentation_pageoverview.png" width="800" />
+<img src="../../Images/documentation_pageoverview.png" width="800" />
 
 By clicking on "Latest Leads" you can show or hide (toggle) this information for the current backend user.
 Of course this status is saved if you change the page or logout and login later again.
@@ -43,15 +43,15 @@ Of course this status is saved if you change the page or logout and login later 
 The first plugin in lux fits ideally to your privacy notes page. As you may not from Matomo (former known as Piwik) Lux
 also offers a checkbox in frontend where visitors can de-check if they don't want to be tracked.
 
-<img src="../../../Documentation/Images/documentation_plugin_optout_frontend1.png" width="800" />
+<img src="../../Images/documentation_plugin_optout_frontend1.png" width="800" />
 
 If the browser has a *DoNotTrack* setting enabled, the view changes a bit.
 
-<img src="../../../Documentation/Images/documentation_plugin_optout_frontend2.png" width="800" />
+<img src="../../Images/documentation_plugin_optout_frontend2.png" width="800" />
 
 You can simply add a Plugin Pi1 *trackingOptOut* to a page and add some content to it.
 
-<img src="../../../Documentation/Images/documentation_plugin_optout_backend.png" width="800" />
+<img src="../../Images/documentation_plugin_optout_backend.png" width="800" />
 
 *Note*: If you want to use opt-in instead of opt-out functionality, there is a possibility for this
 (see [Privacy](../../Privacy/Index.md)).
@@ -72,7 +72,7 @@ content element - related to the category scoring of the current visitor.
 
 If you have added more then only one content element per category, the content element is selected randomly.
 
-<img src="../../../Documentation/Images/documentation_plugin_contextualcontent.png" width="800" />
+<img src="../../Images/documentation_plugin_contextualcontent.png" width="800" />
 
 
 
@@ -84,4 +84,4 @@ If you have added more then only one content element per category, the content e
 
 This plugin allows you to add invisible content elements on your page. Those can be shown via workflow action.
 
-<img src="../../../Documentation/Images/documentation_plugin_hiddencontent.png" width="800" />
+<img src="../../Images/documentation_plugin_hiddencontent.png" width="800" />

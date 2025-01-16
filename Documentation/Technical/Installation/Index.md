@@ -1,5 +1,5 @@
-![LUX](/Documentation/Images/logo_claim.svg#gh-light-mode-only "LUX")
-![LUX](/Documentation/Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
+![LUX](../../Images/logo_claim.svg#gh-light-mode-only "LUX")
+![LUX](../../Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
 
 ### Installation
 
@@ -37,14 +37,14 @@ install the package. Don't forget to activate (e.g. in the extension manager) th
 
 #### Extension Manager settings
 
-<img src="../../../Documentation/Images/documentation_installation_extensionmanager.png" width="800" />
+<img src="../../Images/documentation_installation_extensionmanager.png" width="800" />
 
 If you click on the settings symbol for extension lux, you can change some basic settings in lux extension.
 
-<img src="../../../Documentation/Images/documentation_installation_extensionmanager1.png" width="800" />
-<img src="../../../Documentation/Images/documentation_installation_extensionmanager2.png" width="800" />
-<img src="../../../Documentation/Images/documentation_installation_extensionmanager3.png" width="800" />
-<img src="../../../Documentation/Images/documentation_installation_extensionmanager4.png" width="800" />
+<img src="../../Images/documentation_installation_extensionmanager1.png" width="800" />
+<img src="../../Images/documentation_installation_extensionmanager2.png" width="800" />
+<img src="../../Images/documentation_installation_extensionmanager3.png" width="800" />
+<img src="../../Images/documentation_installation_extensionmanager4.png" width="800" />
 
 | Setting                                       | Description                                                                                                                                                                                                                                                                                                 |
 |-----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -195,7 +195,7 @@ If you want to see in detail what kind of TypoScript will be included and how to
 lux is now up and running. If you go into the frontend of your webpage and open the browser console, you should see
 an asynchronical request to every page request.
 
-<img src="../../../Documentation/Images/documentation_installation_browserrequest.png" width="800" />
+<img src="../../Images/documentation_installation_browserrequest.png" width="800" />
 
 **Note:** Take care to be not logged in into your TYPO3-backend at the same time with the same browser
 or turn on tracking for BE-Users via TypoScript.

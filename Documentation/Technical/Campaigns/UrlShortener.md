@@ -1,5 +1,5 @@
-![LUX](/Documentation/Images/logo_claim.svg#gh-light-mode-only "LUX")
-![LUX](/Documentation/Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
+![LUX](../../Images/logo_claim.svg#gh-light-mode-only "LUX")
+![LUX](../../Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
 
 #### URL shorteners
 
@@ -13,7 +13,7 @@ of short URL usage per lead.
 If you open the backend module campaigns you can switch to "URL shortener" by clicking the button on the top.
 A list view is shown.
 
-<img src="../../../Documentation/Images/screenshot_urlshortener_list.png" width="800" />
+<img src="../../Images/screenshot_urlshortener_list.png" width="800" />
 
 This view works basicly like every other view in Lux. You can filter your shorteners per searchterm, category or per
 timeframe. Diagrams are showing you "overall usage", "top shortener" and visits from "socialmedia".
@@ -25,7 +25,7 @@ A click on an existing shortener will show you individual information about the 
 If you click on the edit icon symbol, the edit view is opened. This view is similar to the view if you add a new
 shortener record.
 
-<img src="../../../Documentation/Images/screenshot_urlshortener_edit.png" width="800" />
+<img src="../../Images/screenshot_urlshortener_edit.png" width="800" />
 
 | Field         | Description                                                                          |
 |---------------|--------------------------------------------------------------------------------------|

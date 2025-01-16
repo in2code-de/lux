@@ -1,5 +1,5 @@
-![LUX](/Documentation/Images/logo_claim.svg#gh-light-mode-only "LUX")
-![LUX](/Documentation/Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
+![LUX](../Images/logo_claim.svg#gh-light-mode-only "LUX")
+![LUX](../Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
 
 ### Example part for your privacy page
 

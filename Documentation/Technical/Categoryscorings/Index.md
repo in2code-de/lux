@@ -1,5 +1,5 @@
-![LUX](/Documentation/Images/logo_claim.svg#gh-light-mode-only "LUX")
-![LUX](/Documentation/Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
+![LUX](../../Images/logo_claim.svg#gh-light-mode-only "LUX")
+![LUX](../../Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
 
 ### Scoring and Categoryscoring
 
@@ -28,7 +28,7 @@ ago. That means that you have to call a CommandController once a day (or night) 
 The general scoring is visible on different views in Lux. Mostly beside the lead identification.
 The value in the grey badge reflects the general scoring. The value in the blue badge reflects the hottest category
 scoring:
-<img src="../../../Documentation/Images/documentation_scoring.png" />
+<img src="../../Images/documentation_scoring.png" />
 
 
 
@@ -50,10 +50,10 @@ What can we do with the knowledge about leads and their category scoring? Lux is
 You can simply define some lux-categories in your TYPO3. A lux-category is just a sys_category record in TYPO3.
 Don't forget to check the checkbox "lux-category".
 
-<img src="../../../Documentation/Images/documentation_categoryscorings_categories.png" width="800" />
+<img src="../../Images/documentation_categoryscorings_categories.png" width="800" />
 
 After you added some lux-categories to your system, you can mark pages and files with that categories.
-<img src="../../../Documentation/Images/documentation_categoryscorings_page.png" width="800" />
+<img src="../../Images/documentation_categoryscorings_page.png" width="800" />
 
 ##### Calculation
 
@@ -68,4 +68,4 @@ If you want to change the factors, you can do this in the Extension Manager in t
 
 Just open a lead detail-view. You will see all relevant information about category scorings to this lead.
 
-<img src="../../../Documentation/Images/documentation_categoryscorings_detail.png" width="800" />
+<img src="../../Images/documentation_categoryscorings_detail.png" width="800" />

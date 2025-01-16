@@ -1,5 +1,5 @@
-![LUX](/Documentation/Images/logo_claim.svg#gh-light-mode-only "LUX")
-![LUX](/Documentation/Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
+![LUX](../../Images/logo_claim.svg#gh-light-mode-only "LUX")
+![LUX](../../Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
 
 ### Identification
 
@@ -109,10 +109,10 @@ submit the form. Just go into the backend and check if the lead gets identified.
 **Note:** Password fields are ignored for this function
 
 Example powermail form in frontend:
-<img src="../../../Documentation/Images/documentation_identification_fieldmapping_frontend.png" width="800" />
+<img src="../../Images/documentation_identification_fieldmapping_frontend.png" width="800" />
 
 Example lead identification in dashboard:
-<img src="../../../Documentation/Images/documentation_identification_fieldmapping_dashboard.png" width="800" />
+<img src="../../Images/documentation_identification_fieldmapping_dashboard.png" width="800" />
 
 **Note:** Re-Initialization for forms, loaded via AJAX can also be done with a script like:
 
@@ -272,10 +272,10 @@ Example form (added via content element html):
 ```
 
 Form in frontend:
-<img src="../../../Documentation/Images/documentation_identification_formmapping_frontend.png" width="800" />
+<img src="../../Images/documentation_identification_formmapping_frontend.png" width="800" />
 
 Example lead identification in dashboard:
-<img src="../../../Documentation/Images/documentation_identification_formmapping_dashboard.png" width="800" />
+<img src="../../Images/documentation_identification_formmapping_dashboard.png" width="800" />
 
 **Note:** Re-Initialization for forms, loaded via AJAX can also be done with a script like:
 
@@ -373,7 +373,7 @@ lib.lux.settings {
 ##### Example frontend output
 
 After that, you can change every link in the CK editor:
-<img src="../../../Documentation/Images/screenshot_email4link_ckeditor_plugin.png" width="800" />
+<img src="../../Images/screenshot_email4link_ckeditor_plugin.png" width="800" />
 
 | Field                | Description                                                                                            |
 |----------------------|--------------------------------------------------------------------------------------------------------|
@@ -382,7 +382,7 @@ After that, you can change every link in the CK editor:
 | Send asset via email | Try to send asset as attachment via email (only possible for allowed file extensions - see TypoScript) |
 
 All clicks in frontend will be caught now by JavaScript and opens a lightbox:
-<img src="../../../Documentation/Images/screenshot_email4link.png" width="800" />
+<img src="../../Images/screenshot_email4link.png" width="800" />
 
 ##### Hardcode an email4link in your template
 

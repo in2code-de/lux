@@ -1,5 +1,5 @@
-![LUX](/Documentation/Images/logo_claim.svg#gh-light-mode-only "LUX")
-![LUX](/Documentation/Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
+![LUX](../../Images/logo_claim.svg#gh-light-mode-only "LUX")
+![LUX](../../Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
 
 #### UTM generator
 
@@ -30,7 +30,7 @@ campaigns.
 If you open the backend module campaigns you can switch to "UTM Generator" by clicking the button on the top.
 Another list view is shown.
 
-<img src="../../../Documentation/Images/screenshot_utmgenerator_list.png" width="800" />
+<img src="../../Images/screenshot_utmgenerator_list.png" width="800" />
 
 This view works basicly like every other list view in Lux. You can filter your URI records by adding a searchterm.
 Every table row shows the campaign name and the first available URI. By clicking on the plus symbol, all available
@@ -44,7 +44,7 @@ This view is similar to the view if you add a new shortener record.
 **Note:** You have to add records of type `Campaign (UTM)`, `Source (UTM)` and `Medium (UTM)` first with the list view
 module of TYPO3 to any folder page. Those records can be then selected in the edit view.
 
-<img src="../../../Documentation/Images/screenshot_utmgenerator_edit.png" width="800" />
+<img src="../../Images/screenshot_utmgenerator_edit.png" width="800" />
 
 | Field       | Description                                  |
 |-------------|----------------------------------------------|
