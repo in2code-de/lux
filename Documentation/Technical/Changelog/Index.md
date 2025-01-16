@@ -9,6 +9,7 @@
 
 | Version    | Date       | State    | TYPO3         | Description                                                                                                                                                                                           |
 |------------|------------|----------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 38.3.0     | 2024-01-16 | Task     | `12.4 + 13.4` | Update documentation to be rendered on docs.typo3.org                                                                                                                                                 |
 | 38.2.0     | 2024-01-14 | Task     | `12.4 + 13.4` | Small bugfix for command cleanup:deletedrecods, added first codeception test and framework, removed unneeded files, documentation update                                                              |
 | 38.1.0     | 2024-12-08 | Task     | `12.4 + 13.4` | Fix identification of logged in frontendusers, update some LUXletter related stuff (if LUX + LUXletter is in use), code cleanup                                                                       |
 | 38.0.1     | 2024-11-26 | Bugfix   | `12.4 + 13.4` | Update TYPO3 dependencies in old ext_emconf file                                                                                                                                                      |
