@@ -1,5 +1,5 @@
-![LUX](/Documentation/Images/logo_claim.svg#gh-light-mode-only "LUX")
-![LUX](/Documentation/Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
+![LUX](../../Images/logo_claim.svg#gh-light-mode-only "LUX")
+![LUX](../../Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
 
 ### Backend Module Leads/Companies
 
@@ -26,14 +26,14 @@ a company.
 
 #### Company Detection not yet enabled
 
-<img src="../../../Documentation/Images/documentation_companies_notoken.png" width="800" />
+<img src="../../Images/documentation_companies_notoken.png" width="800" />
 
 If you enter the page on your first time, there is a note, that a token is missing. Once you add a Wiredminds token,
 some TypoScript constants are set and company detection is activated.
 
 #### Enabled company detection
 
-<img src="../../../Documentation/Images/documentation_companies_list.png" width="800" />
+<img src="../../Images/documentation_companies_list.png" width="800" />
 
 Once you added a valid token, you are able to convert visitors to companies.
 
@@ -79,7 +79,7 @@ token limit itself.
 
 #### Company Preview
 
-<img src="../../../Documentation/Images/documentation_companies_list_preview.png" width="800" />
+<img src="../../Images/documentation_companies_list_preview.png" width="800" />
 
 By selecting a line in the list view, you will see a company preview on the right side. Some basic information like
 Revenue, Size or Founding year is shown.
@@ -93,7 +93,7 @@ The third box will show you the newest leads of the company.
 
 #### Company Detail View
 
-<img src="../../../Documentation/Images/documentation_company_detail.png" width="800" />
+<img src="../../Images/documentation_company_detail.png" width="800" />
 
 By clicking "Show company" a detail view will show up. There are similar information in this view as you may already
 know from the lead detail view.
@@ -106,11 +106,11 @@ also related leads are deleted.
 
 #### Statistics
 
-<img src="../../../Documentation/Images/screenshot_lead_actions.png" />
+<img src="../../Images/screenshot_lead_actions.png" />
 
 By clicking the i-Icon in the navigation bar, a basic statistic is visible.
 
-<img src="../../../Documentation/Images/documentation_info.png" width="800" />
+<img src="../../Images/documentation_info.png" width="800" />
 
 In the third column you will have full control about how many requests are already sent to Wiredminds interface and
 how many requests are left.

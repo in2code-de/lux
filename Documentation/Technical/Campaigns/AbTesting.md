@@ -1,5 +1,5 @@
-![LUX](/Documentation/Images/logo_claim.svg#gh-light-mode-only "LUX")
-![LUX](/Documentation/Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
+![LUX](../../Images/logo_claim.svg#gh-light-mode-only "LUX")
+![LUX](../../Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
 
 #### A/B testing
 
@@ -26,7 +26,7 @@ After that you will see some more fields. Add a title, a description and two pag
 and select the current page, that you are editing. Add a title to page record 2 and also select page B.
 Read for your first test.
 
-<img src="../../../Documentation/Images/screenshot_abtesting_pagesettings.png" width="800" />
+<img src="../../Images/screenshot_abtesting_pagesettings.png" width="800" />
 
 | Field                                          | Description                                                                                                                                                                                                                                   |
 |------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -49,7 +49,7 @@ Read for your first test.
 
 Once you have activated A/B tests in page properties, you will see a result in pageoverview:
 
-<img src="../../../Documentation/Images/screenshot_abtesting_pageoverview.png" width="800" />
+<img src="../../Images/screenshot_abtesting_pageoverview.png" width="800" />
 
 
 ##### Backend module

@@ -1,5 +1,5 @@
-![LUX](/Documentation/Images/logo_claim.svg#gh-light-mode-only "LUX")
-![LUX](/Documentation/Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
+![LUX](../../Images/logo_claim.svg#gh-light-mode-only "LUX")
+![LUX](../../Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
 
 ### Symfony Commands (Scheduler Tasks)
 
@@ -169,7 +169,7 @@ Example usage:
 ```
 
 Example summary mail for sales with activities of identified and unknown leads of a given timeframe (e.g. the last day):
-<img src="../../../Documentation/Images/screenshot_summarymail.png" />
+<img src="../../Images/screenshot_summarymail.png" />
 
 
 #### Service Commands

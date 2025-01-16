@@ -1,12 +1,12 @@
-![LUX](/Documentation/Images/logo_claim.svg#gh-light-mode-only "LUX")
-![LUX](/Documentation/Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
+![LUX](../../Images/logo_claim.svg#gh-light-mode-only "LUX")
+![LUX](../../Images/logo_claim_white.svg#gh-dark-mode-only "LUX")
 
 ### Backend Module Leads/Leads
 
 Change the view to List module by clicking on "Leads".
 
 The backend module Leads show you all identified (and anonymous) leads.
-<img src="../../../Documentation/Images/documentation_leads_list.png" width="800" />
+<img src="../../Images/documentation_leads_list.png" width="800" />
 
 See all your leads in a listview on the left side. While - on the right side - you can see useful information
 (number of page visits and hottest leads). The left side itself is split into a filter area and the table-list-view
@@ -60,7 +60,7 @@ change if you are using a special filter.
 If you click in a table row, a small lead preview will be loaded via AJAX. Both diagrams on the right side will be
 replaced with a preview box and a scoring box.
 
-<img src="../../../Documentation/Images/documentation_leads_list_detail.png" width="800" />
+<img src="../../Images/documentation_leads_list_detail.png" width="800" />
 
 * If you are using company detection via Wiredminds (see [Companies](Companies.md)), you can change the related company
 manually.
@@ -84,7 +84,7 @@ The detail view will give you a couple of information of the chosen lead. The vi
 * Properties
 * Profiles
 
-<img src="../../../Documentation/Images/screenshot_detail.png" width="800" />
+<img src="../../Images/screenshot_detail.png" width="800" />
 
 ##### Lead information
 
