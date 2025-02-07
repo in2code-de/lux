@@ -46,7 +46,7 @@ class FrontendUtility
     {
         $authentication = self::getFrontendUserAuthentication();
         if ($authentication !== null) {
-            return $authentication->user['uid'] > 0;
+            return ($authentication->user['uid'] ?? 0) > 0;
         }
         return false;
     }
