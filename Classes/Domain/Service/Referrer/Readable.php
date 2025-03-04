@@ -114,6 +114,7 @@ class Readable
             [
                 'label' => 'Google Organic',
                 'domains' => [
+                    'android-app://com.google.android.googlequicksearchbox/',
                     'www.google.at',
                     'www.google.com',
                     'www.google.ch',
