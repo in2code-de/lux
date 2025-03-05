@@ -13,21 +13,61 @@ class AnalyseDashboardCest
 
     public function loginToBackendSuccessfully(AcceptanceTester $I)
     {
-        $I->click('Analyse');
+        $I->waitForElement('.modulemenu', 30);
 
-        // Warte auf den Container, in dem die AJAX-Inhalte geladen werden
-        $I->waitForElement('.panel-heading', 30);
+        $I->scrollTo('//span[contains(@class, "modulemenu-name") and text()="LUX"]');
 
-        // Alternative Methoden zum Warten:
-        $I->waitForText('Top 10', 30);  // Wartet bis zu 30 Sekunden auf den Text
-        // ODER
-        $I->waitForAjax(30);  // Wartet auf AJAX-Requests
+        $luxButton = '//button[@data-modulemenu-identifier="lux_module"]';
+        $isExpanded = $I->grabAttributeFrom($luxButton, 'aria-expanded');
 
-        // Jetzt erst nach dem Text suchen
-        $I->see('Top 10');
+        if ($isExpanded !== 'true') {
+            $I->click($luxButton);
+        }
 
-        // Optional: Debug-Hilfen
-        $I->makeScreenshot('after_ajax_load');
+        $I->wait(1);
+
+        $I->scrollTo('//span[contains(@class, "modulemenu-name") and text()="Analysis"]');
+        $I->click('//span[contains(@class, "modulemenu-name") and text()="Analysis"]');
+
+        $I->wait(2);
+
+        $I->switchToIFrame('list_frame');
+        $I->waitForElementVisible('body', 10); // Wartet darauf, dass das Body-Element im IFrame sichtbar ist
+
+        $dashboardElements = [
+            '//h3[contains(@class, "panel-title") and contains(text(), "Pagevisits")]',
+            '//h3[contains(@class, "panel-title") and contains(text(), "Downloads")]',
+            '//h3[contains(@class, "panel-title") and contains(text(), "Activity log")]'
+        ];
+
+        foreach ($dashboardElements as $element) {
+            $I->seeElement($element);
+        }
+
+        $topSections = [
+            '//h3[contains(@class, "panel-title") and contains(text(), "Top 10 most visited pages")]',
+            '//h3[contains(@class, "panel-title") and contains(text(), "Top 10 downloads")]',
+            '//h3[contains(@class, "panel-title") and contains(text(), "Top 10 most visited news")]',
+            '//h3[contains(@class, "panel-title") and contains(text(), "Top 10 most used searchterms")]',
+            '//h3[contains(@class, "panel-title") and contains(text(), "Top Social Media Sources")]'
+        ];
+
+        foreach ($topSections as $section) {
+            $I->seeElement($section);
+        }
+
+        $expectedContent = [
+            '//span[@data-page-identifier="UID1" and contains(text(), "Start")]',
+            '//span[@data-download-uid="3" and contains(text(), "productb.pdf")]',
+            '//span[@data-news-identifier="2" and contains(text(), "Testnews 2")]',
+            '//span[contains(text(), "LUX TYPO3")]'
+        ];
+
+        foreach ($expectedContent as $content) {
+            $I->seeElement($content);
+        }
+
+        $I->switchToIFrame(); // Zurück zum Hauptkontext
 
         // Weitere Tests...
         //$I->see('Seitenaufrufe');

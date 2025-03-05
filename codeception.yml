@@ -1,4 +1,6 @@
 namespace: In2code\Lux\Tests
+params:
+  - env
 paths:
   tests: Tests/Acceptance
   output: Tests/Acceptance/_output
