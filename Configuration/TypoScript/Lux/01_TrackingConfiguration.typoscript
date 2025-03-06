@@ -4,7 +4,7 @@ lib.lux.settings {
   tracking {
     pagevisits {
       # Toggle pagevisit tracking (on/off).
-      # Switching this feature on will flood table tx_lux_domain_model_pagevisit but allow you to see a full pagefunnel of all of your visitors. Your decision :)
+      # Switching this feature on will add relevant information to table tx_lux_domain_model_pagevisit
       _enable = {$plugin.tx_lux.settings.tracking.page}
 
       # Try to find a fe_user record when an email is given in visitor and build a relation to it
