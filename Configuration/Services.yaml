@@ -58,6 +58,11 @@ services:
       - name: 'console.command'
         command: 'lux:cleanupVisitorsByProperty'
 
+  In2code\Lux\Command\LuxDemoDataCommand:
+    tags:
+      - name: 'console.command'
+        command: 'lux:demodata'
+
   In2code\Lux\Command\LuxSetWiredmindCompanyInformationCommand:
     tags:
       - name: 'console.command'
@@ -101,6 +106,9 @@ services:
     public: true
 
   In2code\Lux\Domain\Service\CompanyInformationService:
+    public: true
+
+  In2code\Lux\Domain\Service\DemoDataService:
     public: true
 
   In2code\Lux\Domain\Service\LogService:

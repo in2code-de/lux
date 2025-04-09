@@ -410,3 +410,12 @@ See this example how to push a searchterm via JS:
 const lux = LuxSingleton.getInstance();
 lux.push('any searchterm', 'searchRequest');
 ```
+
+## How to switch off the extension?
+
+If you want to turn off the frontend functionality (e.g. in case of DoS attacks...), you could use TypoScript constants:
+
+```
+# All frontend functionalities can be toggled for testing or against flooding
+plugin.tx_lux.settings.enableFrontendController = 0
+```

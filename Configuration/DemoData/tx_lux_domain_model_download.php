@@ -1,0 +1,61 @@
+<?php
+
+use In2code\Lux\Domain\Service\DemoDataService;
+
+return [
+    [
+        'visitor' => 1,
+        'tstamp' => (new DateTime('22 days ago'))->modify('+ 450 minutes')->getTimestamp(),
+        'crdate' => (new DateTime('22 days ago'))->modify('+ 450 minutes')->getTimestamp(),
+        'sys_language_uid' => -1,
+        'href' => '/fileadmin/whitepapers/producta.pdf',
+        'file' => DemoDataService::getRandomFileIdentifier(),
+        'domain' => 'in2code.de',
+        'page' => DemoDataService::getRandomPageIdentifier(),
+        'site' => DemoDataService::getRandomSiteIdentifier(),
+    ],
+    [
+        'visitor' => 2,
+        'tstamp' => (new DateTime('6 days ago'))->modify('+ 70 minutes')->getTimestamp(),
+        'crdate' => (new DateTime('6 days ago'))->modify('+ 70 minutes')->getTimestamp(),
+        'sys_language_uid' => -1,
+        'href' => '/fileadmin/whitepapers/producta.pdf',
+        'file' => DemoDataService::getRandomFileIdentifier(),
+        'domain' => 'in2code.de',
+        'page' => DemoDataService::getRandomPageIdentifier(),
+        'site' => DemoDataService::getRandomSiteIdentifier(),
+    ],
+    [
+        'visitor' => 2,
+        'tstamp' => (new DateTime('6 days ago'))->modify('+ 78 minutes')->getTimestamp(),
+        'crdate' => (new DateTime('6 days ago'))->modify('+ 78 minutes')->getTimestamp(),
+        'sys_language_uid' => -1,
+        'href' => '/fileadmin/whitepapers/productb.pdf',
+        'file' => DemoDataService::getRandomFileIdentifier(),
+        'domain' => 'in2code.de',
+        'page' => DemoDataService::getRandomPageIdentifier(),
+        'site' => DemoDataService::getRandomSiteIdentifier(),
+    ],
+    [
+        'visitor' => 3,
+        'crdate' => (new DateTime('2 days ago'))->modify('+ 4 minutes')->getTimestamp(),
+        'tstamp' => (new DateTime('2 days ago'))->modify('+ 4 minutes')->getTimestamp(),
+        'sys_language_uid' => -1,
+        'href' => '/fileadmin/whitepapers/producta.pdf',
+        'file' => DemoDataService::getRandomFileIdentifier(),
+        'domain' => 'in2code.de',
+        'page' => DemoDataService::getRandomPageIdentifier(),
+        'site' => DemoDataService::getRandomSiteIdentifier(),
+    ],
+    [
+        'visitor' => 5,
+        'crdate' => (new DateTime('55 days ago'))->modify('+ 10 minutes')->getTimestamp(),
+        'tstamp' => (new DateTime('55 days ago'))->modify('+ 10 minutes')->getTimestamp(),
+        'sys_language_uid' => -1,
+        'href' => '/fileadmin/whitepapers/producta.pdf',
+        'file' => DemoDataService::getRandomFileIdentifier(),
+        'domain' => 'in2code.de',
+        'page' => DemoDataService::getRandomPageIdentifier(),
+        'site' => DemoDataService::getRandomSiteIdentifier(),
+    ],
+];

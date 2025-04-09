@@ -46,7 +46,7 @@ Example usage:
 
 ##### \In2code\Luxenterprise\Command\LuxDemoDataCommand
 
-Only for luxenterprise: This command truncates all visitor data and adds a couble of demo visitors for presentations
+This command truncates all visitor data and adds a couble of demo visitors for presentations
 
 Example usage:
 
