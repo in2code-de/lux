@@ -1,0 +1,86 @@
+<?php
+
+use In2code\Lux\Domain\Service\DemoDataService;
+
+return [
+    [
+        'visitor' => 1,
+        'category' => DemoDataService::getRandomLuxCatgoryIdentifier(),
+        'tstamp' => (new DateTime('31 days ago'))->getTimestamp(),
+        'crdate' => (new DateTime('31 days ago'))->getTimestamp(),
+        'sys_language_uid' => -1,
+        'scoring' => 50,
+    ],
+    [
+        'visitor' => 1,
+        'category' => DemoDataService::getRandomLuxCatgoryIdentifier(),
+        'tstamp' => (new DateTime('30 days ago'))->getTimestamp(),
+        'crdate' => (new DateTime('30 days ago'))->getTimestamp(),
+        'sys_language_uid' => -1,
+        'scoring' => 20,
+    ],
+    [
+        'visitor' => 2,
+        'category' => DemoDataService::getRandomLuxCatgoryIdentifier(),
+        'tstamp' => (new DateTime('30 days ago'))->getTimestamp(),
+        'crdate' => (new DateTime('30 days ago'))->getTimestamp(),
+        'sys_language_uid' => -1,
+        'scoring' => 30,
+    ],
+    [
+        'visitor' => 4,
+        'category' => DemoDataService::getRandomLuxCatgoryIdentifier(),
+        'tstamp' => (new DateTime())->getTimestamp(),
+        'crdate' => (new DateTime())->getTimestamp(),
+        'sys_language_uid' => -1,
+        'scoring' => 12,
+    ],
+    [
+        'visitor' => 4,
+        'category' => DemoDataService::getRandomLuxCatgoryIdentifier(),
+        'tstamp' => (new DateTime())->getTimestamp(),
+        'crdate' => (new DateTime())->getTimestamp(),
+        'sys_language_uid' => -1,
+        'scoring' => 66,
+    ],
+    [
+        'visitor' => 5,
+        'category' => DemoDataService::getRandomLuxCatgoryIdentifier(),
+        'tstamp' => (new DateTime())->getTimestamp(),
+        'crdate' => (new DateTime())->getTimestamp(),
+        'sys_language_uid' => -1,
+        'scoring' => 10,
+    ],
+    [
+        'visitor' => 6,
+        'category' => DemoDataService::getRandomLuxCatgoryIdentifier(),
+        'tstamp' => (new DateTime())->getTimestamp(),
+        'crdate' => (new DateTime())->getTimestamp(),
+        'sys_language_uid' => -1,
+        'scoring' => 12,
+    ],
+    [
+        'visitor' => 7,
+        'category' => DemoDataService::getRandomLuxCatgoryIdentifier(),
+        'tstamp' => (new DateTime())->getTimestamp(),
+        'crdate' => (new DateTime())->getTimestamp(),
+        'sys_language_uid' => -1,
+        'scoring' => 22,
+    ],
+    [
+        'visitor' => 7,
+        'category' => DemoDataService::getRandomLuxCatgoryIdentifier(),
+        'tstamp' => (new DateTime())->getTimestamp(),
+        'crdate' => (new DateTime())->getTimestamp(),
+        'sys_language_uid' => -1,
+        'scoring' => 32,
+    ],
+    [
+        'visitor' => 8,
+        'category' => DemoDataService::getRandomLuxCatgoryIdentifier(),
+        'tstamp' => (new DateTime())->getTimestamp(),
+        'crdate' => (new DateTime())->getTimestamp(),
+        'sys_language_uid' => -1,
+        'scoring' => 10,
+    ],
+];
