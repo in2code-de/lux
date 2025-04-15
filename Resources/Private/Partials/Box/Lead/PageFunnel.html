@@ -6,31 +6,33 @@
         </h3>
     </div>
     <div class="panel-body">
-        <f:if condition="{visitor.pagevisits}">
+        <f:if condition="{visitor.pagevisitsWithReferrers}">
             <f:then>
-                <div style="height: 450px; overflow: auto; ">
-                    <nav class="timeline timeline--vertical">
-                        <f:for each="{visitor.pagevisitsWithReferrers}" as="pagevisit" key="timestamp" iteration="iteration">
-                            <f:if condition="{pagevisit.page}">
-                                <f:then>
-                                    <div class="timeline__item" title="" data-identifier-pagevisit="{pagevisit.uid}">
-                                        <div style="margin-top: 5px;">
-                                            <span title="PID{pagevisit.page.uid}: {pagevisit.pageTitleWithLanguage}"><f:format.crop maxCharacters="30" append="..." respectWordBoundaries="0">{pagevisit.pageTitleWithLanguage}</f:format.crop></span>
-                                            <span class="badge pull-right" title="{f:format.date(date:pagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">{lux:format.readableDate(date:pagevisit.crdate)}</span>
+                <div style="height: 450px; overflow: auto;">
+                    <f:for each="{visitor.pagevisitsWithReferrers}" as="group">
+                        <nav class="timeline timeline--vertical">
+                            <f:for each="{group}" as="pagevisit" key="timestamp" iteration="iteration">
+                                <f:if condition="{pagevisit.page}">
+                                    <f:then>
+                                        <div class="timeline__item" title="" data-identifier-pagevisit="{pagevisit.uid}">
+                                            <div style="margin-top: 5px;">
+                                                <span title="PID{pagevisit.page.uid}: {pagevisit.pageTitleWithLanguage}"><f:format.crop maxCharacters="30" append="..." respectWordBoundaries="0">{pagevisit.pageTitleWithLanguage}</f:format.crop></span>
+                                                <span class="badge pull-right" title="{f:format.date(date:pagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">{lux:format.readableDate(date:pagevisit.crdate)}</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </f:then>
-                                <f:else>
-                                    <div class="timeline__item" title="" data-identifier-pagevisit="{pagevisit.uid}">
-                                        <div style="margin-top: 5px;">
-                                            <a href="{pagevisit.referrer}" target="_blank" rel="noopener" title="{pagevisit.referrer}">{pagevisit.readableReferrer}</a>
-                                            <span class="badge pull-right" title="{f:format.date(date:pagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">{lux:format.readableDate(date:pagevisit.crdate)}</span>
+                                    </f:then>
+                                    <f:else>
+                                        <div class="timeline__item" title="" data-identifier-pagevisit="{pagevisit.uid}">
+                                            <div style="margin-top: 5px;">
+                                                <a href="{pagevisit.referrer}" target="_blank" rel="noopener" title="{pagevisit.referrer}">{pagevisit.readableReferrer}</a>
+                                                <span class="badge pull-right" title="{f:format.date(date:pagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">{lux:format.readableDate(date:pagevisit.crdate)}</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </f:else>
-                            </f:if>
-                        </f:for>
-                    </nav>
+                                    </f:else>
+                                </f:if>
+                            </f:for>
+                        </nav>
+                    </f:for>
                 </div>
             </f:then>
             <f:else>

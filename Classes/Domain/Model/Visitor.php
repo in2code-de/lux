@@ -18,6 +18,7 @@ use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\DatabaseUtility;
+use In2code\Lux\Utility\DateUtility;
 use In2code\Lux\Utility\EnvironmentUtility;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
@@ -486,15 +487,20 @@ class Visitor extends AbstractModel
     /**
      * Example result
      *  [
-     *      123456789 => [Pagevisit],
-     *      223456789 => [Pagevisit],
-     *      223456789 => [
-     *          'referrer' => 'https://google.com',
-     *          'readableReferrer' => 'Google organic',
-     *          'crdate' => [\DateTime],
+     *      [
+     *          123456789 => [Pagevisit],
+     *          223456789 => [Pagevisit],
      *      ],
-     *      323456789 => [Pagevisit],
-     *  [
+     *      [
+     *          323456789 => [Pagevisit],
+     *          323456790 => [
+     *              'referrer' => 'https://google.com',
+     *              'readableReferrer' => 'Google organic',
+     *              'crdate' => [\DateTime],
+     *          ],
+     *           323456795 => [Pagevisit],
+     *      ],
+     *  ],
      *
      * @return array
      * @throws Exception
@@ -503,16 +509,25 @@ class Visitor extends AbstractModel
     {
         $pagevisits = $this->getPagevisits();
         $pagevisitsNew = [];
+        $counter = 0;
+        $lastPagevisit = null;
         /** @var Pagevisit $pagevisit */
         foreach ($pagevisits as $key => $pagevisit) {
-            $pagevisitsNew[$key] = $pagevisit;
+            $pagevisitsNew[$counter][$key] = $pagevisit;
             if ($pagevisit->isReferrerSet() && UrlUtility::isInternalUrl($pagevisit->getReferrer()) === false) {
-                $pagevisitsNew[$key] = [
+                $pagevisitsNew[$counter][$key + 1] = [
                     'referrer' => $pagevisit->getReferrer(),
                     'readableReferrer' => $pagevisit->getReadableReferrer(),
                     'crdate' => $pagevisit->getCrdate(),
                 ];
             }
+            if (
+                $lastPagevisit !== null &&
+                DateUtility::isNewVisit($pagevisit->getCrdate(), $lastPagevisit->getCrdate())
+            ) {
+                $counter++;
+            }
+            $lastPagevisit = $pagevisit;
         }
         return $pagevisitsNew;
     }
