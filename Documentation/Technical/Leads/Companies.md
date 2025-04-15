@@ -21,7 +21,8 @@ Wiredminds usage needs to be payed per Request. Look at our website
 for details about prices and packages and how to get a working token.
 
 **Note:** Not every IP-address can be converted to a company because not every visitor is a business visitor and part of
-a company.
+a company.\
+**Note:** IP-addresses are only delivered to Wiredminds via server-to-server connection.
 
 
 #### Company Detection not yet enabled
