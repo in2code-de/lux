@@ -21,6 +21,6 @@ class AllowedMail
         $domain = StringUtility::getDomainFromEmail($email);
         $configurationService = ObjectUtility::getConfigurationService();
         $list = $configurationService->getTypoScriptSettingsByPath('general.disallowedMailProviderList');
-        return FileUtility::isStringInFile($domain, GeneralUtility::getFileAbsFileName($list)) === false;
+        return FileUtility::isExactStringInFile($domain, GeneralUtility::getFileAbsFileName($list)) === false;
     }
 }

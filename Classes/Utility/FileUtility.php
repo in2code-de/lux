@@ -40,6 +40,32 @@ class FileUtility
         return exec('grep -iw ' . escapeshellarg($value) . ' ' . $filename);
     }
 
+    /**
+     * Check for an exact string in a file (case-insensitive). Use linux grep command for best performance.
+     *
+     * @param string $value string to search for in file
+     * @param string $filename absolute path and filename
+     * @return bool
+     */
+    public static function isExactStringInFile(string $value, string $filename): bool
+    {
+        return self::searchForExactStringInFile($value, $filename) !== '';
+    }
+
+    /**
+     * Search for a string in a file (case-insensitive). Use linux grep command for best performance.
+     * While searchForStringInFile() search for any string in a line (as complete word), this function searches for
+     * exact matches.
+     *
+     * @param string $value string to search for in file
+     * @param string $filename absolute path and filename
+     * @return string
+     */
+    protected static function searchForExactStringInFile(string $value, string $filename): string
+    {
+        return exec('grep -i \'^' . escapeshellarg($value) . '$\' ' . $filename);
+    }
+
     public static function getFileExtensionFromFilename(string $filename): string
     {
         $info = pathinfo($filename);
