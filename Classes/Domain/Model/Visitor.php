@@ -22,11 +22,11 @@ use In2code\Lux\Utility\EnvironmentUtility;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
+use In2code\Lux\Utility\UrlUtility;
 use In2code\Luxenterprise\Domain\Model\Abpagevisit;
 use In2code\Luxenterprise\Domain\Repository\AbpagevisitRepository;
 use Throwable;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
@@ -481,6 +481,40 @@ class Visitor extends AbstractModel
         }
         krsort($pagevisitsArray);
         return $pagevisitsArray;
+    }
+
+    /**
+     * Example result
+     *  [
+     *      123456789 => [Pagevisit],
+     *      223456789 => [Pagevisit],
+     *      223456789 => [
+     *          'referrer' => 'https://google.com',
+     *          'readableReferrer' => 'Google organic',
+     *          'crdate' => [\DateTime],
+     *      ],
+     *      323456789 => [Pagevisit],
+     *  [
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function getPagevisitsWithReferrers(): array
+    {
+        $pagevisits = $this->getPagevisits();
+        $pagevisitsNew = [];
+        /** @var Pagevisit $pagevisit */
+        foreach ($pagevisits as $key => $pagevisit) {
+            $pagevisitsNew[$key] = $pagevisit;
+            if ($pagevisit->isReferrerSet() && UrlUtility::isInternalUrl($pagevisit->getReferrer()) === false) {
+                $pagevisitsNew[$key] = [
+                    'referrer' => $pagevisit->getReferrer(),
+                    'readableReferrer' => $pagevisit->getReadableReferrer(),
+                    'crdate' => $pagevisit->getCrdate(),
+                ];
+            }
+        }
+        return $pagevisitsNew;
     }
 
     public function getPagevisitsOfGivenPageIdentifier(int $pageIdentifier): array

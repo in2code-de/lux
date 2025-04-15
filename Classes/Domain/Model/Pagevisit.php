@@ -118,6 +118,11 @@ class Pagevisit extends AbstractModel
         return $referrerService->getReadableReferrer();
     }
 
+    public function isReferrerSet(): bool
+    {
+        return $this->getReferrer() !== '';
+    }
+
     public function setReferrer(string $referrer): self
     {
         $this->referrer = $referrer;

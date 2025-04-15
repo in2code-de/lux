@@ -126,4 +126,15 @@ class UrlUtilityTest extends UnitTestCase
     {
         self::assertEquals($expectedDomain, UrlUtility::removeProtocolFromDomain($domain));
     }
+
+    /**
+     * @return void
+     * @covers ::getHostFromUrl
+     */
+    public function testGetHostFromUrl(): void
+    {
+        self::assertEquals('local.lux.de', UrlUtility::getHostFromUrl('https://local.lux.de/page/'));
+        self::assertEquals('local.lux.de', UrlUtility::getHostFromUrl('https://local.lux.de'));
+        self::assertEquals('local.lux.de', UrlUtility::getHostFromUrl('http://local.lux.de/page.html'));
+    }
 }

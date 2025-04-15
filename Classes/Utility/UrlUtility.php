@@ -3,6 +3,9 @@
 declare(strict_types=1);
 namespace In2code\Lux\Utility;
 
+use In2code\Lux\Domain\Service\SiteService;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 class UrlUtility
 {
     /**
@@ -58,5 +61,22 @@ class UrlUtility
     public static function removeProtocolFromDomain(string $domain): string
     {
         return preg_replace('~https?://~', '', $domain);
+    }
+
+    public static function getHostFromUrl(string $url): string
+    {
+        $parsedUrl = parse_url($url);
+        return $parsedUrl['host'] ?? '';
+    }
+
+    public static function isInternalUrl(string $url): bool
+    {
+        $siteService = GeneralUtility::makeInstance(SiteService::class);
+        foreach ($siteService->getAllDomains() as $domain) {
+            if (UrlUtility::getHostFromUrl($url) === UrlUtility::removeSlashPrefixAndPostfix($domain)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
