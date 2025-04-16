@@ -28,6 +28,7 @@ use In2code\Luxenterprise\Domain\Model\Abpagevisit;
 use In2code\Luxenterprise\Domain\Repository\AbpagevisitRepository;
 use Throwable;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
