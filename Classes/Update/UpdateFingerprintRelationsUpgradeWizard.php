@@ -34,20 +34,22 @@ class UpdateFingerprintRelationsUpgradeWizard implements UpgradeWizardInterface
 
     public function executeUpdate(): bool
     {
-        $connection = DatabaseUtility::getConnectionForTable(Fingerprint::TABLE_NAME);
-        foreach ($this->getAllVisitors() as $visitor) {
+        $connectionFingerprint = DatabaseUtility::getConnectionForTable(Fingerprint::TABLE_NAME);
+        $connectionVisitor = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
+        $visitors = $this->getAllVisitors();
+        foreach ($visitors as $visitor) {
             $fingerprintIdentifiers = GeneralUtility::intExplode(',', $visitor['fingerprints'], true);
             foreach ($fingerprintIdentifiers as $fingerprintIdentifier) {
                 if ($fingerprintIdentifier === 0) {
                     continue;
                 }
-                $connection->executeQuery(
+                $connectionFingerprint->executeQuery(
                     'update ' . Fingerprint::TABLE_NAME
                     . ' set visitor = "' . $visitor['uid'] . '" where uid=' . $fingerprintIdentifier
                 );
             }
-            $connection->executeQuery(
-                'update ' . Visitor::TABLE_NAME . ' set fingerprints = ' . count($fingerprintIdentifiers)
+            $connectionVisitor->executeQuery(
+                'update ' . Visitor::TABLE_NAME . ' set fingerprints = ' . count($fingerprintIdentifiers) . ' WHERE uid = ' . $visitor['uid']
             );
         }
         return true;
@@ -56,12 +58,31 @@ class UpdateFingerprintRelationsUpgradeWizard implements UpgradeWizardInterface
     protected function getAllVisitors(): array
     {
         $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Visitor::TABLE_NAME, true);
-        return $queryBuilder
+        $fingerprintsWithVisitor = $this->getFingerprintsWithVisitor();
+        $query = $queryBuilder
             ->select('uid', 'fingerprints')
             ->from(Visitor::TABLE_NAME)
-            ->where('deleted=0 and fingerprints!=\'\'')
+            ->where('deleted=0 and fingerprints!=\'\'');
+        if (!empty($fingerprintsWithVisitor)) {
+            $query->andWhere('uid NOT IN (' . implode(',', $fingerprintsWithVisitor) . ')');
+        }
+        return $query->executeQuery()->fetchAllAssociative();
+    }
+
+    protected function getFingerprintsWithVisitor(): array
+    {
+        $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Fingerprint::TABLE_NAME, true);
+        $data = $queryBuilder
+            ->select('uid')
+            ->from(Fingerprint::TABLE_NAME)
+            ->where('deleted=0 and visitor != 0')
             ->executeQuery()
             ->fetchAllAssociative();
+        $uids = [];
+        foreach ($data as $item) {
+            $uids[] = $item['uid'];
+        }
+        return $uids;
     }
 
     public function updateNecessary(): bool
