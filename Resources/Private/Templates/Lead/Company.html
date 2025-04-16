@@ -55,7 +55,7 @@
 
                     <p>
                         {company.street}<f:if condition="{company.street}">,</f:if> {company.zip} {company.city}, {company.country}
-                        <a href="https://www.google.com/maps/?q={company.address -> f:format.urlencode()}" target="_blank" title="View on google maps">
+                        <a href="https://www.google.com/maps/?q={company.address -> f:format.urlencode()}" target="_blank" rel="noopener noreferrer" title="View on google maps">
                             <img src="{f:uri.resource(path:'Images/LogoGoogleMaps.svg',extensionName:'Lux')}" width="16" />
                         </a>
                     </p>
@@ -64,7 +64,7 @@
                             {company.phone}
                             <f:if condition="{company.domain}">
                                 <span style="padding-left: 1rem;">
-                                    <f:link.typolink parameter="https://{company.domain}" target="_blank">{company.domain}</f:link.typolink>
+                                    <f:link.typolink parameter="https://{company.domain}" target="_blank" additionalAttributes="{rel: 'noopener noreferrer'}">{company.domain}</f:link.typolink>
                                 </span>
                             </f:if>
                         </p>

@@ -24,7 +24,7 @@
                                     <f:else>
                                         <div class="timeline__item" title="" data-identifier-pagevisit="{pagevisit.uid}">
                                             <div style="margin-top: 5px;">
-                                                <a href="{pagevisit.referrer}" target="_blank" rel="noopener" title="{pagevisit.referrer}">{pagevisit.readableReferrer}</a>
+                                                <a href="{pagevisit.referrer}" target="_blank" rel="noopener noreferrer" title="{pagevisit.referrer}">{pagevisit.readableReferrer}</a>
                                                 <span class="badge pull-right" title="{f:format.date(date:pagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">{lux:format.readableDate(date:pagevisit.crdate)}</span>
                                             </div>
                                         </div>
