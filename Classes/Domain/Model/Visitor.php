@@ -514,6 +514,13 @@ class Visitor extends AbstractModel
         $lastPagevisit = null;
         /** @var Pagevisit $pagevisit */
         foreach ($pagevisits as $key => $pagevisit) {
+            if (
+                $lastPagevisit !== null &&
+                DateUtility::isNewVisit($pagevisit->getCrdate(), $lastPagevisit->getCrdate())
+            ) {
+                $counter++;
+            }
+
             $pagevisitsNew[$counter][$key] = $pagevisit;
             if ($pagevisit->isReferrerSet() && UrlUtility::isInternalUrl($pagevisit->getReferrer()) === false) {
                 $pagevisitsNew[$counter][$key + 1] = [
@@ -522,12 +529,7 @@ class Visitor extends AbstractModel
                     'crdate' => $pagevisit->getCrdate(),
                 ];
             }
-            if (
-                $lastPagevisit !== null &&
-                DateUtility::isNewVisit($pagevisit->getCrdate(), $lastPagevisit->getCrdate())
-            ) {
-                $counter++;
-            }
+
             $lastPagevisit = $pagevisit;
         }
         return $pagevisitsNew;
