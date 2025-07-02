@@ -16,7 +16,7 @@
                     <f:if condition="{visitor.hottestCategoryscoring}">
                         <span class="badge badge-primary" title="{visitor.hottestCategoryscoring.category.title}">{visitor.hottestCategoryscoring.scoring}</span>
                     </f:if>
-                    <f:if condition="{visitor.identified}"><a href="http://www.google.com/search?q={visitor.fullName}" target="_blank" title="Search on google"><img src="{f:uri.resource(path:'Images/LogoGoogle.svg',extensionName:'Lux')}" width="16" /></a></f:if>
+                    <f:if condition="{visitor.identified}"><a href="http://www.google.com/search?q={visitor.fullName}" target="_blank" rel="noopener noreferrer" title="Search on google"><img src="{f:uri.resource(path:'Images/LogoGoogle.svg',extensionName:'Lux')}" width="16" /></a></f:if>
                 </h3>
 
                 <div style="margin-top: 2rem;">
@@ -85,7 +85,7 @@
             <tr>
                 <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.referrer">Source</f:translate></th>
                 <td>
-                    <a href="{visitor.pagevisitFirst.referrer}" target="_blank" title="{visitor.pagevisitFirst.referrer}">{visitor.pagevisitFirst.readableReferrer}</a>
+                    <a href="{visitor.pagevisitFirst.referrer}" target="_blank" rel="noopener noreferrer" title="{visitor.pagevisitFirst.referrer}">{visitor.pagevisitFirst.readableReferrer}</a>
                 </td>
             </tr>
         </f:if>
@@ -105,7 +105,7 @@
                             <td>
                                 {informationvalue}
                                 <f:if condition="{information.name} == 'city'">
-                                    <a href="https://www.google.com/maps/?q={visitor.latitude},{visitor.longitude}" target="_blank" title="View on google maps">
+                                    <a href="https://www.google.com/maps/?q={visitor.latitude},{visitor.longitude}" target="_blank" rel="noopener noreferrer" title="View on google maps">
                                         <img src="{f:uri.resource(path:'Images/LogoGoogleMaps.svg',extensionName:'Lux')}" width="16" />
                                     </a>
                                 </f:if>
@@ -129,7 +129,7 @@
                 {company.zip} {company.city}, {company.country}
                 <f:if condition="{company.street}"><br/></f:if>
                 {company.street}
-                <a href="https://www.google.com/maps/?q={company.address -> f:format.urlencode()}" target="_blank" title="View on google maps">
+                <a href="https://www.google.com/maps/?q={company.address -> f:format.urlencode()}" target="_blank" rel="noopener noreferrer" title="View on google maps">
                     <img src="{f:uri.resource(path:'Images/LogoGoogleMaps.svg',extensionName:'Lux')}" width="16" />
                 </a>
             </p>
@@ -140,7 +140,7 @@
             </f:if>
             <f:if condition="{company.domain}">
                 <p>
-                    <f:link.typolink parameter="https://{company.domain}" target="_blank">{company.domain}</f:link.typolink>
+                    <f:link.typolink parameter="https://{company.domain}" target="_blank" additionalAttributes="{rel: 'noopener noreferrer'}">{company.domain}</f:link.typolink>
                 </p>
             </f:if>
         </div>
@@ -224,7 +224,7 @@
                     <tr>
                         <th><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_visitor.referrer">Source</f:translate></th>
                         <td>
-                            <a href="{visitor.pagevisitFirst.referrer}" target="_blank" title="{visitor.pagevisitFirst.referrer}">{visitor.pagevisitFirst.readableReferrer}</a>
+                            <a href="{visitor.pagevisitFirst.referrer}" target="_blank" rel="noopener noreferrer" title="{visitor.pagevisitFirst.referrer}">{visitor.pagevisitFirst.readableReferrer}</a>
                         </td>
                     </tr>
                 </f:if>

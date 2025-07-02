@@ -4,6 +4,7 @@ namespace In2code\Lux\Tests\Unit\Utility;
 
 use DateTime;
 use Exception;
+use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Utility\DateUtility;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
@@ -170,5 +171,20 @@ class DateUtilityTest extends UnitTestCase
             (new DateTime('2024-10-1'))->getTimestamp(),
             DateUtility::getQuarterStartDateFromDate(new DateTime('2024-11-11'))->getTimestamp()
         );
+    }
+
+    /**
+     * @return void
+     * @covers ::isNewVisit
+     * @throws ConfigurationException
+     */
+    public function testIsNewVisit(): void
+    {
+        self::assertTrue(DateUtility::isNewVisit(new DateTime('2025-12-24'), new DateTime('2025-12-31')));
+        self::assertFalse(DateUtility::isNewVisit(new DateTime('2025-12-24 12:00:00'), new DateTime('2025-12-24 12:01:00')));
+        self::assertTrue(DateUtility::isNewVisit(new DateTime('2025-12-24 12:00:00'), new DateTime('2025-12-24 12:05:00')));
+
+        $this->expectExceptionCode(1744734078);
+        DateUtility::isNewVisit(new DateTime('2025-12-31'), new DateTime('2025-12-24'));
     }
 }

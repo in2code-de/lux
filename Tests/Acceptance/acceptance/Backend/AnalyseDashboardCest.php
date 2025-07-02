@@ -32,7 +32,7 @@ class AnalyseDashboardCest
         $I->wait(2);
 
         $I->switchToIFrame('list_frame');
-        $I->waitForElementVisible('body', 10); // Wartet darauf, dass das Body-Element im IFrame sichtbar ist
+        $I->waitForElementVisible('body', 10); // Waits for the body element to be visible in the IFrame
 
         $dashboardElements = [
             '//h3[contains(@class, "panel-title") and contains(text(), "Pagevisits")]',
@@ -67,9 +67,9 @@ class AnalyseDashboardCest
             $I->seeElement($content);
         }
 
-        $I->switchToIFrame(); // Zurück zum Hauptkontext
+        $I->switchToIFrame(); // Back to main context
 
-        // Weitere Tests...
+        // Further tests...
         //$I->see('Seitenaufrufe');
         //$I->selectOption('#time', ['value' => '1']);
     }

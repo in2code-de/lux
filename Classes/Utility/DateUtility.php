@@ -5,6 +5,7 @@ namespace In2code\Lux\Utility;
 
 use DateTime;
 use Exception;
+use In2code\Lux\Exception\ConfigurationException;
 
 class DateUtility
 {
@@ -175,5 +176,21 @@ class DateUtility
         $start = clone $date;
         $quarterStartMonth = (self::getQuarterFromDate($date) * 3) - 2;
         return $start->setDate((int)$date->format('Y'), $quarterStartMonth, 1)->modify('midnight');
+    }
+
+    /**
+     * @param DateTime $dateOlder
+     * @param DateTime $dateNewer
+     * @return bool
+     * @throws ConfigurationException
+     */
+    public static function isNewVisit(DateTime $dateOlder, DateTime $dateNewer): bool
+    {
+        if ($dateOlder > $dateNewer) {
+            throw new ConfigurationException('$dateNewer must be newer or equal to $dateOlder', 1744734078);
+        }
+        $dateOlderModified = clone $dateOlder;
+        $dateOlderModified->modify('+' . self::IS_ONLINE_TIME . ' minutes');
+        return $dateOlderModified <= $dateNewer;
     }
 }

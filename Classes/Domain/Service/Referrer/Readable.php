@@ -402,6 +402,46 @@ class Readable
                 ],
             ],
         ],
+        'aiChats' => [
+            [
+                'label' => 'Chat GPT',
+                'domains' => [
+                    'chat.openai.com',
+                ],
+            ],
+            [
+                'label' => 'Google Gemini',
+                'domains' => [
+                    'bard.google.com',
+                    'gemini.google.com',
+                ],
+            ],
+            [
+                'label' => 'Microsoft Bing Chat',
+                'domains' => [
+                    'bing.com/chat',
+                    'www.bing.com/chat',
+                ],
+            ],
+            [
+                'label' => 'Claude AI',
+                'domains' => [
+                    'claude.ai',
+                ],
+            ],
+            [
+                'label' => 'Perplexity AI',
+                'domains' => [
+                    'perplexity.ai',
+                ],
+            ],
+            [
+                'label' => 'Mistral',
+                'domains' => [
+                    'chat.mistral.ai',
+                ],
+            ],
+        ],
         'other' => [
             [
                 'label' => 'in2code GmbH',

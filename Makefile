@@ -107,11 +107,11 @@ endif
 ## Install Frontend Build Tool Chain dependencies
 npm-install:
 	echo "$(EMOJI_explodinghead) Installing Frontend Build Toolchain (this might take a while)"
-	docker compose exec -u node -w /home/node/app/Resources/Private/ node npm ci
+	docker compose exec -u node -w /home/node/app/Resources/Private/Build node npm i
 
 ## Start watch on node-container
 npm-watch:
-	docker compose exec -u node -w /home/node/app/Resources/Private/ node npm run watch:all
+	docker compose exec -u node -w /home/node/app/Resources/Private/Build node npm run watch
 
 ## Stop the node container
 npm-stop:

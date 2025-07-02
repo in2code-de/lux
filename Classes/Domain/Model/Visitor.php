@@ -18,10 +18,12 @@ use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\DatabaseUtility;
+use In2code\Lux\Utility\DateUtility;
 use In2code\Lux\Utility\EnvironmentUtility;
 use In2code\Lux\Utility\LocalizationUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
+use In2code\Lux\Utility\UrlUtility;
 use In2code\Luxenterprise\Domain\Model\Abpagevisit;
 use In2code\Luxenterprise\Domain\Repository\AbpagevisitRepository;
 use Throwable;
@@ -481,6 +483,56 @@ class Visitor extends AbstractModel
         }
         krsort($pagevisitsArray);
         return $pagevisitsArray;
+    }
+
+    /**
+     * Example result
+     *  [
+     *      [
+     *          123456789 => [Pagevisit],
+     *          223456789 => [Pagevisit],
+     *      ],
+     *      [
+     *          323456789 => [Pagevisit],
+     *          323456790 => [
+     *              'referrer' => 'https://google.com',
+     *              'readableReferrer' => 'Google organic',
+     *              'crdate' => [\DateTime],
+     *          ],
+     *           323456795 => [Pagevisit],
+     *      ],
+     *  ],
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function getPagevisitsWithReferrers(): array
+    {
+        $pagevisits = $this->getPagevisits();
+        $pagevisitsNew = [];
+        $counter = 0;
+        $lastPagevisit = null;
+        /** @var Pagevisit $pagevisit */
+        foreach ($pagevisits as $key => $pagevisit) {
+            if (
+                $lastPagevisit !== null &&
+                DateUtility::isNewVisit($pagevisit->getCrdate(), $lastPagevisit->getCrdate())
+            ) {
+                $counter++;
+            }
+
+            $pagevisitsNew[$counter][$key] = $pagevisit;
+            if ($pagevisit->isReferrerSet() && UrlUtility::isInternalUrl($pagevisit->getReferrer()) === false) {
+                $pagevisitsNew[$counter][$key + 1] = [
+                    'referrer' => $pagevisit->getReferrer(),
+                    'readableReferrer' => $pagevisit->getReadableReferrer(),
+                    'crdate' => $pagevisit->getCrdate(),
+                ];
+            }
+
+            $lastPagevisit = $pagevisit;
+        }
+        return $pagevisitsNew;
     }
 
     public function getPagevisitsOfGivenPageIdentifier(int $pageIdentifier): array
