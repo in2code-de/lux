@@ -26,9 +26,9 @@ class Visitor implements SearchProviderInterface
     protected array $results = [];
 
     public function __construct(
-        readonly protected UriBuilder $uriBuilder,
-        readonly protected VisitorRepository $visitorRepository,
-        readonly protected IconFactory $iconFactory
+        protected readonly UriBuilder $uriBuilder,
+        protected readonly VisitorRepository $visitorRepository,
+        protected readonly IconFactory $iconFactory
     ) {
     }
 

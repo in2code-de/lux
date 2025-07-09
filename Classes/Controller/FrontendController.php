@@ -58,13 +58,13 @@ class FrontendController extends ActionController
     ];
 
     public function __construct(
-        readonly protected ConfigurationService $configurationService,
-        readonly protected CompanyTracker $companyTracker,
-        readonly protected PageTracker $pageTracker,
-        readonly protected EventTracker $eventTracker,
-        readonly protected NewsTracker $newsTracker,
-        readonly protected SearchTracker $searchTracker,
-        readonly protected LoggerInterface $logger
+        protected readonly ConfigurationService $configurationService,
+        protected readonly CompanyTracker $companyTracker,
+        protected readonly PageTracker $pageTracker,
+        protected readonly EventTracker $eventTracker,
+        protected readonly NewsTracker $newsTracker,
+        protected readonly SearchTracker $searchTracker,
+        protected readonly LoggerInterface $logger
     ) {
     }
 
