@@ -39,7 +39,7 @@ services:
       - ${SQLPORT}:3306
 
   node:
-    image: node:10
+    image: ${NODEIMAGE}
     user: node
     command: ["bash"]
     tty: true
