@@ -150,7 +150,7 @@ typo3-comparedb:
 ## Starts the TYPO3 setup process
 lux-demodata:
 	echo "$(EMOJI_cat) Running lux:demodata"
-	docker-compose exec php ./.Build/bin/typo3 lux:demodata
+	docker compose exec php ./.Build/bin/typo3 lux:demodata
 
 ## Clears TYPO3 caches via typo3-console
 typo3-clearcache:
