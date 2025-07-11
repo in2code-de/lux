@@ -34,9 +34,7 @@ class PageRepository extends AbstractRepository
     /**
      * @param int $identifier
      * @return array
-     * @throws ExceptionDbalDriver
      * @throws Exception
-     * @throws DBALException
      */
     public function findRawByIdentifier(int $identifier): array
     {
@@ -48,6 +46,32 @@ class PageRepository extends AbstractRepository
             ->setMaxResults(1)
             ->executeQuery()
             ->fetchAssociative();
+        if ($result !== false) {
+            return $result;
+        }
+        return [];
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function findRawTranslationByIdentifier(int $identifier, int $languageUid): array
+    {
+        if ($languageUid <= 0) {
+            return [];
+        }
+
+        $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Page::TABLE_NAME, true);
+        $statement = $queryBuilder
+            ->select('*')
+            ->from(Page::TABLE_NAME)
+            ->where(
+                $queryBuilder->expr()->eq('l10n_parent', $queryBuilder->createNamedParameter($identifier)),
+                $queryBuilder->expr()->eq('sys_language_uid', $queryBuilder->createNamedParameter($languageUid))
+            )
+            ->setMaxResults(1);
+
+        $result = $statement->executeQuery()->fetchAssociative();
         if ($result !== false) {
             return $result;
         }
