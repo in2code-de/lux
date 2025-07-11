@@ -15,6 +15,7 @@ use In2code\Lux\Domain\DataProvider\LinkclickDataProvider;
 use In2code\Lux\Domain\DataProvider\NewsvisistsDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
 use In2code\Lux\Domain\DataProvider\ReferrerAmountDataProvider;
+use In2code\Lux\Domain\DataProvider\ReferrerDataProvider;
 use In2code\Lux\Domain\DataProvider\SearchDataProvider;
 use In2code\Lux\Domain\DataProvider\SocialMediaDataProvider;
 use In2code\Lux\Domain\DataProvider\UtmCampaignDataProvider;
@@ -25,6 +26,7 @@ use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\News;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
+use In2code\Lux\Domain\Service\Referrer\Readable;
 use In2code\Lux\Exception\ArgumentsException;
 use In2code\Lux\Exception\AuthenticationException;
 use In2code\Lux\Utility\BackendUtility;
@@ -123,6 +125,59 @@ class AnalysisController extends AbstractController
             'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
             'downloads' => $this->downloadRepository->findCombinedByHref($filter),
         ]);
+        return $this->csvResponse();
+    }
+
+    /**
+     * @return void
+     * @throws NoSuchArgumentException
+     */
+    public function initializeSourcesAction(): void
+    {
+        $this->setFilter();
+    }
+
+    /**
+     * Sources with referrers
+     *
+     * @param FilterDto $filter
+     * @param string $export
+     * @return ResponseInterface
+     * @throws ExceptionDbal
+     * @throws ExceptionDbalDriver
+     * @throws InvalidQueryException
+     */
+    public function sourcesAction(FilterDto $filter, string $export = ''): ResponseInterface
+    {
+        if ($export === 'csv') {
+            return (new ForwardResponse('sourcesCsv'))->withArguments(['filter' => $filter]);
+        }
+
+        $values = [
+            'filter' => $filter,
+            'referrerAmountData' => GeneralUtility::makeInstance(ReferrerAmountDataProvider::class, $filter),
+            'referrers' => $this->pagevisitsRepository->getReferrers($filter),
+            'sourceCategories' => GeneralUtility::makeInstance(Readable::class)->getAllKeys(),
+        ];
+        $this->moduleTemplate->assignMultiple($values);
+
+        $this->addDocumentHeaderForCurrentController();
+        return $this->defaultRendering();
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @return ResponseInterface
+     * @throws ExceptionDbal
+     * @throws InvalidQueryException
+     * @throws ExceptionDbalDriver
+     */
+    public function sourcesCsvAction(FilterDto $filter): ResponseInterface
+    {
+//        $this->view->assignMultiple([
+//            'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
+//            'downloads' => $this->downloadRepository->findCombinedByHref($filter),
+//        ]);
         return $this->csvResponse();
     }
 
@@ -620,7 +675,7 @@ class AnalysisController extends AbstractController
      */
     protected function addDocumentHeaderForCurrentController(): void
     {
-        $actions = ['dashboard', 'content'];
+        $actions = ['dashboard', 'content', 'sources'];
         if ($this->newsvisitRepository->isTableFilled()) {
             $actions[] = 'news';
         }

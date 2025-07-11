@@ -811,8 +811,12 @@
 				<target state="translated">Leads</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.content">
-				<source>Pagevisits and Downloads</source>
-				<target state="translated">Seitenaufrufe und Downloads</target>
+				<source>Pagevisits &amp; Downloads</source>
+				<target state="translated">Seitenaufrufe &amp; Downloads</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.sources">
+				<source>Sources</source>
+				<target state="translated">Quellen</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.news">
 				<source>News</source>
@@ -853,6 +857,18 @@
 			<trans-unit id="module.analysis.content.downloads">
 				<source>Number of downloads</source>
 				<target state="translated">Anzahl an Downloads</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.sources.header.referrer">
+				<source>Source</source>
+				<target state="translated">Quelle</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.sources.header.count">
+				<source>Count</source>
+				<target state="translated">Anzahl</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.sources.header.lastvisit">
+				<source>Last visit</source>
+				<target state="translated">Letzter Besuch</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.news.categories">
 				<source>Categories</source>
@@ -2456,6 +2472,63 @@
 				<target state="translated">Marketing Kampagnen</target>
 			</trans-unit>
 
+			<trans-unit id="readablereferrer.socialMedia">
+				<source>Socialmedia platforms</source>
+				<target state="translated">Socialmedia Plattformen</target>
+			</trans-unit>
+			<trans-unit id="readablereferrer.searchEngines">
+				<source>Search engines</source>
+				<target state="translated">Suchmaschinen</target>
+			</trans-unit>
+			<trans-unit id="readablereferrer.emailMarketing">
+				<source>Email Marketing platforms</source>
+				<target state="translated">E-Mail-Marketing Plattformen</target>
+			</trans-unit>
+			<trans-unit id="readablereferrer.contentMarketingAndSEO">
+				<source>SEO / Content Marketing</source>
+				<target state="translated">SEO / Content Marketing</target>
+			</trans-unit>
+			<trans-unit id="readablereferrer.advertisingPlatforms">
+				<source>Advertising platforms</source>
+				<target state="translated">Werbeplattformen</target>
+			</trans-unit>
+			<trans-unit id="readablereferrer.analyticsAndTracking">
+				<source>Analysis and Tracking</source>
+				<target state="translated">Analyse und Tracking</target>
+			</trans-unit>
+			<trans-unit id="readablereferrer.crmAndMarketingAutomation">
+				<source>CRM and Marketing Automation</source>
+				<target state="translated">CRM und Marketing Automation</target>
+			</trans-unit>
+			<trans-unit id="readablereferrer.webinarsAndOnlineEvents">
+				<source>Webinars and Events</source>
+				<target state="translated">Webinare und Events</target>
+			</trans-unit>
+			<trans-unit id="readablereferrer.eCommerce">
+				<source>Ecommerce platforms</source>
+				<target state="translated">eCommerce Plattformen</target>
+			</trans-unit>
+			<trans-unit id="readablereferrer.affiliateMarketing">
+				<source>Affiliate Marketing</source>
+				<target state="translated">Affiliate-Marketing</target>
+			</trans-unit>
+			<trans-unit id="readablereferrer.messagingAndChat">
+				<source>Messengers and Chats</source>
+				<target state="translated">Messengers und Chats</target>
+			</trans-unit>
+			<trans-unit id="readablereferrer.professionalNetworks">
+				<source>Professional Networks</source>
+				<target state="translated">Business Network Plattformen</target>
+			</trans-unit>
+			<trans-unit id="readablereferrer.aiChats">
+				<source>AI chatbots</source>
+				<target state="translated">KI Chatbots</target>
+			</trans-unit>
+			<trans-unit id="readablereferrer.other">
+				<source>Others</source>
+				<target state="translated">Andere</target>
+			</trans-unit>
+
 			<!-- General terms that can be used on different places -->
 			<trans-unit id="dictionary.ab_test">
 				<source>A/B test</source>
@@ -2524,6 +2597,10 @@
 			<trans-unit id="dictionary.newsidentifier">
 				<source>News Identifier (UID)</source>
 				<target state="translated">News (UID)</target>
+			</trans-unit>
+			<trans-unit id="dictionary.noresults">
+				<source>No records found</source>
+				<target state="translated">Keine Datensätze gefunden</target>
 			</trans-unit>
 			<trans-unit id="dictionary.referrer">
 				<source>Referrer</source>

@@ -10,4 +10,25 @@ class ReadableFixture extends Readable
     {
         $this->referrer = $referrer;
     }
+
+    /**
+     * @param string $url
+     * @return string
+     */
+    public function getKeyFromUrl(string $url): string
+    {
+        $host = \In2code\Lux\Utility\UrlUtility::getHostFromUrl($url);
+        return $this->getKeyFromHost($host);
+    }
+
+    /**
+     * Make protected method public for testing
+     *
+     * @param string $host
+     * @return string
+     */
+    public function getKeyFromHost(string $host): string
+    {
+        return parent::getKeyFromHost($host);
+    }
 }

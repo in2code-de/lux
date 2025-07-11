@@ -615,7 +615,10 @@
 				<source>Leads</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.content">
-				<source>Pagevisits and Downloads</source>
+				<source>Pagevisits &amp; Downloads</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.sources">
+				<source>Sources</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.news">
 				<source>News</source>
@@ -646,6 +649,15 @@
 			</trans-unit>
 			<trans-unit id="module.analysis.content.downloads">
 				<source>Number of downloads</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.sources.header.referrer">
+				<source>Source</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.sources.header.count">
+				<source>Count</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.sources.header.lastvisit">
+				<source>Last visit</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.news.categories">
 				<source>Categories</source>
@@ -1857,6 +1869,49 @@
 				<source>Marketing campaigns</source>
 			</trans-unit>
 
+			<trans-unit id="readablereferrer.socialMedia">
+				<source>Socialmedia platforms</source>
+			</trans-unit>
+			<trans-unit id="readablereferrer.searchEngines">
+				<source>Search engines</source>
+			</trans-unit>
+			<trans-unit id="readablereferrer.emailMarketing">
+				<source>Email Marketing platforms</source>
+			</trans-unit>
+			<trans-unit id="readablereferrer.contentMarketingAndSEO">
+				<source>SEO / Content Marketing</source>
+			</trans-unit>
+			<trans-unit id="readablereferrer.advertisingPlatforms">
+				<source>Advertising platforms</source>
+			</trans-unit>
+			<trans-unit id="readablereferrer.analyticsAndTracking">
+				<source>Analysis and Tracking</source>
+			</trans-unit>
+			<trans-unit id="readablereferrer.crmAndMarketingAutomation">
+				<source>CRM and Marketing Automation</source>
+			</trans-unit>
+			<trans-unit id="readablereferrer.webinarsAndOnlineEvents">
+				<source>Webinars and Events</source>
+			</trans-unit>
+			<trans-unit id="readablereferrer.eCommerce">
+				<source>Ecommerce platforms</source>
+			</trans-unit>
+			<trans-unit id="readablereferrer.affiliateMarketing">
+				<source>Affiliate Marketing</source>
+			</trans-unit>
+			<trans-unit id="readablereferrer.messagingAndChat">
+				<source>Messengers and Chats</source>
+			</trans-unit>
+			<trans-unit id="readablereferrer.professionalNetworks">
+				<source>Professional Networks</source>
+			</trans-unit>
+			<trans-unit id="readablereferrer.aiChats">
+				<source>AI chatbots</source>
+			</trans-unit>
+			<trans-unit id="readablereferrer.other">
+				<source>Others</source>
+			</trans-unit>
+
 			<!-- General terms that can be used on different places -->
 			<trans-unit id="dictionary.ab_test">
 				<source>A/B test</source>
@@ -1908,6 +1963,9 @@
 			</trans-unit>
 			<trans-unit id="dictionary.newsidentifier">
 				<source>News Identifier (UID)</source>
+			</trans-unit>
+			<trans-unit id="dictionary.noresults">
+				<source>No records found</source>
 			</trans-unit>
 			<trans-unit id="dictionary.referrer">
 				<source>Referrer</source>

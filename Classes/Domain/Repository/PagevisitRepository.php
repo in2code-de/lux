@@ -364,6 +364,82 @@ class PagevisitRepository extends AbstractRepository
     }
 
     /**
+     *  [
+     *      [
+     *          'referrer_domain' => 'x.com',
+     *          'count' => 123,
+     *          'children' => [QueryResult],
+     *      ],
+     *      [
+     *          'referrer_domain' => 'openai.com',
+     *          'count' => 25,
+     *          'children' => [QueryResult],
+     *      ],
+     *  ]
+     *
+     * @param FilterDto $filter
+     * @return array
+     * @throws ExceptionDbal
+     */
+    public function getReferrers(FilterDto $filter): array
+    {
+        $readable = GeneralUtility::makeInstance(Readable::class);
+        $grouped = [];
+        foreach ($this->getAmountOfReferrerDomains($filter) as $row) {
+            $row = $this->extendRowWithChildren($row, $filter);
+            $key = $readable->getKeyFromHost($row['referrer_domain']) ?: 'other';
+            $grouped[$key][] = $row;
+        }
+        return $grouped;
+    }
+
+    /**
+     *  [
+     *      [
+     *          'referrer_domain' => 'x.com',
+     *          'count' => 123,
+     *      ],
+     *      [
+     *          'referrer_domain' => 'openai.com',
+     *          'count' => 25,
+     *      ],
+     *  ]
+     *
+     * @param FilterDto $filter
+     * @return array
+     * @throws ExceptionDbal
+     */
+    protected function getAmountOfReferrerDomains(FilterDto $filter): array
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
+        $sql = 'select substring_index(substring_index(referrer, \'://\', -1), \'/\', 1) referrer_domain, count(*) count';
+        $sql .= ' from ' . Pagevisit::TABLE_NAME . ' pv';
+        $sql .= ' where pv.deleted = 0 and pv.hidden = 0 and pv.referrer != \'\'';
+        $sql .= $this->extendWhereClauseWithFilterSearchterms($filter, 'pv', 'referrer');
+        $sql .= $this->extendWhereClauseWithFilterTime($filter);
+        $sql .= $this->extendWhereClauseWithFilterSite($filter);
+        $sql .= $this->extendWhereClauseWithFilterDomain($filter);
+        $sql .= ' group by referrer_domain order by count desc;';
+        $rows = $connection->executeQuery($sql)->fetchAllAssociative();
+        return $rows;
+    }
+
+    protected function extendRowWithChildren(array $row, FilterDto $filter): array
+    {
+        $query = $this->createQuery();
+        $logicalAnd = [
+            $query->like('referrer', 'https://' . $row['referrer_domain'] . '%'),
+        ];
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForSite($filter, $query, $logicalAnd);
+        $query->matching($query->logicalAnd(...$logicalAnd));
+        $query->setOrderings(['crdate' => QueryInterface::ORDER_DESCENDING]);
+        $query->setLimit($row['count']);
+        $row['children'] = $query->execute();
+        return $row;
+    }
+
+    /**
      * Get social media amount of referrers from link shortener (part of luxenterprise)
      *
      * @param array $result
@@ -508,5 +584,27 @@ class PagevisitRepository extends AbstractRepository
         $amount1 = $this->findAmountPerPage($pageIdentifier, $filter1);
         $amount2 = $this->findAmountPerPage($pageIdentifier, $filter2);
         return $amount1 - $amount2;
+    }
+
+    protected function extendWhereClauseWithFilterDomain(FilterDto $filter, string $table = ''): string
+    {
+        $sql = '';
+        if ($filter->isDomainSet()) {
+            $field = 'referrer';
+            if ($table !== '') {
+                $field = $table . '.' . $field;
+            }
+            $readable = GeneralUtility::makeInstance(Readable::class);
+            $domains = $readable->getDomainsFromCategory($filter->getDomain());
+
+            if ($domains !== []) {
+                $conditions = [];
+                foreach ($domains as $domain) {
+                    $conditions[] = $field . ' LIKE "https://' . $domain . '%"';
+                }
+                $sql .= ' and (' . implode(' OR ', $conditions) . ')';
+            }
+        }
+        return $sql;
     }
 }
