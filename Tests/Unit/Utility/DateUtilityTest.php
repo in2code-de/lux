@@ -3,20 +3,27 @@
 namespace In2code\Lux\Tests\Unit\Utility;
 
 use DateTime;
-use Exception;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Utility\DateUtility;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/**
- * @coversDefaultClass DateUtility
- */
+#[CoversClass(DateUtility::class)]
+#[CoversMethod(DateUtility::class, 'convertTimestamp')]
+#[CoversMethod(DateUtility::class, 'getCurrentOnlineDateTime')]
+#[CoversMethod(DateUtility::class, 'getDayEnd')]
+#[CoversMethod(DateUtility::class, 'getDayStart')]
+#[CoversMethod(DateUtility::class, 'getLatestMonthDates')]
+#[CoversMethod(DateUtility::class, 'getNumberOfDaysBetweenTwoDates')]
+#[CoversMethod(DateUtility::class, 'getPreviousMonday')]
+#[CoversMethod(DateUtility::class, 'getQuarterFromDate')]
+#[CoversMethod(DateUtility::class, 'getQuarterStartDateFromDate')]
+#[CoversMethod(DateUtility::class, 'getStartOfMonth')]
+#[CoversMethod(DateUtility::class, 'getStartOfYear')]
+#[CoversMethod(DateUtility::class, 'isNewVisit')]
 class DateUtilityTest extends UnitTestCase
 {
-    /**
-     * @return void
-     * @covers ::convertTimestamp
-     */
     public function testConvertTimestamp(): void
     {
         $timestamp = 12345;
@@ -25,10 +32,6 @@ class DateUtilityTest extends UnitTestCase
         self::assertSame((string)$timestamp, $result->format('U'));
     }
 
-    /**
-     * @return void
-     * @covers ::getNumberOfDaysBetweenTwoDates
-     */
     public function testGetNumberOfDaysBetweenTwoDates(): void
     {
         $date1 = DateTime::createFromFormat('Y-m-d H:i', '2021-12-1 12:00');
@@ -45,11 +48,6 @@ class DateUtilityTest extends UnitTestCase
         self::assertSame(0, DateUtility::getNumberOfDaysBetweenTwoDates($date4, $date5));
     }
 
-    /**
-     * @return void
-     * @covers ::getLatestMonthDates
-     * @throws Exception
-     */
     public function testGetLatestMonthDates(): void
     {
         $result = DateUtility::getLatestMonthDates(13);
@@ -60,11 +58,6 @@ class DateUtilityTest extends UnitTestCase
         self::assertTrue($result[1]->format('Y') < date('Y'));
     }
 
-    /**
-     * @return void
-     * @covers ::getCurrentOnlineDateTime
-     * @throws Exception
-     */
     public function testGetCurrentOnlineDateTime(): void
     {
         $result = DateUtility::getCurrentOnlineDateTime();
@@ -74,11 +67,6 @@ class DateUtilityTest extends UnitTestCase
         self::assertTrue((int)$result->format('U') === time() - (DateUtility::IS_ONLINE_TIME * 60));
     }
 
-    /**
-     * @return void
-     * @covers ::getDayStart
-     * @throws Exception
-     */
     public function testGetDayStart(): void
     {
         $dateToCompare = DateTime::createFromFormat('Y-m-d H:i', '2021-12-1 00:01');
@@ -88,11 +76,6 @@ class DateUtilityTest extends UnitTestCase
         self::assertTrue($result->format('U') > ($dateToCompare->format('U') - 600));
     }
 
-    /**
-     * @return void
-     * @covers ::getDayEnd
-     * @throws Exception
-     */
     public function testGetDayEnd(): void
     {
         $dateToCompare = DateTime::createFromFormat('Y-m-d H:i', '2021-12-1 23:55');
@@ -102,11 +85,6 @@ class DateUtilityTest extends UnitTestCase
         self::assertTrue($result->format('U') < ((int)$dateToCompare->format('U') + 600));
     }
 
-    /**
-     * @return void
-     * @covers ::getPreviousMonday
-     * @throws Exception
-     */
     public function testGetPreviousMonday(): void
     {
         $dateToCompare = DateTime::createFromFormat('Y-m-d H:i', '2021-12-1 23:55');
@@ -115,11 +93,6 @@ class DateUtilityTest extends UnitTestCase
         self::assertTrue($result->format('U') < $dateToCompare->format('U'));
     }
 
-    /**
-     * @return void
-     * @covers ::getStartOfMonth
-     * @throws Exception
-     */
     public function testGetStartOfMonth(): void
     {
         $dateToCompare = DateTime::createFromFormat('Y-m-d H:i', '2021-12-3 23:55');
@@ -128,11 +101,6 @@ class DateUtilityTest extends UnitTestCase
         self::assertTrue($result->format('U') < $dateToCompare->format('U'));
     }
 
-    /**
-     * @return void
-     * @covers ::getStartOfYear
-     * @throws Exception
-     */
     public function testGetStartOfYear(): void
     {
         $dateToCompare = DateTime::createFromFormat('Y-m-d H:i', '2021-01-02 23:55');
@@ -141,10 +109,6 @@ class DateUtilityTest extends UnitTestCase
         self::assertTrue($result->format('U') < $dateToCompare->format('U'));
     }
 
-    /**
-     * @return void
-     * @covers ::getQuarterFromDate
-     */
     public function testGetQuarterFromDate(): void
     {
         self::assertSame(1, DateUtility::getQuarterFromDate(new DateTime('2024-1-1')));
@@ -153,10 +117,6 @@ class DateUtilityTest extends UnitTestCase
         self::assertSame(4, DateUtility::getQuarterFromDate(new DateTime('2024-12-24')));
     }
 
-    /**
-     * @return void
-     * @covers ::getQuarterStartDateFromDate
-     */
     public function testGetQuarterStartDateFromDate(): void
     {
         self::assertSame(
@@ -175,7 +135,6 @@ class DateUtilityTest extends UnitTestCase
 
     /**
      * @return void
-     * @covers ::isNewVisit
      * @throws ConfigurationException
      */
     public function testIsNewVisit(): void

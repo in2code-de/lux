@@ -6,12 +6,16 @@ use In2code\Lux\Domain\Model\Attribute;
 use In2code\Lux\Domain\Model\Categoryscoring;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Tests\Helper\TestingHelper;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/**
- * @coversDefaultClass \In2code\Lux\Domain\Model\Visitor
- */
+#[CoversClass(Visitor::class)]
+#[CoversMethod(Visitor::class, 'getCategoryscoringsSortedByScoring')]
+#[CoversMethod(Visitor::class, 'getFullName')]
+#[CoversMethod(Visitor::class, 'getNameCombination')]
 class VisitorTest extends UnitTestCase
 {
     protected array $testFilesToDelete = [];
@@ -65,16 +69,7 @@ class VisitorTest extends UnitTestCase
         ];
     }
 
-    /**
-     * @param string $firstname
-     * @param string $lastname
-     * @param string $email
-     * @param string $expectedResult
-     * @return void
-     * @dataProvider getFullNameDataProvider
-     * @covers ::getFullName
-     * @covers ::getNameCombination
-     */
+    #[DataProvider('getFullNameDataProvider')]
     public function testGetFullName(string $firstname, string $lastname, string $email, string $expectedResult): void
     {
         $visitor = new Visitor();
@@ -109,11 +104,7 @@ class VisitorTest extends UnitTestCase
         ];
     }
 
-    /**
-     * @return void
-     * @dataProvider getCategoryscoringsSortedByScoringDataProvider
-     * @covers ::getCategoryscoringsSortedByScoring
-     */
+    #[DataProvider('getCategoryscoringsSortedByScoringDataProvider')]
     public function testGetCategoryscoringsSortedByScoring(array $sortings, array $expectedSortings): void
     {
         $objectStorage = new ObjectStorage();

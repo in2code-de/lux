@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Model;
 
 use DateTime;
-use In2code\Lux\Domain\Service\Referrer\Readable;
+use In2code\Lux\Domain\Service\Referrer\SourceHelper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
@@ -119,8 +119,8 @@ class Utm extends AbstractEntity
 
     public function getReadableReferrer(): string
     {
-        $referrerService = GeneralUtility::makeInstance(Readable::class, $this->getReferrer());
-        return $referrerService->getReadableReferrer();
+        $sourceHelper = GeneralUtility::makeInstance(SourceHelper::class, $this->getReferrer());
+        return $sourceHelper->getReadableReferrer();
     }
 
     public function setReferrer(string $referrer): Utm
