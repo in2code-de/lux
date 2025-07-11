@@ -6,11 +6,31 @@ use DateTime;
 use In2code\Lux\Domain\Model\Log;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Tests\Helper\TestingHelper;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/**
- * @coversDefaultClass \In2code\Lux\Domain\Model\Log
- */
+#[CoversClass(Log::class)]
+#[CoversMethod(Log::class, 'canBeRead')]
+#[CoversMethod(Log::class, 'getActionExecutionTime')]
+#[CoversMethod(Log::class, 'getActionTitle')]
+#[CoversMethod(Log::class, 'getCrdate')]
+#[CoversMethod(Log::class, 'getEventName')]
+#[CoversMethod(Log::class, 'getHref')]
+#[CoversMethod(Log::class, 'getIdentifiedStatus')]
+#[CoversMethod(Log::class, 'getPageUid')]
+#[CoversMethod(Log::class, 'getProperties')]
+#[CoversMethod(Log::class, 'getShortenerpath')]
+#[CoversMethod(Log::class, 'getShownContentUid')]
+#[CoversMethod(Log::class, 'getSite')]
+#[CoversMethod(Log::class, 'getStatus')]
+#[CoversMethod(Log::class, 'getVisitor')]
+#[CoversMethod(Log::class, 'getWorkflowTitle')]
+#[CoversMethod(Log::class, 'setCrdate')]
+#[CoversMethod(Log::class, 'setProperties')]
+#[CoversMethod(Log::class, 'setPropertiesArray')]
+#[CoversMethod(Log::class, 'setSite')]
+#[CoversMethod(Log::class, 'setStatus')]
 class LogTest extends UnitTestCase
 {
     protected bool $resetSingletonInstances = true;
@@ -21,10 +41,6 @@ class LogTest extends UnitTestCase
         TestingHelper::setDefaultConstants();
     }
 
-    /**
-     * @covers ::getVisitor
-     * @covers ::setVisitor
-     */
     public function testVisitorGetterAndSetter(): void
     {
         $visitor = new Visitor();
@@ -33,10 +49,6 @@ class LogTest extends UnitTestCase
         self::assertSame($visitor, $log->getVisitor());
     }
 
-    /**
-     * @covers ::getStatus
-     * @covers ::setStatus
-     */
     public function testStatusGetterAndSetter(): void
     {
         $status = Log::STATUS_IDENTIFIED;
@@ -45,10 +57,6 @@ class LogTest extends UnitTestCase
         self::assertSame($status, $log->getStatus());
     }
 
-    /**
-     * @covers ::getCrdate
-     * @covers ::setCrdate
-     */
     public function testCrdateGetterAndSetter(): void
     {
         $crdate = new DateTime('2023-01-01');
@@ -57,10 +65,6 @@ class LogTest extends UnitTestCase
         self::assertSame($crdate, $log->getCrdate());
     }
 
-    /**
-     * @covers ::getProperties
-     * @covers ::setProperties
-     */
     public function testPropertiesGetterAndSetter(): void
     {
         $properties = '{"key1":"value1","key2":"value2"}';
@@ -70,10 +74,6 @@ class LogTest extends UnitTestCase
         self::assertSame($expectedArray, $log->getProperties());
     }
 
-    /**
-     * @covers ::setPropertiesArray
-     * @covers ::getProperties
-     */
     public function testSetPropertiesArray(): void
     {
         $propertiesArray = ['key1' => 'value1', 'key2' => 'value2'];
@@ -82,10 +82,6 @@ class LogTest extends UnitTestCase
         self::assertSame($propertiesArray, $log->getProperties());
     }
 
-    /**
-     * @covers ::getSite
-     * @covers ::setSite
-     */
     public function testSiteGetterAndSetter(): void
     {
         $site = 'example';
@@ -94,9 +90,6 @@ class LogTest extends UnitTestCase
         self::assertSame($site, $log->getSite());
     }
 
-    /**
-     * @covers ::getHref
-     */
     public function testGetHref(): void
     {
         $href = '/test/page';
@@ -106,9 +99,6 @@ class LogTest extends UnitTestCase
         self::assertSame($expectedHref, $log->getHref());
     }
 
-    /**
-     * @covers ::getWorkflowTitle
-     */
     public function testGetWorkflowTitle(): void
     {
         $workflowTitle = 'Test Workflow';
@@ -117,9 +107,6 @@ class LogTest extends UnitTestCase
         self::assertSame($workflowTitle, $log->getWorkflowTitle());
     }
 
-    /**
-     * @covers ::getActionTitle
-     */
     public function testGetActionTitle(): void
     {
         $actionTitle = 'Test Action';
@@ -128,9 +115,6 @@ class LogTest extends UnitTestCase
         self::assertSame($actionTitle, $log->getActionTitle());
     }
 
-    /**
-     * @covers ::getActionExecutionTime
-     */
     public function testGetActionExecutionTime(): void
     {
         $executionTime = 123;
@@ -139,9 +123,6 @@ class LogTest extends UnitTestCase
         self::assertSame($executionTime, $log->getActionExecutionTime());
     }
 
-    /**
-     * @covers ::getShownContentUid
-     */
     public function testGetShownContentUid(): void
     {
         $contentUid = '42';
@@ -150,9 +131,6 @@ class LogTest extends UnitTestCase
         self::assertSame($contentUid, $log->getShownContentUid());
     }
 
-    /**
-     * @covers ::getPageUid
-     */
     public function testGetPageUid(): void
     {
         $pageUid = '10';
@@ -161,9 +139,6 @@ class LogTest extends UnitTestCase
         self::assertSame($pageUid, $log->getPageUid());
     }
 
-    /**
-     * @covers ::getShortenerpath
-     */
     public function testGetShortenerpath(): void
     {
         $path = 'abc123';
@@ -172,9 +147,6 @@ class LogTest extends UnitTestCase
         self::assertSame($path, $log->getShortenerpath());
     }
 
-    /**
-     * @covers ::getEventName
-     */
     public function testGetEventName(): void
     {
         $eventName = 'click';
@@ -183,9 +155,6 @@ class LogTest extends UnitTestCase
         self::assertSame($eventName, $log->getEventName());
     }
 
-    /**
-     * @covers ::getIdentifiedStatus
-     */
     public function testGetIdentifiedStatus(): void
     {
         $identifiedStatus = Log::getIdentifiedStatus();
@@ -197,9 +166,6 @@ class LogTest extends UnitTestCase
         self::assertContains(Log::STATUS_IDENTIFIED_EMAIL4LINK, $identifiedStatus);
     }
 
-    /**
-     * @covers ::canBeRead
-     */
     public function testCanBeReadWithEmptySite(): void
     {
         $log = new Log();

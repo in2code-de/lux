@@ -5,11 +5,15 @@ namespace In2code\Lux\Tests\Unit\Domain\Model;
 use In2code\Lux\Domain\Model\File;
 use In2code\Lux\Domain\Model\Metadata;
 use In2code\Lux\Tests\Helper\TestingHelper;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/**
- * @coversDefaultClass \In2code\Lux\Domain\Model\File
- */
+#[CoversClass(File::class)]
+#[CoversMethod(File::class, 'getMetadata')]
+#[CoversMethod(File::class, 'getName')]
+#[CoversMethod(File::class, 'setMetadata')]
+#[CoversMethod(File::class, 'setName')]
 class FileTest extends UnitTestCase
 {
     protected bool $resetSingletonInstances = true;
@@ -20,10 +24,6 @@ class FileTest extends UnitTestCase
         TestingHelper::setDefaultConstants();
     }
 
-    /**
-     * @covers ::getName
-     * @covers ::setName
-     */
     public function testNameGetterAndSetter(): void
     {
         $name = 'example.pdf';
@@ -32,10 +32,6 @@ class FileTest extends UnitTestCase
         self::assertSame($name, $file->getName());
     }
 
-    /**
-     * @covers ::getMetadata
-     * @covers ::setMetadata
-     */
     public function testMetadataGetterAndSetter(): void
     {
         $metadata = new Metadata();

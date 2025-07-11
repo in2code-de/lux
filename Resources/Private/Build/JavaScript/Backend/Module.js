@@ -16,6 +16,7 @@ const LuxBackend = function() {
     addDetailViewListener('leadlistdetail', 'visitor');
     addDetailViewListener('companydetail', 'company');
     addDetailViewListener('analysiscontentdetailpage', 'page');
+    addDetailViewListener('analysissourcesreferrer', 'referrerDomain');
     addDetailViewListener('analysisnewsdetailpage', 'news');
     addDetailViewListener('analysisutmdetailpage', 'visitor');
     addDetailViewListener('analysissearchdetailpage', 'searchterm');

@@ -3,11 +3,13 @@
 namespace In2code\Lux\Tests\Unit\Utility;
 
 use In2code\Lux\Utility\IpUtility;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/**
- * @coversDefaultClass \In2code\Lux\Utility\IpUtility
- */
+#[CoversClass(IpUtility::class)]
+#[CoversMethod(IpUtility::class, 'getIpAddressAnonymized')]
 class IpUtilityTest extends UnitTestCase
 {
     public static function getIpAddressAnonymizedDataProvider(): array
@@ -44,13 +46,7 @@ class IpUtilityTest extends UnitTestCase
         ];
     }
 
-    /**
-     * @param string $ipAddress
-     * @param string $expectedResult
-     * @return void
-     * @dataProvider getIpAddressAnonymizedDataProvider
-     * @covers ::getIpAddressAnonymized
-     */
+    #[DataProvider('getIpAddressAnonymizedDataProvider')]
     public function testGetIpAddressAnonymized(string $ipAddress, string $expectedResult): void
     {
         self::assertSame($expectedResult, IpUtility::getIpAddressAnonymized($ipAddress));

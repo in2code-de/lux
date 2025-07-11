@@ -4,11 +4,17 @@ namespace In2code\Lux\Tests\Unit\Domain\Model;
 
 use In2code\Lux\Domain\Model\Category;
 use In2code\Lux\Tests\Helper\TestingHelper;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/**
- * @coversDefaultClass \In2code\Lux\Domain\Model\Category
- */
+#[CoversClass(Category::class)]
+#[CoversMethod(Category::class, 'getTitle')]
+#[CoversMethod(Category::class, 'isLuxCategory')]
+#[CoversMethod(Category::class, 'isLuxCategoryCompany')]
+#[CoversMethod(Category::class, 'setLuxCategory')]
+#[CoversMethod(Category::class, 'setLuxCategoryCompany')]
+#[CoversMethod(Category::class, 'setTitle')]
 class CategoryTest extends UnitTestCase
 {
     protected bool $resetSingletonInstances = true;
@@ -19,10 +25,6 @@ class CategoryTest extends UnitTestCase
         TestingHelper::setDefaultConstants();
     }
 
-    /**
-     * @covers ::getTitle
-     * @covers ::setTitle
-     */
     public function testTitleGetterAndSetter(): void
     {
         $title = 'Test Category';
@@ -31,10 +33,6 @@ class CategoryTest extends UnitTestCase
         self::assertSame($title, $category->getTitle());
     }
 
-    /**
-     * @covers ::isLuxCategory
-     * @covers ::setLuxCategory
-     */
     public function testLuxCategoryGetterAndSetter(): void
     {
         $category = new Category();
@@ -51,10 +49,6 @@ class CategoryTest extends UnitTestCase
         self::assertFalse($category->isLuxCategory());
     }
 
-    /**
-     * @covers ::isLuxCategoryCompany
-     * @covers ::setLuxCategoryCompany
-     */
     public function testLuxCategoryCompanyGetterAndSetter(): void
     {
         $category = new Category();

@@ -5,11 +5,18 @@ namespace In2code\Lux\Tests\Unit\Domain\Model;
 use In2code\Lux\Domain\Model\Attribute;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Tests\Helper\TestingHelper;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/**
- * @coversDefaultClass \In2code\Lux\Domain\Model\Attribute
- */
+#[CoversClass(Attribute::class)]
+#[CoversMethod(Attribute::class, 'getName')]
+#[CoversMethod(Attribute::class, 'getValue')]
+#[CoversMethod(Attribute::class, 'getVisitor')]
+#[CoversMethod(Attribute::class, 'isEmail')]
+#[CoversMethod(Attribute::class, 'setName')]
+#[CoversMethod(Attribute::class, 'setValue')]
+#[CoversMethod(Attribute::class, 'setVisitor')]
 class AttributeTest extends UnitTestCase
 {
     protected bool $resetSingletonInstances = true;
@@ -20,10 +27,6 @@ class AttributeTest extends UnitTestCase
         TestingHelper::setDefaultConstants();
     }
 
-    /**
-     * @covers ::getVisitor
-     * @covers ::setVisitor
-     */
     public function testVisitorGetterAndSetter(): void
     {
         $visitor = new Visitor();
@@ -32,10 +35,6 @@ class AttributeTest extends UnitTestCase
         self::assertSame($visitor, $attribute->getVisitor());
     }
 
-    /**
-     * @covers ::getName
-     * @covers ::setName
-     */
     public function testNameGetterAndSetter(): void
     {
         $name = 'firstname';
@@ -44,10 +43,6 @@ class AttributeTest extends UnitTestCase
         self::assertSame($name, $attribute->getName());
     }
 
-    /**
-     * @covers ::getValue
-     * @covers ::setValue
-     */
     public function testValueGetterAndSetter(): void
     {
         $value = 'John';
@@ -56,18 +51,15 @@ class AttributeTest extends UnitTestCase
         self::assertSame($value, $attribute->getValue());
     }
 
-    /**
-     * @covers ::isEmail
-     */
     public function testIsEmail(): void
     {
         $attribute = new Attribute();
 
-        // Test with non-email attribute
+        // Test with a non-email attribute
         $attribute->setName('firstname');
         self::assertFalse($attribute->isEmail());
 
-        // Test with email attribute
+        // Test with an email attribute
         $attribute->setName(Attribute::KEY_NAME);
         self::assertTrue($attribute->isEmail());
     }

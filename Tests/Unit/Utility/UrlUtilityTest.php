@@ -3,11 +3,18 @@
 namespace In2code\Lux\Tests\Unit\Utility;
 
 use In2code\Lux\Utility\UrlUtility;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/**
- * @coversDefaultClass \In2code\Lux\Utility\UrlUtility
- */
+#[CoversClass(UrlUtility::class)]
+#[CoversMethod(UrlUtility::class, 'convertToRelative')]
+#[CoversMethod(UrlUtility::class, 'isAbsoluteUri')]
+#[CoversMethod(UrlUtility::class, 'getAttributeValueFromString')]
+#[CoversMethod(UrlUtility::class, 'removeSlashPrefixAndPostfix')]
+#[CoversMethod(UrlUtility::class, 'removeProtocolFromDomain')]
+#[CoversMethod(UrlUtility::class, 'getHostFromUrl')]
 class UrlUtilityTest extends UnitTestCase
 {
     protected array $testFilesToDelete = [];
@@ -48,23 +55,12 @@ class UrlUtilityTest extends UnitTestCase
         ];
     }
 
-    /**
-     * @param string $givenPath
-     * @param string $expectedResult
-     * @param string $domain
-     * @return void
-     * @dataProvider convertToRelativeDataProvider
-     * @covers ::convertToRelative
-     */
+    #[DataProvider('convertToRelativeDataProvider')]
     public function testConvertToRelative(string $givenPath, string $expectedResult, string $domain): void
     {
         self::assertEquals($expectedResult, UrlUtility::convertToRelative($givenPath, $domain));
     }
 
-    /**
-     * @return void
-     * @covers ::isAbsoluteUri
-     */
     public function testIsAbsoluteUri(): void
     {
         self::assertTrue(UrlUtility::isAbsoluteUri('https://domain.org'));
@@ -73,10 +69,6 @@ class UrlUtilityTest extends UnitTestCase
         self::assertFalse(UrlUtility::isAbsoluteUri('path/'));
     }
 
-    /**
-     * @return void
-     * @covers ::getAttributeValueFromString
-     */
     public function testGetAttributeValueFromString(): void
     {
         $tagString = '<tag data-anything-else="foo" data-anything="bar" class="test">';
@@ -84,19 +76,12 @@ class UrlUtilityTest extends UnitTestCase
         self::assertEquals('test', UrlUtility::getAttributeValueFromString($tagString, 'class'));
     }
 
-    /**
-     * @return void
-     * @covers ::removeSlashPrefixAndPostfix
-     */
     public function testRemoveSlashPrefixAndPostfix(): void
     {
         self::assertEquals('path', UrlUtility::removeSlashPrefixAndPostfix('/path/'));
         self::assertEquals('path/folder', UrlUtility::removeSlashPrefixAndPostfix('/path/folder/'));
     }
 
-    /**
-     * @return array
-     */
     public static function removeProtocolFromDomainDataProvider(): array
     {
         return [
@@ -115,22 +100,12 @@ class UrlUtilityTest extends UnitTestCase
         ];
     }
 
-    /**
-     * @param string $domain
-     * @param string $expectedDomain
-     * @return void
-     * @dataProvider removeProtocolFromDomainDataProvider
-     * @covers ::removeProtocolFromDomain
-     */
+    #[DataProvider('removeProtocolFromDomainDataProvider')]
     public function testRemoveProtocolFromDomain(string $domain, string $expectedDomain): void
     {
         self::assertEquals($expectedDomain, UrlUtility::removeProtocolFromDomain($domain));
     }
 
-    /**
-     * @return void
-     * @covers ::getHostFromUrl
-     */
     public function testGetHostFromUrl(): void
     {
         self::assertEquals('local.lux.de', UrlUtility::getHostFromUrl('https://local.lux.de/page/'));

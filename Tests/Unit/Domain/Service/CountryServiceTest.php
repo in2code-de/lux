@@ -3,20 +3,19 @@
 namespace In2code\Lux\Tests\Unit\Domain\Service;
 
 use In2code\Lux\Domain\Service\CountryService;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\MockObject\MockObject;
 use TYPO3\TestingFramework\Core\AccessibleObjectInterface;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/**
- * @coversDefaultClass \In2code\Lux\Domain\Service\CountryService
- */
+#[CoversClass(CountryService::class)]
+#[CoversMethod(CountryService::class, 'getAlpha2ByAnyProperty')]
+#[CoversMethod(CountryService::class, 'getCountryConfiguration')]
+#[CoversMethod(CountryService::class, 'getPropertyByAlpha2')]
 class CountryServiceTest extends UnitTestCase
 {
-    /**
-     * @var AccessibleObjectInterface|MockObject|CountryService
-     * Todo: Add typehints to variable when PHP 7.4 is dropped
-     */
-    protected $generalValidatorMock;
+    protected AccessibleObjectInterface|MockObject|CountryService $generalValidatorMock;
 
     public function setUp(): void
     {
@@ -24,10 +23,6 @@ class CountryServiceTest extends UnitTestCase
         $this->generalValidatorMock = $this->getAccessibleMock(CountryService::class, null);
     }
 
-    /**
-     * @return void
-     * @covers ::getCountryConfiguration
-     */
     public function testGetCountryConfiguration(): void
     {
         self::assertSame(count($this->generalValidatorMock->getCountryConfiguration()), 248);
@@ -39,10 +34,6 @@ class CountryServiceTest extends UnitTestCase
         );
     }
 
-    /**
-     * @return void
-     * @covers ::getPropertyByAlpha2
-     */
     public function testGetPropertyByAlpha2(): void
     {
         self::assertSame($this->generalValidatorMock->getPropertyByAlpha2('de'), 'Germany');
@@ -55,10 +46,6 @@ class CountryServiceTest extends UnitTestCase
         self::assertSame($this->generalValidatorMock->getPropertyByAlpha2('deu', 'alpha3'), 'DEU');
     }
 
-    /**
-     * @return void
-     * @covers ::getAlpha2ByAnyProperty
-     */
     public function testGetAlpha2ByAnyProperty(): void
     {
         self::assertSame($this->generalValidatorMock->getAlpha2ByAnyProperty('de'), 'DE');

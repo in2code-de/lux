@@ -4,20 +4,20 @@ namespace In2code\Lux\Tests\Unit\Domain\Factory;
 
 use In2code\Lux\Domain\Factory\UtmFactory;
 use In2code\Lux\Domain\Model\Utm;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\MockObject\MockObject;
 use TYPO3\TestingFramework\Core\AccessibleObjectInterface;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/**
- * @coversDefaultClass \In2code\Lux\Domain\Factory\UtmFactory
- */
+#[CoversClass(UtmFactory::class)]
+#[CoversMethod(UtmFactory::class, 'get')]
+#[CoversMethod(UtmFactory::class, 'getAllUtmKeys')]
+#[CoversMethod(UtmFactory::class, 'getUtmKeys')]
+#[CoversMethod(UtmFactory::class, 'getUtmKeysForDatabase')]
 class UtmFactoryTest extends UnitTestCase
 {
-    /**
-     * @var AccessibleObjectInterface|MockObject|UtmFactory
-     * Todo: Add typehints to variable when PHP 7.4 is dropped
-     */
-    protected $generalValidatorMock;
+    protected AccessibleObjectInterface|MockObject|UtmFactory $generalValidatorMock;
 
     public function setUp(): void
     {
@@ -30,20 +30,12 @@ class UtmFactoryTest extends UnitTestCase
         unset($this->generalValidatorMock);
     }
 
-    /**
-     * @return void
-     * @covers ::get
-     */
     public function testGetUtmKeysEmptyArray(): void
     {
         $this->expectExceptionCode(1666207599);
         $this->generalValidatorMock->_call('get', [], '');
     }
 
-    /**
-     * @return void
-     * @covers ::get
-     */
     public function testGet(): void
     {
         $parameters = [
@@ -65,10 +57,6 @@ class UtmFactoryTest extends UnitTestCase
         self::assertSame('foo', $utm->getReferrer());
     }
 
-    /**
-     * @return void
-     * @covers ::getUtmKeys
-     */
     public function testGetUtmKeys(): void
     {
         self::assertSame(
@@ -77,10 +65,6 @@ class UtmFactoryTest extends UnitTestCase
         );
     }
 
-    /**
-     * @return void
-     * @covers ::getUtmKeysForDatabase
-     */
     public function testGetUtmKeysForDatabase(): void
     {
         self::assertSame(
@@ -89,10 +73,6 @@ class UtmFactoryTest extends UnitTestCase
         );
     }
 
-    /**
-     * @return void
-     * @covers ::getAllUtmKeys
-     */
     public function testGetAllUtmKeys(): void
     {
         $allKeys = [];

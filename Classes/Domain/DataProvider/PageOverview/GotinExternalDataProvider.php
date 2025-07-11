@@ -7,7 +7,7 @@ use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
-use In2code\Lux\Domain\Service\Referrer\Readable;
+use In2code\Lux\Domain\Service\Referrer\SourceHelper;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Site\SiteFinder;
@@ -45,8 +45,8 @@ class GotinExternalDataProvider extends AbstractDataProvider
     {
         $result = [];
         foreach ($this->getExternalGotinToPagevisit() as $referrer) {
-            $readable = GeneralUtility::makeInstance(Readable::class, $referrer['referrer']);
-            $domainName = $readable->getReadableReferrer();
+            $sourceHelper = GeneralUtility::makeInstance(SourceHelper::class, $referrer['referrer']);
+            $domainName = $sourceHelper->getReadableReferrer();
             if (array_key_exists($domainName, $result)) {
                 $result[$domainName]++;
             } else {

@@ -1,0 +1,25 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.pagevisits">Page visits</f:translate>
+            <f:if condition="{headerPostfix}">{headerPostfix}</f:if>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <f:if condition="{pagevisitsBySourceData.dataAvailable}">
+            <f:then>
+                <div>
+                    <canvas width="750"
+                            height="250"
+                            data-chart="line"
+                            data-chart-data="{pagevisitsBySourceData.amountsList}"
+                            data-chart-label="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.pagevisits.label')}"
+                            data-chart-labels="{pagevisitsBySourceData.titlesList}"></canvas>
+                </div>
+            </f:then>
+            <f:else>
+                <f:render partial="Miscellaneous/NoValues" arguments="{_all}"/>
+            </f:else>
+        </f:if>
+    </div>
+</div>

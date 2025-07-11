@@ -6,15 +6,36 @@ use DateTime;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Visitor;
-use In2code\Lux\Domain\Service\Referrer\Readable;
+use In2code\Lux\Domain\Service\Referrer\SourceHelper;
 use In2code\Lux\Tests\Helper\TestingHelper;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/**
- * @coversDefaultClass \In2code\Lux\Domain\Model\Pagevisit
- */
+#[CoversClass(Pagevisit::class)]
+#[CoversMethod(Pagevisit::class, 'canBeRead')]
+#[CoversMethod(Pagevisit::class, 'getAllPagevisits')]
+#[CoversMethod(Pagevisit::class, 'getCrdate')]
+#[CoversMethod(Pagevisit::class, 'getDomain')]
+#[CoversMethod(Pagevisit::class, 'getLanguage')]
+#[CoversMethod(Pagevisit::class, 'getNewsvisit')]
+#[CoversMethod(Pagevisit::class, 'getNextPagevisit')]
+#[CoversMethod(Pagevisit::class, 'getPage')]
+#[CoversMethod(Pagevisit::class, 'getPageTitleWithLanguage')]
+#[CoversMethod(Pagevisit::class, 'getPreviousPagevisit')]
+#[CoversMethod(Pagevisit::class, 'getReadableReferrer')]
+#[CoversMethod(Pagevisit::class, 'getReferrer')]
+#[CoversMethod(Pagevisit::class, 'getSite')]
+#[CoversMethod(Pagevisit::class, 'getVisitor')]
+#[CoversMethod(Pagevisit::class, 'isReferrerSet')]
+#[CoversMethod(Pagevisit::class, 'setCrdate')]
+#[CoversMethod(Pagevisit::class, 'setDomain')]
+#[CoversMethod(Pagevisit::class, 'setLanguage')]
+#[CoversMethod(Pagevisit::class, 'setPage')]
+#[CoversMethod(Pagevisit::class, 'setReferrer')]
+#[CoversMethod(Pagevisit::class, 'setSite')]
+#[CoversMethod(Pagevisit::class, 'setVisitor')]
 class PagevisitTest extends UnitTestCase
 {
     protected bool $resetSingletonInstances = true;
@@ -25,10 +46,6 @@ class PagevisitTest extends UnitTestCase
         TestingHelper::setDefaultConstants();
     }
 
-    /**
-     * @covers ::getVisitor
-     * @covers ::setVisitor
-     */
     public function testVisitorGetterAndSetter(): void
     {
         $visitor = new Visitor();
@@ -37,10 +54,6 @@ class PagevisitTest extends UnitTestCase
         self::assertSame($visitor, $pagevisit->getVisitor());
     }
 
-    /**
-     * @covers ::getPage
-     * @covers ::setPage
-     */
     public function testPageGetterAndSetter(): void
     {
         $page = new Page();
@@ -49,10 +62,6 @@ class PagevisitTest extends UnitTestCase
         self::assertSame($page, $pagevisit->getPage());
     }
 
-    /**
-     * @covers ::getLanguage
-     * @covers ::setLanguage
-     */
     public function testLanguageGetterAndSetter(): void
     {
         $language = 2;
@@ -61,10 +70,6 @@ class PagevisitTest extends UnitTestCase
         self::assertSame($language, $pagevisit->getLanguage());
     }
 
-    /**
-     * @covers ::getCrdate
-     * @covers ::setCrdate
-     */
     public function testCrdateGetterAndSetter(): void
     {
         $crdate = new DateTime('2023-01-01');
@@ -73,19 +78,12 @@ class PagevisitTest extends UnitTestCase
         self::assertSame($crdate, $pagevisit->getCrdate());
     }
 
-    /**
-     * @covers ::getCrdate
-     */
     public function testCrdateGetterWithoutSetting(): void
     {
         $pagevisit = new Pagevisit();
         self::assertInstanceOf(DateTime::class, $pagevisit->getCrdate());
     }
 
-    /**
-     * @covers ::getReferrer
-     * @covers ::setReferrer
-     */
     public function testReferrerGetterAndSetter(): void
     {
         $referrer = 'https://www.example.com';
@@ -94,9 +92,6 @@ class PagevisitTest extends UnitTestCase
         self::assertSame($referrer, $pagevisit->getReferrer());
     }
 
-    /**
-     * @covers ::isReferrerSet
-     */
     public function testIsReferrerSet(): void
     {
         $pagevisit = new Pagevisit();
@@ -106,10 +101,6 @@ class PagevisitTest extends UnitTestCase
         self::assertTrue($pagevisit->isReferrerSet());
     }
 
-    /**
-     * @covers ::getDomain
-     * @covers ::setDomain
-     */
     public function testDomainGetterAndSetter(): void
     {
         $domain = 'example.com';
@@ -118,10 +109,6 @@ class PagevisitTest extends UnitTestCase
         self::assertSame($domain, $pagevisit->getDomain());
     }
 
-    /**
-     * @covers ::getSite
-     * @covers ::setSite
-     */
     public function testSiteGetterAndSetter(): void
     {
         $site = 'example';
@@ -130,16 +117,13 @@ class PagevisitTest extends UnitTestCase
         self::assertSame($site, $pagevisit->getSite());
     }
 
-    /**
-     * @covers ::getReadableReferrer
-     */
     public function testGetReadableReferrer(): void
     {
         $referrer = 'https://www.google.com';
         $readableReferrer = 'Google Organic';
 
         // Create a mock for Readable class
-        $readableServiceMock = $this->getMockBuilder(Readable::class)
+        $readableServiceMock = $this->getMockBuilder(SourceHelper::class)
             ->disableOriginalConstructor()
             ->getMock();
         $readableServiceMock->expects(self::once())
@@ -147,7 +131,7 @@ class PagevisitTest extends UnitTestCase
             ->willReturn($readableReferrer);
 
         // Mock GeneralUtility::makeInstance to return our mock
-        GeneralUtility::addInstance(Readable::class, $readableServiceMock);
+        GeneralUtility::addInstance(SourceHelper::class, $readableServiceMock);
 
         $pagevisit = new Pagevisit();
         $pagevisit->setReferrer($referrer);
@@ -155,9 +139,6 @@ class PagevisitTest extends UnitTestCase
         self::assertSame($readableReferrer, $pagevisit->getReadableReferrer());
     }
 
-    /**
-     * @covers ::getAllPagevisits
-     */
     public function testGetAllPagevisits(): void
     {
         $pagevisits = [new Pagevisit(), new Pagevisit()];
@@ -175,9 +156,6 @@ class PagevisitTest extends UnitTestCase
         self::assertSame($pagevisits, $pagevisit->getAllPagevisits());
     }
 
-    /**
-     * @covers ::getNextPagevisit
-     */
     public function testGetNextPagevisit(): void
     {
         $pagevisit1 = new Pagevisit();
@@ -198,9 +176,6 @@ class PagevisitTest extends UnitTestCase
         self::assertSame($pagevisit2, $pagevisit1->getNextPagevisit());
     }
 
-    /**
-     * @covers ::getPreviousPagevisit
-     */
     public function testGetPreviousPagevisit(): void
     {
         $pagevisit1 = new Pagevisit();
@@ -221,9 +196,6 @@ class PagevisitTest extends UnitTestCase
         self::assertSame($pagevisit1, $pagevisit2->getPreviousPagevisit());
     }
 
-    /**
-     * @covers ::canBeRead
-     */
     public function testCanBeReadWithEmptySite(): void
     {
         $pagevisit = new Pagevisit();
@@ -231,18 +203,12 @@ class PagevisitTest extends UnitTestCase
         self::assertTrue($pagevisit->canBeRead());
     }
 
-    /**
-     * @covers ::getPageTitleWithLanguage
-     */
     public function testGetPageTitleWithLanguageWithNullPage(): void
     {
         $pagevisit = new Pagevisit();
         self::assertSame('', $pagevisit->getPageTitleWithLanguage());
     }
 
-    /**
-     * @covers ::getPageTitleWithLanguage
-     */
     public function testGetPageTitleWithLanguageWithDefaultLanguage(): void
     {
         $pageTitle = 'Test Page';
@@ -256,9 +222,6 @@ class PagevisitTest extends UnitTestCase
         self::assertSame($pageTitle, $pagevisit->getPageTitleWithLanguage());
     }
 
-    /**
-     * @covers ::getNewsvisit
-     */
     public function testGetNewsvisitWhenNewsExtensionNotLoaded(): void
     {
         // This test assumes the news extension is not loaded

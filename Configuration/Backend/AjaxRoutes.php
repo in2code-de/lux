@@ -25,6 +25,10 @@ return [
         'path' => '/lux/analysissearchdetailpage',
         'target' => AnalysisController::class . '::detailSearchAjaxPage',
     ],
+    '/lux/analysissourcesreferrer' => [
+        'path' => '/lux/analysissourcesreferrer',
+        'target' => AnalysisController::class . '::detailAjaxSource',
+    ],
     '/lux/analysisutmdetailpage' => [
         'path' => '/lux/analysisutmdetailpage',
         'target' => AnalysisController::class . '::detailUtmAjaxPage',

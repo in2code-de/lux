@@ -8,11 +8,25 @@ use In2code\Lux\Domain\Model\File;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Tests\Helper\TestingHelper;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/**
- * @coversDefaultClass \In2code\Lux\Domain\Model\Download
- */
+#[CoversClass(Download::class)]
+#[CoversMethod(Download::class, 'getCrdate')]
+#[CoversMethod(Download::class, 'getDomain')]
+#[CoversMethod(Download::class, 'getFile')]
+#[CoversMethod(Download::class, 'getHref')]
+#[CoversMethod(Download::class, 'getPage')]
+#[CoversMethod(Download::class, 'getSite')]
+#[CoversMethod(Download::class, 'getVisitor')]
+#[CoversMethod(Download::class, 'setCrdate')]
+#[CoversMethod(Download::class, 'setDomain')]
+#[CoversMethod(Download::class, 'setFile')]
+#[CoversMethod(Download::class, 'setHref')]
+#[CoversMethod(Download::class, 'setPage')]
+#[CoversMethod(Download::class, 'setSite')]
+#[CoversMethod(Download::class, 'setVisitor')]
 class DownloadTest extends UnitTestCase
 {
     protected bool $resetSingletonInstances = true;
@@ -23,10 +37,6 @@ class DownloadTest extends UnitTestCase
         TestingHelper::setDefaultConstants();
     }
 
-    /**
-     * @covers ::getVisitor
-     * @covers ::setVisitor
-     */
     public function testVisitorGetterAndSetter(): void
     {
         $visitor = new Visitor();
@@ -35,10 +45,6 @@ class DownloadTest extends UnitTestCase
         self::assertSame($visitor, $download->getVisitor());
     }
 
-    /**
-     * @covers ::getCrdate
-     * @covers ::setCrdate
-     */
     public function testCrdateGetterAndSetter(): void
     {
         $crdate = new DateTime('2023-01-01');
@@ -47,10 +53,6 @@ class DownloadTest extends UnitTestCase
         self::assertSame($crdate, $download->getCrdate());
     }
 
-    /**
-     * @covers ::getHref
-     * @covers ::setHref
-     */
     public function testHrefGetterAndSetter(): void
     {
         $href = 'https://example.com/file.pdf';
@@ -59,10 +61,6 @@ class DownloadTest extends UnitTestCase
         self::assertSame($href, $download->getHref());
     }
 
-    /**
-     * @covers ::getPage
-     * @covers ::setPage
-     */
     public function testPageGetterAndSetter(): void
     {
         $page = new Page();
@@ -71,10 +69,6 @@ class DownloadTest extends UnitTestCase
         self::assertSame($page, $download->getPage());
     }
 
-    /**
-     * @covers ::getFile
-     * @covers ::setFile
-     */
     public function testFileGetterAndSetter(): void
     {
         $file = new File();
@@ -83,10 +77,6 @@ class DownloadTest extends UnitTestCase
         self::assertSame($file, $download->getFile());
     }
 
-    /**
-     * @covers ::getDomain
-     * @covers ::setDomain
-     */
     public function testDomainGetterAndSetter(): void
     {
         $domain = 'example.com';
@@ -95,10 +85,6 @@ class DownloadTest extends UnitTestCase
         self::assertSame($domain, $download->getDomain());
     }
 
-    /**
-     * @covers ::getSite
-     * @covers ::setSite
-     */
     public function testSiteGetterAndSetter(): void
     {
         $site = 'example';
@@ -107,9 +93,6 @@ class DownloadTest extends UnitTestCase
         self::assertSame($site, $download->getSite());
     }
 
-    /**
-     * @covers ::setPage
-     */
     public function testSetPageWithNull(): void
     {
         $download = new Download();
