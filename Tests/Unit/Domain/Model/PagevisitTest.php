@@ -3,17 +3,11 @@
 namespace In2code\Lux\Tests\Unit\Domain\Model;
 
 use DateTime;
-use In2code\Lux\Domain\Model\Newsvisit;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Visitor;
-use In2code\Lux\Domain\Repository\NewsvisitRepository;
 use In2code\Lux\Domain\Service\Referrer\Readable;
-use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Tests\Helper\TestingHelper;
-use In2code\Lux\Utility\BackendUtility;
-use In2code\Lux\Utility\EnvironmentUtility;
-use In2code\Lux\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;

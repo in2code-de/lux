@@ -15,7 +15,6 @@ use In2code\Lux\Domain\DataProvider\LinkclickDataProvider;
 use In2code\Lux\Domain\DataProvider\NewsvisistsDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
 use In2code\Lux\Domain\DataProvider\ReferrerAmountDataProvider;
-use In2code\Lux\Domain\DataProvider\ReferrerDataProvider;
 use In2code\Lux\Domain\DataProvider\SearchDataProvider;
 use In2code\Lux\Domain\DataProvider\SocialMediaDataProvider;
 use In2code\Lux\Domain\DataProvider\UtmCampaignDataProvider;
@@ -174,10 +173,10 @@ class AnalysisController extends AbstractController
      */
     public function sourcesCsvAction(FilterDto $filter): ResponseInterface
     {
-//        $this->view->assignMultiple([
-//            'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
-//            'downloads' => $this->downloadRepository->findCombinedByHref($filter),
-//        ]);
+        //        $this->view->assignMultiple([
+        //            'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),
+        //            'downloads' => $this->downloadRepository->findCombinedByHref($filter),
+        //        ]);
         return $this->csvResponse();
     }
 
