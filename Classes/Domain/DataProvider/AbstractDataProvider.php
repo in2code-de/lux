@@ -22,7 +22,7 @@ abstract class AbstractDataProvider implements DataProviderInterface
 
     protected ?FilterDto $filter = null;
 
-    public function __construct(FilterDto $filter = null)
+    public function __construct(?FilterDto $filter = null)
     {
         if ($filter === null) {
             $this->filter = ObjectUtility::getFilterDto();

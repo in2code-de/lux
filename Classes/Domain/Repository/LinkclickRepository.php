@@ -209,7 +209,7 @@ class LinkclickRepository extends AbstractRepository
      * @return int
      * @throws ExceptionDbal
      */
-    public function findByTimeFrame(DateTime $start, DateTime $end, FilterDto $filter = null): int
+    public function findByTimeFrame(DateTime $start, DateTime $end, ?FilterDto $filter = null): int
     {
         $connection = DatabaseUtility::getConnectionForTable(Linkclick::TABLE_NAME);
         $sql = 'select count(*) count'

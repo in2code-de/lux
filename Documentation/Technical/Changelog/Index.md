@@ -9,6 +9,7 @@
 
 | Version    | Date       | State    | TYPO3         | Description                                                                                                                                                                                           |
 |------------|------------|----------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 38.7.1     | 2025-07-16 | Bugfix   | `12.4 + 13.4` | Fix PHP 8.4 deprecations                                                                                                                                                                              |
 | 38.7.0     | 2025-07-16 | Task     | `12.4 + 13.4` | Fix pagebrowser in TYPO3 12, Prevent possible exception in demo backend modules, Added more unit tests, Small label changes, Update demodata, Small improvements for local development                |
 | 38.6.0     | 2025-07-02 | Feature  | `12.4 + 13.4` | Support multiple referrers in page funnel, small update to DisallowedMailProvider list, add some AI sources for referrers                                                                             |
 | 38.5.1     | 2025-04-15 | Bugfix   | `12.4 + 13.4` | Prevent false positive blocked emails in email4link                                                                                                                                                   |

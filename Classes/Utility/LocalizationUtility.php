@@ -9,7 +9,7 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility as LocalizationUtilityExtbase;
 
 class LocalizationUtility
 {
-    public static function translateByKey(string $key, array $arguments = null): ?string
+    public static function translateByKey(string $key, ?array $arguments = null): ?string
     {
         $locallangPrefix = 'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:';
         try {
@@ -20,7 +20,7 @@ class LocalizationUtility
         }
     }
 
-    public static function translate(string $key, string $extensionName = 'Lux', array $arguments = null): ?string
+    public static function translate(string $key, string $extensionName = 'Lux', ?array $arguments = null): ?string
     {
         $label = LocalizationUtilityExtbase::translate($key, $extensionName, $arguments);
         if (empty($label)) {

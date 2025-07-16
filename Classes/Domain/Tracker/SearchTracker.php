@@ -40,7 +40,7 @@ class SearchTracker
      * @param Pagevisit|null $pagevisit
      * @return void
      */
-    public function track(Visitor $visitor, array $arguments, Pagevisit $pagevisit = null): void
+    public function track(Visitor $visitor, array $arguments, ?Pagevisit $pagevisit = null): void
     {
         if ($this->isTrackingActivated($visitor, $arguments)) {
             $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Search::TABLE_NAME);

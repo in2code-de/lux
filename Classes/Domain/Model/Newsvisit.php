@@ -114,7 +114,7 @@ class Newsvisit extends AbstractModel
         return $this->pagevisit;
     }
 
-    public function setPagevisit(Pagevisit $pagevisit = null): self
+    public function setPagevisit(?Pagevisit $pagevisit = null): self
     {
         $this->pagevisit = $pagevisit;
         return $this;

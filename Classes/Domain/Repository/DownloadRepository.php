@@ -93,7 +93,7 @@ class DownloadRepository extends AbstractRepository
      * @return int
      * @throws InvalidQueryException
      */
-    public function getNumberOfDownloadsInTimeFrame(DateTime $start, DateTime $end, FilterDto $filter = null): int
+    public function getNumberOfDownloadsInTimeFrame(DateTime $start, DateTime $end, ?FilterDto $filter = null): int
     {
         $query = $this->createQuery();
         $logicalAnd = [

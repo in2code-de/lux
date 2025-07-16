@@ -17,7 +17,7 @@ class AllLinkclickDataProvider extends AbstractDynamicFilterDataProvider
 {
     protected ?LinkclickRepository $linkclickRepository = null;
 
-    public function __construct(FilterDto $filter = null)
+    public function __construct(?FilterDto $filter = null)
     {
         $this->linkclickRepository = GeneralUtility::makeInstance(LinkclickRepository::class);
         parent::__construct($filter);
