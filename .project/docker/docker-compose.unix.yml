@@ -24,6 +24,8 @@ services:
     env_file:
       - .env
       - .env.local
+    extra_hosts:
+      - host.docker.internal:host-gateway
 
   mysql:
     image: in2code/mysql:8.0
@@ -37,7 +39,7 @@ services:
       - ${SQLPORT}:3306
 
   node:
-    image: node:10
+    image: ${NODEIMAGE}
     user: node
     command: ["bash"]
     tty: true

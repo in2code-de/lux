@@ -107,11 +107,15 @@ endif
 ## Install Frontend Build Tool Chain dependencies
 npm-install:
 	echo "$(EMOJI_explodinghead) Installing Frontend Build Toolchain (this might take a while)"
-	docker compose exec -u node -w /home/node/app/Resources/Private/Build node npm i
+	docker compose exec -unode -w /home/node/app/Resources/Private/Build/ node npm install
+
+## Start build on node-container
+npm-build:
+	docker compose exec -unode -w /home/node/app/Resources/Private/Build/ node npm run build
 
 ## Start watch on node-container
 npm-watch:
-	docker compose exec -u node -w /home/node/app/Resources/Private/Build node npm run watch
+	docker compose exec -unode -w /home/node/app/Resources/Private/Build/ node npm run watch
 
 ## Stop the node container
 npm-stop:
@@ -150,7 +154,7 @@ typo3-comparedb:
 ## Starts the TYPO3 setup process
 lux-demodata:
 	echo "$(EMOJI_cat) Running lux:demodata"
-	docker-compose exec php ./.Build/bin/typo3 lux:demodata
+	docker compose exec php ./.Build/bin/typo3 lux:demodata
 
 ## Clears TYPO3 caches via typo3-console
 typo3-clearcache:
@@ -209,6 +213,11 @@ login-php:
 login-mysql:
 	echo "$(EMOJI_dolphin) Logging into MySQL Container"
 	docker compose exec mysql bash
+
+## Log into the node container
+login-node:
+	echo "$(EMOJI_package) Logging in into Node container"
+	docker compose exec -unode node bash
 
 ## Set correct onwership of mounts. Docker creates mounts owned by root:root.
 .fix-mount-perms:

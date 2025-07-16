@@ -30,6 +30,12 @@ class Page extends AbstractEntity
         return $this->title;
     }
 
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+        return $this;
+    }
+
     public function getCategories(): ObjectStorage
     {
         return $this->categories;

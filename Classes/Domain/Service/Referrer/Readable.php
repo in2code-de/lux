@@ -404,9 +404,10 @@ class Readable
         ],
         'aiChats' => [
             [
-                'label' => 'Chat GPT',
+                'label' => 'ChatGPT',
                 'domains' => [
                     'chat.openai.com',
+                    'chatgpt.com',
                 ],
             ],
             [
@@ -433,6 +434,7 @@ class Readable
                 'label' => 'Perplexity AI',
                 'domains' => [
                     'perplexity.ai',
+                    'www.perplexity.ai',
                 ],
             ],
             [

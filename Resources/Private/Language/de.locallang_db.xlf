@@ -819,8 +819,8 @@
 				<target state="translated">News</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.utm">
-				<source>Urchin Tracking Modules (UTM)</source>
-				<target state="translated">Urchin Tracking Modules (UTM)</target>
+				<source>UTM</source>
+				<target state="translated">UTM</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.linkListener">
 				<source>Link listeners</source>
