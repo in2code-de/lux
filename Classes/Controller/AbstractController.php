@@ -167,7 +167,7 @@ abstract class AbstractController extends ActionController
         return $extbaseModule->getIdentifier();
     }
 
-    protected function csvResponse(string $csv = null, string $filename = ''): ResponseInterface
+    protected function csvResponse(?string $csv = null, string $filename = ''): ResponseInterface
     {
         if ($filename === '') {
             $date = new DateTime();

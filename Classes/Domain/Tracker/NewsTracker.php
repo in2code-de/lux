@@ -37,7 +37,7 @@ class NewsTracker
      * @throws InvalidConfigurationTypeException
      * @throws UnknownObjectException
      */
-    public function track(Visitor $visitor, array $arguments, Pagevisit $pagevisit = null): void
+    public function track(Visitor $visitor, array $arguments, ?Pagevisit $pagevisit = null): void
     {
         if ($this->isTrackingActivated($visitor, $arguments)) {
             $newsvisit = $this->getNewsvisit(
@@ -64,7 +64,7 @@ class NewsTracker
         int $newsUid,
         int $languageUid,
         Visitor $visitor,
-        Pagevisit $pagevisit = null
+        ?Pagevisit $pagevisit = null
     ): Newsvisit {
         $newsvisit = GeneralUtility::makeInstance(Newsvisit::class);
         $newsRepository = GeneralUtility::makeInstance(NewsRepository::class);

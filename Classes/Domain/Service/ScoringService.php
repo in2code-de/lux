@@ -40,7 +40,7 @@ class ScoringService
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws ClassDoesNotExistException
      */
-    public function __construct(DateTime $time = null)
+    public function __construct(?DateTime $time = null)
     {
         if (class_exists(ExpressionLanguage::class) === false) {
             throw new ClassDoesNotExistException(

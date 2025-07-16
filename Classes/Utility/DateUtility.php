@@ -117,7 +117,7 @@ class DateUtility
         return $start;
     }
 
-    public static function getHourStart(DateTime $date = null): DateTime
+    public static function getHourStart(?DateTime $date = null): DateTime
     {
         if ($date === null) {
             $date = new DateTime();

@@ -25,7 +25,7 @@ class GotoutInternalDataProvider extends AbstractDataProvider
     /**
      * @param FilterDto|null $filter contains timeframe and page identifier as searchterm
      */
-    public function __construct(FilterDto $filter = null)
+    public function __construct(?FilterDto $filter = null)
     {
         $this->filter = $filter;
         $this->pagevisitRepository = GeneralUtility::makeInstance(PagevisitRepository::class);

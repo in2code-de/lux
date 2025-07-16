@@ -11,7 +11,7 @@ final class VisitorFactoryBeforeCreateNewEvent
     protected ?Visitor $visitor = null;
     protected ?Fingerprint $fingerprint = null;
 
-    public function __construct(Visitor $visitor = null, Fingerprint $fingerprint = null)
+    public function __construct(?Visitor $visitor = null, ?Fingerprint $fingerprint = null)
     {
         $this->visitor = $visitor;
         $this->fingerprint = $fingerprint;

@@ -79,7 +79,7 @@ class NewsvisitRepository extends AbstractRepository
      * @return int
      * @throws InvalidQueryException
      */
-    public function getNumberOfVisitorsInTimeFrame(DateTime $start, DateTime $end, FilterDto $filter = null): int
+    public function getNumberOfVisitorsInTimeFrame(DateTime $start, DateTime $end, ?FilterDto $filter = null): int
     {
         $query = $this->createQuery();
         $logicalAnd = [
@@ -224,7 +224,7 @@ class NewsvisitRepository extends AbstractRepository
     protected function extendWithExtendedFilterQuery(
         QueryInterface $query,
         array $logicalAnd,
-        FilterDto $filter = null
+        ?FilterDto $filter = null
     ): array {
         if ($filter !== null) {
             if ($filter->isSearchtermSet()) {

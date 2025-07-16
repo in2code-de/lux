@@ -137,7 +137,7 @@ class PagevisitRepository extends AbstractRepository
      * @return int
      * @throws ExceptionDbal
      */
-    public function getNumberOfVisitsInTimeFrame(DateTime $start, DateTime $end, FilterDto $filter = null): int
+    public function getNumberOfVisitsInTimeFrame(DateTime $start, DateTime $end, ?FilterDto $filter = null): int
     {
         $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
         $sql = 'select count(*) count from ' . Pagevisit::TABLE_NAME . ' pv'

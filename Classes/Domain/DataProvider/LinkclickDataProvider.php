@@ -18,7 +18,7 @@ class LinkclickDataProvider extends AbstractDataProvider
     protected ?LinkclickRepository $linkclickRepository = null;
     protected ?LinklistenerRepository $linklistenerRepository = null;
 
-    public function __construct(FilterDto $filter = null)
+    public function __construct(?FilterDto $filter = null)
     {
         $this->linkclickRepository = GeneralUtility::makeInstance(LinkclickRepository::class);
         $this->linklistenerRepository = GeneralUtility::makeInstance(LinklistenerRepository::class);
