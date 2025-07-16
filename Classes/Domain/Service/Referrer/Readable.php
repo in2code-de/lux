@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Service\Referrer;
 
 use In2code\Lux\Events\ReadableReferrersEvent;
-use In2code\Lux\Utility\LocalizationUtility;
-use In2code\Lux\Utility\UrlUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -25,7 +23,6 @@ class Readable
                     'm.twitter.com',
                     'l.twitter.com',
                     'lm.twitter.com',
-                    'x.com',
                 ],
             ],
             [
@@ -474,11 +471,9 @@ class Readable
         $this->sources = $event->getSources();
     }
 
-    public function getReadableReferrer(string $domainFromReferrer = ''): string
+    public function getReadableReferrer(): string
     {
-        if ($domainFromReferrer === '') {
-            $domainFromReferrer = $this->getDomain();
-        }
+        $domainFromReferrer = $this->getDomain();
         foreach ($this->sources as $category) {
             foreach ($category as $service) {
                 foreach ($service['domains'] as $domain) {
@@ -491,63 +486,6 @@ class Readable
         return $domainFromReferrer;
     }
 
-    public function getDomainsFromCategory(string $categoryKey): array
-    {
-        $domains = [];
-        if (isset($this->sources[$categoryKey])) {
-            foreach ($this->sources[$categoryKey] as $service) {
-                $domains = array_merge($domains, $service['domains']);
-            }
-        }
-        return $domains;
-    }
-
-    /**
-     * @param string $host e.g. "openai.com"
-     * @return string e.g. "aiChats"
-     */
-    public function getKeyFromHost(string $host): string
-    {
-        foreach ($this->sources as $categoryKey => $category) {
-            foreach ($category as $service) {
-                foreach ($service['domains'] as $serviceHost) {
-                    if ($serviceHost === $host) {
-                        return $categoryKey;
-                    }
-                }
-            }
-        }
-
-        return '';
-    }
-
-    /**
-     *  [
-     *      'socialMedia' => 'Social Media',
-     *      'searchEngines' => 'Search Engines',
-     *      'other' => 'Other',
-     *  ]
-     *
-     * @return array
-     */
-    public function getAllKeys(): array
-    {
-        $keys = [];
-        foreach (array_keys($this->sources) as $key) {
-            $keys[$key] = LocalizationUtility::translateByKey('readablereferrer.' . $key);
-        }
-        asort($keys);
-
-        // Ensure "other" key is always the last key
-        if (isset($keys['other'])) {
-            $otherValue = $keys['other'];
-            unset($keys['other']);
-            $keys['other'] = $otherValue;
-        }
-
-        return $keys;
-    }
-
     public function getOriginalReferrer(): string
     {
         return $this->referrer;
@@ -555,6 +493,11 @@ class Readable
 
     protected function getDomain(): string
     {
-        return UrlUtility::getHostFromUrl($this->referrer);
+        $domain = '';
+        $parts = parse_url($this->referrer);
+        if (array_key_exists('host', $parts)) {
+            $domain = $parts['host'];
+        }
+        return $domain;
     }
 }

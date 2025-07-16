@@ -17,7 +17,6 @@ return [
             \In2code\Lux\Controller\AnalysisController::class => [
                 'dashboard',
                 'content',
-                'sources',
                 'news',
                 'linkListener',
                 'search',
