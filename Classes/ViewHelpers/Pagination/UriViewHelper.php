@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\ViewHelpers\Pagination;
 
+use In2code\Lux\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 use TYPO3\CMS\Extbase\Service\ExtensionService;
@@ -58,6 +59,10 @@ class UriViewHelper extends AbstractTagBasedViewHelper
     {
         $controllerAction = $this->renderingContext->getControllerAction();
         $parts = explode('/', $controllerAction);
-        return $parts[0] ?? '';
+        $controllerName = $parts[0] ?? '';
+        if (ConfigurationUtility::isTypo3Version12()) {
+            $controllerName = ucfirst($controllerName);
+        }
+        return $controllerName;
     }
 }
