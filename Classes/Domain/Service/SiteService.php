@@ -141,7 +141,7 @@ class SiteService
     {
         foreach ($site->getLanguages() as $language) {
             if ($language->getLanguageId() === $languageId) {
-                return $language->getTwoLetterIsoCode();
+                return $language->getLocale()->getLanguageCode();
             }
         }
         return '';
