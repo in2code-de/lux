@@ -13,8 +13,11 @@ use In2code\Lux\Domain\DataProvider\LanguagesDataProvider;
 use In2code\Lux\Domain\DataProvider\LanguagesNewsDataProvider;
 use In2code\Lux\Domain\DataProvider\LinkclickDataProvider;
 use In2code\Lux\Domain\DataProvider\NewsvisistsDataProvider;
+use In2code\Lux\Domain\DataProvider\PagevisistsBySourceDataProvider;
 use In2code\Lux\Domain\DataProvider\PagevisistsDataProvider;
 use In2code\Lux\Domain\DataProvider\ReferrerAmountDataProvider;
+use In2code\Lux\Domain\DataProvider\ReferrerCategoryDataProvider;
+use In2code\Lux\Domain\DataProvider\ReferrerTopDataProvider;
 use In2code\Lux\Domain\DataProvider\SearchDataProvider;
 use In2code\Lux\Domain\DataProvider\SocialMediaDataProvider;
 use In2code\Lux\Domain\DataProvider\UtmCampaignDataProvider;
@@ -25,6 +28,7 @@ use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\News;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
+use In2code\Lux\Domain\Service\Referrer\SourceHelper;
 use In2code\Lux\Exception\ArgumentsException;
 use In2code\Lux\Exception\AuthenticationException;
 use In2code\Lux\Utility\BackendUtility;
@@ -221,6 +225,55 @@ class AnalysisController extends AbstractController
     {
         $this->view->assignMultiple([
             'utmList' => $this->utmRepository->findByFilter($filter),
+        ]);
+        return $this->csvResponse();
+    }
+
+    /**
+     * @return void
+     * @throws NoSuchArgumentException
+     */
+    public function initializeSourcesAction(): void
+    {
+        $this->setFilter();
+    }
+
+    /**
+     * Sources with referrers
+     *
+     * @param FilterDto $filter
+     * @param string $export
+     * @return ResponseInterface
+     * @throws ExceptionDbal
+     */
+    public function sourcesAction(FilterDto $filter, string $export = ''): ResponseInterface
+    {
+        if ($export === 'csv') {
+            return (new ForwardResponse('sourcesCsv'))->withArguments(['filter' => $filter]);
+        }
+
+        $values = [
+            'filter' => $filter,
+            'referrers' => $this->pagevisitsRepository->getReferrers($filter),
+            'sourceCategories' => GeneralUtility::makeInstance(SourceHelper::class)->getAllKeys(),
+            'categoryData' => GeneralUtility::makeInstance(ReferrerCategoryDataProvider::class, $filter),
+            'sourcesTop' => GeneralUtility::makeInstance(ReferrerTopDataProvider::class, $filter),
+        ];
+        $this->moduleTemplate->assignMultiple($values);
+
+        $this->addDocumentHeaderForCurrentController();
+        return $this->defaultRendering();
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @return ResponseInterface
+     * @throws ExceptionDbal
+     */
+    public function sourcesCsvAction(FilterDto $filter): ResponseInterface
+    {
+        $this->view->assignMultiple([
+            'referrers' => $this->pagevisitsRepository->getReferrers($filter),
         ]);
         return $this->csvResponse();
     }
@@ -444,6 +497,30 @@ class AnalysisController extends AbstractController
     }
 
     /**
+     * @param string $referrerDomain
+     * @return ResponseInterface
+     * @throws ArgumentsException
+     * @throws ExceptionDbal
+     */
+    public function detailSourceAction(string $referrerDomain): ResponseInterface
+    {
+        $filter = BackendUtility::getFilterFromSession(
+            'sources',
+            $this->getControllerName(),
+            ['searchterm' => $referrerDomain, 'limit' => 100]
+        );
+        $this->moduleTemplate->assignMultiple([
+            'filter' => $filter,
+            'referrerDomain' => $referrerDomain,
+            'pagevisits' => $this->pagevisitsRepository->findByReferrerDomain($filter),
+            'pagevisitsBySourceData' => GeneralUtility::makeInstance(PagevisistsBySourceDataProvider::class, $filter),
+        ]);
+
+        $this->addDocumentHeaderForCurrentController();
+        return $this->defaultRendering();
+    }
+
+    /**
      * AJAX action to show a detail view coming from contentAction
      *
      * @param ServerRequestInterface $request
@@ -467,6 +544,39 @@ class AnalysisController extends AbstractController
         $standaloneView->assignMultiple([
             'pagevisits' => $this->pagevisitsRepository->findByFilter($filter),
             'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
+        ]);
+        $response = GeneralUtility::makeInstance(JsonResponse::class);
+        /** @var StreamInterface $stream */
+        $stream = $response->getBody();
+        $stream->write(json_encode(['html' => $standaloneView->render()]));
+        return $response;
+    }
+
+    /**
+     * AJAX action to show a detail view coming from sourceAction
+     *
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     * @noinspection PhpUnused
+     * @throws ExceptionDbal
+     * @throws ArgumentsException
+     */
+    public function detailAjaxSource(ServerRequestInterface $request): ResponseInterface
+    {
+        $filter = BackendUtility::getFilterFromSession(
+            'sources',
+            'Analysis',
+            ['searchterm' => (string)$request->getQueryParams()['referrerDomain'], 'limit' => 10]
+        );
+        $standaloneView = ObjectUtility::getStandaloneView();
+        $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
+            'EXT:lux/Resources/Private/Templates/Analysis/SourcesDetailAjax.html'
+        ));
+        $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
+        $standaloneView->assignMultiple([
+            'filter' => $filter,
+            'pagevisits' => $this->pagevisitsRepository->findByReferrerDomain($filter),
+            'pagevisitsBySourceData' => GeneralUtility::makeInstance(PagevisistsBySourceDataProvider::class, $filter),
         ]);
         $response = GeneralUtility::makeInstance(JsonResponse::class);
         /** @var StreamInterface $stream */
@@ -627,7 +737,7 @@ class AnalysisController extends AbstractController
         if ($this->searchRepository->isTableFilled()) {
             $actions[] = 'search';
         }
-        $actions = array_merge($actions, ['utm', 'linkListener']);
+        $actions = array_merge($actions, ['utm', 'sources', 'linkListener']);
         $menuConfiguration = [];
         foreach ($actions as $action) {
             $menuConfiguration[] = [

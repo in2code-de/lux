@@ -5,12 +5,15 @@ namespace In2code\Lux\Tests\Unit\Domain\Model;
 use In2code\Lux\Domain\Model\Category;
 use In2code\Lux\Domain\Model\Metadata;
 use In2code\Lux\Tests\Helper\TestingHelper;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/**
- * @coversDefaultClass \In2code\Lux\Domain\Model\Metadata
- */
+#[CoversClass(Metadata::class)]
+#[CoversMethod(Metadata::class, '__construct')]
+#[CoversMethod(Metadata::class, 'getCategories')]
+#[CoversMethod(Metadata::class, 'getLuxCategories')]
 class MetadataTest extends UnitTestCase
 {
     protected bool $resetSingletonInstances = true;
@@ -21,10 +24,6 @@ class MetadataTest extends UnitTestCase
         TestingHelper::setDefaultConstants();
     }
 
-    /**
-     * @covers ::__construct
-     * @covers ::getCategories
-     */
     public function testGetCategories(): void
     {
         $metadata = new Metadata();
@@ -32,9 +31,6 @@ class MetadataTest extends UnitTestCase
         self::assertCount(0, $metadata->getCategories());
     }
 
-    /**
-     * @covers ::getLuxCategories
-     */
     public function testGetLuxCategories(): void
     {
         $metadata = new Metadata();
@@ -65,9 +61,6 @@ class MetadataTest extends UnitTestCase
         self::assertNotContains($category2, $luxCategories);
     }
 
-    /**
-     * @covers ::getLuxCategories
-     */
     public function testGetLuxCategoriesWithNoLuxCategories(): void
     {
         $metadata = new Metadata();
@@ -90,9 +83,6 @@ class MetadataTest extends UnitTestCase
         self::assertCount(0, $luxCategories);
     }
 
-    /**
-     * @covers ::getLuxCategories
-     */
     public function testGetLuxCategoriesWithNoCategories(): void
     {
         $metadata = new Metadata();

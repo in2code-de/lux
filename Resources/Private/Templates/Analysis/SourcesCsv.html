@@ -1,0 +1,5 @@
+<f:spaceless>
+    <lux:format.quotes>TYPE</lux:format.quotes>;<lux:format.quotes>SOURCE</lux:format.quotes>;<lux:format.quotes>COUNT</lux:format.quotes>;<lux:format.quotes>IDENTIFIED</lux:format.quotes>
+    <f:for each="{referrers}" as="referrerItems" key="categoryLabel"><f:for each="{referrerItems}" as="referrer"><lux:format.quotes><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:readablereferrer.{categoryLabel}">{categoryLabel}</f:translate></lux:format.quotes>;<lux:format.quotes>{referrer.referrer_domain}</lux:format.quotes>;<lux:format.quotes>{referrer.count}</lux:format.quotes>;<lux:format.quotes>{referrer.identified_count}</lux:format.quotes>
+    </f:for></f:for>
+</f:spaceless>

@@ -811,8 +811,12 @@
 				<target state="translated">Leads</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.content">
-				<source>Pagevisits and Downloads</source>
-				<target state="translated">Seitenaufrufe und Downloads</target>
+				<source>Pagevisits &amp; Downloads</source>
+				<target state="translated">Seitenaufrufe &amp; Downloads</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.sources">
+				<source>Sources</source>
+				<target state="translated">Quellen</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.news">
 				<source>News</source>
@@ -853,6 +857,18 @@
 			<trans-unit id="module.analysis.content.downloads">
 				<source>Number of downloads</source>
 				<target state="translated">Anzahl an Downloads</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.sources.header.referrer">
+				<source>Source</source>
+				<target state="translated">Quelle</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.sources.header.count">
+				<source>Count</source>
+				<target state="translated">Anzahl</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.sources.header.identified">
+				<source>Identified</source>
+				<target state="translated">Identifiziert</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.news.categories">
 				<source>Categories</source>
@@ -1587,6 +1603,14 @@
 			<trans-unit id="module.box.headerpostfixfiltered">
 				<source>(filtered)</source>
 				<target state="translated">(gefiltert)</target>
+			</trans-unit>
+			<trans-unit id="module.box.referrertop.title">
+				<source>Top sources</source>
+				<target state="translated">Top Quellen</target>
+			</trans-unit>
+			<trans-unit id="module.box.referrercategory.title">
+				<source>Sources by category</source>
+				<target state="translated">Quellen nach Kategorie</target>
 			</trans-unit>
 
 			<trans-unit id="module.workflow">
@@ -2456,6 +2480,35 @@
 				<target state="translated">Marketing Kampagnen</target>
 			</trans-unit>
 
+			<trans-unit id="readablereferrer.social">
+				<source>Socialmedia platforms</source>
+				<target state="translated">Socialmedia Plattformen</target>
+			</trans-unit>
+			<trans-unit id="readablereferrer.search">
+				<source>Search engines</source>
+				<target state="translated">Suchmaschinen</target>
+			</trans-unit>
+			<trans-unit id="readablereferrer.email">
+				<source>Email Marketing platforms</source>
+				<target state="translated">E-Mail-Marketing Plattformen</target>
+			</trans-unit>
+			<trans-unit id="readablereferrer.ads">
+				<source>Advertising platforms</source>
+				<target state="translated">Werbeplattformen</target>
+			</trans-unit>
+			<trans-unit id="readablereferrer.eCommerce">
+				<source>Ecommerce platforms</source>
+				<target state="translated">eCommerce Plattformen</target>
+			</trans-unit>
+			<trans-unit id="readablereferrer.aiChats">
+				<source>AI chatbots</source>
+				<target state="translated">KI Chatbots</target>
+			</trans-unit>
+			<trans-unit id="readablereferrer.other">
+				<source>Others</source>
+				<target state="translated">Andere</target>
+			</trans-unit>
+
 			<!-- General terms that can be used on different places -->
 			<trans-unit id="dictionary.ab_test">
 				<source>A/B test</source>
@@ -2501,6 +2554,14 @@
 				<source>Country</source>
 				<target state="translated">Land</target>
 			</trans-unit>
+			<trans-unit id="dictionary.entry">
+				<source>Entry</source>
+				<target state="translated">Einstieg</target>
+			</trans-unit>
+			<trans-unit id="dictionary.identified">
+				<source>Identified</source>
+				<target state="translated">Identifiziert</target>
+			</trans-unit>
 			<trans-unit id="dictionary.lastused">
 				<source>Last used</source>
 				<target state="translated">Zuletzt genutzt</target>
@@ -2524,6 +2585,10 @@
 			<trans-unit id="dictionary.newsidentifier">
 				<source>News Identifier (UID)</source>
 				<target state="translated">News (UID)</target>
+			</trans-unit>
+			<trans-unit id="dictionary.noresults">
+				<source>No records found</source>
+				<target state="translated">Keine Datensätze gefunden</target>
 			</trans-unit>
 			<trans-unit id="dictionary.referrer">
 				<source>Referrer</source>

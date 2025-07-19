@@ -5,12 +5,16 @@ namespace In2code\Lux\Tests\Unit\Domain\Model;
 use In2code\Lux\Domain\Model\Category;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Tests\Helper\TestingHelper;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/**
- * @coversDefaultClass \In2code\Lux\Domain\Model\Page
- */
+#[CoversClass(Page::class)]
+#[CoversMethod(Page::class, '__construct')]
+#[CoversMethod(Page::class, 'getCategories')]
+#[CoversMethod(Page::class, 'getLuxCategories')]
+#[CoversMethod(Page::class, 'getTitle')]
 class PageTest extends UnitTestCase
 {
     protected bool $resetSingletonInstances = true;
@@ -21,10 +25,6 @@ class PageTest extends UnitTestCase
         TestingHelper::setDefaultConstants();
     }
 
-    /**
-     * @covers ::__construct
-     * @covers ::getCategories
-     */
     public function testGetCategories(): void
     {
         $page = new Page();
@@ -32,9 +32,6 @@ class PageTest extends UnitTestCase
         self::assertCount(0, $page->getCategories());
     }
 
-    /**
-     * @covers ::getTitle
-     */
     public function testGetTitle(): void
     {
         $page = new Page();
@@ -43,9 +40,6 @@ class PageTest extends UnitTestCase
         self::assertSame('', $page->getTitle());
     }
 
-    /**
-     * @covers ::getLuxCategories
-     */
     public function testGetLuxCategories(): void
     {
         $page = new Page();
@@ -76,9 +70,6 @@ class PageTest extends UnitTestCase
         self::assertNotContains($category2, $luxCategories);
     }
 
-    /**
-     * @covers ::getLuxCategories
-     */
     public function testGetLuxCategoriesWithNoLuxCategories(): void
     {
         $page = new Page();
@@ -101,9 +92,6 @@ class PageTest extends UnitTestCase
         self::assertCount(0, $luxCategories);
     }
 
-    /**
-     * @covers ::getLuxCategories
-     */
     public function testGetLuxCategoriesWithNoCategories(): void
     {
         $page = new Page();

@@ -1,0 +1,106 @@
+<f:layout name="Backend"/>
+
+<f:section name="content">
+    <div class="row">
+        <div class="col-md-8">
+            <f:render partial="Miscellaneous/FlashMessages" arguments="{_all}"/>
+
+            <f:render partial="Filter/{view.controller}/{view.actionUpper}" arguments="{_all}" />
+
+            <f:if condition="{referrers}">
+                <f:then>
+                    <lux:pagination.paginate objects="{referrers}" as="pagesReferrers" itemsPerPage="10">
+                        <f:for each="{pagesReferrers.paginator.paginatedItems}" as="pageReferrers" iteration="iteration" key="categoryLabel">
+                            <div class="table-title">
+                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:readablereferrer.{categoryLabel}">{categoryLabel}</f:translate>
+                            </div>
+                            <table class="table table-striped table-hover table-pointer">
+                                <f:render section="TableHeader" />
+                                <f:for each="{pageReferrers}" as="referrer" iteration="iterationInner">
+                                    <f:render section="TableRow" arguments="{_all}" />
+                                </f:for>
+                            </table>
+                        </f:for>
+
+                        <f:alias map="{pagination:pagesReferrers.pagination, paginator:pagesReferrers.paginator, name:pagesReferrers.name}">
+                            <f:render partial="Miscellaneous/Pagination" arguments="{_all}" />
+                        </f:alias>
+                    </lux:pagination.paginate>
+                </f:then>
+                <f:else>
+                    <div class="alert alert-warning" role="alert">
+                        <h4 class="alert-heading">
+                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.noresults">no records</f:translate>
+                        </h4>
+                        <p>
+                            <f:link.action class="btn btn-default" action="resetFilter" arguments="{redirectAction:view.action}" style="text-decoration: none;">
+                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.reset">reset</f:translate>
+                            </f:link.action>
+                        </p>
+                    </div>
+                </f:else>
+            </f:if>
+
+        </div>
+
+        <div class="col-md-4">
+            <div data-lux-container="detail">
+                <f:render partial="Box/Analysis/ReferrerCategory" arguments="{_all}"/>
+                <f:render partial="Box/Analysis/ReferrerTop" arguments="{_all}"/>
+            </div>
+        </div>
+    </div>
+</f:section>
+
+
+<f:section name="TableHeader">
+    <thead>
+    <tr>
+        <th style="width: 50%;">
+            <f:translate
+                key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.sources.header.referrer">
+                referrer
+            </f:translate>
+        </th>
+        <th>
+            <f:translate
+                key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.sources.header.count">
+                count
+            </f:translate>
+        </th>
+        <th>
+            <f:translate
+                key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.sources.header.identified">
+                identified
+            </f:translate>
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+</f:section>
+
+
+<f:section name="TableRow">
+    <tr data-lux-action-analysissourcesreferrer="{referrer.referrer_domain}">
+        <td>
+            <span title="{referrer.referrer_domain}"><lux:format.readableReferrer domain="{referrer.referrer_domain}"/></span>
+        </td>
+        <td>
+            <span class="badge">
+                {referrer.count}
+            </span>
+        </td>
+        <td>
+            <span class="badge">
+                {referrer.identified_count}
+            </span>
+        </td>
+        <td>
+            <f:link.action
+                action="detailSource"
+                arguments="{referrerDomain:referrer.referrer_domain}"
+                class="btn btn-primary pull-right hidden"
+                data="{lux-linkmock-link:'referrer_{referrer.referrer_domain}'}">Details</f:link.action>
+        </td>
+    </tr>
+</f:section>

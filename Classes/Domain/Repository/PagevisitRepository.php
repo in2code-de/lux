@@ -13,8 +13,8 @@ use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
-use In2code\Lux\Domain\Service\Referrer\Readable;
 use In2code\Lux\Domain\Service\Referrer\SocialMedia;
+use In2code\Lux\Domain\Service\Referrer\SourceHelper;
 use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Exception\ArgumentsException;
 use In2code\Lux\Utility\ArrayUtility;
@@ -128,6 +128,23 @@ class PagevisitRepository extends AbstractRepository
         $query->setLimit($filter->getLimit());
         $query->setOrderings(['crdate' => QueryInterface::ORDER_DESCENDING]);
         return $query->execute();
+    }
+
+    public function findByReferrerDomain(FilterDto $filter): array
+    {
+        if ($filter->isSearchtermSet() === false) {
+            throw new ArgumentsException('Filter searchterm must be filled', 1752775565);
+        }
+
+        $sql = 'select pv.uid from ' . Pagevisit::TABLE_NAME . ' pv'
+            . ' where pv.referrer like "https://' . $filter->getSearchterm() . '%" '
+            . $this->extendWhereClauseWithFilterTime($filter, true, 'pv')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
+            . ' order by pv.crdate desc'
+            . ' limit ' . ($filter->isLimitSet() ? $filter->getLimit() : 750);
+        $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
+        $pagevisitIdentifiers = $connection->executeQuery($sql)->fetchFirstColumn();
+        return $this->convertIdentifiersToObjects($pagevisitIdentifiers, Pagevisit::TABLE_NAME);
     }
 
     /**
@@ -326,11 +343,11 @@ class PagevisitRepository extends AbstractRepository
         $records = $connection->executeQuery($sql)->fetchAllAssociative();
         $result = [];
         foreach ($records as $record) {
-            $readableReferrer = GeneralUtility::makeInstance(Readable::class, $record['referrer']);
-            if (array_key_exists($readableReferrer->getReadableReferrer(), $result)) {
-                $result[$readableReferrer->getReadableReferrer()] += $record['count'];
+            $sourceHelper = GeneralUtility::makeInstance(SourceHelper::class, $record['referrer']);
+            if (array_key_exists($sourceHelper->getReadableReferrer(), $result)) {
+                $result[$sourceHelper->getReadableReferrer()] += $record['count'];
             } else {
-                $result[$readableReferrer->getReadableReferrer()] = $record['count'];
+                $result[$sourceHelper->getReadableReferrer()] = $record['count'];
             }
         }
         arsort($result);
@@ -364,6 +381,116 @@ class PagevisitRepository extends AbstractRepository
     }
 
     /**
+     *  [
+     *      [
+     *          'referrer_domain' => 'x.com',
+     *          'count' => 123,
+     *          'identified_count' => 34,
+     *          'children' => [QueryResult],
+     *      ],
+     *      [
+     *          'referrer_domain' => 'openai.com',
+     *          'count' => 25,
+     *          'identified_count' => 12,
+     *          'children' => [QueryResult],
+     *      ],
+     *  ]
+     *
+     * @param FilterDto $filter
+     * @return array
+     * @throws ExceptionDbal
+     */
+    public function getReferrers(FilterDto $filter): array
+    {
+        $sourceHelper = GeneralUtility::makeInstance(SourceHelper::class);
+        $grouped = [];
+        foreach ($this->getAmountOfReferrerDomains($filter) as $row) {
+            $row['identified_count'] = $this->extendRowIdentified($row, $filter);
+            $row = $this->extendRowWithChildren($row, $filter);
+            $key = $sourceHelper->getKeyFromHost($row['referrer_domain']) ?: 'other';
+            $grouped[$key][] = $row;
+        }
+
+        // Ensure "other" key is always the last key
+        if (isset($grouped['other'])) {
+            $otherValue = $grouped['other'];
+            unset($grouped['other']);
+            $grouped['other'] = $otherValue;
+        }
+
+        return $grouped;
+    }
+
+    /**
+     *  [
+     *      [
+     *          'referrer_domain' => 'x.com',
+     *          'count' => 123,
+     *      ],
+     *      [
+     *          'referrer_domain' => 'openai.com',
+     *          'count' => 25,
+     *      ],
+     *  ]
+     *
+     * @param FilterDto $filter
+     * @return array
+     * @throws ExceptionDbal
+     */
+    public function getAmountOfReferrerDomains(FilterDto $filter): array
+    {
+        /** @var SiteService $siteService */
+        $siteService = GeneralUtility::makeInstance(SiteService::class);
+        $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
+        $sql = 'select substring_index(substring_index(referrer, \'://\', -1), \'/\', 1) referrer_domain, count(*) count';
+        $sql .= ' from ' . Pagevisit::TABLE_NAME . ' pv';
+        $sql .= ' where pv.deleted = 0 and pv.hidden = 0';
+        $sql .=  ' and pv.referrer != \'\'';
+        $sql .= ' and referrer not regexp "' . $siteService->getAllDomainsForWhereClause() . '"';
+        $sql .= $this->extendWhereClauseWithFilterSearchterms($filter, 'pv', 'referrer');
+        $sql .= $this->extendWhereClauseWithFilterTime($filter);
+        $sql .= $this->extendWhereClauseWithFilterSite($filter);
+        $sql .= $this->extendWhereClauseWithFilterDomain($filter);
+        $sql .= ' group by referrer_domain order by count desc';
+        if ($filter->getLimit() > 0) {
+            $sql .= ' limit ' . $filter->getLimit();
+        }
+        $rows = $connection->executeQuery($sql)->fetchAllAssociative();
+        return $rows;
+    }
+
+    protected function extendRowIdentified(array $row, FilterDto $filter): int
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
+        $sql = 'select count(*) identified_count';
+        $sql .= ' from tx_lux_domain_model_visitor v';
+        $sql .= ' where v.identified = 1';
+        $sql .= ' and exists (';
+        $sql .= 'select 1';
+        $sql .= ' from tx_lux_domain_model_pagevisit pv';
+        $sql .= ' where pv.visitor = v.uid and pv.referrer like "https://' . $row['referrer_domain'] . '%"';
+        $sql .= $this->extendWhereClauseWithFilterTime($filter, true, 'pv');
+        $sql .= $this->extendWhereClauseWithFilterSite($filter, 'pv');
+        $sql .= ')';
+        return (int)$connection->executeQuery($sql)->fetchOne();
+    }
+
+    protected function extendRowWithChildren(array $row, FilterDto $filter): array
+    {
+        $query = $this->createQuery();
+        $logicalAnd = [
+            $query->like('referrer', 'https://' . $row['referrer_domain'] . '%'),
+        ];
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
+        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForSite($filter, $query, $logicalAnd);
+        $query->matching($query->logicalAnd(...$logicalAnd));
+        $query->setOrderings(['crdate' => QueryInterface::ORDER_DESCENDING]);
+        $query->setLimit($row['count']);
+        $row['children'] = $query->execute();
+        return $row;
+    }
+
+    /**
      * Get social media amount of referrers from link shortener (part of luxenterprise)
      *
      * @param array $result
@@ -378,6 +505,47 @@ class PagevisitRepository extends AbstractRepository
             $result = ArrayUtility::sumAmountArrays($result, $result2);
         }
         return $result;
+    }
+
+    /**
+     * @param DateTime $start
+     * @param DateTime $end
+     * @param FilterDto|null $filter $filter->getSearchterm() contains source for referrer
+     * @return int
+     * @throws ArgumentsException
+     * @throws ExceptionDbal
+     */
+    public function getNumberOfVisitsInTimeFrameBySource(DateTime $start, DateTime $end, ?FilterDto $filter = null): int
+    {
+        if ($filter->isSearchtermSet() === false) {
+            throw new ArgumentsException('Filter searchterm must be filled', 1752776612);
+        }
+
+        $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
+        $sql = 'select count(*) count from ' . Pagevisit::TABLE_NAME . ' pv'
+            . ' where pv.crdate>=' . $start->getTimestamp() . ' and pv.crdate<=' . $end->getTimestamp()
+            . ' and pv.referrer like "https://' . $filter->getSearchterm() . '%"'
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv');
+        return $connection->executeQuery($sql)->fetchOne();
+    }
+
+    public function getReferrerCategoryAmounts(FilterDto $filter): array
+    {
+        $sourceHelper = GeneralUtility::makeInstance(SourceHelper::class);
+        $amounts = [];
+        foreach ($sourceHelper->getAllKeysWithDomainsForQuery() as $key => $valueRegEx) {
+            $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
+            $sql = 'SELECT count(*) as count';
+            $sql .= ' from ' . Pagevisit::TABLE_NAME . ' pv';
+            $sql .= ' where referrer RLIKE \'^https://(' . $valueRegEx . ')/\'';
+            $sql .= $this->extendWhereClauseWithFilterSearchterms($filter, 'pv', 'referrer');
+            $sql .= $this->extendWhereClauseWithFilterTime($filter);
+            $sql .= $this->extendWhereClauseWithFilterSite($filter);
+            $sql .= $this->extendWhereClauseWithFilterDomain($filter);
+            $amounts[$key] = $connection->executeQuery($sql)->fetchOne();
+        }
+        arsort($amounts);
+        return $amounts;
     }
 
     /**
@@ -508,5 +676,34 @@ class PagevisitRepository extends AbstractRepository
         $amount1 = $this->findAmountPerPage($pageIdentifier, $filter1);
         $amount2 = $this->findAmountPerPage($pageIdentifier, $filter2);
         return $amount1 - $amount2;
+    }
+
+    /**
+     * Domain is misleading here - this function is reused to search for given domains by a category
+     *
+     * @param FilterDto $filter
+     * @param string $table
+     * @return string
+     */
+    protected function extendWhereClauseWithFilterDomain(FilterDto $filter, string $table = ''): string
+    {
+        $sql = '';
+        if ($filter->isDomainSet()) {
+            $field = 'referrer';
+            if ($table !== '') {
+                $field = $table . '.' . $field;
+            }
+            $sourceHelper = GeneralUtility::makeInstance(SourceHelper::class);
+            $domains = $sourceHelper->getDomainsFromCategory($filter->getDomain());
+
+            if ($domains !== []) {
+                $conditions = [];
+                foreach ($domains as $domain) {
+                    $conditions[] = $field . ' LIKE "https://' . $domain . '%"';
+                }
+                $sql .= ' and (' . implode(' OR ', $conditions) . ')';
+            }
+        }
+        return $sql;
     }
 }

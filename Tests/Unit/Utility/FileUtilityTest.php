@@ -3,11 +3,12 @@
 namespace In2code\Lux\Tests\Unit\Utility;
 
 use In2code\Lux\Utility\FileUtility;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/**
- * @coversDefaultClass \In2code\Lux\Utility\FileUtility
- */
+#[CoversClass(FileUtility::class)]
+#[CoversMethod(FileUtility::class, 'getFilenameFromPathAndFilename')]
 class FileUtilityTest extends UnitTestCase
 {
     protected array $testFilesToDelete = [];
@@ -15,7 +16,6 @@ class FileUtilityTest extends UnitTestCase
     /**
      * @return void
      * @SuppressWarnings(PHPMD.Superglobals)
-     * @covers ::getFilenameFromPathAndFilename
      */
     public function testGetFilenameFromPathAndFilename(): void
     {

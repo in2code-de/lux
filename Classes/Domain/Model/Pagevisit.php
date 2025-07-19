@@ -5,7 +5,7 @@ namespace In2code\Lux\Domain\Model;
 
 use DateTime;
 use In2code\Lux\Domain\Repository\NewsvisitRepository;
-use In2code\Lux\Domain\Service\Referrer\Readable;
+use In2code\Lux\Domain\Service\Referrer\SourceHelper;
 use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\EnvironmentUtility;
@@ -114,8 +114,8 @@ class Pagevisit extends AbstractModel
 
     public function getReadableReferrer(): string
     {
-        $referrerService = GeneralUtility::makeInstance(Readable::class, $this->getReferrer());
-        return $referrerService->getReadableReferrer();
+        $sourceHelper = GeneralUtility::makeInstance(SourceHelper::class, $this->getReferrer());
+        return $sourceHelper->getReadableReferrer();
     }
 
     public function isReferrerSet(): bool

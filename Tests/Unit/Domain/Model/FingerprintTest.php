@@ -4,12 +4,13 @@ namespace In2code\Lux\Tests\Unit\Domain\Model;
 
 use In2code\Lux\Domain\Model\Fingerprint;
 use In2code\Lux\Tests\Helper\TestingHelper;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/**
- * @coversDefaultClass \In2code\Lux\Domain\Model\Fingerprint
- */
+#[CoversClass(Fingerprint::class)]
+#[CoversMethod(Fingerprint::class, 'setValue')]
 class FingerprintTest extends UnitTestCase
 {
     protected bool $resetSingletonInstances = true;
@@ -20,10 +21,6 @@ class FingerprintTest extends UnitTestCase
         TestingHelper::setDefaultConstants();
     }
 
-    /**
-     * @return void
-     * @covers ::setValue
-     */
     public function testFingerprintType(): void
     {
         $fingerprint = new Fingerprint();
@@ -35,10 +32,6 @@ class FingerprintTest extends UnitTestCase
         self::assertEquals($fingerprint->getType(), Fingerprint::TYPE_STORAGE);
     }
 
-    /**
-     * @return void
-     * @covers ::setValue
-     */
     public function testAssertSameHashesWithSameIps(): void
     {
         $fingerprint = new Fingerprint();
@@ -53,10 +46,6 @@ class FingerprintTest extends UnitTestCase
         self::assertEquals($value1, $value2);
     }
 
-    /**
-     * @return void
-     * @covers ::setValue
-     */
     public function testAssertDifferentHashesWithDifferentIps(): void
     {
         $fingerprint = new Fingerprint();
@@ -75,10 +64,6 @@ class FingerprintTest extends UnitTestCase
         self::assertNotEquals($value1, $value2);
     }
 
-    /**
-     * @return void
-     * @covers ::setValue
-     */
     public function testAssertNoHashingForStorageType(): void
     {
         $fingerprint = new Fingerprint();
