@@ -3,7 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\DataProvider;
 
-use Doctrine\DBAL\Exception as ExceptionDbal;;
+use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
