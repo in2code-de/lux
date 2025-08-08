@@ -8,11 +8,19 @@ use In2code\Lux\Exception\UnexpectedValueException;
 use In2code\Lux\Tests\Helper\TestingHelper;
 use In2code\Lux\Tests\Unit\Fixtures\Utility\CacheLayerUtilityFixture;
 use In2code\Lux\Utility\CacheLayerUtility;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * @coversDefaultClass \In2code\Lux\Utility\CacheLayerUtility
  */
+#[CoversClass(CacheLayerUtility::class)]
+#[CoversMethod(CacheLayerUtility::class, 'getCacheLayerConfigurationByRoute')]
+#[CoversMethod(CacheLayerUtility::class, 'getCachelayerConfiguration')]
+#[CoversMethod(CacheLayerUtility::class, 'getCachelayerLifetimeByCacheName')]
+#[CoversMethod(CacheLayerUtility::class, 'getCachelayerRoutes')]
+#[CoversMethod(CacheLayerUtility::class, 'registerCacheLayers')]
 class CacheLayerUtilityTest extends UnitTestCase
 {
     protected array $testFilesToDelete = [];
@@ -26,7 +34,6 @@ class CacheLayerUtilityTest extends UnitTestCase
     /**
      * @return void
      * @SuppressWarnings(PHPMD.Superglobals)
-     * @covers ::registerCacheLayers
      */
     public function testGetPropertyFromBackendUser(): void
     {
@@ -43,7 +50,6 @@ class CacheLayerUtilityTest extends UnitTestCase
      * @return void
      * @throws ConfigurationException
      * @throws UnexpectedValueException
-     * @covers ::getCachelayerLifetimeByCacheName
      */
     public function testGetCachelayerLifetimeByCacheName(): void
     {
@@ -55,7 +61,6 @@ class CacheLayerUtilityTest extends UnitTestCase
     /**
      * @return void
      * @throws ConfigurationException
-     * @covers ::getCacheLayerConfigurationByRoute
      */
     public function testGetCacheLayerConfigurationByRoute(): void
     {
@@ -66,7 +71,6 @@ class CacheLayerUtilityTest extends UnitTestCase
     /**
      * @return void
      * @throws ConfigurationException
-     * @covers ::getCacheLayerConfigurationByRoute
      */
     public function testGetCacheLayerConfigurationByRouteEmptyRoute(): void
     {
@@ -82,7 +86,6 @@ class CacheLayerUtilityTest extends UnitTestCase
     /**
      * @return void
      * @throws ConfigurationException
-     * @covers ::getCacheLayerConfigurationByRoute
      */
     public function testGetCacheLayerConfigurationByRouteNoRouteFound(): void
     {
@@ -91,20 +94,12 @@ class CacheLayerUtilityTest extends UnitTestCase
         CacheLayerUtility::getCacheLayerConfigurationByRoute('foo');
     }
 
-    /**
-     * @return void
-     * @covers ::getCachelayerRoutes
-     */
     public function testGetCachelayerRoutes(): void
     {
         CacheLayerUtility::registerCacheLayers();
         self::assertGreaterThan(0, count(CacheLayerUtility::getCachelayerRoutes()));
     }
 
-    /**
-     * @return void
-     * @covers ::getCachelayerConfiguration
-     */
     public function testGetCachelayerConfiguration(): void
     {
         CacheLayerUtility::registerCacheLayers();

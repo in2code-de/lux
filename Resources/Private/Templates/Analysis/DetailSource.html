@@ -1,0 +1,99 @@
+<f:layout name="Backend"/>
+
+<f:section name="content">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.ssources">Sources</f:translate>
+                    </h3>
+                </div>
+                <div class="panel-body">
+
+                    <f:if condition="{pagevisits}">
+                        <lux:pagination.paginate objects="{pagevisits}" as="pagevisitsPaginator" itemsPerPage="25">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.source">Source</f:translate>
+                                    </th>
+                                    <th>
+                                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.entry">Entry</f:translate>
+                                    </th>
+                                    <th>
+                                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.time">Time</f:translate>
+                                    </th>
+                                    <th>
+                                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.lead">Lead</f:translate>
+                                    </th>
+                                    <th>
+                                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.company">Company</f:translate>
+                                    </th>
+                                    <th>
+                                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.identified">Identified</f:translate>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <f:for each="{pagevisitsPaginator.paginator.paginatedItems}" as="pagevisit">
+                                    <tr data-identifier-pagevisit="{pagevisit.uid}">
+                                        <td>
+                                            <a href="{pagevisit.referrer}" title="{pagevisit.referrer}" target="_blank" rel="noopener noreferrer">
+                                                <f:format.crop maxCharacters="50" append=" ...">{pagevisit.referrer}</f:format.crop>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <span title="PID{pagevisit.page.uid}">{pagevisit.pageTitleWithLanguage}</span>
+                                        </td>
+                                        <td>
+                                            <span class="badge" title="{f:format.date(date:pagevisit.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
+                                                <lux:format.readableDate>{pagevisit.crdate}</lux:format.readableDate>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <f:link.action action="detail" controller="Lead" arguments="{visitor:pagevisit.visitor}" title="UID{pagevisit.visitor.uid}">{pagevisit.visitor.fullName}</f:link.action>
+                                        </td>
+                                        <td>
+                                            {pagevisit.visitor.company}
+                                        </td>
+                                        <td>
+                                            <f:if condition="{pagevisit.visitor.identified}">
+                                                <f:then>
+                                                    <core:icon identifier="actions-check-circle-alt" size="small" />
+                                                </f:then>
+                                                <f:else>
+                                                    <core:icon identifier="apps-pagetree-drag-place-denied" size="small" />
+                                                </f:else>
+                                            </f:if>
+                                        </td>
+                                    </tr>
+                                </f:for>
+                                </tbody>
+                            </table>
+
+                            <f:alias map="{pagination:searchesPaginator.pagination, paginator:searchesPaginator.paginator, name:searchesPaginator.name}">
+                                <f:render partial="Miscellaneous/Pagination" arguments="{_all}" />
+                            </f:alias>
+                        </lux:pagination.paginate>
+                    </f:if>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <f:alias map="{type:'source'}">
+                <f:render partial="Box/Miscellaneous/FilterInformation" arguments="{_all}"/>
+            </f:alias>
+            <f:alias map="{headerPostfix: filter.searchterm}">
+                <f:render partial="Box/Analysis/PagevisitsBySource" arguments="{_all}"/>
+            </f:alias>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <f:link.action class="btn btn-primary" action="search"><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:back">go back</f:translate></f:link.action>
+        </div>
+    </div>
+</f:section>

@@ -2,13 +2,17 @@
 
 namespace In2code\Lux\Tests\Unit\Utility;
 
-use In2code\Lux\Exception\ArgumentsException;
 use In2code\Lux\Utility\ArrayUtility;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/**
- * @coversDefaultClass \In2code\Lux\Utility\ArrayUtility
- */
+#[CoversClass(ArrayUtility::class)]
+#[CoversMethod(ArrayUtility::class, 'cleanStringForArrayKeys')]
+#[CoversMethod(ArrayUtility::class, 'convertFetchedAllArrayToNumericArray')]
+#[CoversMethod(ArrayUtility::class, 'copyValuesToKeys')]
+#[CoversMethod(ArrayUtility::class, 'sumAmountArrays')]
 class ArrayUtilityTest extends UnitTestCase
 {
     public static function sumAmountArraysDataProvider(): array
@@ -56,23 +60,12 @@ class ArrayUtilityTest extends UnitTestCase
         ];
     }
 
-    /**
-     * @param array $array1
-     * @param array $array2
-     * @param array $expectedArray
-     * @return void
-     * @dataProvider sumAmountArraysDataProvider
-     * @covers ::sumAmountArrays
-     */
+    #[DataProvider('sumAmountArraysDataProvider')]
     public function testSumAmountArrays(array $array1, array $array2, array $expectedArray): void
     {
         self::assertSame($expectedArray, ArrayUtility::sumAmountArrays($array1, $array2));
     }
 
-    /**
-     * @return void
-     * @covers ::cleanStringForArrayKeys
-     */
     public function testCleanStringForArrayKeys(): void
     {
         $arrayActual = [
@@ -88,10 +81,6 @@ class ArrayUtilityTest extends UnitTestCase
         self::assertSame($arrayExpected, ArrayUtility::cleanStringForArrayKeys($arrayActual));
     }
 
-    /**
-     * @return void
-     * @covers ::copyValuesToKeys
-     */
     public function testCopyValuesToKeys(): void
     {
         $arrayActual = [
@@ -155,15 +144,7 @@ class ArrayUtilityTest extends UnitTestCase
         ];
     }
 
-    /**
-     * @param array $given
-     * @param string $fieldName
-     * @param array $expected
-     * @return void
-     * @throws ArgumentsException
-     * @dataProvider convertFetchedAllArrayToNumericArrayDataProvider
-     * @covers ::convertFetchedAllArrayToNumericArray
-     */
+    #[DataProvider('convertFetchedAllArrayToNumericArrayDataProvider')]
     public function testConvertFetchedAllArrayToNumericArray(array $given, string $fieldName, array $expected): void
     {
         self::assertSame($expected, ArrayUtility::convertFetchedAllArrayToNumericArray($given, $fieldName));

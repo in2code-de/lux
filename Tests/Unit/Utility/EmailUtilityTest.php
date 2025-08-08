@@ -3,11 +3,14 @@
 namespace In2code\Lux\Tests\Unit\Utility;
 
 use In2code\Lux\Utility\EmailUtility;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/**
- * @coversDefaultClass EmailUtility
- */
+#[CoversClass(EmailUtility::class)]
+#[CoversMethod(EmailUtility::class, 'extendEmailReceiverArray')]
+#[CoversMethod(EmailUtility::class, 'getDomainFromEmail')]
 class EmailUtilityTest extends UnitTestCase
 {
     public static function extendEmailReceiverArrayDataProvider(): array
@@ -40,14 +43,7 @@ class EmailUtilityTest extends UnitTestCase
         ];
     }
 
-    /**
-     * @param array $emails
-     * @param string|null $name
-     * @param array $expectedResult
-     * @return void
-     * @dataProvider extendEmailReceiverArrayDataProvider
-     * @covers ::extendEmailReceiverArray
-     */
+    #[DataProvider('extendEmailReceiverArrayDataProvider')]
     public function testExtendEmailReceiverArray(array $emails, ?string $name, array $expectedResult): void
     {
         if ($name !== null) {
@@ -58,10 +54,6 @@ class EmailUtilityTest extends UnitTestCase
         self::assertSame($expectedResult, $result);
     }
 
-    /**
-     * @return void
-     * @covers ::getDomainFromEmail
-     */
     public function testGetDomainFromEmail(): void
     {
         self::assertSame('in2code.de', EmailUtility::getDomainFromEmail('test@in2code.de'));

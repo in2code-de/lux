@@ -20,6 +20,13 @@ $additional = [
             ],
         ],
     ],
+    'EXTCONF' => [
+        'lang' => [
+            'availableLanguages' => [
+                'de',
+            ],
+        ],
+    ],
     'EXTENSIONS' => [
         'lux' => [
             'anonymizeIp' => '1',
