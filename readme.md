@@ -151,6 +151,12 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
 * Show pageviews
 * Show asset downloads
 
+### AI driven marketing decisions
+
+* AI chatbot integration for marketing questions
+* Ask the chatbot some LUX data related questions ("_Show me the hottest leads_")
+* A screenshot feature helps to explain the current backend data
+
 ### Scoring
 
 * General scoring (with individual calculation)
