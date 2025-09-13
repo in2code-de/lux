@@ -46,6 +46,17 @@ LUX will not set any cookies.
         </td>
     </tr>
     <tr>
+        <th colspan="2">AI integration into LUX</th>
+    </tr>
+    <tr>
+        <td align="center">
+            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/develop/Documentation/Images/screenshot_ai_question.png">
+        </td>
+        <td align="center">
+            <img alt="" width="400" src="https://github.com/in2code-de/lux/blob/develop/Documentation/Images/screenshot_ai_screenshot.png">
+        </td>
+    </tr>
+    <tr>
         <th>
             Company information<br/>
             <i>(Wiredminds integration only)</i>
