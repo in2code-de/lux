@@ -39,6 +39,7 @@ See more information in the chapters:
 ### [Leads](Leads/Index.md)
 ### [Marketing campaigns](Campaigns/Index.md)
 ### [Plugins and Pageoverview](Plugins/Index.md)
+### [AI chatbot](AI/Index.md)
 ### [Finisher](Finisher/Index.md)
 ### [Commands & Scheduler Tasks](Commands/Index.md)
 ### [API](API/Index.md)

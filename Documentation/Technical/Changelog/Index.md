@@ -9,6 +9,7 @@
 
 | Version    | Date       | State    | TYPO3         | Description                                                                                                                                                                                           |
 |------------|------------|----------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 39.1.0     | 2025-09-13 | Task     | `12.4 + 13.4` | Add AI documentation                                                                                                                                                                                  |
 | 39.0.0     | 2025-08-08 | Feature  | `12.4 + 13.4` | Preparations for source view in backend, add some more unit tests, update DisallowedMailProvider list                                                                                                 |
 | 38.7.2     | 2025-07-18 | Bugfix   | `12.4 + 13.4` | Fix outdated call of function getTwoLetterIsoCode()                                                                                                                                                   |
 | 38.7.1     | 2025-07-16 | Bugfix   | `12.4 + 13.4` | Fix PHP 8.4 deprecations                                                                                                                                                                              |
