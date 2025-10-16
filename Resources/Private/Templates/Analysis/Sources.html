@@ -9,23 +9,23 @@
 
             <f:if condition="{referrers}">
                 <f:then>
-                    <lux:pagination.paginate objects="{referrers}" as="pagesReferrers" itemsPerPage="10">
-                        <f:for each="{pagesReferrers.paginator.paginatedItems}" as="pageReferrers" iteration="iteration" key="categoryLabel">
+                    <f:for each="{referrers}" as="referrerGroup" key="categoryLabel">
+                        <lux:pagination.paginate objects="{referrerGroup}" as="pagesReferrers" itemsPerPage="10">
                             <div class="table-title">
                                 <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:readablereferrer.{categoryLabel}">{categoryLabel}</f:translate>
                             </div>
                             <table class="table table-striped table-hover table-pointer">
                                 <f:render section="TableHeader" />
-                                <f:for each="{pageReferrers}" as="referrer" iteration="iterationInner">
+                                <f:for each="{pagesReferrers.paginator.paginatedItems}" as="referrer">
                                     <f:render section="TableRow" arguments="{_all}" />
                                 </f:for>
                             </table>
-                        </f:for>
 
-                        <f:alias map="{pagination:pagesReferrers.pagination, paginator:pagesReferrers.paginator, name:pagesReferrers.name}">
-                            <f:render partial="Miscellaneous/Pagination" arguments="{_all}" />
-                        </f:alias>
-                    </lux:pagination.paginate>
+                            <f:alias map="{pagination:pagesReferrers.pagination, paginator:pagesReferrers.paginator, name:pagesReferrers.name}">
+                                <f:render partial="Miscellaneous/Pagination" arguments="{_all}" />
+                            </f:alias>
+                        </lux:pagination.paginate>
+                    </f:for>
                 </f:then>
                 <f:else>
                     <div class="alert alert-warning" role="alert">

@@ -385,51 +385,12 @@ class PagevisitRepository extends AbstractRepository
      *      [
      *          'referrer_domain' => 'x.com',
      *          'count' => 123,
-     *          'identified_count' => 34,
-     *          'children' => [QueryResult],
+     *          'identified_count' => 85,
      *      ],
      *      [
      *          'referrer_domain' => 'openai.com',
      *          'count' => 25,
-     *          'identified_count' => 12,
-     *          'children' => [QueryResult],
-     *      ],
-     *  ]
-     *
-     * @param FilterDto $filter
-     * @return array
-     * @throws ExceptionDbal
-     */
-    public function getReferrers(FilterDto $filter): array
-    {
-        $sourceHelper = GeneralUtility::makeInstance(SourceHelper::class);
-        $grouped = [];
-        foreach ($this->getAmountOfReferrerDomains($filter) as $row) {
-            $row['identified_count'] = $this->extendRowIdentified($row, $filter);
-            $row = $this->extendRowWithChildren($row, $filter);
-            $key = $sourceHelper->getKeyFromHost($row['referrer_domain']) ?: 'other';
-            $grouped[$key][] = $row;
-        }
-
-        // Ensure "other" key is always the last key
-        if (isset($grouped['other'])) {
-            $otherValue = $grouped['other'];
-            unset($grouped['other']);
-            $grouped['other'] = $otherValue;
-        }
-
-        return $grouped;
-    }
-
-    /**
-     *  [
-     *      [
-     *          'referrer_domain' => 'x.com',
-     *          'count' => 123,
-     *      ],
-     *      [
-     *          'referrer_domain' => 'openai.com',
-     *          'count' => 25,
+     *          'identified_count' => 2,
      *      ],
      *  ]
      *
@@ -439,55 +400,47 @@ class PagevisitRepository extends AbstractRepository
      */
     public function getAmountOfReferrerDomains(FilterDto $filter): array
     {
+        $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
+        $sql = 'SELECT pv_stats.referrer_domain, pv_stats.total_pagevisits AS count, COALESCE(identified_stats.identified_visitor_count, 0) AS identified_count';
+        $sql .= ' FROM (' . $this->getPageVisitsPerReferrerSql($filter) . ') pv_stats';
+        $sql .= ' LEFT JOIN (' . $this->getIdentifiedVisitorsPerReferrerSql($filter) . ') identified_stats';
+        $sql .= ' ON pv_stats.referrer_domain = identified_stats.referrer_domain';
+        $sql .=  ' ORDER BY pv_stats.total_pagevisits DESC';
+        if ($filter->getLimit() > 0) {
+            $sql .= ' LIMIT ' . $filter->getLimit();
+        }
+        return $connection->executeQuery($sql)->fetchAllAssociative();
+    }
+
+    protected function getPageVisitsPerReferrerSql(FilterDto $filter): string
+    {
         /** @var SiteService $siteService */
         $siteService = GeneralUtility::makeInstance(SiteService::class);
-        $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
-        $sql = 'select substring_index(substring_index(referrer, \'://\', -1), \'/\', 1) referrer_domain, count(*) count';
-        $sql .= ' from ' . Pagevisit::TABLE_NAME . ' pv';
-        $sql .= ' where pv.deleted = 0 and pv.hidden = 0';
-        $sql .=  ' and pv.referrer != \'\'';
-        $sql .= ' and referrer not regexp "' . $siteService->getAllDomainsForWhereClause() . '"';
+        $sql = 'SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(referrer, \'://\', -1), \'/\', 1) as referrer_domain, COUNT(*) as total_pagevisits';
+        $sql .= ' FROM ' . Pagevisit::TABLE_NAME . ' pv';
+        $sql .= ' WHERE pv.deleted = 0 and pv.hidden = 0';
+        $sql .=  ' AND pv.referrer != \'\'';
+        $sql .= ' AND referrer NOT REGEXP "' . $siteService->getAllDomainsForWhereClause() . '"';
         $sql .= $this->extendWhereClauseWithFilterSearchterms($filter, 'pv', 'referrer');
-        $sql .= $this->extendWhereClauseWithFilterTime($filter);
+        $sql .= $this->extendWhereClauseWithFilterTime($filter, true, 'pv');
         $sql .= $this->extendWhereClauseWithFilterSite($filter);
         $sql .= $this->extendWhereClauseWithFilterDomain($filter);
-        $sql .= ' group by referrer_domain order by count desc';
-        if ($filter->getLimit() > 0) {
-            $sql .= ' limit ' . $filter->getLimit();
-        }
-        $rows = $connection->executeQuery($sql)->fetchAllAssociative();
-        return $rows;
+        $sql .= ' GROUP BY referrer_domain';
+        return $sql;
     }
 
-    protected function extendRowIdentified(array $row, FilterDto $filter): int
+    protected function getIdentifiedVisitorsPerReferrerSql(FilterDto $filter): string
     {
-        $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
-        $sql = 'select count(*) identified_count';
-        $sql .= ' from tx_lux_domain_model_visitor v';
-        $sql .= ' where v.identified = 1';
-        $sql .= ' and exists (';
-        $sql .= 'select 1';
-        $sql .= ' from tx_lux_domain_model_pagevisit pv';
-        $sql .= ' where pv.visitor = v.uid and pv.referrer like "https://' . $row['referrer_domain'] . '%"';
+        $sql = 'SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(referrer, \'://\', -1), \'/\', 1) as referrer_domain, COUNT(DISTINCT pv.visitor) as identified_visitor_count';
+        $sql .= ' FROM ' . Pagevisit::TABLE_NAME . ' pv';
+        $sql .= ' INNER JOIN ' . Visitor::TABLE_NAME . ' v ON pv.visitor=v.uid AND v.identified=1 AND v.hidden=0 AND v.deleted=0';
+        $sql .= ' WHERE pv.deleted = 0 and pv.hidden = 0 AND pv.referrer != \'\'';
+        $sql .= $this->extendWhereClauseWithFilterSearchterms($filter, 'pv', 'referrer');
         $sql .= $this->extendWhereClauseWithFilterTime($filter, true, 'pv');
-        $sql .= $this->extendWhereClauseWithFilterSite($filter, 'pv');
-        $sql .= ')';
-        return (int)$connection->executeQuery($sql)->fetchOne();
-    }
-
-    protected function extendRowWithChildren(array $row, FilterDto $filter): array
-    {
-        $query = $this->createQuery();
-        $logicalAnd = [
-            $query->like('referrer', 'https://' . $row['referrer_domain'] . '%'),
-        ];
-        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForCrdate($filter, $query, $logicalAnd);
-        $logicalAnd = $this->extendLogicalAndWithFilterConstraintsForSite($filter, $query, $logicalAnd);
-        $query->matching($query->logicalAnd(...$logicalAnd));
-        $query->setOrderings(['crdate' => QueryInterface::ORDER_DESCENDING]);
-        $query->setLimit($row['count']);
-        $row['children'] = $query->execute();
-        return $row;
+        $sql .= $this->extendWhereClauseWithFilterSite($filter);
+        $sql .= $this->extendWhereClauseWithFilterDomain($filter);
+        $sql .= ' GROUP BY referrer_domain';
+        return $sql;
     }
 
     /**
