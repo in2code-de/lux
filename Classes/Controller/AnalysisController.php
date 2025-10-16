@@ -28,6 +28,7 @@ use In2code\Lux\Domain\Model\Linklistener;
 use In2code\Lux\Domain\Model\News;
 use In2code\Lux\Domain\Model\Page;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
+use In2code\Lux\Domain\Service\GetReferrersServices;
 use In2code\Lux\Domain\Service\Referrer\SourceHelper;
 use In2code\Lux\Exception\ArgumentsException;
 use In2code\Lux\Exception\AuthenticationException;
@@ -252,9 +253,10 @@ class AnalysisController extends AbstractController
             return (new ForwardResponse('sourcesCsv'))->withArguments(['filter' => $filter]);
         }
 
+        $referrerService = GeneralUtility::makeInstance(GetReferrersServices::class);
         $values = [
             'filter' => $filter,
-            'referrers' => $this->pagevisitsRepository->getReferrers($filter),
+            'referrers' => $referrerService->getReferrers($filter),
             'sourceCategories' => GeneralUtility::makeInstance(SourceHelper::class)->getAllKeys(),
             'categoryData' => GeneralUtility::makeInstance(ReferrerCategoryDataProvider::class, $filter),
             'sourcesTop' => GeneralUtility::makeInstance(ReferrerTopDataProvider::class, $filter),

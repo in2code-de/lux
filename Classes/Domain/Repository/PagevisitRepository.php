@@ -385,43 +385,6 @@ class PagevisitRepository extends AbstractRepository
      *      [
      *          'referrer_domain' => 'x.com',
      *          'count' => 123,
-     *          'identified_count' => 34,
-     *      ],
-     *      [
-     *          'referrer_domain' => 'openai.com',
-     *          'count' => 25,
-     *          'identified_count' => 12,
-     *      ],
-     *  ]
-     *
-     * @param FilterDto $filter
-     * @return array
-     * @throws ExceptionDbal
-     */
-    public function getReferrers(FilterDto $filter): array
-    {
-        $sourceHelper = GeneralUtility::makeInstance(SourceHelper::class);
-        $grouped = [];
-        foreach ($this->getAmountOfReferrerDomains($filter) as $row) {
-            $key = $sourceHelper->getKeyFromHost($row['referrer_domain']) ?: 'other';
-            $grouped[$key][] = $row;
-        }
-
-        // Ensure "other" key is always the last key
-        if (isset($grouped['other'])) {
-            $otherValue = $grouped['other'];
-            unset($grouped['other']);
-            $grouped['other'] = $otherValue;
-        }
-
-        return $grouped;
-    }
-
-    /**
-     *  [
-     *      [
-     *          'referrer_domain' => 'x.com',
-     *          'count' => 123,
      *          'identified_count' => 85,
      *      ],
      *      [
