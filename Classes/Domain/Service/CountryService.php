@@ -1307,6 +1307,10 @@ class CountryService
     {
         $names = [];
         foreach (array_keys($countries) as $alpha2) {
+            if (strlen($alpha2) !== 2) {
+                continue;
+            }
+            $alpha2 = strtoupper($alpha2);
             $names[$alpha2] = $this->getPropertyByAlpha2($alpha2);
         }
         return $names;
