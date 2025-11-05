@@ -74,7 +74,11 @@ class LinklistenerRepository extends AbstractRepository
         if ($filter->isCategoryScoringSet()) {
             $logicalAnd[] = $query->equals('category', $filter->getCategoryScoring());
         }
-        $logicalAnd[] = $query->in('linkclicks.site', $filter->getSitesForFilter());
+
+        $logicalAnd[] = $query->logicalOr(
+            $query->equals('linkclicks', 0),
+            $query->in('linkclicks.site', $filter->getSitesForFilter())
+        );
         return $logicalAnd;
     }
 }
