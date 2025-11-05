@@ -9,6 +9,7 @@
 
 | Version    | Date       | State    | TYPO3          | Description                                                                                                                                                                                           |
 |------------|------------|----------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 37.1.2     | 2025-11-05 | Bugfix   | `11.5 + 12.4`  | Include linklisteners without clicks in analysis module                                                                                                                                               |
 | 37.1.1     | 2025-11-05 | Bugfix   | `11.5 + 12.4`  | Prevent exception in backend module and fix linklistener filter logic                                                                                                                                 |
 | 37.1.0     | 2024-10-30 | Task     | `11.5 + 12.4`  | Bing is used for preview images instead of google (if feature is turned on for leads and companies)                                                                                                   |
 | 37.0.0 !!! | 2024-10-25 | Feature  | `11.5 + 12.4`  | Use IP-address in fingerprint hash to get a more unique hash, add sorting for lead list                                                                                                               |
