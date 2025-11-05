@@ -133,7 +133,7 @@ class Company extends AbstractEntity
     public function getCountry(): string
     {
         $countryService = GeneralUtility::makeInstance(CountryService::class);
-        if (strLen($this->getCountryCode()) === 2) {
+        if (strlen($this->getCountryCode()) === 2) {
             return $countryService->getPropertyByAlpha2($this->getCountryCode());
         }
         return '';
