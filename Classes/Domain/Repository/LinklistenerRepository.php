@@ -41,8 +41,8 @@ class LinklistenerRepository extends AbstractRepository
         QueryInterface $query,
         array $logicalAnd
     ): array {
-        $logicalAnd[] = $query->greaterThan('linkclicks.crdate', $filter->getStartTimeForFilter());
-        $logicalAnd[] = $query->lessThan('linkclicks.crdate', $filter->getEndTimeForFilter());
+        $logicalAnd[] = $query->greaterThan('crdate', $filter->getStartTimeForFilter());
+        $logicalAnd[] = $query->lessThan('crdate', $filter->getEndTimeForFilter());
         return $logicalAnd;
     }
 
