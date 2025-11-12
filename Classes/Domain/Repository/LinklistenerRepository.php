@@ -41,8 +41,20 @@ class LinklistenerRepository extends AbstractRepository
         QueryInterface $query,
         array $logicalAnd
     ): array {
-        $logicalAnd[] = $query->greaterThan('linkclicks.crdate', $filter->getStartTimeForFilter());
-        $logicalAnd[] = $query->lessThan('linkclicks.crdate', $filter->getEndTimeForFilter());
+        $or = [
+            $query->logicalAnd(
+                $query->greaterThan('linkclicks.crdate', $filter->getStartTimeForFilter()),
+                $query->lessThan('linkclicks.crdate', $filter->getEndTimeForFilter()),
+            )
+        ];
+        if ($filter->isTimeFromOrTimeToSet() === false) { // add unused linklisteners (without clicks) per default
+            $or[] = $query->logicalAnd(
+                $query->equals('linkclicks.uid', null),
+                $query->greaterThan('crdate', $filter->getStartTimeForFilter()),
+                $query->lessThan('crdate', $filter->getEndTimeForFilter())
+            );
+        }
+        $logicalAnd[] = $query->logicalOr(...$or);
         return $logicalAnd;
     }
 
@@ -74,7 +86,11 @@ class LinklistenerRepository extends AbstractRepository
         if ($filter->isCategoryScoringSet()) {
             $logicalAnd[] = $query->equals('category', $filter->getCategoryScoring());
         }
-        $logicalAnd[] = $query->in('linkclicks.site', $filter->getSitesForFilter());
+
+        $logicalAnd[] = $query->logicalOr(
+            $query->equals('linkclicks', 0),
+            $query->in('linkclicks.site', $filter->getSitesForFilter())
+        );
         return $logicalAnd;
     }
 }

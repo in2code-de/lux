@@ -1,0 +1,29 @@
+<f:layout name="SystemEmail" />
+
+<f:section name="Subject">
+    Your requested whitepaper
+</f:section>
+
+<f:section name="Main">
+Your requested whitepaper
+
+We’ve attached the requested whitepaper to this message.
+<f:if condition="{file}">Alternatively, you can download it directly via the following link: <f:uri.typolink parameter="{file.publicUrl}" absolute="1" /></f:if>
+
+ If you have any questions or need further information, please don’t hesitate to contact us.
+
+--
+
+Firstname Lastname
+Marketing
+
+
+company name
+
+Street 12a · D-ZIPCODE City
+Email: firstname.lastname@company.org
+Telefon: +49(0) 1234 56789
+Mobil: +49(0) 1234 56789
+Fax: +49(0) 1234 56789
+Website: https://www.company.org
+</f:section>

@@ -342,12 +342,6 @@ lib.lux.settings {
                 # Enable/Disable
                 _enable = 1
 
-                # Template file for mail with asset attachment
-                mailTemplate = EXT:lux/Resources/Private/Templates/Mail/Email4LinkMail.html
-
-                # Mail subject
-                subject = Your requested asset
-
                 # From name for mail to visitor
                 fromName = {$plugin.tx_lux.settings.email.defaultSenderName}
 
@@ -409,6 +403,24 @@ After that, you can copy the original file from `EXT:lux/Resources/Private/Templ
 
 **Note:** Generic variables: All arguments in the link build like `data-lux-email4link-arguments-foo="bar"` are passed
 to the template and can be re-used there with `{download.arguments.foo}`
+
+
+##### Change templates of the mail
+
+Since email4link is using FluidEmail class, mails are styled TYPO3-wide automatically. If you want to overrule the
+template, add such a line to your ext_localconf.php of your sitepackage:
+
+```
+// Number must be higher then 1762935800
+$GLOBALS['TYPO3_CONF_VARS']['MAIL']['templateRootPaths'][1762935801] = 'EXT:sitepackage/Resources/Private/Templates/Mail/';
+```
+
+After that you can copy the exixting files `Email4Link.html` and `Email4Link.txt` from
+`EXT:lux/Resources/Private/Templates/Mail/` to the new path of your sitepackage and modify it to your needs.
+
+If you also want to change the wrapping layout of your mails in general, you could do it like:
+`$GLOBALS['TYPO3_CONF_VARS']['MAIL']['layoutRootPaths'][1762935801] = 'EXT:sitepackage/Resources/Private/Layouts/Mail/';`
+After that you need to copy files `SystemEmail.*` from TYPO3 to the new path and update the files.
 
 
 #### 4. Frontend login of a frontend user
