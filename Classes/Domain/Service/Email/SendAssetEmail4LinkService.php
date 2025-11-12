@@ -12,13 +12,15 @@ use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use In2code\Lux\Utility\UrlUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use TYPO3\CMS\Core\Mail\MailMessage;
+use Symfony\Component\Mime\Address;
+use TYPO3\CMS\Core\Http\ServerRequest;
+use TYPO3\CMS\Core\Mail\FluidEmail;
+use TYPO3\CMS\Core\Mail\MailerInterface;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\Security\FileNameValidator;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
-use TYPO3\CMS\Fluid\View\StandaloneView;
 
 class SendAssetEmail4LinkService
 {
@@ -44,12 +46,6 @@ class SendAssetEmail4LinkService
         $this->eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
     }
 
-    /**
-     * @param string $href
-     * @param File|null $file
-     * @return void
-     * @throws InvalidConfigurationTypeException
-     */
     public function sendMail(string $href, ?File $file): void
     {
         $this->href = $href;
@@ -57,44 +53,39 @@ class SendAssetEmail4LinkService
         if ($this->visitor->isNotBlacklisted()) {
             if ($this->isActivatedAndAllowed()) {
                 $this->send();
-                $this->eventDispatcher->dispatch(
-                    GeneralUtility::makeInstance(LogEmail4linkSendEmailEvent::class, $this->visitor, $this->href)
-                );
+                $this->eventDispatcher->dispatch(new LogEmail4linkSendEmailEvent($this->visitor, $this->href));
             } else {
-                $this->eventDispatcher->dispatch(
-                    GeneralUtility::makeInstance(LogEmail4linkSendEmailFailedEvent::class, $this->visitor, $this->href)
-                );
+                $this->eventDispatcher->dispatch(new LogEmail4linkSendEmailFailedEvent($this->visitor, $this->href));
             }
         }
     }
 
-    /**
-     * @return void
-     * @throws InvalidConfigurationTypeException
-     */
     protected function send(): void
     {
-        $message = GeneralUtility::makeInstance(MailMessage::class);
-        $message
-            ->setTo([$this->visitor->getEmail() => 'Receiver'])
-            ->setFrom($this->getSender())
-            ->setSubject($this->getSubject())
-            ->attachFromPath(GeneralUtility::getFileAbsFileName(UrlUtility::convertToRelative($this->href)))
-            ->html($this->getMailTemplate());
-        $this->setBcc($message);
-        $this->eventDispatcher->dispatch(
-            GeneralUtility::makeInstance(SetAssetEmail4LinkEvent::class, $this->visitor, $message, $this->href)
+        /** @var SetAssetEmail4LinkEvent $event */
+        $event = $this->eventDispatcher->dispatch(
+            new SetAssetEmail4LinkEvent($this->visitor, $this->href, $this->file)
         );
-        $message->send();
+        $mail = GeneralUtility::makeInstance(FluidEmail::class);
+        $mail
+            ->to($this->visitor->getEmail())
+            ->from($this->getSender())
+            ->format(FluidEmail::FORMAT_BOTH)
+            ->setTemplate('Email4Link')
+            ->assignMultiple([
+                'href' => $event->getHref(),
+                'visitor' => $event->getVisitor(),
+                'file' => $event->getFile(),
+                'request' => $this->getRequest(),
+            ])
+            ->attachFromPath(GeneralUtility::getFileAbsFileName(UrlUtility::convertToRelative($event->getHref())));
+        $this->setBcc($mail);
+        GeneralUtility::makeInstance(MailerInterface::class)->send($mail);
     }
 
-    /**
-     * @param MailMessage $message
-     * @return void
-     */
-    protected function setBcc(MailMessage $message): void
+    protected function setBcc(FluidEmail $mail): void
     {
-        if (!empty($this->settings['identification']['email4link']['mail']['bccEmail'])) {
+        if (($this->settings['identification']['email4link']['mail']['bccEmail'] ?? '') !== '') {
             $bcc = [];
             $emails = GeneralUtility::trimExplode(
                 ',',
@@ -103,55 +94,19 @@ class SendAssetEmail4LinkService
             );
             foreach ($emails as $email) {
                 if (GeneralUtility::validEmail($email)) {
-                    $bcc = array_merge($bcc, [$email => 'Receiver']);
+                    $bcc[] = new Address($email);
                 }
             }
-            $message->setBcc($bcc);
+            $mail->bcc(...$bcc);
         }
     }
 
-    /**
-     * @return string
-     * @throws InvalidConfigurationTypeException
-     */
-    protected function getMailTemplate(): string
-    {
-        $mailTemplatePath = $this->configurationService->getTypoScriptSettingsByPath(
-            'identification.email4link.mail.mailTemplate'
-        );
-        $standaloneView = GeneralUtility::makeInstance(StandaloneView::class);
-        $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($mailTemplatePath));
-        $standaloneView->assignMultiple([
-            'href' => $this->href,
-            'visitor' => $this->visitor,
-            'file' => $this->file,
-        ]);
-        return $standaloneView->render();
-    }
-
-    /**
-     * @return array
-     * @throws InvalidConfigurationTypeException
-     */
-    protected function getSender(): array
+    protected function getSender(): Address
     {
         $configuration = $this->configurationService->getTypoScriptSettingsByPath('identification.email4link.mail');
-        return [$configuration['fromEmail'] => $configuration['fromName']];
+        return new Address($configuration['fromEmail'], $configuration['fromName']);
     }
 
-    /**
-     * @return string
-     * @throws InvalidConfigurationTypeException
-     */
-    protected function getSubject(): string
-    {
-        return $this->configurationService->getTypoScriptSettingsByPath('identification.email4link.mail.subject');
-    }
-
-    /**
-     * @return bool
-     * @throws InvalidConfigurationTypeException
-     */
     protected function isActivatedAndAllowed(): bool
     {
         return $this->isEnabled()
@@ -162,20 +117,12 @@ class SendAssetEmail4LinkService
             && $this->visitor->isIdentified();
     }
 
-    /**
-     * @return bool
-     * @throws InvalidConfigurationTypeException
-     */
     protected function isEnabled(): bool
     {
         $path = 'identification.email4link.mail._enable';
         return $this->configurationService->getTypoScriptSettingsByPath($path) === '1';
     }
 
-    /**
-     * @return bool
-     * @throws InvalidConfigurationTypeException
-     */
     protected function isAllowedFileExtension(): bool
     {
         $allowed = false;
@@ -220,5 +167,10 @@ class SendAssetEmail4LinkService
     protected function isFileExisting(): bool
     {
         return file_exists(GeneralUtility::getFileAbsFileName(UrlUtility::convertToRelative($this->href)));
+    }
+
+    protected function getRequest(): ?ServerRequest
+    {
+        return $GLOBALS['TYPO3_REQUEST'] ?? null;
     }
 }

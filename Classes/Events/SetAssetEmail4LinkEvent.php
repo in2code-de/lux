@@ -4,20 +4,15 @@ declare(strict_types=1);
 namespace In2code\Lux\Events;
 
 use In2code\Lux\Domain\Model\Visitor;
-use TYPO3\CMS\Core\Mail\MailMessage;
+use TYPO3\CMS\Core\Resource\File;
 
 final class SetAssetEmail4LinkEvent
 {
-    protected Visitor $visitor;
-    protected MailMessage $mailMessage;
-
-    protected string $href = '';
-
-    public function __construct(Visitor $visitor, MailMessage $mailMessage, string $href)
-    {
-        $this->visitor = $visitor;
-        $this->mailMessage = $mailMessage;
-        $this->href = $href;
+    public function __construct(
+        private readonly Visitor $visitor,
+        private string $href,
+        private File $file
+    ) {
     }
 
     public function getVisitor(): Visitor
@@ -25,13 +20,25 @@ final class SetAssetEmail4LinkEvent
         return $this->visitor;
     }
 
-    public function getMailMessage(): MailMessage
-    {
-        return $this->mailMessage;
-    }
-
     public function getHref(): string
     {
         return $this->href;
+    }
+
+    public function setHref(string $href): self
+    {
+        $this->href = $href;
+        return $this;
+    }
+
+    public function getFile(): File
+    {
+        return $this->file;
+    }
+
+    public function setFile(File $file): self
+    {
+        $this->file = $file;
+        return $this;
     }
 }

@@ -58,6 +58,12 @@ call_user_func(
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['lux'][] = 'In2code\Lux\ViewHelpers';
 
         /**
+         * Email templates
+         */
+        $GLOBALS['TYPO3_CONF_VARS']['MAIL']['templateRootPaths'][1762935800] =
+            'EXT:lux/Resources/Private/Templates/Mail/';
+
+        /**
          * Caching framework
          */
         $cacheKeys = [

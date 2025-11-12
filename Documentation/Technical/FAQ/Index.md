@@ -65,8 +65,6 @@ lib.lux.settings {
         # Define your own email4link configuration
         email4link.mail {
             _enable = 1
-            mailTemplate = EXT:sitepackage/Resources/Private/Templates/Extensions/Lux/Mail/Email4LinkMail.html
-            subject = Email from your company
             fromName = Service
             fromEmail = service@yourcompany.com
             bccEmail = bcc@yourcompany.com
