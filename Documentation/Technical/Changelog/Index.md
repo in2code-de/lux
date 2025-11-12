@@ -9,6 +9,7 @@
 
 | Version    | Date       | State    | TYPO3         | Description                                                                                                                                                                                           |
 |------------|------------|----------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 40.0.0 !!! | 2025-11-12 | Feature  | `12.4 + 13.4` | Use FluidEmail instead of MailMessage for email4link mails - use your own layout now, show also unused linklisteners in backend                                                                       |
 | 39.1.2     | 2025-10-24 | Bugfix   | `12.4 + 13.4` | Fix a possible SQL error on company view together with sql mode `only_full_group_by`                                                                                                                  |
 | 39.1.1     | 2025-10-16 | Bugfix   | `12.4 + 13.4` | Fix bugs and performance issue in the backend source view                                                                                                                                             |
 | 39.1.0     | 2025-09-13 | Task     | `12.4 + 13.4` | Add AI documentation                                                                                                                                                                                  |
@@ -322,6 +323,7 @@ Double check if you have cleared all caches after installing a new LUX version t
 
 | Version                         | Situation                                                                       | Upgrade instructions                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 |---------------------------------|---------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| From former versions to 40.0.0  | Email4link mails are using styled FluidEmail now                                | New template files (HTML+TXT) are introduced for the email4link mails. Those templates must be updated. In addition: If you didn't change the mail layout yet, email4link mails are styled in TYPO3-layout by default. **See update instructions below** for more details.                                                                                                                                                                                                                                                                                                                                                       |
 | From former versions to 37.0.0  | IP-address will be used for creating fingerprint hashes                         | There is nothing to do for your, just a note that old fingerprints may not be recognized any more because we added IP-address to the fingerprint hash to be more unique now                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | From former versions to 36.5.0  | Typo in extension configuration                                                 | Changed option from `enbaleExceptionLogging` to `enableExceptionLogging` if you turned on exception logging, you have to update your configuration                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | From former versions to 35.0.0  | Multiclient usage on some records need some time to work                        | Nothing to do for you - just a note: Some records have to be extended with site information, but this can only be done with new records - not with existing (affected tables: Logs, Search, Fingerprint and some boxes on Lead Dashboard). To ensure that privacy is guaranteed, you need to remove all existing LUX data in a multiclient environment.                                                                                                                                                                                                                                                                          |
@@ -342,3 +344,66 @@ Double check if you have cleared all caches after installing a new LUX version t
 | From former versions to 8.x     | Referrers are stored on a different place now                                   | Call your TYPO3 upgrade wizard. There will be one more step that will copy values from _visitor.referrer to _pagevisit.referrer table.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | From former versions to 7.x     | Cookie-Table was replaced with a Fingerprint-Table                              | Call your TYPO3 upgrade wizard. There will be one more step that will copy values from _idcookie to _fingerprint table. Note that CommandControllers are replaced by Symfony Commands!                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | From former versions to 3.x     | The visitor object can handle more cookies now                                  | After updating use the update button in extension manager of if you have a lot of data stored, you can also use the LuxUpdateCommandController to prevent timeouts                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+
+
+### Update instruction
+
+#### From former versions to 40.0.0
+
+Before this version, the path to the email template and subject was defined in TypoScript. Now, you have to define
+the template in your ext_localconf.php file of your sitepackage like:
+
+```
+// Number must be higher then 1762935800
+$GLOBALS['TYPO3_CONF_VARS']['MAIL']['templateRootPaths'][1762935801] = 'EXT:sitepackage/Resources/Private/Templates/Mail/';
+```
+
+After that you can copy the exixting files `Email4Link.html` and `Email4Link.txt` (yes, plaintext is now supported) from
+`EXT:lux/Resources/Private/Templates/Mail/` to the new path of your sitepackage and modify it to your needs.
+
+Subject is defined in the template files - example Email4Link.html file:
+
+```
+<f:layout name="SystemEmail" />
+
+<f:section name="Subject">
+    Your subject
+</f:section>
+
+<f:section name="Main">
+    <h2>Your whitepaper</h2>
+
+    <p>
+        We’ve attached the requested whitepaper to this message.
+        <f:if condition="{file}">
+            Alternatively, you can <f:link.typolink parameter="{file.publicUrl}" absolute="1">download it directly</f:link.typolink>.
+        </f:if>
+    </p>
+
+    <p>
+        --<br /><br />
+
+        John Doe<br />
+        Marketing
+    </p>
+</f:section>
+```
+
+If you also want to change the wrapping layout of your mails in general, you could do it like:
+`$GLOBALS['TYPO3_CONF_VARS']['MAIL']['layoutRootPaths'][1762935801] = 'EXT:sitepackage/Resources/Private/Layouts/Mail/';`
+After that you need to copy files `SystemEmail.*` from TYPO3 to the new path and update the files.
+
+**Note:** Old TypoScript setup related to template and subject can be removed
+
+```
+lib.lux.settings {
+  identification {
+    email4link {
+      mail {
+        mailTemplate = old definition...
+        subject = old subject...
+      }
+    }
+  }
+}
+```
