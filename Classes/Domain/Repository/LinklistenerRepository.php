@@ -45,7 +45,7 @@ class LinklistenerRepository extends AbstractRepository
             $query->logicalAnd(
                 $query->greaterThan('linkclicks.crdate', $filter->getStartTimeForFilter()),
                 $query->lessThan('linkclicks.crdate', $filter->getEndTimeForFilter()),
-            )
+            ),
         ];
         if ($filter->isTimeFromOrTimeToSet() === false) { // add unused linklisteners (without clicks) per default
             $or[] = $query->logicalAnd(

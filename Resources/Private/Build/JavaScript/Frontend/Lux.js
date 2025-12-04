@@ -773,7 +773,7 @@ function LuxMain() {
       var links = document.querySelectorAll(getExpressionForLinkSelection());
       var href;
       for (var i = 0; i < links.length; i++) {
-        if (!links[i].hasAttribute('data-lux-email4link-title')) {
+        if (!links[i].hasAttribute('data-lux-email4link-title') && !links[i].hasAttribute('data-lux-linklistener')) {
           href = links[i].getAttribute('href');
           links[i].addEventListener('click', function(event) {
             ajaxConnection({
