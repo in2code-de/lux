@@ -2,21 +2,16 @@
 
 namespace In2code\Lux\Tests\Helper;
 
-use TYPO3\CMS\Core\Configuration\ConfigurationManager;
-use TYPO3\CMS\Core\TimeTracker\TimeTracker;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
-
-/**
- * Class TestingHelper
- */
 class TestingHelper
 {
     /**
      * @return void
      * @SuppressWarnings(PHPMD.Superglobals)
      */
-    public static function setDefaultConstants()
+    public static function setDefaultConstants(): void
     {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['lux']['testingContext'] = 1;
+
         $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['lux'] =
             'a:11:{s:13:"checkFunction";s:4:"User";s:18:"scoringCalculation";s:96:"' .
             '(10 * numberOfSiteVisits) + (1 * numberOfPageVisits) + (20 * downloads) - (1 * lastVisitDaysAgo)";' .
@@ -33,7 +28,6 @@ class TestingHelper
         $GLOBALS['TYPO3_CONF_VARS']['BE']['lockRootPath'] = '';
         $GLOBALS['TYPO3_CONF_VARS']['BE']['cookieName'] = '';
         $GLOBALS['TYPO3_CONF_VARS']['BE']['warning_email_addr'] = '';
-        $GLOBALS['TYPO3_CONF_VARS']['BE']['lockIP'] = '';
         $GLOBALS['TYPO3_CONF_VARS']['BE']['sessionTimeout'] = 0;
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['requestURIvar'] = false;
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLog'] = 'error_log';
@@ -43,44 +37,24 @@ class TestingHelper
         $GLOBALS['TYPO3_CONF_VARS']['BE']['lockIPv6'] = 0;
         // @extensionScannerIgnoreLine
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['enable_DLOG'] = false;
-        if (!defined('TYPO3_OS')) {
+        if (defined('TYPO3_OS') === false) {
             define('TYPO3_OS', 'LINUX');
         }
-        if (!defined('PATH_site')) {
+        if (defined('PATH_site') === false) {
             define('PATH_site', self::getWebRoot());
         }
-        if (!defined('PATH_thisScript')) {
+        if (defined('PATH_thisScript') === false) {
             define('PATH_thisScript', self::getWebRoot() . 'typo3');
         }
-        if (!defined('TYPO3_version')) {
+        if (defined('TYPO3_version') === false) {
             define('TYPO3_version', '8007000');
         }
-        if (!defined('PHP_EXTENSIONS_DEFAULT')) {
+        if (defined('PHP_EXTENSIONS_DEFAULT') === false) {
             define('PHP_EXTENSIONS_DEFAULT', 'php');
         }
-        if (!defined('FILE_DENY_PATTERN_DEFAULT')) {
+        if (defined('FILE_DENY_PATTERN_DEFAULT') === false) {
             define('FILE_DENY_PATTERN_DEFAULT', '');
         }
-    }
-
-    /**
-     * @param int|null pid
-     * @return void
-     * @SuppressWarnings(PHPMD.Superglobals)
-     */
-    public static function initializeTsfe($pid = null)
-    {
-        $configurationManager = new ConfigurationManager();
-        $GLOBALS['TYPO3_CONF_VARS'] = $configurationManager->getDefaultConfiguration();
-        self::setDefaultConstants();
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['trustedHostsPattern'] = '.*';
-        $GLOBALS['TYPO3_CONF_VARS']['FE']['ContentObjects'] = [
-            'TEXT' => 'TYPO3\CMS\Frontend\ContentObject\TextContentObject',
-        ];
-        $GLOBALS['TT'] = new TimeTracker();
-        $GLOBALS['TSFE'] = new TypoScriptFrontendController($GLOBALS['TYPO3_CONF_VARS'], $pid ?: 1, 0, true);
-        $GLOBALS['TSFE']->tmpl->setup['config.']['sys_language_uid'] = '1';
-        $GLOBALS['TSFE']->fe_user->user['uid'] = 4784;
     }
 
     /**

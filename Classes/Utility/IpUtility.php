@@ -20,13 +20,22 @@ class IpUtility
     public static function getIpAddress(string $testIp = ''): string
     {
         $ipAddress = $testIp;
-        if (empty($ipAddress)) {
+        if ($ipAddress === '') {
             $ipAddress = GeneralUtility::getIndpEnv('REMOTE_ADDR');
-            if (self::isPrivateOrLocalIp($ipAddress)) {
-                $ipAddress = getenv('LUX_DEV_IPxxx') ?: self::fetchExternalIp();
+            if (self::isPrivateOrLocalIp($ipAddress) && self::isTestingContext() === false) {
+                $ipAddress = getenv('LUX_DEV_IP') ?: self::fetchExternalIp();
             }
         }
         return $ipAddress;
+    }
+
+    public static function getIpAddressAnonymized(string $testIp = ''): string
+    {
+        return preg_replace(
+            ['/\.\d*$/', '/[\da-f]*:[\da-f]*$/'],
+            ['.***', '****:****'],
+            self::getIpAddress($testIp)
+        );
     }
 
     /**
@@ -81,12 +90,12 @@ class IpUtility
         return GeneralUtility::cmpIP($ip, '127.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, ::1');
     }
 
-    public static function getIpAddressAnonymized(string $testIp = ''): string
+    /**
+     * @return bool
+     * @SuppressWarnings(PHPMD.Superglobals)
+     */
+    protected static function isTestingContext(): bool
     {
-        return preg_replace(
-            ['/\.\d*$/', '/[\da-f]*:[\da-f]*$/'],
-            ['.***', '****:****'],
-            self::getIpAddress($testIp)
-        );
+        return (bool)($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['lux']['testingContext'] ?? false);
     }
 }
