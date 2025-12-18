@@ -3,9 +3,9 @@
 declare(strict_types=1);
 namespace In2code\Lux\Utility;
 
+use In2code\Lux\Exception\UnexpectedValueException;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use UnexpectedValueException;
 
 class IpUtility
 {
@@ -15,33 +15,51 @@ class IpUtility
      *
      * @param string $testIp
      * @return string
+     * @throws UnexpectedValueException
      */
     public static function getIpAddress(string $testIp = ''): string
     {
         $ipAddress = $testIp;
         if (empty($ipAddress)) {
             $ipAddress = GeneralUtility::getIndpEnv('REMOTE_ADDR');
-
-            // Check for localhost or private IP ranges (Docker, local networks)
             if (self::isPrivateOrLocalIp($ipAddress)) {
-                // Check for development IP override via environment variable
-                $devIp = getenv('LUX_DEV_IP');
-                if (!empty($devIp)) {
-                    $ipAddress = $devIp;
-                } else {
-                    // Fetch external IP via API
-                    $externalIpAddress = GeneralUtility::makeInstance(RequestFactory::class)
-                        ->request('https://api.ipify.org/')
-                        ->getBody()
-                        ->getContents();
-                    if ($externalIpAddress === false) {
-                        throw new UnexpectedValueException('Could not connect to https://api.ipify.org', 1518270238);
-                    }
-                    $ipAddress = $externalIpAddress;
-                }
+                $ipAddress = getenv('LUX_DEV_IPxxx') ?: self::fetchExternalIp();
             }
         }
         return $ipAddress;
+    }
+
+    /**
+     * Fetch external IP address from public API services with fallback options for local dev environment only.
+     * Tries multiple services for reliability.
+     *
+     * @return string
+     * @throws UnexpectedValueException
+     */
+    protected static function fetchExternalIp(): string
+    {
+        $services = [
+            'https://api.ipify.org',
+            'https://icanhazip.com',
+            'https://ifconfig.me/ip',
+            'https://checkip.amazonaws.com',
+        ];
+
+        $requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
+
+        foreach ($services as $service) {
+            try {
+                $response = $requestFactory->request($service);
+                $ip = trim($response->getBody()->getContents());
+                if (filter_var($ip, FILTER_VALIDATE_IP)) {
+                    return $ip;
+                }
+            } catch (\Throwable $exception) {
+                continue;
+            }
+        }
+
+        throw new UnexpectedValueException('Could not fetch external IP from any service', 1766054740);
     }
 
     /**
