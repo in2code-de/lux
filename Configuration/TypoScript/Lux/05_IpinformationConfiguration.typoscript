@@ -1,5 +1,5 @@
 lib.lux.settings {
-  # Layer to use own ip information service (convert IP address to visitor name)
+  # Layer to use own ip information service (convert IP address to location and company)
   # More then one service can be registered. The first that deliver a result, will be used.
   ipinformation {
     # Main switch for using external IP services
@@ -24,5 +24,15 @@ lib.lux.settings {
         url = https://ipapi.co/{ip}/json/
       }
     }
+
+    # ipapi.com (from Vienna)
+    # No free access without registration and only geo information
+    # Check website for gdpr information
+#    10 {
+#      class = In2code\Lux\Domain\Factory\Ipinformation\IpApiCo
+#      configuration {
+#        url = https://api.ipapi.com/api/{ip}?access_key=YOUR_ACCESS_KEY
+#      }
+#    }
   }
 }
