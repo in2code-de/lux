@@ -8,6 +8,7 @@ use In2code\Lux\Exception\IpinformationServiceConnectionFailureException;
 use In2code\Lux\Utility\IpUtility;
 use Throwable;
 use TYPO3\CMS\Core\Http\RequestFactory;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 abstract class AbstractIpinformation
@@ -92,8 +93,11 @@ abstract class AbstractIpinformation
     {
         $newArray = [];
         foreach ($this->mapping as $from => $to) {
-            if (array_key_exists($from, $array)) {
-                $newArray[$to] = $array[$from];
+            try {
+                $value = ArrayUtility::getValueByPath($array, $from, '.');
+                $newArray[$to] = $value;
+            } catch (Throwable $exception) {
+                // Do nothing
             }
         }
         return $newArray;
