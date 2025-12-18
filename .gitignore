@@ -28,3 +28,4 @@ var/
 /.env.local
 /Tests/Acceptance/_output/*
 /Tests/Acceptance/_support/_generated/
+/CLAUDE.md
