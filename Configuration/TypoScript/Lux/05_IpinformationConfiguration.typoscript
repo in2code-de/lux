@@ -25,14 +25,14 @@ lib.lux.settings {
       }
     }
 
-    # ipapi.com (from Vienna)
+    # EXAMPLE including of ipapi.com (from Vienna)
     # No free access without registration and only geo information
     # Check website for gdpr information
-#    10 {
-#      class = In2code\Lux\Domain\Factory\Ipinformation\IpApiCo
-#      configuration {
-#        url = https://api.ipapi.com/api/{ip}?access_key=YOUR_ACCESS_KEY
-#      }
-#    }
+    #    10 {
+    #      class = In2code\Lux\Domain\Factory\Ipinformation\IpApiCo
+    #      configuration {
+    #        url = https://api.ipapi.com/api/{ip}?access_key=YOUR_ACCESS_KEY
+    #      }
+    #    }
   }
 }
