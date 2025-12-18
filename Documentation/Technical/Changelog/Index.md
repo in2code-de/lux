@@ -9,6 +9,7 @@
 
 | Version    | Date       | State    | TYPO3         | Description                                                                                                                                                                                           |
 |------------|------------|----------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 41.0.0     | 2025-12-18 | Task     | `12.4 + 13.4` | IP services were replaced (iplist.cc + ipapi.com with ipapi.is + ipapi.co) see for more details [IpAddresses.md](../../Privacy/IpAddresses.md)                                                        |
 | 40.0.1     | 2025-12-04 | Bugfix   | `12.4 + 13.4` | Don't add events on a-tags with downloads if there is already an linklistener event given                                                                                                             |
 | 40.0.0 !!! | 2025-11-12 | Feature  | `12.4 + 13.4` | Use FluidEmail instead of MailMessage for email4link mails - use your own layout now, show also unused linklisteners in backend                                                                       |
 | 39.1.2     | 2025-10-24 | Bugfix   | `12.4 + 13.4` | Fix a possible SQL error on company view together with sql mode `only_full_group_by`                                                                                                                  |
