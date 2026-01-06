@@ -52,7 +52,7 @@ class UriViewHelper extends AbstractTagBasedViewHelper
     {
         $controllerAction = $this->renderingContext->getControllerAction();
         $parts = explode('/', $controllerAction);
-        return strtolower($parts[1] ?? '');
+        return lcfirst($parts[1] ?? '');
     }
 
     protected function getController(): string
