@@ -14,7 +14,7 @@ So first of all choose a page that you want to test (this is A). Copy this page,
 change only a few things on this page (this is B).
 
 **Tipp:** For a meaningful test result you should consider not to change too much elements between two pages.
-If you want to learn if a green or a blue button is clicked more often, don't change anything else then the color of
+If you want to learn if a green or a blue button is clicked more often, don't change anything else than the color of
 this specific button.
 
 ##### Configuration

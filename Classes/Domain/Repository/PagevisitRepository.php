@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
 use DateTime;
-use Doctrine\DBAL\Driver\Exception as ExceptionDbalDriver;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use Exception;
 use In2code\Lux\Domain\Model\Categoryscoring;
@@ -47,7 +46,6 @@ class PagevisitRepository extends AbstractRepository
      * @return array
      * @throws ExceptionDbal
      * @throws Exception
-     * @throws ExceptionDbalDriver
      */
     public function findCombinedByPageIdentifier(FilterDto $filter, int $limit = 100): array
     {
@@ -56,7 +54,7 @@ class PagevisitRepository extends AbstractRepository
             . ' left join ' . Page::TABLE_NAME . ' p on p.uid = pv.page'
             . ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = pv.visitor'
             . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on v.uid = cs.visitor'
-            . ' where 1 '
+            . ' where pv.page > 0 '
             . $this->extendWhereClauseWithFilterSearchterms($filter, 'p')
             . $this->extendWhereClauseWithFilterTime($filter, true, 'pv')
             . $this->extendWhereClauseWithFilterSite($filter, 'pv')
@@ -328,7 +326,6 @@ class PagevisitRepository extends AbstractRepository
      * @param int $limit
      * @return array
      * @throws ExceptionDbal
-     * @throws ExceptionDbalDriver
      */
     public function getAmountOfReferrers(FilterDto $filter, int $limit = 100): array
     {
@@ -505,6 +502,7 @@ class PagevisitRepository extends AbstractRepository
      * @param FilterDto $filter
      * @return array
      * @throws Exception
+     * @throws ExceptionDbal
      */
     public function getDomainsWithAmountOfVisits(FilterDto $filter): array
     {
@@ -517,7 +515,7 @@ class PagevisitRepository extends AbstractRepository
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
             . ' group by domain order by count desc';
-        return (array)$connection->executeQuery($sql)->fetchAllAssociative();
+        return $connection->executeQuery($sql)->fetchAllAssociative();
     }
 
     /**
@@ -529,6 +527,7 @@ class PagevisitRepository extends AbstractRepository
      * @param FilterDto $filter
      * @return array
      * @throws Exception
+     * @throws ExceptionDbal
      */
     public function getAllDomains(FilterDto $filter): array
     {
@@ -547,6 +546,7 @@ class PagevisitRepository extends AbstractRepository
      * @param FilterDto $filter
      * @return array
      * @throws Exception
+     * @throws ExceptionDbal
      */
     public function getAllLanguages(FilterDto $filter): array
     {
@@ -567,6 +567,7 @@ class PagevisitRepository extends AbstractRepository
      * @param FilterDto $filter
      * @return int
      * @throws Exception
+     * @throws ExceptionDbal
      */
     public function findAbandonsForPage(int $pageIdentifier, FilterDto $filter): int
     {

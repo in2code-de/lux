@@ -9,6 +9,7 @@
 
 | Version    | Date       | State    | TYPO3         | Description                                                                                                                                                                                           |
 |------------|------------|----------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 41.1.1     | 2026-01-06 | Bugfix   | `12.4 + 13.4` | Fix pagebrowser on some detail views in backend, don't create pagevisit entries for non-existing pages                                                                                                |
 | 41.1.0     | 2025-12-23 | Task     | `12.4 + 13.4` | CSS update for a better campaign layout                                                                                                                                                               |
 | 41.0.0     | 2025-12-18 | Task     | `12.4 + 13.4` | IP services were replaced (iplist.cc + ipapi.com with ipapi.is + ipapi.co) see for more details [IpAddresses.md](../../Privacy/IpAddresses.md)                                                        |
 | 40.0.1     | 2025-12-04 | Bugfix   | `12.4 + 13.4` | Don't add events on a-tags with downloads if there is already an linklistener event given                                                                                                             |
