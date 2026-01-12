@@ -12,6 +12,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ConfigurationUtility
 {
+    public const RATE_LIMIT = 20;
+
     /**
      * @return string
      * @throws ExtensionConfigurationExtensionNotConfiguredException
@@ -215,6 +217,32 @@ class ConfigurationUtility
     {
         $extensionConfig = self::getExtensionConfiguration();
         return ($extensionConfig['enableExceptionLogging'] ?? '0') === '1';
+    }
+
+    /**
+     * Check if rate limiting is enabled
+     *
+     * @return bool
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     */
+    public static function isRateLimitingEnabled(): bool
+    {
+        $extensionConfig = self::getExtensionConfiguration();
+        return ($extensionConfig['enableRateLimiting'] ?? '1') === '1';
+    }
+
+    /**
+     * Get rate limit (requests per minute)
+     *
+     * @return int
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     */
+    public static function getRateLimitRequestsPerMinute(): int
+    {
+        $extensionConfig = self::getExtensionConfiguration();
+        return (int)($extensionConfig['rateLimitRequestsPerMinute'] ?? self::RATE_LIMIT);
     }
 
     /**

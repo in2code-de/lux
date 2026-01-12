@@ -20,7 +20,7 @@ Example composer.json file:
   "require": {
     "php": "^8.1",
     "typo3/cms": "^13.4",
-    "in2code/lux": "^38.0",
+    "in2code/lux": "^42.0",
   }
 }
 ```
@@ -66,6 +66,8 @@ If you click on the settings symbol for extension lux, you can change some basic
 | Advanced: Lead picture                        | Decide if TYPO3 should try to find an image of a lead by searching on gravatar.com (with hashed email) or on bing image search by given email domain (not full address).                                                                                                                                    |
 | Advanced: Show render time                    | For an easier debugging all views in backend can be shown with render times. This is only visible for backend administrators.                                                                                                                                                                               |
 | Advanced: Use cache layer                     | If you are facing performance issues with lux backend modules or with the page overview view (quick analysis), you can cache views (e.g. for 24h) when turning the feature on. In addition there is a command that can be executed via scheduler task to warmup caches (e.g. every night).                  |
+| Advanced: Enable rate limiting                | Protect tracking endpoints from abuse by limiting requests per fingerprint. Recommended to keep enabled.                                                                                                                                                                                                    |
+| Advanced: Rate limit requests per minute      | Maximum number of tracking requests allowed per fingerprint per minute. Default is 100.                                                                                                                                                                                                                     |
 
 #### 3. Add TypoScript
 

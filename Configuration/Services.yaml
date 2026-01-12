@@ -17,6 +17,16 @@ services:
     arguments:
       $cache: '@cache.luxcachelayer'
 
+  cache.luxratelimiter:
+    class: TYPO3\CMS\Core\Cache\Frontend\FrontendInterface
+    factory: [ '@TYPO3\CMS\Core\Cache\CacheManager', 'getCache' ]
+    arguments: [ 'luxratelimiter' ]
+
+  In2code\Lux\Domain\Cache\RateLimiterCache:
+    public: true
+    arguments:
+      $cache: '@cache.luxratelimiter'
+
   In2code\Lux\Command\LuxAnonymizeCommand:
     tags:
       - name: 'console.command'
@@ -241,6 +251,12 @@ services:
     tags:
       - name: 'event.listener'
         identifier: 'lux/stopTracking'
+        event: In2code\Lux\Events\StopAnyProcessBeforePersistenceEvent
+
+  In2code\Lux\Domain\Tracker\RateLimiter:
+    tags:
+      - name: 'event.listener'
+        identifier: 'lux/rateLimiter'
         event: In2code\Lux\Events\StopAnyProcessBeforePersistenceEvent
 
   In2code\Lux\Domain\Tracker\UtmTracker:

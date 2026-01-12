@@ -73,6 +73,17 @@ composer-install:
 	mkdir -p $(SQLDUMPSDIR)
 	mkdir -p $(WEBROOT)/$(TYPO3_CACHE_DIR)
 
+## Create .config/claude-code directory and download latest claude-code-instructions
+.create-claude-config-dir:
+	echo "$(EMOJI_dividers) Creating .config/claude-code directory"
+	mkdir -p .config/claude-code
+	echo "$(EMOJI_receive) Downloading latest claude-code-instructions from GitHub"
+	curl -L https://github.com/in2code-de/claude-code-instructions/archive/refs/heads/main.zip -o /tmp/claude-code-instructions.zip
+	unzip -o /tmp/claude-code-instructions.zip -d /tmp/
+	cp -r /tmp/claude-code-instructions-main/* .config/claude-code/
+	rm -rf /tmp/claude-code-instructions.zip /tmp/claude-code-instructions-main
+	echo "$(EMOJI_thumbsup) Claude Code instructions installed"
+
 ## Install mkcert on this computer, skips installation if already present
 .install-mkcert:
 	if [[ "$$OSTYPE" == "linux-gnu" ]]; then \
@@ -174,7 +185,7 @@ typo3-clearcache:
 	tar xvfz ../../.project/data/fileadmin.tar.gz
 
 ## To start an existing project incl. rsync from fileadmin, uploads and database dump
-install-project: .lfs-fetch .link-compose-file destroy .add-hosts-entry .init-docker .fix-mount-perms composer-install .typo3-add-site .typo3-add-dockerconfig .provision-fileadmin mysql-restore typo3-comparedb typo3-clearcache .typo3-setupinstall lux-demodata
+install-project: .lfs-fetch .link-compose-file destroy .add-hosts-entry .init-docker .fix-mount-perms .create-claude-config-dir composer-install .typo3-add-site .typo3-add-dockerconfig .provision-fileadmin mysql-restore typo3-comparedb typo3-clearcache .typo3-setupinstall lux-demodata
 	echo "---------------------"
 	echo ""
 	echo "The project is online $(EMOJI_thumbsup)"
