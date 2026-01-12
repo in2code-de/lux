@@ -69,7 +69,8 @@ call_user_func(
         $cacheKeys = [
             \In2code\Lux\Domain\Service\Image\VisitorImageService::CACHE_KEY,
             \In2code\Lux\Domain\Service\Image\CompanyImageService::CACHE_KEY,
-            \In2code\Lux\Domain\Cache\CacheLayer::CACHE_KEY
+            \In2code\Lux\Domain\Cache\CacheLayer::CACHE_KEY,
+            \In2code\Lux\Domain\Cache\RateLimiterCache::CACHE_KEY,
         ];
         foreach ($cacheKeys as $cacheKey) {
             if (!isset($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheKey])) {

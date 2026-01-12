@@ -57,3 +57,9 @@ useCacheLayer = 1
 
 # cat=advanced/enable/280; type=boolean; label= Enable exception logging: If the user is not logged in into backend and an exception happens, those exceptions can be logged as warning in var/log/typo3_[hash].log
 enableExceptionLogging = 0
+
+# cat=advanced/enable/290; type=boolean; label= Enable rate limiting: Protect tracking endpoints from abuse by limiting requests per fingerprint. Recommended to keep enabled.
+enableRateLimiting = 1
+
+# cat=advanced/enable/300; type=number; label= Rate limit requests per minute: Maximum number of tracking requests allowed per fingerprint per minute. Default is 100.
+rateLimitRequestsPerMinute = 20
