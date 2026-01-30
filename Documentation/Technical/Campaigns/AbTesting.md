@@ -84,3 +84,11 @@ $GLOBALS['TYPO3_CONF_VARS']['BE']['lockIPv6'] = 0;
 $GLOBALS['TYPO3_CONF_VARS']['FE']['lockIP'] = 0;
 $GLOBALS['TYPO3_CONF_VARS']['FE']['lockIPv6'] = 0;
 ```
+
+###### Basic Auth credentials for A/B pages needed
+
+You can simply add ENV variables to support basic authentication like (since luxenterprise 46.2.0):
+```
+LUXENTERPRISE_ABTESTING_AUTH_USER=username
+LUXENTERPRISE_ABTESTING_AUTH_PASS=password
+```
