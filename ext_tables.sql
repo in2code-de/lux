@@ -52,7 +52,13 @@ CREATE TABLE tx_lux_domain_model_visitor (
 	KEY crdate (crdate),
 	KEY deleted (deleted),
 	KEY hidden (hidden),
-	KEY language (l10n_parent,sys_language_uid)
+	KEY visits (visits),
+	KEY ip_address (ip_address(15)),
+	KEY deleted_blacklisted (deleted,blacklisted),
+	KEY deleted_identified (deleted,identified),
+	KEY deleted_blacklisted_identified (deleted,blacklisted,identified),
+	KEY deleted_blacklisted_companyrecord (deleted,blacklisted,companyrecord),
+	KEY crdate_companyrecord (crdate,companyrecord)
 );
 
 CREATE TABLE tx_lux_domain_model_fingerprint (
@@ -88,7 +94,8 @@ CREATE TABLE tx_lux_domain_model_fingerprint (
 	KEY type (type),
 	KEY site (site(50)),
 	KEY crdate (crdate),
-	KEY language (l10n_parent,sys_language_uid)
+	KEY value_type (value(33),type),
+	KEY visitor_type (visitor,type)
 );
 
 CREATE TABLE tx_lux_domain_model_attribute (
@@ -117,7 +124,7 @@ CREATE TABLE tx_lux_domain_model_attribute (
 	KEY visitor (visitor),
 	KEY name (name(20)),
 	KEY value (value(20)),
-	KEY language (l10n_parent,sys_language_uid)
+	KEY visitor_name (visitor,name(20))
 );
 
 CREATE TABLE tx_lux_domain_model_pagevisit (
@@ -153,7 +160,13 @@ CREATE TABLE tx_lux_domain_model_pagevisit (
 	KEY referrer (referrer(50)),
 	KEY domain (domain(50)),
 	KEY crdate (crdate),
-	KEY language (l10n_parent,sys_language_uid)
+	KEY deleted_hidden (deleted,hidden),
+	KEY visitor_crdate (visitor,crdate),
+	KEY visitor_page (visitor,page),
+	KEY site_crdate (site(50),crdate),
+	KEY page_crdate (page,crdate),
+	KEY deleted_crdate (deleted,crdate),
+	KEY deleted_visitor (deleted,visitor)
 );
 
 CREATE TABLE tx_lux_domain_model_newsvisit (
@@ -187,7 +200,7 @@ CREATE TABLE tx_lux_domain_model_newsvisit (
 	KEY languagelux (language),
 	KEY domain (domain(50)),
 	KEY crdate (crdate),
-	KEY language (l10n_parent,sys_language_uid)
+	KEY visitor_crdate (visitor,crdate)
 );
 
 CREATE TABLE tx_lux_domain_model_download (
@@ -220,7 +233,9 @@ CREATE TABLE tx_lux_domain_model_download (
 	KEY domain (domain(50)),
 	KEY site (site(50)),
 	KEY crdate (crdate),
-	KEY language (l10n_parent,sys_language_uid)
+	KEY visitor_crdate (visitor,crdate),
+	KEY site_crdate (site(50),crdate),
+	KEY page_crdate (page,crdate)
 );
 
 CREATE TABLE tx_lux_domain_model_ipinformation (
@@ -249,8 +264,7 @@ CREATE TABLE tx_lux_domain_model_ipinformation (
 	KEY visitor (visitor),
 	KEY name (name(20)),
 	KEY value (value(50)),
-	KEY crdate (crdate),
-	KEY language (l10n_parent,sys_language_uid)
+	KEY crdate (crdate)
 );
 
 CREATE TABLE tx_lux_domain_model_search (
@@ -276,8 +290,7 @@ CREATE TABLE tx_lux_domain_model_search (
 	KEY visitor (visitor),
 	KEY searchterm (searchterm(20)),
 	KEY pagevisit (pagevisit),
-	KEY crdate (crdate),
-	KEY language (l10n_parent,sys_language_uid)
+	KEY crdate (crdate)
 );
 
 CREATE TABLE tx_lux_domain_model_linklistener (
@@ -305,8 +318,7 @@ CREATE TABLE tx_lux_domain_model_linklistener (
 	KEY linkclicks (linkclicks),
 	KEY title (title(30)),
 	KEY description (description(50)),
-	KEY category (category),
-	KEY language (l10n_parent,sys_language_uid)
+	KEY category (category)
 );
 
 CREATE TABLE tx_lux_domain_model_categoryscoring (
@@ -331,7 +343,8 @@ CREATE TABLE tx_lux_domain_model_categoryscoring (
 	KEY parent (pid),
 	KEY visitor (visitor),
 	KEY category (category),
-	KEY language (l10n_parent,sys_language_uid)
+	KEY visitor_category (visitor,category),
+	KEY category_scoring (category,scoring)
 );
 
 CREATE TABLE tx_lux_domain_model_linkclick (
@@ -360,7 +373,8 @@ CREATE TABLE tx_lux_domain_model_linkclick (
 	KEY linklistener (linklistener),
 	KEY site (site(50)),
 	KEY crdate (crdate),
-	KEY language (l10n_parent,sys_language_uid)
+	KEY visitor_crdate (visitor,crdate),
+	KEY linklistener_crdate (linklistener,crdate)
 );
 
 CREATE TABLE tx_lux_redirect (
@@ -374,7 +388,10 @@ CREATE TABLE tx_lux_redirect (
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
 	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
 
-	PRIMARY KEY (uid)
+	PRIMARY KEY (uid),
+	KEY hash (hash(32)),
+	KEY target (target(50)),
+	KEY crdate (crdate)
 );
 
 CREATE TABLE tx_lux_domain_model_utm (
@@ -411,8 +428,7 @@ CREATE TABLE tx_lux_domain_model_utm (
 	KEY utm_id (utm_id(10)),
 	KEY utm_term (utm_term(30)),
 	KEY utm_content (utm_content(30)),
-	KEY crdate (crdate),
-	KEY language (l10n_parent,sys_language_uid)
+	KEY crdate (crdate)
 );
 
 CREATE TABLE tx_lux_domain_model_company (
@@ -451,7 +467,15 @@ CREATE TABLE tx_lux_domain_model_company (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY category (category),
-	KEY language (l10n_parent,sys_language_uid)
+	KEY title (title(30)),
+	KEY domain (domain(50)),
+	KEY deleted (deleted),
+	KEY country_code (country_code(5)),
+	KEY branch_code (branch_code(10)),
+	KEY size_class (size_class(10)),
+	KEY revenue_class (revenue_class(10)),
+	KEY deleted_title (deleted,title(30)),
+	KEY title_domain (title(30),domain(50))
 );
 
 CREATE TABLE tx_lux_domain_model_log (
@@ -480,7 +504,10 @@ CREATE TABLE tx_lux_domain_model_log (
 	KEY properties (properties(80)),
 	KEY site (site(50)),
 	KEY crdate (crdate),
-	KEY language (l10n_parent,sys_language_uid)
+	KEY visitor_status (visitor,status),
+	KEY status_crdate (status,crdate),
+	KEY status_deleted (status,deleted),
+	KEY crdate_status_deleted (crdate,status,deleted)
 );
 
 CREATE TABLE fe_users (
