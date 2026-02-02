@@ -149,10 +149,10 @@ class ScoringService
      */
     protected function getNumberOfVisits(Visitor $visitor): int
     {
+        $pagevisitRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
         if ($this->time === null) {
-            $visits = count($visitor->getPagevisits());
+            $visits = $pagevisitRepository->countByVisitor($visitor);
         } else {
-            $pagevisitRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
             $visits = $pagevisitRepository->findByVisitorAndTime($visitor, $this->time)->count();
         }
         return $visits;
