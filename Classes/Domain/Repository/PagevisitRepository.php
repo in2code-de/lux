@@ -632,6 +632,14 @@ class PagevisitRepository extends AbstractRepository
         return $amount1 - $amount2;
     }
 
+    public function countByVisitor(Visitor $visitor): int
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
+        return (int)$connection->executeQuery(
+            'select count(*) from ' . Pagevisit::TABLE_NAME . ' where visitor=' . $visitor->getUid()
+        )->fetchOne();
+    }
+
     /**
      * Domain is misleading here - this function is reused to search for given domains by a category
      *
