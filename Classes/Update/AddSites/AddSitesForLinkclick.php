@@ -9,17 +9,5 @@ use In2code\Lux\Utility\DatabaseUtility;
 
 class AddSitesForLinkclick extends AbstractSiteUpgrade
 {
-    public function run(): void
-    {
-        $connection = DatabaseUtility::getConnectionForTable(Linkclick::TABLE_NAME);
-        $records = $connection
-            ->executeQuery('select * from ' . Linkclick::TABLE_NAME . ' where deleted=0')
-            ->fetchAllAssociative();
-        foreach ($records as $record) {
-            $siteIdentifier = $this->getSiteIdentifierFromPage($record['page']);
-            $connection->executeQuery(
-                'update ' . Linkclick::TABLE_NAME . ' set site = "' . $siteIdentifier . '" where uid=' . $record['uid']
-            );
-        }
-    }
+    protected const TABLE_NAME = Linkclick::TABLE_NAME;
 }
