@@ -6,6 +6,7 @@ namespace In2code\Lux\Command;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\VisitorRepository;
+use In2code\Lux\Exception\DateTimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,19 +31,27 @@ class LuxCleanupUnknownVisitorsByAgeCommand extends Command
      *      Remove all unknown visitors where the last update (tstamp) is older than a given timestamp
      *      !!! Really removes visitors and all rows from related tables from the database
      *
-     *      Example command: /vendor/bin/typo3 lux:cleanupUnknownVisitorsByAge 1583410470
+     *      Example commands:
+     *      - absolute date: ./vendor/bin/typo3 lux:cleanupUnknownVisitorsByAge 1583410470
+     *      - absolute date: ./vendor/bin/typo3 lux:cleanupUnknownVisitorsByAge '2010-01-01'
+     *      - relative date: ./vendor/bin/typo3 lux:cleanupUnknownVisitorsByAge 'First day of this month'
+     *      - relative date: ./vendor/bin/typo3 lux:cleanupUnknownVisitorsByAge 'First day of last month'
+     *      - relative date: ./vendor/bin/typo3 lux:cleanupUnknownVisitorsByAge 'First day of this year'
+     *      - relative date: ./vendor/bin/typo3 lux:cleanupUnknownVisitorsByAge -- '-30 days'
+     *      - relative date: ./vendor/bin/typo3 lux:cleanupUnknownVisitorsByAge -- '-2678400 seconds'
      *
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int
      * @throws InvalidQueryException
      * @throws ExceptionDbal
+     * @throws DateTimeException
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->initializeExtbase();
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
-        $visitors = $visitorRepository->findByLastChangeUnknown((int)$input->getArgument('timestamp'));
+        $visitors = $visitorRepository->findByLastChangeUnknown($this->parseTime($input->getArgument('timestamp')));
         /** @var Visitor $visitor */
         foreach ($visitors as $visitor) {
             $visitorRepository->removeVisitor($visitor);

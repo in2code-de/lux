@@ -76,9 +76,18 @@ Remove means in this case not deleted=1 but really remove from database.
 Example usage:
 
 ```
-# Remove unknown visitors (and all there related data) older than the given timestamp
-# (1640995200 = 2022/01/01 00:00)
-./vendor/bin/typo3 lux:cleanupVisitorsByAge 1640995200
+# Remove unknown visitors (and all there related data) older than the given time - examples:
+
+# Absolute dates:
+./vendor/bin/typo3 lux:cleanupVisitorsByAge 1583410470
+./vendor/bin/typo3 lux:cleanupVisitorsByAge '2010-01-01'
+
+# Relative dates:
+./vendor/bin/typo3 lux:cleanupVisitorsByAge 'First day of this month'
+./vendor/bin/typo3 lux:cleanupVisitorsByAge 'First day of last month'
+./vendor/bin/typo3 lux:cleanupVisitorsByAge 'First day of this year'
+./vendor/bin/typo3 lux:cleanupVisitorsByAge -- '-30 days'
+./vendor/bin/typo3 lux:cleanupVisitorsByAge -- '-2678400 seconds'
 ```
 
 ##### \In2code\Lux\Command\LuxCleanupUnknownVisitorsByAgeCommand
@@ -89,9 +98,18 @@ Remove means in this case not deleted=1 but really remove from database.
 Example usage:
 
 ```
-# Remove unknown visitors (and all there related data) older than the given timestamp
-# (1640995200 = 2022/01/01 00:00)
-/vendor/bin/typo3 lux:cleanupUnknownVisitorsByAge 1640995200
+# Remove unknown visitors (and all there related data) older than the given time - examples:
+
+# Absolute dates:
+./vendor/bin/typo3 lux:cleanupUnknownVisitorsByAge 1583410470
+./vendor/bin/typo3 lux:cleanupUnknownVisitorsByAge '2010-01-01'
+
+# Relative dates:
+./vendor/bin/typo3 lux:cleanupUnknownVisitorsByAge 'First day of this month'
+./vendor/bin/typo3 lux:cleanupUnknownVisitorsByAge 'First day of last month'
+./vendor/bin/typo3 lux:cleanupUnknownVisitorsByAge 'First day of this year'
+./vendor/bin/typo3 lux:cleanupUnknownVisitorsByAge -- '-30 days'
+./vendor/bin/typo3 lux:cleanupUnknownVisitorsByAge -- '-2678400 seconds'
 ```
 
 ##### \In2code\Lux\Command\LuxCleanupVisitorByUidCommand
