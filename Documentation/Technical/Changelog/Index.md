@@ -9,6 +9,7 @@
 
 | Version    | Date       | State    | TYPO3         | Description                                                                                                                                                                                           |
 |------------|------------|----------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 42.2.0     | 2026-03-10 | Feature  | `12.4 + 13.4` | Also support relative dates (in addition to absolute dates) now in commands                                                                                                                           |
 | 42.1.2     | 2026-02-26 | Bugfix   | `12.4 + 13.4` | Support large buttons with two lines of labels again (small css fix)                                                                                                                                  |
 | 42.1.1     | 2026-02-02 | Task     | `12.4 + 13.4` | Small performance improvement by improving scoring calculation function                                                                                                                               |
 | 42.1.0     | 2026-01-30 | Task     | `12.4 + 13.4` | Performance improvements by adding more indices, fix shortener redirect problems together with cHash checks                                                                                           |
