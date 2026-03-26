@@ -197,6 +197,7 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
   * Lead action: When lead searches for a specific searchterm
   * Lead source: Check for a given referrer
   * Lead source: Check for a given UTM parameter
+  * Lead source: Check for browser language or country
   * Lead source: Check for lead country
   * Lead source: Check for distance to a location
   * Miscellaneous: On a defined time
