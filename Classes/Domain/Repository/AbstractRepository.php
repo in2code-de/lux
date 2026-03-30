@@ -212,6 +212,19 @@ abstract class AbstractRepository extends Repository
         return $sql;
     }
 
+    protected function extendWhereClauseWithFilterLanguage(FilterDto $filter, string $table = ''): string
+    {
+        $sql = '';
+        if ($filter->isLanguageSet()) {
+            $field = 'language';
+            if ($table !== '') {
+                $field = $table . '.' . $field;
+            }
+            $sql .= ' and ' . $field . ' = ' . $filter->getLanguage();
+        }
+        return $sql;
+    }
+
     /**
      * Returns part of a where clause like
      *      " and v.scoring >= 90"

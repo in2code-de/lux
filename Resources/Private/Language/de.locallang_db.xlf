@@ -1363,6 +1363,14 @@
 				<source>Category Scoring of Visitors</source>
 				<target state="translated">Kategorie-Scoring des Besuchers</target>
 			</trans-unit>
+			<trans-unit id="module.list.filter.header.language">
+				<source>Language</source>
+				<target state="translated">Sprache</target>
+			</trans-unit>
+			<trans-unit id="module.list.filter.language.all">
+				<source>All languages</source>
+				<target state="translated">Alle Sprachen</target>
+			</trans-unit>
 			<trans-unit id="module.list.filter.header.branches">
 				<source>Branches</source>
 				<target state="translated">Branche</target>

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Repository;
 
+use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Service\SiteService;
 use TYPO3\CMS\Core\SingletonInterface;
 
@@ -18,14 +19,14 @@ class LanguageRepository implements SingletonInterface
      * @var array
      */
     protected array $languages = [];
-
     protected bool $allLanguagesSet = false;
-
     protected SiteService $siteService;
+    protected PagevisitRepository $pagevisitRepository;
 
-    public function __construct(SiteService $siteService)
+    public function __construct(SiteService $siteService, PagevisitRepository $pagevisitRepository)
     {
         $this->siteService = $siteService;
+        $this->pagevisitRepository = $pagevisitRepository;
     }
 
     public function getLabelToLanguageIdentifier(int $identifier): string
@@ -51,5 +52,14 @@ class LanguageRepository implements SingletonInterface
             $this->allLanguagesSet = true;
         }
         return $this->languages;
+    }
+
+    public function getAvailableLanguagesWithLabels(FilterDto $filter): array
+    {
+        $languages = [];
+        foreach ($this->pagevisitRepository->getAvailableLanguages($filter) as $languageId) {
+            $languages[(int)$languageId] = $this->getLabelToLanguageIdentifier((int)$languageId);
+        }
+        return $languages;
     }
 }

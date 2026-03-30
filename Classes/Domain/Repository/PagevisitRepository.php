@@ -60,6 +60,7 @@ class PagevisitRepository extends AbstractRepository
             . $this->extendWhereClauseWithFilterSite($filter, 'pv')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
+            . $this->extendWhereClauseWithFilterLanguage($filter, 'pv')
             . ' group by pv.page order by count desc limit ' . (int)$limit;
         $results = $connection->executeQuery($sql)->fetchAllAssociative();
         foreach ($results as &$result) {
@@ -560,6 +561,23 @@ class PagevisitRepository extends AbstractRepository
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
             . ' group by pv.language order by count desc ';
         return $connection->executeQuery($sql)->fetchAllAssociative();
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @return array
+     * @throws Exception
+     * @throws ExceptionDbal
+     */
+    public function getAvailableLanguages(FilterDto $filter): array
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
+        $sql = 'SELECT DISTINCT pv.language FROM ' . Pagevisit::TABLE_NAME . ' pv'
+            . ' left join ' . Visitor::TABLE_NAME . ' v on v.uid = pv.visitor'
+            . ' where ' . $this->extendWhereClauseWithFilterTime($filter, false, 'pv')
+            . $this->extendWhereClauseWithFilterSite($filter, 'pv')
+            . ' order by pv.language asc';
+        return $connection->executeQuery($sql)->fetchFirstColumn();
     }
 
     /**

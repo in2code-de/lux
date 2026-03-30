@@ -4,8 +4,9 @@
     </div>
     <div class="panel-body">
         <f:form name="filter" class="form" action="content" object="{filter}">
+            <f:variable name="languageCount">{availableLanguages -> f:count()}</f:variable>
             <div class="row">
-                <div class="col-md-4">
+                <div class="{f:if(condition: '{languageCount} > 1', then: 'col-md-3', else: 'col-md-4')}">
                     <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.header.search">Suche</f:translate></h5>
 
                     <div class="input-group form-group">
@@ -38,7 +39,7 @@
                 </div>
 
 
-                <div class="col-md-4">
+                <div class="{f:if(condition: '{languageCount} > 1', then: 'col-md-3', else: 'col-md-4')}">
                     <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:dictionary.time">Zeit</f:translate></h5>
 
                     <div class="input-group form-group">
@@ -65,7 +66,7 @@
                 </div>
 
 
-                <div class="col-md-4">
+                <div class="{f:if(condition: '{languageCount} > 1', then: 'col-md-3', else: 'col-md-4')}">
                     <h5>Scoring</h5>
 
                     <div class="input-group form-group">
@@ -95,6 +96,26 @@
                         </button>
                     </div>
                 </div>
+
+                <f:if condition="{languageCount} > 1">
+                    <div class="col-md-3">
+                        <h5><f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.header.language" /></h5>
+
+                        <div class="input-group form-group">
+                            <f:form.select
+                                id="language"
+                                class="form-control form-select"
+                                property="language"
+                                options="{availableLanguages}"
+                                prependOptionLabel="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.language.all')}"
+                                prependOptionValue="-1"
+                                value="{filter.language}" />
+                            <button type="button" class="btn btn-default" data-global-event="click" data-action-focus="#language">
+                                <core:icon identifier="actions-localize" size="small" />
+                            </button>
+                        </div>
+                    </div>
+                </f:if>
             </div>
 
 
