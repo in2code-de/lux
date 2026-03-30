@@ -59,6 +59,7 @@ Possible triggers by default are:
 * Lead action: When lead searches for a specific searchterm
 * Lead source: Check for a given referrer
 * Lead source: Check for a given UTM parameter
+* Lead source: Check for browser language or country
 * Lead source: Check for lead country
 * Lead source: Check for distance to a location
 * Miscellaneous: On a defined time
@@ -443,8 +444,34 @@ lib.lux.settings {
         }
       }
 
-      # Check for a given UTM parameter
+      # 600-699 SOURCE
+      # Check for a given referrer category
       610 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.referrercategory
+
+        # Classname for implementation of the trigger itself
+        className = In2code\Luxenterprise\Domain\Workflow\Trigger\ReferrerCategoryTrigger
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/ReferrerCategory.html
+
+        # Additional configuration
+        configuration {
+          options {
+            email = LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:readablereferrer.email
+            eCommerce = LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:readablereferrer.eCommerce
+            aiChats = LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:readablereferrer.aiChats
+            social = LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:readablereferrer.social
+            search = LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:readablereferrer.search
+            ads = LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:readablereferrer.ads
+            other = LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:readablereferrer.other
+          }
+        }
+      }
+
+      # Check for a given UTM parameter
+      620 {
         # Title to show in workflow backend module
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.utmparameter
 
@@ -468,8 +495,25 @@ lib.lux.settings {
         }
       }
 
+      # Check for browser language and/or region via Accept-Language header
+      630 {
+        # Title to show in workflow backend module
+        title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.browserlanguage
+
+        # Classname for implementation of the trigger itself
+        className = In2code\Luxenterprise\Domain\Workflow\Trigger\BrowserLanguageTrigger
+
+        # Templatefile for implementation of the form in workflow module
+        templateFile = EXT:luxenterprise/Resources/Private/Templates/Workflow/Trigger/BrowserLanguage.html
+
+        # Additional configuration
+        configuration {
+          # Any configuration - available as array in Template File and Trigger class for some own magic
+        }
+      }
+
       # Check for visitors country
-      620 {
+      640 {
         # Title to show in workflow backend module
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.country
 
@@ -486,7 +530,7 @@ lib.lux.settings {
       }
 
       # Check for location by distance
-      630 {
+      650 {
         # Title to show in workflow backend module
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.location
 

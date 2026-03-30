@@ -102,6 +102,7 @@ class AnalysisController extends AbstractController
         $this->moduleTemplate->assignMultiple([
             'filter' => $filter,
             'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
+            'availableLanguages' => $this->languageRepository->getAvailableLanguagesWithLabels($filter),
             'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
             'numberOfDownloadsData' => GeneralUtility::makeInstance(DownloadsDataProvider::class, $filter),
             'pages' => $this->pagevisitsRepository->findCombinedByPageIdentifier($filter),

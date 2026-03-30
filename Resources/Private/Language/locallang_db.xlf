@@ -1032,6 +1032,12 @@
 			<trans-unit id="module.list.filter.header.categoryscoring">
 				<source>Category Scoring of Visitors</source>
 			</trans-unit>
+			<trans-unit id="module.list.filter.header.language">
+				<source>Language</source>
+			</trans-unit>
+			<trans-unit id="module.list.filter.language.all">
+				<source>All languages</source>
+			</trans-unit>
 			<trans-unit id="module.list.filter.header.branches">
 				<source>Branches</source>
 			</trans-unit>

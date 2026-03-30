@@ -12,6 +12,7 @@ use In2code\Lux\Domain\Repository\CompanyRepository;
 use In2code\Lux\Domain\Repository\DownloadRepository;
 use In2code\Lux\Domain\Repository\FingerprintRepository;
 use In2code\Lux\Domain\Repository\IpinformationRepository;
+use In2code\Lux\Domain\Repository\LanguageRepository;
 use In2code\Lux\Domain\Repository\LinkclickRepository;
 use In2code\Lux\Domain\Repository\LinklistenerRepository;
 use In2code\Lux\Domain\Repository\LogRepository;
@@ -61,6 +62,7 @@ abstract class AbstractController extends ActionController
         protected readonly UtmRepository $utmRepository,
         protected readonly CompanyRepository $companyRepository,
         protected readonly WiredmindsRepository $wiredmindsRepository,
+        protected readonly LanguageRepository $languageRepository,
         protected readonly RenderingTimeService $renderingTimeService,
         protected readonly CacheLayer $cacheLayer,
         protected readonly ModuleTemplateFactory $moduleTemplateFactory,

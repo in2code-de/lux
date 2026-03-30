@@ -35,6 +35,7 @@ class FilterDto
     public const IDENTIFIED_ALL = -1;
     public const IDENTIFIED_UNKNOWN = 0;
     public const IDENTIFIED_IDENTIFIED = 1;
+    public const LANGUAGE_ALL = -1;
 
     protected string $searchterm = '';
     protected string $href = '';
@@ -96,6 +97,7 @@ class FilterDto
     protected string $sizeClass = '';
     protected ?Visitor $visitor = null;
     protected ?Company $company = null;
+    protected int $language = self::LANGUAGE_ALL;
 
     /**
      * @param int $timePeriodValue Must be a different variable name then "timePeriod" or "timePeriodDefault"
@@ -440,6 +442,22 @@ class FilterDto
         return $this;
     }
 
+    public function getLanguage(): int
+    {
+        return $this->language;
+    }
+
+    public function isLanguageSet(): bool
+    {
+        return $this->getLanguage() !== self::LANGUAGE_ALL;
+    }
+
+    public function setLanguage(int $language): self
+    {
+        $this->language = $language;
+        return $this;
+    }
+
     public function getUtmCampaign(): string
     {
         return StringUtility::sanitizeString($this->utmCampaign);
@@ -624,7 +642,8 @@ class FilterDto
             || $this->isUtmContentSet()
             || $this->isBranchCodeSet()
             || $this->isRevenueClassSet()
-            || $this->isSizeClassSet();
+            || $this->isSizeClassSet()
+            || $this->isLanguageSet();
     }
 
     public function isTimeFromOrTimeToSet(): bool
@@ -1023,6 +1042,7 @@ class FilterDto
             . $this->shortMode
             . $this->domain
             . $this->country
+            . $this->language
             . $this->getSitesForFilterList();
         return md5($string);
     }
