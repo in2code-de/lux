@@ -25,10 +25,10 @@
 	"type": "typo3-cms-extension",
 	"license": "GPL-2.0-or-later",
 	"require": {
-		"php": ">=8.1.0",
+		"php": ">=8.2.0",
 		"ext-json": "*",
 		"ext-pdo": "*",
-		"typo3/cms-core": "^12.4 || ^13.3",
+		"typo3/cms-core": "^13.4",
 		"symfony/expression-language": ">=4.0",
 		"buzz/which-browser-parser": "^2.1",
 		"in2code/bing": "^1.1"

@@ -5,7 +5,6 @@ namespace In2code\Lux\Command;
 
 use DateTime;
 use In2code\Lux\Exception\DateTimeException;
-use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\EnvironmentUtility;
 use TYPO3\CMS\Core\Core\Bootstrap;
 use TYPO3\CMS\Core\Core\SystemEnvironmentBuilder;
@@ -18,7 +17,7 @@ trait ExtbaseCommandTrait
 {
     public function initializeExtbase(): void
     {
-        if (EnvironmentUtility::isCli() && ConfigurationUtility::isTypo3Version12() === false) {
+        if (EnvironmentUtility::isCli()) {
             Bootstrap::initializeBackendAuthentication();
             $configurationManager = GeneralUtility::makeInstance(ConfigurationManagerInterface::class);
             $configurationManager->setRequest(
