@@ -19,8 +19,8 @@ use TYPO3\CMS\Backend\Controller\Event\ModifyPageLayoutContentEvent;
 use TYPO3\CMS\Backend\Utility\BackendUtility as BackendUtilityCore;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Core\View\ViewFactoryData;
+use TYPO3\CMS\Core\View\ViewFactoryInterface;
 
 /**
  * Class PageLayoutHeader
@@ -28,14 +28,13 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  */
 class PageOverview
 {
-    protected string $templatePathAndFile = 'EXT:lux/Resources/Private/Templates/Backend/PageOverview.html';
-
     protected VisitorRepository $visitorRepository;
     protected PagevisitRepository $pagevisitRepository;
     protected LinkclickRepository $linkclickRepository;
     protected DownloadRepository $downloadRepository;
     protected LogRepository $logRepository;
     protected RenderingTimeService $renderingTimeService;
+    protected ViewFactoryInterface $viewFactory;
 
     public function __construct(
         VisitorRepository $visitorRepository,
@@ -43,14 +42,16 @@ class PageOverview
         LinkclickRepository $linkclickRepository,
         DownloadRepository $downloadRepository,
         LogRepository $logRepository,
-        RenderingTimeService $renderingTimeService
+        RenderingTimeService $renderingTimeService,
+        ViewFactoryInterface $viewFactory
     ) {
         $this->visitorRepository = $visitorRepository;
         $this->pagevisitRepository = $pagevisitRepository;
         $this->linkclickRepository = $linkclickRepository;
         $this->downloadRepository = $downloadRepository;
         $this->logRepository = $logRepository;
-        $this->renderingTimeService = $renderingTimeService; // initialize renderingTimes
+        $this->renderingTimeService = $renderingTimeService;
+        $this->viewFactory = $viewFactory;
     }
 
     /**
@@ -111,11 +112,12 @@ class PageOverview
 
     protected function getContent(array $arguments): string
     {
-        $standaloneView = GeneralUtility::makeInstance(StandaloneView::class);
-        $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($this->templatePathAndFile));
-        $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
-        $standaloneView->assignMultiple($arguments);
-        return $standaloneView->render();
+        $view = $this->viewFactory->create(new ViewFactoryData(
+            templateRootPaths: ['EXT:lux/Resources/Private/Templates/'],
+            partialRootPaths: ['EXT:lux/Resources/Private/Partials/'],
+        ));
+        $view->assignMultiple($arguments);
+        return $view->render('Backend/PageOverview');
     }
 
     /**

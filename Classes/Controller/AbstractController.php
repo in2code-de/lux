@@ -38,6 +38,7 @@ use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExis
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\View\ViewFactoryInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 
@@ -66,7 +67,8 @@ abstract class AbstractController extends ActionController
         protected readonly RenderingTimeService $renderingTimeService,
         protected readonly CacheLayer $cacheLayer,
         protected readonly ModuleTemplateFactory $moduleTemplateFactory,
-        protected readonly IconFactory $iconFactory
+        protected readonly IconFactory $iconFactory,
+        protected readonly ViewFactoryInterface $viewFactory
     ) {
     }
 

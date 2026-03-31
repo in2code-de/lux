@@ -34,12 +34,12 @@ use In2code\Lux\Exception\ArgumentsException;
 use In2code\Lux\Exception\AuthenticationException;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\LocalizationUtility;
-use In2code\Lux\Utility\ObjectUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\View\ViewFactoryData;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
@@ -539,19 +539,18 @@ class AnalysisController extends AbstractController
             'Analysis',
             ['searchterm' => (string)$request->getQueryParams()['page'], 'limit' => 10]
         );
-        $standaloneView = ObjectUtility::getStandaloneView();
-        $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
-            'EXT:lux/Resources/Private/Templates/Analysis/ContentDetailPageAjax.html'
+        $view = $this->viewFactory->create(new ViewFactoryData(
+            templateRootPaths: ['EXT:lux/Resources/Private/Templates/'],
+            partialRootPaths: ['EXT:lux/Resources/Private/Partials/'],
         ));
-        $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
-        $standaloneView->assignMultiple([
+        $view->assignMultiple([
             'pagevisits' => $this->pagevisitsRepository->findByFilter($filter),
             'numberOfVisitorsData' => GeneralUtility::makeInstance(PagevisistsDataProvider::class, $filter),
         ]);
         $response = GeneralUtility::makeInstance(JsonResponse::class);
         /** @var StreamInterface $stream */
         $stream = $response->getBody();
-        $stream->write(json_encode(['html' => $standaloneView->render()]));
+        $stream->write(json_encode(['html' => $view->render('Analysis/ContentDetailPageAjax')]));
         return $response;
     }
 
@@ -571,12 +570,11 @@ class AnalysisController extends AbstractController
             'Analysis',
             ['searchterm' => (string)$request->getQueryParams()['referrerDomain'], 'limit' => 10]
         );
-        $standaloneView = ObjectUtility::getStandaloneView();
-        $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
-            'EXT:lux/Resources/Private/Templates/Analysis/SourcesDetailAjax.html'
+        $view = $this->viewFactory->create(new ViewFactoryData(
+            templateRootPaths: ['EXT:lux/Resources/Private/Templates/'],
+            partialRootPaths: ['EXT:lux/Resources/Private/Partials/'],
         ));
-        $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
-        $standaloneView->assignMultiple([
+        $view->assignMultiple([
             'filter' => $filter,
             'pagevisits' => $this->pagevisitsRepository->findByReferrerDomain($filter),
             'pagevisitsBySourceData' => GeneralUtility::makeInstance(PagevisistsBySourceDataProvider::class, $filter),
@@ -584,7 +582,7 @@ class AnalysisController extends AbstractController
         $response = GeneralUtility::makeInstance(JsonResponse::class);
         /** @var StreamInterface $stream */
         $stream = $response->getBody();
-        $stream->write(json_encode(['html' => $standaloneView->render()]));
+        $stream->write(json_encode(['html' => $view->render('Analysis/SourcesDetailAjax')]));
         return $response;
     }
 
@@ -606,12 +604,11 @@ class AnalysisController extends AbstractController
         );
         /** @var News $news */
         $news = $this->newsRepository->findByIdentifier((int)$request->getQueryParams()['news']);
-        $standaloneView = ObjectUtility::getStandaloneView();
-        $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
-            'EXT:lux/Resources/Private/Templates/Analysis/NewsDetailPageAjax.html'
+        $view = $this->viewFactory->create(new ViewFactoryData(
+            templateRootPaths: ['EXT:lux/Resources/Private/Templates/'],
+            partialRootPaths: ['EXT:lux/Resources/Private/Partials/'],
         ));
-        $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
-        $standaloneView->assignMultiple([
+        $view->assignMultiple([
             'news' => $news,
             'newsvisits' => $this->newsvisitRepository->findByFilter($filter),
             'newsvisitsData' => GeneralUtility::makeInstance(NewsvisistsDataProvider::class, $filter),
@@ -619,7 +616,7 @@ class AnalysisController extends AbstractController
         $response = GeneralUtility::makeInstance(JsonResponse::class);
         /** @var StreamInterface $stream */
         $stream = $response->getBody();
-        $stream->write(json_encode(['html' => $standaloneView->render()]));
+        $stream->write(json_encode(['html' => $view->render('Analysis/NewsDetailPageAjax')]));
         return $response;
     }
 
@@ -645,17 +642,16 @@ class AnalysisController extends AbstractController
      */
     public function detailSearchAjaxPage(ServerRequestInterface $request): ResponseInterface
     {
-        $standaloneView = ObjectUtility::getStandaloneView();
-        $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
-            'EXT:lux/Resources/Private/Templates/Analysis/SearchDetailPageAjax.html'
+        $view = $this->viewFactory->create(new ViewFactoryData(
+            templateRootPaths: ['EXT:lux/Resources/Private/Templates/'],
+            partialRootPaths: ['EXT:lux/Resources/Private/Partials/'],
         ));
-        $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         $filter = BackendUtility::getFilterFromSession(
             'search',
             'Analysis',
             ['searchterm' => urldecode($request->getQueryParams()['searchterm']), 'limit' => 10]
         );
-        $standaloneView->assignMultiple([
+        $view->assignMultiple([
             'searches' => $this->searchRepository->findByFilter($filter),
             'searchterm' => urldecode($request->getQueryParams()['searchterm']),
             'searchData' => GeneralUtility::makeInstance(SearchDataProvider::class, $filter),
@@ -663,7 +659,7 @@ class AnalysisController extends AbstractController
         $response = GeneralUtility::makeInstance(JsonResponse::class);
         /** @var StreamInterface $stream */
         $stream = $response->getBody();
-        $stream->write(json_encode(['html' => $standaloneView->render()]));
+        $stream->write(json_encode(['html' => $view->render('Analysis/SearchDetailPageAjax')]));
         return $response;
     }
 
@@ -682,19 +678,18 @@ class AnalysisController extends AbstractController
             'Analysis',
             ['href' => (string)$request->getQueryParams()['download'], 'limit' => 10]
         );
-        $standaloneView = ObjectUtility::getStandaloneView();
-        $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
-            'EXT:lux/Resources/Private/Templates/Analysis/ContentDetailDownloadAjax.html'
+        $view = $this->viewFactory->create(new ViewFactoryData(
+            templateRootPaths: ['EXT:lux/Resources/Private/Templates/'],
+            partialRootPaths: ['EXT:lux/Resources/Private/Partials/'],
         ));
-        $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
-        $standaloneView->assignMultiple([
+        $view->assignMultiple([
             'downloads' => $this->downloadRepository->findByFilter($filter),
             'numberOfDownloadsData' => GeneralUtility::makeInstance(DownloadsDataProvider::class, $filter),
         ]);
         $response = GeneralUtility::makeInstance(JsonResponse::class);
         /** @var StreamInterface $stream */
         $stream = $response->getBody();
-        $stream->write(json_encode(['html' => $standaloneView->render()]));
+        $stream->write(json_encode(['html' => $view->render('Analysis/ContentDetailDownloadAjax')]));
         return $response;
     }
 
@@ -711,19 +706,18 @@ class AnalysisController extends AbstractController
             'Analysis',
             ['searchterm' => (string)$request->getQueryParams()['linkListener'], 'limit' => 10]
         );
-        $standaloneView = ObjectUtility::getStandaloneView();
-        $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
-            'EXT:lux/Resources/Private/Templates/Analysis/LinkListenerAjax.html'
+        $view = $this->viewFactory->create(new ViewFactoryData(
+            templateRootPaths: ['EXT:lux/Resources/Private/Templates/'],
+            partialRootPaths: ['EXT:lux/Resources/Private/Partials/'],
         ));
-        $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
-        $standaloneView->assignMultiple([
+        $view->assignMultiple([
             'linkclicks' => $this->linkclickRepository->findByFilter($filter),
             'allLinkclickData' => GeneralUtility::makeInstance(AllLinkclickDataProvider::class, $filter),
         ]);
         $response = GeneralUtility::makeInstance(JsonResponse::class);
         /** @var StreamInterface $stream */
         $stream = $response->getBody();
-        $stream->write(json_encode(['html' => $standaloneView->render()]));
+        $stream->write(json_encode(['html' => $view->render('Analysis/LinkListenerAjax')]));
         return $response;
     }
 

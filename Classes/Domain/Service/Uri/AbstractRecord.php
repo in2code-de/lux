@@ -3,10 +3,10 @@
 declare(strict_types=1);
 namespace In2code\Lux\Domain\Service\Uri;
 
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 abstract class AbstractRecord implements RecordInterface
@@ -26,9 +26,9 @@ abstract class AbstractRecord implements RecordInterface
      */
     protected function getReturnUrl(): string
     {
-        /** @var RenderingContext $renderingContext */
-        $renderingContext = $this->renderingContext;
-        $request = $renderingContext->getRequest();
+        $request = method_exists($this->renderingContext, 'getRequest')
+            ? $this->renderingContext->getRequest()
+            : $this->renderingContext->getAttribute(ServerRequestInterface::class);
         return $request->getAttribute('normalizedParams')->getRequestUri();
     }
 

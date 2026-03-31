@@ -10,8 +10,9 @@ use In2code\Lux\Utility\EmailUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\View\ViewFactoryData;
+use TYPO3\CMS\Core\View\ViewFactoryInterface;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
-use TYPO3\CMS\Fluid\View\StandaloneView;
 
 class SendSummaryService
 {
@@ -79,13 +80,11 @@ class SendSummaryService
         $mailTemplatePath = $this->configurationService->getTypoScriptSettingsByPath(
             'commandControllers.summaryMail.mailTemplate'
         );
-        $standaloneView = GeneralUtility::makeInstance(StandaloneView::class);
-        $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($mailTemplatePath));
-        $standaloneView->assignMultiple([
-            'visitors' => $this->visitors,
-        ]);
-        $standaloneView->assignMultiple($assignment);
-        return $standaloneView->render();
+        $view = GeneralUtility::makeInstance(ViewFactoryInterface::class)->create(new ViewFactoryData(
+            templatePathAndFilename: GeneralUtility::getFileAbsFileName($mailTemplatePath),
+        ));
+        $view->assignMultiple(['visitors' => $this->visitors] + $assignment);
+        return $view->render();
     }
 
     /**

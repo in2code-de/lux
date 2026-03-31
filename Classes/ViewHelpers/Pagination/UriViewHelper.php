@@ -3,14 +3,16 @@
 declare(strict_types=1);
 namespace In2code\Lux\ViewHelpers\Pagination;
 
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\Request;
 use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 use TYPO3\CMS\Extbase\Service\ExtensionService;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 
 class UriViewHelper extends AbstractTagBasedViewHelper
 {
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('name', 'string', 'identifier important if more widgets on same page', false, 'widget');
@@ -24,11 +26,17 @@ class UriViewHelper extends AbstractTagBasedViewHelper
      */
     public function render(): string
     {
+        $request = method_exists($this->renderingContext, 'getRequest')
+            ? $this->renderingContext->getRequest()
+            : $this->renderingContext->getAttribute(ServerRequestInterface::class);
+        if ($request instanceof Request === false) {
+            return '';
+        }
         $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
-        $uriBuilder->setRequest($this->renderingContext->getRequest());
+        $uriBuilder->setRequest($request);
         $uriBuilder->setAddQueryString(true);
-        $extensionName = $this->renderingContext->getRequest()->getControllerExtensionName();
-        $pluginName = $this->renderingContext->getRequest()->getPluginName();
+        $extensionName = $request->getControllerExtensionName();
+        $pluginName = $request->getPluginName();
         $extensionService = GeneralUtility::makeInstance(ExtensionService::class);
         $pluginNamespace = $extensionService->getPluginNamespace($extensionName, $pluginName);
         $argumentPrefix = $pluginNamespace . '[' . $this->arguments['name'] . ']';

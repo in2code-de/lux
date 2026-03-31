@@ -9,7 +9,8 @@ use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\EnvironmentUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Core\View\ViewFactoryData;
+use TYPO3\CMS\Core\View\ViewFactoryInterface;
 
 class EnableStatus
 {
@@ -40,10 +41,11 @@ class EnableStatus
 
     protected function renderMarkup(array $variables): string
     {
-        $standaloneView = GeneralUtility::makeInstance(StandaloneView::class);
-        $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($this->templatePathAndFile));
-        $standaloneView->assignMultiple($variables);
-        return $standaloneView->render();
+        $view = GeneralUtility::makeInstance(ViewFactoryInterface::class)->create(new ViewFactoryData(
+            templatePathAndFilename: GeneralUtility::getFileAbsFileName($this->templatePathAndFile),
+        ));
+        $view->assignMultiple($variables);
+        return $view->render();
     }
 
     /**

@@ -12,7 +12,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class GetPropertyFromAttributesViewHelper extends AbstractViewHelper
 {
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('visitor', Visitor::class, 'visitor', true);
         $this->registerArgument('attribute', 'string', 'any attribute name you want to get from the visitor', true);

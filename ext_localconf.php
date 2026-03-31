@@ -1,87 +1,75 @@
 <?php
-if (!defined('TYPO3')) {
-    die('Access denied.');
+
+use In2code\Lux\Controller\FrontendController;
+use In2code\Lux\Domain\Cache\CacheLayer;
+use In2code\Lux\Domain\Cache\RateLimiterCache;
+use In2code\Lux\Domain\Service\Image\CompanyImageService;
+use In2code\Lux\Domain\Service\Image\VisitorImageService;
+use In2code\Lux\Utility\CacheHashUtility;
+use In2code\Lux\Utility\CacheLayerUtility;
+use In2code\Lux\Utility\ConfigurationUtility;
+use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
+
+defined('TYPO3') || die();
+
+/**
+ * Include Frontend Plugins
+ */
+ExtensionUtility::configurePlugin(
+    'Lux',
+    'Fe',
+    [FrontendController::class => 'dispatchRequest']
+);
+ExtensionUtility::configurePlugin(
+    'Lux',
+    'Email4link',
+    [FrontendController::class => 'email4link']
+);
+ExtensionUtility::configurePlugin(
+    'Lux',
+    'Pi1',
+    [FrontendController::class => 'trackingOptOut']
+);
+
+/**
+ * CK editor configuration
+ */
+if (ConfigurationUtility::isCkEditorConfigurationNeeded()) {
+    $ckConfiguration = 'EXT:lux/Configuration/Yaml/CkEditor.yaml';
+    $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['lux'] = $ckConfiguration;
+
+    $GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'] =
+        ($GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'] ?? '') . PHP_EOL . 'RTE.default.preset = lux';
 }
 
-call_user_func(
-    function () {
+/**
+ * Fluid Namespace
+ */
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['lux'][] = 'In2code\Lux\ViewHelpers';
 
-        /**
-         * Include Frontend Plugins
-         */
-        \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-            'Lux',
-            'Fe',
-            [\In2code\Lux\Controller\FrontendController::class => 'dispatchRequest']
-        );
-        \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-            'Lux',
-            'Email4link',
-            [\In2code\Lux\Controller\FrontendController::class => 'email4link']
-        );
-        \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-            'Lux',
-            'Pi1',
-            [\In2code\Lux\Controller\FrontendController::class => 'trackingOptOut']
-        );
+/**
+ * Email templates
+ */
+$GLOBALS['TYPO3_CONF_VARS']['MAIL']['templateRootPaths'][1762935800] =
+    'EXT:lux/Resources/Private/Templates/Mail/';
 
-        /**
-         * Add page TSConfig
-         */
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-            '@import \'EXT:lux/Configuration/TSConfig/Lux.typoscript\'' . PHP_EOL .
-            '@import \'EXT:lux/Configuration/TSConfig/LuxLetter.typoscript\''
-        );
-
-        /**
-         * Hooks
-         */
-        // Linkhandler for Link Listener
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_content.php']['typoLink_PostProc'][]
-            = \In2code\Lux\Hooks\LuxLinkListenerLinkhandler::class . '->postProcessTypoLink';
-
-        /**
-         * CK editor configuration
-         */
-        if (\In2code\Lux\Utility\ConfigurationUtility::isCkEditorConfigurationNeeded()) {
-            $ckConfiguration = 'EXT:lux/Configuration/Yaml/CkEditor.yaml';
-            $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['lux'] = $ckConfiguration;
-
-            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-                'RTE.default.preset = lux'
-            );
-        }
-
-        /**
-         * Fluid Namespace
-         */
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['lux'][] = 'In2code\Lux\ViewHelpers';
-
-        /**
-         * Email templates
-         */
-        $GLOBALS['TYPO3_CONF_VARS']['MAIL']['templateRootPaths'][1762935800] =
-            'EXT:lux/Resources/Private/Templates/Mail/';
-
-        /**
-         * Caching framework
-         */
-        $cacheKeys = [
-            \In2code\Lux\Domain\Service\Image\VisitorImageService::CACHE_KEY,
-            \In2code\Lux\Domain\Service\Image\CompanyImageService::CACHE_KEY,
-            \In2code\Lux\Domain\Cache\CacheLayer::CACHE_KEY,
-            \In2code\Lux\Domain\Cache\RateLimiterCache::CACHE_KEY,
-        ];
-        foreach ($cacheKeys as $cacheKey) {
-            if (!isset($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheKey])) {
-                $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheKey] = [];
-            }
-        }
-        \In2code\Lux\Utility\CacheLayerUtility::registerCacheLayers();
-
-        /**
-         * CacheHash: Add LUX parameters to excluded variables
-         */
-        \In2code\Lux\Utility\CacheHashUtility::addLuxArgumentsToExcludedVariables();
+/**
+ * Caching framework
+ */
+$cacheKeys = [
+    VisitorImageService::CACHE_KEY,
+    CompanyImageService::CACHE_KEY,
+    CacheLayer::CACHE_KEY,
+    RateLimiterCache::CACHE_KEY,
+];
+foreach ($cacheKeys as $cacheKey) {
+    if (!isset($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheKey])) {
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheKey] = [];
     }
-);
+}
+CacheLayerUtility::registerCacheLayers();
+
+/**
+ * CacheHash: Add LUX parameters to excluded variables
+ */
+CacheHashUtility::addLuxArgumentsToExcludedVariables();
