@@ -47,6 +47,8 @@ This is just an internal lists of features and functions that have to be tested 
     * List
     * Preview
     * Detail
+    * CSV Download
+    * Filter general functionality
 * Leads module
   * Dashboard
     * Filter general functionality
