@@ -275,8 +275,9 @@ class AnalysisController extends AbstractController
      */
     public function sourcesCsvAction(FilterDto $filter): ResponseInterface
     {
+        $referrerService = GeneralUtility::makeInstance(GetReferrersServices::class);
         $this->view->assignMultiple([
-            'referrers' => $this->pagevisitsRepository->getReferrers($filter),
+            'referrers' => $referrerService->getReferrers($filter),
         ]);
         return $this->csvResponse();
     }
@@ -339,11 +340,16 @@ class AnalysisController extends AbstractController
 
     /**
      * @param FilterDto $filter
+     * @param string $export
      * @return ResponseInterface
      * @throws ExceptionDbal
      */
-    public function searchAction(FilterDto $filter): ResponseInterface
+    public function searchAction(FilterDto $filter, string $export = ''): ResponseInterface
     {
+        if ($export === 'csv') {
+            return (new ForwardResponse('searchCsv'))->withArguments(['filter' => $filter]);
+        }
+
         $this->moduleTemplate->assignMultiple([
             'filter' => $filter,
             'luxCategories' => $this->categoryRepository->findAllLuxCategories(),
@@ -353,6 +359,19 @@ class AnalysisController extends AbstractController
 
         $this->addDocumentHeaderForCurrentController();
         return $this->defaultRendering();
+    }
+
+    /**
+     * @param FilterDto $filter
+     * @return ResponseInterface
+     * @throws ExceptionDbal
+     */
+    public function searchCsvAction(FilterDto $filter): ResponseInterface
+    {
+        $this->view->assignMultiple([
+            'search' => $this->searchRepository->findCombinedBySearchIdentifier($filter),
+        ]);
+        return $this->csvResponse();
     }
 
     /**

@@ -29,10 +29,20 @@ This is just an internal lists of features and functions that have to be tested 
     * List
     * Preview
     * Detail
+    * CSV Download
+    * Filter general functionality
   * UTM
     * List
     * Preview
     * Detail
+    * CSV Download
+    * Filter general functionality
+  * Sources
+    * List
+    * Preview
+    * Detail
+    * CSV Download
+    * Filter general functionality
   * LinkListener
     * List
     * Preview
