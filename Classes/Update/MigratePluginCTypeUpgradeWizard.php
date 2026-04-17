@@ -4,8 +4,9 @@ declare(strict_types=1);
 namespace In2code\Lux\Update;
 
 use In2code\Lux\Utility\DatabaseUtility;
+use TYPO3\CMS\Core\Upgrades\DatabaseUpdatedPrerequisite as CoreDatabaseUpdatedPrerequisite;
 use TYPO3\CMS\Install\Attribute\UpgradeWizard;
-use TYPO3\CMS\Install\Updates\DatabaseUpdatedPrerequisite;
+use TYPO3\CMS\Install\Updates\DatabaseUpdatedPrerequisite as InstallDatabaseUpdatedPrerequisite;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 #[UpgradeWizard('luxMigratePluginCTypeUpgradeWizard')]
@@ -53,8 +54,9 @@ class MigratePluginCTypeUpgradeWizard implements UpgradeWizardInterface
 
     public function getPrerequisites(): array
     {
-        return [
-            DatabaseUpdatedPrerequisite::class,
-        ];
+        $prerequisite = class_exists(CoreDatabaseUpdatedPrerequisite::class)
+            ? CoreDatabaseUpdatedPrerequisite::class
+            : InstallDatabaseUpdatedPrerequisite::class;
+        return [$prerequisite];
     }
 }
