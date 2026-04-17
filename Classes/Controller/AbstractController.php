@@ -25,6 +25,7 @@ use In2code\Lux\Domain\Repository\SearchRepository;
 use In2code\Lux\Domain\Repository\UtmRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\RenderingTimeService;
+use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\StringUtility;
 use Psr\Http\Message\ResponseInterface;
@@ -39,6 +40,8 @@ use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\View\ViewFactoryInterface;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\Configuration\Exception\NoServerRequestGivenException;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 
@@ -65,6 +68,7 @@ abstract class AbstractController extends ActionController
         protected readonly WiredmindsRepository $wiredmindsRepository,
         protected readonly LanguageRepository $languageRepository,
         protected readonly RenderingTimeService $renderingTimeService,
+        protected readonly SiteService $siteService,
         protected readonly CacheLayer $cacheLayer,
         protected readonly ModuleTemplateFactory $moduleTemplateFactory,
         protected readonly IconFactory $iconFactory,
@@ -94,6 +98,28 @@ abstract class AbstractController extends ActionController
     public function initializeAction(): void
     {
         $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+        $this->loadSettingsFromRootPageIfMissing();
+    }
+
+    /**
+     * Inject settings in backend context if no ?id= is given (use PID from default rootpage then)
+     *
+     * @return void
+     * @throws NoServerRequestGivenException
+     */
+    protected function loadSettingsFromRootPageIfMissing(): void
+    {
+        if ((int)($this->request->getQueryParams()['id'] ?? 0) === 0) {
+            $rootPageId = $this->siteService->getDefaultSite()->getRootPageId();
+            $requestWithRootPage = $this->request->withQueryParams(
+                array_merge($this->request->getQueryParams(), ['id' => $rootPageId])
+            );
+            $this->configurationManager->setRequest($requestWithRootPage);
+            $this->settings = $this->configurationManager->getConfiguration(
+                ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS
+            );
+            $this->configurationManager->setRequest($this->request);
+        }
     }
 
     /**

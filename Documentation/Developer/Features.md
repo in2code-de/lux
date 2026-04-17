@@ -56,6 +56,7 @@ This is just an internal lists of features and functions that have to be tested 
     * List
       * Filter general functionality
       * Sorting
+      * Download
     * Preview
     * Detail
       * Delete
