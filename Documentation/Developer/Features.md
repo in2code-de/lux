@@ -150,6 +150,7 @@ This is just an internal lists of features and functions that have to be tested 
   * Open popup on page
   * Send to slack on page
   * ... Further pages in Testparcours
+  * Send Mail some time later
 * Contextual Content Plugin
 * Hidden Content Plugin (for Workflows)
 * A/B Tests

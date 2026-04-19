@@ -8,6 +8,7 @@ use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\EmailValidationException;
 use In2code\Lux\Utility\EmailUtility;
 use In2code\Lux\Utility\ObjectUtility;
+use TYPO3\CMS\Core\Mail\MailerInterface;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\View\ViewFactoryData;
@@ -47,8 +48,8 @@ class SendSummaryService
             ->setFrom($this->getSender())
             ->setSubject($this->getSubject())
             ->html($this->getMailTemplate());
-        $message->send();
-        return $message->isSent();
+        GeneralUtility::makeInstance(MailerInterface::class)->send($message);
+        return true;
     }
 
     /**
