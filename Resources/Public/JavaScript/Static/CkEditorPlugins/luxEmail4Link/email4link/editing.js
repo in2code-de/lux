@@ -24,7 +24,7 @@ export default class Email4LinkEditing extends Core.Plugin {
         return linkElement;
       }
     });
-    editor.conversion.for('upcast').elementToAttribute({
+    conversion.for('upcast').elementToAttribute({
       view: { name: 'a', attributes: { 'data-lux-email4link-sendemail': true } },
       model: { key: 'sendEmail', value: (viewElement) => viewElement.getAttribute('data-lux-email4link-sendemail') }
     });
@@ -37,7 +37,7 @@ export default class Email4LinkEditing extends Core.Plugin {
         return linkElement;
       }
     });
-    editor.conversion.for('upcast').elementToAttribute({
+    conversion.for('upcast').elementToAttribute({
       view: { name: 'a', attributes: { 'data-lux-email4link-title': true } },
       model: { key: 'emailTitle', value: (viewElement) => viewElement.getAttribute('data-lux-email4link-title') }
     });
@@ -50,7 +50,7 @@ export default class Email4LinkEditing extends Core.Plugin {
         return linkElement;
       }
     });
-    editor.conversion.for('upcast').elementToAttribute({
+    conversion.for('upcast').elementToAttribute({
       view: { name: 'a', attributes: { 'data-lux-email4link-text': true } },
       model: { key: 'emailText', value: (viewElement) => viewElement.getAttribute('data-lux-email4link-text') }
     });

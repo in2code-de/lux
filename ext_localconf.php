@@ -7,7 +7,6 @@ use In2code\Lux\Domain\Service\Image\CompanyImageService;
 use In2code\Lux\Domain\Service\Image\VisitorImageService;
 use In2code\Lux\Utility\CacheHashUtility;
 use In2code\Lux\Utility\CacheLayerUtility;
-use In2code\Lux\Utility\ConfigurationUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
 defined('TYPO3') || die();
@@ -34,13 +33,7 @@ ExtensionUtility::configurePlugin(
 /**
  * CK editor configuration
  */
-if (ConfigurationUtility::isCkEditorConfigurationNeeded()) {
-    $ckConfiguration = 'EXT:lux/Configuration/Yaml/CkEditor.yaml';
-    $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['lux'] = $ckConfiguration;
-
-    $GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'] =
-        ($GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'] ?? '') . PHP_EOL . 'RTE.default.preset = lux';
-}
+$GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['lux'] = 'EXT:lux/Configuration/Yaml/CkEditor.yaml';
 
 /**
  * Fluid Namespace

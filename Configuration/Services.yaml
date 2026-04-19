@@ -145,6 +145,12 @@ services:
   In2code\Lux\Domain\Tracker\SearchTracker:
     public: true
 
+  In2code\Lux\EventListener\AddPageTsConfigEventListener:
+    tags:
+      - name: 'event.listener'
+        identifier: 'lux/addPageTsConfig'
+        event: TYPO3\CMS\Core\TypoScript\IncludeTree\Event\BeforeLoadedPageTsConfigEvent
+
   In2code\Lux\EventListener\AddUserTsConfigEventListener:
     tags:
       - name: 'event.listener'
