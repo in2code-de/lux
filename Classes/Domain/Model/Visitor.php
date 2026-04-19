@@ -1007,7 +1007,7 @@ class Visitor extends AbstractModel
                 $querySettings->setRespectStoragePage(false);
                 $feuRepository->setDefaultQuerySettings($querySettings);
                 /** @var FrontendUser|null $feuser */
-                $feuser = $feuRepository->findOneByEmail($this->getEmail());
+                $feuser = $feuRepository->findOneBy(['email' => $this->getEmail()]);
                 if ($feuser !== null) {
                     $this->setFrontenduser($feuser);
                     return true;
