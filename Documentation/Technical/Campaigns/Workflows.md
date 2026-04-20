@@ -1205,12 +1205,12 @@ EXT:luxextension/Resources/Private/Templates/Workflow/Action/Curl.html:
 
         <div class="row form-group">
             <div class="col-md-3">
-                <label for="trigger_{index}_recurring" class="lb-lg">
+                <label for="action_{index}_recurring" class="lb-lg">
                     <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:action.label.recurring">
                         Recurring/Single
                     </f:translate>
                 </label>
-                <select name="actions[{index}][configuration][recurring]" class="form-control" id="trigger_{index}_recurring">
+                <select name="actions[{index}][configuration][recurring]" class="form-control" id="action_{index}_recurring">
                     <option value="single"{f:if(condition:'{configuration.recurring} == "single"',then:' selected="selected"')}>{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:action.label.recurring.single')}</option>
                     <option value="recurring"{f:if(condition:'{configuration.recurring} == "recurring"',then:' selected="selected"')}>{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:action.label.recurring.recurring')}</option>
                 </select>
