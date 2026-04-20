@@ -19,9 +19,6 @@
                         <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.news.created">created</f:translate>
                     </th>
                     <th>
-                        <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.news.author">author</f:translate>
-                    </th>
-                    <th>
                         <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.news.visits">visits</f:translate>
                     </th>
                 </tr>
@@ -48,10 +45,6 @@
                             <span class="badge" title="{f:format.date(date:item.news.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
                                 <lux:format.readableDate>{item.news.crdate}</lux:format.readableDate>
                             </span>
-                        </td>
-                        <td>
-                            {item.news.cruserId.username}
-                            <f:if condition="{item.news.cruserId.name}">({item.news.cruserId.username})</f:if>
                         </td>
                         <td>
                             <lux:format.readableNumber>{item.count}</lux:format.readableNumber>

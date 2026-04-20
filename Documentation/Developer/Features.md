@@ -119,6 +119,7 @@ This is just an internal lists of features and functions that have to be tested 
     * Edit
     * Preview
     * Detail
+    * Filter
   * A/B Testing
     * List
     * Preview

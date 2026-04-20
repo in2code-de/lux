@@ -328,9 +328,6 @@
 			<trans-unit id="tx_lux_domain_model_linklistener.crdate">
 				<source>Creation date</source>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_linklistener.cruser_id">
-				<source>Creator</source>
-			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_linklistener.title">
 				<source>Title</source>
 			</trans-unit>
@@ -664,9 +661,6 @@
 			</trans-unit>
 			<trans-unit id="module.analysis.news.created">
 				<source>Created</source>
-			</trans-unit>
-			<trans-unit id="module.analysis.news.author">
-				<source>Author</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.news.visits">
 				<source>News views</source>
@@ -1143,9 +1137,6 @@
 			</trans-unit>
 			<trans-unit id="module.linklistener.table.created">
 				<source>Created</source>
-			</trans-unit>
-			<trans-unit id="module.linklistener.table.author">
-				<source>Author</source>
 			</trans-unit>
 			<trans-unit id="module.linklistener.table.clicks">
 				<source>Number of clicks</source>
