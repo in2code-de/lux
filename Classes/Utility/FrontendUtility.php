@@ -12,11 +12,12 @@ class FrontendUtility
 {
     public static function getCurrentPageIdentifier(): int
     {
-        $pageArguments = $GLOBALS['TYPO3_REQUEST']?->getAttribute('routing');
-        if ($pageArguments instanceof PageArguments === false) {
-            return 0;
+        $request = $GLOBALS['TYPO3_REQUEST'] ?? null;
+        $pageArguments = $request?->getAttribute('routing');
+        if ($pageArguments instanceof PageArguments) {
+            return $pageArguments->getPageId();
         }
-        return $pageArguments->getPageId();
+        return 0;
     }
 
     /**
