@@ -3,35 +3,24 @@
 declare(strict_types=1);
 namespace In2code\Lux\ViewHelpers\Format;
 
-use Closure;
 use In2code\Lux\Utility\LocalizationUtility;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class ReadableNumberViewHelper extends AbstractViewHelper
 {
     protected $escapeOutput = false;
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('addTitle', 'bool', 'Surround with a span tag with a mouseover title', false, true);
     }
 
-    /**
-     * @param array $arguments
-     * @param Closure $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
-     * @return string
-     */
-    public static function renderStatic(
-        array $arguments,
-        Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ): string {
-        $numberOriginal = (int)$renderChildrenClosure();
-        $number = self::getReadableNumber($numberOriginal);
-        if ($arguments['addTitle']) {
+    public function render(): string
+    {
+        $numberOriginal = (int)$this->renderChildren();
+        $number = $this->getReadableNumber($numberOriginal);
+        if ($this->arguments['addTitle']) {
             $thousandsSeparator = LocalizationUtility::translateByKey('number.thousandsSeparator');
             $number = '<span title="' . number_format($numberOriginal, 0, '.', $thousandsSeparator) . '">'
                 . $number
@@ -46,7 +35,7 @@ class ReadableNumberViewHelper extends AbstractViewHelper
      * @param int $number
      * @return string
      */
-    protected static function getReadableNumber(int $number): string
+    protected function getReadableNumber(int $number): string
     {
         $decimalSeparator = LocalizationUtility::translateByKey('number.decimalSeparator');
         if ($number >= 1000000) {

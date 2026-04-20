@@ -8,7 +8,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class GetAnyPropertyViewHelper extends AbstractViewHelper
 {
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('visitor', Visitor::class, 'visitor', true);
         $this->registerArgument('property', 'string', 'any property name you want to get from the visitor', true);

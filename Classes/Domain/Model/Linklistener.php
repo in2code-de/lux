@@ -31,8 +31,8 @@ class Linklistener extends AbstractEntity
 
     /**
      * @var ?ObjectStorage<Linkclick>
-     * @Lazy
      */
+    #[Lazy]
     protected ?ObjectStorage $linkclicks = null;
 
     public function getCrdate(): ?DateTime

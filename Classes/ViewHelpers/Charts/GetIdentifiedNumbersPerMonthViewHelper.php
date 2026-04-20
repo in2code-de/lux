@@ -7,7 +7,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class GetIdentifiedNumbersPerMonthViewHelper extends AbstractViewHelper
 {
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('logs', 'array', '{identifiedPerMonth} variable', true);
     }

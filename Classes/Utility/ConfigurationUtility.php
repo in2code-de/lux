@@ -6,7 +6,6 @@ namespace In2code\Lux\Utility;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -266,10 +265,5 @@ class ConfigurationUtility
     protected static function getExtensionConfiguration(): array
     {
         return GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('lux');
-    }
-
-    public static function isTypo3Version12(): bool
-    {
-        return (new Typo3Version())->getMajorVersion() === 12;
     }
 }

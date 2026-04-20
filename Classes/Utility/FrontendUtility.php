@@ -4,19 +4,19 @@ declare(strict_types=1);
 namespace In2code\Lux\Utility;
 
 use In2code\Lux\Domain\Service\SiteService;
+use TYPO3\CMS\Core\Routing\PageArguments;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 class FrontendUtility
 {
     public static function getCurrentPageIdentifier(): int
     {
-        $typoscriptFrontendController = self::getTyposcriptFrontendController();
-        if (self::getTyposcriptFrontendController() === null) {
+        $pageArguments = $GLOBALS['TYPO3_REQUEST']?->getAttribute('routing');
+        if ($pageArguments instanceof PageArguments === false) {
             return 0;
         }
-        return $typoscriptFrontendController->id;
+        return $pageArguments->getPageId();
     }
 
     /**
@@ -63,14 +63,5 @@ class FrontendUtility
     protected static function getFrontendUserAuthentication(): ?FrontendUserAuthentication
     {
         return $GLOBALS['TYPO3_REQUEST']?->getAttribute('frontend.user');
-    }
-
-    /**
-     * @return ?TypoScriptFrontendController
-     * @SuppressWarnings(PHPMD.Superglobals)
-     */
-    protected static function getTyposcriptFrontendController(): ?TypoScriptFrontendController
-    {
-        return $GLOBALS['TSFE'] ?? null;
     }
 }

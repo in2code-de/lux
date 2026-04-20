@@ -12,7 +12,7 @@ class ReadableReferrerViewHelper extends AbstractViewHelper
     {
     }
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('domain', 'string', 'like "openai.com"', true);

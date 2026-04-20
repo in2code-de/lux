@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace In2code\Lux\Backend\Buttons;
 
 use TYPO3\CMS\Backend\Template\Components\Buttons\AbstractButton;
-use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Request;
@@ -38,7 +38,7 @@ class NavigationGroupButton extends AbstractButton
         $this->iconFactory = GeneralUtility::makeInstance(IconFactory::class);
     }
 
-    public function render()
+    public function render(): string
     {
         $content = $this->prepend();
         $content .= '<div class="lux btn-group" role="group">';
@@ -85,13 +85,13 @@ class NavigationGroupButton extends AbstractButton
 
     protected function appendCommunity(string $content): string
     {
-        $icon = $this->iconFactory->getIcon('extension-lux-star', Icon::SIZE_SMALL);
-        $content .= '<div style="padding-top: 5px;">';
+        $icon = $this->iconFactory->getIcon('extension-lux-star', IconSize::SMALL);
+        $content .= '<div style="display: flex; align-items: center; padding-left: 5px;">';
         $content .= 'LUX Community Edition';
         $content .= '<a href="' . $this->getInfoUri() . '" style="margin-left: 5px;">';
-        $content .= $this->iconFactory->getIcon('actions-info-circle-alt', Icon::SIZE_SMALL);
+        $content .= $this->iconFactory->getIcon('actions-info-circle-alt', IconSize::SMALL);
         $content .= '</a></div>';
-        $content .= '<a href="https://www.in2code.de/produkte/lux-typo3-marketing-automation/?utm_campaign=LUX+Community+Version&utm_id=llcv&utm_source=typo3&utm_medium=browser&utm_content=go+enterprise" class="lux_poweredby" style="color:currentColor !important; font-weight:bold; right:85px; position:absolute;" target="_blank" rel="noopener">';
+        $content .= '<a href="https://www.in2code.de/produkte/lux-typo3-marketing-automation/?utm_campaign=LUX+Community+Version&utm_id=llcv&utm_source=typo3&utm_medium=browser&utm_content=go+enterprise" class="lux_poweredby" style="color:currentColor !important; font-weight:bold; position: absolute; right: 130px; top: 50%; transform: translateY(-50%); white-space: nowrap;" target="_blank" rel="noopener">';
         $content .= $icon->render();
         $content .= ' Go enterprise</a>';
         return $content;
@@ -99,10 +99,10 @@ class NavigationGroupButton extends AbstractButton
 
     protected function appendEnterprise(string $content): string
     {
-        $content .= '<div style="padding: 5px 0 0 5px;">';
+        $content .= '<div style="display: flex; align-items: center; padding-left: 5px;">';
         $content .= 'LUX Enterprise Edition';
         $content .= '<a href="' . $this->getInfoUri() . '" style="margin-left: 5px;">';
-        $content .= $this->iconFactory->getIcon('actions-info-circle-alt', Icon::SIZE_SMALL);
+        $content .= $this->iconFactory->getIcon('actions-info-circle-alt', IconSize::SMALL);
         $content .= '</a></div>';
         return $content;
     }
@@ -117,7 +117,7 @@ class NavigationGroupButton extends AbstractButton
         return $this->render();
     }
 
-    public function isValid()
+    public function isValid(): bool
     {
         return true;
     }

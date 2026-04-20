@@ -18,7 +18,7 @@ class GetVisitedPageAmountByPageIdentifierAndVisitorViewHelper extends AbstractV
         $this->pagevisitRepository = $pagevisitRepository;
     }
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('visitor', Visitor::class, 'visitor', true);

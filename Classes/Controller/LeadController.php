@@ -31,13 +31,13 @@ use Throwable;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\View\ViewFactoryData;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
-use TYPO3\CMS\Fluid\View\StandaloneView;
 
 class LeadController extends AbstractController
 {
@@ -319,11 +319,10 @@ class LeadController extends AbstractController
     {
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $companyRepository = GeneralUtility::makeInstance(CompanyRepository::class);
-        $standaloneView = GeneralUtility::makeInstance(StandaloneView::class);
-        $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
-            'EXT:lux/Resources/Private/Templates/Lead/ListDetailAjax.html'
+        $view = $this->viewFactory->create(new ViewFactoryData(
+            templateRootPaths: ['EXT:lux/Resources/Private/Templates/'],
+            partialRootPaths: ['EXT:lux/Resources/Private/Partials/'],
         ));
-        $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         /** @var Visitor $visitor */
         $visitor = $visitorRepository->findByUid((int)$request->getQueryParams()['visitor']);
         if ($visitor->canBeRead() === false) {
@@ -331,13 +330,13 @@ class LeadController extends AbstractController
         }
         $filter = ObjectUtility::getFilterDtoFromStartAndEnd($visitor->getDateOfPagevisitFirst(), new DateTime())
             ->setVisitor($visitor);
-        $standaloneView->assignMultiple([
+        $view->assignMultiple([
             'visitor' => $visitor,
             'company' => $visitor->getCompanyrecord(),
             'companies' => $companyRepository->findAll(),
             'scoringWeeks' => GeneralUtility::makeInstance(VisitorScoringWeeksDataProvider::class, $filter),
         ]);
-        return $this->jsonResponse(json_encode(['html' => $standaloneView->render()]));
+        return $this->jsonResponse(json_encode(['html' => $view->render('Lead/ListDetailAjax')]));
     }
 
     /**
@@ -351,22 +350,21 @@ class LeadController extends AbstractController
         $companyRepository = GeneralUtility::makeInstance(CompanyRepository::class);
         $categoryRepository = GeneralUtility::makeInstance(CategoryRepository::class);
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
-        $standaloneView = GeneralUtility::makeInstance(StandaloneView::class);
-        $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
-            'EXT:lux/Resources/Private/Templates/Lead/CompanyListDetailAjax.html'
+        $view = $this->viewFactory->create(new ViewFactoryData(
+            templateRootPaths: ['EXT:lux/Resources/Private/Templates/'],
+            partialRootPaths: ['EXT:lux/Resources/Private/Partials/'],
         ));
-        $standaloneView->setPartialRootPaths(['EXT:lux/Resources/Private/Partials/']);
         $company = $companyRepository->findByUid((int)$request->getQueryParams()['company']);
         if ($company->canBeRead() === false) {
             throw new AuthenticationException('Not allowed to view this company', 1709123966);
         }
-        $standaloneView->assignMultiple([
+        $view->assignMultiple([
             'company' => $company,
             'visitors' => $visitorRepository->findByCompany($company, 6),
             'companies' => $companyRepository->findAll(),
             'categories' => $categoryRepository->findAllLuxCompanyCategories(),
         ]);
-        return $this->jsonResponse(json_encode(['html' => $standaloneView->render()]));
+        return $this->jsonResponse(json_encode(['html' => $view->render('Lead/CompanyListDetailAjax')]));
     }
 
     /**

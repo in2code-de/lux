@@ -8,7 +8,6 @@ use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Service\ConfigurationService;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class ObjectUtility
@@ -23,11 +22,6 @@ class ObjectUtility
     public static function getContentObject(): ContentObjectRenderer
     {
         return GeneralUtility::makeInstance(ContentObjectRenderer::class);
-    }
-
-    public static function getStandaloneView(): StandaloneView
-    {
-        return GeneralUtility::makeInstance(StandaloneView::class);
     }
 
     public static function getFilterDto(int $period = FilterDto::PERIOD_DEFAULT): FilterDto

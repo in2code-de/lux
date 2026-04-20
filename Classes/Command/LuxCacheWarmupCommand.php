@@ -20,7 +20,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\View\StandaloneView;
 
 class LuxCacheWarmupCommand extends Command
 {
@@ -110,11 +109,14 @@ class LuxCacheWarmupCommand extends Command
     protected function substituteVariablesInArguments(array $arguments, array $row): array
     {
         foreach ($arguments as $key => $value) {
-            if (stristr($value, '{')) {
-                $standaloneView = GeneralUtility::makeInstance(StandaloneView::class);
-                $standaloneView->setTemplateSource($value);
-                $standaloneView->assignMultiple($row);
-                $arguments[$key] = $standaloneView->render();
+            if (str_contains($value, '{')) {
+                $arguments[$key] = preg_replace_callback(
+                    '~\{(\w+)\}~',
+                    static function (array $matches) use ($row): string {
+                        return (string)($row[$matches[1]] ?? $matches[0]);
+                    },
+                    $value
+                );
             }
         }
         return $arguments;

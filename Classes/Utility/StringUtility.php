@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace In2code\Lux\Utility;
 
+use TYPO3\CMS\Core\Text\TextCropper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class StringUtility
@@ -126,8 +127,7 @@ class StringUtility
 
     public static function cropString(string $string, int $length = 20, string $append = '...'): string
     {
-        $contentObject = ObjectUtility::getContentObject();
-        return $contentObject->cropHTML($string, $length . '|' . $append . '|1');
+        return (new TextCropper())->crop($string, $length, $append, true);
     }
 
     public static function shortMd5(string $string, int $length = 6): string

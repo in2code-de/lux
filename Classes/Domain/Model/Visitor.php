@@ -52,25 +52,25 @@ class Visitor extends AbstractModel
 
     /**
      * @var ?ObjectStorage<Categoryscoring>
-     * @Lazy
      */
+    #[Lazy]
     protected ?ObjectStorage $categoryscorings = null;
 
     /**
-     * @Lazy
      * @var ?ObjectStorage<Fingerprint>
      * @phpstan-var ObjectStorage|LazyLoadingProxy|null
      */
+    #[Lazy]
     protected ObjectStorage|LazyLoadingProxy|null $fingerprints = null;
 
     protected string $email = '';
     protected string $company = '';
 
     /**
-     * @Lazy
      * @var Company|LazyLoadingProxy|null
      * @phpstan-var Company|LazyLoadingProxy|null
      */
+    #[Lazy]
     protected Company|LazyLoadingProxy|null $companyrecord = null;
 
     protected bool $identified = false;
@@ -79,20 +79,20 @@ class Visitor extends AbstractModel
 
     /**
      * @var ?ObjectStorage<Pagevisit>
-     * @Lazy
      */
+    #[Lazy]
     protected ?ObjectStorage $pagevisits = null;
 
     /**
      * @var ?ObjectStorage<Newsvisit>
-     * @Lazy
      */
+    #[Lazy]
     protected ?ObjectStorage $newsvisits = null;
 
     /**
      * @var ?ObjectStorage<Linkclick>
-     * @Lazy
      */
+    #[Lazy]
     protected ?ObjectStorage $linkclicks = null;
 
     /**
@@ -104,20 +104,20 @@ class Visitor extends AbstractModel
 
     /**
      * @var ?ObjectStorage<Ipinformation>
-     * @Lazy
      */
+    #[Lazy]
     protected ?ObjectStorage $ipinformations = null;
 
     /**
      * @var ?ObjectStorage<Download>
-     * @Lazy
      */
+    #[Lazy]
     protected ?ObjectStorage $downloads = null;
 
     /**
      * @var ?ObjectStorage<Log>
-     * @Lazy
      */
+    #[Lazy]
     protected ?ObjectStorage $logs = null;
 
     protected ?DateTime $crdate = null;
@@ -1007,7 +1007,7 @@ class Visitor extends AbstractModel
                 $querySettings->setRespectStoragePage(false);
                 $feuRepository->setDefaultQuerySettings($querySettings);
                 /** @var FrontendUser|null $feuser */
-                $feuser = $feuRepository->findOneByEmail($this->getEmail());
+                $feuser = $feuRepository->findOneBy(['email' => $this->getEmail()]);
                 if ($feuser !== null) {
                     $this->setFrontenduser($feuser);
                     return true;

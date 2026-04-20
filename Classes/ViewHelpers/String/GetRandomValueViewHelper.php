@@ -12,7 +12,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class GetRandomValueViewHelper extends AbstractViewHelper
 {
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('length', 'int', 'String length', false, 32);
         $this->registerArgument('upper', 'bool', 'Get also characters in uppercase', false, true);

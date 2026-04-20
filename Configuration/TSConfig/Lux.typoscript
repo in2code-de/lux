@@ -12,8 +12,7 @@ mod {
         title = LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pi1.title
         description = LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:pi1.description
         tt_content_defValues {
-          CType = list
-          list_type = lux_pi1
+          CType = lux_pi1
         }
       }
     }

@@ -16,7 +16,6 @@ use TYPO3\CMS\Backend\Search\LiveSearch\ResultItemAction;
 use TYPO3\CMS\Backend\Search\LiveSearch\SearchDemand\SearchDemand;
 use TYPO3\CMS\Backend\Search\LiveSearch\SearchProviderInterface;
 use TYPO3\CMS\Core\Imaging\IconFactory;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
 class Visitor implements SearchProviderInterface
@@ -28,7 +27,8 @@ class Visitor implements SearchProviderInterface
     public function __construct(
         protected readonly UriBuilder $uriBuilder,
         protected readonly VisitorRepository $visitorRepository,
-        protected readonly IconFactory $iconFactory
+        protected readonly IconFactory $iconFactory,
+        protected readonly ModuleProvider $moduleProvider
     ) {
     }
 
@@ -130,9 +130,7 @@ class Visitor implements SearchProviderInterface
      */
     protected function isEnabled(): bool
     {
-        /** @var ModuleProvider $moduleProvider */
-        $moduleProvider = GeneralUtility::makeInstance(ModuleProvider::class);
         return BackendUtility::getBackendUserAuthentication() !== null &&
-            $moduleProvider->accessGranted('lux_LuxLead', BackendUtility::getBackendUserAuthentication());
+            $this->moduleProvider->accessGranted('lux_LuxLead', BackendUtility::getBackendUserAuthentication());
     }
 }

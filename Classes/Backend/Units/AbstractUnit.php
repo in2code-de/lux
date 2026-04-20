@@ -10,7 +10,8 @@ use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Core\View\ViewFactoryData;
+use TYPO3\CMS\Core\View\ViewFactoryInterface;
 
 abstract class AbstractUnit
 {
@@ -85,10 +86,10 @@ abstract class AbstractUnit
 
     protected function getHtml(): string
     {
-        $view = GeneralUtility::makeInstance(StandaloneView::class);
-        $view->setTemplateRootPaths([$this->templateRootPath]);
-        $view->setPartialRootPaths([$this->partialRootPath]);
-        $view->setTemplate($this->getTemplatePath());
+        $view = GeneralUtility::makeInstance(ViewFactoryInterface::class)->create(new ViewFactoryData(
+            templateRootPaths: [$this->templateRootPath],
+            partialRootPaths: [$this->partialRootPath],
+        ));
         $view->assignMultiple([
             'cacheLayerClass' => $this->cacheLayerClass,
             'cacheLayerFunction' => $this->cacheLayerFunction,
@@ -98,7 +99,7 @@ abstract class AbstractUnit
             'filter' => $this->filter,
             'arguments' => $this->arguments,
         ] + $this->assignAdditionalVariables());
-        return $view->render();
+        return $view->render($this->getTemplatePath());
     }
 
     protected function assignAdditionalVariables(): array
