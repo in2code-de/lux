@@ -27,7 +27,9 @@ ExtensionUtility::configurePlugin(
 ExtensionUtility::configurePlugin(
     'Lux',
     'Pi1',
-    [FrontendController::class => 'trackingOptOut']
+    [FrontendController::class => 'trackingOptOut'],
+    [],
+    ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
 );
 
 /**

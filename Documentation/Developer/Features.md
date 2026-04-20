@@ -60,13 +60,13 @@ This is just an internal lists of features and functions that have to be tested 
     * Preview
     * Detail
       * Delete
-* Company
-  * Without Wiredminds Token
-    * Add token functionality
-  * With Wiredminds Token
-    * List
-    * Preview
-    * Detail
+  * Company
+    * Without Wiredminds Token
+      * Add token functionality
+    * With Wiredminds Token
+      * List
+      * Preview
+      * Detail
 * Plugins
   * Privacy Plugin for Opt-in/Opt-out
 * Campaigns
