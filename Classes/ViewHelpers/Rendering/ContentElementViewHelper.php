@@ -11,7 +11,7 @@ class ContentElementViewHelper extends AbstractViewHelper
 {
     protected $escapeOutput = false;
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('uid', 'int', 'tt_content.uid', true);
     }

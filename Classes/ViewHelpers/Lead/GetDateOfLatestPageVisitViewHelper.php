@@ -17,7 +17,7 @@ class GetDateOfLatestPageVisitViewHelper extends AbstractViewHelper
         $this->pagevisitRepository = $pagevisitRepository;
     }
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('visitor', Visitor::class, 'visitor', true);

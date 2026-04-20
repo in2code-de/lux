@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace In2code\Lux\Command;
 
 use DateTime;
+use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Exception\DateTimeException;
-use In2code\Lux\Utility\ConfigurationUtility;
 use In2code\Lux\Utility\EnvironmentUtility;
 use TYPO3\CMS\Core\Core\Bootstrap;
 use TYPO3\CMS\Core\Core\SystemEnvironmentBuilder;
@@ -18,12 +18,15 @@ trait ExtbaseCommandTrait
 {
     public function initializeExtbase(): void
     {
-        if (EnvironmentUtility::isCli() && ConfigurationUtility::isTypo3Version12() === false) {
+        if (EnvironmentUtility::isCli()) {
             Bootstrap::initializeBackendAuthentication();
+            $site = GeneralUtility::makeInstance(SiteService::class)->getDefaultSite();
+            $request = (new ServerRequest())
+                ->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_BE)
+                ->withAttribute('site', $site)
+                ->withQueryParams(['id' => $site->getRootPageId()]);
             $configurationManager = GeneralUtility::makeInstance(ConfigurationManagerInterface::class);
-            $configurationManager->setRequest(
-                (new ServerRequest())->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_BE)
-            );
+            $configurationManager->setRequest($request);
         }
     }
 

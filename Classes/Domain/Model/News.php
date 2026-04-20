@@ -15,7 +15,6 @@ class News extends AbstractEntity
     public const TABLE_NAME = 'tx_news_domain_model_news';
 
     protected ?DateTime $crdate = null;
-    protected ?User $cruserId = null;
 
     protected string $title = '';
 
@@ -37,17 +36,6 @@ class News extends AbstractEntity
     public function setCrdate(?DateTime $crdate): self
     {
         $this->crdate = $crdate;
-        return $this;
-    }
-
-    public function getCruserId(): ?User
-    {
-        return $this->cruserId;
-    }
-
-    public function setCruserId(?User $cruserId): self
-    {
-        $this->cruserId = $cruserId;
         return $this;
     }
 

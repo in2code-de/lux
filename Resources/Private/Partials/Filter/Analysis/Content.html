@@ -123,6 +123,7 @@
                 <div class="col-md-12" style="display: flex; justify-content: right;">
                     <f:comment>This submit is not visible. Nevertheless it will be triggered when pressing return in an input field because it is the first submit.</f:comment>
                     <f:form.submit
+                        name="filterSubmit"
                         class="btn btn-primary"
                         value="Submit"
                         style="visibility:hidden;width:1px;padding:0;margin:0;"/>
@@ -142,6 +143,7 @@
 
                     <f:comment>Submit filter</f:comment>
                     <f:form.submit
+                        name="filterSubmit"
                         class="btn btn-primary"
                         value="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.submit')}" />
                 </div>

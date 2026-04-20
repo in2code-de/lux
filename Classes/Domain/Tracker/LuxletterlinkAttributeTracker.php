@@ -33,7 +33,7 @@ class LuxletterlinkAttributeTracker extends AbstractFrontenduserTracker
             if (CookieUtility::getCookieByName('luxletterlinkhash') !== '') {
                 $linkRepository = GeneralUtility::makeInstance(LinkRepository::class);
                 /** @var Link $link */
-                $link = $linkRepository->findOneByHash(CookieUtility::getCookieByName($this->cookieName));
+                $link = $linkRepository->findOneBy(['hash' => CookieUtility::getCookieByName($this->cookieName)]);
                 if ($link->getUser() !== null) {
                     $userRepository = GeneralUtility::makeInstance(FrontendUserRepository::class);
                     $user = $userRepository->findByUid($link->getUser()->getUid());

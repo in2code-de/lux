@@ -37,6 +37,7 @@
                             <core:icon identifier="actions-globe" size="small" />
                         </button>
                     </div>
+
                 </div>
 
 
@@ -97,45 +98,49 @@
                         </button>
                     </div>
 
-                    <div class="input-group form-group" style="display: block">
-                        <div class="form-check form-switch pull-left" style="position: relative;">
-                            <f:form.checkbox
-                                class="form-check-input"
-                                id="identified"
-                                property="identified"
-                                value="1"
-                                style="position: absolute; top: 4px;"
-                                checked="{f:if(condition:'{filter.identified} == 1',then:'checked')}"/>
-                            <label style="padding: 5px 0 0 5px;" class="form-check-label" for="identified">
-                                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.label.identifiedonly">Identified only</f:translate>
-                            </label>
-                        </div>
+                </div>
+            </div>
 
-                        <div class="pull-right" style="white-space: nowrap; max-width: 270px;">
-                            <f:comment>This submit is not visible. Nevertheless it will be triggered when pressing return in an input field because it is the first submit.</f:comment>
-                            <f:form.submit
-                                class="btn btn-primary"
-                                value="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.submit')}"
-                                style="visibility:hidden;width:1px;padding:0;margin:0;"/>
 
-                            <f:comment>CSV Download</f:comment>
-                            <f:form.submit class="fa fa-download" name="export" id="download" value="csv" style="visibility:hidden;width:1px;padding:0;margin:0;"/>
-                            <label class="btn btn-default" for="download" style="margin-right: 10px;">
-                                <core:icon identifier="actions-download" size="small" />
-                            </label>
+            <div class="row">
+                <div class="col-md-12" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div class="form-check form-switch">
+                        <f:form.checkbox
+                            class="form-check-input"
+                            id="identified"
+                            property="identified"
+                            value="1"
+                            checked="{f:if(condition:'{filter.identified} == 1',then:'checked')}"/>
+                        <label class="form-check-label" for="identified">
+                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.label.identifiedonly">Identified only</f:translate>
+                        </label>
+                    </div>
+                    <div style="display: flex;">
+                    <f:comment>This submit is not visible. Nevertheless it will be triggered when pressing return in an input field because it is the first submit.</f:comment>
+                    <f:form.submit
+                        name="filterSubmit"
+                        class="btn btn-primary"
+                        value="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.submit')}"
+                        style="visibility:hidden;width:1px;padding:0;margin:0;"/>
 
-                            <f:comment>Clear filter</f:comment>
-                            <f:if condition="{filter.set}">
-                                <f:link.action class="btn btn-default" style="margin-right: 10px" action="resetFilter" arguments="{redirectAction:view.action}">
-                                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.reset">Reset</f:translate>
-                                </f:link.action>
-                            </f:if>
+                    <f:comment>CSV Download</f:comment>
+                    <f:form.submit class="fa fa-download" name="export" id="download" value="csv" style="visibility:hidden;width:1px;padding:0;margin:0;"/>
+                    <label class="btn btn-default" for="download" style="margin-right: 10px;">
+                        <core:icon identifier="actions-download" size="small" />
+                    </label>
 
-                            <f:comment>Submit filter</f:comment>
-                            <f:form.submit
-                                class="btn btn-primary"
-                                value="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.submit')}" />
-                        </div>
+                    <f:comment>Clear filter</f:comment>
+                    <f:if condition="{filter.set}">
+                        <f:link.action class="btn btn-default" style="margin-right: 10px" action="resetFilter" arguments="{redirectAction:view.action}">
+                            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.reset">Reset</f:translate>
+                        </f:link.action>
+                    </f:if>
+
+                    <f:comment>Submit filter</f:comment>
+                    <f:form.submit
+                        name="filterSubmit"
+                        class="btn btn-primary"
+                        value="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.list.filter.submit')}" />
                     </div>
                 </div>
             </div>

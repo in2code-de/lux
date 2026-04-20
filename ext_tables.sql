@@ -28,7 +28,6 @@ CREATE TABLE tx_lux_domain_model_visitor (
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
 	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	starttime int(11) unsigned DEFAULT '0' NOT NULL,
@@ -43,8 +42,8 @@ CREATE TABLE tx_lux_domain_model_visitor (
 	KEY frontenduser (frontenduser),
 	KEY identified (identified),
 	KEY blacklisted (blacklisted),
-	KEY email (email(20)),
-	KEY company (company(20)),
+	KEY email (email(40)),
+	KEY company (company(30)),
 	KEY companyrecord (companyrecord),
 	KEY scoring (scoring),
 	KEY description (description(30)),
@@ -53,12 +52,13 @@ CREATE TABLE tx_lux_domain_model_visitor (
 	KEY deleted (deleted),
 	KEY hidden (hidden),
 	KEY visits (visits),
-	KEY ip_address (ip_address(15)),
+	KEY ip_address (ip_address(39)),
 	KEY deleted_blacklisted (deleted,blacklisted),
 	KEY deleted_identified (deleted,identified),
 	KEY deleted_blacklisted_identified (deleted,blacklisted,identified),
 	KEY deleted_blacklisted_companyrecord (deleted,blacklisted,companyrecord),
-	KEY crdate_companyrecord (crdate,companyrecord)
+	KEY crdate_companyrecord (crdate,companyrecord),
+	KEY blacklisted_companyrecord_deleted (blacklisted,companyrecord,deleted)
 );
 
 CREATE TABLE tx_lux_domain_model_fingerprint (
@@ -75,7 +75,6 @@ CREATE TABLE tx_lux_domain_model_fingerprint (
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
 	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	starttime int(11) unsigned DEFAULT '0' NOT NULL,
@@ -95,7 +94,8 @@ CREATE TABLE tx_lux_domain_model_fingerprint (
 	KEY site (site(50)),
 	KEY crdate (crdate),
 	KEY value_type (value(33),type),
-	KEY visitor_type (visitor,type)
+	KEY visitor_type (visitor,type),
+	KEY type_value (type,value(33))
 );
 
 CREATE TABLE tx_lux_domain_model_attribute (
@@ -109,7 +109,6 @@ CREATE TABLE tx_lux_domain_model_attribute (
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
 	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	starttime int(11) unsigned DEFAULT '0' NOT NULL,
@@ -141,7 +140,6 @@ CREATE TABLE tx_lux_domain_model_pagevisit (
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
 	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	starttime int(11) unsigned DEFAULT '0' NOT NULL,
@@ -166,7 +164,9 @@ CREATE TABLE tx_lux_domain_model_pagevisit (
 	KEY site_crdate (site(50),crdate),
 	KEY page_crdate (page,crdate),
 	KEY deleted_crdate (deleted,crdate),
-	KEY deleted_visitor (deleted,visitor)
+	KEY deleted_visitor (deleted,visitor),
+	KEY deleted_hidden_site_crdate (deleted,hidden,site(50),crdate),
+	KEY site_crdate_page (site(50),crdate,page)
 );
 
 CREATE TABLE tx_lux_domain_model_newsvisit (
@@ -182,7 +182,6 @@ CREATE TABLE tx_lux_domain_model_newsvisit (
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
 	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	starttime int(11) unsigned DEFAULT '0' NOT NULL,
@@ -217,7 +216,6 @@ CREATE TABLE tx_lux_domain_model_download (
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
 	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
 
 	sys_language_uid int(11) DEFAULT '0' NOT NULL,
@@ -249,7 +247,6 @@ CREATE TABLE tx_lux_domain_model_ipinformation (
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
 	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	starttime int(11) unsigned DEFAULT '0' NOT NULL,
@@ -278,7 +275,6 @@ CREATE TABLE tx_lux_domain_model_search (
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
 	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
 
 	sys_language_uid int(11) DEFAULT '0' NOT NULL,
@@ -288,7 +284,7 @@ CREATE TABLE tx_lux_domain_model_search (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY visitor (visitor),
-	KEY searchterm (searchterm(20)),
+	KEY searchterm (searchterm(50)),
 	KEY pagevisit (pagevisit),
 	KEY crdate (crdate)
 );
@@ -306,7 +302,6 @@ CREATE TABLE tx_lux_domain_model_linklistener (
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
 	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
 
 	sys_language_uid int(11) DEFAULT '0' NOT NULL,
@@ -332,7 +327,6 @@ CREATE TABLE tx_lux_domain_model_categoryscoring (
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
 	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
 
 	sys_language_uid int(11) DEFAULT '0' NOT NULL,
@@ -359,7 +353,6 @@ CREATE TABLE tx_lux_domain_model_linkclick (
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
 	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
 
 	sys_language_uid int(11) DEFAULT '0' NOT NULL,
@@ -374,7 +367,8 @@ CREATE TABLE tx_lux_domain_model_linkclick (
 	KEY site (site(50)),
 	KEY crdate (crdate),
 	KEY visitor_crdate (visitor,crdate),
-	KEY linklistener_crdate (linklistener,crdate)
+	KEY linklistener_crdate (linklistener,crdate),
+	KEY page_linklistener_crdate (page,linklistener,crdate)
 );
 
 CREATE TABLE tx_lux_redirect (
@@ -411,7 +405,6 @@ CREATE TABLE tx_lux_domain_model_utm (
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
 	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
 
 	sys_language_uid int(11) DEFAULT '0' NOT NULL,
@@ -457,7 +450,6 @@ CREATE TABLE tx_lux_domain_model_company (
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
 	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
 
 	sys_language_uid int(11) DEFAULT '0' NOT NULL,
@@ -490,7 +482,6 @@ CREATE TABLE tx_lux_domain_model_log (
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
 	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
 
 	sys_language_uid int(11) DEFAULT '0' NOT NULL,

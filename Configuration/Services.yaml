@@ -145,6 +145,24 @@ services:
   In2code\Lux\Domain\Tracker\SearchTracker:
     public: true
 
+  In2code\Lux\EventListener\AddPageTsConfigEventListener:
+    tags:
+      - name: 'event.listener'
+        identifier: 'lux/addPageTsConfig'
+        event: TYPO3\CMS\Core\TypoScript\IncludeTree\Event\BeforeLoadedPageTsConfigEvent
+
+  In2code\Lux\EventListener\AddUserTsConfigEventListener:
+    tags:
+      - name: 'event.listener'
+        identifier: 'lux/addUserTsConfig'
+        event: TYPO3\CMS\Core\TypoScript\IncludeTree\Event\BeforeLoadedUserTsConfigEvent
+
+  In2code\Lux\EventListener\LinkListenerLinkEventListener:
+    tags:
+      - name: 'event.listener'
+        identifier: 'lux/linkListenerLink'
+        event: TYPO3\CMS\Frontend\Event\AfterLinkIsGeneratedEvent
+
   In2code\Lux\Hooks\PageOverview:
     public: true
     tags:

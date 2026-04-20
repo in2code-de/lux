@@ -66,6 +66,10 @@ class SendAssetEmail4LinkService
             new SetAssetEmail4LinkEvent($this->visitor, $this->href, $this->file)
         );
         $mail = GeneralUtility::makeInstance(FluidEmail::class);
+        $request = $this->getRequest();
+        if ($request !== null) {
+            $mail->setRequest($request->withoutAttribute('frontend.typoscript'));
+        }
         $mail
             ->to($this->visitor->getEmail())
             ->from($this->getSender())

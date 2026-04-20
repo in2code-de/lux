@@ -55,9 +55,6 @@
             <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.created">created</f:translate>
         </th>
         <th>
-            <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.author">author</f:translate>
-        </th>
-        <th>
             <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.linklistener.table.clicks">clicks</f:translate>
         </th>
         <th>
@@ -82,10 +79,6 @@
             <span class="badge" title="{f:format.date(date:linkListener.crdate,format:'{f:translate(key:\'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:date\')}')}">
                 <lux:format.readableDate>{linkListener.crdate}</lux:format.readableDate>
             </span>
-        </td>
-        <td>
-            {linkListener.cruserId.username}
-            <f:if condition="{linkListener.cruserId.name}">({linkListener.cruserId.username})</f:if>
         </td>
         <td><lux:format.readableNumber>{linkListener.linkclicksRaw -> f:count()}</lux:format.readableNumber></td>
         <td data-lux-getlinklistenerperformance="{linkListener.uid}">

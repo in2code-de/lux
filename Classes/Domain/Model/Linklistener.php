@@ -22,7 +22,6 @@ class Linklistener extends AbstractEntity
     public const TABLE_NAME = 'tx_lux_domain_model_linklistener';
 
     protected ?DateTime $crdate = null;
-    protected ?User $cruserId = null;
     protected ?Category $category = null;
 
     protected string $title = '';
@@ -31,8 +30,8 @@ class Linklistener extends AbstractEntity
 
     /**
      * @var ?ObjectStorage<Linkclick>
-     * @Lazy
      */
+    #[Lazy]
     protected ?ObjectStorage $linkclicks = null;
 
     public function getCrdate(): ?DateTime
@@ -43,17 +42,6 @@ class Linklistener extends AbstractEntity
     public function setCrdate(?DateTime $crdate): self
     {
         $this->crdate = $crdate;
-        return $this;
-    }
-
-    public function getCruserId(): ?User
-    {
-        return $this->cruserId;
-    }
-
-    public function setCruserId(?User $cruserId): self
-    {
-        $this->cruserId = $cruserId;
         return $this;
     }
 

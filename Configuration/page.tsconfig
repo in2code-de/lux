@@ -1,0 +1,2 @@
+@import 'EXT:lux/Configuration/TSConfig/Lux.typoscript'
+@import 'EXT:lux/Configuration/TSConfig/LuxLetter.typoscript'

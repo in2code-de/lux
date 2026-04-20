@@ -13,7 +13,7 @@ export default class Email4LinkCommand extends Core.Command {
       const link = this._getSelectedLink();
 
       if (link) {
-        const linkRange = Typing.findAttributeRange(link.getFirstPosition(), 'linkHref', link.getAttribute('linkHref'), editor.model);
+        const linkRange = Typing.findAttributeRange(link.getFirstPosition(), 'linkHref', link.getAttribute('linkHref'), this.editor.model);
 
         writer.setAttribute('sendEmail', String(sendEmail), linkRange)
         writer.setAttribute('emailTitle', String(title), linkRange)

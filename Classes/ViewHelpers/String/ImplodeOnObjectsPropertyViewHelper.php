@@ -9,7 +9,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class ImplodeOnObjectsPropertyViewHelper extends AbstractViewHelper
 {
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('objects', 'mixed', 'Any object', true);
         $this->registerArgument('property', 'string', 'Any property of the object', true);

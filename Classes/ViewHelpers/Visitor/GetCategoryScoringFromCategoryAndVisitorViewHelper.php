@@ -10,7 +10,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class GetCategoryScoringFromCategoryAndVisitorViewHelper extends AbstractViewHelper
 {
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('visitor', Visitor::class, 'visitor', true);
         $this->registerArgument('category', Category::class, 'category', true);

@@ -9,7 +9,6 @@ return [
         'label' => 'title',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
-        'cruser_id' => 'cruser_id',
         'languageField' => 'sys_language_uid',
         'transOrigPointerField' => 'l10n_parent',
         'transOrigDiffSourceField' => 'l10n_diffsource',
@@ -40,7 +39,7 @@ return [
             'showitem' => 'link,category',
         ],
         'palette_creation' => [
-            'showitem' => 'crdate,cruser_id',
+            'showitem' => 'crdate',
         ],
     ],
     'columns' => [
@@ -78,19 +77,6 @@ return [
                 'renderType' => 'inputDateTime',
                 'size' => 30,
                 'eval' => 'datetime',
-                'readOnly' => true,
-            ],
-        ],
-        'cruser_id' => [
-            'label' =>
-                'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:' . Linklistener::TABLE_NAME . '.cruser_id',
-            'config' => [
-                'type' => 'select',
-                'renderType' => 'selectSingle',
-                'items' => [
-                    ['', ''],
-                ],
-                'foreign_table' => 'be_users',
                 'readOnly' => true,
             ],
         ],
