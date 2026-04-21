@@ -9,6 +9,7 @@
 
 | Version    | Date       | State    | TYPO3       | Description                                                                                                                                                                                           |
 |------------|------------|----------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 43.0.1     | 2026-04-20 | Bugfix   | `v13 + v14` | Update github actions for TER releases                                                                                                                                                                |
 | 43.0.0     | 2026-04-20 | Feature  | `v13 + v14` | Support TYPO3 14 + 13, Performance update, Use readable numbers in info module                                                                                                                        |
 | 42.3.0     | 2026-03-30 | Feature  | `v12 + v13` | Extend filter in analysis view for page visits and downloads with a language selection                                                                                                                |
 | 42.2.0     | 2026-03-10 | Feature  | `v12 + v13` | Also support relative dates (in addition to absolute dates) now in commands                                                                                                                           |
