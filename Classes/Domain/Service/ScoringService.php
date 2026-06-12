@@ -63,7 +63,9 @@ class ScoringService
      */
     public function calculateAndSetScoringFromEvent(AfterTrackingEvent $event): void
     {
-        $this->calculateAndSetScoring($event->getVisitor());
+        if ($event->getVisitor()->getUid() !== null) {
+            $this->calculateAndSetScoring($event->getVisitor());
+        }
     }
 
     /**
