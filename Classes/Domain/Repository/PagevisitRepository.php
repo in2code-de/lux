@@ -414,11 +414,11 @@ class PagevisitRepository extends AbstractRepository
     {
         /** @var SiteService $siteService */
         $siteService = GeneralUtility::makeInstance(SiteService::class);
-        $sql = 'SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(referrer, \'://\', -1), \'/\', 1) as referrer_domain, COUNT(*) as total_pagevisits';
+        $sql = 'SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(pv.referrer, \'://\', -1), \'/\', 1) as referrer_domain, COUNT(*) as total_pagevisits';
         $sql .= ' FROM ' . Pagevisit::TABLE_NAME . ' pv';
         $sql .= ' WHERE pv.deleted = 0 and pv.hidden = 0';
         $sql .=  ' AND pv.referrer != \'\'';
-        $sql .= ' AND referrer NOT REGEXP "' . $siteService->getAllDomainsForWhereClause() . '"';
+        $sql .= ' AND pv.referrer NOT REGEXP "' . $siteService->getAllDomainsForWhereClause() . '"';
         $sql .= $this->extendWhereClauseWithFilterSearchterms($filter, 'pv', 'referrer');
         $sql .= $this->extendWhereClauseWithFilterTime($filter, true, 'pv');
         $sql .= $this->extendWhereClauseWithFilterSite($filter);
@@ -429,7 +429,7 @@ class PagevisitRepository extends AbstractRepository
 
     protected function getIdentifiedVisitorsPerReferrerSql(FilterDto $filter): string
     {
-        $sql = 'SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(referrer, \'://\', -1), \'/\', 1) as referrer_domain, COUNT(DISTINCT pv.visitor) as identified_visitor_count';
+        $sql = 'SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(pv.referrer, \'://\', -1), \'/\', 1) as referrer_domain, COUNT(DISTINCT pv.visitor) as identified_visitor_count';
         $sql .= ' FROM ' . Pagevisit::TABLE_NAME . ' pv';
         $sql .= ' INNER JOIN ' . Visitor::TABLE_NAME . ' v ON pv.visitor=v.uid AND v.identified=1 AND v.hidden=0 AND v.deleted=0';
         $sql .= ' WHERE pv.deleted = 0 and pv.hidden = 0 AND pv.referrer != \'\'';
