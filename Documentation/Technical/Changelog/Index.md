@@ -9,6 +9,7 @@
 
 | Version    | Date       | State    | TYPO3       | Description                                                                                                                                                                                           |
 |------------|------------|----------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 43.0.5     | 2026-07-22 | Bugfix   | `v13 + v14` | Prevent sql exception because of ambiguous field in query                                                                                                                                             |
 | 43.0.4     | 2026-06-12 | Bugfix   | `v13 + v14` | Updated version in ext_emconf.php                                                                                                                                                                     |
 | 43.0.3     | 2026-06-12 | Bugfix   | `v13 + v14` | Prevent exception logging if there is no visitor object given (for some blacklisted bots)                                                                                                             |
 | 43.0.2     | 2026-05-18 | Bugfix   | `v13 + v14` | Fix regression to suppress exception loggging with enableExceptionLogging again                                                                                                                       |
