@@ -7,7 +7,7 @@ use DateTime;
 use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Factory\CompanyFactory;
 use In2code\Lux\Domain\Model\Visitor;
-use In2code\Lux\Domain\Repository\Remote\WiredmindsRepository;
+use In2code\Lux\Domain\Repository\Remote\LeadfeederRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\DisabledException;
@@ -21,7 +21,7 @@ use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 class CompanyInformationService
 {
     protected VisitorRepository $visitorRepository;
-    protected WiredmindsRepository $wiredmindsRepository;
+    protected LeadfeederRepository $leadfeederRepository;
     protected RequestFactory $requestFactory;
     protected CompanyFactory $companyFactory;
 
@@ -29,12 +29,12 @@ class CompanyInformationService
 
     public function __construct(
         VisitorRepository $visitorRepository,
-        WiredmindsRepository $wiredmindsRepository,
+        LeadfeederRepository $leadfeederRepository,
         RequestFactory $requestFactory,
         CompanyFactory $companyFactory
     ) {
         $this->visitorRepository = $visitorRepository;
-        $this->wiredmindsRepository = $wiredmindsRepository;
+        $this->leadfeederRepository = $leadfeederRepository;
         $this->requestFactory = $requestFactory;
         $this->companyFactory = $companyFactory;
         $configurationService = ObjectUtility::getConfigurationService();
@@ -60,7 +60,7 @@ class CompanyInformationService
         OutputInterface $output
     ): int {
         if ($this->isEnabled() === false) {
-            throw new DisabledException('Wiredminds connection is not enabled in TypoScript setup', 1686585329);
+            throw new DisabledException('Leadfeeder connection is not enabled in TypoScript setup', 1686585329);
         }
 
         $records = $this->visitorRepository->findLatestVisitorsWithIpAddress($limit, $time, !$overwriteExisting);

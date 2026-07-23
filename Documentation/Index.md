@@ -11,7 +11,7 @@ In addition, with **LUXenterprise** you can use this data even more effectively 
 and using URL shorteners.
 
 Or see interesting information of your visitors by extending data automatically via a GDPR-conform solution from
-**WiredMinds**
+**Leadfeeder**
 
 ![LUX screenshot](Images/screenshot_analysis_content_dark.png "LUX")
 

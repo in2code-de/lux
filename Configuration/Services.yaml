@@ -109,7 +109,7 @@ services:
   In2code\Lux\Domain\Factory\Ipinformation\Handler:
     public: true
 
-  In2code\Lux\Domain\Repository\Remote\WiredmindsRepository:
+  In2code\Lux\Domain\Repository\Remote\LeadfeederRepository:
     public: true
 
   In2code\Lux\Domain\Service\CompanyConfigurationService:

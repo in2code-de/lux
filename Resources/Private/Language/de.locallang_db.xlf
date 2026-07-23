@@ -1004,12 +1004,12 @@
 				<target state="translated">Gesamte Firmen in Datenbank</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.wiredminds.enabled">
-				<source>Wiredminds connection activated</source>
-				<target state="translated">Wiredminds Verbindung aktiviert</target>
+				<source>Leadfeeder connection activated</source>
+				<target state="translated">Leadfeeder Verbindung aktiviert</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.wiredminds.token">
-				<source>Token added</source>
-				<target state="translated">Token hinterlegt</target>
+				<source>Credentials added</source>
+				<target state="translated">Zugangsdaten hinterlegt</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.wiredminds.result">
 				<source>Successful connection</source>
@@ -1164,12 +1164,12 @@
 				<target state="translated">UTM Parameter getrackt</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.400">
-				<source>Tried to convert via Wiredminds</source>
-				<target state="translated">Wiredminds Konvertierung versucht</target>
+				<source>Tried to convert via Leadfeeder</source>
+				<target state="translated">Leadfeeder Konvertierung versucht</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.410">
-				<source>Successfully converted company to lead via Wiredminds</source>
-				<target state="translated">Firma erfolgreich ermittelt mittels Wiredminds</target>
+				<source>Successfully converted company to lead via Leadfeeder</source>
+				<target state="translated">Firma erfolgreich ermittelt mittels Leadfeeder</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.500">
 				<source>Created new lead via API</source>
@@ -1938,11 +1938,11 @@
 			</trans-unit>
 
 			<trans-unit id="module.companiesDisabled.title">
-				<source>GDPR conform Wiredminds integration into TYPO3</source>
-				<target state="translated">DSGVO konforme TYPO3 Wiredminds Integration</target>
+				<source>GDPR conform Leadfeeder integration into TYPO3</source>
+				<target state="translated">DSGVO konforme TYPO3 Leadfeeder Integration</target>
 			</trans-unit>
 			<trans-unit id="module.companiesDisabled.token1">
-				<source>Just add a</source>
+				<source>Just add your</source>
 				<target state="translated">Einfach</target>
 			</trans-unit>
 			<trans-unit id="module.companiesDisabled.token2">
@@ -1950,8 +1950,12 @@
 				<target state="translated">hinzufügen und automatisch sehen welche Firmen die Website besuchen</target>
 			</trans-unit>
 			<trans-unit id="module.companiesDisabled.note">
-				<source>Adding and submitting a valid token will add these TypoScript constants to your root templates (check TypoScript or documentation for more information about the settings)</source>
+				<source>Adding and submitting valid credentials will add these TypoScript constants to your root templates (check TypoScript or documentation for more information about the settings)</source>
 				<target state="translated">Beim Absenden dieses Formulares werden diese TypoScript Konstanten in den Root Templates gesetzt (bitte TypoScript oder Dokumentation für eine detaillierte Erklärung beachten)</target>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.noteEnv">
+				<source>Alternatively the credentials can be provided via the environment variables LUX_LEADFEEDER_TOKEN and LUX_LEADFEEDER_ACCOUNT_ID (e.g. in .env.local).</source>
+				<target state="translated">Alternativ können die Zugangsdaten über die Umgebungsvariablen LUX_LEADFEEDER_TOKEN und LUX_LEADFEEDER_ACCOUNT_ID gesetzt werden (z.B. in der .env.local).</target>
 			</trans-unit>
 			<trans-unit id="module.companiesDisabled.titleImages">
 				<source>Valuable B2B sales information</source>
@@ -1974,16 +1978,20 @@
 				<target state="translated">Zeige Umsatz, Branche, Größe, Kontakte und weitere relevante B2B Informationen</target>
 			</trans-unit>
 			<trans-unit id="module.companiesDisabled.token.success">
-				<source>Welcome to the new company view. From now on, your visitors will be converted through Wiredminds to real companies. Come back later and check the latest visits.</source>
-				<target state="translated">Willkommen in der neuen Unternehmensansicht. Von nun an werden Besucher durch Wiredminds in echte Unternehmen umgewandelt. Komm später noch einmal vorbei und schau dir die letzten Besuche an.</target>
+				<source>Welcome to the new company view. From now on, your visitors will be converted through Leadfeeder to real companies. Come back later and check the latest visits.</source>
+				<target state="translated">Willkommen in der neuen Unternehmensansicht. Von nun an werden Besucher durch Leadfeeder in echte Unternehmen umgewandelt. Komm später noch einmal vorbei und schau dir die letzten Besuche an.</target>
 			</trans-unit>
 			<trans-unit id="module.companiesDisabled.token.failureSpelling">
-				<source>Invalid token given, please check spelling</source>
-				<target state="translated">Ungültiger Token, bitte Schreibweise überprüfen</target>
+				<source>Invalid api key given, please check spelling</source>
+				<target state="translated">Ungültiger API-Key, bitte Schreibweise überprüfen</target>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.token.failureAccountId">
+				<source>Invalid account id given, only digits are allowed</source>
+				<target state="translated">Ungültige Account-ID, es sind nur Ziffern erlaubt</target>
 			</trans-unit>
 			<trans-unit id="module.companiesDisabled.token.failureInterface">
-				<source>Could not connect to interface ip2c.wiredminds.com successfully or invalid token given</source>
-				<target state="translated">Verbindung zu ip2c.wiredminds.com fehlgeschlagen oder ungültiger Token</target>
+				<source>Could not connect to interface api.leadfeeder.com successfully or invalid credentials given</source>
+				<target state="translated">Verbindung zu api.leadfeeder.com fehlgeschlagen oder ungültige Zugangsdaten</target>
 			</trans-unit>
 
 			<trans-unit id="luxletter.module.newsletter.receiver.title">

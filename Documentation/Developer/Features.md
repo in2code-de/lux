@@ -61,9 +61,9 @@ This is just an internal lists of features and functions that have to be tested 
     * Detail
       * Delete
   * Company
-    * Without Wiredminds Token
+    * Without Leadfeeder credentials
       * Add token functionality
-    * With Wiredminds Token
+    * With Leadfeeder credentials
       * List
       * Preview
       * Detail

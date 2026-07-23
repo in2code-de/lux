@@ -62,7 +62,7 @@ replaced with a preview box and a scoring box.
 
 <img src="../../Images/documentation_leads_list_detail.png" width="800" />
 
-* If you are using company detection via Wiredminds (see [Companies](Companies.md)), you can change the related company
+* If you are using company detection via Leadfeeder (see [Companies](Companies.md)), you can change the related company
 manually.
 * If you add a text into the textarea *Internal description*, this notice is saved automatically if the focus gets
 lost on the field (on blur).

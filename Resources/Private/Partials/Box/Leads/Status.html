@@ -1,17 +1,17 @@
-<f:if condition="{wiredminds.show}">
+<f:if condition="{leadfeeder.show}">
     <div class="panel panel-default flex">
         <div class="panel-heading">
             <h3 class="panel-title">
                 Interface Status
-                <f:if condition="{wiredminds.statistics}">{wiredminds.statistics.year}/{wiredminds.statistics.month}</f:if>
+                <f:if condition="{leadfeeder.statistics}">{leadfeeder.statistics.year}/{leadfeeder.statistics.month}</f:if>
             </h3>
         </div>
         <div class="panel-body">
-            <f:if condition="{wiredminds.statistics.hits} > 0 || {wiredminds.statistics.misses} > 0 || {wiredminds.available} > 0">
+            <f:if condition="{leadfeeder.statistics.hits} > 0 || {leadfeeder.statistics.misses} > 0 || {leadfeeder.available} > 0">
                 <f:then>
                     <div>
                         <canvas data-chart="doughnut"
-                                data-chart-data="{wiredminds.statistics.hits},{wiredminds.statistics.misses},{wiredminds.available}"
+                                data-chart-data="{leadfeeder.statistics.hits},{leadfeeder.statistics.misses},{leadfeeder.available}"
                                 data-chart-labels="{f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.wiredminds.statistics.hits')}, {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.wiredminds.statistics.misses')}, {f:translate(key:'LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.wiredminds.statistics.req_available')}"></canvas>
                     </div>
                 </f:then>

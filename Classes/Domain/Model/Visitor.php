@@ -8,7 +8,7 @@ use Exception;
 use In2code\Lux\Domain\Factory\CompanyFactory;
 use In2code\Lux\Domain\Repository\CategoryscoringRepository;
 use In2code\Lux\Domain\Repository\FrontendUserRepository;
-use In2code\Lux\Domain\Repository\Remote\WiredmindsRepository;
+use In2code\Lux\Domain\Repository\Remote\LeadfeederRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\GetCompanyFromIpService;
 use In2code\Lux\Domain\Service\Image\VisitorImageService;
@@ -403,15 +403,15 @@ class Visitor extends AbstractModel
 
     /**
      * @param string $ipAddress use current IP address when empty
-     * @return bool return if there was a hit on wiredminds
+     * @return bool return if there was a hit on leadfeeder
      * @throws ConfigurationException
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
     public function setCompanyrecordByIpAdressFromInterface(string $ipAddress = ''): bool
     {
-        $wiredmindsRepository = GeneralUtility::makeInstance(WiredmindsRepository::class);
-        $properties = $wiredmindsRepository->getPropertiesForIpAddress($this, $ipAddress);
+        $leadfeederRepository = GeneralUtility::makeInstance(LeadfeederRepository::class);
+        $properties = $leadfeederRepository->getPropertiesForIpAddress($this, $ipAddress);
         if ($properties !== []) {
             $companyFactory = GeneralUtility::makeInstance(CompanyFactory::class);
             $company = $companyFactory->getExistingOrNewPersistedCompany($properties);

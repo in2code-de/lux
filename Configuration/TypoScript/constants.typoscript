@@ -35,16 +35,19 @@ plugin.tx_lux.settings {
     }
 
     company {
-      # cat=lux//0300; type=boolean; label= Activate tracking via wiredminds: (De)Activate tracking enrichment of lead data via wiredminds.com
+      # cat=lux//0300; type=boolean; label= Activate tracking via leadfeeder: (De)Activate tracking enrichment of lead data via leadfeeder.com
       enable = 0
 
-      # cat=lux//0310; type=text; label= Wiredminds token: Add token from Wiredminds
+      # cat=lux//0310; type=text; label= Leadfeeder api key: Add the api key (X-Api-Key) from Leadfeeder. Can also be set via environment variable LUX_LEADFEEDER_TOKEN
       token =
 
-      # cat=lux//0320; type=text; label= Wiredminds limit per month: Define a limit for requests per month (for best cost control)
+      # cat=lux//0315; type=text; label= Leadfeeder account id: Add the account id from Leadfeeder. Can also be set via environment variable LUX_LEADFEEDER_ACCOUNT_ID
+      accountId =
+
+      # cat=lux//0320; type=text; label= Leadfeeder limit per month: Define a limit for requests per month (for best cost control)
       connectionLimit = 5000
 
-      # cat=lux//0330; type=text; label= Wiredminds limit per hour: This limit is a safety function to prevent unwanted number of requests to interface (e.g. on a DoS attack)
+      # cat=lux//0330; type=text; label= Leadfeeder limit per hour: This limit is a safety function to prevent unwanted number of requests to interface (e.g. on a DoS attack)
       connectionLimitPerHour = 150
 
       autoConvert {

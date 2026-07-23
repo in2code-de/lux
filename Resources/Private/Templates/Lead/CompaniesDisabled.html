@@ -5,7 +5,7 @@
 
     <h1>
         <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.companiesDisabled.title">
-            GDPR conform Wiredminds integration into TYPO3
+            GDPR conform Leadfeeder integration into TYPO3
         </f:translate>
     </h1>
 
@@ -14,9 +14,9 @@
             <div class="col-md-12">
                 <h4>
                     <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.companiesDisabled.token1">
-                        Just add a
+                        Just add your
                     </f:translate>
-                    <a href="https://www.in2code.de/typo3-wiredminds-integration/?utm_campaign=LUX+Community+Version&utm_id=llcv&utm_source=typo3&utm_medium=browser&utm_content=companies+module+get+token" target="_blank" rel="noopener">Wiredminds Token</a>
+                    <a href="https://www.in2code.de/typo3-wiredminds-integration/?utm_campaign=LUX+Community+Version&utm_id=llcv&utm_source=typo3&utm_medium=browser&utm_content=companies+module+get+token" target="_blank" rel="noopener">Leadfeeder api key and account id</a>
                     <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.companiesDisabled.token2">
                         and convert your visitors to companies automatically
                     </f:translate>:
@@ -27,30 +27,44 @@
                     <div class="input-group">
                         <f:form.textfield
                             class="form-control form-control-lg"
-                            name="tokenWiredminds"
+                            name="leadfeederToken"
                             required="required"
                             value=""
-                            placeholder="[Wiredminds Token]" />
+                            placeholder="[Leadfeeder api key]" />
                     </div>
             </div>
-            <div class="col-md-1">
-                <f:form.submit class="btn btn-primary form-control-lg" value="Submit" style="width:100%;font-size:15px;" />
+            <div class="col-md-5">
+                    <div class="input-group">
+                        <f:form.textfield
+                            class="form-control form-control-lg"
+                            name="leadfeederAccountId"
+                            required="required"
+                            value=""
+                            placeholder="[Leadfeeder account id]" />
+                    </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-2">
+                <f:form.submit class="btn btn-primary form-control-lg" value="Submit" style="width:100%;font-size:15px;" />
             </div>
 
             <div class="col-md-12 help-block">
                 <p>
                     <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.companiesDisabled.note">
-                        Adding and submitting a valid token will add these TypoScript constants to your root templates
+                        Adding and submitting valid credentials will add these TypoScript constants to your root templates
                     </f:translate>:
                 </p>
                 <ul>
                     <li>plugin.tx_lux.settings.tracking.company.enable = 1</li>
-                    <li>plugin.tx_lux.settings.tracking.company.token = [Wiredminds Token]</li>
+                    <li>plugin.tx_lux.settings.tracking.company.token = [Leadfeeder api key]</li>
+                    <li>plugin.tx_lux.settings.tracking.company.accountId = [Leadfeeder account id]</li>
                     <li>plugin.tx_lux.settings.tracking.company.connectionLimit = 5000</li>
                     <li>plugin.tx_lux.settings.tracking.company.autoConvert.enable = 1</li>
                 </ul>
+                <p>
+                    <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.companiesDisabled.noteEnv">
+                        Alternatively the credentials can be provided via the environment variables LUX_LEADFEEDER_TOKEN and LUX_LEADFEEDER_ACCOUNT_ID (e.g. in .env.local).
+                    </f:translate>
+                </p>
             </div>
         </div>
     </f:form>

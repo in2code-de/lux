@@ -270,9 +270,9 @@ class LogService
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
-    public function logWiredmindsConnection(Visitor $visitor): void
+    public function logCompanyEnrichConnection(Visitor $visitor): void
     {
-        $this->log(Log::STATUS_WIREDMINDS_CONNECTION, $visitor);
+        $this->log(Log::STATUS_COMPANY_ENRICH_CONNECTION, $visitor);
     }
 
     /**
@@ -281,9 +281,9 @@ class LogService
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
-    public function logWiredmindsConnectionSuccess(Visitor $visitor): void
+    public function logCompanyEnrichConnectionSuccess(Visitor $visitor): void
     {
-        $this->log(Log::STATUS_WIREDMINDS_SUCCESSFUL, $visitor);
+        $this->log(Log::STATUS_COMPANY_ENRICH_SUCCESSFUL, $visitor);
     }
 
     /**

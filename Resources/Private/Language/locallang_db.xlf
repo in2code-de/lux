@@ -760,10 +760,10 @@
 				<source>Overall companies in database</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.wiredminds.enabled">
-				<source>Wiredminds connection activated</source>
+				<source>Leadfeeder connection activated</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.wiredminds.token">
-				<source>Token added</source>
+				<source>Credentials added</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.statistics.wiredminds.result">
 				<source>Successful connection</source>
@@ -880,10 +880,10 @@
 				<source>UTM parameters tracked</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.400">
-				<source>Tried to convert via Wiredminds</source>
+				<source>Tried to convert via Leadfeeder</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.410">
-				<source>Successfully converted company to lead via Wiredminds</source>
+				<source>Successfully converted company to lead via Leadfeeder</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.500">
 				<source>Created new lead via API</source>
@@ -1466,16 +1466,19 @@
 			</trans-unit>
 
 			<trans-unit id="module.companiesDisabled.title">
-				<source>GDPR conform Wiredminds integration into TYPO3</source>
+				<source>GDPR conform Leadfeeder integration into TYPO3</source>
 			</trans-unit>
 			<trans-unit id="module.companiesDisabled.token1">
-				<source>Just add a</source>
+				<source>Just add your</source>
 			</trans-unit>
 			<trans-unit id="module.companiesDisabled.token2">
 				<source>and convert your visitors to companies automatically</source>
 			</trans-unit>
 			<trans-unit id="module.companiesDisabled.note">
-				<source>Adding and submitting a valid token will add these TypoScript constants to your root templates (check TypoScript or documentation for more information about the settings)</source>
+				<source>Adding and submitting valid credentials will add these TypoScript constants to your root templates (check TypoScript or documentation for more information about the settings)</source>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.noteEnv">
+				<source>Alternatively the credentials can be provided via the environment variables LUX_LEADFEEDER_TOKEN and LUX_LEADFEEDER_ACCOUNT_ID (e.g. in .env.local).</source>
 			</trans-unit>
 			<trans-unit id="module.companiesDisabled.titleImages">
 				<source>Valuable B2B sales information</source>
@@ -1493,13 +1496,16 @@
 				<source>See revenue, size, contacts and more B2B relevant information to a company</source>
 			</trans-unit>
 			<trans-unit id="module.companiesDisabled.token.success">
-				<source>Welcome to the new company view. From now on, your visitors will be converted through Wiredminds to real companies. Come back later and check the latest visits.</source>
+				<source>Welcome to the new company view. From now on, your visitors will be converted through Leadfeeder to real companies. Come back later and check the latest visits.</source>
 			</trans-unit>
 			<trans-unit id="module.companiesDisabled.token.failureSpelling">
-				<source>Invalid token given, please check spelling</source>
+				<source>Invalid api key given, please check spelling</source>
+			</trans-unit>
+			<trans-unit id="module.companiesDisabled.token.failureAccountId">
+				<source>Invalid account id given, only digits are allowed</source>
 			</trans-unit>
 			<trans-unit id="module.companiesDisabled.token.failureInterface">
-				<source>Could not connect to interface ip2c.wiredminds.com successfully or invalid token given</source>
+				<source>Could not connect to interface api.leadfeeder.com successfully or invalid credentials given</source>
 			</trans-unit>
 
 			<trans-unit id="luxletter.module.newsletter.receiver.title">

@@ -47,9 +47,9 @@ Possible triggers by default are:
 * Lead properties: If lead company is given
 * Lead properties: If any property value of a lead is given
 * Lead properties: Use your own expressions for doing even mor individual stuff (with Symfony Expression Language)
-* Lead properties: For a specific company branch (with WiredMinds integration)
-* Lead properties: For a specific company revenue (with WiredMinds integration)
-* Lead properties: For a specific company size (with WiredMinds integration)
+* Lead properties: For a specific company branch (with Leadfeeder integration)
+* Lead properties: For a specific company revenue (with Leadfeeder integration)
+* Lead properties: For a specific company size (with Leadfeeder integration)
 * Lead action: On entering a page
 * Lead action: On reading a news
 * Lead action: When lead enters a page or downloads an asset of a given category
@@ -242,7 +242,7 @@ lib.lux.settings {
         }
       }
 
-      # Wiredminds Company: On branch
+      # Leadfeeder Company: On branch
       170 {
         # Title to show in workflow backend module
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.company_branch
@@ -261,7 +261,7 @@ lib.lux.settings {
         }
       }
 
-      # Wiredminds Company: On revenue
+      # Leadfeeder Company: On revenue
       180 {
         # Title to show in workflow backend module
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.company_revenue
@@ -280,7 +280,7 @@ lib.lux.settings {
         }
       }
 
-      # Wiredminds Company: On size
+      # Leadfeeder Company: On size
       190 {
         # Title to show in workflow backend module
         title = LLL:EXT:luxenterprise/Resources/Private/Language/locallang_db.xlf:trigger.company_size
