@@ -104,32 +104,6 @@
 </div>
 
 
-<f:if condition="{company.contacts}">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">
-                <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:tx_lux_domain_model_company.contacts">Contacts</f:translate>
-            </h3>
-        </div>
-        <div class="panel-body">
-            <table class="table table-striped">
-                <f:for each="{company.contactsArray}" as="contact">
-                    <tr>
-                        <td>
-                            <f:if condition="{contact.pos}">{contact.pos}</f:if>
-                        </td>
-                        <td>
-                            <f:if condition="{contact.sal}">{contact.sal}</f:if>
-                            <f:if condition="{contact.first}">{contact.first}</f:if>
-                            <f:if condition="{contact.last}">{contact.last}</f:if>
-                        </td>
-                    </tr>
-                </f:for>
-            </table>
-        </div>
-    </div>
-</f:if>
-
 <f:if condition="{visitors}">
     <div class="panel panel-default">
         <div class="panel-heading">

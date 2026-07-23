@@ -13,7 +13,6 @@ use In2code\Lux\Domain\Service\Image\CompanyImageService;
 use In2code\Lux\Domain\Service\SiteService;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\EnvironmentUtility;
-use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
@@ -24,7 +23,6 @@ class Company extends AbstractEntity
     protected string $title = '';
     protected string $branchCode = '';
     protected string $city = '';
-    protected string $contacts = '';
     protected string $continent = '';
     protected string $countryCode = '';
     protected string $region = '';
@@ -86,26 +84,6 @@ class Company extends AbstractEntity
     public function setCity(string $city): self
     {
         $this->city = $city;
-        return $this;
-    }
-
-    public function getContacts(): string
-    {
-        return $this->contacts;
-    }
-
-    public function getContactsArray(): array
-    {
-        $contactsJson = $this->contacts;
-        if (StringUtility::isJsonArray($contactsJson)) {
-            return json_decode($contactsJson, true);
-        }
-        return [];
-    }
-
-    public function setContacts(string $contacts): self
-    {
-        $this->contacts = $contacts;
         return $this;
     }
 

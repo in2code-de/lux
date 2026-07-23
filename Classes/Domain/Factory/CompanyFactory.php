@@ -58,7 +58,6 @@ class CompanyFactory
          * than only one time. Even creating new instances of datamapper everytime when called seems not to help here.
          */
         $properties['uid'] = md5(serialize($properties));
-        $properties['contacts'] = json_encode($properties['contacts'] ?? '');
         $properties['branch_code'] = $this->branchService->getMainBranchCodeFromAnyCode($properties['branch_code']);
 
         /** @var Company $company */

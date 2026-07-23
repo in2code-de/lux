@@ -587,10 +587,6 @@
 				<source>City</source>
 				<target state="translated">Stadt</target>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_company.contacts">
-				<source>Contacts</source>
-				<target state="translated">Kontakte</target>
-			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_company.continent">
 				<source>Continent</source>
 				<target state="translated">Kontinent</target>

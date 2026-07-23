@@ -161,7 +161,7 @@ class LeadfeederRepository
             'zip' => (string)($address['postal_code'] ?? ''),
             'street' => (string)($address['street_address'] ?? ''),
             'region' => (string)($address['region'] ?? ''),
-            'country_code' => (string)($address['country_code'] ?? ''),
+            'country_code' => strtolower((string)($address['country_code'] ?? '')),
             'continent' => '',
             'founding_year' => (string)($company['founded_year'] ?? ''),
             'phone' => (string)($company['phones'][0]['number'] ?? ''),
@@ -170,21 +170,12 @@ class LeadfeederRepository
             'size' => (string)($company['employee_count'] ?? ''),
             'size_class' => $this->deriveSizeClass($company['employee_count'] ?? null),
             'description' => (string)($company['description'] ?? ''),
-            'contacts' => $this->normalizeContacts($company),
         ];
     }
 
     protected function normalizeDomain(string $url): string
     {
         return preg_replace('~^https?://~', '', $url);
-    }
-
-    protected function normalizeContacts(array $company): array
-    {
-        return [
-            'emails' => $company['emails'] ?? [],
-            'phones' => $company['phones'] ?? [],
-        ];
     }
 
     protected function deriveRevenueClass(array $revenue): string
