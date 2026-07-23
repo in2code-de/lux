@@ -164,9 +164,9 @@ class LeadfeederRepository
             'country_code' => strtolower((string)($address['country_code'] ?? '')),
             'founding_year' => (string)($company['founded_year'] ?? ''),
             'phone' => (string)($company['phones'][0]['number'] ?? ''),
-            'revenue' => (string)($company['revenue']['value_eur'] ?? $company['revenue']['value'] ?? ''),
+            'revenue' => $this->normalizeRevenue($company['revenue'] ?? []),
             'revenue_class' => $this->deriveRevenueClass($company['revenue'] ?? []),
-            'size' => (string)($company['employee_count'] ?? ''),
+            'size' => $this->normalizeSize($company['employee_count'] ?? null),
             'size_class' => $this->deriveSizeClass($company['employee_count'] ?? null),
             'description' => (string)($company['description'] ?? ''),
         ];
@@ -175,6 +175,37 @@ class LeadfeederRepository
     protected function normalizeDomain(string $url): string
     {
         return preg_replace('~^https?://~', '', $url);
+    }
+
+    /**
+     * Build a human readable revenue string like "3.900.000 €" from the numeric leadfeeder value.
+     */
+    protected function normalizeRevenue(array $revenue): string
+    {
+        $formatted = '';
+        if (($revenue['value_eur'] ?? '') !== '') {
+            $formatted = number_format((int)$revenue['value_eur'], 0, ',', '.') . ' €';
+        } elseif (($revenue['value'] ?? '') !== '') {
+            $currency = trim((string)($revenue['currency'] ?? ''));
+            $formatted = number_format((int)$revenue['value'], 0, ',', '.');
+            if ($currency !== '') {
+                $formatted .= ' ' . $currency;
+            }
+        }
+        return $formatted;
+    }
+
+    /**
+     * Build a human readable company size string like "27 Beschäftigte" from the numeric leadfeeder employee count.
+     */
+    protected function normalizeSize(mixed $employeeCount): string
+    {
+        $size = '';
+        $count = (int)($employeeCount ?? 0);
+        if ($count > 0) {
+            $size = number_format($count, 0, ',', '.') . ' Beschäftigte';
+        }
+        return $size;
     }
 
     protected function deriveRevenueClass(array $revenue): string
