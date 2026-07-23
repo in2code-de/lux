@@ -4,12 +4,14 @@ namespace In2code\Lux\Tests\Unit\Domain\Factory;
 
 use In2code\Lux\Domain\Factory\UtmFactory;
 use In2code\Lux\Domain\Model\Utm;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\MockObject\MockObject;
 use TYPO3\TestingFramework\Core\AccessibleObjectInterface;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
+#[AllowMockObjectsWithoutExpectations]
 #[CoversClass(UtmFactory::class)]
 #[CoversMethod(UtmFactory::class, 'get')]
 #[CoversMethod(UtmFactory::class, 'getAllUtmKeys')]

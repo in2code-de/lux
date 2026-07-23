@@ -3,12 +3,14 @@
 namespace In2code\Lux\Tests\Unit\Domain\Service;
 
 use In2code\Lux\Domain\Service\CountryService;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\MockObject\MockObject;
 use TYPO3\TestingFramework\Core\AccessibleObjectInterface;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
+#[AllowMockObjectsWithoutExpectations]
 #[CoversClass(CountryService::class)]
 #[CoversMethod(CountryService::class, 'getAlpha2ByAnyProperty')]
 #[CoversMethod(CountryService::class, 'getCountryConfiguration')]
