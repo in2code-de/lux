@@ -136,7 +136,7 @@ class PagevisitRepository extends AbstractRepository
         }
 
         $sql = 'select pv.uid from ' . Pagevisit::TABLE_NAME . ' pv'
-            . ' where pv.referrer like "https://' . $filter->getSearchterm() . '%" '
+            . ' where pv.referrer like ' . $this->quoteValue('https://' . $filter->getSearchterm() . '%') . ' '
             . $this->extendWhereClauseWithFilterTime($filter, true, 'pv')
             . $this->extendWhereClauseWithFilterSite($filter, 'pv')
             . ' order by pv.crdate desc'
@@ -475,7 +475,7 @@ class PagevisitRepository extends AbstractRepository
         $connection = DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME);
         $sql = 'select count(*) count from ' . Pagevisit::TABLE_NAME . ' pv'
             . ' where pv.crdate>=' . $start->getTimestamp() . ' and pv.crdate<=' . $end->getTimestamp()
-            . ' and pv.referrer like "https://' . $filter->getSearchterm() . '%"'
+            . ' and pv.referrer like ' . $this->quoteValue('https://' . $filter->getSearchterm() . '%')
             . $this->extendWhereClauseWithFilterSite($filter, 'pv');
         return $connection->executeQuery($sql)->fetchOne();
     }
