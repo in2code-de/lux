@@ -78,3 +78,48 @@ jobs:
           - 8.2
           - 8.3
           - 8.4
+  functional-tests:
+    name: "PHP Functional Tests"
+    runs-on: ubuntu-24.04
+    needs: php-lint
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: typo3
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v2
+      - name: "Install PHP"
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "${{ matrix.php-version }}"
+          extensions: mysqli, pdo_mysql
+          coverage: none
+          tools: composer:v2
+      - name: "Composer Update"
+        run: "composer update"
+      - name: "Run Functional Tests"
+        env:
+          typo3DatabaseDriver: mysqli
+          typo3DatabaseHost: 127.0.0.1
+          typo3DatabasePort: 3306
+          typo3DatabaseUsername: root
+          typo3DatabasePassword: root
+          typo3DatabaseName: typo3_ft
+        run: "composer test:functional"
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version:
+          - 8.2
+          - 8.3
+          - 8.4

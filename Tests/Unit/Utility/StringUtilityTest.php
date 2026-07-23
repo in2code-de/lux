@@ -5,6 +5,7 @@ namespace In2code\Lux\Tests\Unit\Utility;
 use In2code\Lux\Utility\StringUtility;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
@@ -22,6 +23,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 #[CoversMethod(StringUtility::class, 'removeLeadingZeros')]
 #[CoversMethod(StringUtility::class, 'removeStringPostfix')]
 #[CoversMethod(StringUtility::class, 'removeStringPrefix')]
+#[CoversMethod(StringUtility::class, 'sanitizeString')]
 #[CoversMethod(StringUtility::class, 'shortMd5')]
 #[CoversMethod(StringUtility::class, 'splitCamelcaseString')]
 #[CoversMethod(StringUtility::class, 'startsWith')]
@@ -155,5 +157,40 @@ class StringUtilityTest extends UnitTestCase
             StringUtility::splitCamelcaseString('CamelCaseTestScenario')
         );
         self::assertSame(['foo'], StringUtility::splitCamelcaseString('foo'));
+    }
+
+    public static function sanitizeStringDataProvider(): array
+    {
+        return [
+            'empty string stays empty' => ['', ''],
+            'plain text is untouched' => ['hello world', 'hello world'],
+            'zero padded class code is kept' => ['05', '05'],
+            'backslash is removed' => ['foo\\bar', 'foobar'],
+            'double quote is removed' => ['a"b', 'ab'],
+            'single quote is removed' => ["a'b", 'ab'],
+            'backtick is removed' => ['a`b', 'ab'],
+            'acute accent is removed' => ['a´b', 'ab'],
+            'double dash (sql comment) is removed' => ['value--comment', 'valuecomment'],
+            'brackets, braces and parentheses are removed' => ['<>[]{}()', ''],
+            'special characters are removed' => ['#?$&!=', ''],
+            'backslash and quote are stripped from a breakout payload' => [
+                '0\\" union select 1,2',
+                '0 union select 1,2',
+            ],
+            'utf-8 letters are preserved' => ['Réne Nüßer', 'Réne Nüßer'],
+            'allowed punctuation is preserved' => ['But this@here.-_is,ok', 'But this@here.-_is,ok'],
+        ];
+    }
+
+    #[DataProvider('sanitizeStringDataProvider')]
+    public function testSanitizeString(string $input, string $expected): void
+    {
+        self::assertSame($expected, StringUtility::sanitizeString($input));
+    }
+
+    public function testSanitizeStringDoesNotRemoveSqlKeywordsAndWhitespace(): void
+    {
+        self::assertSame('union select from', StringUtility::sanitizeString('union select from'));
+        self::assertSame('0 or 11', StringUtility::sanitizeString('0 or 1=1'));
     }
 }

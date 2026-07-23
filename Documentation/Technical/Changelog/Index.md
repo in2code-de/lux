@@ -9,6 +9,7 @@
 
 | Version    | Date       | State    | TYPO3       | Description                                                                                                                                                                                           |
 |------------|------------|----------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 43.1.0     | 2026-07-23 | Task     | `v13 + v14` | Small restructures of queries in general, added some functional tests                                                                                                                                 |
 | 43.0.5     | 2026-07-22 | Bugfix   | `v13 + v14` | Prevent sql exception because of ambiguous field in query                                                                                                                                             |
 | 43.0.4     | 2026-06-12 | Bugfix   | `v13 + v14` | Updated version in ext_emconf.php                                                                                                                                                                     |
 | 43.0.3     | 2026-06-12 | Bugfix   | `v13 + v14` | Prevent exception logging if there is no visitor object given (for some blacklisted bots)                                                                                                             |

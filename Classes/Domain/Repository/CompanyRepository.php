@@ -263,7 +263,7 @@ class CompanyRepository extends AbstractRepository
             . ' left join ' . Visitor::TABLE_NAME . ' v on v.companyrecord = c.uid'
             . ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.visitor = v.uid'
             . ' where v.deleted=0 and v.blacklisted=0 and c.uid=' . $company->getUid()
-            . ' and pv.site in ("' . implode('","', $sites) . '")'
+            . ' and pv.site in (' . $this->quotedList($sites) . ')'
             . ' limit 1';
         $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);
         return (int)$connection->executeQuery($sql)->fetchOne() > 0;

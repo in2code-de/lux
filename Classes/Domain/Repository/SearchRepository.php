@@ -52,7 +52,7 @@ class SearchRepository extends AbstractRepository
             . ' left join ' . Pagevisit::TABLE_NAME . ' pv on s.pagevisit = pv.uid'
             . ' left join ' . Visitor::TABLE_NAME . ' v on s.visitor = v.uid'
             . ' left join ' . Categoryscoring::TABLE_NAME . ' cs on cs.visitor = v.uid'
-            . ' where s.searchterm = "' . $filter->getSearchterm() . '"'
+            . ' where s.searchterm = ' . $this->quoteValue($filter->getSearchterm())
             . $this->extendWhereClauseWithFilterTime($filter, true, 's')
             . $this->extendWhereClauseWithFilterScoring($filter, 'v')
             . $this->extendWhereClauseWithFilterCategoryScoring($filter, 'cs')
@@ -81,7 +81,7 @@ class SearchRepository extends AbstractRepository
         if ($table !== '') {
             $field = $table . '.' . $field;
         }
-        return ' and (' . $field . ' in ("' . implode('","', $filter->getSitesForFilter()) . '") or pv.uid is null)';
+        return ' and (' . $field . ' in (' . $this->quotedList($filter->getSitesForFilter()) . ') or pv.uid is null)';
     }
 
     /**

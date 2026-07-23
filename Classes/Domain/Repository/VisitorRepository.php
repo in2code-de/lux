@@ -471,7 +471,7 @@ class VisitorRepository extends AbstractRepository
 
         $sql = 'select v.uid from ' . Visitor::TABLE_NAME . ' v'
             . ' left join ' . Pagevisit::TABLE_NAME . ' pv on pv.visitor=v.uid'
-            . ' where SUBSTR(MD5(v.uid), 1, 6) = "' . $filter->getSearchterm() . '"'
+            . ' where SUBSTR(MD5(v.uid), 1, 6) = ' . $this->quoteValue($filter->getSearchterm())
             . ' and v.deleted=0'
             . $this->extendWhereClauseWithFilterSite($filter, 'pv')
             . ' limit 1';
@@ -578,7 +578,7 @@ class VisitorRepository extends AbstractRepository
         $sql = 'select v.uid from ' . Visitor::TABLE_NAME . ' v'
             . ' left join ' . Pagevisit::TABLE_NAME . ' pv on v.uid = pv.visitor'
             . ' where v.deleted=0 and v.blacklisted=0 and v.uid=' . $visitor->getUid()
-            . ' and pv.site in ("' . implode('","', $sites) . '")'
+            . ' and pv.site in (' . $this->quotedList($sites) . ')'
             . ' limit 1';
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
         return (int)$connection->executeQuery($sql)->fetchOne() > 0;
@@ -770,11 +770,11 @@ class VisitorRepository extends AbstractRepository
                 if (MathUtility::canBeInterpretedAsInteger($searchterm)) {
                     $or[] = ' ' . $tablePrefix . 'uid = ' . (int)$searchterm;
                 } else {
-                    $or[] = ' ' . $tablePrefix . 'email like "%' . $searchterm . '%"';
-                    $or[] = ' ' . $tablePrefix . 'company like "%' . $searchterm . '%"';
-                    $or[] = ' ' . $tablePrefix . 'ip_address like "%' . $searchterm . '%"';
-                    $or[] = ' ' . $tablePrefix . 'description like "%' . $searchterm . '%"';
-                    $or[] = ' a.value like "%' . $searchterm . '%"';
+                    $or[] = ' ' . $tablePrefix . 'email like ' . $this->quoteValue('%' . $searchterm . '%');
+                    $or[] = ' ' . $tablePrefix . 'company like ' . $this->quoteValue('%' . $searchterm . '%');
+                    $or[] = ' ' . $tablePrefix . 'ip_address like ' . $this->quoteValue('%' . $searchterm . '%');
+                    $or[] = ' ' . $tablePrefix . 'description like ' . $this->quoteValue('%' . $searchterm . '%');
+                    $or[] = ' a.value like ' . $this->quoteValue('%' . $searchterm . '%');
                 }
             }
             $sql .= implode(' or ', $or);

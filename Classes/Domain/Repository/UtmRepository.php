@@ -78,8 +78,8 @@ class UtmRepository extends AbstractRepository
         $sql .= ' left join ' . Newsvisit::TABLE_NAME . ' nv on nv.uid = utm.newsvisit';
         $sql .= ' left join ' . Pagevisit::TABLE_NAME . ' pnv on pnv.uid = nv.pagevisit';
         $sql .= ' where utm.' . $property . ' != \'\'';
-        $sql .= ' and (pv.site in ("' . implode('","', $filter->getSitesForFilter()) . '") or';
-        $sql .= ' pnv.site in ("' . implode('","', $filter->getSitesForFilter()) . '"))';
+        $sql .= ' and (pv.site in (' . $this->quotedList($filter->getSitesForFilter()) . ') or';
+        $sql .= ' pnv.site in (' . $this->quotedList($filter->getSitesForFilter()) . '))';
         $sql .= $this->extendWhereClauseWithFilterTime($filter, true, 'utm');
         $sql .= ' group by utm.' . $property;
         $sql .= ' order by utm.' . $property . ' asc';
@@ -148,7 +148,7 @@ class UtmRepository extends AbstractRepository
             if ($table !== '') {
                 $field = $table . '.' . $field;
             }
-            $sql .= ' and ' . $field . '="' . $filter->getUtmCampaign() . '"';
+            $sql .= ' and ' . $field . '=' . $this->quoteValue($filter->getUtmCampaign());
         }
         return $sql;
     }
@@ -161,7 +161,7 @@ class UtmRepository extends AbstractRepository
             if ($table !== '') {
                 $field = $table . '.' . $field;
             }
-            $sql .= ' and ' . $field . '="' . $filter->getUtmSource() . '"';
+            $sql .= ' and ' . $field . '=' . $this->quoteValue($filter->getUtmSource());
         }
         return $sql;
     }
@@ -174,7 +174,7 @@ class UtmRepository extends AbstractRepository
             if ($table !== '') {
                 $field = $table . '.' . $field;
             }
-            $sql .= ' and ' . $field . '="' . $filter->getUtmMedium() . '"';
+            $sql .= ' and ' . $field . '=' . $this->quoteValue($filter->getUtmMedium());
         }
         return $sql;
     }
@@ -190,9 +190,9 @@ class UtmRepository extends AbstractRepository
     protected function extendWhereClauseWithFilterSite(FilterDto $filter, string $table = ''): string
     {
         $sql = ' and (';
-        $sql .= 'pv.site in ("' . implode('","', $filter->getSitesForFilter()) . '")';
+        $sql .= 'pv.site in (' . $this->quotedList($filter->getSitesForFilter()) . ')';
         $sql .= ' or ';
-        $sql .= 'pnv.site in ("' . implode('","', $filter->getSitesForFilter()) . '")';
+        $sql .= 'pnv.site in (' . $this->quotedList($filter->getSitesForFilter()) . ')';
         $sql .= ')';
         return $sql;
     }

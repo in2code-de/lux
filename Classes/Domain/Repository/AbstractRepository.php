@@ -10,6 +10,7 @@ use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Utility\BackendUtility;
+use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
@@ -123,8 +124,8 @@ abstract class AbstractRepository extends Repository
                 if (MathUtility::canBeInterpretedAsInteger($searchterm)) {
                     $sql .= ($table !== '' ? $table . '.' : '') . 'uid = ' . (int)$searchterm;
                 } else {
-                    $sql .= ($table !== '' ? $table . '.' : '') . $titleField . ' like "%'
-                        . StringUtility::cleanString($searchterm) . '%"';
+                    $sql .= ($table !== '' ? $table . '.' : '') . $titleField . ' like '
+                        . $this->quoteValue('%' . StringUtility::cleanString($searchterm) . '%');
                 }
             }
             $sql .= ')';
@@ -177,7 +178,7 @@ abstract class AbstractRepository extends Repository
             if ($table !== '') {
                 $field = $table . '.' . $field;
             }
-            $sql .= ' and ' . $field . '="' . $filter->getDomain() . '"';
+            $sql .= ' and ' . $field . '=' . $this->quoteValue($filter->getDomain());
         }
         return $sql;
     }
@@ -196,7 +197,7 @@ abstract class AbstractRepository extends Repository
         if ($table !== '') {
             $field = $table . '.' . $field;
         }
-        return ' and ' . $field . ' in ("' . implode('","', $filter->getSitesForFilter()) . '")';
+        return ' and ' . $field . ' in (' . $this->quotedList($filter->getSitesForFilter()) . ')';
     }
 
     protected function extendWhereClauseWithFilterCountry(FilterDto $filter, string $table = ''): string
@@ -207,7 +208,7 @@ abstract class AbstractRepository extends Repository
             if ($table !== '') {
                 $field = $table . '.' . $field;
             }
-            $sql .= ' and ' . $field . '="' . $filter->getCountry() . '"';
+            $sql .= ' and ' . $field . '=' . $this->quoteValue($filter->getCountry());
         }
         return $sql;
     }
@@ -343,7 +344,7 @@ abstract class AbstractRepository extends Repository
             if ($table !== '') {
                 $table .= '.';
             }
-            $sql .= ' and ' . $table . 'size_class = ' . $filter->getSizeClass();
+            $sql .= ' and ' . $table . 'size_class = ' . $this->quoteValue($filter->getSizeClass());
         }
         return $sql;
     }
@@ -355,7 +356,7 @@ abstract class AbstractRepository extends Repository
             if ($table !== '') {
                 $table .= '.';
             }
-            $sql .= ' and ' . $table . 'revenue_class = ' . $filter->getRevenueClass();
+            $sql .= ' and ' . $table . 'revenue_class = ' . $this->quoteValue($filter->getRevenueClass());
         }
         return $sql;
     }
@@ -382,5 +383,15 @@ abstract class AbstractRepository extends Repository
             $sql .= ' and ' . $table . 'category = ' . $filter->getCategory()->getUid();
         }
         return $sql;
+    }
+
+    protected function quoteValue(string $value): string
+    {
+        return DatabaseUtility::getConnectionForTable(Pagevisit::TABLE_NAME)->quote($value);
+    }
+
+    protected function quotedList(array $values): string
+    {
+        return implode(',', array_map(fn ($value): string => $this->quoteValue((string)$value), $values));
     }
 }

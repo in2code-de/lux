@@ -246,6 +246,12 @@ test-unit:
 	echo "$(EMOJI_robot) Test: Start unit tests"
 	docker compose exec php composer test:unit
 
+## Test: Functional
+test-functional:
+	echo "$(EMOJI_robot) Test: Start functional tests"
+	docker compose up -d mysql
+	docker compose exec php composer test:functional
+
 ## Run acceptance tests
 test-acceptance: .selenium-start
 	echo "$(EMOJI_robot) Test: Start acceptance tests"

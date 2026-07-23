@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation=".Build/vendor/phpunit/phpunit/phpunit.xsd"
+    bootstrap=".Build/vendor/typo3/testing-framework/Resources/Core/Build/FunctionalTestsBootstrap.php"
+    cacheDirectory=".phpunit.cache"
+    beStrictAboutTestsThatDoNotTestAnything="false"
+    failOnWarning="true"
+    failOnRisky="true"
+    colors="true"
+>
+    <testsuites>
+        <testsuite name="lux functional tests">
+            <directory>Tests/Functional/</directory>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory suffix=".php">Classes/</directory>
+        </include>
+    </source>
+    <php>
+        <env name="typo3DatabaseDriver" value="mysqli"/>
+        <env name="typo3DatabaseHost" value="mysql"/>
+        <env name="typo3DatabaseUsername" value="root"/>
+        <env name="typo3DatabasePassword" value="root"/>
+        <env name="typo3DatabaseName" value="typo3_ft"/>
+    </php>
+</phpunit>

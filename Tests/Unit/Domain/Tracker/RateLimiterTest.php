@@ -61,7 +61,7 @@ class RateLimiterTest extends UnitTestCase
             ->with('test1234567890abcdef1234567890ab1234567890abcdef1234567890abcdef')
             ->willReturn(21); // 21 > 20 (default limit)
 
-        $loggerMock = $this->createMock(LoggerInterface::class);
+        $loggerMock = self::createStub(LoggerInterface::class);
 
         $rateLimiter = new RateLimiter($cacheMock, $loggerMock);
 
@@ -85,7 +85,7 @@ class RateLimiterTest extends UnitTestCase
         $cacheMock->expects(self::never())
             ->method('incrementAndGet');
 
-        $loggerMock = $this->createMock(LoggerInterface::class);
+        $loggerMock = self::createStub(LoggerInterface::class);
 
         $rateLimiter = new RateLimiter($cacheMock, $loggerMock);
 
@@ -111,7 +111,7 @@ class RateLimiterTest extends UnitTestCase
             ->with('test1234567890abcdef1234567890ab1234567890abcdef1234567890abcdef')
             ->willReturn(1); // First request
 
-        $loggerMock = $this->createMock(LoggerInterface::class);
+        $loggerMock = self::createStub(LoggerInterface::class);
 
         $rateLimiter = new RateLimiter($cacheMock, $loggerMock);
 
