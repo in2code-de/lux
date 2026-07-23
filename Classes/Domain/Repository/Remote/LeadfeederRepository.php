@@ -27,6 +27,7 @@ class LeadfeederRepository
     private const ENV_TOKEN = 'LUX_LEADFEEDER_TOKEN';
     private const ENV_ACCOUNT_ID = 'LUX_LEADFEEDER_ACCOUNT_ID';
     private const VALIDATION_IP = '8.8.8.8';
+    private const DESCRIPTION_PREFIX = '[automatisch] ';
 
     /**
      * Upper bound (exclusive) of yearly revenue in Euro per revenue_class code (see dictionary.revenue_class in
@@ -168,7 +169,7 @@ class LeadfeederRepository
             'revenue_class' => $this->deriveRevenueClass($company['revenue'] ?? []),
             'size' => $this->normalizeSize($company['employee_count'] ?? null),
             'size_class' => $this->deriveSizeClass($company['employee_count'] ?? null),
-            'description' => (string)($company['description'] ?? ''),
+            'description' => $this->normalizeDescription((string)($company['description'] ?? '')),
         ];
     }
 
@@ -206,6 +207,18 @@ class LeadfeederRepository
             $size = number_format($count, 0, ',', '.') . ' Beschäftigte';
         }
         return $size;
+    }
+
+    /**
+     * Prefix the company description coming from the interface to make clear it was set automatically.
+     */
+    protected function normalizeDescription(string $description): string
+    {
+        $normalized = trim($description);
+        if ($normalized !== '') {
+            $normalized = self::DESCRIPTION_PREFIX . $normalized;
+        }
+        return $normalized;
     }
 
     protected function deriveRevenueClass(array $revenue): string
