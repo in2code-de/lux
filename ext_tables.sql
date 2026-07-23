@@ -433,7 +433,6 @@ CREATE TABLE tx_lux_domain_model_company (
 	title varchar(255) DEFAULT '' NOT NULL,
 	branch_code varchar(255) DEFAULT '' NOT NULL,
 	city varchar(255) DEFAULT '' NOT NULL,
-	continent varchar(255) DEFAULT '' NOT NULL,
 	country_code varchar(255) DEFAULT '' NOT NULL,
 	region varchar(255) DEFAULT '' NOT NULL,
 	street varchar(255) DEFAULT '' NOT NULL,

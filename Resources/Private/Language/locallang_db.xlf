@@ -446,9 +446,6 @@
 			<trans-unit id="tx_lux_domain_model_company.city">
 				<source>City</source>
 			</trans-unit>
-			<trans-unit id="tx_lux_domain_model_company.continent">
-				<source>Continent</source>
-			</trans-unit>
 			<trans-unit id="tx_lux_domain_model_company.country_code">
 				<source>Country code</source>
 			</trans-unit>

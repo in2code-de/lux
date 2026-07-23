@@ -162,7 +162,6 @@ class LeadfeederRepository
             'street' => (string)($address['street_address'] ?? ''),
             'region' => (string)($address['region'] ?? ''),
             'country_code' => strtolower((string)($address['country_code'] ?? '')),
-            'continent' => '',
             'founding_year' => (string)($company['founded_year'] ?? ''),
             'phone' => (string)($company['phones'][0]['number'] ?? ''),
             'revenue' => (string)($company['revenue']['value_eur'] ?? $company['revenue']['value'] ?? ''),

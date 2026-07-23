@@ -23,7 +23,6 @@ class Company extends AbstractEntity
     protected string $title = '';
     protected string $branchCode = '';
     protected string $city = '';
-    protected string $continent = '';
     protected string $countryCode = '';
     protected string $region = '';
     protected string $street = '';
@@ -84,17 +83,6 @@ class Company extends AbstractEntity
     public function setCity(string $city): self
     {
         $this->city = $city;
-        return $this;
-    }
-
-    public function getContinent(): string
-    {
-        return $this->continent;
-    }
-
-    public function setContinent(string $continent): self
-    {
-        $this->continent = $continent;
         return $this;
     }
 
