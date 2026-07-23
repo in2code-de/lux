@@ -343,7 +343,7 @@ abstract class AbstractRepository extends Repository
             if ($table !== '') {
                 $table .= '.';
             }
-            $sql .= ' and ' . $table . 'size_class = ' . $filter->getSizeClass();
+            $sql .= ' and ' . $table . 'size_class = "' . $filter->getSizeClass() . '"';
         }
         return $sql;
     }
@@ -355,7 +355,7 @@ abstract class AbstractRepository extends Repository
             if ($table !== '') {
                 $table .= '.';
             }
-            $sql .= ' and ' . $table . 'revenue_class = ' . $filter->getRevenueClass();
+            $sql .= ' and ' . $table . 'revenue_class = "' . $filter->getRevenueClass() . '"';
         }
         return $sql;
     }
