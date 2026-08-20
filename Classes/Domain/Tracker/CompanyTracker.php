@@ -7,13 +7,13 @@ use DateTime;
 use In2code\Lux\Domain\Factory\CompanyFactory;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\LogRepository;
-use In2code\Lux\Domain\Repository\Remote\WiredmindsRepository;
+use In2code\Lux\Domain\Repository\Remote\LeadfeederRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Http\RequestFactory;
 
 /**
- * Class CompanyTracker to enrich visitor with company information from wiredminds.com via IP address
+ * Class CompanyTracker to enrich visitor with company information from leadfeeder.com via IP address
  *
  * but only if:
  * - visitor is not blacklisted
@@ -24,7 +24,7 @@ use TYPO3\CMS\Core\Http\RequestFactory;
 class CompanyTracker
 {
     protected VisitorRepository $visitorRepository;
-    protected WiredmindsRepository $wiredmindsRepository;
+    protected LeadfeederRepository $leadfeederRepository;
     protected LogRepository $logRepository;
     protected RequestFactory $requestFactory;
     protected CompanyFactory $companyFactory;
@@ -41,13 +41,13 @@ class CompanyTracker
 
     public function __construct(
         VisitorRepository $visitorRepository,
-        WiredmindsRepository $wiredmindsRepository,
+        LeadfeederRepository $leadfeederRepository,
         LogRepository $logRepository,
         RequestFactory $requestFactory,
         CompanyFactory $companyFactory
     ) {
         $this->visitorRepository = $visitorRepository;
-        $this->wiredmindsRepository = $wiredmindsRepository;
+        $this->leadfeederRepository = $leadfeederRepository;
         $this->logRepository = $logRepository;
         $this->requestFactory = $requestFactory;
         $this->companyFactory = $companyFactory;
@@ -92,7 +92,7 @@ class CompanyTracker
 
     protected function isWaitPeriodRespected(Visitor $visitor): bool
     {
-        $log = $this->logRepository->findWiredmindsLogByVisitor($visitor);
+        $log = $this->logRepository->findCompanyEnrichLogByVisitor($visitor);
         return $log === null || $log->getCrdate() < (new DateTime($this->interfaceWaitPeriod));
     }
 }

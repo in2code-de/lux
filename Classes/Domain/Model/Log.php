@@ -43,8 +43,8 @@ class Log extends AbstractModel
     public const STATUS_SHORTENER_VISIT = 100;
     public const STATUS_ABTESTING_PAGE = 200;
     public const STATUS_UTM_TRACK = 300;
-    public const STATUS_WIREDMINDS_CONNECTION = 400;
-    public const STATUS_WIREDMINDS_SUCCESSFUL = 410;
+    public const STATUS_COMPANY_ENRICH_CONNECTION = 400;
+    public const STATUS_COMPANY_ENRICH_SUCCESSFUL = 410;
     public const STATUS_API_CREATEVISITOR = 500;
     public const STATUS_ERROR = 900;
 

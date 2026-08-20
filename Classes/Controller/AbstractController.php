@@ -20,7 +20,7 @@ use In2code\Lux\Domain\Repository\NewsRepository;
 use In2code\Lux\Domain\Repository\NewsvisitRepository;
 use In2code\Lux\Domain\Repository\PageRepository;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
-use In2code\Lux\Domain\Repository\Remote\WiredmindsRepository;
+use In2code\Lux\Domain\Repository\Remote\LeadfeederRepository;
 use In2code\Lux\Domain\Repository\SearchRepository;
 use In2code\Lux\Domain\Repository\UtmRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
@@ -65,7 +65,7 @@ abstract class AbstractController extends ActionController
         protected readonly SearchRepository $searchRepository,
         protected readonly UtmRepository $utmRepository,
         protected readonly CompanyRepository $companyRepository,
-        protected readonly WiredmindsRepository $wiredmindsRepository,
+        protected readonly LeadfeederRepository $leadfeederRepository,
         protected readonly LanguageRepository $languageRepository,
         protected readonly RenderingTimeService $renderingTimeService,
         protected readonly SiteService $siteService,

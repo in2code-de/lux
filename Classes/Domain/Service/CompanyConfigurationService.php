@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Service;
 
 use Doctrine\DBAL\Exception as ExceptionDbal;
-use In2code\Lux\Domain\Repository\Remote\WiredmindsRepository;
+use In2code\Lux\Domain\Repository\Remote\LeadfeederRepository;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\LocalizationUtility;
@@ -12,7 +12,7 @@ use TYPO3\CMS\Core\Database\Connection;
 
 /**
  * Class CompanyConfigurationService
- * to save a token as TypoScript constant from demo backend module view
+ * to save leadfeeder credentials (api key and account id) as TypoScript constants from the companies backend view
  */
 class CompanyConfigurationService
 {
@@ -22,29 +22,32 @@ class CompanyConfigurationService
 
     protected array $configuration = [
         'plugin.tx_lux.settings.tracking.company.enable = 1',
-        'plugin.tx_lux.settings.tracking.company.token = %s',
+        'plugin.tx_lux.settings.tracking.company.token = %1$s',
+        'plugin.tx_lux.settings.tracking.company.accountId = %2$s',
         'plugin.tx_lux.settings.tracking.company.connectionLimit = 5000',
         'plugin.tx_lux.settings.tracking.company.autoConvert.enable = 1',
     ];
 
-    protected WiredmindsRepository $wiredmindsRepository;
+    protected LeadfeederRepository $leadfeederRepository;
 
-    public function __construct(WiredmindsRepository $wiredmindsRepository)
+    public function __construct(LeadfeederRepository $leadfeederRepository)
     {
-        $this->wiredmindsRepository = $wiredmindsRepository;
+        $this->leadfeederRepository = $leadfeederRepository;
     }
 
     /**
      * @param string $token
+     * @param string $accountId
      * @return void
      * @throws ConfigurationException
      * @throws ExceptionDbal
      */
-    public function add(string $token): void
+    public function add(string $token, string $accountId): void
     {
-        $this->isValidToken($token);
+        $this->isValidConfiguration($token, $accountId);
         foreach ($this->getRootTemplates() as $template) {
-            $constants = $template['constants'] . PHP_EOL . PHP_EOL . implode(PHP_EOL, $this->getConfiguration($token));
+            $constants = $template['constants'] . PHP_EOL . PHP_EOL
+                . implode(PHP_EOL, $this->getConfiguration($token, $accountId));
             $this->updateTemplate($template['uid'], $constants);
         }
     }
@@ -83,13 +86,15 @@ class CompanyConfigurationService
 
     /**
      * @param string $token
+     * @param string $accountId
      * @return void
      * @throws ConfigurationException
      */
-    protected function isValidToken(string $token): void
+    protected function isValidConfiguration(string $token, string $accountId): void
     {
         $this->isCorrectSpelling($token);
-        $this->isTokenAcceptedByInterface($token);
+        $this->isCorrectAccountId($accountId);
+        $this->isAcceptedByInterface($token, $accountId);
     }
 
     /**
@@ -109,13 +114,29 @@ class CompanyConfigurationService
     }
 
     /**
-     * @param string $token
+     * @param string $accountId
      * @return void
      * @throws ConfigurationException
      */
-    protected function isTokenAcceptedByInterface(string $token): void
+    protected function isCorrectAccountId(string $accountId): void
     {
-        if ($this->wiredmindsRepository->getStatusForToken($token) === []) {
+        if (ctype_digit($accountId) === false) {
+            throw new ConfigurationException(
+                LocalizationUtility::translateByKey('module.companiesDisabled.token.failureAccountId'),
+                1687183621
+            );
+        }
+    }
+
+    /**
+     * @param string $token
+     * @param string $accountId
+     * @return void
+     * @throws ConfigurationException
+     */
+    protected function isAcceptedByInterface(string $token, string $accountId): void
+    {
+        if ($this->leadfeederRepository->validateCredentials($token, $accountId) === false) {
             throw new ConfigurationException(
                 LocalizationUtility::translateByKey('module.companiesDisabled.token.failureInterface'),
                 1687183620
@@ -123,11 +144,12 @@ class CompanyConfigurationService
         }
     }
 
-    protected function getConfiguration(string $token): array
+    protected function getConfiguration(string $token, string $accountId): array
     {
-        foreach ($this->configuration as &$line) {
-            $line = sprintf($line, $token);
+        $configuration = $this->configuration;
+        foreach ($configuration as &$line) {
+            $line = sprintf($line, $token, $accountId);
         }
-        return $this->configuration;
+        return $configuration;
     }
 }

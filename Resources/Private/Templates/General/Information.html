@@ -130,14 +130,14 @@
     <div class="panel panel-default flex">
         <div class="panel-heading">
             <h3 class="panel-title">
-                Wiredminds API
+                Leadfeeder API
             </h3>
         </div>
         <div class="panel-body">
             <ol class="list-group" style="max-height: 400px; overflow: auto;">
                 <li class="list-group-item">
                     <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.wiredminds.amount">amount of companies</f:translate>
-                    <span class="badge pull-right"><lux:format.readableNumber>{statistics.wiredminds.amount}</lux:format.readableNumber></span>
+                    <span class="badge pull-right"><lux:format.readableNumber>{statistics.leadfeeder.amount}</lux:format.readableNumber></span>
                 </li>
                 <li class="list-group-item">
                     <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.wiredminds.enabled">enabled</f:translate>
@@ -156,7 +156,7 @@
                     <li class="list-group-item">
                         <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.wiredminds.token">token</f:translate>
                         <span class="pull-right">
-                            <f:if condition="{statistics.wiredminds.status.token}">
+                            <f:if condition="{statistics.leadfeeder.status.token}">
                                 <f:then>
                                     <core:icon identifier="actions-check-circle-alt" size="small" />
                                 </f:then>
@@ -169,7 +169,7 @@
                     <li class="list-group-item">
                         <f:translate key="LLL:EXT:lux/Resources/Private/Language/locallang_db.xlf:module.analysis.statistics.wiredminds.result">result</f:translate>
                         <span class="pull-right">
-                            <f:if condition="{statistics.wiredminds.status.result}">
+                            <f:if condition="{statistics.leadfeeder.status.result}">
                                 <f:then>
                                     <core:icon identifier="actions-check-circle-alt" size="small" />
                                 </f:then>
@@ -179,8 +179,8 @@
                             </f:if>
                         </span>
                     </li>
-                    <f:if condition="{statistics.wiredminds.status.result}">
-                        <f:for each="{statistics.wiredminds.status.statistics}" as="month">
+                    <f:if condition="{statistics.leadfeeder.status.result}">
+                        <f:for each="{statistics.leadfeeder.status.statistics}" as="month">
                             <li class="list-group-item">
                                 <table class="table">
                                     <tr>
