@@ -19,7 +19,7 @@ pages.
 Basically there are three different category types that are used in LUX:
 
 * Category Scoring is calculated on page access or downloads
-* Company Categories are used to segment companies (Wiredmind integration into LUX)
+* Company Categories are used to segment companies (Leadfeeder integration into LUX)
 * Workflow Categories are used to group workflows for a better management (Part of LUXenterprise)
 
 Take care that your editors have reading access to the page where relevant categories are stored.

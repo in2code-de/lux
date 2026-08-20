@@ -5,8 +5,9 @@
 
 Change the view to companies module by clicking on "Companies".
 
-We offer a valuable Leadfeeder integration into TYPO3 via LUX. Leadfeeder is able to convert an IP-address to company
-detail information. This B2B solution takes your website to a whole new level.
+We offer a valuable Leadfeeder [more information](https://www.leadfeeder.com/) integration into TYPO3 via LUX.
+Leadfeeder is able to convert an IP-address to company detail information. This B2B solution takes your website
+to a whole new level.
 Possible information from API is:
 * Company name
 * Branch
@@ -46,11 +47,11 @@ Once you added valid credentials, you are able to convert visitors to companies.
 
 | Constant                                                                | Description                                                                                                                                                                      |
 |-------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `{$plugin.tx_lux.settings.tracking.company.enable}`                     | Enable or disable Leadfeeder connection in general.                                                                                                                             |
-| `{$plugin.tx_lux.settings.tracking.company.token}`                      | Add a valid and working Leadfeeder api key (sent as `X-Api-Key` header). Can also be set via the environment variable `LUX_LEADFEEDER_TOKEN` (e.g. in `.env.local`).            |
-| `{$plugin.tx_lux.settings.tracking.company.accountId}`                  | Add the Leadfeeder account id (sent as `account_id` query parameter). Can also be set via the environment variable `LUX_LEADFEEDER_ACCOUNT_ID` (e.g. in `.env.local`).         |
-| `{$plugin.tx_lux.settings.tracking.company.connectionLimit}`            | Define a limit for monthly requests against Leadfeeder for full cost control.                                                                                                   |
-| `{$plugin.tx_lux.settings.tracking.company.connectionLimitPerHour}`     | Define a limit for hourly requests against Leadfeeder for savety reasons (e.g. to prevent unneeded requests in case of a DoS attack)                                            |
+| `{$plugin.tx_lux.settings.tracking.company.enable}`                     | Enable or disable Leadfeeder connection in general.                                                                                                                              |
+| `{$plugin.tx_lux.settings.tracking.company.token}`                      | Add a valid and working Leadfeeder api key (sent as `X-Api-Key` header). Can also be set via the environment variable `LUX_LEADFEEDER_TOKEN` (e.g. in `.env.local`).             |
+| `{$plugin.tx_lux.settings.tracking.company.accountId}`                  | Add the Leadfeeder account id (sent as `account_id` query parameter). Can also be set via the environment variable `LUX_LEADFEEDER_ACCOUNT_ID` (e.g. in `.env.local`).           |
+| `{$plugin.tx_lux.settings.tracking.company.connectionLimit}`            | Define a limit for monthly requests against Leadfeeder for full cost control.                                                                                                    |
+| `{$plugin.tx_lux.settings.tracking.company.connectionLimitPerHour}`     | Define a limit for hourly requests against Leadfeeder for savety reasons (e.g. to prevent unneeded requests in case of a DoS attack)                                             |
 | `{$plugin.tx_lux.settings.tracking.company.autoConvert.enable}`         | Turn on, that visitors are automatically extended with company information. So, the first visit of a visitor will call the Leadfeeder interface and ask for company information. |
 | `{$plugin.tx_lux.settings.tracking.company.autoConvert.minimumScoring}` | Use autoConvert only for visitors with a minimum scoring value.                                                                                                                  |
 
