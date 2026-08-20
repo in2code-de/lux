@@ -91,4 +91,5 @@ will respect this setting of course!
 **Note:** While Firefox turns on the DNT by default for anonymous tabs, Chrome and Internet Explorer never turn this
 setting on by default.
 
-**Note:** Maybe you want to switch from fingerprint to local storage mode. See [OptIn and OptOut](FingerprintsAndLocalStorage.md)
+**Note:** LUX works with local storage by default. Maybe you want to switch to the cookieless fingerprint mode.
+See [Fingerprints vs. local storage](FingerprintsAndLocalStorage.md)

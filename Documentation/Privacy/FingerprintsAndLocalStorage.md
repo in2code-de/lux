@@ -8,9 +8,26 @@ This makes it necessary to recognize the lead when leaving page a and entering p
 another day.
 To fulfill this requirement, there a basically two different possible technics available with LUX.
 
-### Fingerprint (recommended for B2B)
+### LocalStorage (default)
 
-Per default LUX runs in fingerprint mode and try to automatically recognize a visitor by its hardware combined with
+Per default LUX runs in localstorage mode. A random string (33 characters) is stored in the local storage of the
+visitor's browser (comparable to a cookie) and is used to recognize the visitor again.
+
+**Upside:** Writing and reading a random string is done very quickly (no calculation needed). You can also differ
+between multiple visitors with the same hardware and the same IP-address - this is especially useful if you have a lot
+of mobile visitors on your website (e.g. if you own a b2c shop for a younger target group).
+
+**Downside:** You have to ask your visitor if you are allowed to store a random string in the local storage of the
+device, to identify your visitor. To meet GDPR rules, we would suggest you to set up a cookie banner.
+In addition, a visitor of domain A is not automatically merged if he also visits domain B on the same TYPO3 instance
+(every domain has its own local storage area. Of course if the user is identified on both domains, the profile will be
+merged to only one).
+
+**Note:** Maybe you want to disable the "autoenable" functionality. See [OptIn and OptOut](OptInAndOptOut.md)
+
+### Fingerprint (cookieless alternative)
+
+In fingerprint mode LUX tries to automatically recognize a visitor by its hardware combined with
 his IP-address. Those values are hashed to one string (sha256) and cannot be reverted or splitted into its originally
 parts.
 
@@ -47,23 +64,15 @@ Beside that multiple visitors with same hard- and software
 are recognized as only one visitor, if they are using the same IP-address.
 This is especially true for iPhones of the same version and generation.
 
-### LocalStorage (recommended for B2C)
-
-**Upside:** If you have a lot of mobile visitors on your website (e.g. if you own a b2c shop for a younger target
-group), you may want to differ between your visitors. So you could go for LocalStorage. This is comparable to a cookie.
-A random string will be saved on the visitor's device, which can be done very quickly.
-You can also differ between multiple mobile visitors - even with same hardware and IP-address.
-
-**Downside:** You have to ask your visitor if you are allowed to store a random string the local storage of the device,
-to identify your visitor. To meet GDPR rules, we would suggest you to set up a cookie banner.
-In addition, a visitor of domain A is not automatically merged if he also visits domain B on the same TYPO3 instance
-(every domain has its own local storage area. Of course if the user is identified on both domains, the profile will be
-merged to only one).
-
 This can be turned on via TypoScript constants:
 
 ```
-plugin.tx_lux.settings.identificationMethod = 2
+plugin.tx_lux.settings.identificationMethod = 0
 ```
 
-**Note:** Maybe you want to disable the "autoenable" functionality. See [OptIn and OptOut](OptInAndOptOut.md)
+### Overview
+
+| Method       | Value | Default | Recommended for                                       |
+|--------------|-------|---------|-------------------------------------------------------|
+| LocalStorage | 2     | yes     | Most use cases - especially B2C and mobile visitors   |
+| Fingerprint  | 0     | no      | Cookieless tracking (no entry on the visitors device) |

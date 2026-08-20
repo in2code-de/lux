@@ -22,10 +22,13 @@ are disabled if the visitor is also logged in into backend at the same time (to 
 It's possible for visitors to opt out (with the opt-out plugin) or to use the *do not track* settings in their browser.
 Lux will respect this settings in every case.
 
-Every visitor has an individual fingerprint, based on his hard- and software. This anonymous hash is used to
-recognize the visitor in future visits. This hash will be used for tracking and identification.
+Every visitor gets an individual identificator, which is used to recognize the visitor in future visits.
+Per default this is a random string, saved to the localstorage of the browser. Alternatively LUX can work cookieless
+with an anonymous hash (fingerprint), based on the visitors hard- and software - see
+[Fingerprints vs. local storage](../Privacy/FingerprintsAndLocalStorage.md).
 
-There are some functional settings - saved to localstorage in browser which are:
+There are some settings - saved to localstorage in browser which are:
+* `luxId` the identificator of the visitor (only in localstorage mode - the default)
 * `luxDisableEmail4Link` to disable email4link popups if a visitor is already identified
 * `luxTracking` for a tracking opt out or opt in
 

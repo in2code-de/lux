@@ -12,10 +12,11 @@ Diese Website benutzt das Marketing-Automation-Tool LUX.
 Einige benutzerdefinierte Einstellungen, die keinen Rückschluss auf den Besucher zulassen, werden in den Bereich
 "Localstorage" des Browsers zwischengespeichert und werden benötigt, um eine vollständige Funktionsweise zu garantieren.
 
-LUX versucht Ihre erneuten Websitebesuche durch Ihr Verhalten und die von Ihnen benutzte Hardware wiederzuerkennen,
-um Ihnen nach Ihren Vorlieben entsprechende Inhalte anbieten zu können und die Bedienbarkeit der Website zu
-vereinfachen. Es wird lediglich ein anonymisierter Hash übertragen, aus dem keinerlei Rückschlüsse auf Ihren Computer,
-Ihr Smartphone oder ähnliches zu schließen sind. Dieser Hash wird nicht weitergegeben und dient lediglich der Erkennung.
+LUX versucht Ihre erneuten Websitebesuche wiederzuerkennen, um Ihnen nach Ihren Vorlieben entsprechende Inhalte
+anbieten zu können und die Bedienbarkeit der Website zu vereinfachen. Dazu wird eine zufällig erzeugte Zeichenkette im
+"Localstorage" Ihres Browsers gespeichert und übertragen, aus der keinerlei Rückschlüsse auf Ihre Person, Ihren
+Computer, Ihr Smartphone oder ähnliches zu schließen sind. Diese Zeichenkette wird nicht weitergegeben und dient
+lediglich der Erkennung.
 
 Gespeicherten Informationen jeglicher Art werden generell niemals an Dritte weitergegeben.
 Sie können eine Wiedererkennung und das Ausspielen individueller Inhalte unterbinden, indem Sie beispielsweise
@@ -26,6 +27,10 @@ Wenn Sie mit der Speicherung und Nutzung Ihrer Daten nicht einverstanden sind, k
 hier deaktivieren. In diesem Fall wird in Ihrem Browser eine Opt-Out-Einstellung hinterlegt, die verhindert, dass LUX
 Nutzungsdaten speichert.
 ```
+
+**Note:** This example describes the default identification method (LocalStorage). If you switched LUX to the
+cookieless fingerprint mode (see [Fingerprints vs. local storage](FingerprintsAndLocalStorage.md)), you should describe
+instead, that visitors are recognized by an anonymized hash of their hard- and software.
 
 We would recommend to place an Opt-Out Plugin also nerby this explanation
 (see [Plugins](../Technical/Plugins/Index.md)).

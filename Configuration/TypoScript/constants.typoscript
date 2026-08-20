@@ -6,7 +6,7 @@ plugin.tx_lux.settings {
   autoenable = 1
 
   # cat=lux//0030; type=options[0,2]; label= Identification method: Decide if fingerprinting (0) or local storage (2) method should be used for tracking your leads. Both methods have their ups and downs (see documentation for details).
-  identificationMethod = 0
+  identificationMethod = 2
 
   email {
     # cat=lux//0100; type=text; label= Default sender name: Default sender name for mails
