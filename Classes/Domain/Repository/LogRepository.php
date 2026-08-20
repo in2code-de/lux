@@ -133,13 +133,13 @@ class LogRepository extends AbstractRepository
         }
     }
 
-    public function findWiredmindsLogByVisitor(Visitor $visitor): ?Log
+    public function findCompanyEnrichLogByVisitor(Visitor $visitor): ?Log
     {
         $query = $this->createQuery();
         $query->matching(
             $query->logicalAnd(
                 $query->equals('visitor', $visitor),
-                $query->equals('status', Log::STATUS_WIREDMINDS_CONNECTION)
+                $query->equals('status', Log::STATUS_COMPANY_ENRICH_CONNECTION)
             )
         );
         $query->setLimit(1);
@@ -147,23 +147,33 @@ class LogRepository extends AbstractRepository
         return $query->execute()->getFirst();
     }
 
-    public function findAmountOfWiredmindsLogsOfCurrentMonth(): int
+    public function findAmountOfCompanyEnrichLogsOfCurrentMonth(): int
     {
-        $connection = DatabaseUtility::getConnectionForTable(Log::TABLE_NAME);
-        $sql = 'select count(uid)'
-            . ' from ' . Log::TABLE_NAME
-            . ' where crdate > ' . (new \DateTime('first day of this month'))->getTimestamp()
-            . ' and status=' . Log::STATUS_WIREDMINDS_CONNECTION . ' and deleted=0';
-        return (int)$connection->executeQuery($sql)->fetchOne();
+        return $this->findAmountOfCompanyEnrichLogsOfCurrentMonthByStatus(Log::STATUS_COMPANY_ENRICH_CONNECTION);
     }
 
-    public function findAmountOfWiredmindsLogsOfCurrentHour(): int
+    public function findAmountOfSuccessfulCompanyEnrichLogsOfCurrentMonth(): int
+    {
+        return $this->findAmountOfCompanyEnrichLogsOfCurrentMonthByStatus(Log::STATUS_COMPANY_ENRICH_SUCCESSFUL);
+    }
+
+    public function findAmountOfCompanyEnrichLogsOfCurrentHour(): int
     {
         $connection = DatabaseUtility::getConnectionForTable(Log::TABLE_NAME);
         $sql = 'select count(uid)'
             . ' from ' . Log::TABLE_NAME
             . ' where crdate > ' . DateUtility::getHourStart()->getTimestamp()
-            . ' and status=' . Log::STATUS_WIREDMINDS_CONNECTION . ' and deleted=0';
+            . ' and status=' . Log::STATUS_COMPANY_ENRICH_CONNECTION . ' and deleted=0';
+        return (int)$connection->executeQuery($sql)->fetchOne();
+    }
+
+    protected function findAmountOfCompanyEnrichLogsOfCurrentMonthByStatus(int $status): int
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Log::TABLE_NAME);
+        $sql = 'select count(uid)'
+            . ' from ' . Log::TABLE_NAME
+            . ' where crdate > ' . (new \DateTime('first day of this month'))->getTimestamp()
+            . ' and status=' . $status . ' and deleted=0';
         return (int)$connection->executeQuery($sql)->fetchOne();
     }
 

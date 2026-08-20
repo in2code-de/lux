@@ -24,6 +24,8 @@ class GeneralController extends AbstractController
     public function informationAction(): ResponseInterface
     {
         $filter = ObjectUtility::getFilterDto(FilterDto::PERIOD_THISYEAR);
+        $leadfeederConfigured = ($this->settings['tracking']['company']['token'] ?? '') !== ''
+            && ($this->settings['tracking']['company']['accountId'] ?? '') !== '';
         $values = [
             'settings' => $this->settings,
             'statistics' => [
@@ -49,12 +51,12 @@ class GeneralController extends AbstractController
                 'fingerprints' => $this->fingerprintRepository->findAllAmount(),
                 'ipinformations' => $this->ipinformationRepository->findAllAmount(),
                 'logs' => $this->logRepository->findAllAmount(),
-                'wiredminds' => [
+                'leadfeeder' => [
                     'amount' => $this->companyRepository->getAllAmount(),
                     'status' => [
-                        'token' => ($this->settings['tracking']['company']['token'] ?? '') !== '',
-                        'result' => $this->wiredmindsRepository->getStatus() !== [],
-                        'statistics' => $this->wiredmindsRepository->getStatus(),
+                        'token' => $leadfeederConfigured,
+                        'result' => $leadfeederConfigured,
+                        'statistics' => $this->leadfeederRepository->getStatus(),
                     ],
                 ],
             ],

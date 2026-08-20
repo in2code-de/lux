@@ -18,10 +18,10 @@ class LuxSetWiredmindCompanyInformationCommand extends Command
 
     public function configure()
     {
-        $this->setDescription('Add company records from Wiredminds from existing IP addresses in visitor records');
+        $this->setDescription('Add company records from Leadfeeder from existing IP addresses in visitor records');
         $descriptionLimit = 'Search for the latest X leads and try to extend them with company information. ' .
             'But: Not every of this IP addresses leads to a company record. ' .
-            'So 100 means 100 requests to Wiredminds and maybe 10 new company records.';
+            'So 100 means 100 requests to Leadfeeder and maybe 10 new company records.';
         $this->addOption('limit', 'l', InputArgument::OPTIONAL, $descriptionLimit, '0');
         $this->addOption(
             'overwriteexisting',
@@ -34,7 +34,7 @@ class LuxSetWiredmindCompanyInformationCommand extends Command
     }
 
     /**
-     * Add company records from Wiredminds from existing IP addresses in visitor records
+     * Add company records from Leadfeeder from existing IP addresses in visitor records
      *
      *      Example command: ./vendor/bin/typo3 lux:setWiredmindCompanyInformation
      *      Example command: ./vendor/bin/typo3 lux:setWiredmindCompanyInformation -l 50 -o 1 --time="-300000 seconds"

@@ -59,7 +59,7 @@ LUX will not set any cookies.
     <tr>
         <th>
             Company information<br/>
-            <i>(Wiredminds integration only)</i>
+            <i>(Leadfeeder integration only)</i>
         </th>
         <th>
             A/B tests<br/>
@@ -185,9 +185,9 @@ See the full [documentation](Documentation/Index.md) (technical, marketing and p
   * Lead properties: If lead company is given
   * Lead properties: If any property value of a lead is given
   * Lead properties: Use your own expressions for doing even mor individual stuff (with Symfony Expression Language)
-  * Lead properties: For a specific company branch (with WiredMinds integration)
-  * Lead properties: For a specific company revenue (with WiredMinds integration)
-  * Lead properties: For a specific company size (with WiredMinds integration)
+  * Lead properties: For a specific company branch (with Leadfeeder integration)
+  * Lead properties: For a specific company revenue (with Leadfeeder integration)
+  * Lead properties: For a specific company size (with Leadfeeder integration)
   * Lead action: On entering a page
   * Lead action: On reading a news
   * Lead action: When lead enters a page or downloads an asset of a given category

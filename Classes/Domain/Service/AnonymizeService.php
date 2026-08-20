@@ -64,7 +64,6 @@ class AnonymizeService
             . ', domain=' . $this->getRandomStringClause(6, 'domain_')
             . ', description=""'
             . ', region=""'
-            . ', contacts=""'
             . ', street=' . $this->getRandomStringClause(10, 'Street ')
             . ', zip=' . $this->getRandomNumberClause(5)
             . ', phone=' . $this->getRandomNumberClause(10)

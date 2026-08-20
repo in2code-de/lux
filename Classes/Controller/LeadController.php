@@ -200,7 +200,7 @@ class LeadController extends AbstractController
         }
 
         $limit = (int)($this->settings['tracking']['company']['connectionLimit'] ?? 0);
-        $statistics = $this->wiredmindsRepository->getStatus()[0] ?? ['hits' => 0, 'misses' => 0];
+        $statistics = $this->leadfeederRepository->getStatus()[0] ?? ['hits' => 0, 'misses' => 0];
         $available = $limit - $statistics['hits'] - $statistics['misses'];
         if ($available < 0) {
             $available = 0;
@@ -220,8 +220,9 @@ class LeadController extends AbstractController
             'latestPagevisitsWithCompanies' => $this->pagevisitsRepository->findLatestPagevisitsWithCompanies(
                 $filter->setLimit(8)
             ),
-            'wiredminds' => [
-                'status' => $this->wiredmindsRepository->getStatus() !== [],
+            'leadfeeder' => [
+                'status' => ($this->settings['tracking']['company']['token'] ?? '') !== ''
+                    && ($this->settings['tracking']['company']['accountId'] ?? '') !== '',
                 'statistics' => $statistics,
                 'limit' => $limit,
                 'overall' => $limit,
@@ -233,12 +234,12 @@ class LeadController extends AbstractController
         return $this->defaultRendering();
     }
 
-    public function companiesDisabledAction(string $tokenWiredminds = ''): ResponseInterface
+    public function companiesDisabledAction(string $leadfeederToken = '', string $leadfeederAccountId = ''): ResponseInterface
     {
-        if ($tokenWiredminds !== '') {
+        if ($leadfeederToken !== '' && $leadfeederAccountId !== '') {
             try {
                 $companyConfigurationService = GeneralUtility::makeInstance(CompanyConfigurationService::class);
-                $companyConfigurationService->add($tokenWiredminds);
+                $companyConfigurationService->add($leadfeederToken, $leadfeederAccountId);
                 $this->addFlashMessage(LocalizationUtility::translateByKey('module.companiesDisabled.token.success'));
             } catch (Throwable $exception) {
                 $this->addFlashMessage($exception->getMessage(), '', ContextualFeedbackSeverity::ERROR);
@@ -528,7 +529,8 @@ class LeadController extends AbstractController
 
     protected function isCompaniesViewDisabled(): bool
     {
-        return ($this->settings['tracking']['company']['_enable'] ?? '') !== '1' ||
-            ($this->settings['tracking']['company']['token'] ?? '') === '';
+        return ($this->settings['tracking']['company']['_enable'] ?? '') !== '1'
+            || ($this->settings['tracking']['company']['token'] ?? '') === ''
+            || ($this->settings['tracking']['company']['accountId'] ?? '') === '';
     }
 }

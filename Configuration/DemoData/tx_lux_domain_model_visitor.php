@@ -12,7 +12,7 @@ return [
         'visits' => 6,
         'scoring' => 66,
         'sys_language_uid' => -1,
-        'company' => 'in2code GmbH',
+        'company' => 'Basic GmbH',
         'companyrecord' => 1,
         'fingerprints' => 1,
     ],

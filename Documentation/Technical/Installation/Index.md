@@ -88,7 +88,7 @@ plugin.tx_lux.settings {
   autoenable = 1
 
   # cat=lux//0030; type=options[0,2]; label= Identification method: Decide if fingerprinting (0) or local storage (2) method should be used for tracking your leads. Both methods have their ups and downs (see documentation for details).
-  identificationMethod = 0
+  identificationMethod = 2
 
   email {
     # cat=lux//0100; type=text; label= Default sender name: Default sender name for mails
@@ -117,16 +117,19 @@ plugin.tx_lux.settings {
     }
 
     company {
-      # cat=lux//0300; type=boolean; label= Activate tracking via wiredminds: (De)Activate tracking enrichment of lead data via wiredminds.com
+      # cat=lux//0300; type=boolean; label= Activate tracking via leadfeeder: (De)Activate tracking enrichment of lead data via leadfeeder.com
       enable = 0
 
-      # cat=lux//0310; type=text; label= Wiredminds token: Add token from Wiredminds
+      # cat=lux//0310; type=text; label= Leadfeeder api key: Add the api key (X-Api-Key) from Leadfeeder. Can also be set via environment variable LUX_LEADFEEDER_TOKEN
       token =
 
-      # cat=lux//0320; type=text; label= Wiredminds limit per month: Define a limit for requests per month (for best cost control)
+      # cat=lux//0315; type=text; label= Leadfeeder account id: Add the account id from Leadfeeder. Can also be set via environment variable LUX_LEADFEEDER_ACCOUNT_ID
+      accountId =
+
+      # cat=lux//0320; type=text; label= Leadfeeder limit per month: Define a limit for requests per month (for best cost control)
       connectionLimit = 5000
 
-      # cat=lux//0330; type=text; label= Wiredminds limit per hour: This limit is a safety function to prevent unwanted number of requests to interface (e.g. on a DoS attack)
+      # cat=lux//0330; type=text; label= Leadfeeder limit per hour: This limit is a safety function to prevent unwanted number of requests to interface (e.g. on a DoS attack)
       connectionLimitPerHour = 150
 
       autoConvert {
@@ -156,14 +159,26 @@ plugin.tx_lux.settings {
 **Note:** For a first testing, you may want to be logged in into backend and also track your page visits. This can be done
 with this constants: `plugin.tx_lux.settings.disableTrackingForBackendUsers=0`
 
-##### 3b Fingerprint or LocalStorage
+##### 3b LocalStorage or Fingerprint
 
-With the constant `identificationMethod` (see above) you can decide if lux should work in fingerprint or in
-localstorage mode. While a fingerprint can be calculated by hardware details automatically, a localstorage mode is
-similar to a cookie. We would also don't use `autoenable` if you want to go for local storage and ask your visitors
-for an opt-in.
+With the constant `identificationMethod` (see above) you can decide if lux should work in localstorage (2 - default)
+or in fingerprint mode (0). While a localstorage entry is similar to a cookie, a fingerprint can be calculated by
+hardware details automatically. Because localstorage is used by default, we would not use `autoenable` but ask your
+visitors for an opt-in.
 
-###### Fingerprint (recommended for B2B)
+###### LocalStorage (default)
+
+**Upside:** A random string will be saved on the visitor's device, which can be done very quickly (no calculation
+needed). You can also differ between multiple visitors - even with same hardware and IP-address. This is especially
+useful if you have a lot of mobile visitors on your website (e.g. if you own a b2c shop for a younger target group).
+
+**Downside:** You have to ask your visitor if you are allowed to store a random string the local storage of the device,
+to identify your visitor. To meet GDPR rules, we would suggest you to set up a cookie banner.
+In addition, a visitor of domain A is not automatically merged if he also visits domain B on the same TYPO3 instance
+(every domain has its own local storage area. Of course if the user is identified on both domains, the profile will be
+merged to only one).
+
+###### Fingerprint (cookieless alternative)
 
 **Upside:** Fingerprint is calculated automatically and does not need to be stored anywhere on the device
 (cookie or local storage). A tracking between different domains and page branches is possible
@@ -173,19 +188,6 @@ within the same TYPO3 instance.
 Beside that multiple visitors with same hard- and software
 are recognized as only one visitor, if they are using the same IP-address.
 This is especially true for iPhones of the same version and generation.
-
-###### LocalStorage (recommended for B2C)
-
-**Upside:** If you have a lot of mobile visitors on your website (e.g. if you own a b2c shop for a younger target
-group), you may want to differ between your visitors. So you could go for LocalStorage. This is comparable to a cookie.
-A random string will be saved on the visitor's device, which can be done very quickly.
-You can also differ between multiple mobile visitors - even with same hardware and IP-address.
-
-**Downside:** You have to ask your visitor if you are allowed to store a random string the local storage of the device,
-to identify your visitor. To meet GDPR rules, we would suggest you to set up a cookie banner.
-In addition, a visitor of domain A is not automatically merged if he also visits domain B on the same TYPO3 instance
-(every domain has its own local storage area. Of course if the user is identified on both domains, the profile will be
-merged to only one).
 
 #### TypoScript
 
