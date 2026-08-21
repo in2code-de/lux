@@ -389,7 +389,7 @@ Because LeadFeeder is the successor of WiredMinds with a similar service, we hav
 GDPR conform API calls to LeadFeeder [more information](https://www.leadfeeder.com/).
 
 See the adjusted price list to the new service:
-https://www.in2code.de/typo3-wiredminds-integration/?utm_campaign=LUX+Community+Version&utm_id=llcv&utm_source=github&utm_medium=browser&utm_content=documentation
+https://www.in2code.de/produkte/lux-typo3-marketing-automation/leadfeeder-integration/?utm_campaign=LUX+Community+Version&utm_id=llcv&utm_source=github&utm_medium=browser&utm_content=documentation
 
 #### From former versions to 40.0.0
 
