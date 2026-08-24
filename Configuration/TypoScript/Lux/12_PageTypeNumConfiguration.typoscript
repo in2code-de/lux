@@ -3,9 +3,15 @@ luxPageRequestAjax = PAGE
 luxPageRequestAjax {
   typeNum = 1518815717
   config {
-    additionalHeaders.10 {
-      header = Content-Type: application/json
-      replace = 1
+    additionalHeaders {
+      10 {
+        header = Content-Type: application/json
+        replace = 1
+      }
+      20 {
+        header = X-Robots-Tag: noindex, nofollow
+        replace = 1
+      }
     }
     disableAllHeaderCode = 1
     disablePrefixComment = 1
@@ -48,6 +54,13 @@ luxRedirect {
   typeNum = 1591948099
   meta {
     robots = noindex,nofollow
+  }
+
+  config {
+    additionalHeaders.20 {
+      header = X-Robots-Tag: noindex, nofollow
+      replace = 1
+    }
   }
 
   includeJSFooter {
@@ -167,9 +180,15 @@ luxConfigurationFieldIdentification = PAGE
 luxConfigurationFieldIdentification {
   typeNum = 1517985223
   config {
-    additionalHeaders.10 {
-      header = Content-Type: text/javascript
-      replace = 1
+    additionalHeaders {
+      10 {
+        header = Content-Type: text/javascript
+        replace = 1
+      }
+      20 {
+        header = X-Robots-Tag: noindex, nofollow
+        replace = 1
+      }
     }
     disableAllHeaderCode = 1
     disablePrefixComment = 1

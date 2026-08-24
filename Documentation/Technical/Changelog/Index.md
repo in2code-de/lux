@@ -9,6 +9,7 @@
 
 | Version    | Date       | State    | TYPO3       | Description                                                                                                                                                                                           |
 |------------|------------|----------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 44.1.0     | 2026-08-24 | Task     | `v13 + v14` | Return status code 400 for invalid TypeNum requests with missing parameters to prevent unneeded logging, Render "X-Robots-Tag: noindex, nofollow" in all FE TypeNum answers.                          |
 | 44.0.0 !!! | 2026-08-20 | Task     | `v13 + v14` | Default settings changed: LocalStorage instead of Fingerprinting (see breacking changes), Wiredminds integration replaces with successor Leadfeeder (see breaking changes)                            |
 | 43.1.0     | 2026-07-23 | Task     | `v13 + v14` | Small restructures of queries in general, added some functional tests                                                                                                                                 |
 | 43.0.5     | 2026-07-22 | Bugfix   | `v13 + v14` | Prevent sql exception because of ambiguous field in query                                                                                                                                             |
@@ -389,7 +390,7 @@ Because LeadFeeder is the successor of WiredMinds with a similar service, we hav
 GDPR conform API calls to LeadFeeder [more information](https://www.leadfeeder.com/).
 
 See the adjusted price list to the new service:
-https://www.in2code.de/typo3-wiredminds-integration/?utm_campaign=LUX+Community+Version&utm_id=llcv&utm_source=github&utm_medium=browser&utm_content=documentation
+https://www.in2code.de/produkte/lux-typo3-marketing-automation/leadfeeder-integration/?utm_campaign=LUX+Community+Version&utm_id=llcv&utm_source=github&utm_medium=browser&utm_content=documentation
 
 #### From former versions to 40.0.0
 

@@ -18,7 +18,7 @@ Possible information from API is:
 * Contacts
 
 Leadfeeder usage needs to be payed per Request. Look at our website
-([How to get access](https://www.in2code.de/typo3-wiredminds-integration/?utm_campaign=LUX+Community+Version&utm_id=llcv&utm_source=github&utm_medium=browser&utm_content=documentation))
+([How to get access](https://www.in2code.de/produkte/lux-typo3-marketing-automation/leadfeeder-integration/?utm_campaign=LUX+Community+Version&utm_id=llcv&utm_source=github&utm_medium=browser&utm_content=documentation))
 for details about prices and packages and how to get working credentials.
 
 **Note:** Not every IP-address can be converted to a company because not every visitor is a business visitor and part of
