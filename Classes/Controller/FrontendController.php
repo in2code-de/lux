@@ -3,8 +3,6 @@
 declare(strict_types=1);
 namespace In2code\Lux\Controller;
 
-use Doctrine\DBAL\Driver\Exception;
-use Doctrine\DBAL\Exception as ExceptionDbal;
 use In2code\Lux\Domain\Factory\VisitorFactory;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
@@ -22,26 +20,17 @@ use In2code\Lux\Domain\Tracker\NewsTracker;
 use In2code\Lux\Domain\Tracker\PageTracker;
 use In2code\Lux\Domain\Tracker\SearchTracker;
 use In2code\Lux\Events\AfterTrackingEvent;
-use In2code\Lux\Exception\ActionNotAllowedException;
-use In2code\Lux\Exception\ConfigurationException;
-use In2code\Lux\Exception\EmailValidationException;
 use In2code\Lux\Exception\FakeException;
 use In2code\Lux\Utility\BackendUtility;
 use In2code\Lux\Utility\ConfigurationUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
-use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 
-class FrontendController extends ActionController
+class FrontendController extends AbstractFrontendController
 {
     protected array $allowedActions = [
         'pageRequest',
@@ -68,27 +57,14 @@ class FrontendController extends ActionController
     ) {
     }
 
-    /**
-     * @return void
-     * @throws ActionNotAllowedException
-     * @noinspection PhpUnused
-     */
     public function initializeDispatchRequestAction(): void
     {
-        $action = $this->request->getArgument('dispatchAction');
-        if (!in_array($action, $this->allowedActions)) {
-            throw new ActionNotAllowedException('Action not allowed', 1518815149);
+        $this->assertRequiredArguments(['dispatchAction', 'identificator', 'arguments']);
+        if (in_array($this->request->getArgument('dispatchAction'), $this->allowedActions) === false) {
+            $this->propagateClientError('Action not allowed', 1518815149);
         }
     }
 
-    /**
-     * @param string $dispatchAction
-     * @param string $identificator Fingerprint or Local storage hash
-     * @param array $arguments
-     * @return ResponseInterface
-     * @noinspection PhpUnused
-     * @throws InvalidConfigurationTypeException
-     */
     public function dispatchRequestAction(
         string $dispatchAction,
         string $identificator,
@@ -101,12 +77,6 @@ class FrontendController extends ActionController
         return $this->jsonResponse(json_encode(['error' => true, 'status' => 'disabled']));
     }
 
-    /**
-     * @param string $identificator
-     * @param array $arguments
-     * @return ResponseInterface
-     * @noinspection PhpUnused
-     */
     public function pageRequestAction(string $identificator, array $arguments): ResponseInterface
     {
         try {
@@ -162,12 +132,6 @@ class FrontendController extends ActionController
         }
     }
 
-    /**
-     * @param string $identificator
-     * @param array $arguments
-     * @return ResponseInterface
-     * @noinspection PhpUnused
-     */
     public function fieldListeningRequestAction(string $identificator, array $arguments): ResponseInterface
     {
         try {
@@ -185,12 +149,6 @@ class FrontendController extends ActionController
         }
     }
 
-    /**
-     * @param string $identificator
-     * @param array $arguments
-     * @return ResponseInterface
-     * @noinspection PhpUnused
-     */
     public function formListeningRequestAction(string $identificator, array $arguments): ResponseInterface
     {
         try {
@@ -211,12 +169,6 @@ class FrontendController extends ActionController
         }
     }
 
-    /**
-     * @param string $identificator
-     * @param array $arguments
-     * @return ResponseInterface
-     * @noinspection PhpUnused
-     */
     public function email4LinkRequestAction(string $identificator, array $arguments): ResponseInterface
     {
         try {
@@ -254,12 +206,6 @@ class FrontendController extends ActionController
         }
     }
 
-    /**
-     * @param string $identificator
-     * @param array $arguments
-     * @return ResponseInterface
-     * @noinspection PhpUnused
-     */
     public function downloadRequestAction(string $identificator, array $arguments): ResponseInterface
     {
         try {
@@ -272,12 +218,6 @@ class FrontendController extends ActionController
         }
     }
 
-    /**
-     * @param string $identificator
-     * @param array $arguments
-     * @return ResponseInterface
-     * @noinspection PhpUnused
-     */
     public function linkClickRequestAction(string $identificator, array $arguments): ResponseInterface
     {
         try {
@@ -309,13 +249,6 @@ class FrontendController extends ActionController
         return $this->jsonResponse(json_encode($this->afterAction($visitor)));
     }
 
-    /**
-     * @param string $identificator
-     * @param array $arguments
-     * @return ResponseInterface
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
-     */
     public function abTestingRequestAction(string $identificator, array $arguments): ResponseInterface
     {
         try {
@@ -336,12 +269,6 @@ class FrontendController extends ActionController
         return $this->jsonResponse(json_encode($result));
     }
 
-    /**
-     * @param string $identificator
-     * @param array $arguments
-     * @return ResponseInterface
-     * @throws ExceptionDbal
-     */
     public function abTestingConversionFulfilledRequestAction(
         string $identificator,
         array $arguments
@@ -362,14 +289,11 @@ class FrontendController extends ActionController
         return $this->jsonResponse(json_encode($this->afterAction($visitor)));
     }
 
-    /**
-     * @param string $title
-     * @param string $text
-     * @param string $href
-     * @param array $arguments
-     * @return ResponseInterface
-     * @noinspection PhpUnused
-     */
+    public function initializeEmail4linkAction(): void
+    {
+        $this->assertRequiredArguments(['title', 'text', 'href']);
+    }
+
     public function email4linkAction(
         string $title,
         string $text,
@@ -387,10 +311,6 @@ class FrontendController extends ActionController
         return $this->jsonResponse(json_encode(['html' => $this->view->render()]));
     }
 
-    /**
-     * @return ResponseInterface
-     * @noinspection PhpUnused
-     */
     public function trackingOptOutAction(): ResponseInterface
     {
         return $this->htmlResponse();
@@ -404,10 +324,6 @@ class FrontendController extends ActionController
      * @param Visitor $visitor
      * @param array $arguments
      * @return void
-     * @throws EmailValidationException
-     * @throws IllegalObjectTypeException
-     * @throws InvalidConfigurationTypeException
-     * @throws UnknownObjectException
      */
     protected function callAdditionalTrackers(Visitor $visitor, array $arguments): void
     {
@@ -457,19 +373,6 @@ class FrontendController extends ActionController
         ];
     }
 
-    /**
-     * @param string $identificator
-     * @param bool $tempVisitor
-     * @return Visitor
-     * @throws ConfigurationException
-     * @throws ExceptionDbal
-     * @throws ExtensionConfigurationExtensionNotConfiguredException
-     * @throws ExtensionConfigurationPathDoesNotExistException
-     * @throws IllegalObjectTypeException
-     * @throws InvalidConfigurationTypeException
-     * @throws UnknownObjectException
-     * @throws Exception
-     */
     protected function getVisitor(string $identificator, bool $tempVisitor = false): Visitor
     {
         $visitorFactory = GeneralUtility::makeInstance(VisitorFactory::class, $identificator, $tempVisitor);
