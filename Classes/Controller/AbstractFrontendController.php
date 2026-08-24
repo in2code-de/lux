@@ -16,6 +16,7 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 abstract class AbstractFrontendController extends ActionController
 {
     protected const STATUS_BAD_REQUEST = 400;
+    protected const STATUS_UNAUTHORIZED = 401;
     protected const STATUS_FORBIDDEN = 403;
     protected const STATUS_TOO_MANY_REQUESTS = 429;
     protected const STATUS_INTERNAL_SERVER_ERROR = 500;
@@ -57,7 +58,7 @@ abstract class AbstractFrontendController extends ActionController
 
     protected function getStatus(Throwable $exception): int
     {
-        foreach (self::EXCEPTION_STATUS_MAP as $exceptionClassName => $status) {
+        foreach (static::EXCEPTION_STATUS_MAP as $exceptionClassName => $status) {
             if ($exception instanceof $exceptionClassName) {
                 return $status;
             }
@@ -75,7 +76,7 @@ abstract class AbstractFrontendController extends ActionController
                 ],
             ],
             $status,
-            self::HEADERS_ROBOTS
+            static::HEADERS_ROBOTS
         );
     }
 }
