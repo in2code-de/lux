@@ -200,8 +200,9 @@ class LeadController extends AbstractController
         }
 
         $limit = (int)($this->settings['tracking']['company']['connectionLimit'] ?? 0);
-        $statistics = $this->leadfeederRepository->getStatus()[0] ?? ['hits' => 0, 'misses' => 0];
-        $available = $limit - $statistics['hits'] - $statistics['misses'];
+        $statistics = $this->leadfeederRepository->getStatus()[0]
+            ?? ['hits' => 0, 'misses' => 0, 'errors' => 0];
+        $available = $limit - $statistics['hits'] - $statistics['misses'] - $statistics['errors'];
         if ($available < 0) {
             $available = 0;
         }

@@ -768,6 +768,9 @@
 			<trans-unit id="module.analysis.statistics.wiredminds.statistics.misses">
 				<source>IP misses</source>
 			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.statistics.errors">
+				<source>Failed connections</source>
+			</trans-unit>
 			<trans-unit id="module.analysis.statistics.wiredminds.statistics.req_available">
 				<source>Queries remaining</source>
 			</trans-unit>
@@ -878,6 +881,9 @@
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.410">
 				<source>Successfully converted company to lead via Leadfeeder</source>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.420">
+				<source>Leadfeeder connection failed</source>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.500">
 				<source>Created new lead via API</source>

@@ -288,6 +288,18 @@ class LogService
 
     /**
      * @param Visitor $visitor
+     * @param array $properties reason of the failure - e.g. a http status code or an exception message
+     * @return void
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    public function logCompanyEnrichConnectionFailed(Visitor $visitor, array $properties = []): void
+    {
+        $this->log(Log::STATUS_COMPANY_ENRICH_FAILED, $visitor, $properties);
+    }
+
+    /**
+     * @param Visitor $visitor
      * @param string $message exception message
      * @param int $code an exception timestamp
      * @param string $source path + file and line of error - like /var/www/file.php:123

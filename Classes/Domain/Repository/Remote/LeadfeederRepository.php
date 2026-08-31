@@ -100,8 +100,18 @@ class LeadfeederRepository
                         $this->logService->logCompanyEnrichConnectionSuccess($visitor);
                         $properties = $this->normalizeProperties($data);
                     }
+                } else {
+                    $this->logFailedConnection($visitor, [
+                        'statusCode' => $response->getStatusCode(),
+                        'reason' => $response->getReasonPhrase(),
+                    ]);
                 }
-            } catch (Throwable) {
+            } catch (Throwable $exception) {
+                $this->logFailedConnection($visitor, [
+                    'exception' => $exception::class,
+                    'message' => $exception->getMessage(),
+                    'code' => $exception->getCode(),
+                ]);
             }
         }
         return $properties;
@@ -114,6 +124,7 @@ class LeadfeederRepository
     public function getStatus(): array
     {
         $hits = $this->logRepository->findAmountOfSuccessfulCompanyEnrichLogsOfCurrentMonth();
+        $errors = $this->logRepository->findAmountOfFailedCompanyEnrichLogsOfCurrentMonth();
         $connections = $this->logRepository->findAmountOfCompanyEnrichLogsOfCurrentMonth();
         $now = new \DateTime();
         return [
@@ -121,7 +132,8 @@ class LeadfeederRepository
                 'year' => (int)$now->format('Y'),
                 'month' => (int)$now->format('n'),
                 'hits' => $hits,
-                'misses' => max(0, $connections - $hits),
+                'misses' => max(0, $connections - $hits - $errors),
+                'errors' => $errors,
             ],
         ];
     }
@@ -141,6 +153,14 @@ class LeadfeederRepository
     public function isConfigured(): bool
     {
         return $this->getToken() !== '' && $this->getAccountId() !== '';
+    }
+
+    protected function logFailedConnection(Visitor $visitor, array $properties): void
+    {
+        try {
+            $this->logService->logCompanyEnrichConnectionFailed($visitor, $properties);
+        } catch (Throwable) {
+        }
     }
 
     protected function isCompanyHit(mixed $data): bool
