@@ -17,7 +17,7 @@ use TYPO3\CMS\Core\Database\Connection;
 class CompanyConfigurationService
 {
     private const TOKEN_LENGTH = 40;
-    private const TOKEN_PATTERN = '~[0-9a-f]{' . self::TOKEN_LENGTH . '}~';
+    private const TOKEN_PATTERN = '~^[0-9a-zA-Z]{' . self::TOKEN_LENGTH . '}\z~';
     public const TEMPLATE_TABLE = 'sys_template';
 
     protected array $configuration = [
@@ -104,8 +104,7 @@ class CompanyConfigurationService
      */
     protected function isCorrectSpelling(string $token): void
     {
-        preg_match(self::TOKEN_PATTERN, $token, $result);
-        if (strlen($token) !== self::TOKEN_LENGTH || ($result[0] ?? '') !== $token) {
+        if (preg_match(self::TOKEN_PATTERN, $token) !== 1) {
             throw new ConfigurationException(
                 LocalizationUtility::translateByKey('module.companiesDisabled.token.failureSpelling'),
                 1687114799
