@@ -9,6 +9,7 @@
 
 | Version    | Date       | State    | TYPO3       | Description                                                                                                                                                                                           |
 |------------|------------|----------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 44.3.0     | 2026-09-02 | Feature  | `v13 + v14` | Add new command to remove company records (with or without visitor records)                                                                                                                           |
 | 44.2.0     | 2026-09-02 | Task     | `v13 + v14` | Allow deleting of visitors via command by chained properties, Show if leadfeeder requests are failing, update token pattern for leadfeeder API keys                                                   |
 | 44.1.1     | 2026-08-24 | Bugfix   | `v13 + v14` | Allow extending of HEADER_ROBOTS for other extensions                                                                                                                                                 |
 | 44.1.0     | 2026-08-24 | Task     | `v13 + v14` | Return status code 400 for invalid TypeNum requests with missing parameters to prevent unneeded logging, Render "X-Robots-Tag: noindex, nofollow" in all FE TypeNum answers.                          |
