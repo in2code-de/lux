@@ -12,10 +12,14 @@ use In2code\Lux\Domain\Model\Transfer\FilterDto;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Service\BranchService;
 use In2code\Lux\Domain\Service\CountryService;
+use In2code\Lux\Utility\ArrayUtility;
 use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\DateUtility;
+use In2code\Lux\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 class CompanyRepository extends AbstractRepository
 {
@@ -81,6 +85,36 @@ class CompanyRepository extends AbstractRepository
         $sql .= ' limit 1';
         $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);
         return (int)$connection->executeQuery($sql)->fetchOne();
+    }
+
+    /**
+     * Find all companies by a given property. Property paths are allowed (e.g. "category.title")
+     *
+     * @param string $propertyName
+     * @param string $propertyValue
+     * @param bool $exactMatch
+     * @param array $orderings
+     * @param int $limit
+     * @return QueryResultInterface
+     * @throws InvalidQueryException
+     */
+    public function findAllByProperty(
+        string $propertyName,
+        string $propertyValue,
+        bool $exactMatch,
+        array $orderings = ['uid' => 'DESC'],
+        int $limit = 1000
+    ): QueryResultInterface {
+        $query = $this->createQuery();
+        $propertyName = StringUtility::cleanString($propertyName, false, '._-');
+        $constraint = $query->equals($propertyName, $propertyValue);
+        if ($exactMatch === false) {
+            $constraint = $query->like($propertyName, '%' . $propertyValue . '%');
+        }
+        $query->matching($constraint);
+        $query->setOrderings(ArrayUtility::cleanStringForArrayKeys($orderings));
+        $query->setLimit($limit);
+        return $query->execute();
     }
 
     public function findByTitleAndDomain(string $title, string $domain): ?Company
@@ -277,12 +311,16 @@ class CompanyRepository extends AbstractRepository
      */
     public function removeCompany(Company $company, bool $removeVisitors): void
     {
-        if ($removeVisitors) {
-            $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
-            foreach ($company->getVisitors() as $visitor) {
-                $visitorRepository->removeVisitor($visitor);
+        $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
+        if ($removeVisitors === true) {
+            foreach ($visitorRepository->findAllUidsByCompany($company) as $visitorUid) {
+                $visitor = $visitorRepository->findByUid($visitorUid);
+                if ($visitor !== null) {
+                    $visitorRepository->removeVisitor($visitor);
+                }
             }
         }
+        $visitorRepository->removeCompanyRelation($company);
 
         $connection = DatabaseUtility::getConnectionForTable(Company::TABLE_NAME);
         $connection->executeQuery('delete from ' . Company::TABLE_NAME . ' where uid=' . (int)$company->getUid());
