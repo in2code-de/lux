@@ -18,6 +18,7 @@ Most of the Commands can be called via CLI or via Scheduler Backend Module (dire
   * Remove unknown visitors by age
   * Remove a defined visitor by uid
   * Remove visitors by a given property
+  * Remove companies by a given property
 * Lead commands to get a summary mail for your sales team
   * Send an overall summary
   * Send a summary mail with known companies
@@ -141,6 +142,36 @@ Example usage:
 # Remove visitors with referrer from a testdomain (0 = like)
 ./vendor/bin/typo3 lux:cleanupVisitorsByProperty pagevisits.referrer "test.in2code.de" 0
 ```
+
+##### \In2code\Lux\Command\LuxCleanupCompaniesByPropertyCommand
+
+Removes company records by a given property - e.g. all companies of a country that is not relevant for your sales.
+Remove means in this case not deleted=1 but really remove from database.
+
+Relations to a removed company are always resolved, so no visitor points to a company that does not exist any more:
+
+* **without** `--remove-visitors`: the related visitors are kept and only lose their relation to the company
+* **with** `--remove-visitors`: the related visitors and all rows from their related tables (pagevisits, downloads,
+  log entries, fingerprints, attributes, ...) are removed as well
+
+Use the property name of the company model - not the database field. So `countryCode` (and not `country_code`),
+`branchCode`, `revenueClass`, `sizeClass`, `title`, `domain`, `city`, `zip` or `region`.
+
+Example usage:
+
+```
+# Remove all companies of a country but keep their visitors (1 = exact match)
+./vendor/bin/typo3 lux:cleanupCompaniesByProperty countryCode cn 1
+
+# Remove all companies of a country including all their visitors and the visitor related records
+./vendor/bin/typo3 lux:cleanupCompaniesByProperty countryCode cn 1 --remove-visitors
+
+# Remove all companies with a title like "Testfirma" (0 = like)
+./vendor/bin/typo3 lux:cleanupCompaniesByProperty title Testfirma 0
+```
+
+**Note:** Like `lux:cleanupVisitorsByProperty` this command handles up to 1000 records per run - simply call it
+again if there are more of them.
 
 
 #### Lead Commands

@@ -48,6 +48,11 @@ services:
       - name: 'console.command'
         command: 'lux:cleanupAllVisitors'
 
+  In2code\Lux\Command\LuxCleanupCompaniesByPropertyCommand:
+    tags:
+      - name: 'console.command'
+        command: 'lux:cleanupCompaniesByProperty'
+
   In2code\Lux\Command\LuxCleanupUnknownVisitorsByAgeCommand:
     tags:
       - name: 'console.command'

@@ -552,6 +552,19 @@ class VisitorRepository extends AbstractRepository
         return (int)$connection->executeQuery($sql)->fetchOne();
     }
 
+    /**
+     * @param Company $company
+     * @return int[]
+     * @throws ExceptionDbal
+     */
+    public function findAllUidsByCompany(Company $company): array
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
+        $sql = 'select uid from ' . Visitor::TABLE_NAME
+            . ' where companyrecord = ' . (int)$company->getUid();
+        return array_map('intval', $connection->executeQuery($sql)->fetchFirstColumn());
+    }
+
     public function findByCompany(Company $company, int $limit = 200): array
     {
         $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
@@ -622,6 +635,20 @@ class VisitorRepository extends AbstractRepository
             $connection = DatabaseUtility::getConnectionForTable($table);
             $connection->executeQuery('update ' . $table . ' set sys_language_uid=-1');
         }
+    }
+
+    /**
+     * @param Company $company
+     * @return void
+     * @throws ExceptionDbal
+     */
+    public function removeCompanyRelation(Company $company): void
+    {
+        $connection = DatabaseUtility::getConnectionForTable(Visitor::TABLE_NAME);
+        $connection->executeQuery(
+            'update ' . Visitor::TABLE_NAME . ' set companyrecord=0'
+            . ' where companyrecord = ' . (int)$company->getUid()
+        );
     }
 
     /**
