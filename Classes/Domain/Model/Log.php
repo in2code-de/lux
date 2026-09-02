@@ -45,6 +45,7 @@ class Log extends AbstractModel
     public const STATUS_UTM_TRACK = 300;
     public const STATUS_COMPANY_ENRICH_CONNECTION = 400;
     public const STATUS_COMPANY_ENRICH_SUCCESSFUL = 410;
+    public const STATUS_COMPANY_ENRICH_FAILED = 420;
     public const STATUS_API_CREATEVISITOR = 500;
     public const STATUS_ERROR = 900;
 
@@ -165,6 +166,18 @@ class Log extends AbstractModel
         $searchUid = (int)$this->getPropertyByKey('search');
         $searchRepository = GeneralUtility::makeInstance(SearchRepository::class);
         return $searchRepository->findByIdentifier($searchUid);
+    }
+
+    /**
+     * Readable reason of a failed connection to an interface - like "401 Unauthorized" or an exception message
+     */
+    public function getFailureReason(): string
+    {
+        $reason = trim($this->getPropertyByKey('statusCode') . ' ' . $this->getPropertyByKey('reason'));
+        if ($reason === '') {
+            $reason = $this->getPropertyByKey('message');
+        }
+        return $reason;
     }
 
     public function getEventName(): string

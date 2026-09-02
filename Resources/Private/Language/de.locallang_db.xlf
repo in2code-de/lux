@@ -1015,6 +1015,10 @@
 				<source>IP misses</source>
 				<target state="translated">Unerkannte IP-Adressen</target>
 			</trans-unit>
+			<trans-unit id="module.analysis.statistics.wiredminds.statistics.errors">
+				<source>Failed connections</source>
+				<target state="translated">Fehlgeschlagene Verbindungen</target>
+			</trans-unit>
 			<trans-unit id="module.analysis.statistics.wiredminds.statistics.req_available">
 				<source>Queries remaining</source>
 				<target state="translated">Verbleibende Abfragen</target>
@@ -1162,6 +1166,10 @@
 			<trans-unit id="module.analysis.log.status.410">
 				<source>Successfully converted company to lead via Leadfeeder</source>
 				<target state="translated">Firma erfolgreich ermittelt mittels Leadfeeder</target>
+			</trans-unit>
+			<trans-unit id="module.analysis.log.status.420">
+				<source>Leadfeeder connection failed</source>
+				<target state="translated">Leadfeeder Verbindung fehlgeschlagen</target>
 			</trans-unit>
 			<trans-unit id="module.analysis.log.status.500">
 				<source>Created new lead via API</source>

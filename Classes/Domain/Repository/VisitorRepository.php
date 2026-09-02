@@ -144,9 +144,10 @@ class VisitorRepository extends AbstractRepository
         int $limit = 1000
     ): QueryResultInterface {
         $query = $this->createQuery();
-        $constraint = $query->equals(StringUtility::cleanString($propertyName), $propertyValue);
+        $propertyName = StringUtility::cleanString($propertyName, false, '._-');
+        $constraint = $query->equals($propertyName, $propertyValue);
         if ($exactMatch === false) {
-            $constraint = $query->like(StringUtility::cleanString($propertyName), '%' . $propertyValue . '%');
+            $constraint = $query->like($propertyName, '%' . $propertyValue . '%');
         }
         $query->matching($constraint);
         $query->setOrderings(ArrayUtility::cleanStringForArrayKeys($orderings));
