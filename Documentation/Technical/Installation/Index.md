@@ -33,6 +33,7 @@ install the package. Don't forget to activate (e.g. in the extension manager) th
 **Note:** Lux itself will also load some other php packages:
 * symfony/expression-language for a calculating magic
 * whichbrowser/parser to show some information about the user agent
+* jaybizzle/crawler-detect to identify crawlers, bots and AI agents by their user agent
 * in2code/google-image-grabber to show an image by email address from google images
 
 #### Extension Manager settings

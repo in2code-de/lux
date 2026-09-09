@@ -31,7 +31,8 @@
 		"typo3/cms-core": "^13.4 || ^14.0",
 		"symfony/expression-language": ">=4.0",
 		"buzz/which-browser-parser": "^2.1",
-		"in2code/bing": "^1.1"
+		"in2code/bing": "^1.1",
+		"jaybizzle/crawler-detect": "^v1.4.1"
 	},
 	"replace": {
 		"typo3-ter/lux": "self.version"

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace In2code\Lux\Domain\Tracker;
 
 use In2code\Lux\Domain\Model\Fingerprint;
+use In2code\Lux\Domain\Service\CrawlerDetectionService;
 use In2code\Lux\Events\StopAnyProcessBeforePersistenceEvent;
 use In2code\Lux\Exception\DisallowedUserAgentException;
 
@@ -12,7 +13,7 @@ use In2code\Lux\Exception\DisallowedUserAgentException;
  *
  * to stop the initial tracking for some reason:
  * - If useragent is empty (seems to be not a normal visitor)
- * - If useragent contains stop words (e.g. lighthouse, sistrix)
+ * - If useragent turns out to be a crawler, bot or AI agent (via CrawlerDetectionService)
  * - If useragent turns out to be a blacklisted browser (e.g. "Googlebot")
  * - If useragent turns out to be a bot (via WhichBrowser\Parser)
  */
@@ -30,100 +31,22 @@ class StopTracking
     ];
 
     /**
-     * Search in complete UserAgent string for a string and stop tracking if found
+     * Search in complete UserAgent string for a string and stop tracking if found.
      *
-     * @var array
+     * This list is empty by default because all well known crawlers, bots and AI agents are
+     * already covered by jaybizzle/crawler-detect (see CrawlerDetectionService). Own user agent
+     * parts can be added here in an extending class or via DetectCrawlerEvent.
      */
-    protected array $blacklistedUa = [
-        'adidxbot',
-        'adsbot-google',
-        'ahrefsbot',
-        'alexabot',
-        'amazonbot',
-        'anthropic-ai',
-        'applebot',
-        'archive.org_bot',
-        'awariorssbot',
-        'awariosmartbot',
-        'baiduspider',
-        'bard',
-        'bingbot',
-        'blexbot',
-        'bytespider',
-        'ccbot',
-        'chatgpt',
-        'claude',
-        'claudebot',
-        'claude-web',
-        'cookieradar',
-        'cohere-ai',
-        'copyai',
-        'curl',
-        'dataforseobot',
-        'deepai',
-        'discordbot',
-        'diffbot',
-        'dotbot',
-        'duckduckbot',
-        'exabot',
-        'facebookexternalhit',
-        'facebookbot',
-        'friendlycrawler',
-        'google-extended',
-        'googlebot',
-        'googleother',
-        'gptbot',
-        'headlesschrome',
-        'huggingface',
-        'ia_archiver',
-        'imagesiftbot',
-        'img2dataset',
-        'jasper',
-        'lighthouse',
-        'linkedinbot',
-        'llama',
-        'mauibot',
-        'magpie-crawler',
-        'meltwater',
-        'msnbot',
-        'omgili',
-        'omgilibot',
-        'openai-gpt',
-        'peer39_crawler',
-        'perplexityai',
-        'perplexitybot',
-        'phantomjs',
-        'pingdom',
-        'pinterestbot',
-        'piplbot',
-        'python-requests',
-        'quora poe',
-        'rogerbot',
-        'sage',
-        'seekr',
-        'scoop.it',
-        'selenium',
-        'semrushbot',
-        'sistrix',
-        'skypebot',
-        'slackbot',
-        'slurp',
-        'sogou',
-        'telegrambot',
-        'twitterbot',
-        'uptimerobot',
-        'wget',
-        'whatsapp',
-        'yacybot',
-        'yandexbot',
-        'youbot',
-        'youchat',
-    ];
+    protected array $blacklistedUa = [];
+
+    public function __construct(protected CrawlerDetectionService $crawlerDetectionService)
+    {
+    }
 
     /**
      * Stop tracking if:
      * - UserAgent is empty (probably a crawler like crawler or caretaker extension in TYPO3)
-     * - For any blacklisted strings in UserAgent string
+     * - UserAgent is a known crawler, bot or AI agent
      * - For any browsers (parsed UserAgent)
      *
      * @param StopAnyProcessBeforePersistenceEvent $event
@@ -157,10 +80,8 @@ class StopTracking
      */
     protected function checkForBlacklistedUserAgentStrings(Fingerprint $fingerprint): void
     {
-        foreach ($this->blacklistedUa as $userAgentPart) {
-            if (stristr($fingerprint->getUserAgent(), $userAgentPart) !== false) {
-                throw new DisallowedUserAgentException('Stop tracking because of blacklisted user agent', 1592581260);
-            }
+        if ($this->crawlerDetectionService->isCrawler($fingerprint->getUserAgent(), $this->blacklistedUa)) {
+            throw new DisallowedUserAgentException('Stop tracking because of blacklisted user agent', 1592581260);
         }
     }
 
