@@ -22,9 +22,6 @@ class SendSummaryService
     protected array $visitors;
     protected ?ConfigurationService $configurationService = null;
 
-    /**
-     * @param array $visitors
-     */
     public function __construct(array $visitors)
     {
         $this->visitors = $visitors;
@@ -32,8 +29,6 @@ class SendSummaryService
     }
 
     /**
-     * @param array $emails
-     * @return bool
      * @throws ConfigurationException
      * @throws EmailValidationException
      * @throws InvalidConfigurationTypeException
@@ -53,34 +48,49 @@ class SendSummaryService
     }
 
     /**
-     * @return array
+     * @throws ConfigurationException
      * @throws InvalidConfigurationTypeException
      */
     protected function getSender(): array
     {
-        $configuration = $this->configurationService->getTypoScriptSettingsByPath('commandControllers.summaryMail');
+        $configuration = $this->getSummaryMailConfiguration();
         return [$configuration['fromEmail'] => $configuration['fromName']];
     }
 
     /**
-     * @return string
+     * @throws ConfigurationException
      * @throws InvalidConfigurationTypeException
      */
     protected function getSubject(): string
     {
-        return $this->configurationService->getTypoScriptSettingsByPath('commandControllers.summaryMail.subject');
+        return $this->getSummaryMailConfiguration()['subject'] ?? '';
     }
 
     /**
-     * @param array $assignment
-     * @return string
+     * @throws ConfigurationException
+     * @throws InvalidConfigurationTypeException
+     */
+    protected function getSummaryMailConfiguration(): array
+    {
+        $configuration = $this->configurationService->getTypoScriptSettingsByPath('commandControllers.summaryMail');
+        if (is_array($configuration) === false) {
+            throw new ConfigurationException(
+                'TypoScript setting plugin.tx_lux_fe.settings.commandControllers.summaryMail could not be '
+                . 'resolved. Please add the static TypoScript of EXT:lux to the TypoScript template of the '
+                . 'site that is used by this command.',
+                1789652586
+            );
+        }
+        return $configuration;
+    }
+
+    /**
+     * @throws ConfigurationException
      * @throws InvalidConfigurationTypeException
      */
     protected function getMailTemplate(array $assignment = []): string
     {
-        $mailTemplatePath = $this->configurationService->getTypoScriptSettingsByPath(
-            'commandControllers.summaryMail.mailTemplate'
-        );
+        $mailTemplatePath = $this->getSummaryMailConfiguration()['mailTemplate'] ?? '';
         $view = GeneralUtility::makeInstance(ViewFactoryInterface::class)->create(new ViewFactoryData(
             templatePathAndFilename: GeneralUtility::getFileAbsFileName($mailTemplatePath),
         ));
@@ -89,12 +99,10 @@ class SendSummaryService
     }
 
     /**
-     * @param array $emails
-     * @return void
      * @throws EmailValidationException
      * @throws ConfigurationException
      */
-    protected function checkProperties(array $emails)
+    protected function checkProperties(array $emails): void
     {
         if ($emails === []) {
             throw new ConfigurationException('No emails to send given', 1524299754);
