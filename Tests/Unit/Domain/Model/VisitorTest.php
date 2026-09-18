@@ -2,13 +2,16 @@
 
 namespace In2code\Lux\Tests\Unit\Domain\Model;
 
+use DateTime;
 use In2code\Lux\Domain\Model\Attribute;
 use In2code\Lux\Domain\Model\Categoryscoring;
+use In2code\Lux\Domain\Model\Pagevisit;
 use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Tests\Helper\TestingHelper;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
@@ -16,6 +19,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 #[CoversMethod(Visitor::class, 'getCategoryscoringsSortedByScoring')]
 #[CoversMethod(Visitor::class, 'getFullName')]
 #[CoversMethod(Visitor::class, 'getNameCombination')]
+#[CoversMethod(Visitor::class, 'getLastPagevisit')]
 class VisitorTest extends UnitTestCase
 {
     protected array $testFilesToDelete = [];
@@ -122,5 +126,53 @@ class VisitorTest extends UnitTestCase
             $newScoringArray[] = $cs->getScoring();
         }
         self::assertSame($expectedSortings, $newScoringArray);
+    }
+
+    #[Test]
+    public function getLastPagevisitReturnsLastVisit(): void
+    {
+        $visitor = new Visitor();
+        $pagevisit = new Pagevisit();
+
+        $pagevisit->setCrdate(new DateTime('2026-01-01 10:00:00'));
+        $visitor->addPagevisit($pagevisit);
+
+        $newerPagevisit = new Pagevisit();
+        $newerPagevisit->setCrdate(new DateTime('2026-01-02 10:00:00'));
+        $visitor->addPagevisit($newerPagevisit);
+
+        self::assertSame($newerPagevisit, $visitor->getLastPagevisit());
+    }
+
+    #[Test]
+    public function getLastPagevisitCachesResultPerVisitor(): void
+    {
+        $visitor = new Visitor();
+        $pagevisit = new Pagevisit();
+        $pagevisit->setCrdate(new DateTime('2026-01-01 10:00:00'));
+        $visitor->addPagevisit($pagevisit);
+
+        self::assertSame($pagevisit, $visitor->getLastPagevisit());
+
+        $newerPagevisit = new Pagevisit();
+        $newerPagevisit->setCrdate(new DateTime('2026-01-02 10:00:00'));
+        $visitor->addPagevisit($newerPagevisit);
+
+        self::assertSame($pagevisit, $visitor->getLastPagevisit());
+    }
+
+    #[Test]
+    public function getLastPagevisitIsNotSharedBetweenVisitors(): void
+    {
+        $firstPagevisit = new Pagevisit();
+        $firstVisitor = new Visitor();
+        $firstVisitor->addPagevisit($firstPagevisit);
+
+        $secondPagevisit = new Pagevisit();
+        $secondVisitor = new Visitor();
+        $secondVisitor->addPagevisit($secondPagevisit);
+
+        self::assertSame($firstPagevisit, $firstVisitor->getLastPagevisit());
+        self::assertSame($secondPagevisit, $secondVisitor->getLastPagevisit());
     }
 }
