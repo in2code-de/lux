@@ -129,6 +129,22 @@ class VisitorTest extends UnitTestCase
     }
 
     #[Test]
+    public function getLastPagevisitReturnsLastVisit(): void
+    {
+        $visitor = new Visitor();
+        $pagevisit = new Pagevisit();
+
+        $pagevisit->setCrdate(new DateTime('2026-01-01 10:00:00'));
+        $visitor->addPagevisit($pagevisit);
+
+        $newerPagevisit = new Pagevisit();
+        $newerPagevisit->setCrdate(new DateTime('2026-01-02 10:00:00'));
+        $visitor->addPagevisit($newerPagevisit);
+
+        self::assertSame($newerPagevisit, $visitor->getLastPagevisit());
+    }
+
+    #[Test]
     public function getLastPagevisitCachesResultPerVisitor(): void
     {
         $visitor = new Visitor();

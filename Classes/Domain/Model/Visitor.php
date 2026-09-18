@@ -605,7 +605,7 @@ class Visitor extends AbstractModel
     public function getLastPagevisit(): ?Pagevisit
     {
         if ($this->lastPageVisit === null) {
-            $this->lastPageVisit = array_last($this->getPagevisits());
+            $this->lastPageVisit = $this->getPagevisitLast();
         }
         return $this->lastPageVisit;
     }
