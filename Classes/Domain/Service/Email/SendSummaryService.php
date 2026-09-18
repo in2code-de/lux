@@ -22,9 +22,6 @@ class SendSummaryService
     protected array $visitors;
     protected ?ConfigurationService $configurationService = null;
 
-    /**
-     * @param array $visitors
-     */
     public function __construct(array $visitors)
     {
         $this->visitors = $visitors;
@@ -32,8 +29,6 @@ class SendSummaryService
     }
 
     /**
-     * @param array $emails
-     * @return bool
      * @throws ConfigurationException
      * @throws EmailValidationException
      * @throws InvalidConfigurationTypeException
@@ -53,7 +48,6 @@ class SendSummaryService
     }
 
     /**
-     * @return array
      * @throws ConfigurationException
      * @throws InvalidConfigurationTypeException
      */
@@ -64,7 +58,6 @@ class SendSummaryService
     }
 
     /**
-     * @return string
      * @throws ConfigurationException
      * @throws InvalidConfigurationTypeException
      */
@@ -74,11 +67,6 @@ class SendSummaryService
     }
 
     /**
-     * ConfigurationService::getTypoScriptSettingsByPath() returns an empty string if the path could not be
-     * resolved. Accessing that string with an array offset leads to a TypeError that does not tell the
-     * integrator anything about the actual problem, so fail with a speaking exception instead.
-     *
-     * @return array
      * @throws ConfigurationException
      * @throws InvalidConfigurationTypeException
      */
@@ -97,8 +85,6 @@ class SendSummaryService
     }
 
     /**
-     * @param array $assignment
-     * @return string
      * @throws ConfigurationException
      * @throws InvalidConfigurationTypeException
      */
@@ -113,12 +99,10 @@ class SendSummaryService
     }
 
     /**
-     * @param array $emails
-     * @return void
      * @throws EmailValidationException
      * @throws ConfigurationException
      */
-    protected function checkProperties(array $emails)
+    protected function checkProperties(array $emails): void
     {
         if ($emails === []) {
             throw new ConfigurationException('No emails to send given', 1524299754);
