@@ -37,6 +37,7 @@ class LuxCacheWarmupCommand extends Command
             'commaseparated routes like "lux_LuxAnalysis,lux_LuxLead,web_layout"',
             implode(',', CacheLayerUtility::getCachelayerRoutes())
         );
+        $this->configureRootPageIdOption();
     }
 
     /**
@@ -55,7 +56,7 @@ class LuxCacheWarmupCommand extends Command
         if (EnvironmentUtility::isCli() === false) {
             throw new ContextException('This command can only be executed from CLI', 1645378130);
         }
-        $this->initializeExtbase();
+        $this->initializeExtbase((int)$input->getOption(self::ROOT_PAGE_ID_OPTION_NAME));
 
         $this->output = $output;
         $this->cacheWarmup = GeneralUtility::makeInstance(CacheWarmup::class);
