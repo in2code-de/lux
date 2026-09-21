@@ -20,6 +20,10 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 #[CoversMethod(Visitor::class, 'getFullName')]
 #[CoversMethod(Visitor::class, 'getNameCombination')]
 #[CoversMethod(Visitor::class, 'getLastPagevisit')]
+#[CoversMethod(Visitor::class, 'getPagevisitFirst')]
+#[CoversMethod(Visitor::class, 'getPagevisitLast')]
+#[CoversMethod(Visitor::class, 'setPagevisitFirst')]
+#[CoversMethod(Visitor::class, 'setPagevisitLast')]
 class VisitorTest extends UnitTestCase
 {
     protected array $testFilesToDelete = [];
@@ -142,6 +146,53 @@ class VisitorTest extends UnitTestCase
         $visitor->addPagevisit($newerPagevisit);
 
         self::assertSame($newerPagevisit, $visitor->getLastPagevisit());
+    }
+
+    #[Test]
+    public function setPagevisitLastPreventsLoadingOfTheRelation(): void
+    {
+        $visitor = new Visitor();
+        $relatedPagevisit = new Pagevisit();
+        $relatedPagevisit->setCrdate(new DateTime('2026-01-01 10:00:00'));
+        $visitor->addPagevisit($relatedPagevisit);
+
+        $resolvedPagevisit = new Pagevisit();
+        $resolvedPagevisit->setCrdate(new DateTime('2026-01-09 10:00:00'));
+        $visitor->setPagevisitLast($resolvedPagevisit);
+
+        self::assertSame($resolvedPagevisit, $visitor->getPagevisitLast());
+        self::assertSame($resolvedPagevisit, $visitor->getLastPagevisit());
+    }
+
+    #[Test]
+    public function setPagevisitFirstPreventsLoadingOfTheRelation(): void
+    {
+        $visitor = new Visitor();
+        $relatedPagevisit = new Pagevisit();
+        $relatedPagevisit->setCrdate(new DateTime('2026-01-01 10:00:00'));
+        $visitor->addPagevisit($relatedPagevisit);
+
+        $resolvedPagevisit = new Pagevisit();
+        $resolvedPagevisit->setCrdate(new DateTime('2025-12-24 10:00:00'));
+        $visitor->setPagevisitFirst($resolvedPagevisit);
+
+        self::assertSame($resolvedPagevisit, $visitor->getPagevisitFirst());
+    }
+
+    #[Test]
+    public function pagevisitsAreNotSharedBetweenVisitors(): void
+    {
+        $firstVisitor = new Visitor();
+        $firstPagevisit = new Pagevisit();
+        $firstVisitor->setPagevisitLast($firstPagevisit);
+
+        $secondVisitor = new Visitor();
+        $secondPagevisit = new Pagevisit();
+        $secondPagevisit->setCrdate(new DateTime('2026-01-01 10:00:00'));
+        $secondVisitor->addPagevisit($secondPagevisit);
+
+        self::assertSame($firstPagevisit, $firstVisitor->getPagevisitLast());
+        self::assertSame($secondPagevisit, $secondVisitor->getPagevisitLast());
     }
 
     #[Test]

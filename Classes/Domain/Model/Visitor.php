@@ -128,6 +128,7 @@ class Visitor extends AbstractModel
     protected bool $blacklisted = false;
 
     protected ?FrontendUser $frontenduser = null;
+    protected ?Pagevisit $firstPageVisit = null;
     protected ?Pagevisit $lastPageVisit = null;
 
     public function __construct()
@@ -552,21 +553,39 @@ class Visitor extends AbstractModel
 
     public function getPagevisitLast(): ?Pagevisit
     {
-        $pagevisits = $this->getPagevisits();
-        foreach ($pagevisits as $pagevisit) {
-            return $pagevisit;
+        if ($this->lastPageVisit === null) {
+            $pagevisits = $this->getPagevisits();
+            foreach ($pagevisits as $pagevisit) {
+                $this->lastPageVisit = $pagevisit;
+                break;
+            }
         }
-        return null;
+        return $this->lastPageVisit;
+    }
+
+    public function setPagevisitLast(Pagevisit $pagevisit): self
+    {
+        $this->lastPageVisit = $pagevisit;
+        return $this;
     }
 
     public function getPagevisitFirst(): ?Pagevisit
     {
-        $pagevisits = $this->getPagevisits();
-        ksort($pagevisits);
-        foreach ($pagevisits as $pagevisit) {
-            return $pagevisit;
+        if ($this->firstPageVisit === null) {
+            $pagevisits = $this->getPagevisits();
+            ksort($pagevisits);
+            foreach ($pagevisits as $pagevisit) {
+                $this->firstPageVisit = $pagevisit;
+                break;
+            }
         }
-        return null;
+        return $this->firstPageVisit;
+    }
+
+    public function setPagevisitFirst(Pagevisit $pagevisit): self
+    {
+        $this->firstPageVisit = $pagevisit;
+        return $this;
     }
 
     /**
@@ -604,10 +623,7 @@ class Visitor extends AbstractModel
 
     public function getLastPagevisit(): ?Pagevisit
     {
-        if ($this->lastPageVisit === null) {
-            $this->lastPageVisit = $this->getPagevisitLast();
-        }
-        return $this->lastPageVisit;
+        return $this->getPagevisitLast();
     }
 
     /**
