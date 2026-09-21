@@ -22,6 +22,7 @@ class LuxServiceRecalculateScoringCommand extends Command
         $this->setDescription(
             'Recalculate scoring of all visitors. Scoring calculation will be used from extension settings.'
         );
+        $this->configureRootPageIdOption();
     }
 
     /**
@@ -42,7 +43,7 @@ class LuxServiceRecalculateScoringCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->initializeExtbase();
+        $this->initializeExtbase((int)$input->getOption(self::ROOT_PAGE_ID_OPTION_NAME));
         $scoringService = GeneralUtility::makeInstance(ScoringService::class);
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $visitors = $visitorRepository->findAll();
