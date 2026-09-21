@@ -128,6 +128,7 @@ class Visitor extends AbstractModel
     protected bool $blacklisted = false;
 
     protected ?FrontendUser $frontenduser = null;
+    protected ?Pagevisit $lastPageVisit = null;
 
     public function __construct()
     {
@@ -603,16 +604,10 @@ class Visitor extends AbstractModel
 
     public function getLastPagevisit(): ?Pagevisit
     {
-        static $lastPagevisit = null;
-        if ($lastPagevisit === null) {
-            $pagevisits = $this->getPagevisits();
-            $lastPagevisit = null;
-            foreach ($pagevisits as $pagevisit) {
-                $lastPagevisit = $pagevisit;
-                break;
-            }
+        if ($this->lastPageVisit === null) {
+            $this->lastPageVisit = array_last($this->getPagevisits());
         }
-        return $lastPagevisit;
+        return $this->lastPageVisit;
     }
 
     /**
