@@ -628,29 +628,29 @@ class Visitor extends AbstractModel
 
     /**
      * Calculate number of unique page visits. If user show a reaction after min. 1h we define it as new pagevisit.
-     *
-     * @return int
-     * @throws Exception
      */
-    public function getNumberOfUniquePagevisits(): int
+    public function getNumberOfUniquePagevisits(?DateTime $until = null): int
     {
-        $pagevisits = $this->getPagevisitsAuthorized();
-        $number = 1;
-        if (count($pagevisits) > 1) {
-            /** @var DateTime $lastVisit **/
-            $lastVisit = null;
-            foreach ($pagevisits as $pagevisit) {
-                if ($lastVisit !== null) {
-                    /** @var Pagevisit $pagevisit */
-                    $interval = $lastVisit->diff($pagevisit->getCrdate());
-                    // if difference is greater then one hour
-                    if ($interval->h > 0) {
-                        $number++;
-                    }
-                }
-                $lastVisit = $pagevisit->getCrdate();
+        $timestamps = [];
+        /** @var Pagevisit $pagevisit */
+        foreach ($this->getPagevisitsAuthorized() as $pagevisit) {
+            $timestamp = $pagevisit->getCrdate()->getTimestamp();
+            if ($until === null || $timestamp <= $until->getTimestamp()) {
+                $timestamps[] = $timestamp;
             }
         }
+
+        // the relation is not sorted, but the comparison below relies on an ascending order
+        sort($timestamps);
+        $number = 0;
+        $lastVisit = null;
+        foreach ($timestamps as $timestamp) {
+            if ($lastVisit === null || $timestamp - $lastVisit >= 3600) {
+                $number++;
+            }
+            $lastVisit = $timestamp;
+        }
+
         return $number;
     }
 

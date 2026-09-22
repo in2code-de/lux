@@ -24,6 +24,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 #[CoversMethod(Visitor::class, 'getPagevisitLast')]
 #[CoversMethod(Visitor::class, 'setPagevisitFirst')]
 #[CoversMethod(Visitor::class, 'setPagevisitLast')]
+#[CoversMethod(Visitor::class, 'getNumberOfUniquePagevisits')]
 class VisitorTest extends UnitTestCase
 {
     protected array $testFilesToDelete = [];
@@ -225,5 +226,89 @@ class VisitorTest extends UnitTestCase
 
         self::assertSame($firstPagevisit, $firstVisitor->getLastPagevisit());
         self::assertSame($secondPagevisit, $secondVisitor->getLastPagevisit());
+    }
+
+    public static function getNumberOfUniquePagevisitsDataProvider(): array
+    {
+        return [
+            'one visit' => [
+                'expectedNumber' => 1,
+                'pageVisitTimestamps' => ['2026-09-22 10:23']
+            ],
+            'two visits within an hour' => [
+                'expectedNumber' => 1,
+                'pageVisitTimestamps' => ['2026-09-22 10:23', '2026-09-22 10:53']
+            ],
+            'two visits more than an hour' => [
+                'expectedNumber' => 2,
+                'pageVisitTimestamps' => ['2026-09-22 10:23', '2026-09-22 11:23']
+            ],
+            'two visits next day same time' => [
+                'expectedNumber' => 2,
+                'pageVisitTimestamps' => ['2026-09-22 10:23', '2026-09-23 10:23']
+            ],
+            'two visits other day other time' => [
+                'expectedNumber' => 2,
+                'pageVisitTimestamps' => ['2026-09-22 10:23', '2026-10-23 12:57']
+            ],
+            'multiple visits mixed time' => [
+                'expectedNumber' => 4,
+                'pageVisitTimestamps' => [
+                    '2026-09-22 10:23',
+                    '2026-09-22 10:53',
+                    '2026-09-22 12:57',
+                    '2026-09-22 14:57',
+                    '2026-09-22 15:00',
+                    '2026-09-27 15:00',
+                ]
+            ],
+            'visits after the given time are filtered' => [
+                'expectedNumber' => 3,
+                'pageVisitTimestamps' => [
+                    '2026-09-22 10:23',
+                    '2026-09-22 15:00',
+                    '2026-09-22 17:00',
+                    '2026-09-27 15:00',
+                    '2026-09-28 15:00',
+                ],
+                'until' => new DateTime('2026-09-23 00:00')
+            ],
+            'visit exactly at the given time is counted' => [
+                'expectedNumber' => 1,
+                'pageVisitTimestamps' => [
+                    '2026-09-22 10:23',
+                    '2026-09-27 15:00',
+                ],
+                'until' => new DateTime('2026-09-22 10:23')
+            ],
+            'unsorted visits are counted like sorted ones' => [
+                'expectedNumber' => 4,
+                'pageVisitTimestamps' => [
+                    '2026-09-27 15:00',
+                    '2026-09-22 15:00',
+                    '2026-09-22 10:53',
+                    '2026-09-22 14:57',
+                    '2026-09-22 12:57',
+                    '2026-09-22 10:23',
+                ]
+            ],
+        ];
+    }
+
+    #[Test]
+    #[DataProvider('getNumberOfUniquePagevisitsDataProvider')]
+    public function testGetNumberOfUniquePagevisits(
+        int $expectedNumber,
+        array $pageVisitTimestamps,
+        ?DateTime $until = null
+    ): void {
+        $visitor = new Visitor();
+        foreach ($pageVisitTimestamps as $pageVisitTimestamp) {
+            $pageVisit = new Pagevisit();
+            $pageVisit->setCrdate(new DateTime($pageVisitTimestamp));
+            $visitor->addPagevisit($pageVisit);
+        }
+
+        self::assertSame($expectedNumber, $visitor->getNumberOfUniquePagevisits($until));
     }
 }
