@@ -233,23 +233,23 @@ class VisitorTest extends UnitTestCase
         return [
             'one visit' => [
                 'expectedNumber' => 1,
-                'pageVisitTimestamps' => ['2026-09-22 10:23']
+                'pageVisitTimestamps' => ['2026-09-22 10:23'],
             ],
             'two visits within an hour' => [
                 'expectedNumber' => 1,
-                'pageVisitTimestamps' => ['2026-09-22 10:23', '2026-09-22 10:53']
+                'pageVisitTimestamps' => ['2026-09-22 10:23', '2026-09-22 10:53'],
             ],
             'two visits more than an hour' => [
                 'expectedNumber' => 2,
-                'pageVisitTimestamps' => ['2026-09-22 10:23', '2026-09-22 11:23']
+                'pageVisitTimestamps' => ['2026-09-22 10:23', '2026-09-22 11:23'],
             ],
             'two visits next day same time' => [
                 'expectedNumber' => 2,
-                'pageVisitTimestamps' => ['2026-09-22 10:23', '2026-09-23 10:23']
+                'pageVisitTimestamps' => ['2026-09-22 10:23', '2026-09-23 10:23'],
             ],
             'two visits other day other time' => [
                 'expectedNumber' => 2,
-                'pageVisitTimestamps' => ['2026-09-22 10:23', '2026-10-23 12:57']
+                'pageVisitTimestamps' => ['2026-09-22 10:23', '2026-10-23 12:57'],
             ],
             'multiple visits mixed time' => [
                 'expectedNumber' => 4,
@@ -260,7 +260,7 @@ class VisitorTest extends UnitTestCase
                     '2026-09-22 14:57',
                     '2026-09-22 15:00',
                     '2026-09-27 15:00',
-                ]
+                ],
             ],
             'visits after the given time are filtered' => [
                 'expectedNumber' => 3,
@@ -271,7 +271,7 @@ class VisitorTest extends UnitTestCase
                     '2026-09-27 15:00',
                     '2026-09-28 15:00',
                 ],
-                'until' => new DateTime('2026-09-23 00:00')
+                'until' => new DateTime('2026-09-23 00:00'),
             ],
             'visit exactly at the given time is counted' => [
                 'expectedNumber' => 1,
@@ -279,7 +279,7 @@ class VisitorTest extends UnitTestCase
                     '2026-09-22 10:23',
                     '2026-09-27 15:00',
                 ],
-                'until' => new DateTime('2026-09-22 10:23')
+                'until' => new DateTime('2026-09-22 10:23'),
             ],
             'unsorted visits are counted like sorted ones' => [
                 'expectedNumber' => 4,
@@ -290,7 +290,7 @@ class VisitorTest extends UnitTestCase
                     '2026-09-22 14:57',
                     '2026-09-22 12:57',
                     '2026-09-22 10:23',
-                ]
+                ],
             ],
         ];
     }
