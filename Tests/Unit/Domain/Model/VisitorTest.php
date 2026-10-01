@@ -186,7 +186,7 @@ class VisitorTest extends UnitTestCase
                 }
 
                 return $secondPagevisit;
-        });
+            });
 
         GeneralUtility::setSingletonInstance(PagevisitRepository::class, $pagevisitRepository);
 
