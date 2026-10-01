@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace In2code\Lux\Domain\Service\Email;
 
-use In2code\Lux\Domain\Model\Visitor;
-use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Service\ConfigurationService;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Exception\EmailValidationException;
@@ -17,7 +15,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\View\ViewFactoryData;
 use TYPO3\CMS\Core\View\ViewFactoryInterface;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
-use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 class SendSummaryService
 {
@@ -95,28 +92,11 @@ class SendSummaryService
     protected function getMailTemplate(array $assignment = []): string
     {
         $mailTemplatePath = $this->getSummaryMailConfiguration()['mailTemplate'] ?? '';
-        $this->setPagevisitsOfVisitors();
         $view = GeneralUtility::makeInstance(ViewFactoryInterface::class)->create(new ViewFactoryData(
             templatePathAndFilename: GeneralUtility::getFileAbsFileName($mailTemplatePath),
         ));
         $view->assignMultiple(['visitors' => $this->visitors] + $assignment);
         return $view->render();
-    }
-
-    protected function setPagevisitsOfVisitors(): void
-    {
-        $pagevisitRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
-        /** @var Visitor $visitor */
-        foreach ($this->visitors as $visitor) {
-            $firstPagevisit = $pagevisitRepository->findOneByVisitor($visitor, QueryInterface::ORDER_ASCENDING);
-            if ($firstPagevisit !== null) {
-                $visitor->setPagevisitFirst($firstPagevisit);
-            }
-            $lastPagevisit = $pagevisitRepository->findOneByVisitor($visitor, QueryInterface::ORDER_DESCENDING);
-            if ($lastPagevisit !== null) {
-                $visitor->setPagevisitLast($lastPagevisit);
-            }
-        }
     }
 
     /**

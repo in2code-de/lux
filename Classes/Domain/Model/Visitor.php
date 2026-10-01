@@ -8,6 +8,7 @@ use Exception;
 use In2code\Lux\Domain\Factory\CompanyFactory;
 use In2code\Lux\Domain\Repository\CategoryscoringRepository;
 use In2code\Lux\Domain\Repository\FrontendUserRepository;
+use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Repository\Remote\LeadfeederRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\GetCompanyFromIpService;
@@ -36,6 +37,7 @@ use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\Persistence\Generic\LazyLoadingProxy;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 class Visitor extends AbstractModel
 {
@@ -554,11 +556,8 @@ class Visitor extends AbstractModel
     public function getPagevisitLast(): ?Pagevisit
     {
         if ($this->lastPageVisit === null) {
-            $pagevisits = $this->getPagevisits();
-            foreach ($pagevisits as $pagevisit) {
-                $this->lastPageVisit = $pagevisit;
-                break;
-            }
+            $pagevisitRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
+            $this->lastPageVisit = $pagevisitRepository->findOneByVisitor($this, QueryInterface::ORDER_DESCENDING);
         }
         return $this->lastPageVisit;
     }
@@ -572,12 +571,8 @@ class Visitor extends AbstractModel
     public function getPagevisitFirst(): ?Pagevisit
     {
         if ($this->firstPageVisit === null) {
-            $pagevisits = $this->getPagevisits();
-            ksort($pagevisits);
-            foreach ($pagevisits as $pagevisit) {
-                $this->firstPageVisit = $pagevisit;
-                break;
-            }
+            $pagevisitRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
+            $this->firstPageVisit = $pagevisitRepository->findOneByVisitor($this, QueryInterface::ORDER_ASCENDING);
         }
         return $this->firstPageVisit;
     }
@@ -586,6 +581,11 @@ class Visitor extends AbstractModel
     {
         $this->firstPageVisit = $pagevisit;
         return $this;
+    }
+
+    public function getFirstPageVisit(): ?Pagevisit
+    {
+        return $this->getPagevisitFirst();
     }
 
     /**
