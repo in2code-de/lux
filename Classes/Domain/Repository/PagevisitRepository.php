@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 namespace In2code\Lux\Domain\Repository;
 
 use DateTime;
@@ -274,6 +275,20 @@ class PagevisitRepository extends AbstractRepository
             return DateTime::createFromFormat('U', (string)$timestamp);
         }
         return null;
+    }
+
+    public function findOneByVisitor(Visitor $visitor, string $ordering): ?Pagevisit
+    {
+        $pagevisit = null;
+        if ($visitor->getUid() > 0) {
+            $query = $this->createQuery();
+            $query->matching($query->equals('visitor', $visitor));
+            $query->setOrderings(['crdate' => $ordering]);
+            $query->setLimit(1);
+            /** @var Pagevisit $pagevisit */
+            $pagevisit = $query->execute()->getFirst();
+        }
+        return $pagevisit;
     }
 
     /**

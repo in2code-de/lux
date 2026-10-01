@@ -23,6 +23,7 @@ class LuxCleanupVisitorsByAgeCommand extends Command
         $description = 'Remove all visitors where the last update is older than a given timestamp';
         $this->setDescription($description);
         $this->addArgument('timestamp', InputArgument::REQUIRED, 'timestamp to delete records that are older then');
+        $this->configureRootPageIdOption();
     }
 
     /**
@@ -48,7 +49,7 @@ class LuxCleanupVisitorsByAgeCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->initializeExtbase();
+        $this->initializeExtbase((int)$input->getOption(self::ROOT_PAGE_ID_OPTION_NAME));
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $visitors = $visitorRepository->findByLastChange($this->parseTime($input->getArgument('timestamp')));
         /** @var Visitor $visitor */

@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 namespace In2code\Lux\Domain\Service;
 
 use DateTime;
@@ -110,38 +111,13 @@ class ScoringService
         return $scoring;
     }
 
-    /**
-     * @param Visitor $visitor
-     * @return int
-     * @throws InvalidQueryException
-     */
     protected function getNumberOfSiteVisits(Visitor $visitor): int
     {
-        $sitevisits = 0;
+        // if no time is given, the already persisted counter can be used instead of iterating over all page visits
         if ($this->time === null) {
-            $sitevisits = $visitor->getVisits();
-        } else {
-            /** @var PagevisitRepository $pagevisitRepository */
-            $pagevisitRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
-            $pagevisits = $pagevisitRepository->findByVisitorAndTime($visitor, $this->time);
-            if (count($pagevisits) > 0) {
-                $sitevisits = 1;
-                $lastVisit = null;
-                /** @var Pagevisit $pagevisit */
-                foreach ($pagevisits as $pagevisit) {
-                    /** @var DateTime $lastVisit */
-                    if ($lastVisit !== null) {
-                        $interval = $lastVisit->diff($pagevisit->getCrdate());
-                        // if difference is greater than one hour
-                        if ($interval->h > 0) {
-                            $sitevisits++;
-                        }
-                    }
-                    $lastVisit = $pagevisit->getCrdate();
-                }
-            }
+            return $visitor->getVisits();
         }
-        return $sitevisits;
+        return $visitor->getNumberOfUniquePagevisits($this->time);
     }
 
     /**

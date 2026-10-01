@@ -7,6 +7,16 @@ This part of the documentation shows you all available Commands in Lux.
 
 Most of the Commands can be called via CLI or via Scheduler Backend Module (directly or via cronjob).
 
+**Site context in installations with more than one site**
+
+Commands need a site to resolve the TypoScript configuration of LUX. Without any option the first site is used, which
+is fine as long as the static TypoScript of EXT:lux is part of its template tree. If your installation holds more than
+one site, pass the root page identifier of the site that really includes the static TypoScript of EXT:lux:
+
+```
+./vendor/bin/typo3 lux:leadSendSummary --rootPageId=1 mail@example.org
+```
+
 **Overview**
 
 * Data protection

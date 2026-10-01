@@ -24,6 +24,7 @@ class LuxCleanupVisitorsByPropertyCommand extends Command
         $this->addArgument('propertyName', InputArgument::REQUIRED, 'any property name');
         $this->addArgument('propertyValue', InputArgument::REQUIRED, 'any property value');
         $this->addArgument('exactMatch', InputArgument::OPTIONAL, 'direct match');
+        $this->configureRootPageIdOption();
     }
 
     /**
@@ -42,7 +43,7 @@ class LuxCleanupVisitorsByPropertyCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->initializeExtbase();
+        $this->initializeExtbase((int)$input->getOption(self::ROOT_PAGE_ID_OPTION_NAME));
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $visitors = $visitorRepository->findAllByProperty(
             (string)$input->getArgument('propertyName'),

@@ -33,6 +33,7 @@ class LuxLeadSendSummaryOfKnownCompaniesCommand extends Command
         );
         $this->addArgument('minimumScoring', InputArgument::OPTIONAL, 'Send only leads with a minimum scoring', 0);
         $this->addArgument('luxCategory', InputArgument::OPTIONAL, 'Send only leads with a scoring in category', 0);
+        $this->configureRootPageIdOption();
     }
 
     /**
@@ -52,7 +53,7 @@ class LuxLeadSendSummaryOfKnownCompaniesCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->initializeExtbase();
+        $this->initializeExtbase((int)$input->getOption(self::ROOT_PAGE_ID_OPTION_NAME));
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         $filter = ObjectUtility::getFilterDto();
         $filter

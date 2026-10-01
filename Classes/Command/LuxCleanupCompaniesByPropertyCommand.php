@@ -26,6 +26,7 @@ class LuxCleanupCompaniesByPropertyCommand extends Command
         $this->addArgument('propertyValue', InputArgument::REQUIRED, 'any property value');
         $this->addArgument('exactMatch', InputArgument::OPTIONAL, 'direct match');
         $this->addOption('remove-visitors', null, InputOption::VALUE_NONE, 'also remove all related visitors');
+        $this->configureRootPageIdOption();
     }
 
     /**
@@ -46,7 +47,7 @@ class LuxCleanupCompaniesByPropertyCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->initializeExtbase();
+        $this->initializeExtbase((int)$input->getOption(self::ROOT_PAGE_ID_OPTION_NAME));
         $companyRepository = GeneralUtility::makeInstance(CompanyRepository::class);
         $companies = $companyRepository->findAllByProperty(
             (string)$input->getArgument('propertyName'),

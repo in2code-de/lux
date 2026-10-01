@@ -20,6 +20,7 @@ class LuxCleanupVisitorByUidCommand extends Command
     {
         $this->setDescription('Remove visitor and all related data from the database');
         $this->addArgument('visitorUid', InputArgument::REQUIRED, 'visitor uid');
+        $this->configureRootPageIdOption();
     }
 
     /**
@@ -37,7 +38,7 @@ class LuxCleanupVisitorByUidCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->initializeExtbase();
+        $this->initializeExtbase((int)$input->getOption(self::ROOT_PAGE_ID_OPTION_NAME));
         $visitorRepository = GeneralUtility::makeInstance(VisitorRepository::class);
         /** @var Visitor $visitor */
         $visitor = $visitorRepository->findByUid((int)$input->getArgument('visitorUid'));

@@ -8,6 +8,7 @@ use Exception;
 use In2code\Lux\Domain\Factory\CompanyFactory;
 use In2code\Lux\Domain\Repository\CategoryscoringRepository;
 use In2code\Lux\Domain\Repository\FrontendUserRepository;
+use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Repository\Remote\LeadfeederRepository;
 use In2code\Lux\Domain\Repository\VisitorRepository;
 use In2code\Lux\Domain\Service\GetCompanyFromIpService;
@@ -36,6 +37,7 @@ use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\Persistence\Generic\LazyLoadingProxy;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 class Visitor extends AbstractModel
 {
@@ -128,6 +130,8 @@ class Visitor extends AbstractModel
     protected bool $blacklisted = false;
 
     protected ?FrontendUser $frontenduser = null;
+    protected ?Pagevisit $firstPageVisit = null;
+    protected ?Pagevisit $lastPageVisit = null;
 
     public function __construct()
     {
@@ -551,21 +555,37 @@ class Visitor extends AbstractModel
 
     public function getPagevisitLast(): ?Pagevisit
     {
-        $pagevisits = $this->getPagevisits();
-        foreach ($pagevisits as $pagevisit) {
-            return $pagevisit;
+        if ($this->lastPageVisit === null) {
+            $pagevisitRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
+            $this->lastPageVisit = $pagevisitRepository->findOneByVisitor($this, QueryInterface::ORDER_DESCENDING);
         }
-        return null;
+        return $this->lastPageVisit;
+    }
+
+    public function setPagevisitLast(Pagevisit $pagevisit): self
+    {
+        $this->lastPageVisit = $pagevisit;
+        return $this;
     }
 
     public function getPagevisitFirst(): ?Pagevisit
     {
-        $pagevisits = $this->getPagevisits();
-        ksort($pagevisits);
-        foreach ($pagevisits as $pagevisit) {
-            return $pagevisit;
+        if ($this->firstPageVisit === null) {
+            $pagevisitRepository = GeneralUtility::makeInstance(PagevisitRepository::class);
+            $this->firstPageVisit = $pagevisitRepository->findOneByVisitor($this, QueryInterface::ORDER_ASCENDING);
         }
-        return null;
+        return $this->firstPageVisit;
+    }
+
+    public function setPagevisitFirst(Pagevisit $pagevisit): self
+    {
+        $this->firstPageVisit = $pagevisit;
+        return $this;
+    }
+
+    public function getFirstPageVisit(): ?Pagevisit
+    {
+        return $this->getPagevisitFirst();
     }
 
     /**
@@ -603,43 +623,34 @@ class Visitor extends AbstractModel
 
     public function getLastPagevisit(): ?Pagevisit
     {
-        static $lastPagevisit = null;
-        if ($lastPagevisit === null) {
-            $pagevisits = $this->getPagevisits();
-            $lastPagevisit = null;
-            foreach ($pagevisits as $pagevisit) {
-                $lastPagevisit = $pagevisit;
-                break;
-            }
-        }
-        return $lastPagevisit;
+        return $this->getPagevisitLast();
     }
 
     /**
      * Calculate number of unique page visits. If user show a reaction after min. 1h we define it as new pagevisit.
-     *
-     * @return int
-     * @throws Exception
      */
-    public function getNumberOfUniquePagevisits(): int
+    public function getNumberOfUniquePagevisits(?DateTime $until = null): int
     {
-        $pagevisits = $this->getPagevisitsAuthorized();
-        $number = 1;
-        if (count($pagevisits) > 1) {
-            /** @var DateTime $lastVisit **/
-            $lastVisit = null;
-            foreach ($pagevisits as $pagevisit) {
-                if ($lastVisit !== null) {
-                    /** @var Pagevisit $pagevisit */
-                    $interval = $lastVisit->diff($pagevisit->getCrdate());
-                    // if difference is greater then one hour
-                    if ($interval->h > 0) {
-                        $number++;
-                    }
-                }
-                $lastVisit = $pagevisit->getCrdate();
+        $timestamps = [];
+        /** @var Pagevisit $pagevisit */
+        foreach ($this->getPagevisitsAuthorized() as $pagevisit) {
+            $timestamp = $pagevisit->getCrdate()->getTimestamp();
+            if ($until === null || $timestamp <= $until->getTimestamp()) {
+                $timestamps[] = $timestamp;
             }
         }
+
+        // the relation is not sorted, but the comparison below relies on an ascending order
+        sort($timestamps);
+        $number = 0;
+        $lastVisit = null;
+        foreach ($timestamps as $timestamp) {
+            if ($lastVisit === null || $timestamp - $lastVisit >= 3600) {
+                $number++;
+            }
+            $lastVisit = $timestamp;
+        }
+
         return $number;
     }
 

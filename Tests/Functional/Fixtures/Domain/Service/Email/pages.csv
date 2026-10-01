@@ -1,0 +1,6 @@
+"pages",,,,,,
+,"uid","pid","title","doktype","is_siteroot","slug"
+,1,0,"Root",1,1,"/"
+,10,1,"Landingpage",1,0,"/landingpage"
+,11,1,"Products",1,0,"/products"
+,12,1,"Contact",1,0,"/contact"

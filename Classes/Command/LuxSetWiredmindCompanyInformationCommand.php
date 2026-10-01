@@ -31,6 +31,7 @@ class LuxSetWiredmindCompanyInformationCommand extends Command
             '0'
         );
         $this->addOption('time', 't', InputArgument::OPTIONAL, 'Try to convert only leads in this timeframe', '- 5 years');
+        $this->configureRootPageIdOption();
     }
 
     /**
@@ -45,7 +46,7 @@ class LuxSetWiredmindCompanyInformationCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->initializeExtbase();
+        $this->initializeExtbase((int)$input->getOption(self::ROOT_PAGE_ID_OPTION_NAME));
         try {
             $companyInformationService = GeneralUtility::makeInstance(CompanyInformationService::class);
             $count = $companyInformationService->setCompaniesToExistingVisitors(
