@@ -4,10 +4,10 @@ on: [push, pull_request]
 jobs:
   php-lint:
     name: "PHP linter"
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
       - name: "Install PHP"
         uses: shivammathur/setup-php@v2
         with:
@@ -25,10 +25,10 @@ jobs:
           - 8.4
   typoscript-lint:
     name: "TypoScript linter"
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
       - name: "Install PHP"
         uses: shivammathur/setup-php@v2
         with:
@@ -41,11 +41,11 @@ jobs:
         run: "composer test:ts:lint"
   php-cs-fixer:
     name: "PHP CS Fixer"
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: php-lint
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
       - name: "Install PHP"
         uses: shivammathur/setup-php@v2
         with:
@@ -56,11 +56,11 @@ jobs:
         run: "composer test:php:cs"
   unit-tests:
     name: "PHP Unit Tests"
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: php-lint
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
       - name: "Install PHP"
         uses: shivammathur/setup-php@v2
         with:
@@ -80,7 +80,7 @@ jobs:
           - 8.4
   functional-tests:
     name: "PHP Functional Tests"
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: php-lint
     services:
       mysql:
@@ -97,7 +97,7 @@ jobs:
           --health-retries=5
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
       - name: "Install PHP"
         uses: shivammathur/setup-php@v2
         with:
