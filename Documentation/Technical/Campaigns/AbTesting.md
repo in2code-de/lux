@@ -92,3 +92,16 @@ You can simply add ENV variables to support basic authentication like (since lux
 LUXENTERPRISE_ABTESTING_AUTH_USER=username
 LUXENTERPRISE_ABTESTING_AUTH_PASS=password
 ```
+
+###### Timeout for loading variants
+
+To deliver a variant, the server reads the target page with a request to its own public URL (if the selected variant
+is the current page, the already rendered page is used and no request is needed). If a variant could not be loaded
+(e.g. because of a timeout), the original page is delivered and an error is logged (since luxenterprise 50.2.0).
+
+By default the global HTTP timeout of TYPO3 is used (`$GLOBALS['TYPO3_CONF_VARS']['HTTP']['timeout']`, which is
+unlimited by default). You can set an own timeout in seconds for these requests via an ENV variable
+(since luxenterprise 50.2.0):
+```
+LUXENTERPRISE_ABTESTING_TIMEOUT=5
+```
