@@ -34,3 +34,19 @@ instead, that visitors are recognized by an anonymized hash of their hard- and s
 
 We would recommend to place an Opt-Out Plugin also nerby this explanation
 (see [Plugins](../Technical/Plugins/Index.md)).
+
+### Example part for A/B testing (LUX Enterprise)
+
+If you are using A/B testing of LUX Enterprise, you could extend your privacy page with a part like this. Please adjust
+the lifetime of the cookie to your configuration (session cookie by default, see
+[A/B testing](../Technical/Campaigns/AbTesting.md)). This is not a legal binding declaration.
+
+```
+<h3>A/B-Tests</h3>
+
+Auf einigen Seiten testen wir unterschiedliche Varianten, um herauszufinden, welche Variante für unsere Besucher
+besser funktioniert. Sofern Sie eingewilligt haben, wird die Ihnen angezeigte Variante (z.B. "A" oder "B") in einem
+Cookie mit dem Namen "LUXABTEST_" und einer Nummer des Tests gespeichert, damit Ihnen bei weiteren Seitenaufrufen
+dieselbe Variante angezeigt wird. Das Cookie wird gelöscht, sobald Sie Ihren Browser schließen.
+Ohne Einwilligung wird kein Cookie gespeichert.
+```

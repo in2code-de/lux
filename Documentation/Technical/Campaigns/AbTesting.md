@@ -62,16 +62,31 @@ Buttons allows you to change to edit view of a page or to pageoverview module wi
 
 ###### Cookie and consent
 
-The selected variant is stored in a session cookie with name `LUXABTEST` (value `A`, `B`, etc.) to show the same
-variant on further page visits. This cookie is set by LUX JavaScript only if tracking is active (autoenable or opt-in).
-Without consent, a variant is shown, but no cookie is set - so a visitor could see another variant on the next page
-visit.
+The selected variant is stored in a cookie per A/B test to show the same variant on further page visits. The cookie
+name contains the uid of the page with the test (e.g. `LUXABTEST_123` for the test on page 123), the value is the
+variant (`A`, `B`, etc.). So parallel tests are independent of each other.
+
+The cookie is set by LUX JavaScript only if tracking is active (autoenable or opt-in) with `SameSite=Lax` (and
+`Secure` on HTTPS). Without consent, a variant is shown, but no cookie is set - so a visitor could see another variant
+on the next page visit. No cookie is set for previews (e.g. in the backend module) with parameter `?luxabtest=b`.
+
+By default the cookie is a session cookie. You can set a lifetime in days via an ENV variable:
+```
+LUXENTERPRISE_ABTESTING_COOKIE_LIFETIME=30
+```
+
+**Note:** If you set a lifetime, please add the cookie with its lifetime to your consent tool and your privacy
+statement. Safari limits cookies that are set via JavaScript to 7 days.
 
 ###### Enforce a variant
 
-You can simply add a new (or rename an existing) cookie with name `LUXABTEST` and set the value to `A` or `B` etc.
+You can simply add a new (or rename an existing) cookie with name `LUXABTEST_123` (uid of the page with the test) and
+set the value to `A` or `B` etc.
 
-`LUXABTEST=B`
+`LUXABTEST_123=B`
+
+The old global cookie `LUXABTEST=B` is still respected as fallback for all tests, if there is no cookie for the test
+itself. But it is not set any more.
 
 ###### Backend User Sections or Frontend Authentication
 
