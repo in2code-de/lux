@@ -636,6 +636,7 @@ function LuxMain() {
       addLinkListenerListener();
       addRedirectListener();
       addAbTestingListener();
+      setAbTestingCookie();
     } else {
       trackIteration++;
       if (trackIteration < 200) {
@@ -840,6 +841,21 @@ function LuxMain() {
           }, getRequestUri(), 'generalWorkflowActionCallback', null);
         }, 1000
       );
+    }
+  };
+
+  /**
+   * Remember the A/B testing variant in a session cookie (only called with an active tracking/consent)
+   *
+   * @returns {void}
+   */
+  var setAbTestingCookie = function() {
+    var abTestingContainer = document.querySelector('[data-lux-abtestingvariant]');
+    if (abTestingContainer !== null && document.cookie.split('; ').some(function(cookie) {
+      return cookie.indexOf('LUXABTEST=') === 0;
+    }) === false) {
+      document.cookie = 'LUXABTEST=' + abTestingContainer.getAttribute('data-lux-abtestingvariant')
+        + '; path=/; SameSite=Strict';
     }
   };
 
