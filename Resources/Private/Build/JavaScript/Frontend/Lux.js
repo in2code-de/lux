@@ -845,17 +845,27 @@ function LuxMain() {
   };
 
   /**
-   * Remember the A/B testing variant in a session cookie (only called with an active tracking/consent)
+   * Remember the A/B testing variant in a cookie per test (only called with an active tracking/consent).
+   * Cookie name and lifetime (in seconds, 0 = session) are given by LUX Enterprise. There is no cookie name for
+   * previews.
    *
    * @returns {void}
    */
   var setAbTestingCookie = function() {
-    var abTestingContainer = document.querySelector('[data-lux-abtestingvariant]');
-    if (abTestingContainer !== null && document.cookie.split('; ').some(function(cookie) {
-      return cookie.indexOf('LUXABTEST=') === 0;
-    }) === false) {
-      document.cookie = 'LUXABTEST=' + abTestingContainer.getAttribute('data-lux-abtestingvariant')
-        + '; path=/; SameSite=Strict';
+    var abTestingContainer = document.querySelector('[data-lux-abtestingcookie]');
+    if (abTestingContainer !== null) {
+      var cookie = abTestingContainer.getAttribute('data-lux-abtestingcookie') + '='
+        + abTestingContainer.getAttribute('data-lux-abtestingvariant');
+      if (document.cookie.split('; ').indexOf(cookie) === -1) {
+        var lifetime = parseInt(abTestingContainer.getAttribute('data-lux-abtestingcookielifetime'), 10);
+        if (lifetime > 0) {
+          cookie += '; max-age=' + lifetime;
+        }
+        if (window.location.protocol === 'https:') {
+          cookie += '; Secure';
+        }
+        document.cookie = cookie + '; path=/; SameSite=Lax';
+      }
     }
   };
 
