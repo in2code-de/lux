@@ -60,6 +60,13 @@ Buttons allows you to change to edit view of a page or to pageoverview module wi
 
 ##### Technical notes
 
+###### Cookie and consent
+
+The selected variant is stored in a session cookie with name `LUXABTEST` (value `A`, `B`, etc.) to show the same
+variant on further page visits. This cookie is set by LUX JavaScript only if tracking is active (autoenable or opt-in).
+Without consent, a variant is shown, but no cookie is set - so a visitor could see another variant on the next page
+visit.
+
 ###### Enforce a variant
 
 You can simply add a new (or rename an existing) cookie with name `LUXABTEST` and set the value to `A` or `B` etc.
