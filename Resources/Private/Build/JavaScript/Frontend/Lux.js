@@ -438,14 +438,12 @@ function LuxMain() {
           }, getRequestUri());
         });
       } else {
-        elements[i].addEventListener('click', function(event) {
-          delayClick(event, 'abTestConversion');
-
-          ajaxConnection({
+        elements[i].addEventListener('click', function() {
+          beaconConnection({
             'tx_lux_fe[dispatchAction]': 'abTestingConversionFulfilledRequest',
             'tx_lux_fe[identificator]': identification.isIdentificatorSet() ? identification.getIdentificator() : '',
             'tx_lux_fe[arguments][abPageVisitIdentifier]': abpagevisitIdentifier,
-          }, getRequestUri(), null, null);
+          }, getRequestUri());
         });
       }
     }
@@ -772,14 +770,13 @@ function LuxMain() {
       for (var i = 0; i < links.length; i++) {
         if (!links[i].hasAttribute('data-lux-email4link-title') && !links[i].hasAttribute('data-lux-linklistener')) {
           href = links[i].getAttribute('href');
-          links[i].addEventListener('click', function(event) {
-            ajaxConnection({
+          links[i].addEventListener('click', function() {
+            beaconConnection({
               'tx_lux_fe[dispatchAction]': 'downloadRequest',
               'tx_lux_fe[identificator]': identification.getIdentificator(),
               'tx_lux_fe[arguments][href]': this.getAttribute('href'),
               'tx_lux_fe[arguments][pageUid]': getPageUid()
-            }, getRequestUri(), null, null);
-            delayClick(event, 'DownlaodListener');
+            }, getRequestUri());
           });
         }
       }
@@ -794,13 +791,12 @@ function LuxMain() {
     for (var i = 0; i < links.length; i++) {
       links[i].addEventListener('click', function(event) {
         var target = (event.currentTarget) ? event.currentTarget : event.target;
-        ajaxConnection({
+        beaconConnection({
           'tx_lux_fe[dispatchAction]': 'linkClickRequest',
           'tx_lux_fe[identificator]': identification.getIdentificator(),
           'tx_lux_fe[arguments][linklistenerIdentifier]': target.getAttribute('data-lux-linklistener'),
           'tx_lux_fe[arguments][pageUid]': getPageUid()
-        }, getRequestUri(), null, null);
-        delayClick(event, 'LinkListener');
+        }, getRequestUri());
       });
     }
   };
@@ -866,34 +862,25 @@ function LuxMain() {
   };
 
   /**
-   * Delay a click to a link to give AJAX some time to do a bit magic
+   * Open the original target of an email4link link. The href of these links is replaced with "#", so the native
+   * click can't be used. The tracking request must be sent as beacon before, so it survives the page change.
    *
+   * @param {Node} link
+   * @param event
    * @returns {void}
    */
-  var delayClick = function(event, status) {
-    var target = (event.currentTarget) ? event.currentTarget : event.target;
-    var href = target.hasAttribute('data-lux-href') ? target.getAttribute('data-lux-href') : target.getAttribute('href');
-    var hrefTarget = target.getAttribute('target');
-    var delay = 400;
-    if (isDebugMode()) {
-      console.log(status + ' triggered. Redirect in some seconds to ' + href);
-      delay = 5000;
-    }
+  var openEmail4LinkHref = function(link, event) {
+    var href = link.getAttribute('data-lux-href');
+    var hrefTarget = link.getAttribute('target');
     if (href !== null) {
       event.preventDefault();
-      setTimeout(
-        function() {
-          var newWindow = null;
-
-          if (hrefTarget !== '' && hrefTarget !== null) {
-            newWindow = window.open(href, hrefTarget);
-          }
-
-          if (newWindow === null) {
-            window.location = href;
-          }
-        }, delay
-      );
+      var newWindow = null;
+      if (hrefTarget !== '' && hrefTarget !== null) {
+        newWindow = window.open(href, hrefTarget);
+      }
+      if (newWindow === null) {
+        window.location = href;
+      }
     }
   };
 
@@ -905,13 +892,13 @@ function LuxMain() {
   var email4LinkListener = function(link, event) {
     if (identification.isDisableForLinkStorageEntrySet()) {
       // track as normal asset download
-      ajaxConnection({
+      beaconConnection({
         'tx_lux_fe[dispatchAction]': 'downloadRequest',
         'tx_lux_fe[identificator]': identification.getIdentificator(),
         'tx_lux_fe[arguments][href]': link.getAttribute('data-lux-href'),
         'tx_lux_fe[arguments][pageUid]': getPageUid()
-      }, getRequestUri(), null, null);
-      delayClick(event, 'Email4Link');
+      }, getRequestUri());
+      openEmail4LinkHref(link, event);
     } else {
       // show popup
       event.preventDefault();
