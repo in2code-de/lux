@@ -130,9 +130,13 @@ form-tag itself. See table for data-attribute value:
 
 | Field                                           | Description                                                             | Explanation                                                            |
 |-------------------------------------------------|-------------------------------------------------------------------------|------------------------------------------------------------------------|
-| `data-lux-form-identification="true"`           | Catch submit, track values and do a form.submit() at the end            | Default usage                                                          |
-| `data-lux-form-identification="submitButton"`   | Catch submit, track values and do a lastSubmitButton.click() at the end | Important if submit button click is needed (e.g. for "typo3/cms-form") |
-| `data-lux-form-identification="preventDefault"` | Catch submit, track values and don't submit                             | When you don't need a submit (e.g. for LUXenterprise workflows)        |
+| `data-lux-form-identification="true"`           | Track values on submit, the form is submitted as usual                  | Default usage                                                          |
+| `data-lux-form-identification="submitButton"`   | Same as `true`                                                          | Kept for backwards compatibility                                       |
+| `data-lux-form-identification="preventDefault"` | Stop the submit, track values and don't submit                          | When you don't need a submit (e.g. for LUXenterprise workflows)        |
+
+**Note:** With `true` and `submitButton`, the values are sent via `navigator.sendBeacon()`, so the tracking request
+survives the page change. LUX does not interrupt the submit, so JavaScript validation or other scripts that handle the
+submit keep working. Workflow responses (e.g. a lightbox) are not processed for these submits. Use `preventDefault` for that.
 
 There some different things when comparing FormFieldMappinng with FieldMapping (see above):
 * The data will be sent to lux when the visitor submits the form and not before
@@ -155,9 +159,9 @@ lib.lux.settings {
         _enable = {$plugin.tx_lux.settings.fieldandformidentification}
 
         # Identify by complete form submits with '<form data-lux-form-identification="true">'
-        # - data-lux-form-identification="true" will catch submit, track values and does a form.submit()
-        # - data-lux-form-identification="submitButton" will catch submit, track values and does a submitButton.click(). This is needed for "typo3/cms-form"
-        # - data-lux-form-identification="preventDefault" will catch submit and track values without a further submit
+        # - data-lux-form-identification="true" will track values on submit (the form is submitted as usual)
+        # - data-lux-form-identification="submitButton" same as "true" (kept for backwards compatibility)
+        # - data-lux-form-identification="preventDefault" will stop the submit and track values without a further submit
         # Using a * as wildcard will search for a string in a string while using a key without * will search for the exact match.
         formFieldMapping {
             email {
@@ -220,8 +224,8 @@ plugin.tx_lux_fe)
 submit, etc..), you can use `data-lux-form-identification="preventDefault"`
 instead of `data-lux-form-identification="true"`
 
-**Note:** If you are using a JavaScript based validation in your form, it's possible that there are conflicts with
-FormFieldMapping
+**Note:** Values are tracked on every submit attempt, also if a JavaScript based validation in your form stops the
+submit
 
 Example form (added via content element html):
 

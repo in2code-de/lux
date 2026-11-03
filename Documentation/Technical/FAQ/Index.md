@@ -35,6 +35,12 @@ Two possibilities to turn on debug mode:
 * Add a new cookie in your browser console (e.g. by clicking + at tab web storage in Firefox) with name `ENABLELUXDEBUG` and any value (e.g. 1)
 * Simply add the string `ENABLELUXDEBUG` anywhere on your website
 
+**Note:** Tracking requests on form submits (`data-lux-form-identification="true"` or `"submitButton"`) are sent via
+`navigator.sendBeacon()` while the browser already loads the next page. To keep the console output and the requests
+after the page change, enable "Preserve log" in Chrome (console and network tab settings) or "Persist Logs" in Firefox
+(console and network settings). Beacons are listed as type `ping` in Chrome and with cause `beacon` in Firefox. Filter
+the network tab by `formListeningRequest` to find them. The response of a beacon is usually not shown.
+
 
 ## How to enable tracking even if I'm logged in into backend?
 
