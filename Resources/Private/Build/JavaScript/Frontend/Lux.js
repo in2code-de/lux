@@ -44,13 +44,6 @@ function LuxMain() {
   var trackIteration = 0;
 
   /**
-   * Save form for formfieldlistening so submit is not triggered twice
-   *
-   * @type {null}
-   */
-  var formDelayStop = null;
-
-  /**
    * @returns {void}
    */
   this.initialize = function() {
@@ -437,24 +430,20 @@ function LuxMain() {
     for (var i = 0; i < elements.length; i++) {
       if (elements[i].localName === 'form' || elements[i].form !== undefined) {
         var form = (elements[i].form !== undefined ? elements[i].form : elements[i]);
-        form.addEventListener('submit', function(event) {
-          delaySubmit(event, 'abTestConversion', true);
-
-          ajaxConnection({
+        form.addEventListener('submit', function() {
+          beaconConnection({
             'tx_lux_fe[dispatchAction]': 'abTestingConversionFulfilledRequest',
             'tx_lux_fe[identificator]': identification.isIdentificatorSet() ? identification.getIdentificator() : '',
             'tx_lux_fe[arguments][abPageVisitIdentifier]': abpagevisitIdentifier,
-          }, getRequestUri(), null, null);
+          }, getRequestUri());
         });
       } else {
-        elements[i].addEventListener('click', function(event) {
-          delayClick(event, 'abTestConversion');
-
-          ajaxConnection({
+        elements[i].addEventListener('click', function() {
+          beaconConnection({
             'tx_lux_fe[dispatchAction]': 'abTestingConversionFulfilledRequest',
             'tx_lux_fe[identificator]': identification.isIdentificatorSet() ? identification.getIdentificator() : '',
             'tx_lux_fe[arguments][abPageVisitIdentifier]': abpagevisitIdentifier,
-          }, getRequestUri(), null, null);
+          }, getRequestUri());
         });
       }
     }
@@ -740,12 +729,17 @@ function LuxMain() {
     var forms = document.querySelectorAll('form[data-lux-form-identification]:not([data-lux-form-initialized])');
     forms.forEach((form) => {
       form.addEventListener('submit', (event) => {
-        sendFormValues(event.target);
-        delaySubmit(
-          event,
-          'formListening',
-          event.target.getAttribute('data-lux-form-identification') !== 'preventDefault'
-        );
+        // "preventDefault": stop the submit and handle the response (e.g. workflows)
+        if (form.getAttribute('data-lux-form-identification') === 'preventDefault') {
+          event.preventDefault();
+          sendFormValues(form, false);
+          return;
+        }
+
+        // "true" and "submitButton": the native submit continues, so it works together with other submit
+        // handlers (validation, other scripts that take over the submit). The tracking request is sent
+        // as beacon, so it is not cancelled by the page navigation.
+        sendFormValues(form, true);
       });
       form.setAttribute('data-lux-form-initialized', 1);
     });
@@ -776,14 +770,13 @@ function LuxMain() {
       for (var i = 0; i < links.length; i++) {
         if (!links[i].hasAttribute('data-lux-email4link-title') && !links[i].hasAttribute('data-lux-linklistener')) {
           href = links[i].getAttribute('href');
-          links[i].addEventListener('click', function(event) {
-            ajaxConnection({
+          links[i].addEventListener('click', function() {
+            beaconConnection({
               'tx_lux_fe[dispatchAction]': 'downloadRequest',
               'tx_lux_fe[identificator]': identification.getIdentificator(),
               'tx_lux_fe[arguments][href]': this.getAttribute('href'),
               'tx_lux_fe[arguments][pageUid]': getPageUid()
-            }, getRequestUri(), null, null);
-            delayClick(event, 'DownlaodListener');
+            }, getRequestUri());
           });
         }
       }
@@ -798,13 +791,12 @@ function LuxMain() {
     for (var i = 0; i < links.length; i++) {
       links[i].addEventListener('click', function(event) {
         var target = (event.currentTarget) ? event.currentTarget : event.target;
-        ajaxConnection({
+        beaconConnection({
           'tx_lux_fe[dispatchAction]': 'linkClickRequest',
           'tx_lux_fe[identificator]': identification.getIdentificator(),
           'tx_lux_fe[arguments][linklistenerIdentifier]': target.getAttribute('data-lux-linklistener'),
           'tx_lux_fe[arguments][pageUid]': getPageUid()
-        }, getRequestUri(), null, null);
-        delayClick(event, 'LinkListener');
+        }, getRequestUri());
       });
     }
   };
@@ -870,76 +862,24 @@ function LuxMain() {
   };
 
   /**
-   * Delay a click to a link to give AJAX some time to do a bit magic
+   * Open the original target of an email4link link. The href of these links is replaced with "#", so the native
+   * click can't be used. The tracking request must be sent as beacon before, so it survives the page change.
    *
+   * @param {Node} link
+   * @param event
    * @returns {void}
    */
-  var delayClick = function(event, status) {
-    var target = (event.currentTarget) ? event.currentTarget : event.target;
-    var href = target.hasAttribute('data-lux-href') ? target.getAttribute('data-lux-href') : target.getAttribute('href');
-    var hrefTarget = target.getAttribute('target');
-    var delay = 400;
-    if (isDebugMode()) {
-      console.log(status + ' triggered. Redirect in some seconds to ' + href);
-      delay = 5000;
-    }
+  var openEmail4LinkHref = function(link, event) {
+    var href = link.getAttribute('data-lux-href');
+    var hrefTarget = link.getAttribute('target');
     if (href !== null) {
       event.preventDefault();
-      setTimeout(
-        function() {
-          var newWindow = null;
-
-          if (hrefTarget !== '' && hrefTarget !== null) {
-            newWindow = window.open(href, hrefTarget);
-          }
-
-          if (newWindow === null) {
-            window.location = href;
-          }
-        }, delay
-      );
-    }
-  };
-
-  /**
-   * Delay a form submit to give AJAX some time for tracking requests
-   *    data-lux-form-identification="true" does a form.submit() while
-   *    data-lux-form-identification="submitButton" does a lastSubmitButton.click()
-   *
-   * @param event triggered form element
-   * @param status debugging name
-   * @param {boolean} submit Form must be submitted?
-   * @returns {void}
-   */
-  var delaySubmit = function(event, status, submit) {
-    var form = event.target;
-    if (formDelayStop !== form) {
-      formDelayStop = form;
-      event.preventDefault();
-      var delay = 500;
-      var sendBySubmitButton = form.getAttribute('data-lux-form-identification') === 'submitButton';
-
-      if (isDebugMode()) {
-        console.log(status + ' triggered. Form submit delayed');
-        delay = 5000;
+      var newWindow = null;
+      if (hrefTarget !== '' && hrefTarget !== null) {
+        newWindow = window.open(href, hrefTarget);
       }
-
-      if (submit === true) {
-        setTimeout(
-          function() {
-            form.removeAttribute('data-lux-form-identification');
-
-            // Submit by clicking submit button
-            if (sendBySubmitButton === true) {
-              var submitButtons = form.querySelectorAll('[type="submit"], button:not([type="button"])');
-              var submitButton = submitButtons[submitButtons.length - 1]; // take last button in form if there is a previous button
-              submitButton.click();
-            } else {
-              // Default form submit
-              form.submit();
-            }
-          }, delay
-        );
+      if (newWindow === null) {
+        window.location = href;
       }
     }
   };
@@ -952,13 +892,13 @@ function LuxMain() {
   var email4LinkListener = function(link, event) {
     if (identification.isDisableForLinkStorageEntrySet()) {
       // track as normal asset download
-      ajaxConnection({
+      beaconConnection({
         'tx_lux_fe[dispatchAction]': 'downloadRequest',
         'tx_lux_fe[identificator]': identification.getIdentificator(),
         'tx_lux_fe[arguments][href]': link.getAttribute('data-lux-href'),
         'tx_lux_fe[arguments][pageUid]': getPageUid()
-      }, getRequestUri(), null, null);
-      delayClick(event, 'Email4Link');
+      }, getRequestUri());
+      openEmail4LinkHref(link, event);
     } else {
       // show popup
       event.preventDefault();
@@ -1102,9 +1042,10 @@ function LuxMain() {
    * FormListener submit function
    *
    * @param {Node} form
+   * @param {boolean} useBeacon Send as beacon (survives page navigation, but no response callback)
    * @returns {void}
    */
-  var sendFormValues = function(form) {
+  var sendFormValues = function(form, useBeacon) {
     var formArguments = {};
     for (var i = 0; i < form.elements.length; i++) {
       var field = form.elements[i];
@@ -1114,12 +1055,17 @@ function LuxMain() {
       }
     }
 
-    ajaxConnection({
+    var parameters = {
       'tx_lux_fe[dispatchAction]': 'formListeningRequest',
       'tx_lux_fe[identificator]': identification.getIdentificator(),
       'tx_lux_fe[arguments][values]': encodeURIComponent(JSON.stringify(formArguments)),
       'tx_lux_fe[arguments][pageUid]': getPageUid()
-    }, getRequestUri(), 'generalWorkflowActionCallback', null);
+    };
+    if (useBeacon === true) {
+      beaconConnection(parameters, getRequestUri());
+    } else {
+      ajaxConnection(parameters, getRequestUri(), 'generalWorkflowActionCallback', null);
+    }
   };
 
   /**
@@ -1364,6 +1310,31 @@ function LuxMain() {
       xhttp.send();
     } else {
       console.log('No ajax URI given!');
+    }
+  };
+
+  /**
+   * Send a request that is not cancelled when the page is left (e.g. on a form submit).
+   * Same POST request as ajaxConnection(), but without a response callback.
+   *
+   * @params {object} parameters
+   * @params {string} uri
+   * @returns {void}
+   */
+  var beaconConnection = function(parameters, uri) {
+    if (uri === '') {
+      console.log('No ajax URI given!');
+      return;
+    }
+    var queued = false;
+    if (typeof navigator.sendBeacon === 'function') {
+      queued = navigator.sendBeacon(mergeUriWithParameters(uri, parameters));
+    }
+    if (isDebugMode()) {
+      console.log('Beacon request ' + (queued ? 'queued' : 'not possible, fallback to ajax') + ': ' + parameters['tx_lux_fe[dispatchAction]']);
+    }
+    if (queued === false) {
+      ajaxConnection(parameters, uri, null, null);
     }
   };
 

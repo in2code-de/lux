@@ -56,9 +56,9 @@ lib.lux.settings {
     }
 
     # Identify by complete form submits with '<form data-lux-form-identification="true">'
-    # - data-lux-form-identification="true" will catch submit, track values and does a form.submit()
-    # - data-lux-form-identification="submitButton" will catch submit, track values and does a submitButton.click(). This is needed for "typo3/cms-form"
-    # - data-lux-form-identification="preventDefault" will catch submit and track values without a further submit
+    # - data-lux-form-identification="true" will track values on submit (the form is submitted as usual)
+    # - data-lux-form-identification="submitButton" same as "true" (kept for backwards compatibility)
+    # - data-lux-form-identification="preventDefault" will stop the submit and track values without a further submit
     # Using a * as wildcard will search for a string in a string while using a key without * will search for the exact match.
     formFieldMapping {
       email {
