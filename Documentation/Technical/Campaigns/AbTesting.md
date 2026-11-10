@@ -88,6 +88,10 @@ set the value to `A` or `B` etc.
 The old global cookie `LUXABTEST=B` is still respected as fallback for all tests, if there is no cookie for the test
 itself. But it is not set any more.
 
+**Note:** The letters `A`, `B`, `C`, etc. are given by the position of the variants in the test. If you delete a
+variant or change the order of the variants of a running test, the following letters move up. A visitor with a cookie
+value `B` will then see the variant that was `C` before. Disabled variants keep their letter.
+
 ###### Backend User Sections or Frontend Authentication
 
 We already support also A/B Testing in "Backend User Sections" or on pages with "Frontend Authentication".
