@@ -29,6 +29,13 @@ function LuxMain() {
   var isTrackingInitialized = false;
 
   /**
+   * Prevents a second A/B page visit when the visitor opts in after the page was loaded
+   *
+   * @type {boolean}
+   */
+  var isAbTestingRequestSent = false;
+
+  /**
    * @type {null}
    */
   this.lightboxInstance = null;
@@ -823,7 +830,8 @@ function LuxMain() {
    */
   var addAbTestingListener = function() {
     var abTestingContainer = document.querySelector('[data-lux-abtestingpage]');
-    if (abTestingContainer !== null) {
+    if (abTestingContainer !== null && isAbTestingRequestSent === false) {
+      isAbTestingRequestSent = true;
       setTimeout(
         function() {
           ajaxConnection({
