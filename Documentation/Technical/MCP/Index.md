@@ -84,12 +84,42 @@ Here is an example Screenshot of a chat displaying a chart based on the current 
 
 ### Activate the MCP server
 
-| Setting     | Description              | Default |
-|-------------|--------------------------|---------|
-| `mcpServer` | Activates the MCP server | `0`     |
+| Setting               | Description                                                   | Default |
+|-----------------------|---------------------------------------------------------------|---------|
+| `mcpServer`           | Activates the MCP server                                      | `0`     |
+| `mcpServerAllowedIps` | Client addresses that may use the endpoint, `*` for every one | `*`     |
 
 The endpoint of the server is `/typo3/mcp/lux`. It is located in the backend context, because the tools of
 LUXenterprise need a backend user to decide which visitors and pages can be read.
+
+### Restricting the client addresses
+
+`mcpServerAllowedIps` is a comma separated list of addresses or ranges - CIDR like `192.168.0.0/24` and
+`2001:db8::/32`, or wildcards like `192.168.*.*`, as `GeneralUtility::cmpIP()` reads them. A request from any
+other address is answered with `403` before its api key is even looked at, so it does not count as a failed
+authentication either. `*` (the default) and an empty value allow every address. The setting `apiKeyIpAllowList`
+only applies to the REST interface of LUXenterprise, not to the MCP server.
+
+Which addresses a client connects from depends on where it runs:
+
+- **claude.ai** (and connectors added there) calls the server from the cloud of Anthropic. Its outbound ranges are
+  published at https://platform.claude.com/docs/en/api/ip-addresses - at the time of writing `160.79.104.0/21` and
+  `153.61.208.0/20`, IPv4 only. Anthropic announces changes there.
+- **Clients on a computer**, like Claude Code, connect from the address of that computer or of its network, for
+  example the office or the VPN.
+
+Example for claude.ai plus the office network:
+
+```php
+$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['luxenterprise']['mcpServerAllowedIps']
+    = '160.79.104.0/21,153.61.208.0/20,203.0.113.0/24';
+```
+
+**The IP restriction of the TYPO3 backend applies as well.** The endpoint lives below `/typo3`, so
+`$GLOBALS['TYPO3_CONF_VARS']['BE']['IPmaskList']` is checked by the core before LUXenterprise runs. If an
+installation restricts the backend to the office, a client from anywhere else gets `403` from TYPO3 - for claude.ai
+the ranges above have to be added to `IPmaskList` too, otherwise `mcpServerAllowedIps` never gets the chance to
+allow them. Behind a proxy both lists only see the real client when `[SYS][reverseProxyIP]` is configured.
 
 ### Rate limiting
 
@@ -102,7 +132,7 @@ A successful authentication resets the limit, so only failing requests are count
 | Status | Meaning                                                                                     |
 |--------|---------------------------------------------------------------------------------------------|
 | `401`  | No or an invalid api key was sent                                                            |
-| `403`  | The backend user of the api key has no access to the LUX modules                             |
+| `403`  | The client address is not allowed (`mcpServerAllowedIps`)                                    |
 | `429`  | Too many failed authentications from this ip address (20 in 15 minutes by default)           |
 | `405`  | The request method is not supported (only `POST`, `DELETE` and `OPTIONS`)                     |
 
