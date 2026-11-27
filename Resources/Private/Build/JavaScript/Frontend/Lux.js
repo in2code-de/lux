@@ -64,7 +64,6 @@ function LuxMain() {
         initializeTracking();
       } else {
         addRedirectListener();
-        addAbTestingListener();
       }
       addEmail4LinkListeners();
       doNotTrackListener();
@@ -399,19 +398,19 @@ function LuxMain() {
 
   /**
    * Callback for generalWorkflowActionCallback()
-   * A/B Testing page visit AJAX response. Take the tx_luxenterprise_domain_model_abpagevisit.uid value and save it
+   * A/B Testing page visit AJAX response with the reference to the visit that belongs to the visitor now. Save it
    * into a data-attribute, so it can be used for conversion management later
    *
    * @param response
    */
   this.abPageVisitWorkflowAction = function(response) {
-    var abpagevisitIdentifier = response['configuration']['record'];
-    if (abpagevisitIdentifier !== null) {
+    var abpagevisitReference = response['configuration']['reference'];
+    if (abpagevisitReference) {
       var element = document.querySelector('[data-lux-abpagevisit]');
-      element.setAttribute('data-lux-abpagevisit', abpagevisitIdentifier);
+      element.setAttribute('data-lux-abpagevisit', abpagevisitReference);
 
       abPageConversionListener(
-        abpagevisitIdentifier,
+        abpagevisitReference,
         element.getAttribute('data-lux-abpageconversion'),
         element.getAttribute('data-lux-abpageconversionconfiguration')
       )
@@ -421,11 +420,11 @@ function LuxMain() {
   /**
    * Try to send a request if A/B testing conversion is fulfilled
    *
-   * @param {Number} abpagevisitIdentifier like "123"
+   * @param {String} abpagevisitReference like "123.1800000000.0123456789abcdef0123456789abcdef01234567"
    * @param {String} method 0=link, 1=form, 2=htmlSelection
    * @param {String} configuration like "[data-foo]"
    */
-  var abPageConversionListener = function(abpagevisitIdentifier, method, configuration) {
+  var abPageConversionListener = function(abpagevisitReference, method, configuration) {
     var selection = 'a';
     if (method === '1') {
       selection = 'form'; // todo: to implement
@@ -441,7 +440,7 @@ function LuxMain() {
           beaconConnection({
             'tx_lux_fe[dispatchAction]': 'abTestingConversionFulfilledRequest',
             'tx_lux_fe[identificator]': identification.isIdentificatorSet() ? identification.getIdentificator() : '',
-            'tx_lux_fe[arguments][abPageVisitIdentifier]': abpagevisitIdentifier,
+            'tx_lux_fe[arguments][abPageVisitReference]': abpagevisitReference,
           }, getRequestUri());
         });
       } else {
@@ -449,7 +448,7 @@ function LuxMain() {
           beaconConnection({
             'tx_lux_fe[dispatchAction]': 'abTestingConversionFulfilledRequest',
             'tx_lux_fe[identificator]': identification.isIdentificatorSet() ? identification.getIdentificator() : '',
-            'tx_lux_fe[arguments][abPageVisitIdentifier]': abpagevisitIdentifier,
+            'tx_lux_fe[arguments][abPageVisitReference]': abpagevisitReference,
           }, getRequestUri());
         });
       }
@@ -826,6 +825,9 @@ function LuxMain() {
   };
 
   /**
+   * Only called with an active tracking/consent. The visit is already counted anonymously by LUX Enterprise when the
+   * page is delivered, this request adds the visitor to it by the reference in data-lux-abpagevisit.
+   *
    * @returns {void}
    */
   var addAbTestingListener = function() {
@@ -836,8 +838,9 @@ function LuxMain() {
         function() {
           ajaxConnection({
             'tx_lux_fe[dispatchAction]': 'abTestingRequest',
-            'tx_lux_fe[identificator]': identification.isIdentificatorSet() ? identification.getIdentificator() : '',
+            'tx_lux_fe[identificator]': identification.getIdentificator(),
             'tx_lux_fe[arguments][abTestingPage]': abTestingContainer.getAttribute('data-lux-abtestingpage'),
+            'tx_lux_fe[arguments][abPageVisitReference]': abTestingContainer.getAttribute('data-lux-abpagevisit'),
           }, getRequestUri(), 'generalWorkflowActionCallback', null);
         }, 1000
       );

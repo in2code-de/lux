@@ -8,7 +8,6 @@ use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Service\ConfigurationService;
 use In2code\Lux\Domain\Service\Email\SendAssetEmail4LinkService;
-use In2code\Lux\Domain\Tracker\AbTestingTracker;
 use In2code\Lux\Domain\Tracker\AttributeTracker;
 use In2code\Lux\Domain\Tracker\CompanyTracker;
 use In2code\Lux\Domain\Tracker\DownloadTracker;
@@ -249,24 +248,18 @@ class FrontendController extends AbstractFrontendController
         return $this->jsonResponse(json_encode($this->afterAction($visitor)));
     }
 
+    /**
+     * A/B testing visits are counted by LUX Enterprise when the page is delivered. With an opt-in, the visitor is added
+     * to that visit by a listener of AfterTrackingEvent.
+     */
     public function abTestingRequestAction(string $identificator, array $arguments): ResponseInterface
     {
         try {
             $visitor = $this->getVisitor($identificator);
+            return $this->jsonResponse(json_encode($this->afterAction($visitor, $arguments)));
         } catch (Throwable $exception) {
-            try {
-                // Empty fingerprint, create visitor on the fly
-                $visitor = new Visitor();
-            } catch (Throwable $exception) {
-                return $this->jsonResponse(json_encode($this->getError($exception)));
-            }
+            return $this->jsonResponse(json_encode($this->getError($exception)));
         }
-
-        $abTestingTracker = GeneralUtility::makeInstance(AbTestingTracker::class, $visitor);
-        $abpagevisit = $abTestingTracker->track((int)$arguments['abTestingPage']);
-        $result = $this->afterAction($visitor);
-        $result[] = ['action' => 'abPageVisit', 'configuration' => ['record' => $abpagevisit->getUid()]];
-        return $this->jsonResponse(json_encode($result));
     }
 
     public function abTestingConversionFulfilledRequestAction(
@@ -275,18 +268,10 @@ class FrontendController extends AbstractFrontendController
     ): ResponseInterface {
         try {
             $visitor = $this->getVisitor($identificator);
+            return $this->jsonResponse(json_encode($this->afterAction($visitor, $arguments)));
         } catch (Throwable $exception) {
-            try {
-                // Empty fingerprint, create visitor on the fly
-                $visitor = new Visitor();
-            } catch (Throwable $exception) {
-                return $this->jsonResponse(json_encode($this->getError($exception)));
-            }
+            return $this->jsonResponse(json_encode($this->getError($exception)));
         }
-
-        $abTestingTracker = GeneralUtility::makeInstance(AbTestingTracker::class, $visitor);
-        $abTestingTracker->conversionFulfilled((int)$arguments['abPageVisitIdentifier']);
-        return $this->jsonResponse(json_encode($this->afterAction($visitor)));
     }
 
     public function initializeEmail4linkAction(): void
@@ -344,10 +329,12 @@ class FrontendController extends AbstractFrontendController
         $luxletterTracker->trackFromLuxletterLink();
     }
 
-    protected function afterAction(Visitor $visitor): array
+    protected function afterAction(Visitor $visitor, array $arguments = []): array
     {
         /** @var AfterTrackingEvent $event */
-        $event = $this->eventDispatcher->dispatch(new AfterTrackingEvent($visitor, $this->actionMethodName));
+        $event = $this->eventDispatcher->dispatch(
+            new AfterTrackingEvent($visitor, $this->actionMethodName, $arguments)
+        );
         return $event->getResults();
     }
 
