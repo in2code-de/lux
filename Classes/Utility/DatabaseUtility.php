@@ -27,22 +27,11 @@ class DatabaseUtility
     }
 
     /**
-     * @param string $tableName
-     * @return bool
      * @throws ExceptionDbal
      */
     public static function isTableExisting(string $tableName): bool
     {
-        $existing = false;
-        $connection = self::getConnectionForTable($tableName);
-        $queryResult = $connection->executeQuery('show tables;')->fetchAllAssociative();
-        foreach ($queryResult as $tableProperties) {
-            if (in_array($tableName, array_values($tableProperties))) {
-                $existing = true;
-                break;
-            }
-        }
-        return $existing;
+        return self::getConnectionForTable($tableName)->createSchemaManager()->tablesExist([$tableName]);
     }
 
     /**
