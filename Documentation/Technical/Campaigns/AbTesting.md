@@ -51,6 +51,18 @@ Once you have activated A/B tests in page properties, you will see a result in p
 
 <img src="../../Images/screenshot_abtesting_pageoverview.png" width="800" />
 
+| Value                | Description                                                                              |
+|----------------------|------------------------------------------------------------------------------------------|
+| Displayed            | All deliveries of this variant - also without opt-in. Limits of variants refer to this. |
+| Thereof with opt-in  | Visits of visitors with an active tracking (opt-in or autoenable)                        |
+| Conversion fulfilled | Conversions - they are only tracked with an opt-in                                       |
+| Performance          | Conversions in relation to the visits with opt-in                                        |
+
+**Note:** Since conversions are only tracked with an opt-in, the conversion rate (performance) and the winner of a
+test only relate to visits with opt-in (since luxenterprise 53.0.0). So the rate does not depend on the opt-in rate
+of your website. The detail table in the backend module and its CSV export show hits, hits with opt-in and
+conversions per variant.
+
 
 ##### Backend module
 
@@ -59,6 +71,34 @@ Buttons allows you to change to edit view of a page or to pageoverview module wi
 
 
 ##### Technical notes
+
+###### Counting without opt-in
+
+Since luxenterprise 53.0.0 an A/B testing visit is counted on the server when the variant is delivered - without
+visitor, IP address or user agent. A not guessable reference to this visit is written into the attribute
+`data-lux-abpagevisit`. LUX JavaScript sends no request without an opt-in. With an opt-in, it sends the reference and
+the visitor is added to the counted visit, so there is no second record. The reference expires after 30 minutes,
+a forged reference or the reference of another visitor is refused. Conversions are only stored for the visit of the
+visitor of the request.
+
+Not counted are:
+
+* Crawlers and requests without user agent (they get the original page)
+* Previews with parameter `?luxabtest=b` (e.g. in the page module)
+* Prefetch, prerender and preview requests of browsers (headers `Sec-Purpose`, `Purpose`, `X-Purpose`, `X-Moz`)
+
+Without an opt-in every delivery is counted, also a reload of the page, because there is no cookie that keeps the
+variant.
+
+**Note:** Pages that are cached by a reverse proxy or CDN (e.g. Varnish) do not reach TYPO3 and are not counted.
+LUXenterprise already excludes A/B testing pages from staticfilecache.
+
+**Upgrade:** Older versions created a visitor without fingerprint for every A/B testing visit without opt-in. Run the
+upgrade wizard `anonymousAbTestingVisitorsUpdateWizard` once after the update to remove these visitors. Their visits
+are kept without visitor:
+```
+vendor/bin/typo3 upgrade:run anonymousAbTestingVisitorsUpdateWizard
+```
 
 ###### Cookie and consent
 

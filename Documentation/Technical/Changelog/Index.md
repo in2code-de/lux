@@ -7,8 +7,9 @@
 
 ## Changelog
 
-| Version    | Date       | State    | TYPO3       | Description                                                                                                                                                                                                          |
-|------------|------------|----------|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Version    | Date       | State    | TYPO3       | Description                                                                                                                                                                                                                                      |
+|------------|------------|----------|-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 47.0.0  | 2026-11-27 | Feature  | `v13 + v14` | No tracking request for A/B testing without opt-in (needs LUX Enterprise 53.0.0), redirects without opt-in without visitor and without workflows, visits of removed visitors are kept anonymously, merge A/B testing visits of duplicate visitors |
 | 46.0.2     | 2026-11-12 | Bugfix   | `v13 + v14` | Use EXT: paths for backend CSS files to prevent "Could not add resource hash" log entries in TYPO3 14                                                                                                                |
 | 46.0.1     | 2026-11-10 | Bugfix   | `v13 + v14` | Prevent double A/B page visit on opt-in during page visit, document shifting A/B testing variant letters after deleting or sorting variants                                                                          |
 | 46.0.0     | 2026-11-03 | Feature  | `v13 + v14` | Track form submits and link clicks via sendBeacon() without delay - fixes double form submits with other scripts (e.g. powermail_cond) and bypassed JavaScript validation                                            |

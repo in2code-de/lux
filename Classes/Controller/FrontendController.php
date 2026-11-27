@@ -8,7 +8,6 @@ use In2code\Lux\Domain\Model\Visitor;
 use In2code\Lux\Domain\Repository\PagevisitRepository;
 use In2code\Lux\Domain\Service\ConfigurationService;
 use In2code\Lux\Domain\Service\Email\SendAssetEmail4LinkService;
-use In2code\Lux\Domain\Tracker\AbTestingTracker;
 use In2code\Lux\Domain\Tracker\AttributeTracker;
 use In2code\Lux\Domain\Tracker\CompanyTracker;
 use In2code\Lux\Domain\Tracker\DownloadTracker;
@@ -19,6 +18,7 @@ use In2code\Lux\Domain\Tracker\LuxletterlinkAttributeTracker;
 use In2code\Lux\Domain\Tracker\NewsTracker;
 use In2code\Lux\Domain\Tracker\PageTracker;
 use In2code\Lux\Domain\Tracker\SearchTracker;
+use In2code\Lux\Events\AfterAnonymousTrackingEvent;
 use In2code\Lux\Events\AfterTrackingEvent;
 use In2code\Lux\Exception\FakeException;
 use In2code\Lux\Utility\BackendUtility;
@@ -231,42 +231,48 @@ class FrontendController extends AbstractFrontendController
     }
 
     /**
-     * @param string $identificator empty means no opt-in yet
-     * @return ResponseInterface
+     * The redirect is needed with and without an opt-in (empty identificator). Without a visitor (no opt-in, crawler,
+     * blacklisted user agent) only AfterAnonymousTrackingEvent is dispatched: no visitor, no workflow, no log entry.
      */
-    public function redirectRequestAction(string $identificator): ResponseInterface
+    public function redirectRequestAction(string $identificator, array $arguments = []): ResponseInterface
     {
         try {
-            $visitor = $this->getVisitor($identificator);
+            $visitor = $this->getVisitorForRedirect($identificator);
+            $results = $visitor !== null
+                ? $this->afterAction($visitor, $arguments)
+                : $this->afterAnonymousAction($arguments);
+            return $this->jsonResponse(json_encode($results));
         } catch (Throwable $exception) {
-            try {
-                // Empty fingerprint, create visitor on the fly
-                $visitor = new Visitor();
-            } catch (Throwable $exception) {
-                return $this->jsonResponse(json_encode($this->getError($exception)));
-            }
+            return $this->jsonResponse(json_encode($this->getError($exception)));
         }
-        return $this->jsonResponse(json_encode($this->afterAction($visitor)));
     }
 
+    protected function getVisitorForRedirect(string $identificator): ?Visitor
+    {
+        $visitor = null;
+        if ($identificator !== '') {
+            try {
+                $visitor = $this->getVisitor($identificator);
+            } catch (Throwable $exception) {
+                // Crawlers and blacklisted user agents still need the redirect, but are not tracked
+                $visitor = null;
+            }
+        }
+        return $visitor;
+    }
+
+    /**
+     * A/B testing visits are counted by LUX Enterprise when the page is delivered. With an opt-in, the visitor is added
+     * to that visit by a listener of AfterTrackingEvent.
+     */
     public function abTestingRequestAction(string $identificator, array $arguments): ResponseInterface
     {
         try {
             $visitor = $this->getVisitor($identificator);
+            return $this->jsonResponse(json_encode($this->afterAction($visitor, $arguments)));
         } catch (Throwable $exception) {
-            try {
-                // Empty fingerprint, create visitor on the fly
-                $visitor = new Visitor();
-            } catch (Throwable $exception) {
-                return $this->jsonResponse(json_encode($this->getError($exception)));
-            }
+            return $this->jsonResponse(json_encode($this->getError($exception)));
         }
-
-        $abTestingTracker = GeneralUtility::makeInstance(AbTestingTracker::class, $visitor);
-        $abpagevisit = $abTestingTracker->track((int)$arguments['abTestingPage']);
-        $result = $this->afterAction($visitor);
-        $result[] = ['action' => 'abPageVisit', 'configuration' => ['record' => $abpagevisit->getUid()]];
-        return $this->jsonResponse(json_encode($result));
     }
 
     public function abTestingConversionFulfilledRequestAction(
@@ -275,18 +281,10 @@ class FrontendController extends AbstractFrontendController
     ): ResponseInterface {
         try {
             $visitor = $this->getVisitor($identificator);
+            return $this->jsonResponse(json_encode($this->afterAction($visitor, $arguments)));
         } catch (Throwable $exception) {
-            try {
-                // Empty fingerprint, create visitor on the fly
-                $visitor = new Visitor();
-            } catch (Throwable $exception) {
-                return $this->jsonResponse(json_encode($this->getError($exception)));
-            }
+            return $this->jsonResponse(json_encode($this->getError($exception)));
         }
-
-        $abTestingTracker = GeneralUtility::makeInstance(AbTestingTracker::class, $visitor);
-        $abTestingTracker->conversionFulfilled((int)$arguments['abPageVisitIdentifier']);
-        return $this->jsonResponse(json_encode($this->afterAction($visitor)));
     }
 
     public function initializeEmail4linkAction(): void
@@ -344,10 +342,21 @@ class FrontendController extends AbstractFrontendController
         $luxletterTracker->trackFromLuxletterLink();
     }
 
-    protected function afterAction(Visitor $visitor): array
+    protected function afterAction(Visitor $visitor, array $arguments = []): array
     {
         /** @var AfterTrackingEvent $event */
-        $event = $this->eventDispatcher->dispatch(new AfterTrackingEvent($visitor, $this->actionMethodName));
+        $event = $this->eventDispatcher->dispatch(
+            new AfterTrackingEvent($visitor, $this->actionMethodName, $arguments)
+        );
+        return $event->getResults();
+    }
+
+    protected function afterAnonymousAction(array $arguments): array
+    {
+        /** @var AfterAnonymousTrackingEvent $event */
+        $event = $this->eventDispatcher->dispatch(
+            new AfterAnonymousTrackingEvent($this->actionMethodName, $arguments, $this->request)
+        );
         return $event->getResults();
     }
 

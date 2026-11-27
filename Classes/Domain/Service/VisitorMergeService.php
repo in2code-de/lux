@@ -20,6 +20,7 @@ use In2code\Lux\Events\VisitorsMergeEvent;
 use In2code\Lux\Exception\ConfigurationException;
 use In2code\Lux\Utility\DatabaseUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
@@ -112,6 +113,7 @@ class VisitorMergeService
                 $this->mergeDownloads($visitor);
                 $this->mergeLinkclicks($visitor);
                 $this->mergeShortenervisits($visitor);
+                $this->mergeAbpagevisits($visitor);
                 $this->mergeAttributes($visitor);
                 $this->updateFingerprints($visitor);
                 $this->deleteVisitor($visitor);
@@ -231,13 +233,28 @@ class VisitorMergeService
      */
     protected function mergeShortenervisits(Visitor $newVisitor): void
     {
-        if (DatabaseUtility::isTableExisting('tx_luxenterprise_domain_model_shortenervisit')) {
-            $connection = DatabaseUtility::getConnectionForTable('tx_luxenterprise_domain_model_shortenervisit');
-            $connection->executeQuery(
-                'update tx_luxenterprise_domain_model_shortenervisit ' .
-                'set visitor = ' . (int)$this->getFirstVisitor()->getUid() . ' ' .
-                'where visitor = ' . (int)$newVisitor->getUid()
-            );
+        $this->mergeRowsOfOptionalTable('tx_luxenterprise_domain_model_shortenervisit', $newVisitor);
+    }
+
+    protected function mergeAbpagevisits(Visitor $newVisitor): void
+    {
+        $this->mergeRowsOfOptionalTable('tx_luxenterprise_domain_model_abpagevisit', $newVisitor);
+    }
+
+    protected function mergeRowsOfOptionalTable(string $table, Visitor $newVisitor): void
+    {
+        if (DatabaseUtility::isTableExisting($table)) {
+            $queryBuilder = DatabaseUtility::getQueryBuilderForTable($table, true);
+            $queryBuilder
+                ->update($table)
+                ->set('visitor', (int)$this->getFirstVisitor()->getUid(), true, Connection::PARAM_INT)
+                ->where(
+                    $queryBuilder->expr()->eq(
+                        'visitor',
+                        $queryBuilder->createNamedParameter($newVisitor->getUid(), Connection::PARAM_INT)
+                    )
+                )
+                ->executeStatement();
         }
     }
 

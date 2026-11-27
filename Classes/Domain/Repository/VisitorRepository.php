@@ -28,6 +28,8 @@ use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\DateUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
+use TYPO3\CMS\Core\Database\Connection;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
@@ -37,6 +39,18 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 class VisitorRepository extends AbstractRepository
 {
+    protected const RELATED_TABLES = [
+        Attribute::TABLE_NAME,
+        Pagevisit::TABLE_NAME,
+        Newsvisit::TABLE_NAME,
+        Ipinformation::TABLE_NAME,
+        Download::TABLE_NAME,
+        Categoryscoring::TABLE_NAME,
+        Log::TABLE_NAME,
+        Linkclick::TABLE_NAME,
+        Search::TABLE_NAME,
+    ];
+
     /**
      * Find a visitor by its fingerprint and deliver also blacklisted visitors
      *
@@ -677,21 +691,74 @@ class VisitorRepository extends AbstractRepository
                 'delete from ' . Fingerprint::TABLE_NAME . ' where uid=' . (int)$fingerprint->getUid()
             );
         }
-        $tables = [
-            Attribute::TABLE_NAME,
-            Pagevisit::TABLE_NAME,
-            Newsvisit::TABLE_NAME,
-            Ipinformation::TABLE_NAME,
-            Download::TABLE_NAME,
-            Categoryscoring::TABLE_NAME,
-            Log::TABLE_NAME,
-            Linkclick::TABLE_NAME,
-            Search::TABLE_NAME,
-        ];
-        foreach ($tables as $table) {
-            $connection = DatabaseUtility::getConnectionForTable($table);
-            $connection->executeQuery('delete from ' . $table . ' where visitor=' . (int)$visitor->getUid());
+        $this->removeRelatedTableRows([(int)$visitor->getUid()]);
+    }
+
+    /**
+     * Bulk variant of removeVisitor() for cleanups of many visitors
+     *
+     * @param list<int> $identifiers
+     * @throws ExceptionDbal
+     */
+    public function removeVisitorsByIdentifiers(array $identifiers): void
+    {
+        if ($identifiers !== []) {
+            $this->removeRelatedTableRows($identifiers, [Fingerprint::TABLE_NAME]);
+            $queryBuilder = DatabaseUtility::getQueryBuilderForTable(Visitor::TABLE_NAME, true);
+            $queryBuilder
+                ->delete(Visitor::TABLE_NAME)
+                ->where(
+                    $queryBuilder->expr()->in(
+                        'uid',
+                        $queryBuilder->createNamedParameter($identifiers, Connection::PARAM_INT_ARRAY)
+                    )
+                )
+                ->executeStatement();
         }
+    }
+
+    /**
+     * @param list<int> $visitorIdentifiers
+     * @param list<string> $additionalTables
+     */
+    protected function removeRelatedTableRows(array $visitorIdentifiers, array $additionalTables = []): void
+    {
+        foreach (array_merge(self::RELATED_TABLES, $additionalTables) as $table) {
+            $queryBuilder = DatabaseUtility::getQueryBuilderForTable($table, true);
+            $queryBuilder
+                ->delete($table)
+                ->where($this->getVisitorInConstraint($queryBuilder, $visitorIdentifiers))
+                ->executeStatement();
+        }
+        $this->anonymizeCountedTableRows($visitorIdentifiers);
+    }
+
+    /**
+     * @param list<int> $visitorIdentifiers
+     */
+    protected function anonymizeCountedTableRows(array $visitorIdentifiers): void
+    {
+        foreach (CountedVisitRepository::TABLES as $table) {
+            if (DatabaseUtility::isTableExisting($table)) {
+                $queryBuilder = DatabaseUtility::getQueryBuilderForTable($table, true);
+                $queryBuilder
+                    ->update($table)
+                    ->set('visitor', 0, true, Connection::PARAM_INT)
+                    ->where($this->getVisitorInConstraint($queryBuilder, $visitorIdentifiers))
+                    ->executeStatement();
+            }
+        }
+    }
+
+    /**
+     * @param list<int> $visitorIdentifiers
+     */
+    protected function getVisitorInConstraint(QueryBuilder $queryBuilder, array $visitorIdentifiers): string
+    {
+        return $queryBuilder->expr()->in(
+            'visitor',
+            $queryBuilder->createNamedParameter($visitorIdentifiers, Connection::PARAM_INT_ARRAY)
+        );
     }
 
     public function truncateAll(): void

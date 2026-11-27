@@ -285,3 +285,20 @@ Example usage:
 ```
 ./vendor/bin/typo3 lux:workflowactiondelay
 ```
+
+
+##### \In2code\Luxenterprise\Command\McpApiKeyCommand
+
+Only for luxenterprise: This command creates or revokes the api key of a backend user for the LUX MCP server. The key
+is printed only once (it is stored as a hash) together with the url of the MCP server of every site. Creating a new
+key replaces the previous one of the backend user.
+
+Example usage:
+
+```
+# Create a new api key for a backend user (uid or username)
+./vendor/bin/typo3 lux:mcpapikey admin
+
+# Revoke the api key of a backend user
+./vendor/bin/typo3 lux:mcpapikey admin -r
+```
