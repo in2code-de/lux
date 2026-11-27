@@ -38,11 +38,6 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 class VisitorRepository extends AbstractRepository
 {
-    protected const TABLES_ANONYMIZED_ON_VISITOR_REMOVAL = [
-        'tx_luxenterprise_domain_model_abpagevisit',
-        'tx_luxenterprise_domain_model_shortenervisit',
-    ];
-
     /**
      * Find a visitor by its fingerprint and deliver also blacklisted visitors
      *
@@ -703,7 +698,7 @@ class VisitorRepository extends AbstractRepository
 
     protected function anonymizeCountedTableRowsByVisitor(Visitor $visitor): void
     {
-        foreach (self::TABLES_ANONYMIZED_ON_VISITOR_REMOVAL as $table) {
+        foreach (CountedVisitRepository::TABLES as $table) {
             if (DatabaseUtility::isTableExisting($table)) {
                 $queryBuilder = DatabaseUtility::getQueryBuilderForTable($table, true);
                 $queryBuilder
