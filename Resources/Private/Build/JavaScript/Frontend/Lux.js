@@ -826,12 +826,13 @@ function LuxMain() {
 
   /**
    * Only called with an active tracking/consent. The visit is already counted anonymously by LUX Enterprise when the
-   * page is delivered, this request adds the visitor to it by the reference in data-lux-abpagevisit.
+   * page is delivered, this request adds the visitor to it by the reference in data-lux-abpagevisit. Previews are not
+   * tracked at all.
    *
    * @returns {void}
    */
   var addAbTestingListener = function() {
-    var abTestingContainer = document.querySelector('[data-lux-abtestingpage]');
+    var abTestingContainer = document.querySelector('[data-lux-abtestingpage]:not([data-lux-abtestingpreview])');
     if (abTestingContainer !== null && isAbTestingRequestSent === false) {
       isAbTestingRequestSent = true;
       setTimeout(
