@@ -28,6 +28,7 @@ use In2code\Lux\Utility\DatabaseUtility;
 use In2code\Lux\Utility\DateUtility;
 use In2code\Lux\Utility\ObjectUtility;
 use In2code\Lux\Utility\StringUtility;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
@@ -37,6 +38,11 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 class VisitorRepository extends AbstractRepository
 {
+    protected const TABLES_ANONYMIZED_ON_VISITOR_REMOVAL = [
+        'tx_luxenterprise_domain_model_abpagevisit',
+        'tx_luxenterprise_domain_model_shortenervisit',
+    ];
+
     /**
      * Find a visitor by its fingerprint and deliver also blacklisted visitors
      *
@@ -691,6 +697,26 @@ class VisitorRepository extends AbstractRepository
         foreach ($tables as $table) {
             $connection = DatabaseUtility::getConnectionForTable($table);
             $connection->executeQuery('delete from ' . $table . ' where visitor=' . (int)$visitor->getUid());
+        }
+        $this->anonymizeCountedTableRowsByVisitor($visitor);
+    }
+
+    protected function anonymizeCountedTableRowsByVisitor(Visitor $visitor): void
+    {
+        foreach (self::TABLES_ANONYMIZED_ON_VISITOR_REMOVAL as $table) {
+            if (DatabaseUtility::isTableExisting($table)) {
+                $queryBuilder = DatabaseUtility::getQueryBuilderForTable($table, true);
+                $queryBuilder
+                    ->update($table)
+                    ->set('visitor', 0, true, Connection::PARAM_INT)
+                    ->where(
+                        $queryBuilder->expr()->eq(
+                            'visitor',
+                            $queryBuilder->createNamedParameter($visitor->getUid(), Connection::PARAM_INT)
+                        )
+                    )
+                    ->executeStatement();
+            }
         }
     }
 
