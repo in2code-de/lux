@@ -26,8 +26,12 @@ class CountedVisitReferenceService
         return $payload . self::SEPARATOR . $this->hashService->hmac($payload, $this->getSecret($reference->table));
     }
 
-    public function resolveReference(string $table, string $reference, int $now): ?CountedVisitReference
-    {
+    public function resolveReference(
+        string $table,
+        string $reference,
+        int $now,
+        int $lifetime = self::LIFETIME
+    ): ?CountedVisitReference {
         $resolved = null;
         if (
             in_array($table, CountedVisitRepository::TABLES, true)
@@ -37,16 +41,16 @@ class CountedVisitReferenceService
                 $this->getSecret($table),
                 $parts[3]
             )
-            && $this->isWithinLifetime((int)$parts[2], $now)
+            && $this->isWithinLifetime((int)$parts[2], $now, $lifetime)
         ) {
             $resolved = new CountedVisitReference($table, (int)$parts[1], (int)$parts[2]);
         }
         return $resolved;
     }
 
-    protected function isWithinLifetime(int $crdate, int $now): bool
+    protected function isWithinLifetime(int $crdate, int $now, int $lifetime): bool
     {
-        return $crdate >= $now - self::LIFETIME && $crdate <= $now + self::CLOCK_SKEW;
+        return $crdate >= $now - $lifetime && $crdate <= $now + self::CLOCK_SKEW;
     }
 
     protected function getSecret(string $table): string

@@ -46,4 +46,36 @@ class CountedVisitRepository
         }
         return $assigned;
     }
+
+    /**
+     * @throws ExceptionDbal
+     */
+    public function isAssignedTo(CountedVisitReference $reference, Visitor $visitor): bool
+    {
+        $assigned = false;
+        if (in_array($reference->table, self::TABLES, true) && $visitor->getUid() > 0) {
+            $queryBuilder = DatabaseUtility::getQueryBuilderForTable($reference->table, true);
+            $assigned = (int)$queryBuilder
+                ->count('uid')
+                ->from($reference->table)
+                ->where(
+                    $queryBuilder->expr()->eq(
+                        'uid',
+                        $queryBuilder->createNamedParameter($reference->uid, Connection::PARAM_INT)
+                    ),
+                    $queryBuilder->expr()->eq(
+                        'crdate',
+                        $queryBuilder->createNamedParameter($reference->crdate, Connection::PARAM_INT)
+                    ),
+                    $queryBuilder->expr()->eq(
+                        'visitor',
+                        $queryBuilder->createNamedParameter($visitor->getUid(), Connection::PARAM_INT)
+                    ),
+                    $queryBuilder->expr()->eq('deleted', $queryBuilder->createNamedParameter(0, Connection::PARAM_INT))
+                )
+                ->executeQuery()
+                ->fetchOne() === 1;
+        }
+        return $assigned;
+    }
 }

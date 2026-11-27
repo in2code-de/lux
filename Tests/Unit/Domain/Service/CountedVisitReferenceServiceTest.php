@@ -104,4 +104,13 @@ class CountedVisitReferenceServiceTest extends UnitTestCase
 
         self::assertSame($expected, $this->subject->resolveReference(self::TABLE, $reference, $now) !== null);
     }
+
+    public function testALongerLifetimeCanBeGiven(): void
+    {
+        $reference = $this->subject->createReference(new CountedVisitReference(self::TABLE, 123, self::NOW));
+        $now = self::NOW + CountedVisitReferenceService::LIFETIME + 1;
+
+        self::assertNull($this->subject->resolveReference(self::TABLE, $reference, $now));
+        self::assertNotNull($this->subject->resolveReference(self::TABLE, $reference, $now, 86400));
+    }
 }
