@@ -18,6 +18,7 @@ use In2code\Lux\Domain\Tracker\LuxletterlinkAttributeTracker;
 use In2code\Lux\Domain\Tracker\NewsTracker;
 use In2code\Lux\Domain\Tracker\PageTracker;
 use In2code\Lux\Domain\Tracker\SearchTracker;
+use In2code\Lux\Events\AfterAnonymousTrackingEvent;
 use In2code\Lux\Events\AfterTrackingEvent;
 use In2code\Lux\Exception\FakeException;
 use In2code\Lux\Utility\BackendUtility;
@@ -230,22 +231,34 @@ class FrontendController extends AbstractFrontendController
     }
 
     /**
-     * @param string $identificator empty means no opt-in yet
-     * @return ResponseInterface
+     * The redirect is needed with and without an opt-in (empty identificator). Without a visitor (no opt-in, crawler,
+     * blacklisted user agent) only AfterAnonymousTrackingEvent is dispatched: no visitor, no workflow, no log entry.
      */
-    public function redirectRequestAction(string $identificator): ResponseInterface
+    public function redirectRequestAction(string $identificator, array $arguments = []): ResponseInterface
     {
         try {
-            $visitor = $this->getVisitor($identificator);
+            $visitor = $this->getVisitorForRedirect($identificator);
+            $results = $visitor !== null
+                ? $this->afterAction($visitor, $arguments)
+                : $this->afterAnonymousAction($arguments);
+            return $this->jsonResponse(json_encode($results));
         } catch (Throwable $exception) {
+            return $this->jsonResponse(json_encode($this->getError($exception)));
+        }
+    }
+
+    protected function getVisitorForRedirect(string $identificator): ?Visitor
+    {
+        $visitor = null;
+        if ($identificator !== '') {
             try {
-                // Empty fingerprint, create visitor on the fly
-                $visitor = new Visitor();
+                $visitor = $this->getVisitor($identificator);
             } catch (Throwable $exception) {
-                return $this->jsonResponse(json_encode($this->getError($exception)));
+                // Crawlers and blacklisted user agents still need the redirect, but are not tracked
+                $visitor = null;
             }
         }
-        return $this->jsonResponse(json_encode($this->afterAction($visitor)));
+        return $visitor;
     }
 
     /**
@@ -334,6 +347,15 @@ class FrontendController extends AbstractFrontendController
         /** @var AfterTrackingEvent $event */
         $event = $this->eventDispatcher->dispatch(
             new AfterTrackingEvent($visitor, $this->actionMethodName, $arguments)
+        );
+        return $event->getResults();
+    }
+
+    protected function afterAnonymousAction(array $arguments): array
+    {
+        /** @var AfterAnonymousTrackingEvent $event */
+        $event = $this->eventDispatcher->dispatch(
+            new AfterAnonymousTrackingEvent($this->actionMethodName, $arguments, $this->request)
         );
         return $event->getResults();
     }
