@@ -38,3 +38,19 @@ shortener record.
 | Creation date | Note when was this record created                                                    |
 | Author        | Note to see who was creating this record                                             |
 
+##### Counting of visits
+
+A short URL leads to an intermediate page, where LUX JavaScript reads the target of the redirect with a request.
+This request is needed with and without opt-in:
+
+* **Without opt-in:** The request contains no identification. The visit is counted anonymously with referrer, but
+  without visitor and without log entry. No workflow is executed.
+* **With opt-in:** The visit is counted with the visitor and a log entry, workflows are executed.
+
+Crawlers and requests without user agent are redirected but not counted. Link scanners that do not execute JavaScript
+(e.g. link previews in messengers or security scanners of mail servers) are not counted either, because they do not
+send the request.
+
+**Note for developers:** Without a visitor, `AfterTrackingEvent` is not dispatched for `redirectRequestAction` any
+more (since LUX 47.0.0). Listen to `AfterAnonymousTrackingEvent` to handle such requests.
+

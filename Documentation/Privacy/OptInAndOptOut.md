@@ -73,6 +73,23 @@ to your page like:
 
 Note: Do not forget to use `plugin.tx_lux.settings.autoenable=0` via TypoScript setup
 
+### What is counted without opt-in
+
+LUX JavaScript does not send any tracking request without an active tracking (opt-in, or `autoenable` without
+opt-out and without DoNotTrack). No visitor and no log entry is created.
+
+There are two exceptions for LUXenterprise features that need to count without opt-in. They are counted anonymously
+on the server - without visitor, without IP address and without user agent:
+
+* **A/B testing:** The server counts the delivered variant when the page is rendered. With an opt-in, LUX JavaScript
+  adds the visitor to this visit afterwards (see [A/B testing](../Technical/Campaigns/AbTesting.md)).
+* **URL shortener:** The request that reads the target of a short URL is needed anyway. Without opt-in it is sent
+  without any identification and the server counts the visit anonymously (see
+  [URL shorteners](../Technical/Campaigns/UrlShortener.md)).
+
+These anonymous counts are also done if a visitor opted out or sends a DoNotTrack header, because they do not relate
+to a person. Crawlers are not counted.
+
 ### Opt-Out Plugin
 
 As known from Matomo (former known as Piwik) also LUX offers a Plugin for an Opt-Out possibility for visitors. You
